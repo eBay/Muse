@@ -1,0 +1,12 @@
+{
+  "files": {
+    "main.js": "/main.lib.js",
+    "static/media/logo.png": "/static/media/logo.b23b880b0dac2229042c.png",
+    "static/media/subAppLoading2.svg": "/static/media/subAppLoading2.bf08007b83457287ade1cedb71bc70f7.svg",
+    "index.html": "/index.html",
+    "main.lib.js.map": "/main.lib.js.map"
+  },
+  "entrypoints": [
+    "main.lib.js"
+  ]
+}

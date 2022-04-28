@@ -1,0 +1,116 @@
+<html>
+  <head>
+    <title>Muse Dev Server</title>
+    <script>
+      const noop = () => {};
+      function xhr(url, options = {}) {
+        const request = new XMLHttpRequest();
+
+        return new Promise((resolve, reject) => {
+          request.onload = () => {
+            if (request.status !== 200) {
+              console.log('Reqeust failed', request);
+              reject(request);
+              return;
+            }
+            const text = request.responseText;
+            resolve(options.text ? text : JSON.parse(text));
+          };
+          request.onerror = () => {
+            reject(new Error(`Failed to get: ${url}`));
+          };
+          request.open('get', url, true);
+
+          if (options.headers) {
+            Object.entries(options.headers).forEach(([name, value]) => {
+              request.setRequestHeader(name, value);
+            });
+          }
+
+          request.send();
+        });
+      }
+      function load(resource, callback) {
+        callback = callback || noop;
+        if (resource.then && resource.catch) {
+          resource.then(callback);
+          return;
+        }
+
+        return new Promise((resolve, reject) => {
+          const head = document.querySelector('head');
+          const script = document.createElement('script');
+          head.appendChild(script);
+          script.src = resource;
+          script.onload = () => {
+            callback();
+            resolve();
+          };
+          script.onerror = () => {
+            throw new Error('Failed to load resource: ' + resource);
+            reject();
+          };
+        });
+      }
+
+      function loadInParallel(items, callback) {
+        return new Promise((resolve) => {
+          callback = callback || noop;
+          let count = items.length;
+          if (count === 0) {
+            resolve();
+            callback([]);
+          }
+          const arr = [];
+          items.forEach((url, idx) => {
+            load(url, (data) => {
+              count--;
+              arr[idx] = data;
+              if (count === 0) {
+                callback(arr);
+                resolve(arr);
+              }
+            });
+          });
+        });
+      }
+    </script>
+  </head>
+  <body>
+    <script>
+      window.MUSE_APP_ENTRIES = {};
+      window.MUSE_LIB_ENTRIES = [];
+      window.MUSE_CONFIG = window.MUSE_GLOBAL = {
+        LIB_INDEX_ENTRIES: {},
+      };
+
+      const plugins = [
+        { id: 'muse-react', type: 'lib' },
+        { id: 'muse-antd', type: 'lib' },
+        { id: 'muse-layout' },
+      ];
+    </script>
+
+    <div id="root"></div>
+
+    <script>
+      (async () => {
+        const libPlugins = plugins.filter((p) => p.type === 'lib');
+        for (let i = 0; i < libPlugins.length; i++) {
+          const p = libPlugins[i];
+          const url = `/p/${p.id}/lib/main.lib.js`;
+          await load(url);
+        }
+        window.MUSE_LIB_ENTRIES.forEach((func) => func());
+
+        const normalPlugins = plugins.filter((p) => p.type !== 'lib');
+        for (let i = 0; i < normalPlugins.length; i++) {
+          const p = normalPlugins[i];
+          const url = `/p/${p.id}/dist/main.js`;
+          await load(url);
+        }
+        window.MUSE_APP_ENTRIES['muse-react']();
+      })();
+    </script>
+  </body>
+</html>

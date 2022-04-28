@@ -1,0 +1,1 @@
+export { setNiceModalVisible } from './setNiceModalVisible';

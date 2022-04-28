@@ -1,0 +1,41 @@
+@import '../../styles/mixins';
+
+.muse-antd_common-meta-menu {
+  background-color: #fff;
+  height: 100%;
+  padding-top: 10px;
+  .menu-item-any {
+    line-height: 150%;
+  }
+  &.ant-menu-inline-collapsed {
+    width: 60px;
+
+    > .ant-menu-item,
+    > .ant-menu-item-group > .ant-menu-item-group-list > .ant-menu-item,
+    > .ant-menu-item-group
+      > .ant-menu-item-group-list
+      > .ant-menu-submenu
+      > .ant-menu-submenu-title,
+    > .ant-menu-submenu > .ant-menu-submenu-title {
+      padding: 0 22px !important;
+    }
+
+    > .ant-menu-item-selected:after {
+      display: none;
+    }
+  }
+}
+
+.muse-antd_home-meta-menu-trigger {
+  .trigger-label {
+    margin-left: 6px;
+  }
+  span > .anticon:first-child {
+    font-size: 14px;
+  }
+
+  span > .anticon-caret-down {
+    font-size: 12px;
+    margin-left: 6px;
+  }
+}

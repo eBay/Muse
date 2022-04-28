@@ -1,0 +1,75 @@
+{
+  "name": "@ebay/muse-react",
+  "version": "1.0.24",
+  "muse": {
+    "isAppEntry": true,
+    "type": "lib",
+    "app": "musetpl",
+    "appConfig": {
+      "routerType": "browser",
+      "noSSO": true
+    },
+    "devConfig": {
+      "app": "nate",
+      "env": "staging",
+      "remotePlugins": "*"
+    }
+  },
+  "publishConfig": {
+    "registry": "https://artifactory.corp.ebay.com/artifactory/api/npm/npm-muse"
+  },
+  "author": "Nate Wang <pwang7@ebay.com>",
+  "files": [
+    "build",
+    "src"
+  ],
+  "dependencies": {
+    "@craco/craco": "^6.4.3",
+    "@ebay/nice-modal-react": "1.2.1",
+    "muse-craco-plugin": "../../packages/muse-craco-plugin",
+    "axios": "^0.20.0",
+    "connected-react-router": "^6.8.0",
+    "craco-less": "^2.0.0",
+    "cross-env": "^7.0.2",
+    "js-plugin": "1.0.9",
+    "lodash": "^4.17.20",
+    "path-to-regexp": "1.8.0",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "react-hot-loader": "^4.12.21",
+    "react-loadable": "^5.5.0",
+    "react-redux": "^7.2.0",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "^5.0.0",
+    "react-use": "^15.3.3",
+    "redux": "^4.0.5",
+    "redux-logger": "^3.0.6",
+    "redux-mock-store": "^1.5.4",
+    "redux-thunk": "^2.3.0",
+    "typescript": "^4.6.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "craco start",
+    "build": "NODE_PATH=./node_modules BUILD_PATH=./build/lib craco build",
+    "build:muse-instrumented": "NODE_PATH=./node_modules craco build",
+    "build:muse-dev": "NODE_PATH=./node_modules craco build",
+    "test": "craco test",
+    "e2e-test": "muse-scripts e2e-test",
+    "prestart2": "muse-scripts check-updates",
+    "prebuild2": "muse-scripts check-updates",
+    "deploy": "yarn build && node scripts/deploy.js ../../cc/app-plugin"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

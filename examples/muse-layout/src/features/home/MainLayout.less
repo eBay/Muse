@@ -1,0 +1,15 @@
+@import '../../styles/mixins';
+
+.muse-layout_home-main-layout {
+  // Trick from: https://stackoverflow.com/questions/19718634/how-to-disable-margin-collapsing
+  padding-top: 0.05px;
+  width: 100%;
+  .muse-layout_home-main-layout-page-container {
+    padding: 30px;
+    margin-top: @header-height;
+  }
+}
+
+.muse-layout_home-main-layout.no-muse-layout-header .muse-layout_home-main-layout-page-container {
+  margin-top: 0;
+}

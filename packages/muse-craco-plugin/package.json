@@ -1,0 +1,15 @@
+{
+  "name": "muse-craco-plugin",
+  "version": "1.0.0",
+  "main": "lib/index.js",
+  "license": "MIT",
+  "publishConfig": {
+    "registry": "https://artifactory.corp.ebay.com/artifactory/api/npm/npm-muse"
+  },
+  "dependencies": {
+    "muse-webpack-plugin": "link:../muse-webpack-plugin"
+  },
+  "devDependencies": {
+    "eslint": "^8.14.0"
+  }
+}

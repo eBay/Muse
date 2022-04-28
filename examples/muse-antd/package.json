@@ -1,0 +1,60 @@
+{
+  "name": "@ebay/muse-antd",
+  "version": "1.0.46",
+  "repository": "",
+  "muse": {
+    "type": "lib"
+  },
+  "publishConfig": {
+    "registry": "https://artifactory.corp.ebay.com/artifactory/api/npm/npm-muse"
+  },
+  "files": [
+    "build",
+    "src"
+  ],
+  "devDependencies": {},
+  "scripts": {
+    "start": "craco start",
+    "build": "NODE_PATH=./node_modules BUILD_PATH=./build/lib craco build",
+    "build:lib": "NODE_PATH=./node_modules BUILD_PATH=../dist/muse-antd/lib MUSE_LIB=true craco build",
+    "test": "muse-scripts test",
+    "e2e-test": "muse-scripts e2e-test",
+    "release": "muse-scripts release",
+    "prestart2": "muse-scripts check-updates",
+    "prebuild2": "muse-scripts check-updates"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "dependencies": {
+    "@ant-design/icons": "^4.2.1",
+    "@craco/craco": "^6.4.3",
+    "muse-craco-plugin": "../../packages/muse-craco-plugin",
+    "@ebay/muse-react": "link:../muse-react",
+    "antd": "4.7.3",
+    "antd-form-builder": "2.1.2",
+    "craco-less": "^2.0.0",
+    "js-plugin": "^1.0.7",
+    "lodash": "^4.17.20",
+    "moment": "^2.27.0",
+    "react": "^18.0.0",
+    "react-copy-to-clipboard": "^5.0.2",
+    "react-dom": "^18.0.0",
+    "react-highlight-words": "^0.16.0",
+    "react-redux": "^7.2.8",
+    "react-router-dom": "^6.3.0",
+    "react-scripts": "^5.0.0",
+    "react-syntax-highlighter": "^13.5.3",
+    "react-use": "^17.3.2",
+    "redux": "^4.1.2"
+  }
+}
