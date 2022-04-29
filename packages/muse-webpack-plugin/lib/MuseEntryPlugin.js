@@ -48,33 +48,29 @@ class MuseEntryPlugin {
     compiler.hooks.thisCompilation.tap('MuseEntryPlugin', (compilation) => {
       const hooks = JavascriptModulesPlugin.getCompilationHooks(compilation);
       hooks.renderStartup.tap('MuseEntryPlugin', (source, module, renderContext) => {
-        const entryModule = Array.from(compilation.modules).find(
-          (m) => this.entries[0] === m.rawRequest,
-        );
+        const entryModule = Array.from(compilation.modules).find((m) => this.entries[0] === m.rawRequest);
         const result = new ConcatSource(source.source());
         result.add('// Expose the method from Muse lib to find Muse modules\n');
         result.add('// NOTE: if multiple Muse libs, any version of find method may be used\n');
-        result.add(`var globalThis = ${RuntimeGlobals.global}\n`);
+        result.add(`var g = ${RuntimeGlobals.global}\n`);
         result.add(
-          `if (!globalThis.__muse_shared_modules__) {
-  globalThis.__muse_shared_modules__ = {};
-  Object.defineProperty(globalThis.__muse_shared_modules__, 'cache', { writable: true, value: null });
-  Object.defineProperty(globalThis.__muse_shared_modules__, 'find', { writable: true, value: null });
+          `if (!g.__muse_shared_modules__) {
+  g.__muse_shared_modules__ = {};
+  Object.defineProperty(g.__muse_shared_modules__, 'cache', { writable: true, value: null });
+  Object.defineProperty(g.__muse_shared_modules__, 'find', { writable: true, value: null });
 }
 for (const p in __webpack_modules__) {
   if (!p.includes('@')) continue;
   const m = __webpack_modules__[p];
-  globalThis.__muse_shared_modules__[p] = {
+  g.__muse_shared_modules__[p] = {
     id: p,
     __webpack_require__: __webpack_require__,
   };
 }
-globalThis.__muse_shared_modules__.cache = null;
+g.__muse_shared_modules__.cache = null;
+g.__muse_shared_modules__.find = __webpack_exports__;
+window.MUSE_LIB_ENTRIES && window.MUSE_LIB_ENTRIES.push(() => {__webpack_exports__('${entryModule.buildInfo.museData.id}')});
 `,
-        );
-        result.add(`globalThis.__muse_shared_modules__.find = __webpack_exports__;`);
-        result.add(
-          `window.MUSE_LIB_ENTRIES && window.MUSE_LIB_ENTRIES.push(() => {__webpack_exports__('${entryModule.buildInfo.museData.id}')})`,
         );
         return result;
       });

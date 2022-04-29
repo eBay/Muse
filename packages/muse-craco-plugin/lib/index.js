@@ -31,7 +31,7 @@ const overrideCracoConfig = ({ cracoConfig, context: { env } }) => {
   const cracoAdd = cracoConfig.webpack.plugins.add;
 
   // Build lib bundle for lib plugins
-  if (isProd && isMuseLib) {
+  if (isMuseLib) {
     cracoAdd.push([
       new MusePlugin({
         // NOTE: build folder is hard coded for simplicity

@@ -85,9 +85,9 @@
       };
 
       const plugins = [
-        { id: 'muse-react', type: 'lib' },
-        { id: 'muse-antd', type: 'lib' },
-        { id: 'muse-layout' },
+        { id: 'muse-react', type: 'lib', url: 'http://localhost:3030/main.lib.js' },
+        { id: 'muse-antd', type: 'lib', url: 'http://localhost:3031/main.lib.js' },
+        { id: 'muse-layout', url: 'http://localhost:3032/main.js' },
       ];
     </script>
 
@@ -98,7 +98,7 @@
         const libPlugins = plugins.filter((p) => p.type === 'lib');
         for (let i = 0; i < libPlugins.length; i++) {
           const p = libPlugins[i];
-          const url = `/p/${p.id}/lib/main.lib.js`;
+          const url = p.url || `/p/${p.id}/lib/main.lib.js`;
           await load(url);
         }
         window.MUSE_LIB_ENTRIES.forEach((func) => func());
@@ -106,7 +106,7 @@
         const normalPlugins = plugins.filter((p) => p.type !== 'lib');
         for (let i = 0; i < normalPlugins.length; i++) {
           const p = normalPlugins[i];
-          const url = `/p/${p.id}/dist/main.js`;
+          const url = p.url || `/p/${p.id}/dist/main.js`;
           await load(url);
         }
         window.MUSE_APP_ENTRIES['muse-react']();

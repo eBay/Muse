@@ -6,7 +6,7 @@ export default function Homepage() {
     <div className="home-homepage">
       <header className="app-header">
         <img src={logo} className="app-logo" alt="logo" />
-        <h1 className="app-title">Welcome to Muse!</h1>
+        <h1 className="app-title">Welcome to Muse323!</h1>
       </header>
       <div className="app-intro">
         <p className="memo">This is the default homepage of a Muse application.</p>
@@ -16,7 +16,8 @@ export default function Homepage() {
             <a href="https://go/muse">Read docs</a> for Muse.
           </li>
           <li>
-            Join the slack channel <a href="https://ebay-eng.slack.com/archives/C0194Q1V8G1">#muse</a>.
+            Join the slack channel{' '}
+            <a href="https://ebay-eng.slack.com/archives/C0194Q1V8G1">#muse</a>.
           </li>
           <li>
             <a href="https://pages.github.corp.ebay.com/muse/muse-site/docs/get-started/first-plugin">
