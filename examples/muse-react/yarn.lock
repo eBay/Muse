@@ -6161,6 +6161,15 @@ multicast-dns@^7.2.4:
     dns-packet "^5.2.2"
     thunky "^1.0.2"
 
+muse-craco-plugin@../../packages/muse-craco-plugin:
+  version "1.0.0"
+  dependencies:
+    muse-webpack-plugin "link:../../../../Library/Caches/Yarn/v6/npm-muse-craco-plugin-1.0.0-1e6e180e-b936-47b9-a20c-0503fb7e1d37-1651228688261/node_modules/muse-webpack-plugin"
+
+"muse-webpack-plugin@link:../../packages/muse-webpack-plugin":
+  version "0.0.0"
+  uid ""
+
 nano-css@^5.2.1:
   version "5.3.4"
   resolved "https://npm.corp.ebay.com/nano-css/-/nano-css-5.3.4.tgz#40af6a83a76f84204f346e8ccaa9169cdae9167b"

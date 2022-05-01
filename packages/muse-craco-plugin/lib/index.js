@@ -1,11 +1,31 @@
+// Config env variables for react-scripts
+(() => {
+  process.env.BROWSER = 'none';
+  process.env.NODE_PATH = './node_modules';
+  process.env.BUILD_PATH = './build/lib';
+})();
+
 const path = require('path');
 const crypto = require('crypto');
 const { MusePlugin, MuseReferencePlugin } = require('muse-webpack-plugin');
+const handleMuseLocalPlugins = require('./handleMuseLocalPlugins');
 const pkgJson = require(path.join(process.cwd(), './package.json'));
 const hashed = crypto.createHash('md5').update(pkgJson.name).digest('hex').substring(0, 6);
 const styleBase = parseInt(hashed, 16);
-const isMuseLib = pkgJson?.muse?.type === 'lib'; //process.env.MUSE_LIB === 'true';
+const isMuseLib = pkgJson?.muse?.type === 'lib';
 
+// Override cra webpack config factory for support development build
+(() => {
+  const craWebpackConfigFactoryPath = require.resolve('react-scripts/config/webpack.config.js');
+  const craWebpackConfigFactory = require(craWebpackConfigFactoryPath);
+  const museOverridedWebpackConfigFactory = (webpackEnv) => {
+    console.log('requested webpack env: ', webpackEnv);
+    return craWebpackConfigFactory('development');
+  };
+  require.cache[craWebpackConfigFactoryPath].exports = museOverridedWebpackConfigFactory;
+
+  console.log(craWebpackConfigFactoryPath);
+})();
 const needInstrument = process.env.MUSE_BUILD_INSTRUMENTED === 'true';
 
 // Find all muse libs dependencies
@@ -27,22 +47,26 @@ const overrideCracoConfig = ({ cracoConfig, context: { env } }) => {
   if (!cracoConfig.webpack.plugins.remove) cracoConfig.webpack.plugins.remove = [];
 
   const isProd = env === 'production';
+  const isDev = env === 'development';
+  const isDevBuild = false;
 
   const cracoAdd = cracoConfig.webpack.plugins.add;
 
   // Build lib bundle for lib plugins
-  if (isMuseLib) {
+  if (isMuseLib || isDev) {
     cracoAdd.push([
       new MusePlugin({
         // NOTE: build folder is hard coded for simplicity
+        // lib- manifest.json is only useful for dev/prod build, not for development
         path: path.join(process.cwd(), 'build/lib/lib-manifest.json'),
       }),
       'prepend',
     ]);
   }
 
-  // Creating lib reference manifest content
   const museLibs = getMuseLibs();
+
+  // Creating lib reference manifest content
   if (museLibs.length > 0) {
     const libManifestContent = {};
     museLibs.forEach((lib) => {
@@ -75,12 +99,19 @@ const overrideCracoConfig = ({ cracoConfig, context: { env } }) => {
       filename: isMuseLib ? 'main.lib.js' : 'main.js',
       publicPath: 'auto',
     },
-    optimization: { minimize: false },
+    // optimization: { minimize: false },
   };
 
   return cracoConfig;
 };
-const overrideWebpackConfig = ({ webpackConfig }) => {
+const overrideWebpackConfig = ({ webpackConfig, context: { env } }) => {
+  const isDev = env === 'development';
+
+  // For development, need to load all configured local plugin projects
+  if (isDev) {
+    handleMuseLocalPlugins(webpackConfig);
+  }
+
   // Disable MiniCssExtractPlugin and use style-loader
   // This is only for production build
   webpackConfig.module?.rules?.forEach((rule) => {
