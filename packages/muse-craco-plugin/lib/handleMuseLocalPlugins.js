@@ -34,7 +34,7 @@ function handleMuseLocalPlugins(webpackConfig) {
 
       if (museConfig.type === 'lib') {
         // For lib project, define the package alias
-        webpackConfig.resolve.alias[localPluginPkgJson.name] = path.join(p, 'src');
+        webpackConfig.resolve.alias[localPluginPkgJson.name] = p;
       }
       // Ensure one instance for one package, for example: js-plugin, antd-form-builder
       webpackConfig.resolve.modules.splice(1, 0, path.join(p, 'node_modules'));

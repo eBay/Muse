@@ -79,15 +79,17 @@
   <body>
     <script>
       window.MUSE_APP_ENTRIES = {};
-      window.MUSE_LIB_ENTRIES = [];
+
       window.MUSE_CONFIG = window.MUSE_GLOBAL = {
         LIB_INDEX_ENTRIES: {},
+        pluginEntries: [],
+        appEntries: {},
       };
 
       const plugins = [
         { id: 'muse-react', type: 'lib', url: 'http://localhost:3030/main.lib.js' },
-        { id: 'muse-antd', type: 'lib', url: 'http://localhost:3031/main.lib.js' },
-        { id: 'muse-layout', url: 'http://localhost:3032/main.js' },
+        // { id: 'muse-antd', type: 'lib', url: 'http://localhost:3031/main.lib.js' },
+        // { id: 'muse-layout', url: 'http://localhost:3032/main.js' },
       ];
     </script>
 
@@ -101,14 +103,15 @@
           const url = p.url || `/p/${p.id}/lib/main.lib.js`;
           await load(url);
         }
-        window.MUSE_LIB_ENTRIES.forEach((func) => func());
 
-        const normalPlugins = plugins.filter((p) => p.type !== 'lib');
-        for (let i = 0; i < normalPlugins.length; i++) {
-          const p = normalPlugins[i];
-          const url = p.url || `/p/${p.id}/dist/main.js`;
-          await load(url);
-        }
+        window.MUSE_GLOBAL.pluginEntries.forEach((entry) => entry.func());
+
+        // const normalPlugins = plugins.filter((p) => p.type !== 'lib');
+        // for (let i = 0; i < normalPlugins.length; i++) {
+        //   const p = normalPlugins[i];
+        //   const url = p.url || `/p/${p.id}/dist/main.js`;
+        //   await load(url);
+        // }
         window.MUSE_APP_ENTRIES['muse-react']();
       })();
     </script>

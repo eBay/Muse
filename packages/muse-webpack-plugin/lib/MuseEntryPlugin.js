@@ -17,7 +17,7 @@ class MuseEntryPlugin {
     this.context = context;
     this.entries = entries;
     this.options = options;
-    if (this.entries.length !== 1) throw new Error('Muse plugin only supports one entry point.');
+    // if (this.entries.length !== 1) throw new Error('Muse plugin only supports one entry point.');
   }
 
   apply(compiler) {
@@ -48,7 +48,7 @@ class MuseEntryPlugin {
     compiler.hooks.thisCompilation.tap('MuseEntryPlugin', (compilation) => {
       const hooks = JavascriptModulesPlugin.getCompilationHooks(compilation);
       hooks.renderStartup.tap('MuseEntryPlugin', (source, module, renderContext) => {
-        const entryModule = Array.from(compilation.modules).find((m) => this.entries[0] === m.rawRequest);
+        const entryModules = Array.from(compilation.modules).filter((m) => this.entries.includes(m.rawRequest));
         const result = new ConcatSource(source.source());
         result.add('// Expose the method from Muse lib to find Muse modules\n');
         result.add('// NOTE: if multiple Muse libs, any version of find method may be used\n');
@@ -69,7 +69,11 @@ for (const p in __webpack_modules__) {
 }
 g.__muse_shared_modules__.cache = null;
 g.__muse_shared_modules__.find = __webpack_exports__;
-window.MUSE_LIB_ENTRIES && window.MUSE_LIB_ENTRIES.push(() => {__webpack_exports__('${entryModule.buildInfo.museData.id}')});
+const arr = g.MUSE_GLOBAL && g.MUSE_GLOBAL.pluginEntries || [];
+${entryModules
+  .map((m) => m.buildInfo.museData.id)
+  .map((mid) => 'arr.push({ id: "' + mid + '", func: () => __webpack_exports__("' + mid + '") });')
+  .join('\r\n')}
 `,
         );
         return result;
