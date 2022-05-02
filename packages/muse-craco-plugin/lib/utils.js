@@ -1,0 +1,28 @@
+const path = require('path');
+const pkgJson = require(path.join(process.cwd(), './package.json'));
+
+module.exports = {
+  getLocalPlugins: () => {
+    const localPlugins = (process.env.MUSE_LOCAL_PLUGINS || '')
+      .split(';')
+      .map((s) => s.trim())
+      .filter(Boolean);
+
+    return localPlugins
+      .map((p) => (path.isAbsolute(p) ? p : path.join(process.cwd(), p)))
+      .map((p) => {
+        return require(path.join(p, 'package.json'));
+      });
+  },
+
+  getMuseLibs: () => {
+    return Object.keys({
+      ...pkgJson.dependencies,
+      ...pkgJson.devDependencies,
+      ...pkgJson.peerDependencies,
+    }).filter((dep) => {
+      const depPkgJson = require(`${dep}/package.json`);
+      return depPkgJson?.muse?.type === 'lib';
+    });
+  },
+};

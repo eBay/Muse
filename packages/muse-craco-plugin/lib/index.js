@@ -9,6 +9,7 @@ const path = require('path');
 const crypto = require('crypto');
 const { MusePlugin, MuseReferencePlugin } = require('muse-webpack-plugin');
 const handleMuseLocalPlugins = require('./handleMuseLocalPlugins');
+const utils = require('./utils');
 const pkgJson = require(path.join(process.cwd(), './package.json'));
 const hashed = crypto.createHash('md5').update(pkgJson.name).digest('hex').substring(0, 6);
 const styleBase = parseInt(hashed, 16);
@@ -27,18 +28,6 @@ const isMuseLib = pkgJson?.muse?.type === 'lib';
   console.log(craWebpackConfigFactoryPath);
 })();
 const needInstrument = process.env.MUSE_BUILD_INSTRUMENTED === 'true';
-
-// Find all muse libs dependencies
-const getMuseLibs = () => {
-  return Object.keys({
-    ...pkgJson.dependencies,
-    ...pkgJson.devDependencies,
-    ...pkgJson.peerDependencies,
-  }).filter((dep) => {
-    const depPkgJson = require(`${dep}/package.json`);
-    return depPkgJson?.muse?.type === 'lib';
-  });
-};
 
 const overrideCracoConfig = ({ cracoConfig, context: { env } }) => {
   if (!cracoConfig.webpack) cracoConfig.webpack = {};
@@ -64,9 +53,13 @@ const overrideCracoConfig = ({ cracoConfig, context: { env } }) => {
     ]);
   }
 
-  const museLibs = getMuseLibs();
-
   // Creating lib reference manifest content
+  let museLibs = utils.getMuseLibs();
+  if (isDev) {
+    // At dev time, should exclude local lib plugins
+    const localPlugins = utils.getLocalPlugins();
+    museLibs = museLibs.filter((libName) => !localPlugins.find((p) => p.name === libName));
+  }
   if (museLibs.length > 0) {
     const libManifestContent = {};
     museLibs.forEach((lib) => {
@@ -125,6 +118,7 @@ const overrideWebpackConfig = ({ webpackConfig, context: { env } }) => {
       }
     });
   });
+  // process.exit();
   return webpackConfig;
 };
 

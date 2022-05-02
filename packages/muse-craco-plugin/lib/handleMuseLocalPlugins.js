@@ -49,6 +49,14 @@ function handleMuseLocalPlugins(webpackConfig) {
     throw new Error('Muse Error: babel-loader not found in webpack config.');
   }
 
+  // Remove ModuleScopePlugin to support multiple src folders
+  // TODO: maybe keep it by the similar mechanism expandPluginsScope at:
+  // https://github.com/oklas/react-app-alias/blob/80c8a062b37df8411bc148dd42f485d014e96d3f/packages/react-app-alias/src/index.js#L26
+  const foundIndex = webpackConfig.resolve.plugins.map((x) => x.constructor.name).indexOf('ModuleScopePlugin');
+  if (foundIndex >= 0) {
+    webpackConfig.resolve.plugins.splice(foundIndex, 1);
+  }
+
   return localPluginNames;
 }
 module.exports = handleMuseLocalPlugins;
