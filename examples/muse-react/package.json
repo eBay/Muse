@@ -51,7 +51,7 @@
   "devDependencies": {},
   "scripts": {
     "start": "FAST_REFRESH=false NODE_PATH=./node_modules PORT=3030 craco start",
-    "build": "NODE_PATH=./node_modules BUILD_PATH=./build/lib NODE_ENV=development craco build --verbose",
+    "build": "NODE_PATH=./node_modules craco build --verbose",
     "build:muse-instrumented": "NODE_PATH=./node_modules craco build",
     "build:dev": "NODE_PATH=./node_modules BUILD_PATH=./build/lib NODE_ENV=development craco build --verbose",
     "test": "craco test",
