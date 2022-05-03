@@ -87,9 +87,9 @@
       };
 
       const plugins = [
-        { id: 'muse-react', url: 'http://localhost:3030/main.js' },
-        // { id: 'muse-antd', url: 'http://localhost:3031/main.js' },
-        // { id: 'muse-layout', url: 'http://localhost:3032/main.js' },
+        { id: 'muse-react', url2: 'http://localhost:3030/main.js' },
+        { id: 'muse-antd', url2: 'http://localhost:3031/main.js' },
+        { id: 'muse-layout', url2: 'http://localhost:3032/main.js' },
       ];
     </script>
 
@@ -104,7 +104,8 @@
         }
 
         window.MUSE_GLOBAL.pluginEntries.forEach((entry) => entry.func());
-        window.MUSE_APP_ENTRIES['muse-react']();
+
+        window.MUSE_GLOBAL.appEntries['muse-react']();
       })();
     </script>
   </body>

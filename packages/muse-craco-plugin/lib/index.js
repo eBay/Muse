@@ -13,7 +13,8 @@ const utils = require('./utils');
 const pkgJson = require(path.join(process.cwd(), './package.json'));
 const hashed = crypto.createHash('md5').update(pkgJson.name).digest('hex').substring(0, 6);
 const styleBase = parseInt(hashed, 16);
-const isMuseLib = pkgJson?.muse?.type === 'lib';
+const museConfig = pkgJson?.muse || {};
+const isMuseLib = museConfig.type === 'lib';
 
 // Override cra webpack config factory for support development build
 // (() => {
@@ -42,16 +43,15 @@ const overrideCracoConfig = ({ cracoConfig, context: { env } }) => {
   const cracoAdd = cracoConfig.webpack.plugins.add;
 
   // Build lib bundle for lib plugins
-  // if (isMuseLib || isDev) {
   cracoAdd.push([
     new MusePlugin({
       // NOTE: build folder is hard coded for simplicity
       // lib- manifest.json is only useful for dev/prod build, not for development
       path: path.join(process.cwd(), 'build/lib/lib-manifest.json'),
+      type: museConfig.type,
     }),
     'prepend',
   ]);
-  // }
 
   // Creating lib reference manifest content
   let museLibs = utils.getMuseLibs();

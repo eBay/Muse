@@ -29,6 +29,6 @@ const renderApp = () => {
   ReactDOM.render(<Root />, rootNode);
 };
 
-window.MUSE_APP_ENTRIES['muse-react'] = renderApp;
+window.MUSE_GLOBAL.appEntries['muse-react'] = renderApp;
 
 export default { Loadable, _, reactUse };

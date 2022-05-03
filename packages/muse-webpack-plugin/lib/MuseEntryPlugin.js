@@ -17,7 +17,6 @@ class MuseEntryPlugin {
     this.context = context;
     this.entries = entries;
     this.options = options;
-    // if (this.entries.length !== 1) throw new Error('Muse plugin only supports one entry point.');
   }
 
   apply(compiler) {
@@ -50,11 +49,14 @@ class MuseEntryPlugin {
       hooks.renderStartup.tap('MuseEntryPlugin', (source, module, renderContext) => {
         const entryModules = Array.from(compilation.modules).filter((m) => this.entries.includes(m.rawRequest));
         const result = new ConcatSource(source.source());
-        result.add('// Expose the method from Muse lib to find Muse modules\n');
-        result.add('// NOTE: if multiple Muse libs, any version of find method may be used\n');
-        result.add(`var g = ${RuntimeGlobals.global}\n`);
-        result.add(
-          `if (!g.__muse_shared_modules__) {
+        result.add(`
+// Expose the method from Muse lib to find Muse modules
+// NOTE: if multiple Muse libs, any version of find method may be used
+var g = ${RuntimeGlobals.global}
+        `);
+        if (this.options.type === 'lib') {
+          result.add(`
+if (!g.__muse_shared_modules__) {
   g.__muse_shared_modules__ = {};
   Object.defineProperty(g.__muse_shared_modules__, 'cache', { writable: true, value: null });
   Object.defineProperty(g.__muse_shared_modules__, 'find', { writable: true, value: null });
@@ -69,13 +71,16 @@ for (const p in __webpack_modules__) {
 }
 g.__muse_shared_modules__.cache = null;
 g.__muse_shared_modules__.find = __webpack_exports__;
-const arr = g.MUSE_GLOBAL && g.MUSE_GLOBAL.pluginEntries || [];
-${entryModules
-  .map((m) => m.buildInfo.museData.id)
-  .map((mid) => 'arr.push({ id: "' + mid + '", func: () => __webpack_exports__("' + mid + '") });')
-  .join('\r\n')}
-`,
-        );
+
+`);
+        }
+        result.add('const arr = g.MUSE_GLOBAL && g.MUSE_GLOBAL.pluginEntries || [];');
+        entryModules
+          .map((m) => m.buildInfo.museData.id)
+          .forEach((mid) => {
+            result.add(`arr.push({ id: "${mid}", func: () => __webpack_require__("${mid}") });`);
+          });
+
         return result;
       });
     });

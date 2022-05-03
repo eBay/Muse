@@ -26,6 +26,7 @@ class MusePlugin {
         for (const name of Object.keys(entry)) {
           const options = {
             name,
+            type: this.options.type || 'normal',
             filename: entry.filename,
           };
           new MuseEntryPlugin(context, entry[name].import, options).apply(compiler);

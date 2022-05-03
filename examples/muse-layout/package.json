@@ -11,7 +11,7 @@
   "devDependencies": {},
   "scripts": {
     "start": "FAST_REFRESH=false NODE_PATH=./node_modules PORT=3032 craco start",
-    "build": "NODE_PATH=./node_modules BUILD_PATH=./build/dist craco build",
+    "build": "NODE_PATH=./node_modules craco build",
     "test": "muse-scripts test",
     "e2e-test2": "muse-scripts e2e-test",
     "prestart2": "muse-scripts check-updates",
