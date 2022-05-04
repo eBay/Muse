@@ -6164,7 +6164,12 @@ multicast-dns@^7.2.4:
 muse-craco-plugin@../../packages/muse-craco-plugin:
   version "1.0.0"
   dependencies:
-    muse-webpack-plugin "link:../../../../Library/Caches/Yarn/v6/npm-muse-craco-plugin-1.0.0-69ae4dd9-7759-4205-b0f3-459d54cd96d2-1651476259123/node_modules/muse-webpack-plugin"
+    muse-webpack-plugin "link:../../../../Library/Caches/Yarn/v6/npm-muse-craco-plugin-1.0.0-a341b753-5344-4abe-b5f3-c23266bbca8b-1651639247169/node_modules/muse-webpack-plugin"
+
+muse-scripts-react@../../packages/muse-scripts-react:
+  version "1.0.0"
+  dependencies:
+    cross-spawn "^7.0.3"
 
 "muse-webpack-plugin@link:../../packages/muse-webpack-plugin":
   version "0.0.0"

@@ -1,9 +1,13 @@
 // Config env variables for react-scripts
-(() => {
-  process.env.BROWSER = 'none';
-  // process.env.NODE_PATH = './node_modules';
+
+process.env.BROWSER = 'none';
+const isDevBuild = process.env.MUSE_DEV_BUILD;
+
+if (isDevBuild) {
+  process.env.BUILD_PATH = './build/dev';
+} else {
   process.env.BUILD_PATH = './build/dist';
-})();
+}
 
 const path = require('path');
 const crypto = require('crypto');
@@ -14,20 +18,7 @@ const pkgJson = require(path.join(process.cwd(), './package.json'));
 const hashed = crypto.createHash('md5').update(pkgJson.name).digest('hex').substring(0, 6);
 const styleBase = parseInt(hashed, 16);
 const museConfig = pkgJson?.muse || {};
-const isMuseLib = museConfig.type === 'lib';
 
-// Override cra webpack config factory for support development build
-// (() => {
-//   const craWebpackConfigFactoryPath = require.resolve('react-scripts/config/webpack.config.js');
-//   const craWebpackConfigFactory = require(craWebpackConfigFactoryPath);
-//   const museOverridedWebpackConfigFactory = (webpackEnv) => {
-//     console.log('requested webpack env: ', webpackEnv);
-//     return craWebpackConfigFactory('development');
-//   };
-//   require.cache[craWebpackConfigFactoryPath].exports = museOverridedWebpackConfigFactory;
-
-//   console.log(craWebpackConfigFactoryPath);
-// })();
 const needInstrument = process.env.MUSE_BUILD_INSTRUMENTED === 'true';
 
 const overrideCracoConfig = ({ cracoConfig, context: { env } }) => {
@@ -36,17 +27,15 @@ const overrideCracoConfig = ({ cracoConfig, context: { env } }) => {
   if (!cracoConfig.webpack.plugins.add) cracoConfig.webpack.plugins.add = [];
   if (!cracoConfig.webpack.plugins.remove) cracoConfig.webpack.plugins.remove = [];
 
-  const isProd = env === 'production';
   const isDev = env === 'development';
-  const isDevBuild = false;
 
   const cracoAdd = cracoConfig.webpack.plugins.add;
 
-  // Build lib bundle for lib plugins
   cracoAdd.push([
     new MusePlugin({
       // NOTE: build folder is hard coded for simplicity
       // lib- manifest.json is only useful for dev/prod build, not for development
+      // TODO, only for lib plugins, need to generate manifest
       path: path.join(process.cwd(), 'build/lib/lib-manifest.json'),
       type: museConfig.type,
     }),
@@ -55,7 +44,7 @@ const overrideCracoConfig = ({ cracoConfig, context: { env } }) => {
 
   // Creating lib reference manifest content
   let museLibs = utils.getMuseLibs();
-  if (isDev) {
+  if (isDev && !isDevBuild) {
     // At dev time, should exclude local lib plugins
     const localPlugins = utils.getLocalPlugins();
     museLibs = museLibs.filter((libName) => !localPlugins.find((p) => p.name === libName));

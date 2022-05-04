@@ -1,0 +1,18 @@
+{
+  "name": "muse-scripts-react",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "files": [
+    "bin"
+  ],
+  "bin": {
+    "muse": "./bin/muse.js"
+  },
+  "devDependencies": {
+    "eslint": "^8.14.0"
+  },
+  "dependencies": {
+    "cross-spawn": "^7.0.3"
+  }
+}
