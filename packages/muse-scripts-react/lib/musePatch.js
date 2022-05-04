@@ -1,4 +1,4 @@
-// Patch muse-scripts and craco to support development build
+// Patch react-scripts and craco to support development build
 const fs = require('fs');
 
 // Patch muse-scripts/scripts/build.js

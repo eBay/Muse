@@ -99,7 +99,7 @@
       (async () => {
         for (let i = 0; i < plugins.length; i++) {
           const p = plugins[i];
-          const url = p.url || `/p/${p.id}/dist/main.js`;
+          const url = p.url || `/p/${p.id}/dev/main.js`;
           await load(url);
         }
 
