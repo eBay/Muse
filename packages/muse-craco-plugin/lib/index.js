@@ -86,7 +86,6 @@ const overrideCracoConfig = ({ cracoConfig, context: { env } }) => {
   cracoConfig.webpack.plugins.remove.push('MiniCssExtractPlugin');
 
   // Output is fixed for Muse, should generate version folder by other approach.
-
   cracoConfig.webpack.configure = {
     output: {
       filename: 'main.js',
