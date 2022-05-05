@@ -9,6 +9,7 @@ const script = scriptIndex === -1 ? args[0] : args[scriptIndex];
 
 if (script === 'build' && args.includes('--dev')) {
   process.env.MUSE_DEV_BUILD = true;
+  process.env.FAST_REFRESH = false;
 }
 require('../lib/musePatch');
 
