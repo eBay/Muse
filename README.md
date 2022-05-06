@@ -28,7 +28,10 @@ First, run `yarn` to install dependencies under folders of `examples` and `packa
 - under `examples/muse-antd`: `yarn link muse-react`
 - under `examples/muse-layout`: `yarn link muse-react` and `yarn link muse-antd`.
 
-Then you are able to run `yarn start`, `yarn build`, `yarn build:dev` under examples projects.
+Then you are able to run below commands under examples projects:
+- `NODE_PATH=./node_modules yarn start`
+- `NODE_PATH=./node_modules yarn build`
+- `NODE_PATH=./node_modules yarn build:dev`
 
 To load the Muse app, there is a temp `packages/muse-dev-server` project, run `yarn start` and modify `lib/index.html` to adjust the plugins and bundles of plugins.
 
