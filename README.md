@@ -33,6 +33,8 @@ Then you are able to run below commands under examples projects:
 - `NODE_PATH=./node_modules yarn build`
 - `NODE_PATH=./node_modules yarn build:dev`
 
+> NOTE: `NODE_PATH=./node_modules` tells the linked packages use the current working directory.
+
 To load the Muse app, there is a temp `packages/muse-dev-server` project, run `yarn start` and modify `lib/index.html` to adjust the plugins and bundles of plugins.
 
 ## License
