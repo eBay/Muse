@@ -1,5 +1,6 @@
 const path = require('path');
-const pkgJson = require(path.join(process.cwd(), './package.json'));
+const museContext = require('./museContext');
+const pkgJson = museContext.pkgJson;
 
 module.exports = {
   getLocalPlugins: () => {
@@ -24,5 +25,15 @@ module.exports = {
       const depPkgJson = require(`${dep}/package.json`);
       return depPkgJson?.muse?.type === 'lib';
     });
+  },
+
+  assertPath: (object, p, value) => {
+    const arr = p.split('.');
+    while (arr.length > 1) {
+      const s = arr.shift();
+      if (!object[s]) object[s] = {};
+      object = object[s];
+    }
+    object[arr[0]] = value || {};
   },
 };
