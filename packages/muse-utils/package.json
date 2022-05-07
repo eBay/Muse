@@ -2,5 +2,11 @@
   "name": "muse-utils",
   "version": "1.0.0",
   "main": "index.js",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "js-plugin": "^1.0.9"
+  },
+  "devDependencies": {
+    "eslint": "^8.14.0"
+  }
 }
