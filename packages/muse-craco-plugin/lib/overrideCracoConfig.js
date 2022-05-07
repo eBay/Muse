@@ -1,8 +1,8 @@
 const path = require('path');
-const { isDevBuild, museConfig } = require('./museContext');
-const utils = require('./utils');
+const { museContext, utils } = require('muse-dev-utils');
 const { MusePlugin, MuseReferencePlugin } = require('muse-webpack-plugin');
 
+const { isDevBuild, museConfig } = museContext;
 module.exports = ({ cracoConfig, context: { env } }) => {
   if (!cracoConfig.webpack) cracoConfig.webpack = {};
   if (!cracoConfig.webpack.plugins) cracoConfig.webpack.plugins = {};

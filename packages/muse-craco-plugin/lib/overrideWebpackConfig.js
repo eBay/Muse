@@ -1,5 +1,5 @@
 const crypto = require('crypto');
-const { pkgJson, isDevBuild } = require('./museContext');
+const { pkgJson, isDevBuild } = require('muse-dev-utils').museContext;
 const handleMuseLocalPlugins = require('./handleMuseLocalPlugins');
 
 const hashed = crypto.createHash('md5').update(pkgJson.name).digest('hex').substring(0, 6);
