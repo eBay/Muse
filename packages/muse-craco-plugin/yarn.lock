@@ -319,6 +319,11 @@ has-flag@^4.0.0:
   resolved "https://registry.yarnpkg.com/has-flag/-/has-flag-4.0.0.tgz#944771fd9c81c81265c4d6941860da06bb59479b"
   integrity sha512-EykJT/Q1KjTWctppgIAgfSO0tKVuZUjhgMr17kqTumMl6Afv3EISleU7qZUzoXDFTAHTDC4NOoG/ZxU3EvlMPQ==
 
+html-webpack-inject-string-plugin@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/html-webpack-inject-string-plugin/-/html-webpack-inject-string-plugin-1.0.2.tgz#785a0cf80e08a5831a439a8b10bf04366afbcea1"
+  integrity sha512-8pXGgWzIAN2T+eeWiA9aHzJfD7Nv3L0L1JePgxiyn7J3Zl31ezneA+8q7dRo1YmtziCwMfgFMIP3NX/7wXrWdg==
+
 ignore@^5.2.0:
   version "5.2.0"
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.2.0.tgz#6d3bac8fa7fe0d45d9f9be7bac2fc279577e345a"

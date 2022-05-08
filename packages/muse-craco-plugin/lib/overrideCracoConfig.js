@@ -1,19 +1,17 @@
 const path = require('path');
 const { museContext, utils } = require('muse-dev-utils');
 const { MusePlugin, MuseReferencePlugin } = require('muse-webpack-plugin');
+const setupHtmlWebpackPlugin = require('./setupHtmlWebpackPlugin');
 
-const { isDevBuild, museConfig } = museContext;
-module.exports = ({ cracoConfig, context: { env } }) => {
+const { isDev, isDevBuild, pkgJson, museConfig } = museContext;
+
+module.exports = ({ cracoConfig }) => {
   if (!cracoConfig.webpack) cracoConfig.webpack = {};
   if (!cracoConfig.webpack.plugins) cracoConfig.webpack.plugins = {};
   if (!cracoConfig.webpack.plugins.add) cracoConfig.webpack.plugins.add = [];
   if (!cracoConfig.webpack.plugins.remove) cracoConfig.webpack.plugins.remove = [];
 
-  const isDev = env === 'development';
-
-  const cracoAdd = cracoConfig.webpack.plugins.add;
-
-  cracoAdd.push([
+  cracoConfig.webpack.plugins.add.push([
     new MusePlugin({
       // NOTE: build folder is hard coded for simplicity
       // lib- manifest.json is only useful for dev/prod build, not for development
@@ -26,7 +24,7 @@ module.exports = ({ cracoConfig, context: { env } }) => {
 
   // Creating lib reference manifest content
   let museLibs = utils.getMuseLibs();
-  if (isDev && !isDevBuild) {
+  if (isDev) {
     // At dev time, should exclude local lib plugins
     const localPlugins = utils.getLocalPlugins();
     museLibs = museLibs.filter((libName) => !localPlugins.find((p) => p.name === libName));
@@ -47,7 +45,7 @@ module.exports = ({ cracoConfig, context: { env } }) => {
     };
 
     if (Object.keys(libManifestContent).length > 0) {
-      cracoAdd.push([
+      cracoConfig.webpack.plugins.add.push([
         new MuseReferencePlugin({
           manifest: libsManifest,
         }),
@@ -56,17 +54,14 @@ module.exports = ({ cracoConfig, context: { env } }) => {
     }
   }
 
+  setupHtmlWebpackPlugin(cracoConfig);
+
   // Muse doesn't support MiniCssExtractPlugin at this time.
   cracoConfig.webpack.plugins.remove.push('MiniCssExtractPlugin');
 
-  // TODO: do not override all configure object to allow config from plugins
-  // Output is fixed for Muse, should generate version folder by other approach.
-  cracoConfig.webpack.configure = {
-    output: {
-      filename: 'main.js',
-      publicPath: 'auto',
-    },
-  };
+  // Output filename is fixed for Muse, should generate version folder by other approach.
+  utils.assertPath(cracoConfig, 'webpack.config.output.filename', 'main.js');
+  utils.assertPath(cracoConfig, 'webpack.config.output.publicPath', 'auto');
 
   return cracoConfig;
 };
