@@ -3,13 +3,11 @@ const { museContext, utils } = require('muse-dev-utils');
 const { MusePlugin, MuseReferencePlugin } = require('muse-webpack-plugin');
 const setupHtmlWebpackPlugin = require('./setupHtmlWebpackPlugin');
 
-const { isDev, isDevBuild, pkgJson, museConfig } = museContext;
+const { isDev, isDevBuild, museConfig } = museContext;
 
 module.exports = ({ cracoConfig }) => {
-  if (!cracoConfig.webpack) cracoConfig.webpack = {};
-  if (!cracoConfig.webpack.plugins) cracoConfig.webpack.plugins = {};
-  if (!cracoConfig.webpack.plugins.add) cracoConfig.webpack.plugins.add = [];
-  if (!cracoConfig.webpack.plugins.remove) cracoConfig.webpack.plugins.remove = [];
+  utils.assertPath(cracoConfig, 'webpack.plugins.add', [], true);
+  utils.assertPath(cracoConfig, 'webpack.plugins.remove', [], true);
 
   cracoConfig.webpack.plugins.add.push([
     new MusePlugin({
@@ -60,8 +58,13 @@ module.exports = ({ cracoConfig }) => {
   cracoConfig.webpack.plugins.remove.push('MiniCssExtractPlugin');
 
   // Output filename is fixed for Muse, should generate version folder by other approach.
-  utils.assertPath(cracoConfig, 'webpack.config.output.filename', 'main.js');
-  utils.assertPath(cracoConfig, 'webpack.config.output.publicPath', 'auto');
+  utils.assertPath(
+    cracoConfig,
+    'webpack.configure.output.filename',
+    museConfig.type === 'boot' ? 'boot.js' : 'main.js',
+  );
+  utils.assertPath(cracoConfig, 'webpack.configure.output.publicPath', 'auto');
+  console.log(cracoConfig.webpack.configure.output);
 
   return cracoConfig;
 };

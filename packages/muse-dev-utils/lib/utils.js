@@ -27,13 +27,13 @@ module.exports = {
     });
   },
 
-  assertPath: (object, p, value) => {
+  assertPath: (object, p, value, notSetIfExist) => {
     const arr = p.split('.');
     while (arr.length > 1) {
       const s = arr.shift();
       if (!object[s]) object[s] = {};
       object = object[s];
     }
-    object[arr[0]] = value || {};
+    if (!notSetIfExist || !object[arr[0]]) object[arr[0]] = value || {};
   },
 };
