@@ -24,16 +24,14 @@ module.exports = async (cracoConfig) => {
         excludeChunks: ['main'],
         inject: true,
         template: path.join(__dirname, './index.html'),
-        templateParameters: {
-          MUSE_PLUGIN_NAME: pkgJson.name,
-        },
+        title: pkgJson.name,
       }),
       'prepend',
     ],
     [
       new HtmlWebpackInjectStringPlugin({
         search: '</head>',
-        inject: `<script>window.MUSE_CONFIG=${JSON.stringify({})};</script>`,
+        inject: `<script>window.MUSE_GLOBAL=${JSON.stringify({})};</script>`,
         prepend: true,
         newline: true,
       }),

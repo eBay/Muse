@@ -5,5 +5,8 @@
   "license": "MIT",
   "devDependencies": {
     "eslint": "^8.15.0"
+  },
+  "dependencies": {
+    "express-http-proxy": "^1.6.3"
   }
 }

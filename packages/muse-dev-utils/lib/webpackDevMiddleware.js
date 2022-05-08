@@ -3,10 +3,21 @@ The dev time service for Muse.
   1. Get Muse data from Muse registry: app config, plugin list, etc
   2. Cache static resources
  */
+const proxy = require('express-http-proxy');
 const { pkgJson, museConfig } = require('./museContext');
 const getDevApp = require('./getDevApp');
 
 module.exports = async (req, res, next) => {
+  if (req.path.startsWith('/_muse_static')) {
+    // proxy to cdn server
+    proxy('http://localhost:6070', {
+      proxyReqPathResolver: function (req) {
+        return req.path.replace('/_muse_static', '');
+      },
+    })(req, res, next);
+    return;
+  }
+
   if (!req.path.startsWith('/_muse_api')) {
     return next();
   }
@@ -15,6 +26,10 @@ module.exports = async (req, res, next) => {
       res.set('Content-Type', 'application/json');
       const devApp = await getDevApp();
       res.send(devApp);
+      break;
+    }
+    case '/_muse_static': {
+      proxy('http://localhost:6070')(req, res, next);
       break;
     }
     default:

@@ -2,7 +2,14 @@
 import { loadInParallel } from './utils';
 
 async function start() {
-  const { cdn, pluginList, entry = 'muse-react', pluginEntries, appEntries, isDev } = window.MUSE_GLOBAL;
+  const {
+    cdn = '',
+    pluginList = [],
+    entry = 'muse-react',
+    pluginEntries = [],
+    appEntries = [],
+    isDev = false,
+  } = window.MUSE_GLOBAL;
 
   // Print app plugins in dev console
   const bootPlugin = pluginList.find((p) => p.type === 'boot');
