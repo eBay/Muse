@@ -1,4 +1,4 @@
-const { webpackDevMiddleware } = require('muse-dev-utils');
+const { setupMuseDevServer } = require('muse-dev-utils');
 module.exports = ({ devServerConfig, cracoConfig, pluginOptions, context: { env, paths, proxy, allowedHost } }) => {
   const oldSetup = devServerConfig.setupMiddlewares || devServerConfig.onBeforeSetupMiddleware || (() => null);
   if (devServerConfig.setupMiddlewares) {
@@ -6,12 +6,14 @@ module.exports = ({ devServerConfig, cracoConfig, pluginOptions, context: { env,
       // webpack-dev-server v4.7.0+
       // seems can't be used together with onBeforeSetupMiddleware
       oldSetup(middlewares, devServer);
-      devServer.app.use(webpackDevMiddleware);
+      setupMuseDevServer(devServer);
+      // devServer.app.use(webpackDevMiddleware);
     };
   } else {
     devServerConfig.onBeforeSetupMiddleware = (devServer) => {
       oldSetup(devServer);
-      devServer.app.use(webpackDevMiddleware);
+      setupMuseDevServer(devServer);
+      // devServer.app.use(webpackDevMiddleware);
     };
   }
   return devServerConfig;

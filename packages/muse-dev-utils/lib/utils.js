@@ -1,4 +1,5 @@
 const path = require('path');
+require('dotenv').config();
 const museContext = require('./museContext');
 const pkgJson = museContext.pkgJson;
 
@@ -35,5 +36,10 @@ module.exports = {
       object = object[s];
     }
     if (!notSetIfExist || !object[arr[0]]) object[arr[0]] = value || {};
+  },
+
+  getPluginId: (name) => {
+    if (!name.startsWith('@')) return name;
+    return name.replace('@', '').replace('/', '.');
   },
 };

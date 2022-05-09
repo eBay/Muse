@@ -124,3 +124,8 @@ export function joinPath(p1, p2) {
   if (p2.startsWith('/')) p2 = p2.replace(/^\/+/, '');
   return p1 + p2;
 }
+
+export function getPluginId(name) {
+  if (!name.startsWith('@')) return name;
+  return name.replace('@', '').replace('/', '.');
+}

@@ -5,7 +5,7 @@ const setupHtmlWebpackPlugin = require('./setupHtmlWebpackPlugin');
 
 const { isDev, isDevBuild, museConfig } = museContext;
 
-module.exports = ({ cracoConfig }) => {
+module.exports = async ({ cracoConfig }) => {
   utils.assertPath(cracoConfig, 'webpack.plugins.add', [], true);
   utils.assertPath(cracoConfig, 'webpack.plugins.remove', [], true);
 
@@ -53,7 +53,7 @@ module.exports = ({ cracoConfig }) => {
       }
     }
 
-    setupHtmlWebpackPlugin(cracoConfig);
+    await setupHtmlWebpackPlugin(cracoConfig);
 
     // Muse doesn't support MiniCssExtractPlugin at this time.
     cracoConfig.webpack.plugins.remove.push('MiniCssExtractPlugin');

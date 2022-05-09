@@ -12,7 +12,7 @@
     "devConfig": {
       "app": "nate",
       "env": "staging",
-      "remotePlugins": "*"
+      "remotePlugins": []
     }
   },
   "publishConfig": {

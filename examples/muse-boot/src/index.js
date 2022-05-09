@@ -1,5 +1,5 @@
 // boot plugin is used to load other plugins based on the app config
-import { loadInParallel } from './utils';
+import { loadInParallel, getPluginId } from './utils';
 
 async function start() {
   const {
@@ -10,6 +10,8 @@ async function start() {
     appEntries = [],
     isDev = false,
   } = window.MUSE_GLOBAL;
+  window.MUSE_CONFIG = window.MUSE_GLOBAL;
+  window.MUSE_GLOBAL.getUser = () => ({});
 
   // Print app plugins in dev console
   const bootPlugin = pluginList.find((p) => p.type === 'boot');
@@ -23,7 +25,7 @@ async function start() {
   // Load plugins bundles
   const pluginUrls = pluginList
     .filter((p) => p.type !== 'boot')
-    .map((p) => p.url || `${cdn}/p/${p.id}/${isDev ? 'dev' : 'dist'}/main.js`);
+    .map((p) => p.url || `${cdn}/p/${getPluginId(p.name)}/v${p.version}/${isDev ? 'dev' : 'dist'}/main.js`);
 
   // Load plugin bundles
   await loadInParallel(pluginUrls);
@@ -32,7 +34,7 @@ async function start() {
   pluginEntries.forEach((entry) => entry.func());
 
   // Start the application
-  const entryApp = appEntries.find((e) => e.app === entry);
+  const entryApp = appEntries.find((e) => e.name === entry);
   await entryApp.func();
   console.log('Muse app loaded.');
 }

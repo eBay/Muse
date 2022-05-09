@@ -4,11 +4,10 @@ The dev time service for Muse.
   2. Cache static resources
  */
 const proxy = require('express-http-proxy');
-const { pkgJson, museConfig } = require('./museContext');
-const getDevApp = require('./getDevApp');
+const getDevMuseGlobal = require('./getDevMuseGlobal');
 
 module.exports = async (req, res, next) => {
-  if (req.path.startsWith('/_muse_static')) {
+  if (req.path.startsWith('/_muse_static/p')) {
     // proxy to cdn server
     proxy('http://localhost:6070', {
       proxyReqPathResolver: function (req) {
@@ -24,7 +23,7 @@ module.exports = async (req, res, next) => {
   switch (req.path) {
     case '/_muse_api/muse-data/muse.app': {
       res.set('Content-Type', 'application/json');
-      const devApp = await getDevApp();
+      const devApp = await getDevMuseGlobal();
       res.send(devApp);
       break;
     }
