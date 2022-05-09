@@ -12,7 +12,10 @@
     "devConfig": {
       "app": "nate",
       "env": "staging",
-      "remotePlugins": []
+      "remotePlugins": [
+        "@ebay/muse-antd",
+        "muse-layout"
+      ]
     }
   },
   "publishConfig": {

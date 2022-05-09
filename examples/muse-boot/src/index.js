@@ -31,12 +31,13 @@ async function start() {
   await loadInParallel(pluginUrls);
 
   // Init plugins
+  console.log('Execution plugin entries...');
   pluginEntries.forEach((entry) => entry.func());
 
   // Start the application
   const entryApp = appEntries.find((e) => e.name === entry);
+  console.log(`Starting the app from ${entry}...`);
   await entryApp.func();
-  console.log('Muse app loaded.');
 }
 
 start()
