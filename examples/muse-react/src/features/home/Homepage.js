@@ -6,7 +6,7 @@ export default function Homepage() {
     <div className="home-homepage">
       <header className="app-header">
         <img src={logo} className="app-logo" alt="logo" />
-        <h1 className="app-title">Welcome to Muse3232!</h1>
+        <h1 className="app-title">Welcome to Muse!</h1>
       </header>
       <div className="app-intro">
         <p className="memo">This is the default homepage of a Muse application.</p>
