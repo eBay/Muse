@@ -1,6 +1,19 @@
+registry:
+  storage:
+    type: file
+    options:
+  static:
+    type: file
+    options:
+  cache:
+    type: memory
+    options:
+
 registryStorage:
   provider: file
     location: ~/muse-storage/registry
+    retries: 5
+    timeout: 3000
 staticStorage:
   provider: file
   options:

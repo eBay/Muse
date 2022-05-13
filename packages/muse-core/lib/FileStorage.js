@@ -6,6 +6,7 @@ module.exports = {
   init(options) {
     if (!options?.location) throw new Error('No location specified for FileStorage.');
     this.location = options.location;
+    this.name = options.name || 'file-storage';
   },
 
   mapPath(p) {
