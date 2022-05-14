@@ -4,6 +4,7 @@
   "main": "lib/index.js",
   "license": "MIT",
   "dependencies": {
+    "globby": "^13.1.1",
     "js-plugin": "^1.0.9",
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21"

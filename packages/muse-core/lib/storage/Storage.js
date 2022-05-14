@@ -1,3 +1,4 @@
+const EventEmitter = require('events');
 const _ = require('lodash');
 const plugin = require('js-plugin');
 
@@ -51,14 +52,42 @@ async function wrappedAsyncInvoke(extPath, methodName, ...args) {
   return ctx.result;
 }
 
-function getPluginId(name) {
-  if (!name.startsWith('@')) return name;
-  return name.replace('/', '.');
+class Storage extends EventEmitter {
+  /**
+   *
+   * @param {*} options providers
+   */
+  constructor(options) {
+    super();
+    this.options = options;
+    this.extPath = options.extPath || '';
+    plugin.invoke(getExtPoint(this.extPath, 'init'), this);
+  }
+  async get(path) {
+    await wrappedAsyncInvoke(this.extPath, 'get', path);
+  }
+  async set(path, value, msg) {
+    await wrappedAsyncInvoke(this.extPath, 'set', path, value, msg);
+  }
+  async del(path, msg) {
+    await wrappedAsyncInvoke(this.extPath, 'del', path, msg);
+  }
+  async count(path) {
+    await wrappedAsyncInvoke(this.extPath, 'count', path);
+  }
+  async exists(path) {
+    await wrappedAsyncInvoke(this.extPath, 'exists', path);
+  }
+  async list(path) {
+    await wrappedAsyncInvoke(this.extPath, 'list', path);
+  }
+  async readStream(path) {
+    await wrappedAsyncInvoke(this.extPath, 'getStream', path);
+  }
+
+  async writeStream(path, value, msg) {
+    await wrappedAsyncInvoke(this.extPath, 'writeStream', path, value, msg);
+  }
 }
 
-module.exports = {
-  getPluginId,
-  asyncInvoke,
-  asyncInvokeFirst,
-  wrappedAsyncInvoke,
-};
+module.exports = Storage;
