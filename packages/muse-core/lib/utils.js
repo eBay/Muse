@@ -1,5 +1,8 @@
+const path = require('path');
+const fs = require('fs-extra');
 const _ = require('lodash');
 const plugin = require('js-plugin');
+const jsYaml = require('js-yaml');
 
 async function asyncInvoke(extPoint, ...args) {
   const noThrows = extPoint.endsWith('!');
@@ -56,9 +59,59 @@ function getPluginId(name) {
   return name.replace('/', '.');
 }
 
+function jsonByBuff(b) {
+  if (!b) return null;
+  return jsYaml.load(Buffer.from(b).toString('utf8'));
+}
+
+async function batchAsync(tasks, size = 100, msg = 'Batch async') {
+  const chunks = _.chunk(tasks, size);
+  const res = [];
+
+  for (let i = 0; i < chunks.length; i++) {
+    const chunk = chunks[i];
+    console.log(`${msg}: ${i * size + 1}~${Math.min(i * size + size, tasks.length)} of ${tasks.length}`);
+    const arr = await Promise.all(chunk.map((c) => c()));
+    res.push(...arr);
+  }
+  return res;
+}
+async function makeRetryAble(executor, times = 3, checker = () => {}) {
+  // if checker returns something, it will break retry logic and return the result of checker
+  return async (...args) => {
+    let finalErr = null;
+    for (let i = 0; i < times; i++) {
+      try {
+        return await executor(...args);
+      } catch (err) {
+        const c = checker && checker(err);
+        if (c !== undefined) return c;
+        finalErr = err;
+      }
+    }
+    throw finalErr;
+  };
+}
+
+const getFilesRecursively = async (dir) => {
+  const dirents = await fs.readdir(dir, { withFileTypes: true });
+  const files = await Promise.all(
+    dirents.map((dirent) => {
+      const res = path.resolve(dir, dirent.name);
+      return dirent.isDirectory() ? getFilesRecursively(res) : res;
+    }),
+  );
+  return _.flatten(files);
+};
+
 module.exports = {
   getPluginId,
   asyncInvoke,
   asyncInvokeFirst,
   wrappedAsyncInvoke,
+  jsonByBuff,
+  batchAsync,
+  makeRetryAble,
+  getFilesRecursively,
+  getExtPoint,
 };

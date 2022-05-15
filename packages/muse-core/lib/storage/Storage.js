@@ -1,56 +1,17 @@
 const EventEmitter = require('events');
 const _ = require('lodash');
 const plugin = require('js-plugin');
-
-async function asyncInvoke(extPoint, ...args) {
-  const noThrows = extPoint.endsWith('!');
-  extPoint = extPoint.replace(/^!.|!.$/g, '');
-  const plugins = plugin.getPlugins(extPoint);
-  const res = [];
-  for (const p of plugins) {
-    try {
-      const value = await _.invoke(p, extPoint, ...args);
-      res.push(value);
-    } catch (err) {
-      if (!noThrows) throw err;
-      res.push(err);
-    }
-  }
-  return res;
-}
-
-async function asyncInvokeFirst(extPoint, ...args) {
-  const noThrows = extPoint.endsWith('!');
-  extPoint = extPoint.replace(/^!.|!.$/g, '');
-  const p = plugin.getPlugins(extPoint)[0];
-  if (!p) return;
-  try {
-    return await _.invoke(p, extPoint, ...args);
-  } catch (err) {
-    if (!noThrows) throw err;
-  }
-  return undefined;
-}
-
-function getExtPoint(extPath, name) {
-  return extPath ? extPath + '.' + name : name;
-}
-
-async function wrappedAsyncInvoke(extPath, methodName, ...args) {
-  const cMethodName = _.capitalize(methodName);
-  const ctx = {};
-  await asyncInvoke(getExtPoint(extPath, 'before' + cMethodName), ctx, ...args);
-  try {
-    ctx.result = await asyncInvokeFirst(getExtPoint(extPath, methodName), ...args);
-  } catch (err) {
-    ctx.error = err;
-    await asyncInvoke(getExtPoint(extPath, 'faild' + cMethodName), ctx, ...args);
-    throw err;
-  }
-
-  await asyncInvoke(getExtPoint(extPath, 'after' + cMethodName), ctx, ...args);
-  return ctx.result;
-}
+const fs = require('fs-extra');
+const path = require('path');
+const {
+  batchAsync,
+  makeRetryAble,
+  asyncInvoke,
+  getExtPoint,
+  asyncInvokeFirst,
+  getFilesRecursively,
+  wrappedAsyncInvoke,
+} = require('../utils');
 
 class Storage extends EventEmitter {
   /**
@@ -81,12 +42,30 @@ class Storage extends EventEmitter {
   async list(path) {
     await wrappedAsyncInvoke(this.extPath, 'list', path);
   }
+
   async readStream(path) {
     await wrappedAsyncInvoke(this.extPath, 'getStream', path);
   }
 
   async writeStream(path, value, msg) {
     await wrappedAsyncInvoke(this.extPath, 'writeStream', path, value, msg);
+  }
+
+  // a helper method to upload a local folder to the storage
+  async uploadDir(path, dir, msg) {
+    const ctx = {};
+    await asyncInvoke(getExtPoint(this.extPath, 'beforeUploadDir'), ctx, path, dir, msg);
+    const files = await getFilesRecursively(dir);
+    ctx.files = files;
+    await batchAsync(
+      files.map((f) => async () => {
+        const buff = await fs.readFile(f);
+        await makeRetryAble(async (...args) => this.set(...args))(path + f.replace(dir, ''), buff);
+      }),
+      100,
+      `Batch upload files from ${dir}`,
+    );
+    await asyncInvoke(getExtPoint(this.extPath, 'afterUploadDir'), ctx, path, dir, msg);
   }
 }
 
