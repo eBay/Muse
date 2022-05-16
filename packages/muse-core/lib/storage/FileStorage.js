@@ -12,41 +12,50 @@ class FileStorage {
   }
 
   mapPath(p) {
-    const absPath = path.resolve(this.location, p.replace());
-    if (!p.startsWith(this.location)) {
+    const absPath = path.join(this.location, p);
+    if (!absPath.startsWith(this.location)) {
       throw new Error('Can not access path out of ' + this.location);
     }
     return absPath;
   }
 
   // value: Buffer
-  async set(path, value) {
-    const absPath = this.mapPath(path);
+  /**
+   *
+   * @param {*} keyPath
+   * @param {Buffer|String} value
+   */
+  async set(keyPath, value) {
+    const absPath = this.mapPath(keyPath);
     await fs.ensureDir(path.dirname(absPath));
     await fs.promises.writeFile(absPath, value);
   }
 
-  async get(path) {
-    const absPath = this.mapPath(path);
-    if (!fs.existsSync(absPath)) return null;
-    await fs.ensureDir(path.dirname(absPath));
+  /**
+   *
+   * @param {String} keyPath
+   * @returns Buffer
+   */
+  async get(keyPath) {
+    if (!this.exists(keyPath)) return null;
+    const absPath = this.mapPath(keyPath);
     return await fs.promises.readFile(absPath);
   }
 
-  async del(path) {
-    const absPath = this.mapPath(path);
-    if (await this.exists(path)) {
+  async del(keyPath) {
+    if (this.exists(keyPath)) {
+      const absPath = this.mapPath(keyPath);
       await fs.promises.unlink(absPath);
     }
   }
 
-  async exists(path) {
-    return fs.existsSync(this.mapPath(path));
+  exists(keyPath) {
+    return fs.existsSync(this.mapPath(keyPath));
   }
 
   // list items in a container
-  async list(path) {
-    const absPath = this.mapPath(path);
+  async list(keyPath) {
+    const absPath = this.mapPath(keyPath);
     const arr = await fs.promises.readdir(absPath);
     return await Promise.all(
       arr.map(async (name) => {
@@ -67,8 +76,8 @@ class FileStorage {
   }
 
   // number of items in a container
-  async count(path) {
-    const absPath = this.mapPath(path);
+  async count(keyPath) {
+    const absPath = this.mapPath(keyPath);
     const arr = await fs.promises.readdir(absPath);
     return arr.length;
   }

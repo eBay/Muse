@@ -11,16 +11,17 @@ registry:
 
 registryStorage:
   provider: file
-    location: ~/muse-storage/registry
+  options:
+    location: muse-storage/registry
     retries: 5
     timeout: 3000
 staticStorage:
   provider: file
   options:
-    location: ~/muse-storage/static
+    location: muse-storage/static
     maxAge:
     maxSize:
 cacheStorage:
-  provider: @ebay/muse-nukv-cache
+  provider: ebay/muse-nukv-cache
   options:
     token: $env.MUSE_NUKV_TOKEN

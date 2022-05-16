@@ -4,7 +4,7 @@ const _ = require('lodash');
 const fs = require('fs-extra');
 const jsYaml = require('js-yaml');
 
-let config;
+let config = {};
 
 // Find muse config file by locations:
 //   1. cwd

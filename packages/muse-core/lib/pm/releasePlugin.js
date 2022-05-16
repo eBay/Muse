@@ -4,11 +4,9 @@
 // other:
 // ...
 const fs = require('fs-extra');
-const globby = require('globby');
-const plugin = require('plugin');
 const yaml = require('js-yaml');
 const { asyncInvoke, jsonByBuff, getPluginId } = require('../utils');
-const { registry, static } = require('../storage');
+const { registry } = require('../storage');
 
 module.exports = async (params) => {
   const ctx = {};

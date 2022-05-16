@@ -3,7 +3,7 @@ const path = require('path');
 const os = require('os');
 const plugin = require('js-plugin');
 
-const config = require('./config');
+const config = require('../config');
 const Storage = require('./Storage');
 const FileStorage = require('./FileStorage');
 

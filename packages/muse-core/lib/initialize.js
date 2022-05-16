@@ -7,7 +7,7 @@ const _ = require('lodash');
 const plugin = require('js-plugin');
 const config = require('./config');
 
-config.plugins.forEach((pluginDef) => {
+config.plugins?.forEach((pluginDef) => {
   let pluginInstance = null;
   let pluginOptions = null;
   if (_.isString(pluginDef)) {
