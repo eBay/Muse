@@ -8,7 +8,6 @@ const {
   makeRetryAble,
   asyncInvoke,
   getExtPoint,
-  asyncInvokeFirst,
   getFilesRecursively,
   wrappedAsyncInvoke,
 } = require('../utils');
@@ -25,7 +24,7 @@ class Storage extends EventEmitter {
     plugin.invoke(getExtPoint(this.extPath, 'init'), this);
   }
   async get(path) {
-    await wrappedAsyncInvoke(this.extPath, 'get', path);
+    return await wrappedAsyncInvoke(this.extPath, 'get', path);
   }
   async set(path, value, msg) {
     await wrappedAsyncInvoke(this.extPath, 'set', path, value, msg);

@@ -46,7 +46,7 @@ async function wrappedAsyncInvoke(extPath, methodName, ...args) {
     ctx.result = await asyncInvokeFirst(getExtPoint(extPath, methodName), ...args);
   } catch (err) {
     ctx.error = err;
-    await asyncInvoke(getExtPoint(extPath, 'faild' + cMethodName), ctx, ...args);
+    await asyncInvoke(getExtPoint(extPath, 'failed' + cMethodName), ctx, ...args);
     throw err;
   }
 

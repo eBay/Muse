@@ -653,6 +653,14 @@
   dependencies:
     "@types/istanbul-lib-report" "*"
 
+"@types/jest@^27.5.1":
+  version "27.5.1"
+  resolved "https://npm.corp.ebay.com/@types/jest/-/jest-27.5.1.tgz#2c8b6dc6ff85c33bcd07d0b62cb3d19ddfdb3ab9"
+  integrity sha1-LIttxv+FwzvNB9C2LLPRnd/bOrk=
+  dependencies:
+    jest-matcher-utils "^27.0.0"
+    pretty-format "^27.0.0"
+
 "@types/json-schema@^7.0.9":
   version "7.0.11"
   resolved "https://npm.corp.ebay.com/@types/json-schema/-/json-schema-7.0.11.tgz#d421b6c527a3037f7c84433fd2c4229e016863d3"
@@ -1052,6 +1060,11 @@ detect-newline@^3.0.0:
   version "3.1.0"
   resolved "https://npm.corp.ebay.com/detect-newline/-/detect-newline-3.1.0.tgz#576f5dfc63ae1a192ff192d8ad3af6308991b651"
   integrity sha1-V29d/GOuGhkv8ZLYrTr2MImRtlE=
+
+diff-sequences@^27.5.1:
+  version "27.5.1"
+  resolved "https://npm.corp.ebay.com/diff-sequences/-/diff-sequences-27.5.1.tgz#eaecc0d327fd68c8d9672a1e64ab8dccb2ef5327"
+  integrity sha1-6uzA0yf9aMjZZyoeZKuNzLLvUyc=
 
 diff-sequences@^28.0.2:
   version "28.0.2"
@@ -1712,6 +1725,16 @@ jest-config@^28.1.0:
     slash "^3.0.0"
     strip-json-comments "^3.1.1"
 
+jest-diff@^27.5.1:
+  version "27.5.1"
+  resolved "https://npm.corp.ebay.com/jest-diff/-/jest-diff-27.5.1.tgz#a07f5011ac9e6643cf8a95a462b7b1ecf6680def"
+  integrity sha1-oH9QEayeZkPPipWkYrex7PZoDe8=
+  dependencies:
+    chalk "^4.0.0"
+    diff-sequences "^27.5.1"
+    jest-get-type "^27.5.1"
+    pretty-format "^27.5.1"
+
 jest-diff@^28.1.0:
   version "28.1.0"
   resolved "https://npm.corp.ebay.com/jest-diff/-/jest-diff-28.1.0.tgz#77686fef899ec1873dbfbf9330e37dd429703269"
@@ -1752,6 +1775,11 @@ jest-environment-node@^28.1.0:
     jest-mock "^28.1.0"
     jest-util "^28.1.0"
 
+jest-get-type@^27.5.1:
+  version "27.5.1"
+  resolved "https://npm.corp.ebay.com/jest-get-type/-/jest-get-type-27.5.1.tgz#3cd613c507b0f7ace013df407a1c1cd578bcb4f1"
+  integrity sha1-PNYTxQew96zgE99Aehwc1Xi8tPE=
+
 jest-get-type@^28.0.2:
   version "28.0.2"
   resolved "https://npm.corp.ebay.com/jest-get-type/-/jest-get-type-28.0.2.tgz#34622e628e4fdcd793d46db8a242227901fcf203"
@@ -1783,6 +1811,16 @@ jest-leak-detector@^28.1.0:
   dependencies:
     jest-get-type "^28.0.2"
     pretty-format "^28.1.0"
+
+jest-matcher-utils@^27.0.0:
+  version "27.5.1"
+  resolved "https://npm.corp.ebay.com/jest-matcher-utils/-/jest-matcher-utils-27.5.1.tgz#9c0cdbda8245bc22d2331729d1091308b40cf8ab"
+  integrity sha1-nAzb2oJFvCLSMxcp0QkTCLQM+Ks=
+  dependencies:
+    chalk "^4.0.0"
+    jest-diff "^27.5.1"
+    jest-get-type "^27.5.1"
+    pretty-format "^27.5.1"
 
 jest-matcher-utils@^28.1.0:
   version "28.1.0"
@@ -2293,6 +2331,15 @@ prelude-ls@^1.2.1:
   resolved "https://registry.yarnpkg.com/prelude-ls/-/prelude-ls-1.2.1.tgz#debc6489d7a6e6b0e7611888cec880337d316396"
   integrity sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==
 
+pretty-format@^27.0.0, pretty-format@^27.5.1:
+  version "27.5.1"
+  resolved "https://npm.corp.ebay.com/pretty-format/-/pretty-format-27.5.1.tgz#2181879fdea51a7a5851fb39d920faa63f01d88e"
+  integrity sha1-IYGHn96lGnpYUfs52SD6pj8B2I4=
+  dependencies:
+    ansi-regex "^5.0.1"
+    ansi-styles "^5.0.0"
+    react-is "^17.0.1"
+
 pretty-format@^28.1.0:
   version "28.1.0"
   resolved "https://npm.corp.ebay.com/pretty-format/-/pretty-format-28.1.0.tgz#8f5836c6a0dfdb834730577ec18029052191af55"
@@ -2320,6 +2367,11 @@ queue-microtask@^1.2.2:
   version "1.2.3"
   resolved "https://npm.corp.ebay.com/queue-microtask/-/queue-microtask-1.2.3.tgz#4929228bbc724dfac43e0efb058caf7b6cfb6243"
   integrity sha1-SSkii7xyTfrEPg77BYyve2z7YkM=
+
+react-is@^17.0.1:
+  version "17.0.2"
+  resolved "https://npm.corp.ebay.com/react-is/-/react-is-17.0.2.tgz#e691d4a8e9c789365655539ab372762b0efb54f0"
+  integrity sha1-5pHUqOnHiTZWVVOas3J2Kw77VPA=
 
 react-is@^18.0.0:
   version "18.1.0"
