@@ -1,10 +1,11 @@
 // Release a plugin:
 // core feature:
-//   upload the plugin bundle to cdn
+//   Create a release item in <registry-storage>/plugins/releases/<plugin-name>.yaml
 // other:
 // ...
 const fs = require('fs-extra');
 const yaml = require('js-yaml');
+const path = require('path');
 const { asyncInvoke, jsonByBuff, getPluginId } = require('../utils');
 const { registry } = require('../storage');
 
@@ -16,8 +17,8 @@ module.exports = async (params) => {
   const pid = getPluginId(pluginName);
   const releasesKeyPath = `/plugins/releases/${pid}.yaml`;
   // Get existing releases
-  const releases = jsonByBuff(await registry.get(releasesKeyPath)) || [];
-  if (releases.find((r) => r.version === version)) {
+  const releasesObj = jsonByBuff(await registry.get(releasesKeyPath)) || { releases: [] };
+  if (releasesObj.releases.find((r) => r.version === version)) {
     throw new Error(`Plugin ${pluginName} version ${version} already exists.`);
   }
 
@@ -35,17 +36,17 @@ module.exports = async (params) => {
 
   await asyncInvoke('museCore.pm.releasePlugin', ctx, params);
 
-  releases.unshift(ctx.release);
-  if (releases.length > 50) {
+  releasesObj.releases.unshift(ctx.release);
+  if (releasesObj.releases.length > 50) {
     // TODO: archive old releases?
     // Keep up to 50 releases
-    releases.length = 50;
+    releasesObj.releases.length = 50;
   }
 
   // Save releases to registry
   await registry.set(
     releasesKeyPath,
-    Buffer.from(yaml.dump(releases)),
+    Buffer.from(yaml.dump(releasesObj)),
     `Create release ${pluginName}@${version} by ${author}`,
   );
   await asyncInvoke('museCore.pm.afterReleasePlugin', ctx, params);
