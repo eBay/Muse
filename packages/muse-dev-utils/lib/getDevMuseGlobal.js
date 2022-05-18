@@ -1,6 +1,6 @@
 const { pkgJson, museConfig } = require('./museContext');
 const { getLocalPlugins, getMuseLibs, getPluginId } = require('./utils');
-const muse = require('muse-utils');
+const muse = require('muse-core');
 
 module.exports = async () => {
   const { app: appName, env: envName = 'staging' } = museConfig.devConfig;
