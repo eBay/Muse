@@ -32,7 +32,7 @@ module.exports = ({ webpackConfig }) => {
   // This is for development (both dev build and local dev)
   // For dev time, also needs stylebase
   const { hasFoundAny, matches } = getLoaders(webpackConfig, loaderByName('style-loader'));
-  console.log(hasFoundAny, matches);
+
   if (hasFoundAny) {
     matches.forEach((match) => {
       if (typeof match.loader === 'string') {
