@@ -2028,10 +2028,10 @@ jest@^28.1.0:
     import-local "^3.0.2"
     jest-cli "^28.1.0"
 
-js-plugin@^1.0.9:
-  version "1.0.9"
-  resolved "https://registry.yarnpkg.com/js-plugin/-/js-plugin-1.0.9.tgz#499f4e961b9231dbdbca6051070d03bd5bb15288"
-  integrity sha512-iUAmXThvnuGN+wC+abaHnhsXAocNZjZF/iXI/SE9pxDT38v7m4EFosPHQs/SKN3QtCzmtTQ0XCWI4Xp2G7zYzg==
+js-plugin@^1.1.0:
+  version "1.1.0"
+  resolved "https://npm.corp.ebay.com/js-plugin/-/js-plugin-1.1.0.tgz#de6a584c8b668227d812bb6158a18e85887e83db"
+  integrity sha1-3mpYTItmgifYErthWKGOhYh+g9s=
 
 js-tokens@^4.0.0:
   version "4.0.0"

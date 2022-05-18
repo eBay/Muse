@@ -5,5 +5,4 @@ module.exports = {
   pm: require('./pm'),
   config: require('./config'),
   storage: require('./storage'),
-  // init: require('./init'),
 };

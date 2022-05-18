@@ -8,6 +8,7 @@ const Storage = require('./Storage');
 const FileStorage = require('./FileStorage');
 
 // By default, use the file storage
+
 if (config?.registry?.storage?.type === 'file') {
   const options = Object.assign(
     {

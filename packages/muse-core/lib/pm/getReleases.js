@@ -3,20 +3,20 @@ const { registry } = require('../storage');
 
 module.exports = async (pluginName) => {
   const ctx = {};
-  await asyncInvoke('museCore.pm.beforeGetPlugin', ctx, pluginName);
+  await asyncInvoke('museCore.pm.beforeGetReleases', ctx, pluginName);
 
   // TODO: upload resources to static storage
 
-  await asyncInvoke('museCore.pm.getPlugin', ctx, pluginName);
+  await asyncInvoke('museCore.pm.getReleases', ctx, pluginName);
   const pid = getPluginId(pluginName);
-  const keyPath = `/plugins/${pid}.yaml`;
+  const keyPath = `/plugins/releases/${pid}.yaml`;
 
   try {
     ctx.result = jsonByBuff(await registry.get(keyPath));
   } catch (err) {
-    await asyncInvoke('museCore.pm.failedGetPlugin', ctx, pluginName);
+    await asyncInvoke('museCore.pm.failedGetReleases', ctx, pluginName);
     throw err;
   }
-  await asyncInvoke('museCore.pm.afterGetPlugin', ctx, pluginName);
+  await asyncInvoke('museCore.pm.afterGetReleases', ctx, pluginName);
   return ctx.result;
 };
