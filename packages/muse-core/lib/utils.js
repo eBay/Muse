@@ -76,7 +76,7 @@ async function batchAsync(tasks, size = 100, msg = 'Batch async') {
   }
   return res;
 }
-async function makeRetryAble(executor, times = 3, checker = () => {}) {
+function makeRetryAble(executor, times = 3, checker = () => {}) {
   // if checker returns something, it will break retry logic and return the result of checker
   return async (...args) => {
     let finalErr = null;

@@ -3,6 +3,7 @@ const _ = require('lodash');
 const plugin = require('js-plugin');
 const fs = require('fs-extra');
 const path = require('path');
+const config = require('../config');
 const {
   batchAsync,
   makeRetryAble,
@@ -51,20 +52,20 @@ class Storage extends EventEmitter {
   }
 
   // a helper method to upload a local folder to the storage
-  async uploadDir(path, dir, msg) {
+  async uploadDir(fromDir, toPath, msg) {
     const ctx = {};
-    await asyncInvoke(getExtPoint(this.extPath, 'beforeUploadDir'), ctx, path, dir, msg);
-    const files = await getFilesRecursively(dir);
+    await asyncInvoke(getExtPoint(this.extPath, 'beforeUploadDir'), ctx, fromDir, toPath, msg);
+    const files = await getFilesRecursively(fromDir);
     ctx.files = files;
     await batchAsync(
       files.map((f) => async () => {
         const buff = await fs.readFile(f);
-        await makeRetryAble(async (...args) => this.set(...args))(path + f.replace(dir, ''), buff);
+        await makeRetryAble(async (...args) => this.set(...args))(toPath + f.replace(fromDir, ''), buff);
       }),
-      100,
-      `Batch upload files from ${dir}`,
+      100, // TODO: make it configurable
+      `Batch upload files from ${fromDir}`,
     );
-    await asyncInvoke(getExtPoint(this.extPath, 'afterUploadDir'), ctx, path, dir, msg);
+    await asyncInvoke(getExtPoint(this.extPath, 'afterUploadDir'), ctx, toPath, fromDir, msg);
   }
 }
 

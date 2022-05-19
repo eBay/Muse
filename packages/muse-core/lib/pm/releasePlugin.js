@@ -15,7 +15,7 @@ module.exports = async (params) => {
   await asyncInvoke('museCore.pm.beforeReleasePlugin', ctx, params);
   await registerRelease(params);
 
-  await assets.uploadDir(`/p/${pid}/${version}`, buildDir, `Release plugin ${pluginName}@${version} by ${author}.`);
+  await assets.uploadDir(buildDir, `/p/${pid}/v${version}`, `Release plugin ${pluginName}@${version} by ${author}.`);
 
   await asyncInvoke('museCore.pm.releasePlugin', ctx, params);
 

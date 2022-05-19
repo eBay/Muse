@@ -5,4 +5,5 @@ module.exports = {
   pm: require('./pm'),
   config: require('./config'),
   storage: require('./storage'),
+  utils: require('./utils'),
 };

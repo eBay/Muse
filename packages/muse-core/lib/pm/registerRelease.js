@@ -30,8 +30,6 @@ module.exports = async (params) => {
     info: (await fs.readJson(path.join(buildDir, 'info.json'), { throws: false })) || {},
   };
 
-  // TODO: upload resources to static storage
-
   await asyncInvoke('museCore.pm.registerRelease', ctx, params);
 
   releasesObj.releases.unshift(ctx.release);

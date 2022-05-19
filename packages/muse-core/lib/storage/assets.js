@@ -1,4 +1,4 @@
-// registry storage
+// plugin assets storage
 const path = require('path');
 const os = require('os');
 const plugin = require('js-plugin');
@@ -8,24 +8,24 @@ const FileStorage = require('./FileStorage');
 
 // By default, use the file storage
 
-if (config?.registry?.storage?.type === 'file') {
+if (config?.assets?.storage?.type === 'file') {
   const options = Object.assign(
     {
-      location: path.join(os.homedir(), 'muse-storage/registry'),
+      location: path.join(os.homedir(), 'muse-storage/assets'),
     },
-    config?.registry?.storage?.options,
+    config?.assets?.storage?.options,
   );
   plugin.register({
-    name: 'default-registry-file-storage',
+    name: 'default-assets-file-storage',
     museCore: {
-      registry: {
+      assets: {
         storage: new FileStorage(options),
       },
     },
   });
 }
-const registryStorage = new Storage({
-  extPath: 'museCore.registry.storage',
+const assets = new Storage({
+  extPath: 'museCore.assets.storage',
 });
 
-module.exports = registryStorage;
+module.exports = assets;
