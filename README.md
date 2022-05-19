@@ -25,8 +25,8 @@ First, run `yarn` to install dependencies under folders of `examples` and `packa
 4. Execute `yarn link` under library plugins in `examples/muse-react` and `examples/muse-antd`.
 
 5. Link library plugins for dependent plugins:
-- under `examples/muse-antd`: `yarn link muse-react`
-- under `examples/muse-layout`: `yarn link muse-react` and `yarn link muse-antd`.
+- under `examples/muse-antd`: `yarn link @ebay/muse-react`
+- under `examples/muse-layout`: `yarn link @ebay/muse-react` and `yarn link @ebay/muse-antd`.
 
 Then you are able to run below commands under examples projects:
 - `NODE_PATH=./node_modules yarn start`
