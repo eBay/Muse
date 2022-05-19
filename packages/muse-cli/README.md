@@ -1,2 +1,2 @@
 # muse-cli
-Global muse command.
+Muse commands to be run under a Muse plugin project.
