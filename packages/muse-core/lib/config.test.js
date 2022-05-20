@@ -23,7 +23,7 @@ describe('FileStorage basic tests.', () => {
         registry: { storage: { type: 'some-type', location: testRegistryDir } },
       }),
     );
-    const muse = require('../lib');
+    const muse = require('./');
     expect(muse.config?.registry?.storage?.type).toBe('some-type');
   });
 
@@ -36,7 +36,7 @@ describe('FileStorage basic tests.', () => {
         registry: { storage: { type: 'some-type2', location: testRegistryDir } },
       }),
     );
-    const muse = require('../lib');
+    const muse = require('./');
     expect(muse.config?.registry?.storage?.type).toBe('some-type2');
   });
 });

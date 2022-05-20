@@ -5,13 +5,17 @@ const plugin = require('js-plugin');
 const config = require('../config');
 const Storage = require('./Storage');
 const FileStorage = require('./FileStorage');
+const { defaultAssetStorage } = require('../utils');
 
 // By default, use the file storage
 
-if (config?.assets?.storage?.type === 'file') {
+if (
+  // config?.assets?.storage?.type === 'file' ||
+  plugin.getPlugins('museCore.assets.storage.get').filter(Boolean).length === 0
+) {
   const options = Object.assign(
     {
-      location: path.join(os.homedir(), 'muse-storage/assets'),
+      location: defaultAssetStorage,
     },
     config?.assets?.storage?.options,
   );
@@ -24,6 +28,7 @@ if (config?.assets?.storage?.type === 'file') {
     },
   });
 }
+
 const assets = new Storage({
   extPath: 'museCore.assets.storage',
 });

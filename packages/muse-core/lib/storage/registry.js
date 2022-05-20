@@ -5,13 +5,14 @@ const plugin = require('js-plugin');
 const config = require('../config');
 const Storage = require('./Storage');
 const FileStorage = require('./FileStorage');
+const { defaultRegistryStorage } = require('../utils');
 
 // By default, use the file storage
 
-if (config?.registry?.storage?.type === 'file') {
+if (plugin.getPlugins('museCore.registry.storage.get').filter(Boolean).length === 0) {
   const options = Object.assign(
     {
-      location: path.join(os.homedir(), 'muse-storage/registry'),
+      location: defaultRegistryStorage,
     },
     config?.registry?.storage?.options,
   );

@@ -1,5 +1,1 @@
 
-registry:
-  storage:
-    type: file
-    location: /Users/pwang7/muse/muse-next/packages/muse-core/tests/pm/_muse_test_dir

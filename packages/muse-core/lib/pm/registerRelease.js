@@ -4,7 +4,7 @@
 const fs = require('fs-extra');
 const yaml = require('js-yaml');
 const path = require('path');
-const { asyncInvoke, jsonByBuff, getPluginId } = require('../utils');
+const { asyncInvoke, jsonByYamlBuff, getPluginId } = require('../utils');
 const { registry } = require('../storage');
 
 module.exports = async (params) => {
@@ -15,7 +15,7 @@ module.exports = async (params) => {
   const pid = getPluginId(pluginName);
   const releasesKeyPath = `/plugins/releases/${pid}.yaml`;
   // Get existing releases
-  const releasesObj = jsonByBuff(await registry.get(releasesKeyPath)) || { releases: [] };
+  const releasesObj = jsonByYamlBuff(await registry.get(releasesKeyPath)) || { releases: [] };
   if (releasesObj.releases.find((r) => r.version === version)) {
     throw new Error(`Plugin ${pluginName} version ${version} already exists.`);
   }

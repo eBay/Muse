@@ -55,6 +55,7 @@ class FileStorage {
 
   // list items in a container
   async list(keyPath) {
+    if (!(await this.exists(keyPath))) return [];
     const absPath = this.mapPath(keyPath);
     const arr = await fs.promises.readdir(absPath);
     return await Promise.all(

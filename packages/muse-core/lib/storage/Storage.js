@@ -1,9 +1,6 @@
 const EventEmitter = require('events');
-const _ = require('lodash');
 const plugin = require('js-plugin');
 const fs = require('fs-extra');
-const path = require('path');
-const config = require('../config');
 const {
   batchAsync,
   makeRetryAble,
@@ -34,21 +31,37 @@ class Storage extends EventEmitter {
     await wrappedAsyncInvoke(this.extPath, 'del', path, msg);
   }
   async count(path) {
-    await wrappedAsyncInvoke(this.extPath, 'count', path);
+    return await wrappedAsyncInvoke(this.extPath, 'count', path);
   }
   async exists(path) {
-    await wrappedAsyncInvoke(this.extPath, 'exists', path);
+    return await wrappedAsyncInvoke(this.extPath, 'exists', path);
   }
   async list(path) {
-    await wrappedAsyncInvoke(this.extPath, 'list', path);
+    return await wrappedAsyncInvoke(this.extPath, 'list', path);
   }
 
   async readStream(path) {
-    await wrappedAsyncInvoke(this.extPath, 'getStream', path);
+    return await wrappedAsyncInvoke(this.extPath, 'getStream', path);
   }
 
   async writeStream(path, value, msg) {
     await wrappedAsyncInvoke(this.extPath, 'writeStream', path, value, msg);
+  }
+
+  async listWithContent(keyPath) {
+    const ctx = {};
+    await asyncInvoke(getExtPoint(this.extPath, 'beforeListWithContent'), ctx);
+    ctx.items = await this.list(keyPath);
+    await batchAsync(
+      ctx.items
+        .filter((item) => item.type === 'file')
+        .map((item) => async () => {
+          item.content = await makeRetryAble(async (...args) => this.get(...args))(keyPath + '/' + item.name);
+        }),
+      100, // TODO: make it configurable
+    );
+    await asyncInvoke(getExtPoint(this.extPath, 'afterListWithContent'), ctx);
+    return ctx.items;
   }
 
   // a helper method to upload a local folder to the storage

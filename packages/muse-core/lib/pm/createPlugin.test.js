@@ -1,0 +1,32 @@
+const { vol } = require('memfs');
+const { jsonByYamlBuff, getPluginId } = require('../utils');
+const { registry } = require('../storage');
+const muse = require('../');
+
+jest.mock('fs');
+jest.mock('fs/promises');
+
+describe('Create plugin basic tests.', () => {
+  beforeEach(() => {
+    vol.reset();
+  });
+
+  it('Create plugin should create the correct yaml file', async () => {
+    const pluginName = 'test-plugin';
+    await muse.pm.createPlugin({ pluginName, author: 'nate' });
+    const result = jsonByYamlBuff(await registry.get(`/plugins/${getPluginId(pluginName)}.yaml`));
+    expect(result).toMatchObject({ name: pluginName, createdBy: 'nate', owners: ['nate'] });
+  });
+
+  it('It throws exception if plugin name exists.', async () => {
+    const pluginName = 'test-plugin';
+    await muse.pm.createPlugin({ pluginName, author: 'nate' });
+
+    try {
+      await muse.pm.createPlugin({ pluginName, author: 'nate' });
+      expect(true).toBe(false); // above statement should throw error
+    } catch (err) {
+      expect(err?.message).toMatch('already exists');
+    }
+  });
+});

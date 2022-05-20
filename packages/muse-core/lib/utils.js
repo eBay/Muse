@@ -1,3 +1,4 @@
+const os = require('os');
 const path = require('path');
 const fs = require('fs-extra');
 const _ = require('lodash');
@@ -55,11 +56,15 @@ async function wrappedAsyncInvoke(extPath, methodName, ...args) {
 }
 
 function getPluginId(name) {
-  if (!name.startsWith('@')) return name;
-  return name.replace('/', '.');
+  if (name.startsWith('@')) return name.replace('/', '.');
+  return name;
 }
 
-function jsonByBuff(b) {
+function getPluginName(pluginId) {
+  if (pluginId.startsWith('@')) return pluginId.replace('.', '/');
+  return pluginId;
+}
+function jsonByYamlBuff(b) {
   if (!b) return null;
   return jsYaml.load(Buffer.from(b).toString('utf8'));
 }
@@ -70,6 +75,7 @@ async function batchAsync(tasks, size = 100, msg = 'Batch async') {
 
   for (let i = 0; i < chunks.length; i++) {
     const chunk = chunks[i];
+    console.log(chunk);
     console.log(`${msg}: ${i * size + 1}~${Math.min(i * size + size, tasks.length)} of ${tasks.length}`);
     const arr = await Promise.all(chunk.map((c) => c()));
     res.push(...arr);
@@ -106,12 +112,15 @@ const getFilesRecursively = async (dir) => {
 
 module.exports = {
   getPluginId,
+  getPluginName,
   asyncInvoke,
   asyncInvokeFirst,
   wrappedAsyncInvoke,
-  jsonByBuff,
+  jsonByYamlBuff,
   batchAsync,
   makeRetryAble,
   getFilesRecursively,
   getExtPoint,
+  defaultAssetStorage: path.join(os.homedir(), 'muse-storage/assets'),
+  defaultRegistryStorage: path.join(os.homedir(), 'muse-storage/registry'),
 };

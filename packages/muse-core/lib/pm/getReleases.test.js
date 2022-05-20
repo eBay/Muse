@@ -1,6 +1,6 @@
 const path = require('path');
 const { vol } = require('memfs');
-const muse = require('../../lib');
+const muse = require('../');
 
 jest.mock('fs');
 jest.mock('fs/promises');

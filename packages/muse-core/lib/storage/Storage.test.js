@@ -2,7 +2,7 @@ const path = require('path');
 const _ = require('lodash');
 const { vol } = require('memfs');
 const plugin = require('js-plugin');
-const muse = require('../../lib');
+const { defaultAssetStorage } = require('../utils');
 
 jest.mock('fs');
 jest.mock('fs/promises');
@@ -44,15 +44,41 @@ const storageTestPlugin = {
 
     list: jest.fn(async (pathKey) => {
       if (pathKey === 'error') throw new Error('Failed to list.');
-      return Buffer.from('foo');
+      return [
+        {
+          name: 'test1',
+          path: 'p',
+          type: 'file',
+          size: 1,
+          atime: 0,
+          mtime: 0,
+          birthtime: 0,
+          sha: null,
+        },
+        {
+          name: 'test2',
+          path: 'p',
+          type: 'file',
+          size: 1,
+          atime: 0,
+          mtime: 0,
+          birthtime: 0,
+          sha: null,
+        },
+      ];
     }),
     beforeList: jest.fn(),
     afterList: jest.fn(),
     failedList: jest.fn(),
+
+    beforeListWithContent: jest.fn(),
+    afterListWithContent: jest.fn(),
   },
 };
 
 plugin.register(storageTestPlugin);
+
+const muse = require('../');
 
 describe('Storage basic tests.', () => {
   beforeAll(() => {});
@@ -141,5 +167,14 @@ describe('Storage basic tests.', () => {
     expect(storageTestPlugin.test.failedList).toBeCalledTimes(1);
     expect(storageTestPlugin.test.failedList.mock.lastCall?.[0]?.error?.message).toBe('Failed to list.');
     expect(storageTestPlugin.test.failedList.mock.lastCall?.[1]).toBe('error');
+  });
+
+  it('Test list with content', async () => {
+    const storage = new muse.storage.Storage({ extPath: 'test' });
+    const items = await storage.listWithContent('/somedir');
+    expect(items.length).toBe(2);
+    expect(items[0].content.toString()).toBe('foo');
+    expect(storageTestPlugin.test.beforeListWithContent).toBeCalledTimes(1);
+    expect(storageTestPlugin.test.afterListWithContent).toBeCalledTimes(1);
   });
 });

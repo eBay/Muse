@@ -2,13 +2,10 @@ const path = require('path');
 const { vol } = require('memfs');
 const fs = require('fs-extra');
 const plugin = require('js-plugin');
-const yaml = require('js-yaml');
+const { defaultAssetStorage } = require('../utils');
 
 jest.mock('fs');
 jest.mock('fs/promises');
-
-const testRegistryDir = path.join(__dirname, '/_muse_test_dir/muse-storage/registry');
-const testAssetsDir = path.join(__dirname, '/_muse_test_dir/muse-storage/assets');
 
 const testReleasePlugin = {
   name: 'test',
@@ -39,20 +36,13 @@ describe('release plugin basic tests.', () => {
   beforeEach(() => {
     vol.reset();
     vol.fromJSON(fsJson, process.cwd());
-    fs.ensureDirSync(process.cwd());
-    fs.writeFileSync(
-      path.join(process.cwd(), 'muse.config.yaml'),
-      yaml.dump({
-        registry: { storage: { type: 'file', options: { location: testRegistryDir } } },
-        assets: { storage: { type: 'file', options: { location: testAssetsDir } } },
-      }),
-    );
   });
 
   it('releasePlugin basic tests', async () => {
-    const muse = require('../../lib');
+    const muse = require('../');
     const pluginName = 'test-plugin';
     const version = '1.0.1';
+    await muse.pm.createPlugin({ pluginName });
     await muse.pm.releasePlugin({
       pluginName,
       version,
@@ -64,6 +54,10 @@ describe('release plugin basic tests.', () => {
     expect(releases.releases[0]).toMatchObject({ version: '1.0.1', author: 'nate', info: { size: 100 } });
 
     const pid = muse.utils.getPluginId(pluginName);
-    expect(fs.readFileSync(path.join(testAssetsDir, `/p/${pid}/v${version}/file99.js`)).toString()).toBe('99');
+    expect(fs.readFileSync(path.join(defaultAssetStorage, `/p/${pid}/v${version}/file99.js`)).toString()).toBe('99');
+
+    expect(testReleasePlugin.museCore.pm.beforeReleasePlugin).toBeCalledTimes(1);
+    expect(testReleasePlugin.museCore.pm.releasePlugin).toBeCalledTimes(1);
+    expect(testReleasePlugin.museCore.pm.afterReleasePlugin).toBeCalledTimes(1);
   });
 });

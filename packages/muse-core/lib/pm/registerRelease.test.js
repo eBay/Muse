@@ -38,7 +38,7 @@ describe('release plugin basic tests.', () => {
   });
 
   it('releasePlugin basic tests', async () => {
-    const muse = require('../../lib');
+    const muse = require('../');
 
     fs.ensureDirSync(path.join(process.cwd(), 'build'));
     fs.writeFileSync(path.join(process.cwd(), 'build/info.json'), JSON.stringify({ size: 100 }));
