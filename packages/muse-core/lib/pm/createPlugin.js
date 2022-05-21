@@ -26,7 +26,12 @@ module.exports = async (params) => {
     ...options,
   };
 
-  await asyncInvoke('museCore.pm.createPlugin', ctx, params);
-  await registry.set(pluginKeyPath, Buffer.from(yaml.dump(ctx.plugin)), `Create plugin ${pluginName} by ${author}`);
+  try {
+    await asyncInvoke('museCore.pm.createPlugin', ctx, params);
+    await registry.set(pluginKeyPath, Buffer.from(yaml.dump(ctx.plugin)), `Create plugin ${pluginName} by ${author}`);
+  } catch (err) {
+    ctx.error = err;
+    await asyncInvoke('museCore.pm.failedCreatePlugin', ctx, params);
+  }
   await asyncInvoke('museCore.pm.afterCreatePlugin', ctx, params);
 };

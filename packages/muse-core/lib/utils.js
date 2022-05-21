@@ -75,7 +75,6 @@ async function batchAsync(tasks, size = 100, msg = 'Batch async') {
 
   for (let i = 0; i < chunks.length; i++) {
     const chunk = chunks[i];
-    console.log(chunk);
     console.log(`${msg}: ${i * size + 1}~${Math.min(i * size + size, tasks.length)} of ${tasks.length}`);
     const arr = await Promise.all(chunk.map((c) => c()));
     res.push(...arr);
@@ -110,6 +109,33 @@ const getFilesRecursively = async (dir) => {
   return _.flatten(files);
 };
 
+const updateJson = (obj, delta) => {
+  // set: [{ path, value }, ...]
+  // unset: [path1, path2, ...]
+  // push: [{ path, value }] // for array
+  // remove: [{ path, predicate, value }, ...]
+  const { set = [], unset = [], remove = [], push = [] } = delta;
+  set.forEach((item) => {
+    _.set(obj, item.path, item.value);
+  });
+
+  unset.forEach((p) => {
+    _.unset(obj, p);
+  });
+
+  push.forEach((item) => {
+    if (!_.get(obj, item.path)) _.set(obj, item.path, []);
+    _.get(obj, item.path).push(item.value);
+  });
+
+  remove.forEach((item) => {
+    const arr = _.get(obj, item.path);
+    if (!arr) return;
+    if (item.value) _.pull(arr, item.value);
+    if (item.predicate) _.remove(arr, item.predicate);
+  });
+};
+
 module.exports = {
   getPluginId,
   getPluginName,
@@ -121,6 +147,7 @@ module.exports = {
   makeRetryAble,
   getFilesRecursively,
   getExtPoint,
+  updateJson,
   defaultAssetStorage: path.join(os.homedir(), 'muse-storage/assets'),
   defaultRegistryStorage: path.join(os.homedir(), 'muse-storage/registry'),
 };

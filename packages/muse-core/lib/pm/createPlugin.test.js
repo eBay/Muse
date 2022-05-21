@@ -1,10 +1,23 @@
 const { vol } = require('memfs');
+const plugin = require('js-plugin');
 const { jsonByYamlBuff, getPluginId } = require('../utils');
 const { registry } = require('../storage');
 const muse = require('../');
 
 jest.mock('fs');
 jest.mock('fs/promises');
+
+const testJsPlugin = {
+  name: 'test',
+  museCore: {
+    pm: {
+      createPlugin: jest.fn(),
+      beforeCreatePlugin: jest.fn(),
+      afterCreatePlugin: jest.fn(),
+    },
+  },
+};
+plugin.register(testJsPlugin);
 
 describe('Create plugin basic tests.', () => {
   beforeEach(() => {
@@ -16,6 +29,10 @@ describe('Create plugin basic tests.', () => {
     await muse.pm.createPlugin({ pluginName, author: 'nate' });
     const result = jsonByYamlBuff(await registry.get(`/plugins/${getPluginId(pluginName)}.yaml`));
     expect(result).toMatchObject({ name: pluginName, createdBy: 'nate', owners: ['nate'] });
+
+    expect(testJsPlugin.museCore.pm.createPlugin).toBeCalledTimes(1);
+    expect(testJsPlugin.museCore.pm.beforeCreatePlugin).toBeCalledTimes(1);
+    expect(testJsPlugin.museCore.pm.afterCreatePlugin).toBeCalledTimes(1);
   });
 
   it('It throws exception if plugin name exists.', async () => {
