@@ -1,8 +1,5 @@
-const path = require('path');
-const _ = require('lodash');
 const { vol } = require('memfs');
 const plugin = require('js-plugin');
-const { defaultAssetStorage } = require('../utils');
 
 jest.mock('fs');
 jest.mock('fs/promises');
