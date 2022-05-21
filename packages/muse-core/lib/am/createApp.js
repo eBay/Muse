@@ -30,6 +30,7 @@ module.exports = async (params = {}) => {
   } catch (err) {
     ctx.error = err;
     await asyncInvoke('museCore.am.failedCreateApp', ctx, params);
+    throw err;
   }
   await asyncInvoke('museCore.am.afterCreateApp', ctx, params);
 };

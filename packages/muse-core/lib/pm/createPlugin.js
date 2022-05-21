@@ -32,6 +32,7 @@ module.exports = async (params) => {
   } catch (err) {
     ctx.error = err;
     await asyncInvoke('museCore.pm.failedCreatePlugin', ctx, params);
+    throw err;
   }
   await asyncInvoke('museCore.pm.afterCreatePlugin', ctx, params);
 };

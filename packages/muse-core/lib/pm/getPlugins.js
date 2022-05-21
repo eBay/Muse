@@ -11,6 +11,7 @@ module.exports = async (params) => {
     await asyncInvoke('museCore.pm.getPlugins', ctx, params);
   } catch (err) {
     await asyncInvoke('museCore.pm.failedGetPlugins', ctx, params);
+    throw err;
   }
 
   await asyncInvoke('museCore.pm.afterGetPlugins', ctx, params);
