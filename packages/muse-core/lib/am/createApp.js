@@ -20,6 +20,7 @@ module.exports = async (params = {}) => {
   ctx.app = {
     name: appName,
     createdBy: author,
+    createdAt: Date.now(),
     owners: [author],
     ...options,
   };

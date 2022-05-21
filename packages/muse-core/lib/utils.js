@@ -109,26 +109,26 @@ const getFilesRecursively = async (dir) => {
   return _.flatten(files);
 };
 
-const updateJson = (obj, delta) => {
+const updateJson = (obj, changes) => {
   // set: [{ path, value }, ...]
   // unset: [path1, path2, ...]
   // push: [{ path, value }] // for array
   // remove: [{ path, predicate, value }, ...]
-  const { set = [], unset = [], remove = [], push = [] } = delta;
-  set.forEach((item) => {
+  const { set = [], unset = [], remove = [], push = [] } = changes;
+  _.castArray(set).forEach((item) => {
     _.set(obj, item.path, item.value);
   });
 
-  unset.forEach((p) => {
+  _.castArray(unset).forEach((p) => {
     _.unset(obj, p);
   });
 
-  push.forEach((item) => {
+  _.castArray(push).forEach((item) => {
     if (!_.get(obj, item.path)) _.set(obj, item.path, []);
     _.get(obj, item.path).push(item.value);
   });
 
-  remove.forEach((item) => {
+  _.castArray(remove).forEach((item) => {
     const arr = _.get(obj, item.path);
     if (!arr) return;
     if (item.value) _.pull(arr, item.value);
