@@ -25,9 +25,16 @@ console.error = (message) => console.log(chalk.red(message));
       await muse.am.createApp({ appName });
       break;
     }
+
+    case 'view-app': {
+      const [appName] = args;
+      const app = await muse.am.getApp(appName);
+      console.log(chalk.cyan(JSON.stringify(app, null, 2)));
+      break;
+    }
     case 'create-env': {
       const [appName, envName] = args;
-      await muse.pm.createEnv({ appName, envName });
+      await muse.am.createEnv({ appName, envName });
       break;
     }
     case 'deploy-plugin': {
