@@ -7,6 +7,8 @@ Muse global command line interface to manage Muse apps/plugins.
 * ❓ muse delete-app [app-name]
 * ❓ muse list-apps
 * ❓ muse export-app [app-name]
+* ❓ muse view-app [app-name]
+* ❓ muse view-full-app [app-name]
 
 ## Env management
 * ❓ muse create-env [app-name] [env-name]
@@ -17,6 +19,7 @@ Muse global command line interface to manage Muse apps/plugins.
 * ❓ muse release-plugin [plugin-name] [version?]
 * ❓ muse deploy-plugin [app-name] [env-name] [plugin-name] [version]
 * ❓ muse delete-plugin [plugin-name]
+* ❓ muse list-deployed-plugins [app-name] [env-name]
 * ❓ muse list-plugins
 
 ## Config

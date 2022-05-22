@@ -9,7 +9,7 @@ console.error = (message) => console.log(chalk.red(message));
 (async () => {
   const cmd = process.argv[2];
   const args = process.argv.slice(3);
-  console.log('args: ', args);
+  console.log(chalk.blue('Muse: ' + cmd));
 
   switch (cmd) {
     case 'list-apps': {
@@ -32,9 +32,38 @@ console.error = (message) => console.log(chalk.red(message));
       console.log(chalk.cyan(JSON.stringify(app, null, 2)));
       break;
     }
+
+    case 'view-full-app': {
+      break;
+    }
     case 'create-env': {
       const [appName, envName] = args;
       await muse.am.createEnv({ appName, envName });
+      break;
+    }
+
+    case 'create-plugin': {
+      const [pluginName] = args;
+      await muse.pm.createPlugin({ pluginName });
+      break;
+    }
+
+    case 'list-plugins': {
+      const plugins = await muse.pm.getPlugins();
+      console.log(chalk.cyan(`Plugins (${plugins.length}):`));
+      plugins.forEach((p) => {
+        console.log(chalk.cyan(` - ${p.name}`));
+      });
+      break;
+    }
+
+    case 'list-deployed-plugins': {
+      const [appName, envName] = args;
+      const plugins = await muse.pm.getDeployedPlugins(appName, envName);
+      console.log(chalk.cyan(`Deployed plugins on ${appName}/${envName} (${plugins.length}):`));
+      plugins.forEach((p) => {
+        console.log(chalk.cyan(` - ${p.name}@${p.version}`));
+      });
       break;
     }
     case 'deploy-plugin': {
