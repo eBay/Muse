@@ -2299,6 +2299,11 @@ path-parse@^1.0.7:
   resolved "https://npm.corp.ebay.com/path-parse/-/path-parse-1.0.7.tgz#fbc114b60ca42b30d9daf5858e4bd68bbedb6735"
   integrity sha1-+8EUtgykKzDZ2vWFjkvWi77bZzU=
 
+path-to-regexp@^6.2.1:
+  version "6.2.1"
+  resolved "https://npm.corp.ebay.com/path-to-regexp/-/path-to-regexp-6.2.1.tgz#d54934d6798eb9e5ef14e7af7962c945906918e5"
+  integrity sha1-1Uk01nmOueXvFOeveWLJRZBpGOU=
+
 path-type@^4.0.0:
   version "4.0.0"
   resolved "https://npm.corp.ebay.com/path-type/-/path-type-4.0.0.tgz#84ed01c0a7ba380afe09d90a8c180dcd9d03043b"
