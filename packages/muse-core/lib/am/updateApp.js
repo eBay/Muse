@@ -1,11 +1,11 @@
 const _ = require('lodash');
 const yaml = require('js-yaml');
-const { asyncInvoke, updateJson } = require('../utils');
+const { asyncInvoke, updateJson, osUsername } = require('../utils');
 const { registry } = require('../storage');
 const getApp = require('./getApp');
 
 module.exports = async (params) => {
-  const { appName, changes, author, msg } = params;
+  const { appName, changes, author = osUsername, msg } = params;
   const ctx = {};
 
   await asyncInvoke('museCore.am.beforeUpdateApp', ctx, params);

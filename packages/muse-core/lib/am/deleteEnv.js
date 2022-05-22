@@ -1,10 +1,10 @@
-const { asyncInvoke } = require('../utils');
+const { asyncInvoke, osUsername } = require('../utils');
 
 const getApp = require('./getApp');
 const updateApp = require('./updateApp');
 
 module.exports = async (params) => {
-  const { appName, envName, author } = params;
+  const { appName, envName, author = osUsername } = params;
   const ctx = {};
 
   await asyncInvoke('museCore.am.beforeDeleteEnv', ctx, params);

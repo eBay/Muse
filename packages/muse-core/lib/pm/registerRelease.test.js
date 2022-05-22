@@ -51,7 +51,7 @@ describe('release plugin basic tests.', () => {
     });
 
     const releases = await muse.pm.getReleases(pluginName);
-    expect(releases.releases[0]).toMatchObject({ version: '1.0.1', author: 'nate' });
+    expect(releases[0]).toMatchObject({ version: '1.0.1', author: 'nate' });
 
     expect(testRegisterReleasePlugin.museCore.pm.beforeRegisterRelease).toBeCalledTimes(1);
     expect(testRegisterReleasePlugin.museCore.pm.registerRelease).toBeCalledTimes(1);

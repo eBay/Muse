@@ -51,7 +51,7 @@ describe('release plugin basic tests.', () => {
     });
 
     const releases = await muse.pm.getReleases(pluginName);
-    expect(releases.releases[0]).toMatchObject({ version: '1.0.1', author: 'nate', info: { size: 100 } });
+    expect(releases[0]).toMatchObject({ version: '1.0.1', author: 'nate', info: { size: 100 } });
 
     const pid = muse.utils.getPluginId(pluginName);
     expect(fs.readFileSync(path.join(defaultAssetStorage, `/p/${pid}/v${version}/file99.js`)).toString()).toBe('99');

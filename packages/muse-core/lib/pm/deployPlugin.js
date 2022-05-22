@@ -1,20 +1,28 @@
 const yaml = require('js-yaml');
-const { asyncInvoke, getPluginId, updateJson } = require('../utils');
+const _ = require('lodash');
+const { asyncInvoke, getPluginId, updateJson, osUsername } = require('../utils');
 const { registry } = require('../storage');
 const getPlugin = require('./getPlugin');
 const { getApp } = require('../am');
 const getDeployedPlugin = require('./getDeployedPlugin');
+const getReleases = require('./getReleases');
 
 module.exports = async (params) => {
   const ctx = {};
   await asyncInvoke('museCore.pm.beforeDeployPlugin', ctx, params);
 
-  const { appName, envName, pluginName, version, options, changes, author } = params;
+  const { appName, envName, pluginName, version, options, changes, author = osUsername } = params;
 
   // Check if plugin name exist
   const p = await getPlugin(pluginName);
   if (!p) {
     throw new Error(`Plugin ${pluginName} doesn't exist.`);
+  }
+
+  // Check if release exists
+  const releases = await getReleases(pluginName);
+  if (_.find(releases, { version })) {
+    throw new Error(`Version ${version} doesn't exist.`);
   }
 
   const app = await getApp(appName);

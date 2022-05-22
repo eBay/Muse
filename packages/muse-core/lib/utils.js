@@ -148,6 +148,7 @@ module.exports = {
   getFilesRecursively,
   getExtPoint,
   updateJson,
+  osUsername: os.userInfo().username,
   defaultAssetStorage: path.join(os.homedir(), 'muse-storage/assets'),
   defaultRegistryStorage: path.join(os.homedir(), 'muse-storage/registry'),
 };

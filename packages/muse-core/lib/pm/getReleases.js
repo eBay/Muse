@@ -5,8 +5,6 @@ module.exports = async (pluginName) => {
   const ctx = {};
   await asyncInvoke('museCore.pm.beforeGetReleases', ctx, pluginName);
 
-  // TODO: upload resources to static storage
-
   await asyncInvoke('museCore.pm.getReleases', ctx, pluginName);
   const pid = getPluginId(pluginName);
   const keyPath = `/plugins/releases/${pid}.yaml`;

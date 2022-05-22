@@ -1,7 +1,23 @@
 # muse-cli
-Muse commands to be run under a Muse plugin project.
+Muse global command line interface to manage Muse apps/plugins.
 
-muse release
-muse deploy
-muse config
-muse export
+## App management
+* ✅ muse create-app [app-name]
+* ❓ muse show-app [app-name]
+* ❓ muse delete-app [app-name]
+* ❓ muse list-apps
+* ❓ muse export-app [app-name]
+
+## Env management
+* ❓ muse create-env [app-name] [env-name]
+* ❓ muse delete-env [app-name] [env-name]
+
+## Plugin management
+* ❓ muse create-plugin [plugin-name]
+* ❓ muse release-plugin [plugin-name] [version?]
+* ❓ muse deploy-plugin [app-name]/[env-name] [plugin-name]@[version]
+* ❓ muse delete-plugin [plugin-name]
+* ❓ muse list-plugins
+
+## Config
+* ❓ muse show-config

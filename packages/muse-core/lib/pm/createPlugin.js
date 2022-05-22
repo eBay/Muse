@@ -2,7 +2,7 @@
 // A plugin is <registry-storage>/plugins/<plugin-name>.yaml
 
 const yaml = require('js-yaml');
-const { asyncInvoke, getPluginId } = require('../utils');
+const { asyncInvoke, getPluginId, osUsername } = require('../utils');
 const { registry } = require('../storage');
 const getPlugin = require('./getPlugin');
 
@@ -10,7 +10,7 @@ module.exports = async (params) => {
   const ctx = {};
   await asyncInvoke('museCore.pm.beforeCreatePlugin', ctx, params);
 
-  const { pluginName, author, options } = params;
+  const { pluginName, author = osUsername, options } = params;
 
   // Check if plugin name exist
   if (await getPlugin(pluginName)) {

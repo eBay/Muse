@@ -1,7 +1,7 @@
 // Register a release and upload assets to the storage
 // NOTE: this method usually takes long time, don't call it as rest API but from some job.
 
-const { asyncInvoke, getPluginId } = require('../utils');
+const { asyncInvoke, getPluginId, osUsername } = require('../utils');
 const { assets } = require('../storage');
 const registerRelease = require('./registerRelease');
 const getReleases = require('./getReleases');
@@ -9,7 +9,7 @@ const getPlugin = require('./getPlugin');
 
 module.exports = async (params) => {
   const ctx = {};
-  const { pluginName, buildDir, version, author } = params;
+  const { pluginName, buildDir, version, author = osUsername } = params;
 
   // Check if plugin exists
   const plugin = await getPlugin(pluginName);
@@ -17,7 +17,7 @@ module.exports = async (params) => {
 
   // Check if release exists
   const releases = await getReleases(pluginName);
-  if (releases?.releases?.find((r) => r.version === version)) {
+  if (releases?.find((r) => r.version === version)) {
     throw new Error(`Version ${version} already exists for plugin ${pluginName}`);
   }
 
