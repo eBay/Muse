@@ -15,7 +15,7 @@ Muse global command line interface to manage Muse apps/plugins.
 ## Plugin management
 * ❓ muse create-plugin [plugin-name]
 * ❓ muse release-plugin [plugin-name] [version?]
-* ❓ muse deploy-plugin [app-name]/[env-name] [plugin-name]@[version]
+* ❓ muse deploy-plugin [app-name] [env-name] [plugin-name] [version]
 * ❓ muse delete-plugin [plugin-name]
 * ❓ muse list-plugins
 

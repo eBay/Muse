@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-import chalk from 'chalk';
-import muse from 'muse-core';
+const chalk = require('chalk');
+const muse = require('muse-core');
 
 const timeStart = Date.now();
 
@@ -28,8 +28,19 @@ console.error = (message) => console.log(chalk.red(message));
     case 'create-env': {
       const [appName, envName] = args;
       await muse.pm.createEnv({ appName, envName });
+      break;
+    }
+    case 'deploy-plugin': {
+      const [appName, envName, pluginName, version] = args;
+      await muse.pm.deployPlugin({ appName, envName, pluginName, version });
+      break;
     }
     case 'list-plugins': {
+      break;
+    }
+
+    case undefined: {
+      console.log(chalk.cyan(`Muse version ${require('../package.json').version}.`));
       break;
     }
     default:
