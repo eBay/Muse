@@ -36,20 +36,27 @@ describe('release plugin basic tests.', () => {
   it('It create a release without build dir', async () => {
     const muse = require('../');
     const pluginName = 'test-plugin';
-    const version = '1.0.1';
+
     await muse.pm.createPlugin({ pluginName });
     await muse.pm.releasePlugin({
       pluginName,
-      version,
+      version: 'patch',
+      author: 'nate',
+    });
+
+    await muse.pm.releasePlugin({
+      pluginName,
+      version: 'minor',
       author: 'nate',
     });
 
     const releases = await muse.pm.getReleases(pluginName);
-    expect(releases[0]).toMatchObject({ version: '1.0.1', author: 'nate' });
+    expect(releases[0]).toMatchObject({ version: '1.1.0', createdBy: 'nate' });
+    expect(releases[1]).toMatchObject({ version: '1.0.0', createdBy: 'nate' });
 
-    expect(testReleasePlugin.museCore.pm.beforeReleasePlugin).toBeCalledTimes(1);
-    expect(testReleasePlugin.museCore.pm.releasePlugin).toBeCalledTimes(1);
-    expect(testReleasePlugin.museCore.pm.afterReleasePlugin).toBeCalledTimes(1);
+    expect(testReleasePlugin.museCore.pm.beforeReleasePlugin).toBeCalledTimes(2);
+    expect(testReleasePlugin.museCore.pm.releasePlugin).toBeCalledTimes(2);
+    expect(testReleasePlugin.museCore.pm.afterReleasePlugin).toBeCalledTimes(2);
   });
 
   it('It uploads assets to storage if buildDir is provided.', async () => {

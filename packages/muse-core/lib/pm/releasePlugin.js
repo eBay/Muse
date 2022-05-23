@@ -1,6 +1,5 @@
 const yaml = require('js-yaml');
-const semver = require('semver');
-const { asyncInvoke, getPluginId, osUsername } = require('../utils');
+const { asyncInvoke, getPluginId, osUsername, genNewVersion } = require('../utils');
 const { assets, registry } = require('../storage');
 // const registerRelease = require('./registerRelease');
 const getReleases = require('./getReleases');
@@ -21,18 +20,15 @@ module.exports = async (params) => {
     throw new Error(`Version ${version} already exists for plugin ${pluginName}`);
   }
 
-  const latestRelease = releases[0];
   const pid = getPluginId(pluginName);
   await asyncInvoke('museCore.pm.beforeReleasePlugin', ctx, params);
-  // const { pluginName, buildDir, version, author = osUsername, options } = params;
-  const releasesKeyPath = `/plugins/releases/${pid}.yaml`;
 
   ctx.release = {
-    version: newVersion,
+    version: genNewVersion(releases?.[0]?.version, version),
     branch: '',
     sha: '',
     createdAt: new Date().toJSON(),
-    author,
+    createdBy: author,
     description: '',
     // info: (await fs.readJson(path.join(buildDir, 'info.json'), { throws: false })) || {},
     ...options,
@@ -49,15 +45,20 @@ module.exports = async (params) => {
   }
 
   // Save releases to registry
+  const releasesKeyPath = `/plugins/releases/${pid}.yaml`;
   await registry.set(
     releasesKeyPath,
     Buffer.from(yaml.dump(releases)),
-    `Create release ${pluginName}@${version} by ${author}`,
+    `Create release ${pluginName}@${ctx.release.version} by ${author}`,
   );
 
   // If build dir exists, upload it to assets storage
   if (buildDir) {
-    await assets.uploadDir(buildDir, `/p/${pid}/v${version}`, `Release plugin ${pluginName}@${version} by ${author}.`);
+    await assets.uploadDir(
+      buildDir,
+      `/p/${pid}/v${ctx.release.version}`,
+      `Release plugin ${pluginName}@${ctx.release.version} by ${author}.`,
+    );
   }
 
   // await asyncInvoke('museCore.pm.releasePlugin', ctx, params);
