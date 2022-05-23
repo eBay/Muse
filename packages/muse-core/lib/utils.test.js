@@ -1,7 +1,5 @@
 const { utils } = require('./');
 
-jest.mock('fs');
-jest.mock('fs/promises');
 describe('utils basic tests.', () => {
   it('Update json with delta change', async () => {
     const obj = {
@@ -44,5 +42,26 @@ describe('utils basic tests.', () => {
     expect(obj.items.length).toBe(1);
     expect(obj.items[0].name).toBe('item1');
     expect(obj.prop3.arr[0]).toBe(1);
+  });
+
+  it('Generate new version should work', () => {
+    const { genNewVersion } = utils;
+    expect(genNewVersion()).toBe('1.0.0');
+    expect(genNewVersion('1.0.0')).toBe('1.0.1');
+    expect(genNewVersion('1.0.0', 'patch')).toBe('1.0.1');
+    expect(genNewVersion('1.0.0', 'minor')).toBe('1.1.0');
+    expect(genNewVersion('1.0.0', 'major')).toBe('2.0.0');
+    expect(genNewVersion('1.0.0', 'prerelease-custom')).toBe('1.0.1-custom.0');
+    expect(genNewVersion('1.0.0', 'prerelease-alpha')).toBe('1.0.1-alpha.0');
+    expect(genNewVersion('1.0.0', 'prerelease-beta')).toBe('1.0.1-beta.0');
+    expect(genNewVersion('1.0.1-beta.0', 'prerelease-beta')).toBe('1.0.1-beta.1');
+    expect(genNewVersion('1.0.0', 'prepatch-alpha')).toBe('1.0.1-alpha.0');
+    expect(genNewVersion('1.0.0', 'preminor-alpha')).toBe('1.1.0-alpha.0');
+    expect(genNewVersion('1.0.0', 'premajor-alpha')).toBe('2.0.0-alpha.0');
+
+    // Errors
+    expect(() => genNewVersion('1.0.0', 'abc-beta')).toThrowError();
+    expect(() => genNewVersion('1.0.0', 'aaa')).toThrowError();
+    expect(() => genNewVersion('abc')).toThrowError();
   });
 });

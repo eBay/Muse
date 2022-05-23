@@ -1,6 +1,7 @@
 const os = require('os');
 const path = require('path');
 const fs = require('fs-extra');
+const semver = require('semver');
 const _ = require('lodash');
 const plugin = require('js-plugin');
 const jsYaml = require('js-yaml');
@@ -136,6 +137,16 @@ const updateJson = (obj, changes) => {
   });
 };
 
+const genNewVersion = (oldVersion, verionType = 'patch') => {
+  if (semver.valid(verionType)) return verionType;
+  if (!oldVersion) return '1.0.0';
+  if (!semver.valid(oldVersion)) throw new Error(`Invalid existing version: ${oldVersion}.`);
+  const args = verionType.split('-');
+  const newVersion = semver.inc(oldVersion, ...args);
+  if (!newVersion) throw new Error(`Invalid version: ${verionType}.`);
+  return newVersion;
+};
+
 module.exports = {
   getPluginId,
   getPluginName,
@@ -147,6 +158,7 @@ module.exports = {
   makeRetryAble,
   getFilesRecursively,
   getExtPoint,
+  genNewVersion,
   updateJson,
   osUsername: os.userInfo().username,
   defaultAssetStorage: path.join(os.homedir(), 'muse-storage/assets'),

@@ -1,4 +1,5 @@
 const yaml = require('js-yaml');
+const semver = require('semver');
 const { asyncInvoke, getPluginId, osUsername } = require('../utils');
 const { assets, registry } = require('../storage');
 // const registerRelease = require('./registerRelease');
@@ -7,7 +8,7 @@ const getPlugin = require('./getPlugin');
 
 module.exports = async (params) => {
   const ctx = {};
-  const { pluginName, buildDir, version, author = osUsername, options } = params;
+  const { pluginName, buildDir, version = 'patch', author = osUsername, options } = params;
 
   // Check if plugin exists
   const plugin = await getPlugin(pluginName);
@@ -20,13 +21,14 @@ module.exports = async (params) => {
     throw new Error(`Version ${version} already exists for plugin ${pluginName}`);
   }
 
+  const latestRelease = releases[0];
   const pid = getPluginId(pluginName);
   await asyncInvoke('museCore.pm.beforeReleasePlugin', ctx, params);
   // const { pluginName, buildDir, version, author = osUsername, options } = params;
   const releasesKeyPath = `/plugins/releases/${pid}.yaml`;
 
   ctx.release = {
-    version: version || '1.0.0',
+    version: newVersion,
     branch: '',
     sha: '',
     createdAt: new Date().toJSON(),

@@ -2453,7 +2453,7 @@ semver@^6.0.0, semver@^6.3.0:
   resolved "https://npm.corp.ebay.com/semver/-/semver-6.3.0.tgz#ee0a64c8af5e8ceea67687b133761e1becbd1d3d"
   integrity sha1-7gpkyK9ejO6mdoexM3YeG+y9HT0=
 
-semver@^7.3.5:
+semver@^7.3.5, semver@^7.3.7:
   version "7.3.7"
   resolved "https://npm.corp.ebay.com/semver/-/semver-7.3.7.tgz#12c5b649afdbf9049707796e22a4028814ce523f"
   integrity sha1-EsW2Sa/b+QSXB3luIqQCiBTOUj8=

@@ -71,7 +71,10 @@ console.error = (message) => console.log(chalk.red(message));
       await muse.pm.deployPlugin({ appName, envName, pluginName, version });
       break;
     }
-    case 'list-plugins': {
+    case 'release-plugin': {
+      const [pluginName, version = 'patch'] = args;
+      const buildDir = path.join(process.cwd(), 'build');
+      await muse.pm.releasePlugin({ pluginName, version, buildDir: fs.existsSync(buildDir) ? buildDir : null });
       break;
     }
 
