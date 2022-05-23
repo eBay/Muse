@@ -3,12 +3,11 @@ Muse global command line interface to manage Muse apps/plugins.
 
 ## App management
 * ✅ muse create-app [app-name]
-* ❓ muse show-app [app-name]
+* ❓ muse view-app [app-name]
+* ❓ muse view-full-app [app-name]
 * ❓ muse delete-app [app-name]
 * ❓ muse list-apps
 * ❓ muse export-app [app-name]
-* ❓ muse view-app [app-name]
-* ❓ muse view-full-app [app-name]
 
 ## Env management
 * ❓ muse create-env [app-name] [env-name]

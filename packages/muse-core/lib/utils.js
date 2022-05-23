@@ -75,7 +75,7 @@ async function batchAsync(tasks, size = 100, msg = 'Batch async') {
 
   for (let i = 0; i < chunks.length; i++) {
     const chunk = chunks[i];
-    console.log(`${msg}: ${i * size + 1}~${Math.min(i * size + size, tasks.length)} of ${tasks.length}`);
+    // console.log(`${msg}: ${i * size + 1}~${Math.min(i * size + size, tasks.length)} of ${tasks.length}`);
     const arr = await Promise.all(chunk.map((c) => c()));
     res.push(...arr);
   }
