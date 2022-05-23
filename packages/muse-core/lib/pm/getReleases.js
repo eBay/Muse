@@ -5,12 +5,12 @@ module.exports = async (pluginName) => {
   const ctx = {};
   await asyncInvoke('museCore.pm.beforeGetReleases', ctx, pluginName);
 
-  await asyncInvoke('museCore.pm.getReleases', ctx, pluginName);
   const pid = getPluginId(pluginName);
   const keyPath = `/plugins/releases/${pid}.yaml`;
 
   try {
-    ctx.result = jsonByYamlBuff(await registry.get(keyPath));
+    ctx.result = jsonByYamlBuff(await registry.get(keyPath)) || [];
+    await asyncInvoke('museCore.pm.getReleases', ctx, pluginName);
   } catch (err) {
     await asyncInvoke('museCore.pm.failedGetReleases', ctx, pluginName);
     throw err;
