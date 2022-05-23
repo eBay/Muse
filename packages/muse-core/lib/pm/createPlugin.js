@@ -10,7 +10,7 @@ module.exports = async (params) => {
   const ctx = {};
   await asyncInvoke('museCore.pm.beforeCreatePlugin', ctx, params);
 
-  const { pluginName, author = osUsername, options } = params;
+  const { pluginName, type = 'normal', author = osUsername, options } = params;
 
   // Check if plugin name exist
   if (await getPlugin(pluginName)) {
@@ -22,6 +22,7 @@ module.exports = async (params) => {
   ctx.plugin = {
     name: pluginName,
     createdBy: author,
+    type,
     owners: [author],
     ...options,
   };

@@ -25,11 +25,11 @@ describe('Deploy plugin basic tests.', () => {
 
     await muse.am.createApp({ appName });
     await muse.am.createEnv({ appName, envName });
-    await muse.pm.createPlugin({ pluginName });
+    await muse.pm.createPlugin({ pluginName, type: 'init' });
 
     await muse.pm.deployPlugin({ appName, envName, pluginName, version: '2.0.2', options: { prop1: 'prop1' } });
     const p = await muse.pm.getDeployedPlugin(appName, envName, pluginName);
-    expect(p).toMatchObject({ name: pluginName, version: '2.0.2', prop1: 'prop1' });
+    expect(p).toMatchObject({ name: pluginName, version: '2.0.2', prop1: 'prop1', type: 'init' });
 
     expect(testJsPlugin.museCore.pm.deployPlugin).toBeCalledTimes(1);
     expect(testJsPlugin.museCore.pm.beforeDeployPlugin).toBeCalledTimes(1);

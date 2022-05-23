@@ -28,7 +28,7 @@ describe('Create plugin basic tests.', () => {
     const pluginName = 'test-plugin';
     await muse.pm.createPlugin({ pluginName, author: 'nate' });
     const result = jsonByYamlBuff(await registry.get(`/plugins/${getPluginId(pluginName)}.yaml`));
-    expect(result).toMatchObject({ name: pluginName, createdBy: 'nate', owners: ['nate'] });
+    expect(result).toMatchObject({ name: pluginName, createdBy: 'nate', type: 'normal', owners: ['nate'] });
 
     expect(testJsPlugin.museCore.pm.createPlugin).toBeCalledTimes(1);
     expect(testJsPlugin.museCore.pm.beforeCreatePlugin).toBeCalledTimes(1);

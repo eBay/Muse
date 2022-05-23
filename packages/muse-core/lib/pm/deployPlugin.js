@@ -40,6 +40,7 @@ module.exports = async (params) => {
     ctx.plugin = (await getDeployedPlugin(appName, envName, pluginName)) || { name: pluginName };
     Object.assign(ctx.plugin, {
       version,
+      type: p.type || 'normal',
       ...options,
     });
     updateJson(ctx.plugin, changes || {});
