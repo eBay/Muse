@@ -55,4 +55,10 @@ module.exports = async (params) => {
     throw err;
   }
   await asyncInvoke('museCore.pm.afterDeployPlugin', ctx, params);
+  return {
+    appName,
+    envName,
+    pluginName,
+    version,
+  };
 };

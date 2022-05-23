@@ -71,7 +71,8 @@ console.error = (message) => console.log(chalk.red(message));
     case 'deploy':
     case 'deploy-plugin': {
       const [appName, envName, pluginName, version] = args;
-      await muse.pm.deployPlugin({ appName, envName, pluginName, version });
+      const res = await muse.pm.deployPlugin({ appName, envName, pluginName, version });
+      console.log(chalk.cyan(`Deploy success: ${pluginName}@${res.version} to ${appName}/${envName}.`));
       break;
     }
     case 'release':
