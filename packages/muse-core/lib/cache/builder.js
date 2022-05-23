@@ -27,7 +27,7 @@ const builder = {
   },
 };
 
-// cache.registerBuilder(require('./builders/muse.app'));
+builder.register(require('./builders/muse.app'));
 // cache.registerBuilder(require('./builders/muse.plugin-releases'));
 // cache.registerBuilder(require('./builders/muse.plugins.latest-releases'));
 

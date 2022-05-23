@@ -2,6 +2,8 @@
 
 const chalk = require('chalk');
 const muse = require('muse-core');
+const fs = require('fs');
+const path = require('path');
 
 const timeStart = Date.now();
 
@@ -66,15 +68,22 @@ console.error = (message) => console.log(chalk.red(message));
       });
       break;
     }
+    case 'deploy':
     case 'deploy-plugin': {
       const [appName, envName, pluginName, version] = args;
       await muse.pm.deployPlugin({ appName, envName, pluginName, version });
       break;
     }
+    case 'release':
     case 'release-plugin': {
       const [pluginName, version = 'patch'] = args;
       const buildDir = path.join(process.cwd(), 'build');
-      await muse.pm.releasePlugin({ pluginName, version, buildDir: fs.existsSync(buildDir) ? buildDir : null });
+      const r = await muse.pm.releasePlugin({
+        pluginName,
+        version,
+        buildDir: fs.existsSync(buildDir) ? buildDir : null,
+      });
+      console.log(chalk.cyan(`Plugin released ${r.pluginName}@${r.version}`));
       break;
     }
 
@@ -83,7 +92,7 @@ console.error = (message) => console.log(chalk.red(message));
       break;
     }
     default:
-      throw new Error(`Unknown command ${args[0]}`);
+      throw new Error(`Unknown command ${cmd}`);
   }
 })()
   .then(() => {

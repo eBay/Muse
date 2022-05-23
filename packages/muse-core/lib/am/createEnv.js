@@ -33,5 +33,4 @@ module.exports = async (params) => {
     throw err;
   }
   await asyncInvoke('museCore.am.afterCreateEnv', ctx, params);
-  return ctx.app;
 };

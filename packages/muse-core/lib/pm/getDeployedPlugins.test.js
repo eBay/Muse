@@ -30,6 +30,8 @@ describe('Deploy plugin basic tests.', () => {
     await muse.pm.createPlugin({ pluginName: pluginName2 });
 
     expect(await muse.pm.getDeployedPlugins(appName, envName)).toEqual([]);
+    await muse.pm.releasePlugin({ pluginName, version: '2.0.2' });
+    await muse.pm.releasePlugin({ pluginName: pluginName2, version: '1.0.3' });
     await muse.pm.deployPlugin({ appName, envName, pluginName, version: '2.0.2', options: { prop1: 'prop1' } });
     await muse.pm.deployPlugin({ appName, envName, pluginName: pluginName2, version: '1.0.3' });
     const deployedPlugins = await muse.pm.getDeployedPlugins(appName, envName);

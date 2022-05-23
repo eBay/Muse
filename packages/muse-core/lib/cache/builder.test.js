@@ -18,12 +18,12 @@ describe('Muse cache builder basic tests.', () => {
   it('Register builder with args should work', async () => {
     const muse = require('../');
     muse.cache.builder.register({
-      key: 'muse.app.:appName',
+      key: 'musetest.app.:appName',
       get: async ({ appName }) => {
         return { name: appName };
       },
     });
-    const app = await muse.cache.builder.get('muse.app.nate');
+    const app = await muse.cache.builder.get('musetest.app.nate');
     expect(app.name).toBe('nate');
   });
 
@@ -35,7 +35,7 @@ describe('Muse cache builder basic tests.', () => {
         return { name: appName };
       },
     });
-    const app = await muse.cache.builder.get('muse.app.nate');
+    const app = await muse.cache.builder.get('musetest.app.nate');
     expect(app).toBeNull();
   });
 });

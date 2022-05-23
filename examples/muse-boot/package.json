@@ -7,7 +7,7 @@
     "type": "boot"
   },
   "scripts": {
-    "build": "muse build --verbose"
+    "build": "muse-scripts-react build --verbose"
   },
   "devDependencies": {
     "@craco/craco": "^6.4.3",

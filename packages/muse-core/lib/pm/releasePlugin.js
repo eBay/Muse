@@ -24,6 +24,7 @@ module.exports = async (params) => {
   await asyncInvoke('museCore.pm.beforeReleasePlugin', ctx, params);
 
   ctx.release = {
+    pluginName,
     version: genNewVersion(releases?.[0]?.version, version),
     branch: '',
     sha: '',
@@ -63,4 +64,5 @@ module.exports = async (params) => {
 
   // await asyncInvoke('museCore.pm.releasePlugin', ctx, params);
   await asyncInvoke('museCore.pm.afterReleasePlugin', ctx, params);
+  return ctx.release;
 };

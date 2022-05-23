@@ -147,6 +147,19 @@ const genNewVersion = (oldVersion, verionType = 'patch') => {
   return newVersion;
 };
 
+const getMuseGlobal = (app, envName) => {
+  const plugins = app.envs?.[envName]?.plugins;
+
+  const bootPlugin = plugins.find((p) => p.type === 'boot');
+
+  return {
+    appName: app.name,
+    envName: envName,
+    plugins,
+    bootPlugin: bootPlugin?.name,
+  };
+};
+
 module.exports = {
   getPluginId,
   getPluginName,
@@ -160,6 +173,7 @@ module.exports = {
   getExtPoint,
   genNewVersion,
   updateJson,
+  getMuseGlobal,
   osUsername: os.userInfo().username,
   defaultAssetStorage: path.join(os.homedir(), 'muse-storage/assets'),
   defaultRegistryStorage: path.join(os.homedir(), 'muse-storage/registry'),

@@ -2,28 +2,25 @@
 import { loadInParallel, getPluginId } from './utils';
 
 async function start() {
-  const {
-    cdn = '',
-    pluginList = [],
-    entry = 'muse-react',
-    pluginEntries = [],
-    appEntries = [],
-    isDev = false,
-  } = window.MUSE_GLOBAL;
+  Object.assign(window.MUSE_GLOBAL, {
+    appEntries: [],
+    pluginEntries: [],
+  });
+  const { cdn = '', plugins = [], entry = 'muse-react', pluginEntries, appEntries, isDev = false } = window.MUSE_GLOBAL;
   window.MUSE_CONFIG = window.MUSE_GLOBAL;
   window.MUSE_GLOBAL.getUser = () => ({});
 
   // Print app plugins in dev console
-  const bootPlugin = pluginList.find((p) => p.type === 'boot');
+  const bootPlugin = plugins.find((p) => p.type === 'boot');
   if (!bootPlugin) {
     throw new Error('Boot plugin not found.');
   }
   console.log(`Loading Muse app by ${bootPlugin.name}@${bootPlugin.version}...`);
-  console.log(`Plugins(${pluginList.length}):`);
-  pluginList.forEach((p) => console.log(`  * ${p.name}@${p.version}`));
+  console.log(`Plugins(${plugins.length}):`);
+  plugins.forEach((p) => console.log(`  * ${p.name}@${p.version}`));
 
   // Load plugins bundles
-  const pluginUrls = pluginList
+  const pluginUrls = plugins
     .filter((p) => p.type !== 'boot')
     .map((p) => p.url || `${cdn}/p/${getPluginId(p.name)}/v${p.version}/${isDev ? 'dev' : 'dist'}/main.js`);
 

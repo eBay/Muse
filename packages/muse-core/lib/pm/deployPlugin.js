@@ -11,8 +11,8 @@ module.exports = async (params) => {
   const ctx = {};
   await asyncInvoke('museCore.pm.beforeDeployPlugin', ctx, params);
 
-  const { appName, envName, pluginName, version, options, changes, author = osUsername } = params;
-
+  const { appName, envName, pluginName, options, changes, author = osUsername } = params;
+  let version = params.version;
   // Check if plugin name exist
   const p = await getPlugin(pluginName);
   if (!p) {
@@ -21,7 +21,9 @@ module.exports = async (params) => {
 
   // Check if release exists
   const releases = await getReleases(pluginName);
-  if (_.find(releases, { version })) {
+  if (!version) {
+    version = releases[0].version;
+  } else if (!_.find(releases, { version })) {
     throw new Error(`Version ${version} doesn't exist.`);
   }
 

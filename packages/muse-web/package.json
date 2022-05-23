@@ -1,13 +1,13 @@
 {
-  "name": "muse-cli",
+  "name": "muse-web",
   "version": "1.0.0",
   "main": "index.js",
-  "bin": {
-    "muse": "./bin/muse.js"
-  },
   "license": "MIT",
+  "scripts": {
+    "start": "node lib/server.js"
+  },
   "dependencies": {
-    "chalk": "4.1.2"
+    "express": "^4.18.1"
   },
   "devDependencies": {
     "eslint": "^8.16.0"

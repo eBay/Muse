@@ -1,15 +1,12 @@
 {
-  "name": "muse-cli",
+  "name": "muse-express-middleware",
   "version": "1.0.0",
   "main": "index.js",
-  "bin": {
-    "muse": "./bin/muse.js"
-  },
   "license": "MIT",
-  "dependencies": {
-    "chalk": "4.1.2"
-  },
   "devDependencies": {
     "eslint": "^8.16.0"
+  },
+  "dependencies": {
+    "mime-types": "^2.1.35"
   }
 }

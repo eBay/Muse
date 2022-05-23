@@ -15,13 +15,8 @@
   "devDependencies": {},
   "scripts": {
     "start": "PORT=3031 muse start",
-    "build": "muse build",
-    "build:dev": "muse build --dev",
-    "test": "muse-scripts test",
-    "e2e-test": "muse-scripts e2e-test",
-    "release": "muse-scripts release",
-    "prestart2": "muse-scripts check-updates",
-    "prebuild2": "muse-scripts check-updates"
+    "build": "muse-scripts-react build",
+    "build:dev": "muse-scripts-react build --dev"
   },
   "browserslist": {
     "production": [
