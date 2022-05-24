@@ -37,9 +37,4 @@ module.exports = {
     }
     if (!notSetIfExist || !object[arr[0]]) object[arr[0]] = value || {};
   },
-
-  getPluginId: (name) => {
-    if (!name.startsWith('@')) return name;
-    return name.replace('@', '').replace('/', '.');
-  },
 };

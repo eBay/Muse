@@ -35,6 +35,6 @@ module.exports = async (req, res) => {
     </script>
   </head>
   <body></body>
-  <script src="/muse-assets/p/${bootPlugin.name}/v${bootPlugin.version}/dist/boot.js"></script>
+  <script src="/muse-assets/p/${muse.utils.getPluginId(bootPlugin.name)}/v${bootPlugin.version}/dist/boot.js"></script>
 </html>`);
 };

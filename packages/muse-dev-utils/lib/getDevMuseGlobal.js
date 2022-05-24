@@ -1,5 +1,5 @@
 const { pkgJson, museConfig } = require('./museContext');
-const { getLocalPlugins, getMuseLibs, getPluginId } = require('./utils');
+const { getLocalPlugins, getMuseLibs } = require('./utils');
 const muse = require('muse-core');
 
 module.exports = async () => {
@@ -26,13 +26,14 @@ module.exports = async () => {
     plugins.push({
       name: libName,
       version: require(libName + '/package.json').version,
-      url: `/_muse_static/local/p/${getPluginId(libName)}/dev/main.js`,
+      url: `/_muse_static/local/p/${muse.utils.getPluginId(libName)}/dev/main.js`,
     });
   });
 
   return {
     appName: appName,
     envName: envName,
+    bootPlugin: plugins.find((p) => p.type === 'boot').name,
     isDev: true,
     plugins,
     appEntries: [],

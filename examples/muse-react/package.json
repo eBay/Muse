@@ -13,7 +13,7 @@
       "app": "app1",
       "env": "staging",
       "remotePlugins": [
-        "@ebay/muse-antd",
+        "muse-antd",
         "muse-layout"
       ]
     }

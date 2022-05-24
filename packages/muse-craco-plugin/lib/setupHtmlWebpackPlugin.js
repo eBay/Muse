@@ -1,8 +1,8 @@
 const path = require('path');
+const muse = require('muse-core');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackInjectStringPlugin = require('html-webpack-inject-string-plugin');
-const { museContext, getDevMuseGlobal, utils } = require('muse-dev-utils');
-
+const { museContext, getDevMuseGlobal } = require('muse-dev-utils');
 const { pkgJson, isDev } = museContext;
 
 module.exports = async (cracoConfig) => {
@@ -14,12 +14,13 @@ module.exports = async (cracoConfig) => {
   // Add new HtmlWebpackPlugin to use custom template
   // const devApp = await getDevApp();
   // const bootPlugin = devApp.pluginList.find((p) => p.type === 'boot');
-  const bootPlugin = {
-    name: '@ebay/muse-boot',
-    version: '1.0.0',
-  };
+  // const bootPlugin = {
+  //   name: '@ebay/muse-boot',
+  //   version: '1.0.0',
+  // };
 
   const museGlobal = await getDevMuseGlobal();
+  const bootPlugin = museGlobal.plugins.find((p) => p.type === 'boot');
   cracoConfig.webpack.plugins.add.push(
     [
       new HtmlWebpackPlugin({
@@ -41,7 +42,7 @@ module.exports = async (cracoConfig) => {
     [
       new HtmlWebpackInjectStringPlugin({
         search: '</body>',
-        inject: `<script src="/_muse_static/p/${utils.getPluginId(bootPlugin.name)}/v${
+        inject: `<script src="/_muse_static/p/${muse.utils.getPluginId(bootPlugin.name)}/v${
           bootPlugin.version
         }/dist/boot.js"></script>`,
         prepend: false,
