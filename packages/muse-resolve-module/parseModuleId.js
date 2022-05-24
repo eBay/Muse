@@ -5,26 +5,15 @@
  */
 function parseModuleId(moduleId) {
   try {
-    if (!/(^@[^/]+\/)?[^@/]+@\d+\.\d+\.\d[^.]/.test(moduleId)) return null;
-
-    var arr = moduleId.split('@');
-    const pkgName = arr.slice(0, arr.length - 1).join('@');
-    var s = arr[arr.length - 1]; // e.g: 1.0.3/src/index.js
-    var arr2 = s.split('/');
-    const ver = arr2[0]; // version part: 2.3.4-beta.1
-
-    const [major, minor, patch] = ver
-      .split('.')
-      .slice(0, 3)
-      .map((s) => Number(s));
-    var modulePath = arr2.slice(1).join('/');
+    const m = /((^@[^/]+\/)?([^@/]+))@(\d+)\.(\d+)\.(\d)([^.][^/]*)?\/(.+)$/.exec(moduleId);
+    if (!m) return null;
 
     return {
-      name: pkgName,
-      path: modulePath,
-      id: `${pkgName}/${modulePath}`,
+      name: m[1],
+      path: m[8],
+      id: `${m[1]}/${m[8]}`,
       moduleId,
-      version: { major, minor, patch },
+      version: { major: Number(m[4]), minor: Number(m[5]), patch: Number(m[6]) },
     };
   } catch (err) {
     return null;
