@@ -75,6 +75,14 @@ console.error = (message) => console.log(chalk.red(message));
       console.log(chalk.cyan(`Deploy success: ${pluginName}@${res.version} to ${appName}/${envName}.`));
       break;
     }
+    case 'undeploy':
+    case 'undeploy-plugin': {
+      const [appName, envName, pluginName] = args;
+      await muse.pm.undeployPlugin({ appName, envName, pluginName });
+      console.log(chalk.cyan(`Undeploy success: ${pluginName} from ${appName}/${envName}.`));
+
+      break;
+    }
     case 'release':
     case 'release-plugin': {
       const [pluginName, version = 'patch'] = args;
