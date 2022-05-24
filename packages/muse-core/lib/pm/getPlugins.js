@@ -7,6 +7,7 @@ module.exports = async (params) => {
 
   try {
     const items = await registry.listWithContent('/plugins');
+
     ctx.plugins = items.map((item) => jsonByYamlBuff(item.content));
     await asyncInvoke('museCore.pm.getPlugins', ctx, params);
   } catch (err) {

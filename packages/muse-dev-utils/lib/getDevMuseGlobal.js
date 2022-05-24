@@ -4,11 +4,11 @@ const muse = require('muse-core');
 
 module.exports = async () => {
   const { app: appName, env: envName = 'staging' } = museConfig.devConfig;
-  const app = await muse.am.getApp(appName);
+  const app = await muse.cache.get(`muse.app.${appName}`);
   const remotePlugins = museConfig?.devConfig?.remotePlugins || [];
 
-  const pluginList = [
-    ...app.envs[envName].pluginList.filter(
+  const plugins = [
+    ...app.envs[envName].plugins.filter(
       (p) => p.type === 'boot' || remotePlugins === '*' || remotePlugins === p.name || remotePlugins.includes(p.name),
     ),
   ];
@@ -16,14 +16,14 @@ module.exports = async () => {
   const localNames = [pkgJson.name];
   const localPlugins = getLocalPlugins();
   localNames.push(...localPlugins.map((p) => p.name));
-  pluginList.push({
+  plugins.push({
     name: localNames.join(','),
     version: 'local',
     url: '/main.js',
   });
 
   getMuseLibs().forEach((libName) => {
-    pluginList.push({
+    plugins.push({
       name: libName,
       version: require(libName + '/package.json').version,
       url: `/_muse_static/local/p/${getPluginId(libName)}/dev/main.js`,
@@ -34,7 +34,7 @@ module.exports = async () => {
     appName: appName,
     envName: envName,
     isDev: true,
-    pluginList,
+    plugins,
     appEntries: [],
     pluginEntries: [],
     cdn: '/_muse_static',

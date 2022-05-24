@@ -10,7 +10,7 @@
       "noSSO": true
     },
     "devConfig": {
-      "app": "nate",
+      "app": "app1",
       "env": "staging",
       "remotePlugins": [
         "@ebay/muse-antd",

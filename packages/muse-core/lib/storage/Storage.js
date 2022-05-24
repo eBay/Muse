@@ -51,13 +51,12 @@ class Storage extends EventEmitter {
   async listWithContent(keyPath) {
     const ctx = {};
     await asyncInvoke(getExtPoint(this.extPath, 'beforeListWithContent'), ctx);
-    ctx.items = await this.list(keyPath);
+    ctx.items = (await this.list(keyPath)).filter((item) => item.type === 'file');
+
     await batchAsync(
-      ctx.items
-        .filter((item) => item.type === 'file')
-        .map((item) => async () => {
-          item.content = await makeRetryAble(async (...args) => this.get(...args))(keyPath + '/' + item.name);
-        }),
+      ctx.items.map((item) => async () => {
+        item.content = await makeRetryAble(async (...args) => this.get(...args))(keyPath + '/' + item.name);
+      }),
       100, // TODO: make it configurable
     );
     await asyncInvoke(getExtPoint(this.extPath, 'afterListWithContent'), ctx);
