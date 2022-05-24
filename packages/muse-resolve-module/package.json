@@ -1,0 +1,9 @@
+{
+  "name": "muse-resolve-module",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.test.js"
+  },
+  "license": "MIT"
+}
