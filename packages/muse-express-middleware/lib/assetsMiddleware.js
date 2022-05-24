@@ -8,7 +8,7 @@ module.exports = (options) => async (req, res, next) => {
 
   const assetKeyPath = req.path.replace(basePath, '');
 
-  const result = await muse.storage.assets.get(assetKeyPath);
+  const result = await muse.storage.assets.get(decodeURIComponent(assetKeyPath));
   if (!result) {
     res.status(404);
     res.write(`Muse asset not found: ${assetKeyPath}.`);

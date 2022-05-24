@@ -126,6 +126,6 @@ export function joinPath(p1, p2) {
 }
 
 export function getPluginId(name) {
-  if (!name.startsWith('@')) return name;
-  return name.replace('@', '').replace('/', '.');
+  if (name.startsWith('@')) return name.replace('/', '.');
+  return name;
 }
