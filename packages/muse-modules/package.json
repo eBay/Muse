@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "node index.test.js"
+    "test": "node test.js"
   },
   "license": "MIT"
 }

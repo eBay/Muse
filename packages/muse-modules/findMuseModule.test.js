@@ -1,10 +1,10 @@
-const findMuseModule = require('./index');
+const findMuseModule = require('./findMuseModule');
 
 const expectEqual = (a, b) => {
-  if (a !== b) throw new Error(`Expect ${a} equals to ${b}`);
+  if (a !== b) throw new Error(`Expected ${a}, but got ${b}`);
 };
 const getId = (id) => () => id;
-const moduleIds = [
+const museIds = [
   'lib1@1.0.3/src/index.js',
   'lib1@1.0.4/src/index.js',
   'lib1@1.1.1/src/index.js',
@@ -12,11 +12,10 @@ const moduleIds = [
   'lib2@1.0.0/src/test.js',
   '@ebay/lib3@2.9.0/lib/index.js',
 ];
-const all = {};
-global.window = { __muse_shared_modules__: all };
-Object.defineProperty(all, '__muse_cache__', { value: null, writable: true });
-moduleIds.forEach((id) => {
-  all[id] = getId(id);
+const museSharedModules = { modules: {} };
+
+museIds.forEach((id) => {
+  museSharedModules.modules[id] = getId(id);
 });
 
 const expectedResult = [
@@ -31,8 +30,9 @@ const expectedResult = [
   ['@ebay/lib3@200.9.0/lib/index.js', '@ebay/lib3@2.9.0/lib/index.js'],
 ];
 
-expectedResult.forEach(([a, b]) => {
-  expectEqual(findMuseModule(a, all)(), b);
+expectedResult.forEach(([museId, resolvedMuseId]) => {
+  console.log('Test: ', museId);
+  expectEqual(findMuseModule(museId, museSharedModules)(), resolvedMuseId);
 });
 
-console.log('Test success.');
+console.log('✅ Test success.');
