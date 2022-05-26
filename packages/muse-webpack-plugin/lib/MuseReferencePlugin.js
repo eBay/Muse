@@ -78,7 +78,7 @@ class MuseReferencePlugin {
       /** @type {Externals} */
       const externals = {};
       const source = 'muse-shared-modules';
-      externals[source] = 'MUSE_GLOBAL.__muse_shared__.require';
+      externals[source] = 'MUSE_GLOBAL.__shared__.require';
       const normalModuleFactory = params.normalModuleFactory;
       new ExternalModuleFactoryPlugin(sourceType || 'var', externals).apply(normalModuleFactory);
       new MuseDelegatedModuleFactoryPlugin({

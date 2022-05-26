@@ -25,11 +25,7 @@ const makeSerializable = require('webpack/lib/util/makeSerializable');
 /** @typedef {import("./util/fs").InputFileSystem} InputFileSystem */
 
 const TYPES = new Set(['javascript']);
-const RUNTIME_REQUIREMENTS = new Set([
-  RuntimeGlobals.require,
-  RuntimeGlobals.global,
-  RuntimeGlobals.module,
-]);
+const RUNTIME_REQUIREMENTS = new Set([RuntimeGlobals.require, RuntimeGlobals.global, RuntimeGlobals.module]);
 
 class MuseModule extends Module {
   constructor(context, dependencies, name) {
@@ -81,30 +77,30 @@ class MuseModule extends Module {
    * @returns {CodeGenerationResult} result
    */
   codeGeneration(context) {
-    const fs = context.runtimeTemplate.compilation.inputFileSystem;
-    const srcFindMuseModule = fs
-      .readFileSync(path.join(__dirname, './findMuseModule.js'))
-      .toString('utf-8')
-      .replace(
-        'module.exports = findMuseModule;',
-        `var __muse_module_cache__ = {};
-module.exports = (moduleId) => {
-  // Check if module is in cache
-  var cachedModule = __muse_module_cache__[moduleId];
-  if (!cachedModule) {
-    museModule = cachedModule;
-    __muse_module_cache__[moduleId] = findMuseModule(moduleId)
-  }
+    //     const fs = context.runtimeTemplate.compilation.inputFileSystem;
+    //     const srcFindMuseModule = fs
+    //       .readFileSync(path.join(__dirname, './findMuseModule.js'))
+    //       .toString('utf-8')
+    //       .replace(
+    //         'module.exports = findMuseModule;',
+    //         `var __muse_module_cache__ = {};
+    // module.exports = (moduleId) => {
+    //   // Check if module is in cache
+    //   var cachedModule = __muse_module_cache__[moduleId];
+    //   if (!cachedModule) {
+    //     museModule = cachedModule;
+    //     __muse_module_cache__[moduleId] = findMuseModule(moduleId)
+    //   }
 
-  // Use module's require method to get the final module
-  const m = __muse_module_cache__[moduleId];
-  if (!m) throw new Error('Muse module not found: ' + moduleId);
-  return m.__webpack_require__(m.id);
-};`,
-      )
-      .replace('__webpack_require_global__', RuntimeGlobals.global);
+    //   // Use module's require method to get the final module
+    //   const m = __muse_module_cache__[moduleId];
+    //   if (!m) throw new Error('Muse module not found: ' + moduleId);
+    //   return m.__webpack_require__(m.id);
+    // };`,
+    //       )
+    //       .replace('__webpack_require_global__', RuntimeGlobals.global);
     const sources = new Map();
-    sources.set('javascript', new RawSource(srcFindMuseModule));
+    sources.set('javascript', new RawSource(''));
     return {
       sources,
       runtimeRequirements: RUNTIME_REQUIREMENTS,
