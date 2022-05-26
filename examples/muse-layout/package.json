@@ -11,8 +11,8 @@
   "devDependencies": {},
   "scripts": {
     "start": "PORT=3032 muse start",
-    "build": "muse-scripts-react build",
-    "build:dev": "muse-scripts-react build --dev"
+    "build": "NODE_PATH=./node_modules muse-scripts-react build",
+    "build:dev": "NODE_PATH=./node_modules muse-scripts-react build --dev"
   },
   "browserslist": {
     "production": [
