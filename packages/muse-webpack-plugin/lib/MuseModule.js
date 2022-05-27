@@ -77,29 +77,8 @@ class MuseModule extends Module {
    * @returns {CodeGenerationResult} result
    */
   codeGeneration(context) {
-    //     const fs = context.runtimeTemplate.compilation.inputFileSystem;
-    //     const srcFindMuseModule = fs
-    //       .readFileSync(path.join(__dirname, './findMuseModule.js'))
-    //       .toString('utf-8')
-    //       .replace(
-    //         'module.exports = findMuseModule;',
-    //         `var __muse_module_cache__ = {};
-    // module.exports = (moduleId) => {
-    //   // Check if module is in cache
-    //   var cachedModule = __muse_module_cache__[moduleId];
-    //   if (!cachedModule) {
-    //     museModule = cachedModule;
-    //     __muse_module_cache__[moduleId] = findMuseModule(moduleId)
-    //   }
-
-    //   // Use module's require method to get the final module
-    //   const m = __muse_module_cache__[moduleId];
-    //   if (!m) throw new Error('Muse module not found: ' + moduleId);
-    //   return m.__webpack_require__(m.id);
-    // };`,
-    //       )
-    //       .replace('__webpack_require_global__', RuntimeGlobals.global);
     const sources = new Map();
+    // TODO: Not sure for now how to avoid an empty module
     sources.set('javascript', new RawSource(''));
     return {
       sources,
