@@ -20,6 +20,7 @@ module.exports = async (req, res) => {
     appName: appName,
     envName: envName,
     plugins,
+    isDev: true,
     pluginList: plugins,
     cdn: '/muse-assets',
     bootPlugin: bootPlugin.name,

@@ -1,10 +1,20 @@
 // boot plugin is used to load other plugins based on the app config
+import museModules from 'muse-modules';
 import { loadInParallel, getPluginId } from './utils';
 
 async function start() {
+  if (!window.MUSE_GLOBAL) {
+    window.MUSE_GLOBAL = {};
+  }
   Object.assign(window.MUSE_GLOBAL, {
     appEntries: [],
     pluginEntries: [],
+    __shared__: {
+      modules: {},
+      register: museModules.register,
+      require: museModules.require,
+      parseMuseId: museModules.parseMuseId,
+    },
   });
   const { cdn = '', plugins = [], entry = 'muse-react', pluginEntries, appEntries, isDev = false } = window.MUSE_GLOBAL;
   window.MUSE_CONFIG = window.MUSE_GLOBAL;

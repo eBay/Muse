@@ -34,7 +34,7 @@
     "e2e-test": "muse-scripts e2e-test",
     "prestart2": "muse-scripts check-updates",
     "prebuild2": "muse-scripts check-updates",
-    "deploy": "yarn build && node scripts/deploy.js ../../cc/app-plugin"
+    "deploy": "yarn build:dev && muse release @ebay/muse-react && muse deploy app1 staging @ebay/muse-react"
   },
   "dependencies": {
     "@craco/craco": "^6.4.3",

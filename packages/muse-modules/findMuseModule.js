@@ -20,16 +20,15 @@ const diffLt = (d1, d2) => {
  * @param {*} museSharedModules { modules, cache }
  * @returns
  */
-function findMuseModule(museId, museSharedModules) {
-  console.log('finding module: ', museId);
-  if (!museSharedModules) museSharedModules = globalThis.__muse_shared_modules__;
+function findMuseModule(museId, museShared) {
+  if (!museShared) museShared = MUSE_GLOBAL.__shared__;
 
-  if (museSharedModules.modules[museId]) return museSharedModules.modules[museId];
-  let cache = museSharedModules.cache;
+  if (museShared.modules[museId]) return museShared.modules[museId];
+  let cache = museShared.cache;
 
   if (!cache) {
-    buildCache(museSharedModules);
-    cache = museSharedModules.cache;
+    buildCache(museShared);
+    cache = museShared.cache;
   }
 
   const m = parseMuseId(museId);
@@ -37,7 +36,7 @@ function findMuseModule(museId, museSharedModules) {
   if (!m) return null;
   const candidates = cache[m.id];
   if (!candidates) return null;
-  if (candidates.length === 1) return museSharedModules.modules[candidates[0].museId];
+  if (candidates.length === 1) return museShared.modules[candidates[0].museId];
   let closest = candidates[0];
   let minDiff = verDiff(m.version, closest.version);
 
@@ -50,7 +49,7 @@ function findMuseModule(museId, museSharedModules) {
     }
   });
 
-  return museSharedModules.modules[closest.museId];
+  return museShared.modules[closest.museId];
 }
 
 module.exports = findMuseModule;

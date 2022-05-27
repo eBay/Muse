@@ -1,4 +1,5 @@
 module.exports = {
-  museRequire,
-  register,
+  require: require('./museRequire'),
+  register: require('./register'),
+  parseMuseId: require('./parseMuseId'),
 };

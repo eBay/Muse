@@ -1,5 +1,5 @@
 {
-  "name": "muse-resolve-module",
+  "name": "muse-modules",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {

@@ -55,7 +55,7 @@ class MuseEntryPlugin {
         //         `);
         if (this.options.type === 'lib') {
           result.add('// For lib plugins, share all modules by MUSE_GLOBAL.\n');
-          result.add(`MUSE_GLOBAL.__shared__.register(__webpack_modules__);\n`);
+          result.add(`MUSE_GLOBAL.__shared__.register(__webpack_modules__, __webpack_require__);\n`);
           //           result.add(`
           // if (!g.__muse_shared_modules__) {
           //   g.__muse_shared_modules__ = {};

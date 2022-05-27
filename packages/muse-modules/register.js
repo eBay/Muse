@@ -1,5 +1,5 @@
 const globalThis = require('./globalThis');
-
+const parseMuseId = require('./parseMuseId');
 /**
  * Register modules to muse module system.
  *
@@ -7,12 +7,12 @@ const globalThis = require('./globalThis');
  * @param {Function} __require__ used to require the actual module, for example: __webpack_require__
  */
 function register(modules, __require__) {
-  for (const p in modules) {
+  for (const mid in modules) {
     // If it's not muse module, continue
-    if (!p.includes('@')) continue;
-    const m = modules[p];
-    globalThis.MUSE_GLOBAL.__shared_modules__.modules[p] = {
-      id: p,
+    if (!parseMuseId(mid)) continue;
+    const m = modules[mid];
+    globalThis.MUSE_GLOBAL.__shared__.modules[mid] = {
+      id: mid,
       __require__,
     };
   }

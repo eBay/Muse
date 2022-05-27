@@ -12,7 +12,8 @@
   "scripts": {
     "start": "PORT=3032 muse start",
     "build": "NODE_PATH=./node_modules muse-scripts-react build",
-    "build:dev": "NODE_PATH=./node_modules muse-scripts-react build --dev"
+    "build:dev": "NODE_PATH=./node_modules muse-scripts-react build --dev",
+    "deploy": "yarn build:dev && muse release muse-layout && muse deploy app1 staging muse-layout"
   },
   "browserslist": {
     "production": [
