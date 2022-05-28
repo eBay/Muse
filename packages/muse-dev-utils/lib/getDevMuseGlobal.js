@@ -16,11 +16,14 @@ module.exports = async () => {
   const localNames = [pkgJson.name];
   const localPlugins = getLocalPlugins();
   localNames.push(...localPlugins.map((p) => p.name));
-  plugins.push({
-    name: localNames.join(','),
-    version: 'local',
-    url: '/main.js',
-  });
+  if (museConfig.type !== 'boot') {
+    // boot plugin is loaded directly by HtmlWebpackPlugin
+    plugins.push({
+      name: localNames.join(','),
+      version: 'local',
+      url: '/main.js',
+    });
+  }
 
   getMuseLibs().forEach((libName) => {
     plugins.push({
