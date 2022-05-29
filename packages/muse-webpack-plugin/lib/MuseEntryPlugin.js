@@ -53,7 +53,7 @@ class MuseEntryPlugin {
           .map((m) => m.buildInfo.museData.id)
           .forEach((mid) => {
             result.add(
-              `MUSE_GLOBAL.__plugin_entries__.push({ id: "${mid}", func: () => __webpack_require__("${mid}") });\n`,
+              `MUSE_GLOBAL.pluginEntries.push({ id: "${mid}", func: () => __webpack_require__("${mid}") });\n`,
             );
           });
 

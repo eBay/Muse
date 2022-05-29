@@ -5,11 +5,13 @@ const muse = require('muse-core');
 const castArray = (a) => (Array.isArray(a) ? a : [a]);
 const getPluginByUrl = (s) => {
   const arr = s.split(':');
-  const nameArr = arr.split('#');
+  const nameArr = arr[0].split('#');
+  const url = arr.slice(1).join(':');
+
   return {
     name: nameArr[0],
     type: nameArr[1] || 'normal',
-    url: arr.slice(1).join(':'),
+    url,
   };
 };
 module.exports = async () => {
@@ -46,16 +48,16 @@ module.exports = async () => {
     plugins = plugins.filter((p) => p.type !== 'boot');
     plugins.unshift({
       name: pkgJson.name,
+      dev: true,
       type: 'boot',
-      version: 'local.dev',
       url: '/boot.js',
     });
   } else {
     // boot plugin is loaded directly by HtmlWebpackPlugin
     plugins.push({
       name: localNames.join(','),
-      version: 'local.dev',
       url: '/main.js',
+      dev: true,
     });
 
     // Boot plugin should not depends on libs

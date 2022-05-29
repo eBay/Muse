@@ -25,9 +25,9 @@ async function start() {
   if (!bootPlugin) {
     throw new Error('Boot plugin not found.');
   }
-  console.log(`Loading Muse app by ${bootPlugin.name}@${bootPlugin.version}...`);
+  console.log(`Loading Muse app by ${bootPlugin.name}@${bootPlugin.version || bootPlugin.url}...`);
   console.log(`Plugins(${plugins.length}):`);
-  plugins.forEach((p) => console.log(`  * ${p.name}@${p.version}`));
+  plugins.forEach((p) => console.log(`  * ${p.name}@${p.version || p.url}`));
 
   // Load plugins bundles
   const pluginUrls = plugins
