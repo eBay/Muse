@@ -31,6 +31,8 @@ async function start() {
     appEntries,
     isDev = false,
   } = window.MUSE_GLOBAL;
+
+  // TODO: remove below two lines after migrate old Muse plugins inside eBay
   window.MUSE_CONFIG = window.MUSE_GLOBAL;
   window.MUSE_GLOBAL.getUser = () => ({});
 
