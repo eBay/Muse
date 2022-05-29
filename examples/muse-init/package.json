@@ -1,0 +1,31 @@
+{
+  "name": "muse-init",
+  "version": "1.0.0",
+  "main": "index.js",
+  "muse": {
+    "type": "init"
+  },
+  "scripts": {
+    "start": "NODE_PATH=./node_modules muse-scripts-react start",
+    "build": "NODE_PATH=./node_modules muse-scripts-react build --verbose",
+    "build:dev": "NODE_PATH=./node_modules muse-scripts-react build --dev --verbose",
+    "deploy": "yarn build && muse release muse-init && muse deploy app1 staging muse-init"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@craco/craco": "^6.4.3",
+    "react-scripts": "^5.0.1"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

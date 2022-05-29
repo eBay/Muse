@@ -48,12 +48,12 @@ class MuseEntryPlugin {
           result.add('// For lib plugins, share all modules by MUSE_GLOBAL.\n');
           result.add(`MUSE_GLOBAL.__shared__.register(__webpack_modules__, __webpack_require__);\n`);
         }
-
+        const entryProperty = this.options.type === 'init' ? 'initEntries' : 'pluginEntries';
         entryModules
           .map((m) => m.buildInfo.museData.id)
           .forEach((mid) => {
             result.add(
-              `MUSE_GLOBAL.pluginEntries.push({ id: "${mid}", func: () => __webpack_require__("${mid}") });\n`,
+              `MUSE_GLOBAL.${entryProperty}.push({ id: "${mid}", func: () => __webpack_require__("${mid}") });\n`,
             );
           });
 
