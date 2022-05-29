@@ -1,11 +1,11 @@
 const express = require('express');
 const path = require('path');
-// const webpackDevMiddleware = require('./webpackDevMiddleware');
 const museAssetsMiddleware = require('muse-express-middleware/lib/assetsMiddleware');
 const { getMuseLibs } = require('./utils');
 const muse = require('muse-core');
 
 module.exports = (devServer) => {
+  // serve local muse libs resources
   getMuseLibs().forEach((libName) => {
     const id = muse.utils.getPluginId(libName);
     const pkgJsonPath = require.resolve(libName + '/package.json');

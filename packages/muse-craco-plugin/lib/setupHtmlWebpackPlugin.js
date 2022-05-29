@@ -11,15 +11,16 @@ module.exports = async (cracoConfig) => {
   if (!isDev) return;
   // Use index.html only when dev time
   // Add new HtmlWebpackPlugin to use custom template
-  const isBoot = museConfig.type === 'boot';
   const museGlobal = await getDevMuseGlobal();
   // bootPlugin is only useful when it's not a boot plugin project
   const bootPlugin = museGlobal.plugins.find((p) => p.type === 'boot');
+  const bootUrl =
+    bootPlugin.url || `/_muse_static/p/${muse.utils.getPluginId(bootPlugin.name)}/v${bootPlugin.version}/dist/boot.js`;
   cracoConfig.webpack.plugins.add.push(
     ...[
       [
         new HtmlWebpackPlugin({
-          excludeChunks: [isBoot ? '' : 'main'],
+          excludeChunks: ['main'],
           inject: 'body',
           template: path.join(__dirname, './index.html'),
           title: pkgJson.name,
@@ -34,12 +35,10 @@ module.exports = async (cracoConfig) => {
           newline: true,
         }),
       ],
-      !isBoot && [
+      [
         new HtmlWebpackInjectStringPlugin({
           search: '</body>',
-          inject: `<script src="/_muse_static/p/${muse.utils.getPluginId(bootPlugin.name)}/v${
-            bootPlugin.version
-          }/dist/boot.js"></script>`,
+          inject: `<script src="${bootUrl}"></script>`,
           prepend: false,
           newline: true,
         }),
