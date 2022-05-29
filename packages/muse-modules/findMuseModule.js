@@ -1,6 +1,5 @@
 const parseMuseId = require('./parseMuseId');
 const buildCache = require('./buildCache');
-const globalThis = require('./globalThis');
 
 // Get the version diff, e.g: [1,2,3] - [1,2,4] = [0,0,1]
 const verDiff = (v1, v2) => [0, 1, 2].map((i) => Math.abs(v1[i] - v2[i]));

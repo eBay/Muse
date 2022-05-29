@@ -1,4 +1,4 @@
-const globalThis = require('./globalThis');
+const theGlobal = require('./getGlobal');
 const parseMuseId = require('./parseMuseId');
 /**
  * Register modules to muse module system.
@@ -11,7 +11,7 @@ function register(modules, __require__) {
     // If it's not muse module, continue
     if (!parseMuseId(mid)) continue;
     const m = modules[mid];
-    globalThis.MUSE_GLOBAL.__shared__.modules[mid] = {
+    theGlobal.MUSE_GLOBAL.__shared__.modules[mid] = {
       id: mid,
       __require__,
     };
