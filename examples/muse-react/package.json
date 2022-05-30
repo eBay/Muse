@@ -27,9 +27,9 @@
     "src"
   ],
   "scripts": {
-    "start": "NODE_PATH=./node_modules PORT=3030 craco start",
-    "build": "NODE_PATH=./node_modules muse-scripts-react build --verbose",
-    "build:dev": "NODE_PATH=./node_modules muse-scripts-react build --dev --verbose",
+    "start": "cross-env NODE_PATH=./node_modules PORT=3030 muse-scripts-react start",
+    "build": "cross-env NODE_PATH=./node_modules muse-scripts-react build --verbose",
+    "build:dev": "cross-env NODE_PATH=./node_modules muse-scripts-react build --dev --verbose",
     "test": "craco test",
     "e2e-test": "muse-scripts e2e-test",
     "prestart2": "muse-scripts check-updates",
@@ -42,7 +42,6 @@
     "axios": "^0.20.0",
     "connected-react-router": "^6.8.0",
     "craco-less": "^2.0.0",
-    "cross-env": "^7.0.2",
     "js-plugin": "1.0.9",
     "lodash": "^4.17.20",
     "muse-craco-plugin": "../../packages/muse-craco-plugin",
@@ -62,7 +61,9 @@
     "redux-thunk": "^2.3.0",
     "typescript": "^4.6.3"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "cross-env": "^7.0.3"
+  },
   "browserslist": {
     "production": [
       ">0.2%",

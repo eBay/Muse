@@ -14,12 +14,13 @@
     }
   },
   "scripts": {
-    "start": "NODE_PATH=./node_modules muse-scripts-react start",
-    "build": "NODE_PATH=./node_modules muse-scripts-react build --verbose",
+    "start": "cross-env NODE_PATH=./node_modules muse-scripts-react start",
+    "build": "cross-env NODE_PATH=./node_modules muse-scripts-react build --verbose",
     "deploy": "yarn build && muse release muse-boot && muse deploy app1 staging muse-boot"
   },
   "devDependencies": {
     "@craco/craco": "^6.4.3",
+    "cross-env": "^7.0.3",
     "eslint": "^8.15.0",
     "react": "^18.1.0",
     "react-scripts": "^5.0.1"

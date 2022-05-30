@@ -6,8 +6,8 @@
     "type": "init"
   },
   "scripts": {
-    "start": "NODE_PATH=./node_modules muse-scripts-react start",
-    "build": "NODE_PATH=./node_modules muse-scripts-react build --verbose",
+    "start": "cross-env NODE_PATH=./node_modules muse-scripts-react start",
+    "build": "cross-env NODE_PATH=./node_modules muse-scripts-react build --verbose",
     "build:dev": "NODE_PATH=./node_modules muse-scripts-react build --dev --verbose",
     "deploy": "yarn build && muse release muse-init-plugin-sample && muse deploy app1 staging muse-init-plugin-sample"
   },
@@ -27,5 +27,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3"
   }
 }
