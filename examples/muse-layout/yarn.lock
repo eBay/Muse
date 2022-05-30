@@ -3368,7 +3368,7 @@ create-require@^1.1.0:
   resolved "https://npm.corp.ebay.com/create-require/-/create-require-1.1.1.tgz#c1d7e8f1e5f6cfc9ff65f9cd352d37348756c333"
   integrity sha1-wdfo8eX2z8n/ZfnNNS03NIdWwzM=
 
-cross-env@^7.0.2:
+cross-env@^7.0.2, cross-env@^7.0.3:
   version "7.0.3"
   resolved "https://npm.corp.ebay.com/cross-env/-/cross-env-7.0.3.tgz#865264b29677dc015ba8418918965dd232fc54cf"
   integrity sha1-hlJkspZ33AFbqEGJGJZd0jL8VM8=
@@ -4931,6 +4931,11 @@ html-minifier-terser@^6.0.2:
     relateurl "^0.2.7"
     terser "^5.10.0"
 
+html-webpack-inject-string-plugin@^1.0.2:
+  version "1.0.2"
+  resolved "https://npm.corp.ebay.com/html-webpack-inject-string-plugin/-/html-webpack-inject-string-plugin-1.0.2.tgz#785a0cf80e08a5831a439a8b10bf04366afbcea1"
+  integrity sha1-eFoM+A4IpYMaQ5qLEL8ENmr7zqE=
+
 html-webpack-plugin@^5.5.0:
   version "5.5.0"
   resolved "https://npm.corp.ebay.com/html-webpack-plugin/-/html-webpack-plugin-5.5.0.tgz#c3911936f57681c1f9f4d8b68c158cd9dfe52f50"
@@ -6462,11 +6467,17 @@ multicast-dns@^7.2.4:
 muse-craco-plugin@../../packages/muse-craco-plugin:
   version "1.0.0"
   dependencies:
-    muse-webpack-plugin "link:../../../../Library/Caches/Yarn/v6/npm-muse-craco-plugin-1.0.0-2833d462-884a-461c-9d95-694aa1f013af-1651132431542/node_modules/muse-webpack-plugin"
+    html-webpack-inject-string-plugin "^1.0.2"
+    muse-webpack-plugin "link:../../../../../Users/mcubellsbaeza/AppData/Local/Yarn/Cache/v6/npm-muse-craco-plugin-1.0.0-a1811401-6ef6-4b39-86f4-99607034ee49-1653899518058/node_modules/muse-webpack-plugin"
 
 "muse-craco-plugin@link:../../packages/muse-craco-plugin":
   version "0.0.0"
   uid ""
+
+muse-scripts-react@../../packages/muse-scripts-react:
+  version "1.0.0"
+  dependencies:
+    cross-spawn "^7.0.3"
 
 "muse-webpack-plugin@link:../../packages/muse-webpack-plugin":
   version "0.0.0"

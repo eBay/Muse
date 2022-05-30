@@ -12,11 +12,13 @@
     "build",
     "src"
   ],
-  "devDependencies": {},
+  "devDependencies": {
+    "cross-env": "^7.0.3"
+  },
   "scripts": {
-    "start": "NODE_PATH=./node_modules PORT=3031 muse start",
-    "build": "NODE_PATH=./node_modules muse-scripts-react build",
-    "build:dev": "NODE_PATH=./node_modules muse-scripts-react build --dev",
+    "start": "cross-env NODE_PATH=./node_modules PORT=3031 muse-scripts-react start",
+    "build": "cross-env NODE_PATH=./node_modules muse-scripts-react build",
+    "build:dev": "cross-env NODE_PATH=./node_modules muse-scripts-react build --dev",
     "deploy": "yarn build:dev && yarn build && muse release muse-antd && muse deploy app1 staging muse-antd"
   },
   "browserslist": {
@@ -34,7 +36,6 @@
   "dependencies": {
     "@ant-design/icons": "^4.2.1",
     "@craco/craco": "^6.4.3",
-    "muse-craco-plugin": "../../packages/muse-craco-plugin",
     "@ebay/muse-react": "link:../muse-react",
     "antd": "4.7.3",
     "antd-form-builder": "2.1.2",
@@ -42,6 +43,7 @@
     "js-plugin": "^1.0.7",
     "lodash": "^4.17.20",
     "moment": "^2.27.0",
+    "muse-craco-plugin": "../../packages/muse-craco-plugin",
     "react": "^18.0.0",
     "react-copy-to-clipboard": "^5.0.2",
     "react-dom": "^18.0.0",
