@@ -12,7 +12,7 @@
     "cross-env": "^7.0.3"
   },
   "scripts": {
-    "start": "cross-env PORT=3032 muse start",
+    "start": "cross-env PORT=3032 muse-scripts-react start",
     "build": "cross-env NODE_PATH=./node_modules muse-scripts-react build",
     "build:dev": "cross-env NODE_PATH=./node_modules muse-scripts-react build --dev",
     "deploy": "yarn build:dev && muse release muse-layout && muse deploy app1 staging muse-layout"
