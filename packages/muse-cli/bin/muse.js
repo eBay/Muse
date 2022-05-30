@@ -11,7 +11,7 @@ console.error = (message) => console.log(chalk.red(message));
 (async () => {
   const cmd = process.argv[2];
   const args = process.argv.slice(3);
-  console.log(chalk.blue('Muse: ' + cmd));
+  console.log(chalk.blue('Muse: ' + cmd || 'version'));
 
   switch (cmd) {
     case 'list-apps': {
@@ -33,6 +33,12 @@ console.error = (message) => console.log(chalk.red(message));
       const app = await muse.am.getApp(appName);
       console.log(chalk.cyan(JSON.stringify(app, null, 2)));
       break;
+    }
+
+    case 'view-full-app': {
+      const [appName] = args;
+      const fullApp = await muse.cache.get(`muse.app.${appName}`);
+      console.log(chalk.cyan(JSON.stringify(fullApp, null, 2)));
     }
 
     case 'view-full-app': {
@@ -96,6 +102,7 @@ console.error = (message) => console.log(chalk.red(message));
       break;
     }
 
+    case 'version':
     case undefined: {
       console.log(chalk.cyan(`Muse version ${require('../package.json').version}.`));
       break;
