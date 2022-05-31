@@ -2,8 +2,8 @@
 Muse global command line interface to manage Muse apps/plugins.
 
 ## App management
-* ✅ `muse create-app` [app-name] Create a new app.
-* ✅ `muse view-app` [app-name] View the app meta.
+* ✅ `muse create-app [app-name]` Create a new app.
+* ✅ `muse view-app [app-name]` View the app meta.
 * ✅ `muse view-full-app [app-name]` View the full app including deployed plugins.
 * ❓ `muse delete-app [app-name]`
 * ✅ `muse list-apps` View all Muse apps in the registry.
