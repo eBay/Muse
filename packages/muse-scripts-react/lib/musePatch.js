@@ -1,7 +1,7 @@
 // Patch react-scripts and craco to support development build
 const fs = require('fs');
 
-// Patch muse-scripts/scripts/build.js
+// Patch react-scripts/scripts/build.js
 const markPatched = `// muse_scripts_react_patched\r\n`;
 let p, content;
 
@@ -26,7 +26,7 @@ if (process.env.MUSE_DEV_BUILD) {
     .replace("configFactory('production')", `configFactory(process.env.MUSE_DEV_BUILD ? 'development' : 'production')`)
     .replace(
       'Creating an optimized production build...',
-      `Creating an ' + (process.env.MUSE_DEV_BUILD ? 'development' : 'optimized production') + ' build...`,
+      `Creating ' + (process.env.MUSE_DEV_BUILD ? 'a development' : 'an optimized production') + ' build...`,
     );
 
   content = `${markPatched}${content}`;
