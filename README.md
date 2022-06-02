@@ -9,33 +9,24 @@ This is a monorepo to host all Muse code.
 
 ## Dev Guide
 
-First, run `yarn` to install dependencies under folders of `examples` and `packages`.
+1. Run `yarn` to install dependencies under folders of `examples` and `packages`.
+2. Run `npm link` under `packages/muse-cli` to enable the global `muse` command.
+3. Create a Muse app in the local registry: `muse create-app app1`
+4. Create a new staging env on app1: `muse create-env app1 staging`
+5. Create muse plugin in the local registry for projects under `/examples`:
+   - Create plugin `muse create @ebay/muse-react`
+   - Build plugin: run `yarn build` and `yarn build:dev` under example projects
+   - Release plugin: run `muse release @ebay/muse-react` under example projects (use correct plugin name)
+   - Deploy plugin on `app1/staging`: `muse deploy app1 staging @ebay/muse-react`. This deploy the latest version of plugin on the app.
+6. Go to `packages/muse-web` and run `yarn start` to start the Muse sample app server.
 
-1. Execute `yarn link` under below folder in `packages`:
-- muse-craco-plugin
-- muse-webpack-plugin
-- muse-scripts-react
+Then you should able to access http://localhost:6070 to see the Muse app locally.
 
-2. Under `pakcages/muse-craco-plugin`:
-`yarn link muse-webpack-plugin`
+> NOTE: whenever some packages missing when run above commands. Plz `yarn link` the missing ones.
 
-3. Under examples projects, link `muse-craco-plugin`:
-`yarn link muse-craco-plugin`
+To start a example local project, you can use `yarn start` just like the current Muse behavior. And it also supports `MUSE_LOCAL_PLUGINS` in the `.env` file.
 
-4. Execute `yarn link` under library plugins in `examples/muse-react` and `examples/muse-antd`.
-
-5. Link library plugins for dependent plugins:
-- under `examples/muse-antd`: `yarn link @ebay/muse-react`
-- under `examples/muse-layout`: `yarn link @ebay/muse-react` and `yarn link @ebay/muse-antd`.
-
-Then you are able to run below commands under examples projects:
-- `NODE_PATH=./node_modules yarn start`
-- `NODE_PATH=./node_modules yarn build`
-- `NODE_PATH=./node_modules yarn build:dev`
-
-> NOTE: `NODE_PATH=./node_modules` tells the linked packages use the current working directory.
-
-To load the Muse app, there is a temp `packages/muse-dev-server` project, run `yarn start` and modify `lib/index.html` to adjust the plugins and bundles of plugins.
+For the full Muse CLI commands, please see: https://github.corp.ebay.com/muse/muse-next/tree/main/packages/muse-cli .
 
 ## License
 MIT
