@@ -28,5 +28,6 @@ To start a example local project, you can use `yarn start` just like the current
 
 For the full Muse CLI commands, please see: https://github.corp.ebay.com/muse/muse-next/tree/main/packages/muse-cli .
 
+> You can check `<home-dir>/muse-storage` to see the new Muse registry and static resource storage.
 ## License
 MIT
