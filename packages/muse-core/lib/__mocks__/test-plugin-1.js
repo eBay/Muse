@@ -4,7 +4,7 @@ module.exports = {
   museCore: {
     registry: {
       storage: {
-        get: () => 'dummy get',
+        get: () => 'dummy get registry',
       },
     },
   },

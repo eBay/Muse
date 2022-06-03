@@ -1,9 +1,9 @@
 module.exports = {
   name: 'test-plugin-2',
   museCore: {
-    registry: {
+    assets: {
       storage: {
-        get: () => 'dummy get',
+        get: () => 'dummy get assets',
       },
     },
   },
