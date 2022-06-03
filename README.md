@@ -29,5 +29,40 @@ To start a example local project, you can use `yarn start` just like the current
 For the full Muse CLI commands, please see: https://github.corp.ebay.com/muse/muse-next/tree/main/packages/muse-cli .
 
 > You can check `<home-dir>/muse-storage` to see the new Muse registry and static resource storage.
+
+## Muse Core Configuration
+Muse engine could be extended by plugins, for example log, monitoring, storage, etc. All muse-core plugins are normal npm modules defined in `muse.config.yaml`.
+
+Muse core config is designed with a simple structure, that is all configurations are done by plugins excepts two config:
+  - defaultRegistryStorageOptions
+  - defaultAssetsStorageOptions
+
+The two special ones are used for default FileStorage for registry and assets.
+
+A muse-core plugin is a normal `js-plugin` instance (js object).
+
+Muse will look for a config file from the current working directory and then homedir of the current os.
+
+For example:
+```yaml
+plugins:
+  - git-registry-storage-plugin # defined by string
+  - module: perf-plugin/mark-start  # defined by module name and foo
+    options:
+      foo: bar
+  - perf-plugin/log
+```
+
+If a plugin is a string, it will load the plugin instance by `require(moduleName)`, for example: `require('perf-plugin/log')`.
+
+If the loaded plugin instance is a function, it will call the function to return the plugin object by opptions.
+
+When a plugin is registered, it will call `pluginInstance.initialize(options)`.
+
+When all plugins are loaded to Muse system. `pluginInstance.onReady` is called.
+
+Note, all plugin packages should be available in the current working directory.
+
+
 ## License
 MIT
