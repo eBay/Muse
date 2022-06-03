@@ -22,7 +22,9 @@ if (assetsStorageProviders.length === 0) {
     name: 'default-assets-file-storage',
     museCore: {
       assets: {
-        storage: new FileStorage(config.get('assetsStorageOptions') || { location: defaultAssetStorageLocation }),
+        storage: new FileStorage(
+          config.get('defaultAssetsStorageOptions') || { location: defaultAssetStorageLocation },
+        ),
       },
     },
   });

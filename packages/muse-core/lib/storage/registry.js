@@ -24,7 +24,9 @@ if (registryStorageProviders.length === 0) {
     name: 'default-registry-file-storage',
     museCore: {
       registry: {
-        storage: new FileStorage(config.get('registryStorageOptions') || { location: defaultRegistryStorageLocation }),
+        storage: new FileStorage(
+          config.get('defaultRegistryStorageOptions') || { location: defaultRegistryStorageLocation },
+        ),
       },
     },
   });
