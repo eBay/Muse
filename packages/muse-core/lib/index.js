@@ -1,4 +1,4 @@
-require('./initialize');
+require('./initPlugins');
 
 module.exports = {
   am: require('./am'),

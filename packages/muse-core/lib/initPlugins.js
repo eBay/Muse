@@ -11,6 +11,7 @@ config.plugins?.forEach((pluginDef) => {
   let pluginInstance = null;
   let pluginOptions = null;
   if (_.isString(pluginDef)) {
+    console.log(pluginDef);
     pluginInstance = require(pluginDef);
   } else if (_.isObject(pluginDef)) {
     pluginInstance = require(pluginDef.module);
@@ -18,5 +19,7 @@ config.plugins?.forEach((pluginDef) => {
   } else {
     throw new Error(`Unknown plugin definition: ${String(pluginDef)}`);
   }
+  if (_.isFunction(pluginInstance)) pluginInstance = pluginInstance(pluginOptions);
   plugin.register(pluginInstance, pluginOptions);
 });
+plugin.invoke('onReady');

@@ -2,7 +2,7 @@ const path = require('path');
 const { vol } = require('memfs');
 const fs = require('fs-extra');
 const plugin = require('js-plugin');
-const { defaultAssetStorage } = require('../utils');
+const { defaultAssetStorageLocation } = require('../utils');
 
 const testReleasePlugin = {
   name: 'test',
@@ -75,6 +75,8 @@ describe('release plugin basic tests.', () => {
     expect(releases[0]).toMatchObject({ version: '1.0.2', createdBy: 'nate' });
 
     const pid = muse.utils.getPluginId(pluginName);
-    expect(fs.readFileSync(path.join(defaultAssetStorage, `/p/${pid}/v${version}/file99.js`)).toString()).toBe('99');
+    expect(fs.readFileSync(path.join(defaultAssetStorageLocation, `/p/${pid}/v${version}/file99.js`)).toString()).toBe(
+      '99',
+    );
   });
 });

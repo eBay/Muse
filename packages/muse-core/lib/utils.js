@@ -175,6 +175,6 @@ module.exports = {
   updateJson,
   getMuseGlobal,
   osUsername: os.userInfo().username,
-  defaultAssetStorage: path.join(os.homedir(), 'muse-storage/assets'),
-  defaultRegistryStorage: path.join(os.homedir(), 'muse-storage/registry'),
+  defaultAssetStorageLocation: path.join(os.homedir(), 'muse-storage/assets'),
+  defaultRegistryStorageLocation: path.join(os.homedir(), 'muse-storage/registry'),
 };
