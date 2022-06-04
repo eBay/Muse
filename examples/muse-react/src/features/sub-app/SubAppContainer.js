@@ -22,7 +22,7 @@
 import React, { useEffect, useCallback, useRef } from 'react';
 import { useLocation, usePrevious } from 'react-use';
 import _ from 'lodash';
-import pathToRegexp from 'path-to-regexp';
+import { pathToRegexp } from 'path-to-regexp';
 import history from '../../common/history';
 import urlUtils from './urlUtils';
 import { useSetSubAppState } from './redux/hooks';

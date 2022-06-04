@@ -2,10 +2,8 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { Provider, useDispatch, useSelector } from 'react-redux';
-import { Switch, Route } from 'react-router-dom';
-import { ConnectedRouter } from 'connected-react-router';
+import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import _ from 'lodash';
-import { hot } from 'react-hot-loader/root';
 import NiceModal from '@ebay/nice-modal-react';
 import plugin from 'js-plugin';
 import store from './common/store';
@@ -31,7 +29,8 @@ function renderRouteConfigV3(routes, contextPath) {
       children.push(
         <Route
           key={newContextPath.toString()}
-          render={(props) =>
+          element={item.render ? item.render() : <item.component>{childRoutes}</item.component>}
+          render222={(props) =>
             item.render ? (
               item.render(props)
             ) : (
@@ -45,7 +44,8 @@ function renderRouteConfigV3(routes, contextPath) {
       children.push(
         <Route
           key={newContextPath.toString()}
-          render={(props) => (item.render ? item.render(props) : <item.component {...props} />)}
+          element={item.render ? item.render() : <item.component />}
+          render2={(props) => (item.render ? item.render(props) : <item.component {...props} />)}
           path={newContextPath}
           exact={'exact' in item ? item.exact : true}
         />,
@@ -58,7 +58,7 @@ function renderRouteConfigV3(routes, contextPath) {
   routes.forEach((item) => renderRoute(item, contextPath));
 
   // Use Switch so that only the first matched route is rendered.
-  return <Switch>{children}</Switch>;
+  return <Routes>{children}</Routes>;
 }
 
 const renderChildren = (children) => {
@@ -76,7 +76,7 @@ const WrappedInRedux = () => {
   const modals = useSelector((s) => s.modals);
   return (
     <NiceModal.Provider dispatch={dispatch} modals={modals}>
-      <ConnectedRouter history={history}>{renderChildren(children)}</ConnectedRouter>
+      <BrowserRouter history={history}>{renderChildren(children)}</BrowserRouter>
     </NiceModal.Provider>
   );
 };
@@ -102,4 +102,4 @@ const Root = () => {
   );
 };
 
-export default hot(Root);
+export default Root;
