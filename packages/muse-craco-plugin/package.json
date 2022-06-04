@@ -8,7 +8,10 @@
   },
   "dependencies": {
     "html-webpack-inject-string-plugin": "^1.0.2",
-    "muse-webpack-plugin": "link:../muse-webpack-plugin"
+    "muse-core": "workspace:^1.0.0",
+    "muse-dev-utils": "workspace:^1.0.0",
+    "muse-webpack-plugin": "workspace:^1.0.0",
+    "resolve-cwd": "^3.0.0"
   },
   "devDependencies": {
     "eslint": "^8.14.0"

@@ -15,6 +15,9 @@ const getPluginByUrl = (s) => {
   };
 };
 module.exports = async () => {
+  if (!museConfig?.devConfig) {
+    throw new Error(`muse.devConfig section is not found in package.json.`);
+  }
   const { app: appName, env: envName = 'staging' } = museConfig.devConfig;
   const app = await muse.cache.get(`muse.app.${appName}`);
   const remotePlugins = castArray(museConfig?.devConfig?.remotePlugins || []);

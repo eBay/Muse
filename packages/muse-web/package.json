@@ -7,7 +7,9 @@
     "start": "node lib/server.js"
   },
   "dependencies": {
-    "express": "^4.18.1"
+    "express": "^4.18.1",
+    "muse-core": "workspace:^1.0.0",
+    "muse-express-middleware": "workspace:^1.0.0"
   },
   "devDependencies": {
     "eslint": "^8.16.0"

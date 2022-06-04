@@ -3,7 +3,11 @@
   "version": "1.0.46",
   "repository": "",
   "muse": {
-    "type": "lib"
+    "type": "lib",
+    "devConfig": {
+      "app": "app1",
+      "env": "staging"
+    }
   },
   "publishConfig": {
     "registry": "https://artifactory.corp.ebay.com/artifactory/api/npm/npm-muse"
@@ -13,12 +17,15 @@
     "src"
   ],
   "devDependencies": {
-    "cross-env": "^7.0.3"
+    "cross-env": "^7.0.3",
+    "muse-craco-plugin": "workspace:^1.0.0",
+    "muse-scripts-react": "workspace:^1.0.0",
+    "muse-webpack-plugin": "workspace:^1.0.0"
   },
   "scripts": {
-    "start": "cross-env NODE_PATH=./node_modules PORT=3031 muse-scripts-react start",
-    "build": "cross-env NODE_PATH=./node_modules muse-scripts-react build",
-    "build:dev": "cross-env NODE_PATH=./node_modules muse-scripts-react build --dev",
+    "start": "cross-env PORT=3031 muse-scripts-react start",
+    "build": "muse-scripts-react build --verbose",
+    "build:dev": "muse-scripts-react build --dev",
     "deploy": "yarn build:dev && yarn build && muse release muse-antd && muse deploy app1 staging muse-antd"
   },
   "browserslist": {
@@ -36,14 +43,15 @@
   "dependencies": {
     "@ant-design/icons": "^4.2.1",
     "@craco/craco": "^6.4.3",
-    "@ebay/muse-react": "link:../muse-react",
+    "@ebay/muse-react": "workspace:^1.0.24",
     "antd": "4.7.3",
     "antd-form-builder": "2.1.2",
     "craco-less": "^2.0.0",
+    "history": "^5.3.0",
     "js-plugin": "^1.0.7",
     "lodash": "^4.17.20",
     "moment": "^2.27.0",
-    "muse-craco-plugin": "../../packages/muse-craco-plugin",
+    "prop-types": "^15.8.1",
     "react": "^18.0.0",
     "react-copy-to-clipboard": "^5.0.2",
     "react-dom": "^18.0.0",

@@ -15,5 +15,7 @@
   "peerDependencies": {
     "webpack": "^5.68.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "muse-modules": "workspace:^1.0.0"
+  }
 }

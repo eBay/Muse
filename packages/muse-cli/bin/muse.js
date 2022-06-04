@@ -11,7 +11,7 @@ console.error = (message) => console.log(chalk.red(message));
 (async () => {
   const cmd = process.argv[2];
   const args = process.argv.slice(3);
-  console.log(chalk.blue('Muse: ' + cmd || 'version'));
+  console.log(chalk.blue('Muse: ' + (cmd || 'version')));
 
   switch (cmd) {
     case 'list-apps': {
@@ -101,10 +101,11 @@ console.error = (message) => console.log(chalk.red(message));
       console.log(chalk.cyan(`Plugin released ${r.pluginName}@${r.version}`));
       break;
     }
-
+    case '-v':
     case 'version':
     case undefined: {
-      console.log(chalk.cyan(`Muse version ${require('../package.json').version}.`));
+      console.log(chalk.cyan(`Muse CLI version ${require('../package.json').version}.`));
+      console.log(chalk.cyan(`Muse core version ${require('muse-core/package.json').version}.`));
       break;
     }
     default:
