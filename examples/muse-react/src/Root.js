@@ -30,13 +30,6 @@ function renderRouteConfigV3(routes, contextPath) {
         <Route
           key={newContextPath.toString()}
           element={item.render ? item.render() : <item.component>{childRoutes}</item.component>}
-          render222={(props) =>
-            item.render ? (
-              item.render(props)
-            ) : (
-              <item.component {...props}>{childRoutes}</item.component>
-            )
-          }
           path={newContextPath}
         />,
       );
@@ -45,7 +38,6 @@ function renderRouteConfigV3(routes, contextPath) {
         <Route
           key={newContextPath.toString()}
           element={item.render ? item.render() : <item.component />}
-          render2={(props) => (item.render ? item.render(props) : <item.component {...props} />)}
           path={newContextPath}
           exact={'exact' in item ? item.exact : true}
         />,
