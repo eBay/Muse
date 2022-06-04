@@ -99,7 +99,6 @@ export default function MetaMenu({ meta = {}, onClick, baseExtPoint, autoSort = 
     }
     const itemProps = { ...item.props, icon: getIconNode(item) };
     const children = childrenByKey[item.key];
-
     let childNodes = null;
     if (children && children.length) {
       childNodes = children.map(renderItem);

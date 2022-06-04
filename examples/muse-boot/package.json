@@ -21,7 +21,7 @@
   "devDependencies": {
     "@craco/craco": "^6.4.3",
     "cross-env": "^7.0.3",
-    "eslint": "^8.15.0",
+    "eslint": "^8.17.0",
     "react": "^18.1.0",
     "react-scripts": "^5.0.1"
   },
@@ -36,5 +36,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "dependencies": {
+    "muse-craco-plugin": "workspace:^1.0.0",
+    "muse-modules": "workspace:^1.0.0",
+    "muse-scripts-react": "workspace:^1.0.0"
   }
 }

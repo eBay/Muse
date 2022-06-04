@@ -61,9 +61,16 @@ importers:
     specifiers:
       '@craco/craco': ^6.4.3
       cross-env: ^7.0.3
-      eslint: ^8.15.0
+      eslint: ^8.17.0
+      muse-craco-plugin: workspace:^1.0.0
+      muse-modules: workspace:^1.0.0
+      muse-scripts-react: workspace:^1.0.0
       react: ^18.1.0
       react-scripts: ^5.0.1
+    dependencies:
+      muse-craco-plugin: link:../../packages/muse-craco-plugin
+      muse-modules: link:../../packages/muse-modules
+      muse-scripts-react: link:../../packages/muse-scripts-react
     devDependencies:
       '@craco/craco': 6.4.3_react-scripts@5.0.1
       cross-env: 7.0.3
