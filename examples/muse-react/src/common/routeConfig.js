@@ -86,6 +86,8 @@ const routeConfig = () => {
 
   // Generate the root route '/'
   const museConfig = window.MUSE_CONFIG || {};
+
+  // Find the homepage
   let homepage = Homepage;
   const homepagePlugins = plugin.getPlugins('home.homepage');
   if (homepagePlugins.length === 1) {
@@ -105,7 +107,7 @@ const routeConfig = () => {
   }
 
   newChildRoutes.unshift({
-    path: '/',
+    path: '',
     component: homepage,
   });
 
@@ -123,7 +125,7 @@ const routeConfig = () => {
 
   // Handle parent routes
   handleParentRoutes(routes);
-
+  console.log('routes: ', routes);
   return routes;
 };
 export default routeConfig;

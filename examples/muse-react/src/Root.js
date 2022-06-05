@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { Provider, useDispatch, useSelector } from 'react-redux';
-import { Routes, Route, BrowserRouter } from 'react-router-dom';
+import { Routes, Route, BrowserRouter, Outlet } from 'react-router-dom';
 import _ from 'lodash';
 import NiceModal from '@ebay/nice-modal-react';
 import plugin from 'js-plugin';
@@ -16,6 +16,7 @@ function renderRouteConfigV3(routes, contextPath) {
   const children = []; // children component list
 
   const renderRoute = (item, routeContextPath) => {
+    console.log('render route:', item);
     let newContextPath;
     const isPathArray = _.isArray(item.path);
     if (/^\//.test(item.path) || isPathArray) {
@@ -28,10 +29,21 @@ function renderRouteConfigV3(routes, contextPath) {
       const childRoutes = renderRouteConfigV3(item.childRoutes, newContextPath);
       children.push(
         <Route
+          exact={false}
           key={newContextPath.toString()}
-          element={item.render ? item.render() : <item.component>{childRoutes}</item.component>}
+          element={
+            item.render ? (
+              item.render()
+            ) : (
+              <item.component>
+                <Outlet />
+              </item.component>
+            )
+          }
           path={newContextPath}
-        />,
+        >
+          {childRoutes}
+        </Route>,
       );
     } else if (item.component || item.render) {
       children.push(
@@ -50,7 +62,8 @@ function renderRouteConfigV3(routes, contextPath) {
   routes.forEach((item) => renderRoute(item, contextPath));
 
   // Use Switch so that only the first matched route is rendered.
-  return <Routes>{children}</Routes>;
+  // return <Routes>{children}</Routes>;
+  return children;
 }
 
 const renderChildren = (children) => {
@@ -64,11 +77,13 @@ const renderChildren = (children) => {
 
 const WrappedInRedux = () => {
   const children = renderRouteConfigV3(routeConfig(), '/');
+
   const dispatch = useDispatch();
   const modals = useSelector((s) => s.modals);
+  console.log('final children', children);
   return (
     <NiceModal.Provider dispatch={dispatch} modals={modals}>
-      <BrowserRouter history={history}>{renderChildren(children)}</BrowserRouter>
+      <BrowserRouter>{renderChildren(<Routes>{children}</Routes>)}</BrowserRouter>
     </NiceModal.Provider>
   );
 };
