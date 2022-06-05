@@ -18,109 +18,59 @@ import getIconNode from './getIconNode';
   - Dropdown menu support
   - Collapsable
 */
-
 export default function MetaMenu({ meta = {}, onClick, baseExtPoint, autoSort = true }) {
+  const autoKeySeed = React.useRef({ seed: 0 });
+
+  // Get items from ext points
   const extItems = baseExtPoint ? _.flatten(plugin.invoke(baseExtPoint + '.getItems', meta)) : null;
+  const itemByKey = {};
 
-  const items = useMemo(() => {
-    // Normalize items
-    const rawItems = [...(meta.items || []), ...(extItems || [])];
-    const newItems = [];
-    while (rawItems.length > 0) {
-      const item = rawItems.shift();
-      if (item.children) {
-        const children = [...item.children.map((c) => ({ ...c, parent: item.key }))];
-        rawItems.unshift(...children);
-        newItems.push(_.omit(item, 'children'));
-      } else {
-        newItems.push(item);
-      }
+  const rawItems = [...(meta.items || []), ...(extItems || [])];
+  const itemsByParent = _.groupBy(
+    rawItems.filter((item) => !!item.parent),
+    'parent',
+  );
+  const newItems = rawItems.filter((item) => !item.parent).map((item) => ({ ...item })); // do not modify the raw meta;
+
+  // For items that have parent prop, move them to correct children
+  const arr = [...newItems];
+  while (arr.length > 0) {
+    const item = arr.shift();
+    if (!item.key) {
+      item.key = `auto_key_${autoKeySeed.seed}`;
+      autoKeySeed.seed++;
     }
-    return newItems;
-  }, [meta.items, extItems]);
-
-  if (baseExtPoint) {
-    if (autoSort) plugin.sort(items);
-    plugin.invoke(baseExtPoint + '.processItems', meta);
+    itemByKey[item.key] = item;
+    const childItems = itemsByParent[item.key];
+    if (childItems) {
+      if (!item.children) item.children = [];
+      else item.children = [...item.children]; // do not modify the raw meta
+      item.children.push(...childItems.map((item) => _.omit(item, 'parent')));
+    }
+    if (item.children) {
+      arr.push(...item.children);
+      if (autoSort) plugin.sort(item.children);
+    }
   }
 
-  const childrenByKey = useMemo(() => {
-    const res = _.groupBy(items, 'parent');
-    Object.values(res).forEach((arr) => plugin.sort(arr));
-    return res;
-  }, [items]);
-
-  const itemByKey = useMemo(() => _.keyBy(items, 'key'), [items]);
-  const rootItems = useMemo(
-    () =>
-      items.filter((item) => {
-        if (meta.collapsed) {
-          if (['divider', 'group'].includes(item.type)) return false;
-          if (!item.parent || (itemByKey[item.parent] && itemByKey[item.parent].type === 'group')) {
-            return true;
-          } else {
-            return false;
-          }
-        } else if (item.parent) {
-          return false;
-        }
-        return true;
-      }),
-    [items, itemByKey, meta.collapsed],
-  );
+  // Allow to process items after all items get normalized
+  if (baseExtPoint) {
+    if (autoSort) plugin.sort(newItems);
+    plugin.invoke(baseExtPoint + '.processItems', meta, newItems, itemByKey);
+  }
 
   const metaOnClick = meta.onClick;
-  const handleMenuClick = useCallback(
-    (args) => {
-      const item = itemByKey[args.key];
-      item && item.onClick && item.onClick(args);
-      metaOnClick && metaOnClick(args);
-      onClick && onClick(args);
-    },
-    [itemByKey, onClick, metaOnClick],
-  );
+  const handleMenuClick = (args) => {
+    const item = itemByKey[args.key];
+    item && item.onClick && item.onClick(args);
+    metaOnClick && metaOnClick(args);
+    onClick && onClick(args);
+  };
 
   const activeKeys = meta.activeKeys || [];
   const loc = useLocation();
-  const renderItem = (item) => {
-    // Handle active status
-    if (!meta.activeKeys && meta.autoActive) {
-      if (typeof item.activeMatch === 'object' && item.activeMatch.test) {
-        if (item.activeMatch.test(loc.pathname)) {
-          activeKeys.push(item.key);
-        }
-      } else if (typeof item.activeMatch === 'function') {
-        if (item.activeMatch(loc)) {
-          activeKeys.push(item.key);
-        }
-      } else if (!item.activeMatch && item.link === loc.pathname) {
-        activeKeys.push(item.key);
-      }
-    }
-    const itemProps = { ...item.props, icon: getIconNode(item) };
-    const children = childrenByKey[item.key];
-    let childNodes = null;
-    if (children && children.length) {
-      childNodes = children.map(renderItem);
-    }
 
-    if (item.type === 'divider') {
-      return <Menu.Divider key={item.key} />;
-    } else if (item.type === 'any') {
-      return item.render(item, meta);
-    } else if (item.type === 'group') {
-      return (
-        <Menu.ItemGroup key={item.key} title={item.label} {...itemProps}>
-          {childNodes}
-        </Menu.ItemGroup>
-      );
-    } else if (childNodes) {
-      return (
-        <Menu.SubMenu key={item.key} title={item.label} {...itemProps}>
-          {childNodes}
-        </Menu.SubMenu>
-      );
-    }
+  Object.values(itemByKey).forEach((item) => {
     let labelContent = item.label;
     if (item.link) {
       if (
@@ -137,15 +87,27 @@ export default function MetaMenu({ meta = {}, onClick, baseExtPoint, autoSort = 
         labelContent = <Link to={item.link}>{item.label}</Link>;
       }
     }
+    item.label = labelContent;
 
-    return (
-      <Menu.Item key={item.key} {...itemProps}>
-        {labelContent}
-      </Menu.Item>
-    );
-  };
+    item.icon = getIconNode(item);
 
-  if (rootItems.length === 0) return null;
+    // Show active menu items
+    if (!meta.activeKeys && meta.autoActive) {
+      if (typeof item.activeMatch === 'object' && item.activeMatch.test) {
+        if (item.activeMatch.test(loc.pathname)) {
+          activeKeys.push(item.key);
+        }
+      } else if (typeof item.activeMatch === 'function') {
+        if (item.activeMatch(loc)) {
+          activeKeys.push(item.key);
+        }
+      } else if (!item.activeMatch && item.link === loc.pathname) {
+        activeKeys.push(item.key);
+      }
+    }
+  });
+
+  if (newItems.length === 0) return null;
   const menuClassnames = ['muse-antd_common-meta-menu'];
   if (meta.menuClassName) {
     menuClassnames.push(meta.menuClassName);
@@ -159,11 +121,10 @@ export default function MetaMenu({ meta = {}, onClick, baseExtPoint, autoSort = 
     ...meta.menuProps,
     className: menuClassnames.join(' '),
     theme: meta.theme || 'light',
+    items: newItems,
   };
   if (menuMode === 'inline') menuProps.inlineCollapsed = !!meta.collapsed;
-  const menu = items.length ? (
-    <Menu {...menuProps}>{rootItems.map(renderItem).filter(Boolean)}</Menu>
-  ) : null;
+  const menu = <Menu {...menuProps} />;
 
   if (meta.trigger) {
     const { trigger } = meta;
