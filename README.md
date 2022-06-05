@@ -63,16 +63,11 @@ When all plugins are loaded to Muse system. `pluginInstance.onReady` is called.
 Note, all plugin packages should be available in the current working directory.
 
 ## Using pnpm
-We switched pakcage manage from yarn v1 to pnpm to improve installation efficiency.
+We switched pakcage manage from yarn v1 to [pnpm](https://pnpm.io) to improve installation efficiency.
 
 `muse-next` use pnpm workspaces feature to manage all packages under examples and packages folder.
 
-To use pnpm:
-1. Install pnpm
-2. Run `pnpm install` under `muse-next` folder.
-3. Run `npm link` under `packages/muse-cli` to enable the global `muse` command. NOTE that it is `npm link` since it seems there's a bug for `pnpm link` in the current version.
-
-
+Please learn every details of pnpm from its docs.
 
 ## License
 MIT
