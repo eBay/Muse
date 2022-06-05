@@ -1,5 +1,5 @@
 const crypto = require('crypto');
-const { getLoaders, loaderByName } = require('@craco/craco');
+const { getLoaders, loaderByName, getPlugin, pluginByName } = require('@craco/craco');
 
 const { pkgJson, isDev } = require('muse-dev-utils').museContext;
 const handleMuseLocalPlugins = require('./handleMuseLocalPlugins');
@@ -44,6 +44,19 @@ module.exports = ({ webpackConfig }) => {
         match.loader.options.base = styleBase++;
       }
     });
+  }
+
+  // Config eslint plugin to support ref projects
+
+  const { isFound, match } = getPlugin(webpackConfig, pluginByName('ESLintWebpackPlugin'));
+
+  if (isFound) {
+    match.options.files = [
+      '/Users/pwang7/muse/muse-next/examples/muse-react/src',
+      '/Users/pwang7/muse/muse-next/examples/muse-antd/src',
+    ];
+    console.log('found match eslint', match);
+    // process.exit();
   }
   // console.log(JSON.stringify(webpackConfig, null, 2));
   // process.exit();
