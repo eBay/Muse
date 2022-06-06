@@ -15,15 +15,15 @@ This is a monorepo to host all Muse code.
 4. Create a new staging env on app1: `muse create-env app1 staging`
 5. Create muse plugin in the local registry for projects under `/examples`:
    - Create plugin `muse create @ebay/muse-react`
-   - Build plugin: run `yarn build` and `yarn build:dev` under example projects
+   - Build plugin: run `pnpm build` and `pnpm build:dev` under example projects
    - Release plugin: run `muse release @ebay/muse-react` under example projects (use correct plugin name)
-   - Deploy plugin on `app1/staging`: `muse deploy app1 staging @ebay/muse-react`. This deploy the latest version of plugin on the app.
+   - Deploy plugin on `app1/staging`: `muse deploy app1 staging @ebay/muse-react`. This deploys the latest version of plugin on the app.
 6. Run `muse serve app1 staging` to start the local testing server.
 
-Then you should able to access http://localhost:6070 to see the Muse app locally.
+Then you should be able to access http://localhost:6070 and see the Muse app locally.
 
 
-To start a example local project, you can use `pnpm start` just like the current Muse behavior. And it also supports `MUSE_LOCAL_PLUGINS` in the `.env` file.
+To start an example local project, you can use `pnpm start` just like the current Muse behavior. And it also supports `MUSE_LOCAL_PLUGINS` in the `.env` file.
 
 For the full Muse CLI commands, please see: https://github.corp.ebay.com/muse/muse-next/tree/main/packages/muse-cli .
 
@@ -54,7 +54,7 @@ plugins:
 
 If a plugin is a string, it will load the plugin instance by `require(moduleName)`, for example: `require('perf-plugin/log')`.
 
-If the loaded plugin instance is a function, it will call the function to return the plugin object by opptions.
+If the loaded plugin instance is a function, it will call the function to return the plugin object by options.
 
 When a plugin is registered, it will call `pluginInstance.initialize(options)`.
 
@@ -63,7 +63,7 @@ When all plugins are loaded to Muse system. `pluginInstance.onReady` is called.
 Note, all plugin packages should be available in the current working directory.
 
 ## Using pnpm
-We switched pakcage manage from yarn v1 to [pnpm](https://pnpm.io) to improve installation efficiency.
+We switched package manager from yarn v1 to [pnpm](https://pnpm.io) to improve installation efficiency.
 
 `muse-next` use pnpm workspaces feature to manage all packages under examples and packages folder.
 
