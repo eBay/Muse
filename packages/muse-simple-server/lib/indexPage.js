@@ -1,11 +1,13 @@
 const muse = require('muse-core');
 
-module.exports = async (req, res) => {
-  const appName = 'app1';
-  const envName = 'staging';
+module.exports = (appName, envName) => async (req, res) => {
   const app = await muse.cache.get(`muse.app.${appName}`);
   if (!app) {
     res.send('No app found: ' + appName);
+    return;
+  }
+  if (!app.envs?.[envName]) {
+    res.send('No env found: ' + envName);
     return;
   }
   const plugins = app.envs?.[envName]?.plugins;
@@ -36,6 +38,8 @@ module.exports = async (req, res) => {
     </script>
   </head>
   <body></body>
-  <script src="/muse-assets/p/${muse.utils.getPluginId(bootPlugin.name)}/v${bootPlugin.version}/dist/boot.js"></script>
+  <script src="/muse-assets/p/${muse.utils.getPluginId(bootPlugin.name)}/v${
+    bootPlugin.version
+  }/dist/boot.js"></script>
 </html>`);
 };

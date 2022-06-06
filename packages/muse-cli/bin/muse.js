@@ -39,11 +39,9 @@ console.error = (message) => console.log(chalk.red(message));
       const [appName] = args;
       const fullApp = await muse.cache.get(`muse.app.${appName}`);
       console.log(chalk.cyan(JSON.stringify(fullApp, null, 2)));
-    }
-
-    case 'view-full-app': {
       break;
     }
+
     case 'create-env': {
       const [appName, envName] = args;
       await muse.am.createEnv({ appName, envName });
@@ -78,7 +76,9 @@ console.error = (message) => console.log(chalk.red(message));
     case 'deploy-plugin': {
       const [appName, envName, pluginName, version] = args;
       const res = await muse.pm.deployPlugin({ appName, envName, pluginName, version });
-      console.log(chalk.cyan(`Deploy success: ${pluginName}@${res.version} to ${appName}/${envName}.`));
+      console.log(
+        chalk.cyan(`Deploy success: ${pluginName}@${res.version} to ${appName}/${envName}.`),
+      );
       break;
     }
     case 'undeploy':
@@ -101,6 +101,14 @@ console.error = (message) => console.log(chalk.red(message));
       console.log(chalk.cyan(`Plugin released ${r.pluginName}@${r.version}`));
       break;
     }
+
+    case 'serve': {
+      const [appName, envName = 'staging', port = 6070] = args;
+      if (!appName) throw new Error('App anem is required.');
+      require('muse-simple-server/lib/server')({ appName, envName, port });
+      break;
+    }
+
     case '-v':
     case 'version':
     case undefined: {
