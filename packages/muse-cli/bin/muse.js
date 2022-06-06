@@ -102,6 +102,12 @@ console.error = (message) => console.log(chalk.red(message));
       break;
     }
 
+    case 'request': {
+      const [type, appName, envName, pluginName, version] = args;
+      await muse.req.createRequest({ type, payload: { appName, envName, pluginName, version } });
+      break;
+    }
+
     case 'serve': {
       const [appName, envName = 'staging', port = 6070] = args;
       if (!appName) throw new Error('App anem is required.');
