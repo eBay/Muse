@@ -16,6 +16,7 @@
     "webpack": "^5.68.0"
   },
   "dependencies": {
+    "json-parse-better-errors": "^1.0.2",
     "muse-modules": "workspace:^1.0.0"
   }
 }

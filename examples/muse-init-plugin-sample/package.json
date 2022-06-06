@@ -6,14 +6,13 @@
     "type": "init"
   },
   "scripts": {
-    "start": "cross-env NODE_PATH=./node_modules muse-scripts-react start",
-    "build": "cross-env NODE_PATH=./node_modules muse-scripts-react build --verbose",
-    "build:dev": "cross-env NODE_PATH=./node_modules muse-scripts-react build --dev --verbose",
+    "start": "muse-scripts-react start",
+    "build": "muse-scripts-react build --verbose",
+    "build:dev": "muse-scripts-react build --dev --verbose",
     "deploy": "yarn build && muse release muse-init-plugin-sample && muse deploy app1 staging muse-init-plugin-sample"
   },
   "license": "MIT",
   "dependencies": {
-    "@craco/craco": "^6.4.3",
     "react-scripts": "^5.0.1"
   },
   "browserslist": {
@@ -29,6 +28,9 @@
     ]
   },
   "devDependencies": {
-    "cross-env": "^7.0.3"
+    "cross-env": "^7.0.3",
+    "@craco/craco": "^6.4.3",
+    "muse-scripts-react": "workspace:^1.0.0",
+    "muse-craco-plugin": "workspace:^1.0.0"
   }
 }
