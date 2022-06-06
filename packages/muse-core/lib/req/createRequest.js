@@ -7,9 +7,10 @@ module.exports = async (params = {}) => {
   await asyncInvoke('museCore.req.beforeCreateRequest', ctx, params);
 
   const { type, payload, author = osUsername, options, msg } = params;
-
-  const keyPath = `/requests/${type}-${Date.now()}.yaml`;
+  const reqId = `${type}-${Date.now()}`;
+  const keyPath = `/requests/${reqId}.yaml`;
   ctx.request = {
+    id: reqId,
     type,
     createdBy: author,
     createdAt: new Date().toJSON(),
@@ -30,5 +31,5 @@ module.exports = async (params = {}) => {
     throw err;
   }
   await asyncInvoke('museCore.req.afterCreateRequest', ctx, params);
-  return ctx.app;
+  return ctx.request;
 };
