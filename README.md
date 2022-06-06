@@ -18,7 +18,7 @@ This is a monorepo to host all Muse code.
    - Build plugin: run `yarn build` and `yarn build:dev` under example projects
    - Release plugin: run `muse release @ebay/muse-react` under example projects (use correct plugin name)
    - Deploy plugin on `app1/staging`: `muse deploy app1 staging @ebay/muse-react`. This deploy the latest version of plugin on the app.
-6. Go to `packages/muse-web` and run `pnpm start` to start the Muse sample app server.
+6. Run `muse serve app1 staging` to start the local testing server.
 
 Then you should able to access http://localhost:6070 to see the Muse app locally.
 
