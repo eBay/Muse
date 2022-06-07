@@ -15,11 +15,11 @@ const testJsPlugin = {
 };
 plugin.register(testJsPlugin);
 
-describe('Update app basic tests.', () => {
+describe('Update request basic tests.', () => {
   beforeEach(() => {
     vol.reset();
   });
-  it('Update app should work', async () => {
+  it('Update request should work', async () => {
     const type = 'deploy-plugin';
     const payload = {
       appName: 'app1',

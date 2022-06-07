@@ -7,4 +7,5 @@ module.exports = {
   updateRequest: require('./updateRequest'),
   updateStatus: require('./updateStatus'),
   deleteStatus: require('./deleteStatus'),
+  applyRequest: require('./applyRequest'),
 };
