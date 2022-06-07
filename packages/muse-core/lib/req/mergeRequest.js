@@ -5,26 +5,28 @@ const pm = require('../pm');
 
 module.exports = async ({ requestId, msg, author = osUsername }) => {
   const ctx = {};
-  await asyncInvoke('museCore.req.beforeApplyRequest', ctx, requestId);
+  await asyncInvoke('museCore.req.beforeMergeRequest', ctx, requestId);
 
   const req = await getRequest(requestId);
   const { type, payload } = req;
 
   try {
-    await asyncInvoke('museCore.req.applyRequest', ctx);
+    // You can extend merge request based on type by creating plugins
+    await asyncInvoke('museCore.req.mergeRequest', ctx);
     switch (type) {
+      // This is the only built-in support type of request
       case 'deploy-plugin':
-        await pm.deployPlugin({ ...payload, msg: msg || `Apply request of ${type} by ${author}.` });
+        await pm.deployPlugin({ ...payload, msg: msg || `Merge request of ${type} by ${author}.` });
         break;
       default:
         break;
     }
-    await deleteRequest(requestId);
+    await deleteRequest({ requestId });
   } catch (err) {
     ctx.error = err;
-    await asyncInvoke('museCore.req.failedApplyRequest', ctx);
+    await asyncInvoke('museCore.req.failedMergeRequest', ctx);
     throw err;
   }
-  await asyncInvoke('museCore.req.afterApplyRequest', ctx);
+  await asyncInvoke('museCore.req.afterMergeRequest', ctx);
   return ctx.request;
 };

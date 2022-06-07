@@ -4,6 +4,7 @@ const { registry } = require('../storage');
 module.exports = async (params) => {
   const ctx = {};
   const { requestId, author = osUsername, msg } = params;
+  if (!requestId) throw new Error(`requestId is required.`);
   const keyPath = `/requests/${requestId}.yaml`;
 
   await asyncInvoke('museCore.req.beforeDeleteRequest', ctx, params);

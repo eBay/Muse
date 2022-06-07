@@ -3,6 +3,7 @@ const yaml = require('js-yaml');
 const { asyncInvoke, updateJson, osUsername } = require('../utils');
 const { registry } = require('../storage');
 const getRequest = require('./getRequest');
+const mergeRequest = require('./mergeRequest');
 
 // This also includes the creation of status
 module.exports = async (params) => {
@@ -40,6 +41,12 @@ module.exports = async (params) => {
       Buffer.from(yaml.dump(ctx.request)),
       msg || `Update request ${requestId} status by ${author}`,
     );
+
+    // When ever a status is updated, we need to check if all status is succes
+    // If so, merge the request.
+    if (ctx.request.statuses.every((s) => s.state === 'success')) {
+      await mergeRequest({ requestId });
+    }
   } catch (err) {
     ctx.error = err;
     await asyncInvoke('museCore.req.failedUpdateStatus', ctx, params);

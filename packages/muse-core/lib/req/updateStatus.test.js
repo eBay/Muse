@@ -74,7 +74,60 @@ describe('Update request status basic tests.', () => {
     expect(testJsPlugin.museCore.req.afterUpdateStatus).toBeCalledTimes(1);
   });
 
-  it('It should auto apply the request after all statuses state is set to success.', async () => {});
+  it('It should auto merge the request after all statuses state is set to success.', async () => {
+    await muse.am.createApp({ appName: 'app1' });
+    await muse.am.createEnv({ appName: 'app1', envName: 'staging' });
+    await muse.pm.createPlugin({ pluginName: 'plugin1' });
+    await muse.pm.releasePlugin({ pluginName: 'plugin1', version: '1.0.0' });
+    const type = 'deploy-plugin';
+    const payload = {
+      appName: 'app1',
+      envName: 'staging',
+      pluginName: 'plugin1',
+      version: '1.0.0',
+    };
+
+    const req = await muse.req.createRequest({ type, author: 'nate', payload });
+
+    // Before merge, the plugin should have not been deployed
+    expect(await muse.pm.getDeployedPlugin('app1', 'staging', 'plugin1')).toBeNull();
+
+    // Create a status on the request
+    await muse.req.updateStatus({
+      requestId: req.id,
+      status: [
+        {
+          name: 'test-status',
+          state: 'pending',
+        },
+        {
+          name: 'test-status-2',
+          state: 'success',
+        },
+      ],
+    });
+    // Because there is a pending state, should not merge the request
+    expect(await muse.pm.getDeployedPlugin('app1', 'staging', 'plugin1')).toBeNull();
+
+    // Update status again to make all state success
+    // Then the request should be merged
+    await muse.req.updateStatus({
+      requestId: req.id,
+      status: {
+        name: 'test-status',
+        state: 'success',
+      },
+    });
+
+    // After merge, the request should have been deleted
+    expect(await muse.req.getRequest(req.id)).toBeNull();
+
+    // The plugin should have been deployed
+    expect(await muse.pm.getDeployedPlugin('app1', 'staging', 'plugin1')).toMatchObject({
+      name: 'plugin1',
+      version: '1.0.0',
+    });
+  });
 
   it('It throws exception if request does not exist.', async () => {
     try {
