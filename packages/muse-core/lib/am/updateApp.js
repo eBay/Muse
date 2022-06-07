@@ -10,17 +10,20 @@ module.exports = async (params) => {
 
   await asyncInvoke('museCore.am.beforeUpdateApp', ctx, params);
 
+  ctx.app = await getApp(appName);
+  if (!ctx.app) {
+    throw new Error(`App ${appName} doesn't exist.`);
+  }
   try {
-    ctx.app = await getApp(appName);
-    if (!ctx.app) {
-      throw new Error(`App ${appName} doesn't exist.`);
-    }
-
     updateJson(ctx.app, changes);
 
     const keyPath = `/apps/${appName}/${appName}.yaml`;
     await asyncInvoke('museCore.am.updateApp', ctx, params);
-    await registry.set(keyPath, Buffer.from(yaml.dump(ctx.app)), msg || `Update app ${appName} by ${author}`);
+    await registry.set(
+      keyPath,
+      Buffer.from(yaml.dump(ctx.app)),
+      msg || `Update app ${appName} by ${author}`,
+    );
   } catch (err) {
     ctx.error = err;
     await asyncInvoke('museCore.am.failedUpdateApp', ctx, params);

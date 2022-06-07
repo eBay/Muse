@@ -4,6 +4,7 @@ module.exports = {
   getRequest: require('./getRequest'),
   getRequests: require('./getRequests'),
   createStatus: require('./createStatus'),
+  updateRequest: require('./updateRequest'),
   updateStatus: require('./updateStatus'),
   deleteStatus: require('./deleteStatus'),
 };
