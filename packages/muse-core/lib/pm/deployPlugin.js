@@ -11,7 +11,7 @@ module.exports = async (params) => {
   const ctx = {};
   await asyncInvoke('museCore.pm.beforeDeployPlugin', ctx, params);
 
-  const { appName, envName, pluginName, options, changes, author = osUsername } = params;
+  const { appName, envName, pluginName, options, changes, author = osUsername, msg } = params;
   let version = params.version;
   // Check if plugin name exist
   const p = await getPlugin(pluginName);
@@ -47,7 +47,11 @@ module.exports = async (params) => {
     });
     updateJson(ctx.plugin, changes || {});
     await asyncInvoke('museCore.pm.deployPlugin', ctx, params);
-    await registry.set(keyPath, Buffer.from(yaml.dump(ctx.plugin)), `Create plugin ${pluginName} by ${author}`);
+    await registry.set(
+      keyPath,
+      Buffer.from(yaml.dump(ctx.plugin)),
+      msg || `Deploy plugin ${pluginName} by ${author}`,
+    );
   } catch (err) {
     console.log(err);
     ctx.error = err;
