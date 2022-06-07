@@ -1,5 +1,7 @@
+const os = require('os');
 const path = require('path');
 const fs = require('fs-extra');
+const semver = require('semver');
 const _ = require('lodash');
 const plugin = require('js-plugin');
 const jsYaml = require('js-yaml');
@@ -55,11 +57,15 @@ async function wrappedAsyncInvoke(extPath, methodName, ...args) {
 }
 
 function getPluginId(name) {
-  if (!name.startsWith('@')) return name;
-  return name.replace('/', '.');
+  if (name.startsWith('@')) return name.replace('/', '.');
+  return name;
 }
 
-function jsonByBuff(b) {
+function getPluginName(pluginId) {
+  if (pluginId.startsWith('@')) return pluginId.replace('.', '/');
+  return pluginId;
+}
+function jsonByYamlBuff(b) {
   if (!b) return null;
   return jsYaml.load(Buffer.from(b).toString('utf8'));
 }
@@ -70,13 +76,13 @@ async function batchAsync(tasks, size = 100, msg = 'Batch async') {
 
   for (let i = 0; i < chunks.length; i++) {
     const chunk = chunks[i];
-    console.log(`${msg}: ${i * size + 1}~${Math.min(i * size + size, tasks.length)} of ${tasks.length}`);
+    // console.log(`${msg}: ${i * size + 1}~${Math.min(i * size + size, tasks.length)} of ${tasks.length}`);
     const arr = await Promise.all(chunk.map((c) => c()));
     res.push(...arr);
   }
   return res;
 }
-async function makeRetryAble(executor, times = 3, checker = () => {}) {
+function makeRetryAble(executor, times = 3, checker = () => {}) {
   // if checker returns something, it will break retry logic and return the result of checker
   return async (...args) => {
     let finalErr = null;
@@ -104,14 +110,71 @@ const getFilesRecursively = async (dir) => {
   return _.flatten(files);
 };
 
+const updateJson = (obj, changes) => {
+  // set: [{ path, value }, ...]
+  // unset: [path1, path2, ...]
+  // push: [{ path, value }] // for array
+  // remove: [{ path, predicate, value }, ...]
+  const { set = [], unset = [], remove = [], push = [] } = changes;
+  _.castArray(set).forEach((item) => {
+    _.set(obj, item.path, item.value);
+  });
+
+  _.castArray(unset).forEach((p) => {
+    _.unset(obj, p);
+  });
+
+  _.castArray(push).forEach((item) => {
+    if (!_.get(obj, item.path)) _.set(obj, item.path, []);
+    _.get(obj, item.path).push(item.value);
+  });
+
+  _.castArray(remove).forEach((item) => {
+    const arr = _.get(obj, item.path);
+    if (!arr) return;
+    if (item.value) _.pull(arr, item.value);
+    if (item.predicate) _.remove(arr, item.predicate);
+  });
+};
+
+const genNewVersion = (oldVersion, verionType = 'patch') => {
+  if (semver.valid(verionType)) return verionType;
+  if (!oldVersion) return '1.0.0';
+  if (!semver.valid(oldVersion)) throw new Error(`Invalid existing version: ${oldVersion}.`);
+  const args = verionType.split('-');
+  const newVersion = semver.inc(oldVersion, ...args);
+  if (!newVersion) throw new Error(`Invalid version: ${verionType}.`);
+  return newVersion;
+};
+
+const getMuseGlobal = (app, envName) => {
+  const plugins = app.envs?.[envName]?.plugins;
+
+  const bootPlugin = plugins.find((p) => p.type === 'boot');
+
+  return {
+    appName: app.name,
+    envName: envName,
+    plugins,
+    bootPlugin: bootPlugin?.name,
+  };
+};
+
 module.exports = {
   getPluginId,
+  getPluginName,
   asyncInvoke,
   asyncInvokeFirst,
   wrappedAsyncInvoke,
-  jsonByBuff,
+  jsonByYamlBuff,
   batchAsync,
   makeRetryAble,
   getFilesRecursively,
   getExtPoint,
+  genNewVersion,
+  updateJson,
+  getMuseGlobal,
+  osUsername: os.userInfo().username,
+  defaultAssetStorageLocation: path.join(os.homedir(), 'muse-storage/assets'),
+  defaultRegistryStorageLocation: path.join(os.homedir(), 'muse-storage/registry'),
 };

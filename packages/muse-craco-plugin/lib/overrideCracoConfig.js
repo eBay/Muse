@@ -1,10 +1,10 @@
 const path = require('path');
+const resolveCwd = require('resolve-cwd');
 const { museContext, utils } = require('muse-dev-utils');
 const { MusePlugin, MuseReferencePlugin } = require('muse-webpack-plugin');
 const setupHtmlWebpackPlugin = require('./setupHtmlWebpackPlugin');
 
 const { isDev, isDevBuild, museConfig } = museContext;
-
 module.exports = async ({ cracoConfig }) => {
   utils.assertPath(cracoConfig, 'webpack.plugins.add', [], true);
   utils.assertPath(cracoConfig, 'webpack.plugins.remove', [], true);
@@ -13,7 +13,7 @@ module.exports = async ({ cracoConfig }) => {
     cracoConfig.webpack.plugins.add.push([
       new MusePlugin({
         // NOTE: build folder is hard coded for simplicity
-        // lib- manifest.json is only useful for dev/prod build, not for development
+        // lib-manifest.json is only useful for dev/prod build, not for development
         // TODO, only for lib plugins, need to generate manifest
         path: path.join(process.cwd(), `build/${isDevBuild ? 'dev' : 'dist'}/lib-manifest.json`),
         type: museConfig.type,
@@ -34,7 +34,7 @@ module.exports = async ({ cracoConfig }) => {
         // NOTE: build folder is hard coded for simplicity
         Object.assign(
           libManifestContent,
-          require(`${lib}/build/${isDevBuild ? 'dev' : 'dist'}/lib-manifest.json`).content,
+          require(resolveCwd(`${lib}/build/${isDevBuild ? 'dev' : 'dist'}/lib-manifest.json`)).content,
         );
       });
 
@@ -52,12 +52,12 @@ module.exports = async ({ cracoConfig }) => {
         ]);
       }
     }
-
-    await setupHtmlWebpackPlugin(cracoConfig);
-
-    // Muse doesn't support MiniCssExtractPlugin at this time.
-    cracoConfig.webpack.plugins.remove.push('MiniCssExtractPlugin');
   }
+
+  await setupHtmlWebpackPlugin(cracoConfig);
+
+  // Muse doesn't support MiniCssExtractPlugin at this time.
+  cracoConfig.webpack.plugins.remove.push('MiniCssExtractPlugin');
 
   // Output filename is fixed for Muse, should generate version folder by other approach.
   utils.assertPath(

@@ -1,4 +1,5 @@
 const path = require('path');
+const resolveCwd = require('resolve-cwd');
 require('dotenv').config();
 const museContext = require('./museContext');
 const pkgJson = museContext.pkgJson;
@@ -23,7 +24,7 @@ module.exports = {
       ...pkgJson.devDependencies,
       ...pkgJson.peerDependencies,
     }).filter((dep) => {
-      const depPkgJson = require(`${dep}/package.json`);
+      const depPkgJson = require(resolveCwd(`${dep}/package.json`));
       return depPkgJson?.muse?.type === 'lib';
     });
   },
@@ -36,10 +37,5 @@ module.exports = {
       object = object[s];
     }
     if (!notSetIfExist || !object[arr[0]]) object[arr[0]] = value || {};
-  },
-
-  getPluginId: (name) => {
-    if (!name.startsWith('@')) return name;
-    return name.replace('@', '').replace('/', '.');
   },
 };

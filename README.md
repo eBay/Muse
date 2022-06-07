@@ -9,33 +9,96 @@ This is a monorepo to host all Muse code.
 
 ## Dev Guide
 
-First, run `yarn` to install dependencies under folders of `examples` and `packages`.
+1. Run `pnpm` to install dependencies under root of `muse-next`.
+2. Run `npm link` under `packages/muse-cli` to enable the global `muse` command.
+3. Create a Muse app in the local registry: `muse create-app app1`
+4. Create a new staging env on app1: `muse create-env app1 staging`
+5. Create muse plugins in the local registry for every project under `/examples`:
+   - Create plugin `muse create @ebay/muse-react`  (and @ebay/muse-antd etc...)
+   - Build plugin: run `pnpm build` and `pnpm build:dev` under example projects
+   - Release plugin: run `muse release @ebay/muse-react` under example projects (use correct plugin name)
+   - Deploy plugin on `app1/staging`: `muse deploy app1 staging @ebay/muse-react`. This deploys the latest version of plugin on the app.
+6. Run `muse serve app1 staging` to start the local testing server.
 
-1. Execute `yarn link` under below folder in `packages`:
-- muse-craco-plugin
-- muse-webpack-plugin
-- muse-scripts-react
+Then you should be able to access http://localhost:6070 and see the Muse app locally.
 
-2. Under `pakcages/muse-craco-plugin`:
-`yarn link muse-webpack-plugin`
 
-3. Under examples projects, link `muse-craco-plugin`:
-`yarn link muse-craco-plugin`
+To start an example local project, you can use `pnpm start` just like the current Muse behavior. And it also supports `MUSE_LOCAL_PLUGINS` in the `.env` file.
 
-4. Execute `yarn link` under library plugins in `examples/muse-react` and `examples/muse-antd`.
+For the full Muse CLI commands, please see: https://github.corp.ebay.com/muse/muse-next/tree/main/packages/muse-cli .
 
-5. Link library plugins for dependent plugins:
-- under `examples/muse-antd`: `yarn link muse-react`
-- under `examples/muse-layout`: `yarn link muse-react` and `yarn link muse-antd`.
+> You can check `<home-dir>/muse-storage` to see the new Muse registry and static resource storage.
 
-Then you are able to run below commands under examples projects:
-- `NODE_PATH=./node_modules yarn start`
-- `NODE_PATH=./node_modules yarn build`
-- `NODE_PATH=./node_modules yarn build:dev`
+## Muse Core Configuration
+Muse engine could be extended by plugins, for example log, monitoring, storage, etc. All muse-core plugins are normal npm modules defined in `muse.config.yaml`.
 
-> NOTE: `NODE_PATH=./node_modules` tells the linked packages use the current working directory.
+Muse core config is designed with a simple structure, that is all configurations are done by plugins excepts two config:
+  - defaultRegistryStorageOptions
+  - defaultAssetsStorageOptions
 
-To load the Muse app, there is a temp `packages/muse-dev-server` project, run `yarn start` and modify `lib/index.html` to adjust the plugins and bundles of plugins.
+The two special ones are used for default FileStorage for registry and assets.
+
+A muse-core plugin is a normal `js-plugin` instance (js object).
+
+Muse will look for a config file from the current working directory and then homedir of the current os.
+
+For example:
+```yaml
+plugins:
+  - git-registry-storage-plugin # defined by string
+  - module: perf-plugin/mark-start  # defined by module name and foo
+    options:
+      foo: bar
+  - perf-plugin/log
+```
+
+If a plugin is a string, it will load the plugin instance by `require(moduleName)`, for example: `require('perf-plugin/log')`.
+
+If the loaded plugin instance is a function, it will call the function to return the plugin object by options.
+
+When a plugin is registered, it will call `pluginInstance.initialize(options)`.
+
+When all plugins are loaded to Muse system. `pluginInstance.onReady` is called.
+
+Note, all plugin packages should be available in the current working directory.
+
+## Using Muse CLI
+Muse global command line interface to manage Muse apps/plugins. Implemented by `packages/muse-cli`.
+
+### App management
+* ✅ `muse create-app [app-name]` Create a new app.
+* ✅ `muse view-app [app-name]` View the app meta.
+* ✅ `muse view-full-app [app-name]` View the full app including deployed plugins.
+* ❓ `muse delete-app [app-name]`
+* ✅ `muse list-apps` View all Muse apps in the registry.
+* ❓ `muse export-app [app-name]`
+
+### Env management
+* ✅ `muse create-env [app-name] [env-name]` Create a new env for an app.
+* ❓ `muse delete-env [app-name] [env-name]`
+
+### Plugin management
+* ✅ `muse create-plugin [plugin-name]` Create a Muse plugin.
+* ✅ `muse release/release-plugin [plugin-name] [version?]` Release a plugin from the current `build` folder. Should run `yarn build && yarn build:dev` first. `version` is optional, if not provided, will increase the patch version.
+* ✅ `muse deploy/deploy-plugin [app-name] [env-name] [plugin-name] [version?]` Deploy a plugin to the app/env. `version` is optional. if not provided, it will deploy the latest release.
+* ✅ `muse undeploy/undeploy-plugin [app-name] [env-name] [plugin-name]` Undeploy a plugin.
+* ❓ `muse delete-plugin [plugin-name]`
+* ❓ `muse list-deployed-plugins [app-name] [env-name]` Show the list of deployed plugins on a app/env.
+* ✅ `muse list-plugins` List all registered plugins.
+
+### Local Dev/Testing Server
+* ✅ `muse serve [app-name] [env-name?] [port?]` Serve the Muse application, `env-name` defaults to `staging`, `port` defaults to `6070`.
+
+### Config
+* ❓`muse show-config` Show the current muse config.
+
+
+## Using pnpm
+We switched package manager from yarn v1 to [pnpm](https://pnpm.io) to improve installation efficiency.
+
+`muse-next` use pnpm workspaces feature to manage all packages under examples and packages folder.
+
+Please learn every details of pnpm from its docs.
 
 ## License
 MIT

@@ -7,6 +7,8 @@
     "eslint": "^8.15.0"
   },
   "dependencies": {
-    "express-http-proxy": "^1.6.3"
+    "muse-core": "workspace:^1.0.0",
+    "muse-express-middleware": "workspace:^1.0.0",
+    "resolve-cwd": "^3.0.0"
   }
 }

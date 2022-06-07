@@ -4,14 +4,25 @@
   "main": "index.js",
   "license": "MIT",
   "muse": {
-    "type": "boot"
+    "type": "boot",
+    "devConfig": {
+      "app": "app1",
+      "env": "staging",
+      "remotePlugins": [
+        "@ebay/muse-react"
+      ]
+    }
   },
   "scripts": {
-    "build": "muse build --verbose"
+    "start": "muse-scripts-react start",
+    "build": "muse-scripts-react build --verbose",
+    "deploy": "yarn build && muse release muse-boot && muse deploy app1 staging muse-boot"
   },
   "devDependencies": {
     "@craco/craco": "^6.4.3",
-    "eslint": "^8.15.0",
+    "cross-env": "^7.0.3",
+    "eslint": "^8.17.0",
+    "react": "^18.1.0",
     "react-scripts": "^5.0.1"
   },
   "browserslist": {
@@ -25,5 +36,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "dependencies": {
+    "muse-craco-plugin": "workspace:^1.0.0",
+    "muse-modules": "workspace:^1.0.0",
+    "muse-scripts-react": "workspace:^1.0.0"
   }
 }

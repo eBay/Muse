@@ -2,5 +2,16 @@
   "name": "muse-cli",
   "version": "1.0.0",
   "main": "index.js",
-  "license": "MIT"
+  "bin": {
+    "muse": "./bin/muse.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "4.1.2",
+    "muse-core": "workspace:^1.0.0",
+    "muse-simple-server": "workspace:^1.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.16.0"
+  }
 }

@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Modal } from 'antd';
 import _ from 'lodash';
 import plugin from 'js-plugin';
@@ -50,7 +50,7 @@ export default function Header() {
   const siderConfig = plugin.invoke('museLayout.sider.getConfig')[0] || {
     mode: 'collapsable',
   };
-  const history = useHistory();
+  const navigate = useNavigate();
   let { siderCollapsed, setSiderCollapsed } = useSetSiderCollapsed();
   if (siderCollapsed === null) {
     if (typeof siderConfig.siderDefaultCollapsed !== 'undefined') {
@@ -65,7 +65,7 @@ export default function Header() {
     // eslint-disable-line
     ...headerItems,
     ..._.flatten(plugin.invoke('museLayout.header.getItems')),
-  ].map(item => (item.order ? item : { ...item, order: 1 }));
+  ].map((item) => (item.order ? item : { ...item, order: 1 }));
 
   if (
     !headerConfig.noUserMenu &&
@@ -102,7 +102,7 @@ export default function Header() {
     const left = [];
     const center = [];
     const right = [];
-    realHeaderItems.forEach(item => {
+    realHeaderItems.forEach((item) => {
       if (item.position === 'center') center.push(item);
       else if (item.position === 'right') right.unshift(item);
       else left.push(item);
@@ -111,8 +111,8 @@ export default function Header() {
   }, [realHeaderItems]);
 
   const gotoHome = useCallback(() => {
-    history.push('/');
-  }, [history]);
+    navigate('/');
+  }, [navigate]);
 
   const handleHeaderClick = useCallback(() => {
     if (siderConfig.mode === 'drawer' && !siderCollapsed) {
@@ -127,8 +127,8 @@ export default function Header() {
   const headerStyle = {};
   if (headerConfig.backgroundColor) headerStyle.backgroundColor = headerConfig.backgroundColor;
 
-  const renderItems = items => {
-    return items.map(item => <HeaderItem meta={item} key={item.key} />);
+  const renderItems = (items) => {
+    return items.map((item) => <HeaderItem meta={item} key={item.key} />);
   };
 
   const centerContainerStyle = {};

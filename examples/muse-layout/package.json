@@ -8,16 +8,14 @@
       "env": "staging"
     }
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "cross-env": "^7.0.3"
+  },
   "scripts": {
-    "start": "PORT=3032 muse start",
-    "build": "muse build",
-    "build:dev": "muse build --dev",
-    "test": "muse-scripts test",
-    "e2e-test2": "muse-scripts e2e-test",
-    "prestart2": "muse-scripts check-updates",
-    "prebuild2": "muse-scripts check-updates",
-    "release": "muse-scripts release"
+    "start": "cross-env PORT=3032 muse-scripts-react start",
+    "build": "muse-scripts-react build",
+    "build:dev": "muse-scripts-react build --dev",
+    "deploy": "yarn build:dev && muse release muse-layout && muse deploy app1 staging muse-layout"
   },
   "browserslist": {
     "production": [
@@ -32,19 +30,22 @@
     ]
   },
   "dependencies": {
+    "@ant-design/icons": "^4.7.0",
     "@craco/craco": "^6.4.3",
-    "@ebay/muse-antd": "link:../muse-antd",
-    "muse-craco-plugin": "link:../../packages/muse-craco-plugin",
-    "@ebay/muse-react": "link:../muse-react",
-    "antd": "4.7.3",
+    "@ebay/muse-antd": "workspace:^",
+    "@ebay/muse-react": "workspace:^",
+    "antd": "4.20.7",
     "craco-less": "^2.0.0",
-    "js-plugin": "^1.0.9",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "react-redux": "^7.2.8",
-    "react-router-dom": "5.3.0",
-    "react-scripts": "^5.0.0",
-    "redux": "^4.1.2",
-    "semver": "^7.3.2"
+    "js-plugin": "^1.1.0",
+    "lodash": "^4.17.21",
+    "muse-craco-plugin": "workspace:^",
+    "muse-scripts-react": "workspace:^1.0.0",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "react-redux": "^8.0.2",
+    "react-router-dom": "6.3.0",
+    "react-scripts": "^5.0.1",
+    "redux": "^4.2.0",
+    "semver": "^7.3.7"
   }
 }

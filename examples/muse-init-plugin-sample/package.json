@@ -1,0 +1,36 @@
+{
+  "name": "muse-init-plugin-sample",
+  "version": "1.0.0",
+  "main": "index.js",
+  "muse": {
+    "type": "init"
+  },
+  "scripts": {
+    "start": "muse-scripts-react start",
+    "build": "muse-scripts-react build --verbose",
+    "build:dev": "muse-scripts-react build --dev --verbose",
+    "deploy": "yarn build && muse release muse-init-plugin-sample && muse deploy app1 staging muse-init-plugin-sample"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "react-scripts": "^5.0.1"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "@craco/craco": "^6.4.3",
+    "muse-scripts-react": "workspace:^1.0.0",
+    "muse-craco-plugin": "workspace:^1.0.0"
+  }
+}

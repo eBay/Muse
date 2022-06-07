@@ -1,5 +1,4 @@
 'use strict';
-const { compareModulesByPreOrderIndexOrIdentifier } = require('webpack/lib/util/comparators');
 const { getUsedModuleIdsAndModules } = require('webpack/lib/ids/IdHelpers');
 const path = require('path');
 const fs = require('fs');

@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { connectRouter } from 'connected-react-router';
+// import { connectRouter } from 'connected-react-router';
 import _ from 'lodash';
 import plugin from 'js-plugin';
 import NiceModal from '@ebay/nice-modal-react';
@@ -15,7 +15,7 @@ import subAppReducer from '../features/sub-app/redux/reducer';
 // So that it's easy for others to understand it and Rekit could manage them.
 
 const reducerMap = {
-  router: connectRouter(history),
+  // router: connectRouter(history),
   modals: NiceModal.reducer,
   home: homeReducer,
   common: commonReducer,

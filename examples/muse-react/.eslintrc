@@ -1,8 +1,7 @@
 {
   "extends": "react-app",
+  "root": true,
   "plugins": [
-    // ...
-    "react-hooks"
   ],
   "rules": {
     // ...

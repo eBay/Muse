@@ -2,10 +2,8 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { Provider, useDispatch, useSelector } from 'react-redux';
-import { Switch, Route } from 'react-router-dom';
-import { ConnectedRouter } from 'connected-react-router';
+import { Routes, Route, BrowserRouter, Outlet } from 'react-router-dom';
 import _ from 'lodash';
-import { hot } from 'react-hot-loader/root';
 import NiceModal from '@ebay/nice-modal-react';
 import plugin from 'js-plugin';
 import store from './common/store';
@@ -18,6 +16,7 @@ function renderRouteConfigV3(routes, contextPath) {
   const children = []; // children component list
 
   const renderRoute = (item, routeContextPath) => {
+    console.log('render route:', item);
     let newContextPath;
     const isPathArray = _.isArray(item.path);
     if (/^\//.test(item.path) || isPathArray) {
@@ -30,22 +29,27 @@ function renderRouteConfigV3(routes, contextPath) {
       const childRoutes = renderRouteConfigV3(item.childRoutes, newContextPath);
       children.push(
         <Route
+          exact={false}
           key={newContextPath.toString()}
-          render={(props) =>
+          element={
             item.render ? (
-              item.render(props)
+              item.render()
             ) : (
-              <item.component {...props}>{childRoutes}</item.component>
+              <item.component>
+                <Outlet />
+              </item.component>
             )
           }
           path={newContextPath}
-        />,
+        >
+          {childRoutes}
+        </Route>,
       );
     } else if (item.component || item.render) {
       children.push(
         <Route
           key={newContextPath.toString()}
-          render={(props) => (item.render ? item.render(props) : <item.component {...props} />)}
+          element={item.render ? item.render() : <item.component />}
           path={newContextPath}
           exact={'exact' in item ? item.exact : true}
         />,
@@ -58,7 +62,8 @@ function renderRouteConfigV3(routes, contextPath) {
   routes.forEach((item) => renderRoute(item, contextPath));
 
   // Use Switch so that only the first matched route is rendered.
-  return <Switch>{children}</Switch>;
+  // return <Routes>{children}</Routes>;
+  return children;
 }
 
 const renderChildren = (children) => {
@@ -72,11 +77,13 @@ const renderChildren = (children) => {
 
 const WrappedInRedux = () => {
   const children = renderRouteConfigV3(routeConfig(), '/');
+
   const dispatch = useDispatch();
   const modals = useSelector((s) => s.modals);
+  console.log('final children', children);
   return (
     <NiceModal.Provider dispatch={dispatch} modals={modals}>
-      <ConnectedRouter history={history}>{renderChildren(children)}</ConnectedRouter>
+      <BrowserRouter>{renderChildren(<Routes>{children}</Routes>)}</BrowserRouter>
     </NiceModal.Provider>
   );
 };
@@ -102,4 +109,4 @@ const Root = () => {
   );
 };
 
-export default hot(Root);
+export default Root;

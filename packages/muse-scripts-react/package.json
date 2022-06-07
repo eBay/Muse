@@ -7,7 +7,7 @@
     "bin"
   ],
   "bin": {
-    "muse": "./bin/muse.js"
+    "muse-scripts-react": "./bin/muse-scripts-react.js"
   },
   "devDependencies": {
     "eslint": "^8.14.0"

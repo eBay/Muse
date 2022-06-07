@@ -1,8 +1,9 @@
 'use strict';
 
 // const DelegatedModule = require('webpack/lib/DelegatedModule');
-const MuseDelegatedModule = require('./MuseDelegatedModule');
-const findMuseModule = require('./findMuseModule');
+const DelegatedModule = require('webpack/lib/DelegatedModule');
+// const MuseDelegatedModule = require('./MuseDelegatedModule');
+const { findMuseModule } = require('muse-modules');
 
 // options.source
 // options.content
@@ -25,16 +26,9 @@ class MuseDelegatedModuleFactoryPlugin {
       const request = module.libIdent(this.options);
       const relPath = rrd?.relativePath?.replace('./', '');
       const museModuleId = `${dfd.name}@${dfd.version}/${relPath}`;
-      const found = findMuseModule(museModuleId, this.options.content);
+      const found = findMuseModule(museModuleId, { modules: this.options.content });
       if (found) {
-        return new MuseDelegatedModule(
-          this.options.source,
-          found,
-          this.options.type,
-          request,
-          module,
-          museModuleId,
-        );
+        return new DelegatedModule(this.options.source, found, this.options.type, request, module, museModuleId);
       }
       return module;
     });

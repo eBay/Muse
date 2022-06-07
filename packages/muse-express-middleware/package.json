@@ -1,0 +1,13 @@
+{
+  "name": "muse-express-middleware",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^8.16.0"
+  },
+  "dependencies": {
+    "mime-types": "^2.1.35",
+    "muse-core": "workspace:^1.0.0"
+  }
+}

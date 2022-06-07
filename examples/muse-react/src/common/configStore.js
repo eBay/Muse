@@ -1,16 +1,12 @@
-
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-import { routerMiddleware } from 'connected-react-router';
 import history from './history';
 import rootReducer from './rootReducer';
 
-const router = routerMiddleware(history);
-
 // NOTE: Do not change middleares delaration pattern since rekit plugins may register middlewares to it.
-const middlewares = [thunk, router];
+const middlewares = [thunk];
 
-let devToolsExtension = f => f;
+let devToolsExtension = (f) => f;
 
 /* istanbul ignore if  */
 if (process.env.NODE_ENV === 'development') {
@@ -28,10 +24,7 @@ function configureStore(initialState) {
   const store = createStore(
     rootReducer(),
     initialState,
-    compose(
-      applyMiddleware(...middlewares),
-      devToolsExtension,
-    ),
+    compose(applyMiddleware(...middlewares), devToolsExtension),
   );
 
   /* istanbul ignore if  */

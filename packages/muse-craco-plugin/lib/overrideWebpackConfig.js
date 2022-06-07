@@ -45,7 +45,5 @@ module.exports = ({ webpackConfig }) => {
       }
     });
   }
-  // console.log(JSON.stringify(webpackConfig, null, 2));
-  // process.exit();
   return webpackConfig;
 };

@@ -16,12 +16,9 @@ class MuseReferencePlugin {
   }
 
   apply(compiler) {
-    compiler.hooks.compilation.tap(
-      'MuseReferencePlugin',
-      (compilation, { normalModuleFactory }) => {
-        compilation.dependencyFactories.set(DelegatedSourceDependency, normalModuleFactory);
-      },
-    );
+    compiler.hooks.compilation.tap('MuseReferencePlugin', (compilation, { normalModuleFactory }) => {
+      compilation.dependencyFactories.set(DelegatedSourceDependency, normalModuleFactory);
+    });
 
     compiler.hooks.beforeCompile.tapAsync('MuseReferencePlugin', (params, callback) => {
       if ('manifest' in this.options) {
@@ -41,11 +38,7 @@ class MuseReferencePlugin {
             } catch (e) {
               // Store the error in the params so that it can
               // be added as a compilation error later on.
-              const manifestPath = makePathsRelative(
-                compiler.options.context,
-                manifest,
-                compiler.root,
-              );
+              const manifestPath = makePathsRelative(compiler.options.context, manifest, compiler.root);
               data.error = new MuseManifestError(manifestPath, e.message);
             }
             this._compilationData.set(params, data);
@@ -83,11 +76,11 @@ class MuseReferencePlugin {
         }
       }
       /** @type {Externals} */
-      // const externals = {};
+      const externals = {};
       const source = 'muse-shared-modules';
-      // externals[source] = 'muse';
+      externals[source] = 'MUSE_GLOBAL.__shared__.require';
       const normalModuleFactory = params.normalModuleFactory;
-      // new ExternalModuleFactoryPlugin(sourceType || 'var', externals).apply(normalModuleFactory);
+      new ExternalModuleFactoryPlugin(sourceType || 'var', externals).apply(normalModuleFactory);
       new MuseDelegatedModuleFactoryPlugin({
         source: source,
         type: this.options.type,

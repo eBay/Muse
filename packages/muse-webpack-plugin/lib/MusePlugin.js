@@ -38,7 +38,9 @@ class MusePlugin {
     });
     new MuseModuleInfoPlugin().apply(compiler);
     new MuseModuleIdPlugin().apply(compiler);
-    new MuseManifestPlugin({ entryOnly: false, format: true, ...this.options }).apply(compiler);
+    if (this.options.type === 'lib') {
+      new MuseManifestPlugin({ entryOnly: false, format: true, ...this.options }).apply(compiler);
+    }
     new FlagAllModulesAsUsedPlugin('MusePlugin').apply(compiler);
   }
 }
