@@ -1,0 +1,64 @@
+{
+  "name": "plugin-normal",
+  "version": "0.1.0",
+  "private": true,
+  "muse": {
+    "devConfig": {
+      "app": "nate",
+      "env": "staging",
+      "remotePlugins": [
+        "plugin-library"
+      ]
+    }
+  },
+  "dependencies": {
+    "@craco/craco": "^6.4.3",
+    "@ebay/muse-react": "link:../muse-react",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.2.0",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/jest": "^27.5.1",
+    "@types/node": "^16.11.36",
+    "@types/react": "^18.0.9",
+    "@types/react-dom": "^18.0.5",
+    "craco-less": "^2.0.0",
+    "dotenv": "^16.0.1",
+    "js-plugin": "^1.1.0",
+    "json-parse-better-errors": "^1.0.2",
+    "muse-craco-plugin": "../../packages/muse-craco-plugin",
+    "plugin-library": "link:../plugin-library",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "react-scripts": "5.0.1",
+    "typescript": "^4.7.2",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "GENERATE_SOURCEMAP=false PORT=3033 muse start",
+    "build": "GENERATE_SOURCEMAP=false muse build",
+    "build:dev": "GENERATE_SOURCEMAP=false muse build --dev",
+    "test": "muse-scripts test",
+    "e2e-test2": "muse-scripts e2e-test",
+    "prestart2": "muse-scripts check-updates",
+    "prebuild2": "muse-scripts check-updates",
+    "release": "muse-scripts release"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
