@@ -18,7 +18,7 @@ class MuseReferencePlugin {
     });
 
     compiler.hooks.compile.tap('MuseReferencePlugin', (params) => {
-      
+
       let mergedContent = undefined;
       const mergedLibManifestContent = {};
 
@@ -30,7 +30,6 @@ class MuseReferencePlugin {
             mergedLibManifestContent,
             currentMuseLibManifestContent,
           );
-          //libReferences[`${refMuseLib.name}@${refMuseLib.version}`] = Object.keys(currentMuseLibManifestContent);
         }
       }
 

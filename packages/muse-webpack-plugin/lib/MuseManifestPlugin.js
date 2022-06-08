@@ -53,16 +53,6 @@ class MuseManifestPlugin {
             chunk,
             compareModulesById(chunkGraph),
           )) {
-            // if (
-            //   this.options.entryOnly &&
-            //   !someInIterable(
-            //     moduleGraph.getIncomingConnections(module),
-            //     (c) => c.dependency instanceof EntryDependency,
-            //   )
-            // ) {
-            //   continue;
-            // }
-
             if (!module?.buildInfo?.museData?.id) continue;
             const ident = module.libIdent({
               context: this.options.context || compiler.options.context,
