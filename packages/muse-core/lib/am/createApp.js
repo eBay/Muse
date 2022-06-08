@@ -30,14 +30,18 @@ module.exports = async (params = {}) => {
   ctx.app = {
     name: appName,
     createdBy: author,
-    createdAt: Date.now(),
+    createdAt: new Date().toJSON(),
     owners: [author],
     ...options,
   };
 
   try {
     await asyncInvoke('museCore.am.createApp', ctx, params);
-    await registry.set(appKeyPath, Buffer.from(yaml.dump(ctx.app)), `Create plugin ${appName} by ${author}`);
+    await registry.set(
+      appKeyPath,
+      Buffer.from(yaml.dump(ctx.app)),
+      `Create plugin ${appName} by ${author}`,
+    );
   } catch (err) {
     ctx.error = err;
     await asyncInvoke('museCore.am.failedCreateApp', ctx, params);
