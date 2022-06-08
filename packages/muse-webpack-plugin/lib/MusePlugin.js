@@ -7,13 +7,13 @@
 
 const FlagAllModulesAsUsedPlugin = require('webpack/lib/FlagAllModulesAsUsedPlugin');
 const MuseManifestPlugin = require('./MuseManifestPlugin');
+const MuseDepsManifestPlugin = require('./MuseDepsManifestPlugin');
 const MuseEntryPlugin = require('./MuseEntryPlugin');
 const MuseModuleInfoPlugin = require('./MuseModuleInfoPlugin');
 const MuseModuleIdPlugin = require('./MuseModuleIdPlugin');
 
 class MusePlugin {
   constructor(options) {
-    // validate(options);
     this.options = {
       ...options,
       entryOnly: options.entryOnly !== false,
@@ -36,11 +36,16 @@ class MusePlugin {
       }
       return true;
     });
+    
     new MuseModuleInfoPlugin().apply(compiler);
     new MuseModuleIdPlugin().apply(compiler);
+
     if (this.options.type === 'lib') {
       new MuseManifestPlugin({ entryOnly: false, format: true, ...this.options }).apply(compiler);
+    } else {
+      new MuseDepsManifestPlugin({ ...this.options }).apply(compiler);
     }
+    
     new FlagAllModulesAsUsedPlugin('MusePlugin').apply(compiler);
   }
 }

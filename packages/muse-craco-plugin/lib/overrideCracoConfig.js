@@ -1,24 +1,16 @@
-const path = require('path');
 const { museContext, utils } = require('muse-dev-utils');
 const { MusePlugin, MuseReferencePlugin } = require('muse-webpack-plugin');
 const setupHtmlWebpackPlugin = require('./setupHtmlWebpackPlugin');
-
+const resolveCwd = require('resolve-cwd');
 const { isDev, isDevBuild, museConfig } = museContext;
+
 module.exports = async ({ cracoConfig }) => {
   utils.assertPath(cracoConfig, 'webpack.plugins.add', [], true);
   utils.assertPath(cracoConfig, 'webpack.plugins.remove', [], true);
 
-  if (museConfig.type !== 'boot') {
-    cracoConfig.webpack.plugins.add.push([
-      new MusePlugin({
-        // NOTE: build folder is hard coded for simplicity
-        // lib-manifest.json is only useful for dev/prod build, not for development
-        path: path.join(process.cwd(), `build/${isDevBuild ? 'dev' : 'dist'}/lib-manifest.json`),
-        type: museConfig.type,
-      }),
-      'prepend',
-    ]);
+  const museLibsInfo = [];
 
+  if (museConfig.type !== 'boot') {
     // Creating lib reference manifest content
     let museLibs = utils.getMuseLibs();
     if (isDev) {
@@ -28,20 +20,28 @@ module.exports = async ({ cracoConfig }) => {
     }
 
     if (museLibs.length > 0) {
-      const libsManifestRef = [];
       museLibs.forEach((lib) => {
-        libsManifestRef.push({
-          libName: lib,
-          libManifestPath: `./node_modules/${lib}/build/${isDevBuild ? 'dev' : 'dist'}/lib-manifest.json`,
-          libVersion: require(path.join(process.cwd(), `./node_modules/${lib}/package.json`)).version
+        museLibsInfo.push({
+          name: lib,
+          version: require(resolveCwd(`${lib}/package.json`)).version,
         });
       });
+    }
 
+    cracoConfig.webpack.plugins.add.push([
+      new MusePlugin({
+        isDevBuild,
+        museLibs: museLibsInfo,
+        type: museConfig.type,
+      }),
+      'prepend',
+    ]);
+
+    if (museLibs.length > 0) {
       cracoConfig.webpack.plugins.add.push([
         new MuseReferencePlugin({
-          museLibs: libsManifestRef,
-          name: 'muse-shared-modules',
-          depsManifestPath: path.join(process.cwd(), `build/${isDevBuild ? 'dev' : 'dist'}/deps-manifest.json`),
+          isDevBuild,
+          museLibs: museLibsInfo
         }),
         'prepend',
       ]);

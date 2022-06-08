@@ -18,28 +18,25 @@ class MuseReferencePlugin {
     });
 
     compiler.hooks.compile.tap('MuseReferencePlugin', (params) => {
-      let content = undefined;
-      const libManifestContent = {};
-      const libReferences = {};
+      
+      let mergedContent = undefined;
+      const mergedLibManifestContent = {};
 
       if ('museLibs' in this.options) {
         const referencedMuseLibs = this.options.museLibs;
         for (const refMuseLib of referencedMuseLibs) {
-          const currentMuseLibManifestContent = require(resolveCwd(`${refMuseLib.libManifestPath}`)).content;
+          const currentMuseLibManifestContent = require(resolveCwd(`${refMuseLib.name}/build/${this.options.isDevBuild ? 'dev' : 'dist'}/lib-manifest.json`)).content;
           Object.assign(
-            libManifestContent,
+            mergedLibManifestContent,
             currentMuseLibManifestContent,
           );
-          libReferences[`${refMuseLib.libName}@${refMuseLib.libVersion}`] = Object.keys(currentMuseLibManifestContent);
+          //libReferences[`${refMuseLib.name}@${refMuseLib.version}`] = Object.keys(currentMuseLibManifestContent);
         }
       }
 
-      if (Object.keys(libManifestContent).length > 0) {
-        if (!content) content = libManifestContent;
+      if (Object.keys(mergedLibManifestContent).length > 0) {
+        if (!mergedContent) mergedContent = mergedLibManifestContent;
       }
-
-      const buffer = Buffer.from(JSON.stringify(libReferences, null, 2), 'utf8');
-      compiler.intermediateFileSystem.writeFile(this.options.depsManifestPath, buffer, function () { });
 
       /** @type {Externals} */
       const externals = {};
@@ -52,7 +49,7 @@ class MuseReferencePlugin {
         type: this.options.type,
         scope: this.options.scope,
         context: this.options.context || compiler.options.context,
-        content,
+        mergedContent,
         extensions: this.options.extensions,
         associatedObjectForCache: compiler.root,
       }).apply(normalModuleFactory);

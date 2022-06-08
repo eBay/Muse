@@ -3,10 +3,6 @@
 const DelegatedModule = require('webpack/lib/DelegatedModule');
 const { findMuseModule } = require('muse-modules');
 
-// options.source
-// options.content
-// options.type
-// options.noShare : which modules don't use shared
 class MuseDelegatedModuleFactoryPlugin {
   constructor(options) {
     this.options = options;
@@ -23,7 +19,7 @@ class MuseDelegatedModuleFactoryPlugin {
       const request = module.libIdent(this.options);
       const relPath = rrd?.relativePath?.replace('./', '');
       const museModuleId = `${dfd.name}@${dfd.version}/${relPath}`;
-      const closestSemanticModule = findMuseModule(museModuleId, { modules: this.options.content });
+      const closestSemanticModule = findMuseModule(museModuleId, { modules: this.options.mergedContent });
       if (closestSemanticModule) {
         return new DelegatedModule(this.options.source, closestSemanticModule, this.options.type, request, module, museModuleId);
       }

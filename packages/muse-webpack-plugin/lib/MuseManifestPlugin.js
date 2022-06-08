@@ -1,6 +1,6 @@
 /*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
+  MIT License http://www.opensource.org/licenses/mit-license.php
+  Author Tobias Koppers @sokra
 */
 
 'use strict';
@@ -8,6 +8,7 @@
 const asyncLib = require('neo-async');
 const { compareModulesById } = require('webpack/lib/util/comparators');
 const { dirname, mkdirp } = require('webpack/lib/util/fs');
+const path = require('path');
 
 /** @typedef {import("./Compiler")} Compiler */
 
@@ -39,7 +40,7 @@ class MuseManifestPlugin {
             return;
           }
           const chunkGraph = compilation.chunkGraph;
-          const targetPath = compilation.getPath(this.options.path, {
+          const targetPath = compilation.getPath(path.join(process.cwd(), `build/${this.options.isDevBuild ? 'dev' : 'dist'}/lib-manifest.json`), {
             chunk,
           });
           const name =
