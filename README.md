@@ -10,7 +10,7 @@ This is a monorepo to host all Muse code.
 ## Dev Guide
 
 1. Run `pnpm` to install dependencies under root of `muse-next`.
-2. Run `npm link` under `packages/muse-cli` to enable the global `muse` command.
+2. Run `npm link` under `packages/muse-cli` to enable the global `muse` command. (NOTE it's `npm link`).
 3. Create a Muse app in the local registry: `muse create-app app1`
 4. Create a new staging env on app1: `muse create-env app1 staging`
 5. Create muse plugins in the local registry for every project under `/examples`:
