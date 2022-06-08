@@ -7,7 +7,6 @@
 
 const FlagAllModulesAsUsedPlugin = require('webpack/lib/FlagAllModulesAsUsedPlugin');
 const MuseManifestPlugin = require('./MuseManifestPlugin');
-const MuseDepsManifestPlugin = require('./MuseDepsManifestPlugin');
 const MuseEntryPlugin = require('./MuseEntryPlugin');
 const MuseModuleInfoPlugin = require('./MuseModuleInfoPlugin');
 const MuseModuleIdPlugin = require('./MuseModuleIdPlugin');
@@ -42,8 +41,6 @@ class MusePlugin {
 
     if (this.options.type === 'lib') {
       new MuseManifestPlugin({ entryOnly: false, format: true, ...this.options }).apply(compiler);
-    } else {
-      new MuseDepsManifestPlugin({ ...this.options }).apply(compiler);
     }
     
     new FlagAllModulesAsUsedPlugin('MusePlugin').apply(compiler);

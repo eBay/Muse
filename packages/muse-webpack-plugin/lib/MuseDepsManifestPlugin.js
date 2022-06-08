@@ -5,7 +5,6 @@
 
 'use strict';
 
-const resolveCwd = require('resolve-cwd');
 const { dirname, mkdirp } = require('webpack/lib/util/fs');
 const path = require('path');
 
@@ -32,32 +31,27 @@ class MuseDepsManifestPlugin {
         compiler.hooks.emit.tapAsync('MuseDepsManifestPlugin', (compilation, callback) => {
 
             const depsContent = {};
-            const libsManifestContent = {};
             const delegatedModules = Array.from(compilation.modules).filter((m) => m.sourceRequest === 'muse-shared-modules');
+            const libsManifests = this.options.libsManifestContent;
 
-            if ('museLibs' in this.options) {
-                for (const refMuseLib of this.options.museLibs) {
-                    const currentMuseLibManifestContent = require(resolveCwd(`${refMuseLib.name}/build/${this.options.isDevBuild ? 'dev' : 'dist'}/lib-manifest.json`)).content;
-                    libsManifestContent[`${refMuseLib.name}`] = {
-                        version: refMuseLib.version,
-                        content: currentMuseLibManifestContent,
-                    };
-                }
-            
-                for (const delegateModule of delegatedModules) {
-                    const delegateModuleRequest = delegateModule.request;
-                    // check which shared muse libs use this request
-                    for (const lib of this.options.museLibs) {
-                        if (Object.keys(libsManifestContent[lib.name].content).includes(delegateModuleRequest)) {
-                            depsContent[`${lib.name}@${lib.version}`] ?
-                                depsContent[`${lib.name}@${lib.version}`].push(delegateModuleRequest) :
-                                depsContent[`${lib.name}@${lib.version}`] = [delegateModuleRequest];
-                        }
+            for (const delegateModule of delegatedModules) {
+                const delegateModuleRequest = delegateModule.request;
+                // check which shared muse libs use this request
+                for (const lib of Object.keys(libsManifests)) {
+                    if (Object.keys(libsManifests[lib].content).includes(delegateModuleRequest)) {
+                        // this module request is referenced / used by the muse "lib" library
+                        const museLibRef = `${lib}@${libsManifests[lib].version}`;
+                        depsContent[museLibRef] ?
+                            depsContent[museLibRef].push(delegateModuleRequest) :
+                            depsContent[museLibRef] = [delegateModuleRequest];
                     }
                 }
             }
 
-            const targetPath = compilation.getPath(path.join(process.cwd(), `build/${this.options.isDevBuild ? 'dev' : 'dist'}/deps-manifest.json`));
+
+            const targetPath = compilation.getPath(path.join(process.cwd(),
+                `build/${this.options.isDevBuild ? 'dev' : 'dist'}/deps-manifest.json`));
+
             const manifest = {
                 content: depsContent,
             };

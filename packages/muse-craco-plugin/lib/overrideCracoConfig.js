@@ -1,14 +1,12 @@
 const { museContext, utils } = require('muse-dev-utils');
 const { MusePlugin, MuseReferencePlugin } = require('muse-webpack-plugin');
 const setupHtmlWebpackPlugin = require('./setupHtmlWebpackPlugin');
-const resolveCwd = require('resolve-cwd');
 const { isDev, isDevBuild, museConfig } = museContext;
 
 module.exports = async ({ cracoConfig }) => {
+  
   utils.assertPath(cracoConfig, 'webpack.plugins.add', [], true);
   utils.assertPath(cracoConfig, 'webpack.plugins.remove', [], true);
-
-  const museLibsInfo = [];
 
   if (museConfig.type !== 'boot') {
     // Creating lib reference manifest content
@@ -19,19 +17,9 @@ module.exports = async ({ cracoConfig }) => {
       museLibs = museLibs.filter((libName) => !localPlugins.find((p) => p.name === libName));
     }
 
-    if (museLibs.length > 0) {
-      museLibs.forEach((lib) => {
-        museLibsInfo.push({
-          name: lib,
-          version: require(resolveCwd(`${lib}/package.json`)).version,
-        });
-      });
-    }
-
     cracoConfig.webpack.plugins.add.push([
       new MusePlugin({
         isDevBuild,
-        museLibs: museLibsInfo,
         type: museConfig.type,
       }),
       'prepend',
@@ -41,7 +29,7 @@ module.exports = async ({ cracoConfig }) => {
       cracoConfig.webpack.plugins.add.push([
         new MuseReferencePlugin({
           isDevBuild,
-          museLibs: museLibsInfo
+          museLibs,
         }),
         'prepend',
       ]);
