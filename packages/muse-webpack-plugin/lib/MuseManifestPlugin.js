@@ -69,6 +69,8 @@ class MuseManifestPlugin {
               content[id] = data;
             }
           }
+
+          // write the manifest file lib-manifest.json
           const manifest = {
             name,
             type: this.options.type,

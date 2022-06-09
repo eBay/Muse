@@ -4,6 +4,7 @@ const path = require('path');
 const fs = require('fs');
 
 const pkgJsonCache = {};
+
 // Add muse info to module's buildInfo
 class MuseModuleInfoPlugin {
   apply(compiler) {
