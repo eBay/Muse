@@ -11,6 +11,9 @@ const MuseEntryPlugin = require('./MuseEntryPlugin');
 const MuseModuleInfoPlugin = require('./MuseModuleInfoPlugin');
 const MuseModuleIdPlugin = require('./MuseModuleIdPlugin');
 
+/**
+ * Main entry for MUSE webpack plugin
+ */
 class MusePlugin {
   constructor(options) {
     this.options = {

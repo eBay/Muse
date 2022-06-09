@@ -1,7 +1,3 @@
-/*
-  MIT License http://www.opensource.org/licenses/mit-license.php
-  Author Tobias Koppers @sokra
-*/
 
 'use strict';
 
@@ -17,6 +13,13 @@ const path = require('path');
  * @property {boolean | string[]} exports
  */
 
+/**
+ * This plugin generates a deps-manifest.json under the /build folder of a MUSE plugin.
+ * The file describes which Delegated Modules (generated on the MuseDelegatedModuleFactoryPlugin) are coming from a MUSE library plugin.
+ * Example: "@ebay/muse-react@1.0.0": ["@ebay/muse-react@1.0.0/src/common/store.js", "react@18.1.0/index.js"]
+ * 
+ * This file can be used to check if any dependencies from library plugins are missing when deploying the plugin on an appication. 
+ */
 class MuseDepsManifestPlugin {
     constructor(options) {
         this.options = { ...options };
@@ -28,11 +31,15 @@ class MuseDepsManifestPlugin {
      * @returns {void}
      */
     apply(compiler) {
+
+        // emit hook happens right before webpack is going to write the output files.
+        // at this moment, we already have all the compiled modules on the compilation.modules Array.
         compiler.hooks.emit.tapAsync('MuseDepsManifestPlugin', (compilation, callback) => {
 
             const depsContent = {};
+            // we only need the DelegatedModules generated from the MuseDelegatedModuleFactoryPlugin
             const delegatedModules = Array.from(compilation.modules).filter((m) => m.sourceRequest === 'muse-shared-modules');
-            const libsManifests = this.options.libsManifestContent;
+            const libsManifests = this.options.libsManifestContent; // lib-manifest.json contents of each library plugin
 
             for (const delegateModule of delegatedModules) {
                 const delegateModuleRequest = delegateModule.request;
@@ -49,6 +56,7 @@ class MuseDepsManifestPlugin {
             }
 
 
+            // write all the dependencies into a file (deps-manifest.json)
             const targetPath = compilation.getPath(path.join(process.cwd(),
                 `build/${this.options.isDevBuild ? 'dev' : 'dist'}/deps-manifest.json`));
 

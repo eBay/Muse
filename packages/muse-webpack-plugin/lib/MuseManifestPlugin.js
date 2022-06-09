@@ -1,8 +1,3 @@
-/*
-  MIT License http://www.opensource.org/licenses/mit-license.php
-  Author Tobias Koppers @sokra
-*/
-
 'use strict';
 
 const asyncLib = require('neo-async');
@@ -19,6 +14,9 @@ const path = require('path');
  * @property {boolean | string[]} exports
  */
 
+/**
+ * Based on original webpack's LibManifestPlugin here: https://github.com/webpack/webpack/blob/main/lib/LibManifestPlugin.js
+ */
 class MuseManifestPlugin {
   constructor(options) {
     this.options = { format: true, ...options };

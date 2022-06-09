@@ -6,6 +6,9 @@ const MuseDelegatedModuleFactoryPlugin = require('./MuseDelegatedModuleFactoryPl
 const MuseDepsManifestPlugin = require('./MuseDepsManifestPlugin');
 const resolveCwd = require('resolve-cwd');
 
+/**
+ * Based on webpack's DllReferencePlugin here: https://github.com/webpack/webpack/blob/main/lib/DllReferencePlugin.js
+ */
 class MuseReferencePlugin {
   constructor(options) {
     this.options = options;
@@ -33,6 +36,8 @@ class MuseReferencePlugin {
           currentMuseLibManifestContent,
         );
       }
+
+      // the plugin that will generate deps-manifest.json gets an object with each lib's lib-manifest.json content and lib version.
       new MuseDepsManifestPlugin({ libsManifestContent, ...this.options }).apply(compiler);
     }
 
@@ -47,6 +52,9 @@ class MuseReferencePlugin {
       externals[source] = 'MUSE_GLOBAL.__shared__.require';
       const normalModuleFactory = params.normalModuleFactory;
       new ExternalModuleFactoryPlugin('var', externals).apply(normalModuleFactory);
+
+      // the MuseDelegatedModuleFactoryPlugin gets a "mergedContent" parameter 
+      // with all the lib-manifest.json content merged from all library plugins
       new MuseDelegatedModuleFactoryPlugin({
         source: source,
         type: this.options.type,

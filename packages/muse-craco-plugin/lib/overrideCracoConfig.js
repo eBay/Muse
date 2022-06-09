@@ -3,13 +3,24 @@ const { MusePlugin, MuseReferencePlugin } = require('muse-webpack-plugin');
 const setupHtmlWebpackPlugin = require('./setupHtmlWebpackPlugin');
 const { isDev, isDevBuild, museConfig } = museContext;
 
+/**
+ * Main Craco Configuration plugin.
+ * 
+ * For non-boot plugins, it adds two webpack plugins:
+ *  - MusePlugin : main webpack plugin for compiling the current muse plugin being built from CLI (as a Dll bundle)
+ *  - MuseReferencePlugin : webpack plugin for building dependency manifests
+ * 
+ * @param {cracoConfig} original craco configuration
+ * @returns modified craco onfiguration
+ */
 module.exports = async ({ cracoConfig }) => {
   
   utils.assertPath(cracoConfig, 'webpack.plugins.add', [], true);
   utils.assertPath(cracoConfig, 'webpack.plugins.remove', [], true);
 
   if (museConfig.type !== 'boot') {
-    // Creating lib reference manifest content
+
+    // for non-boot plugins, we gather a list of muse library plugins to be used by the MuseReferencePlugin
     let museLibs = utils.getMuseLibs();
     if (isDev) {
       // At dev time, should exclude local lib plugins
@@ -17,6 +28,7 @@ module.exports = async ({ cracoConfig }) => {
       museLibs = museLibs.filter((libName) => !localPlugins.find((p) => p.name === libName));
     }
 
+    // main webpack plugin for compiling the current muse plugin called from CLI (as a Dll bundle)
     cracoConfig.webpack.plugins.add.push([
       new MusePlugin({
         isDevBuild,
@@ -26,6 +38,9 @@ module.exports = async ({ cracoConfig }) => {
     ]);
 
     if (museLibs.length > 0) {
+      // if this muse plugin is using library plugins, we use the MuseReferencePlugin for building dependency manifest files:
+      // lib-manifest.json  : shows which dependencies a library plugin exposes (if the plugin being built is a library plugin)
+      // deps-manifest.json : shows which delegated dependencies are coming from which library plugins.
       cracoConfig.webpack.plugins.add.push([
         new MuseReferencePlugin({
           isDevBuild,
