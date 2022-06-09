@@ -14,7 +14,7 @@ const path = require('path');
  */
 
 /**
- * This plugin generates a deps-manifest.json under the /build folder of a MUSE plugin.
+ * This plugin generates a deps-manifest.json under the /build(dev/dist) folder of a MUSE plugin.
  * The file describes which Delegated Modules (generated on the MuseDelegatedModuleFactoryPlugin) are coming from a MUSE library plugin.
  * Example: "@ebay/muse-react@1.0.0": ["@ebay/muse-react@1.0.0/src/common/store.js", "react@18.1.0/index.js"]
  * 
