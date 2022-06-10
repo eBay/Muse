@@ -6,16 +6,22 @@ const { museContext, getDevMuseGlobal } = require('muse-dev-utils');
 const { pkgJson, isDev, museConfig } = museContext;
 
 module.exports = async (cracoConfig) => {
+
   // Remove old HtmlWebpackPlugin
   cracoConfig.webpack.plugins.remove.push('HtmlWebpackPlugin');
+
+  // if we are not generating a dev build we can skip the HtmlWebpackPlugin step
   if (!isDev) return;
+
   // Use index.html only when dev time
   // Add new HtmlWebpackPlugin to use custom template
   const museGlobal = await getDevMuseGlobal();
+
   // bootPlugin is only useful when it's not a boot plugin project
   const bootPlugin = museGlobal.plugins.find((p) => p.type === 'boot');
   const bootUrl =
     bootPlugin.url || `/_muse_static/p/${muse.utils.getPluginId(bootPlugin.name)}/v${bootPlugin.version}/dist/boot.js`;
+
   cracoConfig.webpack.plugins.add.push(
     ...[
       [

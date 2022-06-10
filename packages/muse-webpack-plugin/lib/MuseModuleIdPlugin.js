@@ -2,7 +2,11 @@
 const { compareModulesByPreOrderIndexOrIdentifier } = require('webpack/lib/util/comparators');
 const { getUsedModuleIdsAndModules } = require('webpack/lib/ids/IdHelpers');
 
-// use npm package info as module id
+/**
+ * Based on original webpack's NaturalModuleIdsPlugin here: https://github.com/webpack/webpack/blob/main/lib/ids/NaturalModuleIdsPlugin.js
+ *
+ * In this plugin, we use npm package info as module id
+ */
 class MuseModuleIdsPlugin {
   apply(compiler) {
     compiler.hooks.compilation.tap('MuseModuleIdsPlugin', (compilation) => {

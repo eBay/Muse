@@ -6,6 +6,9 @@ const JavascriptModulesPlugin = require('webpack/lib/javascript/JavascriptModule
 const MuseModuleFactory = require('./MuseModuleFactory');
 const MuseEntryDependency = require('./MuseEntryDependency');
 
+/**
+ * Based on original webpack's Dll Entry Plugin here: https://github.com/webpack/webpack/blob/main/lib/DllEntryPlugin.js
+ */
 class MuseEntryPlugin {
   constructor(context, entries, options) {
     this.context = context;
@@ -14,11 +17,13 @@ class MuseEntryPlugin {
   }
 
   apply(compiler) {
+
     compiler.hooks.compilation.tap('MuseEntryPlugin', (compilation, { normalModuleFactory }) => {
       const museModuleFactory = new MuseModuleFactory();
       compilation.dependencyFactories.set(MuseEntryDependency, museModuleFactory);
       compilation.dependencyFactories.set(EntryDependency, normalModuleFactory);
     });
+
     compiler.hooks.make.tapAsync('MuseEntryPlugin', (compilation, callback) => {
       compilation.addEntry(
         this.context,
