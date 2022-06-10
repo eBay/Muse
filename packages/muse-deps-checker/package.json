@@ -1,0 +1,11 @@
+{
+  "name": "muse-deps-checker",
+  "version": "1.0.0",
+  "description": "dependency checker before a plugin deployment",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "mcubellsbaeza",
+  "license": "ISC"
+}
