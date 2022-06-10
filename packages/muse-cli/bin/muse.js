@@ -102,6 +102,20 @@ console.error = (message) => console.log(chalk.red(message));
       break;
     }
 
+    case 'request-deploy': {
+      const [appName, envName, pluginName, version] = args;
+      await muse.req.createRequest({
+        type: 'deploy-plugin',
+        payload: { appName, envName, pluginName, version },
+      });
+      break;
+    }
+
+    case 'approve-status':
+    case 'merge-request': {
+      break;
+    }
+
     case 'serve': {
       const [appName, envName = 'staging', port = 6070] = args;
       if (!appName) throw new Error('App anem is required.');

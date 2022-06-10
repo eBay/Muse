@@ -6,7 +6,7 @@ module.exports = async (params) => {
   const ctx = {};
   await asyncInvoke('museCore.pm.beforeUndeployPlugin', ctx, params);
 
-  const { appName, envName, pluginName, author = osUsername } = params;
+  const { appName, envName, pluginName, author = osUsername, msg } = params;
 
   const app = await getApp(appName);
   if (!app) {
@@ -22,7 +22,7 @@ module.exports = async (params) => {
     const keyPath = `/apps/${appName}/${envName}/${pid}.yaml`;
 
     await asyncInvoke('museCore.pm.undeployPlugin', ctx, params);
-    await registry.del(keyPath, `Undeploy plugin ${pluginName} by ${author}`);
+    await registry.del(keyPath, msg || `Undeploy plugin ${pluginName} by ${author}`);
   } catch (err) {
     console.log(err);
     ctx.error = err;

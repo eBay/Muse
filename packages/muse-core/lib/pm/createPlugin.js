@@ -10,7 +10,7 @@ module.exports = async (params) => {
   const ctx = {};
   await asyncInvoke('museCore.pm.beforeCreatePlugin', ctx, params);
 
-  const { pluginName, type = 'normal', author = osUsername, options } = params;
+  const { pluginName, type = 'normal', author = osUsername, options, msg } = params;
 
   // Check if plugin name exist
   if (await getPlugin(pluginName)) {
@@ -29,7 +29,11 @@ module.exports = async (params) => {
 
   try {
     await asyncInvoke('museCore.pm.createPlugin', ctx, params);
-    await registry.set(pluginKeyPath, Buffer.from(yaml.dump(ctx.plugin)), `Create plugin ${pluginName} by ${author}`);
+    await registry.set(
+      pluginKeyPath,
+      Buffer.from(yaml.dump(ctx.plugin)),
+      msg || `Create plugin ${pluginName} by ${author}`,
+    );
   } catch (err) {
     ctx.error = err;
     await asyncInvoke('museCore.pm.failedCreatePlugin', ctx, params);

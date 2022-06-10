@@ -22,11 +22,16 @@ module.exports = async (params) => {
     ctx.changes = {
       set: {
         path: `envs.${envName}`,
-        value: { name: envName, createdBy: author, createdAt: Date.now(), ...options },
+        value: { name: envName, createdBy: author, createdAt: new Date().toJSON(), ...options },
       },
     };
     await asyncInvoke('museCore.am.createEnv', ctx, params);
-    await updateApp({ appName, changes: ctx.changes, author, msg: `Create env ${appName}/${envName} by ${author}.` });
+    await updateApp({
+      appName,
+      changes: ctx.changes,
+      author,
+      msg: `Create env ${appName}/${envName} by ${author}.`,
+    });
   } catch (err) {
     ctx.error = err;
     await asyncInvoke('museCore.am.failedCreateEnv', ctx, params);
