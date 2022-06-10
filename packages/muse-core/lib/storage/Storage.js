@@ -27,6 +27,9 @@ class Storage extends EventEmitter {
   async set(path, value, msg) {
     await wrappedAsyncInvoke(this.extPath, 'set', path, value, msg);
   }
+  async batchSet(items, msg) {
+    await wrappedAsyncInvoke(this.extPath, 'batchSet', items, msg);
+  }
   async del(path, msg) {
     await wrappedAsyncInvoke(this.extPath, 'del', path, msg);
   }
@@ -55,7 +58,9 @@ class Storage extends EventEmitter {
 
     await batchAsync(
       ctx.items.map((item) => async () => {
-        item.content = await makeRetryAble(async (...args) => this.get(...args))(keyPath + '/' + item.name);
+        item.content = await makeRetryAble(async (...args) => this.get(...args))(
+          keyPath + '/' + item.name,
+        );
       }),
       100, // TODO: make it configurable
     );
@@ -72,7 +77,10 @@ class Storage extends EventEmitter {
     await batchAsync(
       files.map((f) => async () => {
         const buff = await fs.readFile(f);
-        await makeRetryAble(async (...args) => this.set(...args))(toPath + f.replace(fromDir, ''), buff);
+        await makeRetryAble(async (...args) => this.set(...args))(
+          toPath + f.replace(fromDir, ''),
+          buff,
+        );
       }),
       100, // TODO: make it configurable
       `Batch upload files from ${fromDir}`,
