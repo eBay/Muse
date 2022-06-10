@@ -2,11 +2,13 @@ const os = require('os');
 const path = require('path');
 const yaml = require('js-yaml');
 
-jest.mock('fs');
-jest.mock('fs/promises');
 const testRegistryDir = path.join(__dirname, '/_muse_test_dir/muse-storage/registry');
-
-describe('FileStorage basic tests.', () => {
+// jest.mock('/Users/pwang7/muse/muse-next/packages/muse-core/muse.config.js', () => () => {
+//   return {
+//     registry: { storage: { type: 'some-type', location: 'testRegistryDir' } },
+//   };
+// });
+describe('Config basic tests.', () => {
   beforeAll(() => {});
   beforeEach(() => {
     jest.resetModules();
@@ -17,8 +19,14 @@ describe('FileStorage basic tests.', () => {
     const fs = require('fs-extra');
 
     fs.ensureDirSync(process.cwd());
+
     fs.writeFileSync(
       path.join(process.cwd(), 'muse.config.yaml'),
+      // `module.exports = () => {
+      //   return {
+      //     registry: { storage: { type: 'some-type', location: testRegistryDir } },
+      //   };
+      // };`,
       yaml.dump({
         registry: { storage: { type: 'some-type', location: testRegistryDir } },
       }),
@@ -31,7 +39,7 @@ describe('FileStorage basic tests.', () => {
     const fs = require('fs-extra');
     fs.ensureDirSync(os.homedir());
     fs.writeFileSync(
-      path.join(os.homedir(), 'muse.config.yaml'),
+      path.join(os.homedir(), '.muserc'),
       yaml.dump({
         registry: { storage: { type: 'some-type2', location: testRegistryDir } },
       }),
