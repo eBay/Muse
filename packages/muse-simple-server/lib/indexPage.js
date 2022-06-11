@@ -1,7 +1,7 @@
 const muse = require('muse-core');
 
 module.exports = (appName, envName) => async (req, res) => {
-  const app = await muse.cache.get(`muse.app.${appName}`);
+  const app = await muse.data.get(`muse.app.${appName}`);
   if (!app) {
     res.send('No app found: ' + appName);
     return;

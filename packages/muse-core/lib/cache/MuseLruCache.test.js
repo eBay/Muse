@@ -1,5 +1,5 @@
 const { vol } = require('memfs');
-const MuseLruCache = require('./MuseLruCache');
+const { MuseLruCache } = require('./');
 const delay = (t) => new Promise((resolve) => setTimeout(resolve, t));
 
 describe('MuseLruCache basic tests.', () => {

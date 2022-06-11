@@ -11,7 +11,6 @@ config.plugins?.forEach((pluginDef) => {
   let pluginInstance = null;
   let pluginOptions = null;
   if (_.isString(pluginDef)) {
-    console.log(pluginDef);
     pluginInstance = require(pluginDef);
   } else if (_.isObject(pluginDef)) {
     pluginInstance = require(pluginDef.module);

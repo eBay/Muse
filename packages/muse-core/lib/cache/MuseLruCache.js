@@ -28,7 +28,6 @@ class MuseLruCache {
     this.memoryCache = new LruMemoryCache({
       maxSize: maxMemorySize,
       sizeCalculation: (value, key) => {
-        console.log(value, key);
         return (value ? value.length : 1) + key.length;
       },
       ttl: memoryTtl,
@@ -59,7 +58,6 @@ class MuseLruCache {
         return this.memoryCache.get(key);
       } else if (this.diskCache.has(key)) {
         data = this.diskCache.get(key);
-        console.log('set mem cache: ', key);
         this.memoryCache.set(key, data);
       } else {
         data = await this.getData(key);

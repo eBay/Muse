@@ -30,7 +30,7 @@ if (envConfigFile) {
 }
 
 if (cosmicResult) {
-  console.log(`Loaded Muse config from: ${cosmicResult.filepath}.`);
+  // console.log(`Loaded Muse config from: ${cosmicResult.filepath}.`);
 }
 
 const config = cosmicResult?.config || {};

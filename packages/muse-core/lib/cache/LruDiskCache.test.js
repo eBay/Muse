@@ -1,5 +1,5 @@
 const { vol } = require('memfs');
-const LruDiskCache = require('./LruDiskCache');
+const { LruDiskCache } = require('./');
 const delay = (t) => new Promise((resolve) => setTimeout(resolve, t));
 
 describe('LruDiskCache basic tests.', () => {
