@@ -82,6 +82,7 @@ importers:
       js-plugin: ^1.1.0
       js-yaml: ^4.1.0
       lodash: ^4.17.21
+      lru-cache: ^7.10.1
       memfs: ^3.4.1
       path-to-regexp: ^6.2.1
       schema-utils: ^4.0.0
@@ -93,6 +94,7 @@ importers:
       js-plugin: 1.1.0
       js-yaml: 4.1.0
       lodash: 4.17.21
+      lru-cache: 7.10.1
       path-to-regexp: 6.2.1
       schema-utils: 4.0.0
       semver: 7.3.7
@@ -100,6 +102,23 @@ importers:
       '@types/jest': 27.5.2
       eslint: 8.17.0
       eslint-plugin-jest: 26.5.3_eslint@8.17.0+jest@28.1.1
+      jest: 28.1.1
+      memfs: 3.4.4
+
+  packages/muse-lru-cache:
+    specifiers:
+      '@types/jest': ^27.5.1
+      eslint: ^8.17.0
+      jest: ^28.1.0
+      lodash: ^4.17.21
+      lru-cache: ^7.10.1
+      memfs: ^3.4.1
+    dependencies:
+      lodash: 4.17.21
+      lru-cache: 7.10.1
+    devDependencies:
+      '@types/jest': 27.5.2
+      eslint: 8.17.0
       jest: 28.1.1
       memfs: 3.4.4
 
@@ -7467,6 +7486,11 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       yallist: 4.0.0
+
+  /lru-cache/7.10.1:
+    resolution: {integrity: sha1-21d/QqlMFo9na2ONFdqPsHNEjKs=}
+    engines: {node: '>=12'}
+    dev: false
 
   /magic-string/0.25.9:
     resolution: {integrity: sha1-3n+fr5HvihyR0CwuUxTIJ3283Rw=}

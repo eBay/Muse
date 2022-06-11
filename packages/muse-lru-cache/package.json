@@ -1,0 +1,22 @@
+{
+  "name": "muse-lru-cache",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/MuseLruCache.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jest": "^27.5.1",
+    "eslint": "^8.17.0",
+    "jest": "^28.1.0",
+    "memfs": "^3.4.1"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21",
+    "lru-cache": "^7.10.1"
+  }
+}
