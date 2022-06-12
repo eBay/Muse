@@ -6,6 +6,7 @@
 const _ = require('lodash');
 const plugin = require('js-plugin');
 const config = require('./config');
+const { assetsFileStoragePlugin, registryFileStoragePlugin } = require('./plugins');
 
 config.plugins?.forEach((pluginDef) => {
   let pluginInstance = null;
@@ -21,4 +22,33 @@ config.plugins?.forEach((pluginDef) => {
   if (_.isFunction(pluginInstance)) pluginInstance = pluginInstance(pluginOptions);
   plugin.register(pluginInstance, pluginOptions);
 });
-plugin.invoke('onReady');
+
+// Built-in behavior initialization
+// If no assets storage plugin, then use the default one
+const assetsStorageProviders = plugin.getPlugins('museCore.assets.storage.get').filter(Boolean);
+if (assetsStorageProviders.length > 1) {
+  console.log(
+    `[WARNING]: multiple assets stroage providers found: ${assetsStorageProviders
+      .map((p) => p.name)
+      .join(', ')}. Only the first one is used: ${assetsStorageProviders[0].name}.`,
+  );
+}
+if (assetsStorageProviders.length === 0) {
+  plugin.register(assetsFileStoragePlugin());
+}
+
+// If no registry storage plugin, then use the default one
+const registryStorageProviders = plugin.getPlugins('museCore.registry.storage.get').filter(Boolean);
+if (registryStorageProviders.length > 1) {
+  console.log(
+    `[WARNING]: multiple registry stroage providers found: ${registryStorageProviders
+      .map((p) => p.name)
+      .join(', ')}. Only the first one is used: ${registryStorageProviders[0].name}.`,
+  );
+}
+if (registryStorageProviders.length === 0) {
+  plugin.register(registryFileStoragePlugin());
+}
+
+// When all plugins are loaded, invoke onReady on each plugin
+plugin.invoke('onReady', config);
