@@ -9,6 +9,7 @@ const {
   getExtPoint,
   getFilesRecursively,
   wrappedAsyncInvoke,
+  asyncInvokeFirst,
 } = require('../utils');
 
 class Storage extends EventEmitter {
@@ -22,9 +23,25 @@ class Storage extends EventEmitter {
     this.extPath = options.extPath || '';
     plugin.invoke(getExtPoint(this.extPath, 'init'), this);
   }
-  async get(path, processor) {
-    const value = await wrappedAsyncInvoke(this.extPath, 'get', path);
+
+  // force is only used for cache manager
+  async get(path, processor, noCache, forceRefreshCache) {
+    let value;
+    const cacheExtPoint = getExtPoint(this.extPath, 'cache.get');
+    if (!noCache && plugin.getPlugins(cacheExtPoint).length > 0) {
+      // If there's cache manager, then get it from cache manager
+      value = await asyncInvokeFirst(
+        getExtPoint(this.extPath, 'cache.get'),
+        path,
+        forceRefreshCache,
+      );
+    } else {
+      value = await wrappedAsyncInvoke(this.extPath, 'get', path);
+    }
     if (!value) return null; // value is buffer, so it is truthy for 0, false
+    if (!Buffer.isBuffer(value)) {
+      value = Buffer.from(value); // ensure get method returns Buffer
+    }
     return processor ? processor(value) : value;
   }
   async getJson(path) {

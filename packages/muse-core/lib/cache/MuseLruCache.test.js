@@ -19,8 +19,6 @@ describe('MuseLruCache basic tests.', () => {
           foo1: 'bar1',
           foo2: 'bar2',
           foo3: 'bar3',
-          foo4: 'bar4',
-          foo5: 'bar5',
         }[k];
       }, // the callback to get the data source, it should return undefined if data not exists
     });

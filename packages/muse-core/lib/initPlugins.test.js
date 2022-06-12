@@ -24,8 +24,8 @@ describe('initializer basic tests.', () => {
       }),
     );
     const muse = require('./');
-    const registryGet = await muse.storage.registry.get('foo');
-    const assetsGet = await muse.storage.assets.get('foo');
+    const registryGet = await muse.storage.registry.getString('foo');
+    const assetsGet = await muse.storage.assets.getString('foo');
     expect(registryGet).toEqual('dummy get registry');
     expect(assetsGet).toEqual('dummy get assets');
   });

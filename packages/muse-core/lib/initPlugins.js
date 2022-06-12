@@ -6,7 +6,11 @@
 const _ = require('lodash');
 const plugin = require('js-plugin');
 const config = require('./config');
-const { assetsFileStoragePlugin, registryFileStoragePlugin } = require('./plugins');
+const {
+  assetsFileStoragePlugin,
+  registryFileStoragePlugin,
+  assetsLruCachePlugin,
+} = require('./plugins');
 
 config.plugins?.forEach((pluginDef) => {
   let pluginInstance = null;
@@ -48,6 +52,10 @@ if (registryStorageProviders.length > 1) {
 }
 if (registryStorageProviders.length === 0) {
   plugin.register(registryFileStoragePlugin());
+}
+
+if (config.get('assetStorageCache') !== false) {
+  plugin.register(assetsLruCachePlugin());
 }
 
 // When all plugins are loaded, invoke onReady on each plugin

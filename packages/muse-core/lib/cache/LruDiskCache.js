@@ -107,7 +107,7 @@ class LruDiskCache {
     // Read first to support multiple workers.
     const tss = fs.readJsonSync(this.timestampFile, { throws: false }) || {};
     this.timestamps = _.mergeWith(tss, this.timestamps, (a, b) => Math.max(a || 0, b || 0));
-    fs.outputJsonSync(this.timestampFile, this.timestamps);
+    fs.outputJsonSync(this.timestampFile, this.timestamps, { spaces: 2 });
   }
   // Don't calculate size, if too many files, just reduce ttl
   freeupSpace() {

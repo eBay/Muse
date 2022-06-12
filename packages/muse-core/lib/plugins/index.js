@@ -1,5 +1,5 @@
 module.exports = {
   assetsFileStoragePlugin: require('./assetsFileStoragePlugin'),
-  rssetsLruCachePlugin: require('./assetsLruCachePlugin'),
+  assetsLruCachePlugin: require('./assetsLruCachePlugin'),
   registryFileStoragePlugin: require('./registryFileStoragePlugin'),
 };
