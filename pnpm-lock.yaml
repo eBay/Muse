@@ -291,8 +291,10 @@ importers:
 
   packages/muse-plugin-s3-storage:
     specifiers:
+      lodash: ^4.17.21
       minio: ^7.0.28
     dependencies:
+      lodash: 4.17.21
       minio: 7.0.28
 
   packages/muse-scripts-react:

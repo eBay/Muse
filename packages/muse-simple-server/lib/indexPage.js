@@ -1,6 +1,6 @@
 const muse = require('muse-core');
 
-module.exports = (appName, envName) => async (req, res) => {
+module.exports = (appName, envName, isDev) => async (req, res) => {
   const app = await muse.data.get(`muse.app.${appName}`);
   if (!app) {
     res.send('No app found: ' + appName);
@@ -22,7 +22,7 @@ module.exports = (appName, envName) => async (req, res) => {
     appName: appName,
     envName: envName,
     plugins,
-    isDev: true,
+    isDev: !!isDev,
     pluginList: plugins,
     cdn: '/muse-assets',
     bootPlugin: bootPlugin.name,
