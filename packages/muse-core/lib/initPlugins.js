@@ -11,7 +11,7 @@ const {
   registryFileStoragePlugin,
   assetsLruCachePlugin,
 } = require('./plugins');
-
+console.log(config);
 config.plugins?.forEach((pluginDef) => {
   let pluginInstance = null;
   let pluginOptions = null;
