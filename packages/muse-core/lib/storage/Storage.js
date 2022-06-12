@@ -1,5 +1,6 @@
 const EventEmitter = require('events');
 const plugin = require('js-plugin');
+const yaml = require('js-yaml');
 const fs = require('fs-extra');
 const {
   batchAsync,
@@ -21,11 +22,31 @@ class Storage extends EventEmitter {
     this.extPath = options.extPath || '';
     plugin.invoke(getExtPoint(this.extPath, 'init'), this);
   }
-  async get(path) {
-    return await wrappedAsyncInvoke(this.extPath, 'get', path);
+  async get(path, processor) {
+    const value = await wrappedAsyncInvoke(this.extPath, 'get', path);
+    if (!value) return null; // value is buffer, so it is truthy for 0, false
+    return processor ? processor(value) : value;
+  }
+  async getJson(path) {
+    return await this.get(path, (value) => JSON.parse(value.toString()));
+  }
+  async getJsonByYaml(path) {
+    return await this.get(path, (value) => yaml.load(value.toString()));
+  }
+  async getString(path) {
+    return await this.get(path, (value) => value.toString());
   }
   async set(path, value, msg) {
     await wrappedAsyncInvoke(this.extPath, 'set', path, value, msg);
+  }
+  async setString(path, value, msg) {
+    await this.set(path, Buffer.from(value), msg);
+  }
+  async setYaml(path, value, msg) {
+    await this.set(path, Buffer.from(yaml.dump(value)), msg);
+  }
+  async setJson(path, value, msg) {
+    await this.set(path, Buffer.from(JSON.stringify(value, null, 2)), msg);
   }
   async batchSet(items, msg) {
     await wrappedAsyncInvoke(this.extPath, 'batchSet', items, msg);
