@@ -1,30 +1,45 @@
-const os = require('os');
-const path = require('path');
-const _ = require('lodash');
 const fs = require('fs-extra');
-const jsYaml = require('js-yaml');
+const _ = require('lodash');
+const { cosmiconfigSync } = require('cosmiconfig');
 
-let config = {};
+const explorerSync = cosmiconfigSync('muse', {
+  searchPlaces: [
+    '.muserc',
+    '.muserc.json',
+    '.muserc.yaml',
+    'muse.config.yaml',
+    'muse.config.js',
+    'muse.config.cjs',
+    'muse.config.json',
+  ],
+});
 
-// Find muse config file by locations:
-//   1. cwd
-//   2. homedir
-
-let configFile;
 const envConfigFile = process.env.MUSE_CONFIG_FILE;
-if (envConfigFile && path.isAbsolute(envConfigFile)) {
-  configFile = envConfigFile;
+
+let cosmicResult;
+if (envConfigFile) {
+  if (!fs.existsSync(envConfigFile)) {
+    // If the config file is by env.MUSE_CONFIG_FILE but it doesn't exist, throw the error.
+    throw new Error(
+      `Muse config file specified by MUSE_CONFIG_FILE doesn't exist: ${envConfigFile}.`,
+    );
+  }
+  cosmicResult = explorerSync.load(envConfigFile);
 } else {
-  configFile = [process.cwd(), os.homedir()]
-    .map((d) => path.join(d, envConfigFile || 'muse.config.yaml'))
-    .find((f) => fs.existsSync(f));
+  cosmicResult = explorerSync.search();
 }
 
-if (configFile) {
-  const configObj = jsYaml.load(fs.readFileSync(configFile));
-  if (configObj.provider) config = require(configObj.provider);
-  else config = configObj;
+if (cosmicResult) {
+  // console.log(`Loaded Muse config from: ${cosmicResult.filepath}.`);
+}
+
+let config = cosmicResult?.config || {};
+
+if (config.provider) {
+  config = require(config.provider);
+  if (_.isFunction(config)) config = config();
 }
 
 config.get = (prop) => _.get(config, prop);
+config.filepath = cosmicResult?.filepath;
 module.exports = config;

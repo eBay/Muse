@@ -5,37 +5,37 @@ describe('Muse cache builder basic tests.', () => {
 
   it('Register builder with constant name should work', async () => {
     const muse = require('../');
-    muse.cache.builder.register({
-      key: 'muse.cache-value',
+    muse.data.builder.register({
+      key: 'muse.data-value',
       get: async () => {
         return 'cache-value';
       },
     });
-    const res = await muse.cache.builder.get('muse.cache-value');
+    const res = await muse.data.builder.get('muse.data-value');
     expect(res).toBe('cache-value');
   });
 
   it('Register builder with args should work', async () => {
     const muse = require('../');
-    muse.cache.builder.register({
+    muse.data.builder.register({
       key: 'musetest.app.:appName',
       get: async ({ appName }) => {
         return { name: appName };
       },
     });
-    const app = await muse.cache.builder.get('musetest.app.nate');
+    const app = await muse.data.builder.get('musetest.app.nate');
     expect(app.name).toBe('nate');
   });
 
   it('No match should return null', async () => {
     const muse = require('../');
-    muse.cache.builder.register({
+    muse.data.builder.register({
       key: 'some.key',
       get: async ({ appName }) => {
         return { name: appName };
       },
     });
-    const app = await muse.cache.builder.get('musetest.app.nate');
+    const app = await muse.data.builder.get('musetest.app.nate');
     expect(app).toBeNull();
   });
 });

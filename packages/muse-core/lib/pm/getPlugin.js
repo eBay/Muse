@@ -1,4 +1,4 @@
-const { asyncInvoke, getPluginId, jsonByYamlBuff } = require('../utils');
+const { asyncInvoke, getPluginId } = require('../utils');
 const { registry } = require('../storage');
 
 module.exports = async (pluginName) => {
@@ -12,7 +12,7 @@ module.exports = async (pluginName) => {
   const keyPath = `/plugins/${pid}.yaml`;
 
   try {
-    ctx.result = jsonByYamlBuff(await registry.get(keyPath));
+    ctx.result = await registry.getJsonByYaml(keyPath);
   } catch (err) {
     await asyncInvoke('museCore.pm.failedGetPlugin', ctx, pluginName);
     throw err;

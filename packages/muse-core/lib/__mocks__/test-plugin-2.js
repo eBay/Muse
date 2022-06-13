@@ -3,7 +3,7 @@ module.exports = {
   museCore: {
     assets: {
       storage: {
-        get: () => 'dummy get assets',
+        get: () => Buffer.from('dummy get assets'),
       },
     },
   },

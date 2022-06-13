@@ -4,7 +4,7 @@ module.exports = {
   am: require('./am'),
   pm: require('./pm'),
   req: require('./req'),
-  cache: require('./cache'),
+  data: require('./data'),
   config: require('./config'),
   storage: require('./storage'),
   utils: require('./utils'),

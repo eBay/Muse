@@ -2,11 +2,8 @@ const os = require('os');
 const path = require('path');
 const yaml = require('js-yaml');
 
-jest.mock('fs');
-jest.mock('fs/promises');
 const testRegistryDir = path.join(__dirname, '/_muse_test_dir/muse-storage/registry');
-
-describe('FileStorage basic tests.', () => {
+describe('Config basic tests.', () => {
   beforeAll(() => {});
   beforeEach(() => {
     jest.resetModules();
@@ -17,6 +14,7 @@ describe('FileStorage basic tests.', () => {
     const fs = require('fs-extra');
 
     fs.ensureDirSync(process.cwd());
+
     fs.writeFileSync(
       path.join(process.cwd(), 'muse.config.yaml'),
       yaml.dump({
@@ -31,12 +29,34 @@ describe('FileStorage basic tests.', () => {
     const fs = require('fs-extra');
     fs.ensureDirSync(os.homedir());
     fs.writeFileSync(
-      path.join(os.homedir(), 'muse.config.yaml'),
+      path.join(os.homedir(), '.muserc'),
       yaml.dump({
         registry: { storage: { type: 'some-type2', location: testRegistryDir } },
       }),
     );
     const muse = require('./');
     expect(muse.config?.registry?.storage?.type).toBe('some-type2');
+  });
+
+  it('It should load config from provider if provided.', async () => {
+    jest.mock(
+      'test-config-provider',
+      () => {
+        return {
+          foo: 'bar',
+        };
+      },
+      { virtual: true },
+    );
+    const fs = require('fs-extra');
+    fs.ensureDirSync(os.homedir());
+    fs.writeFileSync(
+      path.join(os.homedir(), '.muserc.json'),
+      JSON.stringify({
+        provider: 'test-config-provider',
+      }),
+    );
+    const muse = require('./');
+    expect(muse.config.foo).toBe('bar');
   });
 });
