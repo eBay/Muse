@@ -49,14 +49,41 @@ class S3Storage {
       return undefined;
     }
   }
+
   async set(key, value) {
     const readStream = bufferToStream(value);
     await this.s3Client.putObject(this.bucketName, this.basePath + key, readStream);
   }
-  async del(key) {}
-  async list(key) {}
-  async readStream(key) {}
-  async writeStream(key) {}
+
+  async del(key) {
+    try {
+      const objectsList = await this.list(key);
+      await this.s3Client.removeObjects(this.bucketName, objectsList);
+    }catch (err) {
+      console.log(err);
+    }
+  }
+
+  async list(key) {
+    let objectsList = [];
+    const objectsStream = await this.s3Client.listObjects(this.bucketName, this.basePath + key, true)
+    await new Promise((resolve, reject) => {
+      objectsStream.on('data', (chunk) => objectsList.push(chunk));
+      objectsStream.on('error', (err) => reject(err));
+      objectsStream.on('end', () => resolve(objectsList.concat(objectsList)));
+    });
+    return objectsList;
+  }
+
+  async readStream(key) {
+    console.log('read Stream key: ', key);
+
+  }
+
+  async writeStream(key) {
+    console.log('write stream key: ', key);
+
+  }
 }
 
 module.exports = S3Storage;

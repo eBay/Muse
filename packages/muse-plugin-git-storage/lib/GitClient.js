@@ -95,7 +95,6 @@ module.exports = class GitClient {
         console.log('set error:', err);
       }
     }
-    console.info(`Commit success.`);
   }
 
   async getRepoContent(params) {
