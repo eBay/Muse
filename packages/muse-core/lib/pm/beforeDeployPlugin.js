@@ -39,7 +39,7 @@ module.exports = async (params) => {
                     const currentDepsLibModules = depsManifest.content[currentDepsLibKey];
                     for (const exportedModule of currentDepsLibModules) {
                         if (!libExportedDeps.includes(exportedModule)) {
-                            console.log(`WARNING: required module [${exportedModule}] from library plugin [${libPlugin.name}] not found on currently deployed version [${libPlugin.name}@${libPlugin.version}]`);
+                            //console.log(`WARNING: required module [${exportedModule}] from library plugin [${libPlugin.name}] not found on currently deployed version [${libPlugin.name}@${libPlugin.version}]`);
                             ctx.missingDeps[`${libPlugin.name}@${libPlugin.version}`] ?
                                 ctx.missingDeps[`${libPlugin.name}@${libPlugin.version}`].push(exportedModule) :
                                 ctx.missingDeps[`${libPlugin.name}@${libPlugin.version}`] = [exportedModule];

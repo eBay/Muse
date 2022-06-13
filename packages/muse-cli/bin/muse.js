@@ -4,8 +4,17 @@ const chalk = require('chalk');
 const muse = require('muse-core');
 const fs = require('fs');
 const path = require('path');
-
+const readline = require('node:readline');
+const { stdin: input, stdout: output } = require('node:process');
 const timeStart = Date.now();
+const os = require("os");
+
+const asyncDeployPlugin = async ({ appName, envName, pluginName, version }) => {
+  const res = await muse.pm.deployPlugin({ appName, envName, pluginName, version });
+  console.log(
+    chalk.cyan(`Deploy success: ${pluginName}@${res.version} to ${appName}/${envName}.`),
+  );
+};
 
 console.error = (message) => console.log(chalk.red(message));
 (async () => {
@@ -75,10 +84,23 @@ console.error = (message) => console.log(chalk.red(message));
     case 'deploy':
     case 'deploy-plugin': {
       const [appName, envName, pluginName, version] = args;
-      const res = await muse.pm.deployPlugin({ appName, envName, pluginName, version });
-      console.log(
-        chalk.cyan(`Deploy success: ${pluginName}@${res.version} to ${appName}/${envName}.`),
-      );
+      const dependencyCheck = await muse.pm.beforeDeployPlugin({ appName, envName, pluginName, version });
+      if (dependencyCheck && Object.keys(dependencyCheck).length > 0) {
+        const rl = readline.createInterface({ input, output });
+        console.log('WARNING: Detected non-satisfied module dependencies from the following library plugins:');
+        for (const libraryDepArray of Object.keys(dependencyCheck)) {
+          console.log(`${libraryDepArray} => [${dependencyCheck[libraryDepArray]}] not found`);
+        }
+        console.log(os.EOL);
+        rl.question('Do you want to continue (yes/no)? ', async (answer) => {
+          if (answer.toLowerCase() === 'yes' || answer.toLowerCase === 'y') {
+            asyncDeployPlugin({ appName, envName, pluginName, version });
+          }
+          rl.close();
+        });
+      } else {
+        asyncDeployPlugin({ appName, envName, pluginName, version });
+      }
       break;
     }
     case 'undeploy':
