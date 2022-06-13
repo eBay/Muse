@@ -11,6 +11,7 @@ const { defaultRegistryStorageLocation } = require('../utils');
 // By default, use the file storage
 
 const registryStorageProviders = plugin.getPlugins('museCore.registry.storage.get').filter(Boolean);
+console.log('registryStorageProviders: ', registryStorageProviders);
 if (registryStorageProviders.length > 1) {
   console.log(
     `[WARNING]: multiple registry stroage providers found: ${registryStorageProviders

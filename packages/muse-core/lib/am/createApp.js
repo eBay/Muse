@@ -40,7 +40,7 @@ module.exports = async (params = {}) => {
     await registry.set(
       appKeyPath,
       Buffer.from(yaml.dump(ctx.app)),
-      `Create plugin ${appName} by ${author}`,
+      `Create app ${appName} by ${author}`,
     );
   } catch (err) {
     ctx.error = err;
