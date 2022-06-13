@@ -214,6 +214,7 @@ importers:
     specifiers:
       '@types/jest': ^27.5.1
       cosmiconfig: ^7.0.1
+      dotenv: ^16.0.1
       eslint: ^8.15.0
       eslint-plugin-jest: ^26.2.2
       fs-extra: ^10.1.0
@@ -229,6 +230,7 @@ importers:
       semver: ^7.3.7
     dependencies:
       cosmiconfig: 7.0.1
+      dotenv: 16.0.1
       fs-extra: 10.1.0
       globby: 13.1.1
       js-plugin: 1.1.0
@@ -4821,6 +4823,11 @@ packages:
   /dotenv/10.0.0:
     resolution: {integrity: sha1-PUInuPuV+BCWzdK2ZlP7LHCFuoE=}
     engines: {node: '>=10'}
+
+  /dotenv/16.0.1:
+    resolution: {integrity: sha1-j4+dlIdsNdrJiYdqXTqComf9zh0=}
+    engines: {node: '>=12'}
+    dev: false
 
   /duplexer/0.1.2:
     resolution: {integrity: sha1-Or5DrvODX4rgd9E23c4PJ2sEAOY=}
