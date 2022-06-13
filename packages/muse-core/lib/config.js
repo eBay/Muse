@@ -40,6 +40,21 @@ if (config.provider) {
   if (_.isFunction(config)) config = config();
 }
 
+// parse $env.ENV_VAR to the real value from process.env.ENV_VAR
+const parsePropEnvs = (obj) => {
+  Object.keys(obj).forEach((p) => {
+    const v = obj[p];
+    if (_.isObject(v)) parsePropEnvs(v);
+    else if (_.isString(v)) {
+      if (v.startsWith('$env.')) {
+        obj[p] = process.env[v.replace('$env.', '')];
+      }
+    }
+  });
+};
+
+parsePropEnvs(config);
+
 config.get = (prop) => _.get(config, prop);
 config.filepath = cosmicResult?.filepath;
 module.exports = config;
