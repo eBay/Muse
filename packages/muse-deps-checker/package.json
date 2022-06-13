@@ -6,6 +6,7 @@
   "scripts": {
     "test": "test"
   },
+  
   "author": "mcubellsbaeza",
   "license": "ISC"
 }
