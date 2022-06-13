@@ -34,6 +34,9 @@ if (cosmicResult) {
 }
 
 let config = cosmicResult?.config || {};
+if (_.isFunction(config)) {
+  config = config();
+}
 
 if (config.provider) {
   config = require(config.provider);
