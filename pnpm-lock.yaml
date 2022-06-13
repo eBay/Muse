@@ -262,6 +262,12 @@ importers:
     devDependencies:
       eslint: 8.17.0
 
+  packages/muse-deps-checker:
+    specifiers:
+      muse-core: workspace:^1.0.0
+    dependencies:
+      muse-core: link:../muse-core
+
   packages/muse-dev-utils:
     specifiers:
       eslint: ^8.15.0

@@ -6,7 +6,9 @@
   "scripts": {
     "test": "test"
   },
-  
+  "dependencies": {
+    "muse-core": "workspace:^1.0.0"
+  },
   "author": "mcubellsbaeza",
   "license": "ISC"
 }
