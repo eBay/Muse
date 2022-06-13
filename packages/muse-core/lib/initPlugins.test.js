@@ -14,13 +14,7 @@ describe('initializer basic tests.', () => {
     fs.writeFileSync(
       path.join(process.cwd(), 'muse.config.yaml'),
       yaml.dump({
-        plugins: [
-          'test-plugin-1',
-          {
-            module: 'test-plugin-2',
-            options: { foo: 'bar' },
-          },
-        ],
+        plugins: ['test-plugin-1', ['test-plugin-2', { foo: 'bar' }]],
       }),
     );
     const muse = require('./');
@@ -30,7 +24,7 @@ describe('initializer basic tests.', () => {
     expect(assetsGet).toEqual('dummy get assets');
   });
 
-  it('It throws error if plugin module not found', async () => {
+  it('It throws error if plugin  not found', async () => {
     const fs = require('fs-extra');
     const path = require('path');
 
@@ -44,5 +38,55 @@ describe('initializer basic tests.', () => {
     );
 
     expect(() => require('./')).toThrowError();
+  });
+
+  it('It handles presets as a single string', async () => {
+    const fs = require('fs-extra');
+    const path = require('path');
+    jest.mock(
+      'test-muse-preset',
+      () => {
+        return ['test-plugin-1', ['test-plugin-2', { foo: 'bar' }]];
+      },
+      { virtual: true },
+    );
+    // Define two plugins for the plugin
+    fs.ensureDirSync(process.cwd());
+    fs.writeFileSync(
+      path.join(process.cwd(), 'muse.config.yaml'),
+      yaml.dump({
+        presets: 'test-muse-preset',
+      }),
+    );
+    const muse = require('./');
+    const registryGet = await muse.storage.registry.getString('foo');
+    const assetsGet = await muse.storage.assets.getString('foo');
+    expect(registryGet).toEqual('dummy get registry');
+    expect(assetsGet).toEqual('dummy get assets');
+  });
+
+  it('It handles presets as an array', async () => {
+    const fs = require('fs-extra');
+    const path = require('path');
+    jest.mock(
+      'test-muse-preset',
+      () => {
+        return ['test-plugin-1', ['test-plugin-2', { foo: 'bar' }]];
+      },
+      { virtual: true },
+    );
+    // Define two plugins for the plugin
+    fs.ensureDirSync(process.cwd());
+    fs.writeFileSync(
+      path.join(process.cwd(), 'muse.config.yaml'),
+      yaml.dump({
+        presets: ['test-muse-preset'],
+      }),
+    );
+    const muse = require('./');
+    const registryGet = await muse.storage.registry.getString('foo');
+    const assetsGet = await muse.storage.assets.getString('foo');
+    expect(registryGet).toEqual('dummy get registry');
+    expect(assetsGet).toEqual('dummy get assets');
   });
 });

@@ -12,20 +12,33 @@ const {
   assetsLruCachePlugin,
 } = require('./plugins');
 
-config.plugins?.forEach((pluginDef) => {
+const loadPlugin = (pluginDef) => {
+  console.log('load plugin: ', pluginDef);
   let pluginInstance = null;
   let pluginOptions = null;
   if (_.isString(pluginDef)) {
     pluginInstance = require(pluginDef);
+  } else if (_.isArray(pluginDef)) {
+    pluginInstance = require(pluginDef[0]);
+    pluginOptions = pluginDef[1];
   } else if (_.isObject(pluginDef)) {
-    pluginInstance = require(pluginDef.module);
-    pluginOptions = pluginDef.options;
+    pluginInstance = pluginDef;
   } else {
     throw new Error(`Unknown plugin definition: ${String(pluginDef)}`);
   }
   if (_.isFunction(pluginInstance)) pluginInstance = pluginInstance(pluginOptions);
-  plugin.register(pluginInstance, pluginOptions);
-});
+  console.log('plugin instance: ', pluginInstance);
+  plugin.register(pluginInstance);
+};
+
+config.plugins?.forEach(loadPlugin);
+_.castArray(config.presets)
+  .filter(Boolean)
+  .forEach((preset) => {
+    let plugins = require(preset);
+    if (_.isFunction(plugins)) plugins = plugins();
+    plugins.forEach(loadPlugin);
+  });
 
 // Built-in behavior initialization
 // If no assets storage plugin, then use the default one
