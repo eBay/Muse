@@ -13,7 +13,6 @@ const {
 } = require('./plugins');
 
 const loadPlugin = (pluginDef) => {
-  console.log('load plugin: ', pluginDef);
   let pluginInstance = null;
   let pluginOptions = null;
   if (_.isString(pluginDef)) {
@@ -27,7 +26,6 @@ const loadPlugin = (pluginDef) => {
     throw new Error(`Unknown plugin definition: ${String(pluginDef)}`);
   }
   if (_.isFunction(pluginInstance)) pluginInstance = pluginInstance(pluginOptions);
-  console.log('plugin instance: ', pluginInstance);
   plugin.register(pluginInstance);
 };
 

@@ -108,4 +108,5 @@ examples/*/build
 
 muse.config.yaml
 .muserc
+muse.config.js
 ~

@@ -1,5 +1,3 @@
-require('./initPlugins');
-
 module.exports = {
   am: require('./am'),
   pm: require('./pm'),
@@ -9,3 +7,4 @@ module.exports = {
   storage: require('./storage'),
   utils: require('./utils'),
 };
+require('./initPlugins');
