@@ -33,6 +33,13 @@ if (cosmicResult) {
   // console.log(`Loaded Muse config from: ${cosmicResult.filepath}.`);
 }
 
-const config = cosmicResult?.config || {};
+let config = cosmicResult?.config || {};
+
+if (config.provider) {
+  config = require(config.provider);
+  if (_.isFunction(config)) config = config();
+}
+
 config.get = (prop) => _.get(config, prop);
+config.filepath = cosmicResult?.filepath;
 module.exports = config;
