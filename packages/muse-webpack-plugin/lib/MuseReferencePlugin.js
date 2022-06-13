@@ -1,13 +1,14 @@
 'use strict';
 
-const parseJson = require('json-parse-better-errors');
-const WebpackError = require('webpack/lib/WebpackError');
 const ExternalModuleFactoryPlugin = require('webpack/lib/ExternalModuleFactoryPlugin');
 const DelegatedSourceDependency = require('webpack/lib/dependencies/DelegatedSourceDependency');
-const makePathsRelative = require('webpack/lib/util/identifier').makePathsRelative;
-
 const MuseDelegatedModuleFactoryPlugin = require('./MuseDelegatedModuleFactoryPlugin');
+const MuseDepsManifestPlugin = require('./MuseDepsManifestPlugin');
+const resolveCwd = require('resolve-cwd');
 
+/**
+ * Based on webpack's DllReferencePlugin here: https://github.com/webpack/webpack/blob/main/lib/DllReferencePlugin.js
+ */
 class MuseReferencePlugin {
   constructor(options) {
     this.options = options;
@@ -16,105 +17,54 @@ class MuseReferencePlugin {
   }
 
   apply(compiler) {
+
+    const libsManifestContent = {};
+    const mergedLibManifestContent = {};
+
+    if ('museLibs' in this.options) {
+      for (const museLib of this.options.museLibs) {
+        const currentMuseLibManifestContent =
+          require(resolveCwd(`${museLib}/build/${this.options.isDevBuild ? 'dev' : 'dist'}/lib-manifest.json`)).content;
+
+        libsManifestContent[`${museLib}`] = {
+          version: require(resolveCwd(`${museLib}/package.json`)).version,
+          content: currentMuseLibManifestContent,
+        };
+
+        Object.assign(
+          mergedLibManifestContent,
+          currentMuseLibManifestContent,
+        );
+      }
+
+      // the plugin that will generate deps-manifest.json gets an object with each lib's lib-manifest.json content and lib version.
+      new MuseDepsManifestPlugin({ libsManifestContent, ...this.options }).apply(compiler);
+    }
+
     compiler.hooks.compilation.tap('MuseReferencePlugin', (compilation, { normalModuleFactory }) => {
       compilation.dependencyFactories.set(DelegatedSourceDependency, normalModuleFactory);
     });
 
-    compiler.hooks.beforeCompile.tapAsync('MuseReferencePlugin', (params, callback) => {
-      if ('manifest' in this.options) {
-        const manifest = this.options.manifest;
-        if (typeof manifest === 'string') {
-          compiler.inputFileSystem.readFile(manifest, (err, result) => {
-            if (err) return callback(err);
-            const data = {
-              path: manifest,
-              data: undefined,
-              error: undefined,
-            };
-            // Catch errors parsing the manifest so that blank
-            // or malformed manifest files don't kill the process.
-            try {
-              data.data = parseJson(result.toString('utf-8'));
-            } catch (e) {
-              // Store the error in the params so that it can
-              // be added as a compilation error later on.
-              const manifestPath = makePathsRelative(compiler.options.context, manifest, compiler.root);
-              data.error = new MuseManifestError(manifestPath, e.message);
-            }
-            this._compilationData.set(params, data);
-            return callback();
-          });
-          return;
-        }
-      }
-      return callback();
-    });
-
     compiler.hooks.compile.tap('MuseReferencePlugin', (params) => {
-      let name = this.options.name;
-      let sourceType = this.options.sourceType;
-      let content = 'content' in this.options ? this.options.content : undefined;
-      if ('manifest' in this.options) {
-        let manifestParameter = this.options.manifest;
-        let manifest;
-        if (typeof manifestParameter === 'string') {
-          const data = this._compilationData.get(params);
-          // If there was an error parsing the manifest
-          // file, exit now because the error will be added
-          // as a compilation error in the "compilation" hook.
-          if (data.error) {
-            return;
-          }
-          manifest = data.data;
-        } else {
-          manifest = manifestParameter;
-        }
-        if (manifest) {
-          if (!name) name = manifest.name;
-          if (!sourceType) sourceType = manifest.type;
-          if (!content) content = manifest.content;
-        }
-      }
       /** @type {Externals} */
       const externals = {};
       const source = 'muse-shared-modules';
       externals[source] = 'MUSE_GLOBAL.__shared__.require';
       const normalModuleFactory = params.normalModuleFactory;
-      new ExternalModuleFactoryPlugin(sourceType || 'var', externals).apply(normalModuleFactory);
+      new ExternalModuleFactoryPlugin('var', externals).apply(normalModuleFactory);
+
+      // the MuseDelegatedModuleFactoryPlugin gets a "mergedContent" parameter 
+      // with all the lib-manifest.json content merged from all library plugins
       new MuseDelegatedModuleFactoryPlugin({
         source: source,
         type: this.options.type,
         scope: this.options.scope,
         context: this.options.context || compiler.options.context,
-        content,
+        mergedContent: Object.keys(mergedLibManifestContent).length > 0 ? mergedLibManifestContent : undefined,
         extensions: this.options.extensions,
         associatedObjectForCache: compiler.root,
       }).apply(normalModuleFactory);
     });
-
-    compiler.hooks.compilation.tap('MuseReferencePlugin', (compilation, params) => {
-      if ('manifest' in this.options) {
-        let manifest = this.options.manifest;
-        if (typeof manifest === 'string') {
-          const data = this._compilationData.get(params);
-          // If there was an error parsing the manifest file, add the
-          // error as a compilation error to make the compilation fail.
-          if (data.error) {
-            compilation.errors.push(data.error);
-          }
-          compilation.fileDependencies.add(manifest);
-        }
-      }
-    });
-  }
-}
-
-class MuseManifestError extends WebpackError {
-  constructor(filename, message) {
-    super();
-
-    this.name = 'MuseManifestError';
-    this.message = `Muse manifest ${filename}\n${message}`;
   }
 }
 

@@ -1,10 +1,10 @@
 const express = require('express');
 const museAssetsMiddleware = require('muse-express-middleware/lib/assetsMiddleware');
 
-async function server({ appName, envName = 'staging', port = 6070 }) {
+async function server({ appName, envName = 'staging', isDev, port = 6070 }) {
   const app = express();
   app.use(museAssetsMiddleware({}));
-  app.get('/*', require('./indexPage')(appName, envName));
+  app.get('/*', require('./indexPage')(appName, envName, isDev));
 
   app.listen(port, () => {
     console.log(`Simple Muse server for ${appName}/${envName} listening on port ${port}`);

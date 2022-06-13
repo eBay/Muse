@@ -37,7 +37,7 @@ console.error = (message) => console.log(chalk.red(message));
 
     case 'view-full-app': {
       const [appName] = args;
-      const fullApp = await muse.cache.get(`muse.app.${appName}`);
+      const fullApp = await muse.data.get(`muse.app.${appName}`);
       console.log(chalk.cyan(JSON.stringify(fullApp, null, 2)));
       break;
     }

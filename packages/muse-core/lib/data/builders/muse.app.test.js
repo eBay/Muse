@@ -13,11 +13,25 @@ describe('Muse app builder tests.', () => {
     await muse.pm.createPlugin({ pluginName: 'p2', type: 'boot' });
     await muse.pm.releasePlugin({ pluginName: 'p1', version: '1.0.0' });
     await muse.pm.releasePlugin({ pluginName: 'p2' });
-    await muse.pm.deployPlugin({ appName: 'app1', envName: 'staging', pluginName: 'p1', version: '1.0.0' });
-    await muse.pm.deployPlugin({ appName: 'app1', envName: 'staging', pluginName: 'p2', version: '1.0.0' });
-    const fullApp = await muse.cache.get('muse.app.app1');
+    await muse.pm.deployPlugin({
+      appName: 'app1',
+      envName: 'staging',
+      pluginName: 'p1',
+      version: '1.0.0',
+    });
+    await muse.pm.deployPlugin({
+      appName: 'app1',
+      envName: 'staging',
+      pluginName: 'p2',
+      version: '1.0.0',
+    });
+    const fullApp = await muse.data.get('muse.app.app1');
     expect(fullApp).toMatchObject({ name: 'app1' });
     expect(fullApp.envs.staging.plugins[0]).toMatchObject({ name: 'p1', version: '1.0.0' });
-    expect(fullApp.envs.staging.plugins[1]).toMatchObject({ name: 'p2', type: 'boot', version: '1.0.0' });
+    expect(fullApp.envs.staging.plugins[1]).toMatchObject({
+      name: 'p2',
+      type: 'boot',
+      version: '1.0.0',
+    });
   });
 });

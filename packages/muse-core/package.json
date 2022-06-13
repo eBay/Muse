@@ -13,6 +13,7 @@
     "js-plugin": "^1.1.0",
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
+    "lru-cache": "^7.10.1",
     "path-to-regexp": "^6.2.1",
     "schema-utils": "^4.0.0",
     "semver": "^7.3.7"

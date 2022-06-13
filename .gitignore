@@ -105,3 +105,7 @@ dist
 examples/*/build
 
 .DS_Store
+
+muse.config.yaml
+.muserc
+~

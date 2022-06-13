@@ -1,6 +1,9 @@
 const { setupMuseDevServer } = require('muse-dev-utils');
+
 module.exports = ({ devServerConfig, cracoConfig, pluginOptions, context: { env, paths, proxy, allowedHost } }) => {
+
   const oldSetup = devServerConfig.setupMiddlewares || devServerConfig.onBeforeSetupMiddleware || (() => null);
+  
   if (devServerConfig.setupMiddlewares) {
     devServerConfig.setupMiddlewares = (middlewares, devServer) => {
       // webpack-dev-server v4.7.0+

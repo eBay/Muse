@@ -1,5 +1,6 @@
 const EventEmitter = require('events');
 const plugin = require('js-plugin');
+const yaml = require('js-yaml');
 const fs = require('fs-extra');
 const {
   batchAsync,
@@ -8,6 +9,7 @@ const {
   getExtPoint,
   getFilesRecursively,
   wrappedAsyncInvoke,
+  asyncInvokeFirst,
 } = require('../utils');
 
 class Storage extends EventEmitter {
@@ -21,11 +23,47 @@ class Storage extends EventEmitter {
     this.extPath = options.extPath || '';
     plugin.invoke(getExtPoint(this.extPath, 'init'), this);
   }
-  async get(path) {
-    return await wrappedAsyncInvoke(this.extPath, 'get', path);
+
+  // force is only used for cache manager
+  async get(path, processor, noCache, forceRefreshCache) {
+    let value;
+    const cacheExtPoint = getExtPoint(this.extPath, 'cache.get');
+    if (!noCache && plugin.getPlugins(cacheExtPoint).length > 0) {
+      // If there's cache manager, then get it from cache manager
+      value = await asyncInvokeFirst(
+        getExtPoint(this.extPath, 'cache.get'),
+        path,
+        forceRefreshCache,
+      );
+    } else {
+      value = await wrappedAsyncInvoke(this.extPath, 'get', path);
+    }
+    if (!value) return null; // value is buffer, so it is truthy for 0, false
+    if (!Buffer.isBuffer(value)) {
+      value = Buffer.from(value); // ensure get method returns Buffer
+    }
+    return processor ? processor(value) : value;
+  }
+  async getJson(path) {
+    return await this.get(path, (value) => JSON.parse(value.toString()));
+  }
+  async getJsonByYaml(path) {
+    return await this.get(path, (value) => yaml.load(value.toString()));
+  }
+  async getString(path) {
+    return await this.get(path, (value) => value.toString());
   }
   async set(path, value, msg) {
     await wrappedAsyncInvoke(this.extPath, 'set', path, value, msg);
+  }
+  async setString(path, value, msg) {
+    await this.set(path, Buffer.from(value), msg);
+  }
+  async setYaml(path, value, msg) {
+    await this.set(path, Buffer.from(yaml.dump(value)), msg);
+  }
+  async setJson(path, value, msg) {
+    await this.set(path, Buffer.from(JSON.stringify(value, null, 2)), msg);
   }
   async batchSet(items, msg) {
     await wrappedAsyncInvoke(this.extPath, 'batchSet', items, msg);

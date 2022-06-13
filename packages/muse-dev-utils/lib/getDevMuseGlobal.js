@@ -19,7 +19,7 @@ module.exports = async () => {
     throw new Error(`muse.devConfig section is not found in package.json.`);
   }
   const { app: appName, env: envName = 'staging' } = museConfig.devConfig;
-  const app = await muse.cache.get(`muse.app.${appName}`);
+  const app = await muse.data.get(`muse.app.${appName}`);
   const remotePlugins = castArray(museConfig?.devConfig?.remotePlugins || []);
   if (process.env.MUSE_REMOTE_PLUGINS) {
     remotePlugins.push(...process.env.MUSE_REMOTE_PLUGINS.split(';'));
@@ -28,7 +28,11 @@ module.exports = async () => {
   let plugins = [
     ...app.envs[envName].plugins.filter(
       // boot plugin is always loaded for an app
-      (p) => p.core || p.type === 'boot' || remotePlugins.includes('*') || remotePlugins.includes(p.name),
+      (p) =>
+        p.core ||
+        p.type === 'boot' ||
+        remotePlugins.includes('*') ||
+        remotePlugins.includes(p.name),
     ),
   ];
 

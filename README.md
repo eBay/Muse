@@ -87,7 +87,7 @@ Muse global command line interface to manage Muse apps/plugins. Implemented by `
 * ✅ `muse list-plugins` List all registered plugins.
 
 ### Local Dev/Testing Server
-* ✅ `muse serve [app-name] [env-name?] [port?]` Serve the Muse application, `env-name` defaults to `staging`, `port` defaults to `6070`.
+* ✅ `muse serve [app-name] [env-name?] [port?] [--isDev]` Serve the Muse application, `env-name` defaults to `staging`, `port` defaults to `6070`.
 
 ### Config
 * ❓`muse show-config` Show the current muse config.

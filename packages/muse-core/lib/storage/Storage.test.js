@@ -1,9 +1,6 @@
 const { vol } = require('memfs');
 const plugin = require('js-plugin');
 
-jest.mock('fs');
-jest.mock('fs/promises');
-
 const storageTestPlugin = {
   name: 'storageTest',
   test: {
@@ -96,7 +93,9 @@ describe('Storage basic tests.', () => {
       expect(err.message).toBe('Failed to set.');
     }
     expect(storageTestPlugin.test.failedSet).toBeCalledTimes(1);
-    expect(storageTestPlugin.test.failedSet.mock.lastCall?.[0]?.error?.message).toBe('Failed to set.');
+    expect(storageTestPlugin.test.failedSet.mock.lastCall?.[0]?.error?.message).toBe(
+      'Failed to set.',
+    );
     expect(storageTestPlugin.test.failedSet.mock.lastCall?.[1]).toBe('error');
   });
 
@@ -114,8 +113,28 @@ describe('Storage basic tests.', () => {
       expect(err.message).toBe('Failed to get.');
     }
     expect(storageTestPlugin.test.failedGet).toBeCalledTimes(1);
-    expect(storageTestPlugin.test.failedGet.mock.lastCall?.[0]?.error?.message).toBe('Failed to get.');
+    expect(storageTestPlugin.test.failedGet.mock.lastCall?.[0]?.error?.message).toBe(
+      'Failed to get.',
+    );
     expect(storageTestPlugin.test.failedGet.mock.lastCall?.[1]).toBe('error');
+  });
+
+  it('Test helper methods', async () => {
+    // Note: to make tests simple, use the default registry storage
+    const storage = muse.storage.registry;
+    expect(await storage.getString('foo-none')).toBeNull();
+    expect(await storage.getJson('foo-none')).toBeNull();
+    expect(await storage.getJsonByYaml('foo-none')).toBeNull();
+
+    await storage.setString('foo-yaml', 'a: 1');
+    expect(await storage.getString('foo-yaml')).toEqual('a: 1');
+    expect(await storage.getJsonByYaml('foo-yaml')).toEqual({ a: 1 });
+
+    await storage.setJson('foo-json', { a: 1 });
+    expect(await storage.getJson('foo-json')).toEqual({ a: 1 });
+
+    await storage.setYaml('foo-yaml-2', { a: 2 });
+    expect(await storage.getJsonByYaml('foo-yaml-2')).toEqual({ a: 2 });
   });
 
   it('Test del', async () => {
@@ -130,7 +149,9 @@ describe('Storage basic tests.', () => {
       expect(err.message).toBe('Failed to del.');
     }
     expect(storageTestPlugin.test.failedDel).toBeCalledTimes(1);
-    expect(storageTestPlugin.test.failedDel.mock.lastCall?.[0]?.error?.message).toBe('Failed to del.');
+    expect(storageTestPlugin.test.failedDel.mock.lastCall?.[0]?.error?.message).toBe(
+      'Failed to del.',
+    );
     expect(storageTestPlugin.test.failedDel.mock.lastCall?.[1]).toBe('error');
   });
 
@@ -146,7 +167,9 @@ describe('Storage basic tests.', () => {
       expect(err.message).toBe('Failed to count.');
     }
     expect(storageTestPlugin.test.failedCount).toBeCalledTimes(1);
-    expect(storageTestPlugin.test.failedCount.mock.lastCall?.[0]?.error?.message).toBe('Failed to count.');
+    expect(storageTestPlugin.test.failedCount.mock.lastCall?.[0]?.error?.message).toBe(
+      'Failed to count.',
+    );
     expect(storageTestPlugin.test.failedCount.mock.lastCall?.[1]).toBe('error');
   });
 
@@ -162,7 +185,9 @@ describe('Storage basic tests.', () => {
       expect(err.message).toBe('Failed to list.');
     }
     expect(storageTestPlugin.test.failedList).toBeCalledTimes(1);
-    expect(storageTestPlugin.test.failedList.mock.lastCall?.[0]?.error?.message).toBe('Failed to list.');
+    expect(storageTestPlugin.test.failedList.mock.lastCall?.[0]?.error?.message).toBe(
+      'Failed to list.',
+    );
     expect(storageTestPlugin.test.failedList.mock.lastCall?.[1]).toBe('error');
   });
 

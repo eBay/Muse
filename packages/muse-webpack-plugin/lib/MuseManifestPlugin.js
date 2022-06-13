@@ -1,13 +1,9 @@
-/*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
-*/
-
 'use strict';
 
 const asyncLib = require('neo-async');
 const { compareModulesById } = require('webpack/lib/util/comparators');
 const { dirname, mkdirp } = require('webpack/lib/util/fs');
+const path = require('path');
 
 /** @typedef {import("./Compiler")} Compiler */
 
@@ -18,6 +14,9 @@ const { dirname, mkdirp } = require('webpack/lib/util/fs');
  * @property {boolean | string[]} exports
  */
 
+/**
+ * Based on original webpack's LibManifestPlugin here: https://github.com/webpack/webpack/blob/main/lib/LibManifestPlugin.js
+ */
 class MuseManifestPlugin {
   constructor(options) {
     this.options = { format: true, ...options };
@@ -39,7 +38,7 @@ class MuseManifestPlugin {
             return;
           }
           const chunkGraph = compilation.chunkGraph;
-          const targetPath = compilation.getPath(this.options.path, {
+          const targetPath = compilation.getPath(path.join(process.cwd(), `build/${this.options.isDevBuild ? 'dev' : 'dist'}/lib-manifest.json`), {
             chunk,
           });
           const name =
@@ -52,16 +51,6 @@ class MuseManifestPlugin {
             chunk,
             compareModulesById(chunkGraph),
           )) {
-            // if (
-            //   this.options.entryOnly &&
-            //   !someInIterable(
-            //     moduleGraph.getIncomingConnections(module),
-            //     (c) => c.dependency instanceof EntryDependency,
-            //   )
-            // ) {
-            //   continue;
-            // }
-
             if (!module?.buildInfo?.museData?.id) continue;
             const ident = module.libIdent({
               context: this.options.context || compiler.options.context,
@@ -80,6 +69,8 @@ class MuseManifestPlugin {
               content[id] = data;
             }
           }
+
+          // write the manifest file lib-manifest.json
           const manifest = {
             name,
             type: this.options.type,
