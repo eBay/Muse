@@ -40,8 +40,6 @@ class GitStorage {
    * @param {Buffer|String} value
    */
   async set(keyPath, value, msg) {
-    console.log('set---------');
-    console.log('keyPath: ', keyPath);
     return await this.gitClient.commitFile({
       keyPath,
       value,
@@ -58,8 +56,6 @@ class GitStorage {
    * @returns Buffer
    */
   async get(keyPath) {
-    console.log('get---------');
-    console.log('keyPath: ', keyPath);
     return await this.gitClient.getRepoContent({
       keyPath,
       organizationName: this.organizationName,
@@ -68,8 +64,6 @@ class GitStorage {
   }
 
   async del(keyPath) {
-    console.log('del---------');
-    console.log('keyPath: ', keyPath);
     try {
       const file = this.gitClient.checkFileExist({ organizationName: this.organizationName, projectName: this.projectName, keyPath });
       if (!file) {
@@ -90,8 +84,6 @@ class GitStorage {
 
   // list items in a container
   async list(keyPath) {
-    console.log('list---------');
-    console.log('keyPath: ', keyPath);
     const files = await this.gitClient.getRepoContent({
       organizationName: this.organizationName,
       projectName: this.projectName,
