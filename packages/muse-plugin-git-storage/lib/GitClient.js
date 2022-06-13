@@ -1,7 +1,6 @@
 const axios = require('axios');
 const _ = require('lodash');
 
-
 module.exports = class GitClient {
   constructor(options) {
     if (!options.url) throw new Error('No github url specified for GitStorage.');
@@ -26,21 +25,28 @@ module.exports = class GitClient {
   }
 
   async checkFileExist(params) {
-    const { organizationName, projectName, keyPath, branch = 'main'} = params;
+    const { organizationName, projectName, keyPath, branch = 'main' } = params;
     const repo = `${organizationName}/${projectName}`;
 
     let file;
     try {
       const folder = (await this.axiosGit.get(`/repos/${repo}/contents/?ref=${branch}`)).data;
       file = _.find(folder, { name: `${keyPath}` });
-    }catch (err) {
+    } catch (err) {
       console.log('err');
     }
     return file;
   }
 
   async commitFile(params) {
-    const { branch = 'main', message, keyPath, value: content, organizationName, projectName } = params;
+    const {
+      branch = 'main',
+      message,
+      keyPath,
+      value: content,
+      organizationName,
+      projectName,
+    } = params;
     const repo = `${organizationName}/${projectName}`;
     const authorId = params.author;
     console.info(`Commiting files to ${repo}...`);
@@ -55,18 +61,16 @@ module.exports = class GitClient {
       name: authorId,
       email: `${authorId}@ebay.com`,
       date: new Date().toISOString(),
-    }
+    };
 
-    // If multiple files are changed, need to create a commit to apply changes.
-    // Otherwise use file API for creation, update or deletion for better performance.
-
-    console.info('Updating plugin yaml with file content API...');
     let sha = null;
     try {
       console.info('Getting file sha...');
-      const exist = (await this.axiosGit.get(`/repos/${repo}/contents${keyPath}`, {
-        params: { ref: branch },
-      })).data;
+      const exist = (
+        await this.axiosGit.get(`/repos/${repo}/contents${keyPath}`, {
+          params: { ref: branch },
+        })
+      ).data;
       sha = exist.sha;
     } catch (e) {} // eslint-disable-line
 
@@ -85,11 +89,9 @@ module.exports = class GitClient {
     } else {
       // Add or update file
       console.info('Putting file: ' + keyPath);
-      // await this.axiosGit.put(`/repos/${repo}/contents${keyPath}`, payload);
       try {
         await this.axiosGit.put(`/repos/${repo}/contents${keyPath}`, payload);
-      }
-      catch (err) {
+      } catch (err) {
         console.log('set error:', err);
       }
     }
@@ -97,7 +99,14 @@ module.exports = class GitClient {
   }
 
   async getRepoContent(params) {
-    const { organizationName, projectName, keyPath, branch = 'main', decode = true, list = false } = params || {};
+    const {
+      organizationName,
+      projectName,
+      keyPath,
+      branch = 'main',
+      decode = true,
+      list = false,
+    } = params || {};
     const repo = `${organizationName}/${projectName}`;
 
     try {
@@ -107,16 +116,18 @@ module.exports = class GitClient {
         },
       });
       if (list) return res?.data;
-      const content = decode ? Buffer.from(res.data.content, 'base64').toString() : res.data.content;
+      const content = decode
+        ? Buffer.from(res.data.content, 'base64').toString()
+        : res.data.content;
       return content;
     } catch (err) {
-      console.log('get error:', err);
+      console.log('Not Found:', `${keyPath}`);
+      return;
     }
-    console.info(`Get success.`);
   }
 
   async deleteFile(params) {
-    const { organizationName, projectName, keyPath, branch = 'main', file, message, } = params;
+    const { organizationName, projectName, keyPath, branch = 'main', file, message } = params;
     const repo = `${organizationName}/${projectName}`;
     const authorId = params.author;
     const committer = {
@@ -129,15 +140,17 @@ module.exports = class GitClient {
       name: authorId,
       email: `${authorId}@ebay.com`,
       date: new Date().toISOString(),
-    }
-    return (await this.axiosGit.delete(`/repos/${repo}/contents${keyPath}`, {
-      params: {
-        message: message || `Delete file ${keyPath}.`,
-        sha: file.sha,
-        branch,
-        committer,
-        author,
-      }
-    })).data;
+    };
+    return (
+      await this.axiosGit.delete(`/repos/${repo}/contents${keyPath}`, {
+        params: {
+          message: message || `Delete file ${keyPath}.`,
+          sha: file.sha,
+          branch,
+          committer,
+          author,
+        },
+      })
+    ).data;
   }
-}
+};
