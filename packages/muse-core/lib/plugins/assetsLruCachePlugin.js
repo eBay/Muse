@@ -9,7 +9,7 @@ module.exports = (options = {}) => {
         storage: {
           cache: new MuseLruCache({
             getData: async (key) => {
-              return assetsStorage.get(key, null, true); // force get the stroage data
+              return await assetsStorage.get(key, null, true); // force get the stroage data
             },
             ...options,
           }),

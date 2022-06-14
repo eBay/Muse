@@ -224,7 +224,7 @@ importers:
       js-plugin: ^1.1.0
       js-yaml: ^4.1.0
       lodash: ^4.17.21
-      lru-cache: ^7.10.1
+      lru-cache: 6.0.0
       memfs: ^3.4.1
       path-to-regexp: ^6.2.1
       schema-utils: ^4.0.0
@@ -238,7 +238,7 @@ importers:
       js-plugin: 1.1.0
       js-yaml: 4.1.0
       lodash: 4.17.21
-      lru-cache: 7.10.1
+      lru-cache: 6.0.0
       path-to-regexp: 6.2.1
       schema-utils: 4.0.0
       semver: 7.3.7
@@ -7825,11 +7825,6 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       yallist: 4.0.0
-
-  /lru-cache/7.10.1:
-    resolution: {integrity: sha1-21d/QqlMFo9na2ONFdqPsHNEjKs=}
-    engines: {node: '>=12'}
-    dev: false
 
   /magic-string/0.25.9:
     resolution: {integrity: sha1-3n+fr5HvihyR0CwuUxTIJ3283Rw=}
