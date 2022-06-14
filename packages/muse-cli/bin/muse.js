@@ -7,13 +7,11 @@ const path = require('path');
 const readline = require('node:readline');
 const { stdin: input, stdout: output } = require('node:process');
 const timeStart = Date.now();
-const os = require("os");
+const os = require('os');
 
 const asyncDeployPlugin = async ({ appName, envName, pluginName, version }) => {
   const res = await muse.pm.deployPlugin({ appName, envName, pluginName, version });
-  console.log(
-    chalk.cyan(`Deploy success: ${pluginName}@${res.version} to ${appName}/${envName}.`),
-  );
+  console.log(chalk.cyan(`Deploy success: ${pluginName}@${res.version} to ${appName}/${envName}.`));
 };
 
 console.error = (message) => console.log(chalk.red(message));
@@ -84,18 +82,25 @@ console.error = (message) => console.log(chalk.red(message));
     case 'deploy':
     case 'deploy-plugin': {
       const [appName, envName, pluginName, version] = args;
-      muse.pm.checkDependencies({ appName, envName, pluginName, version })
+      muse.pm
+        .checkDependencies({ appName, envName, pluginName, version })
         .then((dependencyCheckResult) => {
           if (dependencyCheckResult && Object.keys(dependencyCheckResult).length > 0) {
             // missing dependencies detected, confirm with user to continue
             const rl = readline.createInterface({ input, output });
-            console.log('WARNING: Detected non-satisfied module dependencies from the following library plugins:');
+            console.log(
+              'WARNING: Detected non-satisfied module dependencies from the following library plugins:',
+            );
             for (const library of Object.keys(dependencyCheckResult)) {
               console.log(`${library} => [${dependencyCheckResult[library]}] not found`);
             }
             console.log(os.EOL);
             rl.question('Do you want to continue (yes/no)? [Y]', (answer) => {
-              if (answer.length === 0 || answer.toLowerCase() === 'yes' || answer.toLowerCase() === 'y') {
+              if (
+                answer.length === 0 ||
+                answer.toLowerCase() === 'yes' ||
+                answer.toLowerCase() === 'y'
+              ) {
                 asyncDeployPlugin({ appName, envName, pluginName, version });
               }
               rl.close();
