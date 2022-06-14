@@ -54,6 +54,13 @@ console.error = (message) => console.log(chalk.red(message));
       break;
     }
 
+    case 'del-plugin':
+    case 'delete-plugin': {
+      const [pluginName] = args;
+      await muse.pm.deletePlugin({ pluginName });
+      break;
+    }
+
     case 'list-plugins': {
       const plugins = await muse.pm.getPlugins();
       console.log(chalk.cyan(`Plugins (${plugins.length}):`));

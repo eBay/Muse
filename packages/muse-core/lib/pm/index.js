@@ -3,6 +3,7 @@ module.exports = {
   getPlugin: require('./getPlugin'),
   getPlugins: require('./getPlugins'),
   buildPlugin: require('./buildPlugin'),
+  deletePlugin: require('./deletePlugin'),
   getDeployedPlugin: require('./getDeployedPlugin'),
   getDeployedPlugins: require('./getDeployedPlugins'),
   deployPlugin: require('./deployPlugin'),
