@@ -89,6 +89,11 @@ console.error = (message) => console.log(chalk.red(message));
 
       break;
     }
+
+    case 'build':
+    case 'build-plugin':
+      await muse.pm.buildPlugin();
+      break;
     case 'release':
     case 'release-plugin': {
       const [pluginName, version = 'patch'] = args;
