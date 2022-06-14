@@ -13,8 +13,6 @@ const os = require('os');
 const LruMemoryCache = require('lru-cache');
 const LruDiskCache = require('./LruDiskCache');
 
-const hash = (s) => require('crypto').createHash('md5').update(s).digest('hex').slice(0, 8);
-const shortKey = (k) => k.replace('/p/@ebay.', '');
 class MuseLruCache {
   constructor({
     maxMemorySize = 2 * 1000 * 1000 * 1000, // default to 2 Gb
