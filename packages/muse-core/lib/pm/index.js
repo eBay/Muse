@@ -6,7 +6,7 @@ module.exports = {
   getDeployedPlugin: require('./getDeployedPlugin'),
   getDeployedPlugins: require('./getDeployedPlugins'),
   deployPlugin: require('./deployPlugin'),
-  beforeDeployPlugin: require('./beforeDeployPlugin'),
+  checkDependencies: require('./checkDependencies'),
   undeployPlugin: require('./undeployPlugin'),
   releasePlugin: require('./releasePlugin'),
   getReleases: require('./getReleases'),

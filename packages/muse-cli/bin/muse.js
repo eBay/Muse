@@ -84,23 +84,27 @@ console.error = (message) => console.log(chalk.red(message));
     case 'deploy':
     case 'deploy-plugin': {
       const [appName, envName, pluginName, version] = args;
-      const dependencyCheck = await muse.pm.beforeDeployPlugin({ appName, envName, pluginName, version });
-      if (dependencyCheck && Object.keys(dependencyCheck).length > 0) {
-        const rl = readline.createInterface({ input, output });
-        console.log('WARNING: Detected non-satisfied module dependencies from the following library plugins:');
-        for (const libraryDepArray of Object.keys(dependencyCheck)) {
-          console.log(`${libraryDepArray} => [${dependencyCheck[libraryDepArray]}] not found`);
-        }
-        console.log(os.EOL);
-        rl.question('Do you want to continue (yes/no)? ', async (answer) => {
-          if (answer.toLowerCase() === 'yes' || answer.toLowerCase === 'y') {
+      muse.pm.checkDependencies({ appName, envName, pluginName, version })
+        .then((dependencyCheckResult) => {
+          if (dependencyCheckResult && Object.keys(dependencyCheckResult).length > 0) {
+            // missing dependencies detected, confirm with user to continue
+            const rl = readline.createInterface({ input, output });
+            console.log('WARNING: Detected non-satisfied module dependencies from the following library plugins:');
+            for (const library of Object.keys(dependencyCheckResult)) {
+              console.log(`${library} => [${dependencyCheckResult[library]}] not found`);
+            }
+            console.log(os.EOL);
+            rl.question('Do you want to continue (yes/no)? [Y]', (answer) => {
+              if (answer.length === 0 || answer.toLowerCase() === 'yes' || answer.toLowerCase() === 'y') {
+                asyncDeployPlugin({ appName, envName, pluginName, version });
+              }
+              rl.close();
+            });
+          } else {
+            // no missing dependencies, deploy right away
             asyncDeployPlugin({ appName, envName, pluginName, version });
           }
-          rl.close();
         });
-      } else {
-        asyncDeployPlugin({ appName, envName, pluginName, version });
-      }
       break;
     }
     case 'undeploy':
