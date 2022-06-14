@@ -24,20 +24,6 @@ module.exports = class GitClient {
     });
   }
 
-  async checkFileExist(params) {
-    const { organizationName, projectName, keyPath, branch = 'main' } = params;
-    const repo = `${organizationName}/${projectName}`;
-
-    let file;
-    try {
-      const folder = (await this.axiosGit.get(`/repos/${repo}/contents/?ref=${branch}`)).data;
-      file = _.find(folder, { name: `${keyPath}` });
-    } catch (err) {
-      console.log('err');
-    }
-    return file;
-  }
-
   async commitFile(params) {
     const {
       branch = 'main',
@@ -49,7 +35,6 @@ module.exports = class GitClient {
     } = params;
     const repo = `${organizationName}/${projectName}`;
     const authorId = params.author;
-    console.info(`Commiting files to ${repo}...`);
 
     const committer = {
       name: authorId,
@@ -65,7 +50,6 @@ module.exports = class GitClient {
 
     let sha = null;
     try {
-      console.info('Getting file sha...');
       const exist = (
         await this.axiosGit.get(`/repos/${repo}/contents${keyPath}`, {
           params: { ref: branch },
@@ -84,11 +68,9 @@ module.exports = class GitClient {
     };
     if (content === null) {
       // Delete file
-      console.info('Deleting file: ' + keyPath);
       await this.axiosGit.delete(`/repos/${repo}/contents${keyPath}`, { params: payload });
     } else {
       // Add or update file
-      console.info('Putting file: ' + keyPath);
       try {
         await this.axiosGit.put(`/repos/${repo}/contents${keyPath}`, payload);
       } catch (err) {
@@ -98,27 +80,16 @@ module.exports = class GitClient {
   }
 
   async getRepoContent(params) {
-    const {
-      organizationName,
-      projectName,
-      keyPath,
-      branch = 'main',
-      decode = true,
-      list = false,
-    } = params || {};
+    const { organizationName, projectName, keyPath, branch = 'main' } = params || {};
     const repo = `${organizationName}/${projectName}`;
-
     try {
-      const res = await this.axiosGit.get(`/repos/${repo}/contents${keyPath}`, {
-        params: {
-          ref: branch,
-        },
-      });
-      if (list) return res?.data;
-      const content = decode
-        ? Buffer.from(res.data.content, 'base64').toString()
-        : res.data.content;
-      return content;
+      return (
+        await this.axiosGit.get(`/repos/${repo}/contents${keyPath}`, {
+          params: {
+            ref: branch,
+          },
+        })
+      ).data;
     } catch (err) {
       console.log('Not Found:', `${keyPath}`);
       return;

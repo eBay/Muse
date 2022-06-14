@@ -5,8 +5,10 @@ const GitClient = require('./GitClient');
 class GitStorage {
   constructor(options) {
     if (!options?.url) throw new Error('No github repo specified for GitStorage.');
-    if (!options?.token) throw new Error('No PAT(Personal access tokens) specified for GitStorage.');
-    if (!options?.organizationName) throw new Error('No organizationName specified for GitStorage.');
+    if (!options?.token)
+      throw new Error('No PAT(Personal access tokens) specified for GitStorage.');
+    if (!options?.organizationName)
+      throw new Error('No organizationName specified for GitStorage.');
     if (!options?.projectName) throw new Error('No projectName specified for GitStorage.');
 
     this.url = options.url;
@@ -22,7 +24,7 @@ class GitStorage {
   }
 
   init() {
-    console.log('GitStorage init...')
+    console.log('GitStorage init...');
   }
 
   mapPath(p) {
@@ -46,8 +48,8 @@ class GitStorage {
       organizationName: this.organizationName,
       projectName: this.projectName,
       message: msg,
-      author: this.author
-    })
+      author: this.author,
+    });
   }
 
   /**
@@ -56,31 +58,40 @@ class GitStorage {
    * @returns Buffer
    */
   async get(keyPath) {
-    return await this.gitClient.getRepoContent({
+    const data = await this.gitClient.getRepoContent({
       keyPath,
       organizationName: this.organizationName,
       projectName: this.projectName,
     });
+    if (!data) return;
+    const content = Buffer.from(data?.content, 'base64').toString();
+    // const content = data.content;
+    return content;
   }
 
-  async del(keyPath) {
+  async del(keyPath, msg) {
     try {
-      const file = this.gitClient.checkFileExist({ organizationName: this.organizationName, projectName: this.projectName, keyPath });
+      const file = await this.gitClient.getRepoContent({
+        organizationName: this.organizationName,
+        projectName: this.projectName,
+        keyPath,
+      });
       if (!file) {
-        return this.gitClient.deleteFile({
-          organizationName: this.organizationName,
-          projectName: this.projectName,
-          keyPath,
-          branch: 'main',
-          file,
-          message: `Delete file: ${keyPath}`
-        });
+        console.warn(`${keyPath} does not exist.`);
+        return;
       }
+      return await this.gitClient.deleteFile({
+        organizationName: this.organizationName,
+        projectName: this.projectName,
+        branch: 'main',
+        keyPath,
+        file,
+        message: msg,
+      });
     } catch (err) {
       console.log('delete error:', err);
     }
   }
-
 
   // list items in a container
   async list(keyPath) {
@@ -88,8 +99,8 @@ class GitStorage {
       organizationName: this.organizationName,
       projectName: this.projectName,
       keyPath,
-      list: true,
     });
+
     return files.map(({ name, path, type, size, sha }) => {
       return {
         name,
