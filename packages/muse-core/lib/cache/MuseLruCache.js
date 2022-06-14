@@ -20,7 +20,7 @@ class MuseLruCache {
     maxMemorySize = 2 * 1000 * 1000 * 1000, // default to 2 Gb
     memoryTtl = 10 * 24 * 3600 * 1000, // max 10 days age,
     diskTtl = 30 * 24 * 3600 * 1000, // max 30 days age for disk storage
-    diskLocation = path.join(os.homedir(), 'muse-storage/lru-disk-cache'),
+    diskLocation = path.join(os.homedir(), 'muse-storage/.lru-cache'),
     diskSaveTimestampsInterval = 1000 * 300, // the interval to save access timestamps
     getData, // the callback to get the data source, it should return undefined if data not exists. Otherwise always return Buffer
   }) {

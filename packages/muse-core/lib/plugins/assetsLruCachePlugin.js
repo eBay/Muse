@@ -1,3 +1,5 @@
+const path = require('path');
+const os = require('os');
 const { MuseLruCache } = require('../cache');
 const assetsStorage = require('../storage/assets');
 
@@ -11,6 +13,8 @@ module.exports = (options = {}) => {
             getData: async (key) => {
               return await assetsStorage.get(key, null, true); // force get the stroage data
             },
+            diskLocation: path.join(os.homedir(), 'muse-storage/.assets-cache'),
+
             ...options,
           }),
         },
