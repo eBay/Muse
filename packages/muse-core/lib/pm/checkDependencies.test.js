@@ -33,6 +33,8 @@ describe('Check Dependencies tests.', () => {
     assets.getJson = jest
       .fn()
       .mockImplementationOnce((cb) => mockedDepsResult)
+      .mockImplementationOnce((cb) => mockedDepsResult)
+      .mockImplementationOnce((cb) => mockedLibManifestResult)
       .mockImplementationOnce((cb) => mockedLibManifestResult);
 
     getDeployedPlugins.mockImplementation((cb, ca) => mockedDeployedPlugins);
@@ -45,8 +47,8 @@ describe('Check Dependencies tests.', () => {
     });
 
     expect(result).not.toBeNull();
-    expect(Object.keys(result).length).toBe(1);
-    expect(Object.keys(result)[0]).toBe('@ebay/muse-react@1.0.0');
+    expect(Object.keys(result['dist']).length).toBe(1);
+    expect(Object.keys(result['dist'])[0]).toBe('@ebay/muse-react@1.0.0');
   });
 
   it('Returns empty JSON if no dependencies are missing', async () => {
@@ -71,6 +73,8 @@ describe('Check Dependencies tests.', () => {
     assets.getJson = jest
       .fn()
       .mockImplementationOnce((cb) => mockedDepsResult)
+      .mockImplementationOnce((cb) => mockedDepsResult)
+      .mockImplementationOnce((cb) => mockedLibManifestResult)
       .mockImplementationOnce((cb) => mockedLibManifestResult);
 
     getDeployedPlugins.mockImplementation((cb, ca) => mockedDeployedPlugins);
@@ -83,7 +87,7 @@ describe('Check Dependencies tests.', () => {
     });
 
     expect(result).not.toBeNull();
-    expect(Object.keys(result).length).toBe(0);
+    expect(Object.keys(result['dist']).length).toBe(0);
   });
 
   it('Returns empty JSON if no library plugins are deployed yet', async () => {
@@ -102,6 +106,8 @@ describe('Check Dependencies tests.', () => {
     assets.getJson = jest
       .fn()
       .mockImplementationOnce((cb) => mockedDepsResult)
+      .mockImplementationOnce((cb) => mockedDepsResult)
+      .mockImplementationOnce((cb) => mockedLibManifestResult)
       .mockImplementationOnce((cb) => mockedLibManifestResult);
 
     getDeployedPlugins.mockImplementation((cb, ca) => mockedDeployedPlugins);
@@ -114,7 +120,7 @@ describe('Check Dependencies tests.', () => {
     });
 
     expect(result).not.toBeNull();
-    expect(Object.keys(result).length).toBe(0);
+    expect(Object.keys(result['dist']).length).toBe(0);
   });
 
   it('Returns empty JSON if no deps-manifest.json available for the plugin to be deployed', async () => {
@@ -135,6 +141,8 @@ describe('Check Dependencies tests.', () => {
     assets.getJson = jest
       .fn()
       .mockImplementationOnce((cb) => mockedDepsResult)
+      .mockImplementationOnce((cb) => mockedDepsResult)
+      .mockImplementationOnce((cb) => mockedLibManifestResult)
       .mockImplementationOnce((cb) => mockedLibManifestResult);
 
     getDeployedPlugins.mockImplementation((cb, ca) => mockedDeployedPlugins);
@@ -147,7 +155,7 @@ describe('Check Dependencies tests.', () => {
     });
 
     expect(result).not.toBeNull();
-    expect(Object.keys(result).length).toBe(0);
+    expect(Object.keys(result['dist']).length).toBe(0);
   });
 
   it('Returns empty JSON if no lib-manifest.json found', async () => {
@@ -167,6 +175,8 @@ describe('Check Dependencies tests.', () => {
     assets.getJson = jest
       .fn()
       .mockImplementationOnce((cb) => mockedDepsResult)
+      .mockImplementationOnce((cb) => mockedDepsResult)
+      .mockImplementationOnce((cb) => mockedLibManifestResult)
       .mockImplementationOnce((cb) => mockedLibManifestResult);
 
     getDeployedPlugins.mockImplementation((cb, ca) => mockedDeployedPlugins);
@@ -179,6 +189,6 @@ describe('Check Dependencies tests.', () => {
     });
 
     expect(result).not.toBeNull();
-    expect(Object.keys(result).length).toBe(0);
+    expect(Object.keys(result['dist']).length).toBe(0);
   });
 });
