@@ -111,6 +111,9 @@ Muse global command line interface to manage Muse apps/plugins. Implemented by `
 ### Local Dev/Testing Server
 * ✅ `muse serve [app-name] [env-name?] [port?] [--isDev]` Serve the Muse application, `env-name` defaults to `staging`, `port` defaults to `6070`.
 
+### Requests
+* ✅ `muse request [action] [...args]` Request to do something. For example: `muse request deploy-plugin app1 staging muse-react`.
+
 ### Config
 * ❓`muse show-config` Show the current muse config.
 
