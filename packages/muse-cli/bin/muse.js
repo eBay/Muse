@@ -4,15 +4,12 @@ const chalk = require('chalk');
 const muse = require('muse-core');
 const fs = require('fs');
 const path = require('path');
-<<<<<<< HEAD
 const readline = require('node:readline');
 const { stdin: input, stdout: output } = require('node:process');
-=======
 const build = require('../lib/build');
 const start = require('../lib/start');
 const test = require('../lib/test');
 
->>>>>>> Refactor dev cmd
 const timeStart = Date.now();
 const os = require('os');
 
