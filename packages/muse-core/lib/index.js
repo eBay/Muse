@@ -12,7 +12,7 @@ const envFile2 = path.join(os.homedir(), '.env.muse');
   }
 });
 
-module.exports = {
+const muse = {
   am: require('./am'),
   pm: require('./pm'),
   req: require('./req'),
@@ -21,4 +21,6 @@ module.exports = {
   storage: require('./storage'),
   utils: require('./utils'),
 };
+
+module.exports = muse;
 require('./initPlugins');
