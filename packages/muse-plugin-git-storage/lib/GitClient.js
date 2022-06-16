@@ -91,7 +91,7 @@ module.exports = class GitClient {
         })
       ).data;
     } catch (err) {
-      console.log('Not Found:', `${keyPath}`);
+      // console.log('Not Found:', `${keyPath}`);
       return;
     }
   }
