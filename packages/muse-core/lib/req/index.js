@@ -13,10 +13,9 @@ module.exports = {
   /** @member {function} updateRequest */
   updateRequest: require('./updateRequest'),
   /** @member {function} updateStatus */
-  updateStatus: require('./createRequest'),
-  /** @member {function} createRequest */
-  deleteStatus: require('./createRequest'),
-  /** @member {function} createRequest */
-  mergeRequest: require('./createRequest'),
-  /** @member {function} createRequest */
+  updateStatus: require('./updateStatus'),
+  /** @member {function} deleteStatus */
+  deleteStatus: require('./deleteStatus'),
+  /** @member {function} mergeRequest */
+  mergeRequest: require('./mergeRequest'),
 };
