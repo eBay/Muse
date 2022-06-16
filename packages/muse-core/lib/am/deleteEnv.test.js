@@ -28,7 +28,7 @@ describe('Delete env basic tests.', () => {
     await muse.am.deleteEnv({ appName, envName, author: 'nate' });
 
     const app = await muse.am.getApp(appName);
-    expect(app.envs?.staging).toBeUndefined;
+    expect(app.envs?.staging).toBeUndefined();
     expect(testJsPlugin.museCore.am.deleteEnv).toBeCalledTimes(2);
     expect(testJsPlugin.museCore.am.beforeDeleteEnv).toBeCalledTimes(2);
     expect(testJsPlugin.museCore.am.afterDeleteEnv).toBeCalledTimes(2);

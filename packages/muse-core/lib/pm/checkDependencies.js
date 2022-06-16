@@ -1,4 +1,5 @@
 const { assets } = require('../storage');
+const { getPluginId } = require('../utils');
 const getDeployedPlugins = require('./getDeployedPlugins');
 
 const generateMissingDeps = async (ctx, params, depsManifest, buildEnv) => {
@@ -10,11 +11,9 @@ const generateMissingDeps = async (ctx, params, depsManifest, buildEnv) => {
   if (deployedLibPlugins) {
     for (const libPlugin of deployedLibPlugins) {
       // get each lib's lib-manifest.json
-      const parsedLibName = libPlugin.name.replace('/', '.');
+      const libPluginId = getPluginId(libPlugin.name);
       const libManifest = await assets.getJson(
-        decodeURIComponent(
-          `p/${parsedLibName}/v${libPlugin.version}/${buildEnv}/lib-manifest.json`,
-        ),
+        decodeURIComponent(`p/${libPluginId}/v${libPlugin.version}/${buildEnv}/lib-manifest.json`),
       );
 
       if (libManifest) {

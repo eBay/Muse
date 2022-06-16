@@ -1,4 +1,5 @@
 const { asyncInvoke, osUsername } = require('../utils');
+const { registry } = require('../storage');
 const getApp = require('./getApp');
 const updateApp = require('./updateApp');
 const { validate } = require('schema-utils');
@@ -37,12 +38,16 @@ module.exports = async (params) => {
       unset: `envs.${envName}`,
     };
     await asyncInvoke('museCore.am.deleteEnv', ctx, params);
+    // remove the envName configuration from the app's yaml configuration
     await updateApp({
       appName,
       changes: ctx.changes,
       author,
-      msg: `Delete env ${appName}/${envName} by ${author}.`,
+      msg: `Remove env ${appName}/${envName} by ${author}.`,
     });
+    const keyPath = `/apps/${appName}/${envName}`;
+    // delete the envName itself, using underlying Storage implementation
+    await registry.del(keyPath, `Delete env ${appName}/${envName} by ${author}.`);
   } catch (err) {
     ctx.error = err;
     await asyncInvoke('museCore.am.failedDeleteEnv', ctx, params);
