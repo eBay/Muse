@@ -13,6 +13,10 @@ const { stdin: input, stdout: output } = require('node:process');
 const timeStart = Date.now();
 const os = require('os');
 
+const confirmAnswer = (answer) => {
+  return answer.length === 0 || answer.toLowerCase() === 'yes' || answer.toLowerCase() === 'y';
+};
+
 const asyncDeployPlugin = async ({ appName, envName, pluginName, version }) => {
   const res = await muse.pm.deployPlugin({ appName, envName, pluginName, version });
   console.log(chalk.cyan(`Deploy success: ${pluginName}@${res.version} to ${appName}/${envName}.`));
@@ -62,7 +66,19 @@ console.error = (message) => console.log(chalk.red(message));
     case 'delete-env': {
       // should we prompt user to confirm before deleting ?
       const [appName, envName] = args;
-      await muse.am.deleteEnv({ appName, envName });
+      const rl = readline.createInterface({ input, output });
+      rl.question(
+        'ATTENTION !! This operation cannot be undone. Confirm environment deletion (yes/no) [Y] ? ',
+        async (answer) => {
+          if (confirmAnswer(answer)) {
+            await muse.am.deleteEnv({ appName, envName });
+            console.log(chalk.cyan(`Environment: ${appName}/${envName} deleted successfully.`));
+          } else {
+            console.log(chalk.cyan(`Environment: ${appName}/${envName} deletion ABORTED.`));
+          }
+          rl.close();
+        },
+      );
       break;
     }
 
@@ -118,11 +134,7 @@ console.error = (message) => console.log(chalk.red(message));
             }
             console.log(os.EOL);
             rl.question('Do you want to continue (yes/no) [Y] ? ', (answer) => {
-              if (
-                answer.length === 0 ||
-                answer.toLowerCase() === 'yes' ||
-                answer.toLowerCase() === 'y'
-              ) {
+              if (confirmAnswer(answer)) {
                 asyncDeployPlugin({ appName, envName, pluginName, version });
               }
               rl.close();
