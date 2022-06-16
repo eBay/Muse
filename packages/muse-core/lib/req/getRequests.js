@@ -1,6 +1,16 @@
 const { asyncInvoke, jsonByYamlBuff } = require('../utils');
 const { registry } = require('../storage');
 
+/**
+ * @module muse-core/req/getRequests
+ */
+
+/**
+ * @description Get metadata of all apps
+ * @param {*} [params] args to get all apps
+ * @returns {object[]} list of request object
+ */
+
 module.exports = async (params) => {
   const ctx = {};
   await asyncInvoke('museCore.req.beforeGetRequests', ctx, params);

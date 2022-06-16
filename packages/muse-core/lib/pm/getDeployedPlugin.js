@@ -1,8 +1,23 @@
 const { asyncInvoke, getPluginId, jsonByYamlBuff } = require('../utils');
 const { registry } = require('../storage');
 const { getApp } = require('../am');
-
+const { validate } = require('schema-utils');
+const schema = require('../schemas/pm/getDeployedPlugin.json');
+/**
+ * @module muse-core/pm/getDeployedPlugin
+ */
+/**
+ * @description Get information about a deployed plugin from an environment of an app
+ * @param {string} appName app name
+ * @param {string} envName enviroment
+ * @param {string} pluginName plugin name
+ * @returns {object} plugin object
+ *
+ */
 module.exports = async (appName, envName, pluginName) => {
+  validate(schema, appName);
+  validate(schema, envName);
+  validate(schema, pluginName);
   const ctx = {};
   await asyncInvoke('museCore.pm.beforeGetDeployedPlugin', ctx, appName, envName, pluginName);
 

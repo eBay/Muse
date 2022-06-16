@@ -1,7 +1,20 @@
 const { asyncInvoke, jsonByYamlBuff } = require('../utils');
 const { registry } = require('../storage');
+const { validate } = require('schema-utils');
+const schema = require('../schemas/am/getApp.json');
+
+/**
+ * @module muse-core/am/getApp
+ */
+
+/**
+ * @description get conetent of <appName>.yaml
+ * @param {string} appName the app name
+ * @returns {object} appObject
+ */
 
 module.exports = async (appName) => {
+  validate(schema, appName);
   const ctx = {};
   await asyncInvoke('museCore.am.beforeGetApp', ctx, appName);
 

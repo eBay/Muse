@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Create plugin params",
+  "type": "object",
+  "properties": {
+    "pluginName": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string",
+      "default": "normal"
+    },
+    "author": {
+      "type": "string"
+    },
+    "options": {
+      "type": "object"
+    },
+    "msg": {
+      "type": "string"
+    }
+  },
+  "required": ["pluginName"],
+  "additionalProperties": false
+}

@@ -1,6 +1,13 @@
 const { asyncInvoke, jsonByYamlBuff } = require('../utils');
 const { registry } = require('../storage');
-
+/**
+ * @module muse-core/pm/getPlugin
+ */
+/**
+ * @description Get metadata of all plugins from the registry storage.
+ * @param {*} params
+ * @returns {Buffer[]}
+ */
 module.exports = async (params) => {
   const ctx = {};
   await asyncInvoke('museCore.pm.beforeGetPlugins', ctx, params);
