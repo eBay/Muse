@@ -6,9 +6,9 @@ const fs = require('fs');
 const path = require('path');
 const readline = require('node:readline');
 const { stdin: input, stdout: output } = require('node:process');
-const build = require('../lib/build');
-const start = require('../lib/start');
-const test = require('../lib/test');
+// const build = require('../lib/build');
+// const start = require('../lib/start');
+// const test = require('../lib/test');
 
 const timeStart = Date.now();
 const os = require('os');
@@ -22,7 +22,7 @@ console.error = (message) => console.log(chalk.red(message));
 (async () => {
   const cmd = process.argv[2];
   const args = process.argv.slice(3);
-  console.log(chalk.blue('Muse: ' + (cmd || 'version')));
+  console.log(chalk.blue('Muse command: ' + (cmd || 'version')));
 
   switch (cmd) {
     case 'list-apps': {
@@ -135,11 +135,15 @@ console.error = (message) => console.log(chalk.red(message));
 
       break;
     }
-
-    case 'build':
-    case 'build-plugin':
-      await muse.pm.buildPlugin();
-      break;
+    // case 'build':
+    //   await build();
+    //   break;
+    // case 'start':
+    //   await start();
+    //   break;
+    // case 'test':
+    //   await test();
+    //   break;
     case 'release':
     case 'release-plugin': {
       const [pluginName, version = 'patch'] = args;
@@ -150,6 +154,17 @@ console.error = (message) => console.log(chalk.red(message));
         buildDir: fs.existsSync(buildDir) ? buildDir : null,
       });
       console.log(chalk.cyan(`Plugin released ${r.pluginName}@${r.version}`));
+      break;
+    }
+
+    case 'config': {
+      const filepath = muse.config?.filepath;
+      if (!filepath) {
+        console.log(chalk.cyan('No config.'));
+      } else {
+        console.log(chalk.cyan(`Config file: ${filepath}`));
+        console.log(fs.readFileSync(filepath).toString());
+      }
       break;
     }
 

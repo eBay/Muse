@@ -28,5 +28,4 @@ Object.assign(muse, {
   storage: require('./storage'),
   utils: require('./utils'),
   logger: require('./logger'),
-  // createLogger: require('./createLogger')
 });

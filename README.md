@@ -115,7 +115,7 @@ Muse global command line interface to manage Muse apps/plugins. Implemented by `
 * ✅ `muse request [action] [...args]` Request to do something. For example: `muse request deploy-plugin app1 staging muse-react`.
 
 ### Config
-* ❓`muse show-config` Show the current muse config.
+* ✅ `muse show-config` Show the current loaded muse config.
 
 
 ## Using pnpm
