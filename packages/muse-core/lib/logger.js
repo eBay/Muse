@@ -1,9 +1,8 @@
 const winston = require('winston');
 const { MESSAGE } = require('triple-beam');
+const plugin = require('js-plugin');
 const _ = require('lodash');
 const config = require('./config');
-
-// const plugin = require('js-plugin');
 
 // levels: {
 //   error: 0,
@@ -22,7 +21,10 @@ function getTimestamp(d) {
   const mms = _.padStart(now.getMilliseconds(), 3, '0');
   return `${m}:${s}.${mms}`;
 }
-module.exports = (name) => {
+
+function createLogger(name) {
+  const transports = _.flatten(plugin.invoke('museCore.logger.getTransports'));
+  transports.push(new winston.transports.Console({}));
   const logger = winston.createLogger({
     level: config.get('logLevel') || 'info',
     silent: process.env.NODE_ENV === 'test',
@@ -41,8 +43,12 @@ module.exports = (name) => {
     ),
     defaultMeta: { name },
     exitOnError: false,
-    transports: [new winston.transports.Console({})],
+    transports,
   });
 
   return logger;
-};
+}
+
+const logger = createLogger('default');
+logger.createLogger = createLogger;
+module.exports = logger;

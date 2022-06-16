@@ -2,11 +2,10 @@
 // A plugin is <registry-storage>/plugins/<plugin-name>.yaml
 
 const yaml = require('js-yaml');
-const { asyncInvoke, getPluginId, osUsername, createLogger } = require('../utils');
+const { asyncInvoke, getPluginId, osUsername } = require('../utils');
 const { registry } = require('../storage');
 const getPlugin = require('./getPlugin');
-
-const logger = createLogger('muse.pm.createPlugin');
+const logger = require('../logger').createLogger('muse.pm.createPlugin');
 
 module.exports = async (params) => {
   const ctx = {};

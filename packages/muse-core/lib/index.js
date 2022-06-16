@@ -1,3 +1,6 @@
+// This is the only entry point for muse-core
+// Never require a module by module path
+
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
@@ -12,7 +15,11 @@ const envFile2 = path.join(os.homedir(), '.env.muse');
   }
 });
 
-const muse = {
+const muse = {};
+require('./initPlugins');
+module.exports = muse;
+
+Object.assign(muse, {
   am: require('./am'),
   pm: require('./pm'),
   req: require('./req'),
@@ -20,7 +27,6 @@ const muse = {
   config: require('./config'),
   storage: require('./storage'),
   utils: require('./utils'),
-};
-
-module.exports = muse;
-require('./initPlugins');
+  logger: require('./logger'),
+  // createLogger: require('./createLogger')
+});

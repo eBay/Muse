@@ -174,7 +174,6 @@ module.exports = {
   genNewVersion,
   updateJson,
   getMuseGlobal,
-  createLogger: require('./createLogger'),
   osUsername: os.userInfo().username,
   defaultAssetStorageLocation: path.join(os.homedir(), 'muse-storage/assets'),
   defaultRegistryStorageLocation: path.join(os.homedir(), 'muse-storage/registry'),
