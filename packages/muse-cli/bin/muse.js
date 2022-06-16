@@ -59,6 +59,13 @@ console.error = (message) => console.log(chalk.red(message));
       break;
     }
 
+    case 'delete-env': {
+      // should we prompt user to confirm before deleting ?
+      const [appName, envName] = args;
+      await muse.am.deleteEnv({ appName, envName });
+      break;
+    }
+
     case 'create-plugin': {
       const [pluginName] = args;
       await muse.pm.createPlugin({ pluginName });
