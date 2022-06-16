@@ -8,7 +8,7 @@ module.exports = {
     if (!app) throw new Error(`App ${appName} doesn't exist.`);
 
     await Promise.all(
-      Object.values(app.envs).map(async (env) => {
+      Object.values(app.envs || {}).map(async (env) => {
         const deployedPlugins = await getDeployedPlugins(appName, env.name);
         env.plugins = deployedPlugins;
       }),

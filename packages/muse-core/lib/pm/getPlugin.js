@@ -1,7 +1,17 @@
 const { asyncInvoke, getPluginId } = require('../utils');
 const { registry } = require('../storage');
-
+const { validate } = require('schema-utils');
+const schema = require('../schemas/pm/getPlugin.json');
+/**
+ * @module muse-core/pm/getPlugin
+ */
+/**
+ * @description Get metadata of one plugin from the registry storage.
+ * @param {*} pluginName
+ * @returns {Buffer}
+ */
 module.exports = async (pluginName) => {
+  validate(schema, pluginName);
   const ctx = {};
   await asyncInvoke('museCore.pm.beforeGetPlugin', ctx, pluginName);
 

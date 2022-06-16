@@ -12,10 +12,14 @@ const {
   asyncInvokeFirst,
 } = require('../utils');
 
+/**
+ * @class
+ */
 class Storage extends EventEmitter {
   /**
    *
-   * @param {*} options providers
+   * @param {object} options
+   * @param {string} options.extPath
    */
   constructor(options) {
     super();

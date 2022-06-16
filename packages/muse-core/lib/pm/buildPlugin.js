@@ -4,6 +4,15 @@ const { asyncInvoke } = require('../utils');
 // By default it does nothing until some plugins registered the build process to it.
 // This can be used under a plugin project or used on a service to request build a plugin
 // Depends on what plugins are configured.
+/**
+ * @module muse-core/pm/buildPlugin
+ */
+/**
+ * Create a release a plugin
+ * @param  {object} params args to build plugn
+ * @example
+ * buildPlugin({ pluginId: 'muse-react' });
+ */
 module.exports = async (params = {}) => {
   const ctx = {};
   await asyncInvoke('museCore.pm.beforeBuildPlugin', ctx, params);

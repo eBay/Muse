@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Deploy plugin params",
+  "type": "object",
+  "properties": {
+    "appName": {
+      "type": "string"
+    },
+    "envName": {
+      "type": "string"
+    },
+    "pluginName": {
+      "type": "string"
+    },
+    "version": {
+      "pattern": ""
+    },
+    "changes": {
+      "type": ["null", "object"]
+    },
+    "author": {
+      "type": "string"
+    },
+    "options": {
+      "type": "object"
+    },
+    "msg": {
+      "type": "string"
+    }
+  },
+  "required": ["appName", "envName", "pluginName"],
+  "additionalProperties": false
+}

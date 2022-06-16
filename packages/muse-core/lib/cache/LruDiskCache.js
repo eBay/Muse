@@ -3,7 +3,17 @@ const path = require('path');
 const os = require('os');
 const _ = require('lodash');
 
+/**
+ * @class
+ */
 class LruDiskCache {
+  /**
+   *
+   * @param {object} params
+   * @param {number} [params.ttl=30 * 24 * 3600 * 1000]
+   * @param {string} [params.location=path.join(os.homedir(), 'muse-storage/lru-disk-cache')]
+   * @param {number} [params.saveTimestampsInterval=1000 * 300]
+   */
   constructor({
     // max age in milliseconds
     ttl = 30 * 24 * 3600 * 1000,

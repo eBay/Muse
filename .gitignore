@@ -110,3 +110,6 @@ muse.config.yaml
 .muserc
 muse.config.js
 ~
+
+# JsDoc output
+out

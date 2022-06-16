@@ -1,7 +1,29 @@
 const yaml = require('js-yaml');
 const { asyncInvoke, osUsername } = require('../utils');
 const { registry } = require('../storage');
+/**
+ * @module muse-core/req/createRequest
+ */
+/**
+ * @typedef {object} CreateRequestArgument
+ * @property {string} type the request type
+ * @property {object} payload the request payload
+ * @property {string} options
+ * @property {string} [author] default to the current os logged in user
+ * @property {string} [msg] action message
+ */
 
+/**
+ * @description Create a request
+ * @param {CreateRequestArgument} params args to release a plugin
+ * @returns {request}
+ * @property {string} id `${type}-${Date.now()}`
+ * @property {string} type
+ * @property {string} createdBy
+ * @property {string} createdAt
+ * @property {string} payload
+ * @property {...*}
+ */
 module.exports = async (params = {}) => {
   const ctx = {};
   await asyncInvoke('museCore.req.beforeCreateRequest', ctx, params);

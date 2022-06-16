@@ -1,9 +1,26 @@
 const { asyncInvoke, osUsername } = require('../utils');
-
 const getApp = require('./getApp');
 const updateApp = require('./updateApp');
+const { validate } = require('schema-utils');
+const schema = require('../schemas/am/createEnv.json');
 
+/**
+ * @module muse-core/am/createEnv
+ */
+
+/**
+ * @typedef {object} CreateEnvArgument
+ * @property {string} appName the app name
+ * @property {string} envName the enviroment of app
+ * @property {string} [author=osUsername] default to the current os logged in user
+ */
+
+/**
+ *
+ * @param {CreateEnvArgument} params args to create an env
+ */
 module.exports = async (params) => {
+  validate(schema, params);
   const { appName, envName, options, author = osUsername } = params;
   const ctx = {};
 

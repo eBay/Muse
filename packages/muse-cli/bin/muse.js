@@ -65,6 +65,13 @@ console.error = (message) => console.log(chalk.red(message));
       break;
     }
 
+    case 'del-plugin':
+    case 'delete-plugin': {
+      const [pluginName] = args;
+      await muse.pm.deletePlugin({ pluginName });
+      break;
+    }
+
     case 'list-plugins': {
       const plugins = await muse.pm.getPlugins();
       console.log(chalk.cyan(`Plugins (${plugins.length}):`));
@@ -157,6 +164,32 @@ console.error = (message) => console.log(chalk.red(message));
       break;
     }
 
+    case 'del-release':
+    case 'delete-release': {
+      const [pluginName, version] = args;
+      await muse.pm.deleteRelease({
+        pluginName,
+        version,
+      });
+      console.log(chalk.cyan(`Release deleted: ${pluginName}@${version}`));
+      break;
+    }
+
+    case 'list-released-assets': {
+      const [pluginName, version] = args;
+      const objectList = await muse.pm.getReleaseAssets({
+        pluginName,
+        version,
+      });
+      objectList.forEach((o) => {
+        console.log(
+          chalk.cyan(
+            ` - ${o.name}        ${o.size} bytes        ${new Date(o.mtime).toLocaleString()}`,
+          ),
+        );
+      });
+      break;
+    }
     case 'config': {
       const filepath = muse.config?.filepath;
       if (!filepath) {

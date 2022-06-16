@@ -299,6 +299,17 @@ importers:
   packages/muse-modules:
     specifiers: {}
 
+  packages/muse-plugin-git-storage:
+    specifiers:
+      axios: ^0.27.2
+      lodash: ^4.17.21
+    dependencies:
+      axios: 0.27.2
+      lodash: 4.17.21
+
+  packages/muse-plugin-react-scripts:
+    specifiers: {}
+
   packages/muse-plugin-s3-storage:
     specifiers:
       lodash: ^4.17.21

@@ -1,0 +1,6 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Get App appName",
+  "type": "string",
+  "additionalProperties": false
+}

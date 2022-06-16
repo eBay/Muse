@@ -13,14 +13,28 @@ const os = require('os');
 const LruMemoryCache = require('lru-cache');
 const LruDiskCache = require('./LruDiskCache');
 
+/**
+ * @callback getDataCallback
+ * @param {string} key
+ */
 class MuseLruCache {
+  /**
+   * @param {object} params
+   * @param {getDataCallback} params.getData the callback to get the data source, it should return undefined if data not exists. Otherwise always return Buffer
+   * @param {number} [params.maxMemorySize=2 * 1000 * 1000] default to 2 Gb
+   * @param {number} [params.memoryTtl=1000 * 3600 * 24 * 10] max 10 days age
+   * @param {number} [params.diskTtl=30 * 24 * 3600 * 1000] max 30 days age for disk storage
+   * @param {string} [params.diskLocation=path.join(os.homedir(), 'muse-storage/lru-disk-cache')]
+   * @param {number} [params.diskSaveTimestampsInterval= 1000 * 300] the interval to save access timestamps
+   *
+   */
   constructor({
-    maxMemorySize = 2 * 1000 * 1000 * 1000, // default to 2 Gb
-    memoryTtl = 10 * 24 * 3600 * 1000, // max 10 days age,
-    diskTtl = 30 * 24 * 3600 * 1000, // max 30 days age for disk storage
+    maxMemorySize = 2 * 1000 * 1000 * 1000,
+    memoryTtl = 10 * 24 * 3600 * 1000,
+    diskTtl = 30 * 24 * 3600 * 1000,
     diskLocation = path.join(os.homedir(), 'muse-storage/.lru-cache'),
-    diskSaveTimestampsInterval = 1000 * 300, // the interval to save access timestamps
-    getData, // the callback to get the data source, it should return undefined if data not exists. Otherwise always return Buffer
+    diskSaveTimestampsInterval = 1000 * 300,
+    getData,
   }) {
     if (!getData) {
       throw new Error('MuseLruCache needs getData callback to get data.');

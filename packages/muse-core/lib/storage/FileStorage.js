@@ -1,7 +1,15 @@
 const path = require('path');
 const fs = require('fs-extra');
 
+/**
+ * @class
+ */
 class FileStorage {
+  /**
+   *
+   * @param {object} options
+   * @param {string} options.location
+   */
   constructor(options) {
     if (!options?.location) throw new Error('No location specified for FileStorage.');
     this.location = options.location;

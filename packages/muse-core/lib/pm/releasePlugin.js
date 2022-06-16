@@ -1,11 +1,33 @@
 const yaml = require('js-yaml');
 const { asyncInvoke, getPluginId, osUsername, genNewVersion } = require('../utils');
 const { assets, registry } = require('../storage');
-// const registerRelease = require('./registerRelease');
 const getReleases = require('./getReleases');
 const getPlugin = require('./getPlugin');
+const { validate } = require('schema-utils');
+const schema = require('../schemas/pm/releasePlugin.json');
+
+/**
+ * @module muse-core/pm/releasePlugin
+ */
+/**
+ * @typedef {object} ReleasePluginArgument
+ * @property {string} pluginName the plugin name
+ * @property {string} [version="patch"] semver version number type
+ * @property {string} [buildDir] output directory of bundles
+ * @property {string} [author] default to the current os logged in user
+ * @property {string} [msg] action message
+ * @property {object} [options]
+ */
+
+/**
+ * @description Release a new version of a plugin
+ * if the buildDir is not empty, will upload the build directory to assets storag
+ * @param {ReleasePluginArgument} params args to release a plugin
+ * @returns {object} release object
+ */
 
 module.exports = async (params) => {
+  validate(schema, params);
   const ctx = {};
   const { pluginName, buildDir, version = 'patch', author = osUsername, options } = params;
 

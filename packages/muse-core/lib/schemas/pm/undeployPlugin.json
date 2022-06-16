@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Undeploy Plugin params",
+  "type": "object",
+  "properties": {
+    "appName": {
+      "type": "string"
+    },
+    "envName": {
+      "type": "string"
+    },
+    "pluginName": {
+      "type": "string"
+    },
+    "author": {
+      "type": "string"
+    },
+    "msg": {
+      "type": "string"
+    }
+  },
+  "required": ["appName", "envName", "pluginName"],
+  "additionalProperties": false
+}

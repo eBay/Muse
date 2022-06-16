@@ -1,6 +1,15 @@
 const { asyncInvoke, jsonByYamlBuff, batchAsync, makeRetryAble } = require('../utils');
 const { registry } = require('../storage');
 
+/**
+ * @module muse-core/am/getApps
+ */
+
+/**
+ * @description get metadata of all apps
+ * @param {*} [params] args to get all apps
+ * @returns {object[]} list of app object
+ */
 module.exports = async (params) => {
   const ctx = {};
   await asyncInvoke('museCore.am.beforeGetApps', ctx, params);
