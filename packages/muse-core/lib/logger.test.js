@@ -6,7 +6,6 @@ const mockObj = {
 };
 class TestTransport extends Transport {
   log(info, callback) {
-    console.log('log called', info);
     mockObj.log(info);
     callback();
   }
@@ -17,7 +16,6 @@ const testLoggerPlugin = {
   museCore: {
     logger: {
       getTransports: () => {
-        console.log('get transport');
         return new TestTransport();
       },
     },

@@ -229,6 +229,9 @@ importers:
       path-to-regexp: ^6.2.1
       schema-utils: ^4.0.0
       semver: ^7.3.7
+      triple-beam: ^1.3.0
+      winston: ^3.7.2
+      winston-transport: ^4.5.0
     dependencies:
       cosmiconfig: 7.0.1
       dotenv: 16.0.1
@@ -242,6 +245,9 @@ importers:
       path-to-regexp: 6.2.1
       schema-utils: 4.0.0
       semver: 7.3.7
+      triple-beam: 1.3.0
+      winston: 3.7.2
+      winston-transport: 4.5.0
     devDependencies:
       '@types/jest': 27.5.2
       eslint: 8.17.0
@@ -1632,6 +1638,11 @@ packages:
   /@bcoe/v8-coverage/0.2.3:
     resolution: {integrity: sha1-daLotRy3WKdVPWgEpZMteqznXDk=}
 
+  /@colors/colors/1.5.0:
+    resolution: {integrity: sha1-u1BFecHK6SPmV2pPXaQ9Jfl729k=}
+    engines: {node: '>=0.1.90'}
+    dev: false
+
   /@craco/craco/6.4.3_73kxcndu3bibe3zp5ghrac24bu:
     resolution: {integrity: sha1-eEOVtuurdkBWVQooYElNJMOr1E4=}
     engines: {node: '>=6'}
@@ -1807,6 +1818,14 @@ packages:
   /@ctrl/tinycolor/3.4.1:
     resolution: {integrity: sha1-dbTCeUjIHojM06iQIEe815fzjTI=}
     engines: {node: '>=10'}
+    dev: false
+
+  /@dabh/diagnostics/2.0.3:
+    resolution: {integrity: sha1-f36X7ppyXf/HgI2TZozJhOHcR3o=}
+    dependencies:
+      colorspace: 1.1.4
+      enabled: 2.0.0
+      kuler: 2.0.0
     dev: false
 
   /@ebay/nice-modal-react/1.2.6_ef5jwxihqo6n7gxfmzogljlgcm:
@@ -4086,11 +4105,32 @@ packages:
   /color-name/1.1.4:
     resolution: {integrity: sha1-wqCah6y95pVD3m9j+jmVyCbFNqI=}
 
+  /color-string/1.9.1:
+    resolution: {integrity: sha1-RGf5FG8Db4Vbdk37W/hYK/NCx6Q=}
+    dependencies:
+      color-name: 1.1.4
+      simple-swizzle: 0.2.2
+    dev: false
+
+  /color/3.2.1:
+    resolution: {integrity: sha1-NUTcGYyvRJDD7MmnkLVP6f9F4WQ=}
+    dependencies:
+      color-convert: 1.9.3
+      color-string: 1.9.1
+    dev: false
+
   /colord/2.9.2:
     resolution: {integrity: sha1-JeK6y7qmWZFCLAfqIJ4giUKO/7E=}
 
   /colorette/2.0.17:
     resolution: {integrity: sha1-XdTA0V4phLdDPLSp8urUUGO4DEc=}
+
+  /colorspace/1.1.4:
+    resolution: {integrity: sha1-jUQtEYYVL2BFO/gHDNZus2TlkkM=}
+    dependencies:
+      color: 3.2.1
+      text-hex: 1.0.0
+    dev: false
 
   /combined-stream/1.0.8:
     resolution: {integrity: sha1-w9RaizT9cwYxoRCoolIGgrMdWn8=}
@@ -4877,6 +4917,10 @@ packages:
     resolution: {integrity: sha1-VXBmIEatKeLpFucariYKvf9Pang=}
     engines: {node: '>= 4'}
 
+  /enabled/2.0.0:
+    resolution: {integrity: sha1-+d2S7C1vS7wNXR5k4h1hzUZl58I=}
+    dev: false
+
   /encodeurl/1.0.2:
     resolution: {integrity: sha1-rT/0yG7C0CkyL1oCw6mmBslbP1k=}
     engines: {node: '>= 0.8'}
@@ -5615,6 +5659,10 @@ packages:
     dependencies:
       bser: 2.1.1
 
+  /fecha/4.2.3:
+    resolution: {integrity: sha1-TZzNvGHoYpsln9ymfmWJFEjVaf0=}
+    dev: false
+
   /file-entry-cache/6.0.1:
     resolution: {integrity: sha1-IRst2WWcsDlLBz5zI6w8kz1SICc=}
     engines: {node: ^10.12.0 || >=12.0.0}
@@ -5703,6 +5751,10 @@ packages:
 
   /flatted/3.2.5:
     resolution: {integrity: sha1-dshYT0/IQ9tkcCpr0Eq3qL1mbaM=}
+
+  /fn.name/1.1.0:
+    resolution: {integrity: sha1-JsrYAXlnrqhzG8QpYdBKPVmIrMw=}
+    dev: false
 
   /follow-redirects/1.15.1:
     resolution: {integrity: sha1-DKakUjBsmyduTTEnSD4pV14getU=}
@@ -6346,6 +6398,10 @@ packages:
 
   /is-arrayish/0.2.1:
     resolution: {integrity: sha1-d8mYQFJ6qOyxqLppe4BkWnqSap0=}
+
+  /is-arrayish/0.3.2:
+    resolution: {integrity: sha1-RXSirlb3qyBolvtDHq7tBm/fjwM=}
+    dev: false
 
   /is-bigint/1.0.4:
     resolution: {integrity: sha1-CBR6GHW8KzIAXUHM2Ckd/8ZpHfM=}
@@ -7658,6 +7714,10 @@ packages:
     resolution: {integrity: sha1-0WZXTZAHY5XZljqnqSj6u412r7w=}
     engines: {node: '>= 8'}
 
+  /kuler/2.0.0:
+    resolution: {integrity: sha1-4sVwo4ADiPtEQH6FFTHB1nCwYbM=}
+    dev: false
+
   /language-subtag-registry/0.3.21:
     resolution: {integrity: sha1-BKwhi+pG8EywOQhGAsbanniN1Fo=}
 
@@ -7801,6 +7861,16 @@ packages:
 
   /lodash/4.17.21:
     resolution: {integrity: sha1-Z5WRxWTDv/quhFTPCz3zcMPWkRw=}
+
+  /logform/2.4.0:
+    resolution: {integrity: sha1-ExZRcVoX1Q8JwqLBpST/GkFkvP4=}
+    dependencies:
+      '@colors/colors': 1.5.0
+      fecha: 4.2.3
+      ms: 2.1.3
+      safe-stable-stringify: 2.3.1
+      triple-beam: 1.3.0
+    dev: false
 
   /loose-envify/1.4.0:
     resolution: {integrity: sha1-ce5R+nvkyuwaY4OffmgtgTLTDK8=}
@@ -8193,6 +8263,12 @@ packages:
     resolution: {integrity: sha1-WDsap3WWHUsROsF9nFC6753Xa9E=}
     dependencies:
       wrappy: 1.0.2
+
+  /one-time/1.0.0:
+    resolution: {integrity: sha1-4GvBdK7SFO1Y7e3lc7Qzu/gny0U=}
+    dependencies:
+      fn.name: 1.1.0
+    dev: false
 
   /onetime/5.1.2:
     resolution: {integrity: sha1-0Oluu1awdHbfHdnEgG5SN5hcpF4=}
@@ -10578,6 +10654,11 @@ packages:
   /safe-buffer/5.2.1:
     resolution: {integrity: sha1-Hq+fqb2x/dTsdfWPnNtOa3gn7sY=}
 
+  /safe-stable-stringify/2.3.1:
+    resolution: {integrity: sha1-q2fL4f59QGA8pkHF52XLlC0E/HM=}
+    engines: {node: '>=10'}
+    dev: false
+
   /safer-buffer/2.1.2:
     resolution: {integrity: sha1-RPoWGwGHuVSd2Eu5GAL5vYOFzWo=}
 
@@ -10797,6 +10878,12 @@ packages:
   /signal-exit/3.0.7:
     resolution: {integrity: sha1-qaF2f4r4QVURTqq9c/mSc8j1mtk=}
 
+  /simple-swizzle/0.2.2:
+    resolution: {integrity: sha1-pNprY1/8zMoz9w0Xy5JZLeleVXo=}
+    dependencies:
+      is-arrayish: 0.3.2
+    dev: false
+
   /sisteransi/1.0.5:
     resolution: {integrity: sha1-E01oEpd1ZDfMBcoBNw06elcQde0=}
 
@@ -10906,6 +10993,10 @@ packages:
     resolution: {integrity: sha1-+wDltO6X3mA+B3PqeM6UTYFZbDY=}
     dependencies:
       stackframe: 1.2.1
+    dev: false
+
+  /stack-trace/0.0.10:
+    resolution: {integrity: sha1-VHxws0fo0ytOEI6hoqFZ5f3eGcA=}
     dev: false
 
   /stack-utils/2.0.5:
@@ -11237,6 +11328,10 @@ packages:
       glob: 7.2.3
       minimatch: 3.1.2
 
+  /text-hex/1.0.0:
+    resolution: {integrity: sha1-adycGxdEbueakr9biEu0uRJ1BvU=}
+    dev: false
+
   /text-table/0.2.0:
     resolution: {integrity: sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=}
 
@@ -11297,6 +11392,10 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       punycode: 2.1.1
+
+  /triple-beam/1.3.0:
+    resolution: {integrity: sha1-pZUhTHKY24M57u7gg+TRC9jLjdk=}
+    dev: false
 
   /tryer/1.0.1:
     resolution: {integrity: sha1-8shUBoALmw90yfdGW4HqrSQSUvg=}
@@ -11813,6 +11912,31 @@ packages:
     hasBin: true
     dependencies:
       isexe: 2.0.0
+
+  /winston-transport/4.5.0:
+    resolution: {integrity: sha1-bnsN0E05MXHtXk5JBdsmX3qzhPo=}
+    engines: {node: '>= 6.4.0'}
+    dependencies:
+      logform: 2.4.0
+      readable-stream: 3.6.0
+      triple-beam: 1.3.0
+    dev: false
+
+  /winston/3.7.2:
+    resolution: {integrity: sha1-lbTu3b7JArPbFCSTKsY0+IfEALE=}
+    engines: {node: '>= 12.0.0'}
+    dependencies:
+      '@dabh/diagnostics': 2.0.3
+      async: 3.2.3
+      is-stream: 2.0.1
+      logform: 2.4.0
+      one-time: 1.0.0
+      readable-stream: 3.6.0
+      safe-stable-stringify: 2.3.1
+      stack-trace: 0.0.10
+      triple-beam: 1.3.0
+      winston-transport: 4.5.0
+    dev: false
 
   /word-wrap/1.2.3:
     resolution: {integrity: sha1-YQY29rH3A4kb00dxzLF/uTtHB5w=}
