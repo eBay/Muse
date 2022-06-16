@@ -76,7 +76,18 @@ class S3Storage {
       objectsStream.on('error', (err) => reject(err));
       objectsStream.on('end', () => resolve(objectsList.concat(objectsList)));
     });
-    return objectsList;
+    return objectsList.map((o) => {
+      return {
+        name: o?.name?.replace(this.basePath + key, ''),
+        path: o?.name,
+        type: 'file',
+        size: o?.size,
+        atime: null,
+        mtime: o?.lastModified,
+        birthtime: o?.lastModified,
+        sha: null,
+      };
+    });
   }
 
   async readStream(key) {

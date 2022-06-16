@@ -109,6 +109,33 @@ console.error = (message) => console.log(chalk.red(message));
       break;
     }
 
+    case 'del-release':
+    case 'delete-release': {
+      const [pluginName, version] = args;
+      await muse.pm.deleteRelease({
+        pluginName,
+        version,
+      });
+      console.log(chalk.cyan(`Release deleted: ${pluginName}@${version}`));
+      break;
+    }
+
+    case 'list-released-assets': {
+      const [pluginName, version] = args;
+      const objectList = await muse.pm.getReleaseAssets({
+        pluginName,
+        version,
+      });
+      objectList.forEach((o) => {
+        console.log(
+          chalk.cyan(
+            ` - ${o.name}        ${o.size} bytes        ${new Date(o.mtime).toLocaleString()}`,
+          ),
+        );
+      });
+      break;
+    }
+
     case 'request-deploy': {
       const [appName, envName, pluginName, version] = args;
       await muse.req.createRequest({
