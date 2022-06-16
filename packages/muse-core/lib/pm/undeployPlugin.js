@@ -1,8 +1,31 @@
 const { asyncInvoke, getPluginId, osUsername } = require('../utils');
 const { registry } = require('../storage');
 const { getApp } = require('../am');
+const { validate } = require('schema-utils');
+const schema = require('../schemas/pm/undeployPlugin.json');
+/**
+ * @module muse-core/pm/undeployPlugin
+ */
+/**
+ * @typedef {object} UndeployPluginArgument
+ * @property {string} appName the app name
+ * @property {string} envName the enviroment
+ * @property {string} pluginName the plugin name
+ * @property {string} [author] default to the current os logged in user
+ * @property {string} [msg] action message
+ */
+
+/**
+ * @description Undeploy a plugin from an environment of an app
+ * @param {UndeployPluginArgument} params args to release a plugin
+ * @returns {object}
+ * @property {string} appName
+ * @property {string} envName
+ * @property {string} pluginName
+ */
 
 module.exports = async (params) => {
+  validate(schema, params);
   const ctx = {};
   await asyncInvoke('museCore.pm.beforeUndeployPlugin', ctx, params);
 

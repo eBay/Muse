@@ -5,7 +5,24 @@ const { registry } = require('../storage');
 const getRequest = require('./getRequest');
 const mergeRequest = require('./mergeRequest');
 
-// This also includes the creation of status
+/** This also includes the creation of status */
+/**
+ * @module muse-core/req/updateStatus
+ */
+/**
+ * @typedef {object} UpdateStatusArgument
+ * @property {string} requestId the request Id
+ * @property {string} status the request status
+ * @property {string} [author] default to the current os logged in user
+ * @property {string} [msg] action message
+ */
+
+/**
+ * @description Merge a request
+ * @param {UpdateStatusArgument} params args to merge a request
+ * @returns {request} request object
+ */
+
 module.exports = async (params) => {
   const { requestId, status, author = osUsername, msg } = params;
   const ctx = {};

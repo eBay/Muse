@@ -1,18 +1,24 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "Create App params",
+  "title": "Undeploy Plugin params",
   "type": "object",
   "properties": {
     "appName": {
       "type": "string"
     },
+    "envName": {
+      "type": "string"
+    },
+    "pluginName": {
+      "type": "string"
+    },
     "author": {
       "type": "string"
     },
-    "options": {
-      "type": "object"
+    "msg": {
+      "type": "string"
     }
   },
-  "required": ["appName"],
+  "required": ["appName", "envName", "pluginName"],
   "additionalProperties": false
 }

@@ -1,12 +1,34 @@
-// Create in the plugin registry.
-// A plugin is <registry-storage>/plugins/<plugin-name>.yaml
+/**
+ * Create in the plugin registry.
+ * A plugin is <registry-storage>/plugins/<plugin-name>.yaml
+ */
 
 const yaml = require('js-yaml');
 const { asyncInvoke, getPluginId, osUsername } = require('../utils');
 const { registry } = require('../storage');
 const getPlugin = require('./getPlugin');
+const { validate } = require('schema-utils');
+const schema = require('../schemas/pm/createPlugin.json');
 
+/**
+ * @module muse-core/pm/createPlugin
+ */
+/**
+ * @typedef {object} CreatePluginArgument
+ * @property {string} pluginName the plugin name
+ * @property {string} [type='normal'] the type of plugin
+ * @property {string} [author] default to the current os logged in user
+ * @property {object} [options] optional options
+ * @property {string} [msg] action message
+ */
+
+/**
+ *
+ * @param {CreatePluginArgument} params args to create new plugin
+ * @returns {object} plugin object
+ */
 module.exports = async (params) => {
+  validate(schema, params);
   const ctx = {};
   await asyncInvoke('museCore.pm.beforeCreatePlugin', ctx, params);
 

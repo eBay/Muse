@@ -4,7 +4,23 @@ const { asyncInvoke, osUsername } = require('../utils');
 const { registry } = require('../storage');
 const getRequest = require('./getRequest');
 
-// This also includes the creation of status
+/** This also includes the creation of status */
+/**
+ * @module muse-core/req/deleteStatus
+ */
+/**
+ * @typedef {object} DeleteStatusArgument
+ * @property {string} requestId the request id
+ * @property {string} status the request status
+ * @property {string} [author] default to the current os logged in user
+ * @property {string} [msg] action message
+ */
+
+/**
+ * @description Create a request
+ * @param {DeleteStatusArgument} params args to release a plugin
+ * @returns {request} request object
+ */
 module.exports = async (params) => {
   const { requestId, status, author = osUsername, msg } = params;
   const ctx = {};

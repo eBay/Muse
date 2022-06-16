@@ -1,14 +1,22 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "Create plugin params",
+  "title": "Deploy plugin params",
   "type": "object",
   "properties": {
+    "appName": {
+      "type": "string"
+    },
+    "envName": {
+      "type": "string"
+    },
     "pluginName": {
       "type": "string"
     },
-    "type": {
-      "type": "string",
-      "default": "normal"
+    "version": {
+      "pattern": ""
+    },
+    "changes": {
+      "type": ["null", "object"]
     },
     "author": {
       "type": "string"
@@ -20,6 +28,6 @@
       "type": "string"
     }
   },
-  "required": ["pluginName"],
+  "required": ["appName", "envName", "pluginName"],
   "additionalProperties": false
 }

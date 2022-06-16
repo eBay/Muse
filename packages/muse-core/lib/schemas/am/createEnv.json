@@ -1,9 +1,12 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "Create App params",
+  "title": "Create Env params",
   "type": "object",
   "properties": {
     "appName": {
+      "type": "string"
+    },
+    "envName": {
       "type": "string"
     },
     "author": {
@@ -13,6 +16,6 @@
       "type": "object"
     }
   },
-  "required": ["appName"],
+  "required": ["appName", "envName"],
   "additionalProperties": false
 }

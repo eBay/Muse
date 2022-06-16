@@ -1,18 +1,18 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "Create App params",
+  "title": "Delete plugin pluginName",
   "type": "object",
   "properties": {
-    "appName": {
+    "pluginName": {
       "type": "string"
     },
     "author": {
       "type": "string"
     },
-    "options": {
-      "type": "object"
+    "msg": {
+      "type": "string"
     }
   },
-  "required": ["appName"],
+  "required": ["pluginName"],
   "additionalProperties": false
 }

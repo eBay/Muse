@@ -1,8 +1,32 @@
 const { asyncInvoke, updateJson, osUsername } = require('../utils');
 const { registry } = require('../storage');
 const getApp = require('./getApp');
+const { validate } = require('schema-utils');
+const schema = require('../schemas/am/updateApp.json');
 
+/**
+ * @module muse-core/am/updateApp
+ */
+
+/**
+ * @typedef {object} UpdateAppArgument
+ * @property {string} appName the app name
+ * @property {object} [changes]
+ * @property {null | object | object[]} [changes.set]
+ * @property {null | object | object[]} [changes.unset]
+ * @property {null | object | object[]} [changes.remove]
+ * @property {null | object | object[]} [changes.push]
+ * @property {string} author default to the current os logged in user
+ * @property {string} msg action messsage
+ */
+
+/**
+ *
+ * @param {UpdateAppArgument} params args to update an app
+ * @returns {object} app object
+ */
 module.exports = async (params) => {
+  validate(schema, params);
   const { appName, changes, author = osUsername, msg } = params;
   const ctx = {};
 

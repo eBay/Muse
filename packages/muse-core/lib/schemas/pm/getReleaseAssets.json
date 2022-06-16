@@ -1,18 +1,21 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "Create App params",
+  "title": "Get plugin Release Assets params",
   "type": "object",
   "properties": {
-    "appName": {
+    "pluginName": {
+      "type": "string"
+    },
+    "version": {
       "type": "string"
     },
     "author": {
       "type": "string"
     },
-    "options": {
-      "type": "object"
+    "msg": {
+      "type": "string"
     }
   },
-  "required": ["appName"],
+  "required": ["pluginName", "version"],
   "additionalProperties": false
 }

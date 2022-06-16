@@ -1,9 +1,24 @@
-// A plugin is <registry-storage>/plugins/<plugin-name>.yaml
-
 const { asyncInvoke, getPluginId, osUsername } = require('../utils');
 const { registry } = require('../storage');
+const { validate } = require('schema-utils');
+const schema = require('../schemas/pm/deletePlugin.json');
+/**
+ * @module muse-core/pm/deletePlugin
+ */
+/**
+ * @typedef {object} DeletePluginArgument
+ * @property {string} pluginName the plugin name
+ * @property {string} [author] default to the current os logged in user
+ * @property {string} [msg] action message
+ */
+
+/**
+ *
+ * @param {DeletePluginArgument} params args to delete a plugin
+ */
 
 module.exports = async (params) => {
+  validate(schema, params);
   const ctx = {};
   await asyncInvoke('museCore.pm.beforeDeletePlugin', ctx, params);
 
@@ -21,5 +36,4 @@ module.exports = async (params) => {
     throw err;
   }
   await asyncInvoke('museCore.pm.afterDeletePlugin', ctx, params);
-  return ctx.plugin;
 };
