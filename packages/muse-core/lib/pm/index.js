@@ -10,4 +10,6 @@ module.exports = {
   undeployPlugin: require('./undeployPlugin'),
   releasePlugin: require('./releasePlugin'),
   getReleases: require('./getReleases'),
+  deleteRelease: require('./deleteRelease'),
+  getReleaseAssets: require('./getReleaseAssets'),
 };
