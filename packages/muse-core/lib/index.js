@@ -5,8 +5,8 @@ const fs = require('fs');
 const os = require('os');
 const path = require('path');
 
-const envFile1 = path.join(process.cwd(), '.env.muse');
-const envFile2 = path.join(os.homedir(), '.env.muse');
+const envFile1 = path.join(process.cwd(), '.muse.env');
+const envFile2 = path.join(os.homedir(), '.muse.env');
 
 [envFile1, envFile2].some((envFile) => {
   if (fs.existsSync(envFile)) {
