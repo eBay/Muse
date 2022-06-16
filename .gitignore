@@ -106,10 +106,9 @@ examples/*/build
 
 .DS_Store
 
-muse.config.yaml
-.muserc
-muse.config.js
-~
+
+
+
 
 # JsDoc output
 out
