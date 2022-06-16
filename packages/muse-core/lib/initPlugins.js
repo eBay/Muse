@@ -4,7 +4,9 @@
  * */
 
 const _ = require('lodash');
+const path = require('path');
 const plugin = require('js-plugin');
+const importFrom = require('import-from');
 const config = require('./config');
 const {
   assetsFileStoragePlugin,
@@ -12,14 +14,15 @@ const {
   assetsLruCachePlugin,
 } = require('./plugins');
 
+const configDir = config.filepath ? path.dirname(config.filepath) : process.cwd();
+
 const loadPlugin = (pluginDef) => {
-  console.log('load plugin: ', pluginDef);
   let pluginInstance = null;
   let pluginOptions = null;
   if (_.isString(pluginDef)) {
-    pluginInstance = require(pluginDef);
+    pluginInstance = importFrom(configDir, pluginDef);
   } else if (_.isArray(pluginDef)) {
-    pluginInstance = require(pluginDef[0]);
+    pluginInstance = importFrom(configDir, pluginDef[0]);
     pluginOptions = pluginDef[1];
   } else if (_.isObject(pluginDef)) {
     pluginInstance = pluginDef;
@@ -27,7 +30,6 @@ const loadPlugin = (pluginDef) => {
     throw new Error(`Unknown plugin definition: ${String(pluginDef)}`);
   }
   if (_.isFunction(pluginInstance)) pluginInstance = pluginInstance(pluginOptions);
-  console.log('plugin instance: ', pluginInstance);
   plugin.register(pluginInstance);
 };
 
@@ -35,7 +37,7 @@ config.plugins?.forEach(loadPlugin);
 _.castArray(config.presets)
   .filter(Boolean)
   .forEach((preset) => {
-    let plugins = require(preset);
+    let plugins = importFrom(configDir, preset);
     if (_.isFunction(plugins)) plugins = plugins();
     plugins.forEach(loadPlugin);
   });

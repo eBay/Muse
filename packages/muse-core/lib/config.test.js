@@ -59,4 +59,23 @@ describe('Config basic tests.', () => {
     const muse = require('./');
     expect(muse.config.foo).toBe('bar');
   });
+
+  it('Should evaluate env variables for config object', async () => {
+    const fs = require('fs-extra');
+    fs.ensureDirSync(os.homedir());
+    fs.writeFileSync(
+      path.join(os.homedir(), '.muserc'),
+      yaml.dump({
+        foo: {
+          bar: '$env.TEST_ENV_1',
+        },
+        foo2: '$env.TEST_ENV_2',
+      }),
+    );
+    process.env.TEST_ENV_1 = 'env1';
+    process.env.TEST_ENV_2 = 'env2';
+    const muse = require('./');
+    expect(muse.config.get('foo.bar')).toBe('env1');
+    expect(muse.config.get('foo2')).toBe('env2');
+  });
 });

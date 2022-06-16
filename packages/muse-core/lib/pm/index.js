@@ -18,6 +18,8 @@ module.exports = {
   getDeployedPlugins: require('./getDeployedPlugins'),
   /** @member {function} deployPlugin */
   deployPlugin: require('./deployPlugin'),
+  /** @member {function} checkDependencies */
+  checkDependencies: require('./checkDependencies'),
   /** @member {function} undeployPlugin */
   undeployPlugin: require('./undeployPlugin'),
   /** @member {function} releasePlugin */

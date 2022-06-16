@@ -9,6 +9,7 @@
  */
 const path = require('path');
 const os = require('os');
+// NOTE: IMPORTANT! Use lru-cache@6.0.0 since 7.x has weird issue
 const LruMemoryCache = require('lru-cache');
 const LruDiskCache = require('./LruDiskCache');
 
@@ -20,7 +21,7 @@ class MuseLruCache {
   /**
    * @param {object} params
    * @param {getDataCallback} params.getData the callback to get the data source, it should return undefined if data not exists. Otherwise always return Buffer
-   * @param {number} [params.maxMemorySize=3 * 1000 * 1000] default to 3 Gb
+   * @param {number} [params.maxMemorySize=2 * 1000 * 1000] default to 2 Gb
    * @param {number} [params.memoryTtl=1000 * 3600 * 24 * 10] max 10 days age
    * @param {number} [params.diskTtl=30 * 24 * 3600 * 1000] max 30 days age for disk storage
    * @param {string} [params.diskLocation=path.join(os.homedir(), 'muse-storage/lru-disk-cache')]
@@ -28,10 +29,10 @@ class MuseLruCache {
    *
    */
   constructor({
-    maxMemorySize = 3 * 1000 * 1000,
-    memoryTtl = 1000 * 3600 * 24 * 10,
+    maxMemorySize = 2 * 1000 * 1000 * 1000,
+    memoryTtl = 10 * 24 * 3600 * 1000,
     diskTtl = 30 * 24 * 3600 * 1000,
-    diskLocation = path.join(os.homedir(), 'muse-storage/lru-disk-cache'),
+    diskLocation = path.join(os.homedir(), 'muse-storage/.lru-cache'),
     diskSaveTimestampsInterval = 1000 * 300,
     getData,
   }) {
@@ -40,11 +41,11 @@ class MuseLruCache {
     }
     this._originalGetData = getData;
     this.memoryCache = new LruMemoryCache({
-      maxSize: maxMemorySize,
-      sizeCalculation: (value, key) => {
+      max: maxMemorySize,
+      length: (value, key) => {
         return (value ? value.length : 1) + key.length;
       },
-      ttl: memoryTtl,
+      maxAge: memoryTtl,
       updateAgeOnGet: true,
     });
 
@@ -61,6 +62,7 @@ class MuseLruCache {
   }
   // Return value should be Buffer
   async get(key, force) {
+    // console.log('getting: ', key);
     let data;
     if (force) {
       data = await this.getData(key);
@@ -69,7 +71,7 @@ class MuseLruCache {
       this.diskCache.set(key, data);
     } else {
       if (this.memoryCache.has(key)) {
-        return this.memoryCache.get(key);
+        data = this.memoryCache.get(key);
       } else if (this.diskCache.has(key)) {
         data = this.diskCache.get(key);
         this.memoryCache.set(key, data);

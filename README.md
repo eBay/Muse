@@ -30,37 +30,59 @@ For the full Muse CLI commands, please see: https://github.corp.ebay.com/muse/mu
 > You can check `<home-dir>/muse-storage` to see the new Muse registry and static resource storage.
 
 ## Muse Core Configuration
-Muse engine could be extended by plugins, for example log, monitoring, storage, etc. All muse-core plugins are normal npm modules defined in `muse.config.yaml`.
+Muse engine could be extended by plugins, for example log, monitoring, storage, etc. All muse-core plugins are normal npm modules defined in a Muse config file. Muse uses [cosmiconfig](https://github.com/davidtheclark/cosmiconfig) to load config from a config file with below priority:
+* `.muserc` : yaml format
+* `.muserc.json` : json format
+* `.muserc.yaml` : yaml format
+* `muse.config.yaml` : yaml format
+* `muse.config.js` : a commonjs module to export the config object or a function to return the object
+* `muse.config.json` : json format
 
-Muse core config is designed with a simple structure, that is all configurations are done by plugins excepts two config:
-  - defaultRegistryStorageOptions
-  - defaultAssetsStorageOptions
+It looks for the config file from the current working directory to the parents until the home dir.
 
-The two special ones are used for default FileStorage for registry and assets.
 
-A muse-core plugin is a normal `js-plugin` instance (js object).
+Muse core config is designed with a simple structure: all configurations are done by plugins. So normally the only property in a config file is `plugins`. See below example about all possible plugin definition:
 
-Muse will look for a config file from the current working directory and then homedir of the current os.
+```js
 
-For example:
-```yaml
-plugins:
-  - git-registry-storage-plugin # defined by string
-  - module: perf-plugin/mark-start  # defined by module name and foo
-    options:
-      foo: bar
-  - perf-plugin/log
+// muse.config.js
+module.exports = {
+  plugins: [
+    // 1. Use a string to load the plugin 
+    // A commonjs module to export a plugin object or a function to return the plugin object
+    // It's loaded by require('my-muse-plugin')
+    'my-muse-plugin',
+    // The path could be a relative path to the config file
+    './packages/my-plugin',
+    // The path could be point to a specific module path
+    'my-muse-plugin/lib/somePluing',
+
+    // 2. Load a plugin with options
+    // In this case the plugin module should be a function so that it accepts the options to initialize the plugin object
+    [
+      'my-plugin',
+      { endpoint: 'some.com/api', token: '$env.MY_TOKEN' }
+    ],
+
+    // 3. A plugin object directly. For example: a plugin implement "some.ext.point" extension point
+    // If plugin instance contains some methods then it is not supported in yaml or json format.
+    {
+      name: 'my-plugin-instance',
+      some: {
+        ext: {
+          point: async () => {
+            // do something
+          }
+        }
+      }
+    }
+  ]
+}
 ```
 
-If a plugin is a string, it will load the plugin instance by `require(moduleName)`, for example: `require('perf-plugin/log')`.
+Muse config supports using a environment variable a config value by using `$env.MY_TOKEN`. Whenever a property value starts with `$env.` then it will get the environment variable with the left part of the string as name. For example: `$env.MY_TOKEN` will get the value from `process.env.MY_TOKEN`.
 
-If the loaded plugin instance is a function, it will call the function to return the plugin object by options.
-
-When a plugin is registered, it will call `pluginInstance.initialize(options)`.
-
-When all plugins are loaded to Muse system. `pluginInstance.onReady` is called.
-
-Note, all plugin packages should be available in the current working directory.
+You can use a dotenv file named `.env.muse` under the current working directory or homedir to set the environtment variables.
 
 ## Using Muse CLI
 Muse global command line interface to manage Muse apps/plugins. Implemented by `packages/muse-cli`.
@@ -89,8 +111,11 @@ Muse global command line interface to manage Muse apps/plugins. Implemented by `
 ### Local Dev/Testing Server
 * ✅ `muse serve [app-name] [env-name?] [port?] [--isDev]` Serve the Muse application, `env-name` defaults to `staging`, `port` defaults to `6070`.
 
+### Requests
+* ✅ `muse request [action] [...args]` Request to do something. For example: `muse request deploy-plugin app1 staging muse-react`.
+
 ### Config
-* ❓`muse show-config` Show the current muse config.
+* ✅ `muse show-config` Show the current loaded muse config.
 
 
 ## Using pnpm

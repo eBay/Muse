@@ -1,5 +1,5 @@
 {
-  "name": "muse-plugin-s3-storage",
+  "name": "muse-plugin-react-scripts",
   "version": "1.0.0",
   "description": "",
   "main": "lib/index.js",
@@ -8,10 +8,5 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "lodash": "^4.17.21",
-    "minio": "^7.0.28",
-    "muse-core": "workspace:^1.0.0"
-  }
+  "license": "ISC"
 }
