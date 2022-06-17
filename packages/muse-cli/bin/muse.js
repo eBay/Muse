@@ -17,11 +17,6 @@ const confirmAnswer = (answer) => {
   return answer.length === 0 || answer.toLowerCase() === 'yes' || answer.toLowerCase() === 'y';
 };
 
-const asyncDeployPlugin = async ({ appName, envName, pluginName, version }) => {
-  const res = await muse.pm.deployPlugin({ appName, envName, pluginName, version });
-  console.log(chalk.cyan(`Deploy success: ${pluginName}@${res.version} to ${appName}/${envName}.`));
-};
-
 console.error = (message) => console.log(chalk.red(message));
 (async () => {
   const cmd = process.argv[2];
@@ -117,41 +112,42 @@ console.error = (message) => console.log(chalk.red(message));
     case 'deploy':
     case 'deploy-plugin': {
       const [appName, envName, pluginName, version] = args;
-      muse.pm
-        .checkDependencies({ appName, envName, pluginName, version })
-        .then((dependencyCheckResult) => {
-          if (
-            dependencyCheckResult &&
-            (Object.keys(dependencyCheckResult['dev']).length > 0 ||
-              Object.keys(dependencyCheckResult['dist']).length > 0)
-          ) {
-            // missing dependencies detected on either dev/dist, confirm with user to continue
-            const rl = readline.createInterface({ input, output });
-            console.log(
-              'WARNING: Detected non-satisfied module dependencies from the following library plugins:',
-            );
-            for (const library of Object.keys(dependencyCheckResult['dev'])) {
-              console.log(
-                `(dev) ${library} => [${dependencyCheckResult['dev'][library]}] not found`,
-              );
-            }
-            for (const library of Object.keys(dependencyCheckResult['dist'])) {
-              console.log(
-                `(dist) ${library} => [${dependencyCheckResult['dist'][library]}] not found`,
-              );
-            }
-            console.log(os.EOL);
-            rl.question('Do you want to continue (yes/no) [Y] ? ', (answer) => {
-              if (confirmAnswer(answer)) {
-                asyncDeployPlugin({ appName, envName, pluginName, version });
-              }
-              rl.close();
-            });
-          } else {
-            // no missing dependencies, deploy right away
-            asyncDeployPlugin({ appName, envName, pluginName, version });
-          }
-        });
+      const dependencyCheckResult = await muse.pm.checkDependencies({
+        appName,
+        envName,
+        pluginName,
+        version,
+      });
+
+      if (
+        dependencyCheckResult &&
+        (Object.keys(dependencyCheckResult['dev']).length > 0 ||
+          Object.keys(dependencyCheckResult['dist']).length > 0)
+      ) {
+        // missing dependencies detected on either dev/dist, confirm with user to continue
+        const rl = readline.createInterface({ input, output });
+        console.log(
+          'WARNING: Detected non-satisfied module dependencies from the following library plugins:',
+        );
+        for (const library of Object.keys(dependencyCheckResult['dev'])) {
+          console.log(`(dev) ${library} => [${dependencyCheckResult['dev'][library]}] not found`);
+        }
+        for (const library of Object.keys(dependencyCheckResult['dist'])) {
+          console.log(`(dist) ${library} => [${dependencyCheckResult['dist'][library]}] not found`);
+        }
+        console.log(os.EOL);
+        const answer = await rl.question('Do you want to continue (yes/no) [Y] ? ');
+        rl.close();
+        if (!confirmAnswer(answer)) {
+          break;
+        }
+      }
+      // no missing dependencies or confirm deploy, deploy right away
+      const res = await muse.pm.deployPlugin({ appName, envName, pluginName, version });
+      console.log(
+        chalk.cyan(`Deploy success: ${pluginName}@${res.version} to ${appName}/${envName}.`),
+      );
+
       break;
     }
     case 'undeploy':
