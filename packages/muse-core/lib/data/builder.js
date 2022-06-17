@@ -9,7 +9,7 @@ const builder = {
   refresh: async (name) => {},
   get: async (key) => {
     for (const builder of builders) {
-      const m = builder.match(key.replace(/\./g, '/'));
+      const m = builder.match(key);
       if (m) {
         return await builder.get(m.params);
       }
@@ -45,7 +45,7 @@ const builder = {
     }
     builders.push({
       ...builder,
-      match: match(builder.key.replace(/\./g, '/')),
+      match: (k) => match(builder.key.replace(/\./g, '/'))(k.replace(/\./g, '/')),
     });
   },
 };

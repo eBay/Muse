@@ -14,8 +14,8 @@ const config = require('./config');
 //   silly: 6,
 // }
 
-function getTimestamp(d) {
-  const now = new Date(d);
+function getTimestamp(date) {
+  const now = new Date(date);
   const m = _.padStart(now.getMinutes(), 2, '0');
   const s = _.padStart(now.getSeconds(), 2, '0');
   const mms = _.padStart(now.getMilliseconds(), 3, '0');
