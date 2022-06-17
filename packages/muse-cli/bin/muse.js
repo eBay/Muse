@@ -124,7 +124,7 @@ console.error = (message) => console.log(chalk.red(message));
         (Object.keys(dependencyCheckResult['dev']).length > 0 ||
           Object.keys(dependencyCheckResult['dist']).length > 0)
       ) {
-        // missing dependencies detected on either dev/dist, confirm with user to continue
+        // // missing dependencies detected on either dev/dist, confirm with user to continue
         const rl = readline.createInterface({ input, output });
         console.log(
           'WARNING: Detected non-satisfied module dependencies from the following library plugins:',
@@ -136,7 +136,9 @@ console.error = (message) => console.log(chalk.red(message));
           console.log(`(dist) ${library} => [${dependencyCheckResult['dist'][library]}] not found`);
         }
         console.log(os.EOL);
-        const answer = await rl.question('Do you want to continue (yes/no) [Y] ? ');
+        const answer = await new Promise((resolve) =>
+          rl.question('Do you want to continue (yes/no) [Y] ? ', resolve),
+        );
         rl.close();
         if (!confirmAnswer(answer)) {
           break;
