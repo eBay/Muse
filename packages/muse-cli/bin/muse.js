@@ -63,6 +63,7 @@ console.error = (message) => console.log(chalk.red(message));
       break;
     }
 
+    case 'del-env':
     case 'delete-env': {
       // should we prompt user to confirm before deleting ?
       const [appName, envName] = args;
@@ -183,14 +184,61 @@ console.error = (message) => console.log(chalk.red(message));
       break;
     }
 
+    case 'unreg-release':
+    case 'unregister-release': {
+      const [pluginName, version] = args;
+
+      const rl = readline.createInterface({ input, output });
+      rl.question(
+        'ATTENTION !! This operation cannot be undone. Confirm unregister plugin release (yes/no) [Y] ? ',
+        async (answer) => {
+          if (confirmAnswer(answer)) {
+            await muse.pm.deleteRelease({
+              pluginName,
+              version,
+              delAssets: false,
+            });
+            console.log(
+              chalk.cyan(
+                `Plugin release version unregistered (assets still available): ${pluginName}@${version}`,
+              ),
+            );
+          } else {
+            console.log(chalk.cyan(`Plugin release version un-registration ABORTED.`));
+          }
+          rl.close();
+        },
+      );
+
+      break;
+    }
+
     case 'del-release':
     case 'delete-release': {
       const [pluginName, version] = args;
-      await muse.pm.deleteRelease({
-        pluginName,
-        version,
-      });
-      console.log(chalk.cyan(`Release deleted: ${pluginName}@${version}`));
+
+      const rl = readline.createInterface({ input, output });
+      rl.question(
+        'ATTENTION !! This operation cannot be undone. Confirm delete plugin release (yes/no) [Y] ? ',
+        async (answer) => {
+          if (confirmAnswer(answer)) {
+            await muse.pm.deleteRelease({
+              pluginName,
+              version,
+              delAssets: true,
+            });
+            console.log(
+              chalk.cyan(
+                `Plugin release version deleted (including corresponding assets): ${pluginName}@${version}`,
+              ),
+            );
+          } else {
+            console.log(chalk.cyan(`Plugin release version deletion ABORTED.`));
+          }
+          rl.close();
+        },
+      );
+
       break;
     }
 
