@@ -2,6 +2,7 @@ const { getApp } = require('../../am');
 const { getPlugins, getDeployedPlugins } = require('../../pm');
 
 module.exports = {
+  name: 'muse.app',
   key: 'muse.app.:appName',
   get: async ({ appName }) => {
     const app = await getApp(appName);
