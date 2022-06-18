@@ -255,7 +255,7 @@ console.error = (message) => console.log(chalk.red(message));
       });
       break;
     }
-    case 'config': {
+    case 'show-config': {
       const filepath = muse.config?.filepath;
       if (!filepath) {
         console.log(chalk.cyan('No config.'));
@@ -280,9 +280,29 @@ console.error = (message) => console.log(chalk.red(message));
       break;
     }
 
+    case 'refresh-data-cache': {
+      const [key] = args;
+      if (!key) throw new Error('Data key is required.');
+      await muse.data.refreshCache(key);
+      break;
+    }
+
+    case 'show-data': {
+      const [key] = args;
+      if (!key) throw new Error('Data key is required.');
+      const data = await muse.data.get(key);
+      if (data) {
+        console.log(chalk.cyan(`${key}:\r\n${JSON.stringify(data, null, 2)}`));
+      } else {
+        console.log(chalk.yellow('Not found: ' + key));
+      }
+
+      break;
+    }
+
     case 'serve': {
       const [appName, envName = 'staging', port = 6070] = args;
-      if (!appName) throw new Error('App anem is required.');
+      if (!appName) throw new Error('App name is required.');
       require('muse-simple-server/lib/server')({ appName, envName, port });
       break;
     }

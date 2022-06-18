@@ -7,7 +7,7 @@ const builders = [];
 
 const builder = {
   // refresh cache is only useful when there's cache provider
-  refreshCache: async (name) => {},
+  // refreshCache: async (name) => {},
   get: async (key) => {
     for (const builder of builders) {
       const m = builder.match(key);

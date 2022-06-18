@@ -12,6 +12,7 @@ const {
   assetsFileStoragePlugin,
   registryFileStoragePlugin,
   assetsLruCachePlugin,
+  dataCachePlugin,
 } = require('./plugins');
 
 const configDir = config.filepath ? path.dirname(config.filepath) : process.cwd();
@@ -71,6 +72,10 @@ if (registryStorageProviders.length === 0) {
 
 if (config.get('assetStorageCache') !== false) {
   plugin.register(assetsLruCachePlugin());
+}
+
+if (config.get('defaultDataCachePlugin')) {
+  plugin.register(dataCachePlugin());
 }
 
 // When all plugins are loaded, invoke onReady on each plugin

@@ -1,4 +1,5 @@
 module.exports = {
+  defaultDataCachePlugin: true,
   plugins: [
     // [
     //   './packages/muse-plugin-git-storage',
