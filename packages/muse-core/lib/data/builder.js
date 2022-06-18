@@ -6,12 +6,15 @@ const logger = require('../logger').createLogger('muse.data.builder');
 const builders = [];
 
 const builder = {
-  refresh: async (name) => {},
+  // refresh cache is only useful when there's cache provider
+  refreshCache: async (name) => {},
   get: async (key) => {
     for (const builder of builders) {
       const m = builder.match(key);
       if (m) {
         return await builder.get(m.params);
+      } else {
+        logger.error(`No builder for key ${key}.`);
       }
     }
     return null;
@@ -56,13 +59,5 @@ _.flatten(_.invoke('museCore.data.getBuilders'))
   .forEach((b) => {
     builder.register(b);
   });
-
-// cache.registerBuilder(require('./builders/muse.plugin-releases'));
-// cache.registerBuilder(require('./builders/muse.plugins.latest-releases'));
-
-// const extBuilders = plugin.invoke('!museCore.cache.builder').filter(Boolean);
-// extBuilders.forEach((builder) => {
-//   cache.registerBuilder(builder.name, builder);
-// });
 
 module.exports = builder;
