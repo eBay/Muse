@@ -3,6 +3,7 @@ const Minio = require('minio');
 const httpsAgent = new (require('https').Agent)({
   rejectUnauthorized: false,
 });
+const logger = require('muse-core').logger.createLogger('s3-storage-plugin.S2Storage');
 
 function streamToBuffer(stream) {
   const chunks = [];
@@ -40,6 +41,7 @@ class S3Storage {
   }
 
   async get(key) {
+    logger.verbose(`Getting item: ${key}...`);
     try {
       const s = await this.s3Client.getObject(this.bucketName, this.basePath + key);
       if (!s) return null;
@@ -51,11 +53,13 @@ class S3Storage {
   }
 
   async set(key, value) {
+    logger.verbose(`Setting data: ${key}...`);
     const readStream = bufferToStream(value);
     await this.s3Client.putObject(this.bucketName, this.basePath + key, readStream);
   }
 
   async del(key) {
+    logger.verbose(`Deleting data: ${key}...`);
     try {
       const objectsList = await this.list(key);
       await this.s3Client.removeObjects(this.bucketName, objectsList);
@@ -65,6 +69,7 @@ class S3Storage {
   }
 
   async list(key) {
+    logger.verbose(`Listing data: ${key}`);
     let objectsList = [];
     const objectsStream = await this.s3Client.listObjects(
       this.bucketName,

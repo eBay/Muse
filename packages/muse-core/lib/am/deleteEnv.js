@@ -4,6 +4,7 @@ const getApp = require('./getApp');
 const updateApp = require('./updateApp');
 const { validate } = require('schema-utils');
 const schema = require('../schemas/am/deleteEnv.json');
+const logger = require('../logger').createLogger('muse.am.deleteEnv');
 
 /**
  * @module muse-core/am/deleteEnv
@@ -24,6 +25,7 @@ const schema = require('../schemas/am/deleteEnv.json');
 module.exports = async (params) => {
   validate(schema, params);
   const { appName, envName, author = osUsername } = params;
+  logger.info(`Deleting env ${appName}/${envName}...`);
   const ctx = {};
 
   await asyncInvoke('museCore.am.beforeDeleteEnv', ctx, params);
@@ -51,8 +53,10 @@ module.exports = async (params) => {
   } catch (err) {
     ctx.error = err;
     await asyncInvoke('museCore.am.failedDeleteEnv', ctx, params);
-    throw err;
+    logger.fatalError(err);
+    return;
   }
   await asyncInvoke('museCore.am.afterDeleteEnv', ctx, params);
+  logger.info(`Delete env success: ${appName}/${envName}.`);
   return ctx.app;
 };
