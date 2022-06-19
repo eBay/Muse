@@ -25,11 +25,11 @@ function bufferToStream(binary) {
 }
 
 class S3Storage {
-  constructor({ accessKey, secretKey, endPoint, bucketName, basePath }) {
+  constructor({ accessKey, secretKey, endpoint, bucketName, basePath }) {
     this.bucketName = bucketName;
     this.basePath = basePath || '';
     this.s3Client = new Minio.Client({
-      endPoint,
+      endPoint: endpoint,
       accessKey,
       secretKey,
     });

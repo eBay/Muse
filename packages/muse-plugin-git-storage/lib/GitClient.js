@@ -3,17 +3,17 @@ const _ = require('lodash');
 
 module.exports = class GitClient {
   constructor(options) {
-    if (!options.url) throw new Error('No github url specified for GitStorage.');
+    if (!options.endpoint) throw new Error('No github endpoint specified for GitStorage.');
     if (!options.token) throw new Error('No PAT(Personal access tokens) specified for GitStorage.');
-    this.url = options.url;
+    this.endpoint = options.endpoint;
     this.token = options.token;
-    this.axiosGit = this.init();
+    this.axiosGit = this.initGitClient();
     this.commitFile = this.commitFile.bind(this);
   }
 
-  init() {
+  initGitClient() {
     return axios.create({
-      baseURL: `${this.url}/api/v3`,
+      baseURL: this.endpoint, //`${this.endpoint}/api/v3`,
       timeout: 60000,
       maxContentLength: 100000000,
       maxBodyLength: 1000000000,
@@ -22,6 +22,14 @@ module.exports = class GitClient {
         Accept: 'application/vnd.github.v3+json',
       },
     });
+  }
+
+  async getCommitterId() {
+    if (!this.committerId) {
+      this.committerId = (await this.axiosGit.get('/user')).data.login;
+    }
+
+    return this.committerId;
   }
 
   async commitFile(params) {
@@ -36,9 +44,11 @@ module.exports = class GitClient {
     const repo = `${organizationName}/${projectName}`;
     const authorId = params.author;
 
+    const committerId = await this.getCommitterId();
+
     const committer = {
-      name: authorId,
-      email: `${authorId}@ebay.com`,
+      name: committerId,
+      email: `${committerId}@ebay.com`,
       date: new Date().toISOString(),
     };
 
@@ -100,9 +110,10 @@ module.exports = class GitClient {
     const { organizationName, projectName, keyPath, branch = 'main', file, message } = params;
     const repo = `${organizationName}/${projectName}`;
     const authorId = params.author;
+    const committerId = await this.getCommitterId();
     const committer = {
-      name: authorId,
-      email: `${authorId}@ebay.com`,
+      name: committerId,
+      email: `${committerId}@ebay.com`,
       date: new Date().toISOString(),
     };
 

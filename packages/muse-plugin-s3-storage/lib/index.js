@@ -3,7 +3,7 @@ const S3Storage = require('./S3Storage');
 
 module.exports = ({
   pluginName,
-  endPoint,
+  endpoint,
   bucketName,
   accessKey,
   secretKey,
@@ -13,6 +13,6 @@ module.exports = ({
   const obj = {
     name: 'muse-plugin-s3-storage' || pluginName,
   };
-  _.set(obj, extPoint, new S3Storage({ accessKey, secretKey, endPoint, basePath, bucketName }));
+  _.set(obj, extPoint, new S3Storage({ accessKey, secretKey, endpoint, basePath, bucketName }));
   return obj;
 };

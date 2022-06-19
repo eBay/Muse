@@ -303,9 +303,11 @@ importers:
     specifiers:
       axios: ^0.27.2
       lodash: ^4.17.21
+      muse-core: workspace:^1.0.0
     dependencies:
       axios: 0.27.2
       lodash: 4.17.21
+      muse-core: link:../muse-core
 
   packages/muse-plugin-react-scripts:
     specifiers: {}
