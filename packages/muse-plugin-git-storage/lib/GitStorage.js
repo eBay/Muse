@@ -1,6 +1,6 @@
 const path = require('path');
 const os = require('os');
-// const logger = require('muse-core').logger.createLogger('git-storage-plugin.GitStorage');
+const logger = require('muse-core').logger.createLogger('git-storage-plugin.GitStorage');
 const GitClient = require('./GitClient');
 
 class GitStorage {
@@ -61,7 +61,7 @@ class GitStorage {
    * @returns Buffer
    */
   async get(keyPath) {
-    // logger.verbose(`Get value: ${keyPath}`);
+    logger.verbose(`Get value: ${keyPath}`);
     const data = await this.gitClient.getRepoContent({
       keyPath,
       organizationName: this.organizationName,
@@ -74,8 +74,7 @@ class GitStorage {
   }
 
   async del(keyPath, msg) {
-    // logger.verbose(`Delete value: ${keyPath}`);
-
+    logger.verbose(`Delete value: ${keyPath}`);
     try {
       const file = await this.gitClient.getRepoContent({
         organizationName: this.organizationName,
@@ -101,8 +100,7 @@ class GitStorage {
 
   // list items in a container
   async list(keyPath) {
-    // logger.verbose(`List dir: ${keyPath}`);
-
+    logger.verbose(`List dir: ${keyPath}`);
     const files = await this.gitClient.getRepoContent({
       organizationName: this.organizationName,
       projectName: this.projectName,

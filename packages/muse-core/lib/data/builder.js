@@ -21,11 +21,11 @@ const builder = {
   },
   register: (builder) => {
     // TODO: use json schema
-    if (!builder.name) {
-      const err = new Error(`Every builder should have a name.`);
-      logger.error(err.message);
-      throw err;
-    }
+    // if (!builder.name) {
+    //   const err = new Error(`Every builder should have a name.`);
+    //   logger.error(err.message);
+    //   throw err;
+    // }
     if (!builder.key) {
       const err = new Error(`Every builder should have a key: ${builder.name}.`);
       logger.error(err.message);
@@ -36,11 +36,11 @@ const builder = {
       logger.error(err.message);
       throw err;
     }
-    if (builders.some((b) => b.name === builder.name)) {
-      const err = new Error(`Cache builder with name ${builder.name} already exsits.`);
-      logger.error(err.message);
-      throw err;
-    }
+    // if (builders.some((b) => b.name === builder.name)) {
+    //   const err = new Error(`Cache builder with name ${builder.name} already exsits.`);
+    //   logger.error(err.message);
+    //   throw err;
+    // }
     if (builders.some((b) => b.key === builder.key)) {
       const err = new Error(`Cache builder with key ${builder.key} already exsits.`);
       logger.error(err.message);

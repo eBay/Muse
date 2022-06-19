@@ -1,5 +1,5 @@
 const axios = require('axios');
-const _ = require('lodash');
+const logger = require('muse-core').logger.createLogger('git-storage-plugin.GitClient');
 
 module.exports = class GitClient {
   constructor(options) {
@@ -33,6 +33,7 @@ module.exports = class GitClient {
   }
 
   async commitFile(params) {
+    logger.silly(`Committing file: ${params.keyPath}`);
     const {
       branch = 'main',
       message,
@@ -90,8 +91,10 @@ module.exports = class GitClient {
   }
 
   async getRepoContent(params) {
+    logger.silly(`Get content: ${params.keyPath}`);
     const { organizationName, projectName, keyPath, branch = 'main' } = params || {};
     const repo = `${organizationName}/${projectName}`;
+
     try {
       return (
         await this.axiosGit.get(`/repos/${repo}/contents${keyPath}`, {
@@ -107,6 +110,7 @@ module.exports = class GitClient {
   }
 
   async deleteFile(params) {
+    logger.silly(`Delete file: ${params.keyPath}`);
     const { organizationName, projectName, keyPath, branch = 'main', file, message } = params;
     const repo = `${organizationName}/${projectName}`;
     const authorId = params.author;

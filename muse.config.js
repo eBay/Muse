@@ -1,5 +1,5 @@
 module.exports = {
-  logLevel: 'verbose',
+  logLevel: 'silly',
   plugins: [
     [
       './packages/muse-plugin-git-storage',

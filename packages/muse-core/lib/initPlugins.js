@@ -80,3 +80,4 @@ if (config.get('defaultDataCachePlugin')) {
 
 // When all plugins are loaded, invoke onReady on each plugin
 plugin.invoke('onReady', config);
+config.__pluginLoaded = true;

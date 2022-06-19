@@ -176,7 +176,7 @@ console.error = (message) => console.log(chalk.red(message));
       const r = await muse.pm.releasePlugin({
         pluginName,
         version,
-        buildDir: fs.existsSync(buildDir) ? buildDir : null,
+        buildDir: fs.existsSync(buildDir) ? buildDir : undefined,
       });
       console.log(chalk.cyan(`Plugin released ${r.pluginName}@${r.version}`));
       break;

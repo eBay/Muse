@@ -5,7 +5,7 @@ const getReleases = require('./getReleases');
 const getPlugin = require('./getPlugin');
 const { validate } = require('schema-utils');
 const schema = require('../schemas/pm/releasePlugin.json');
-
+const logger = require('../logger').createLogger('muse.pm.releasePlugin');
 /**
  * @module muse-core/pm/releasePlugin
  */
@@ -33,21 +33,23 @@ module.exports = async (params) => {
 
   // Check if plugin exists
   const plugin = await getPlugin(pluginName);
-  if (!plugin) throw new Error(`Plugin ${pluginName} doesn't exist.`);
+  if (!plugin) logger.fatalError(new Error(`Plugin ${pluginName} doesn't exist.`));
 
   // Check if release exists
   const releases = await getReleases(pluginName);
 
   if (releases?.find((r) => r.version === version)) {
-    throw new Error(`Version ${version} already exists for plugin ${pluginName}`);
+    logger.fatalError(new Error(`Version ${version} already exists for plugin ${pluginName}`));
   }
 
   const pid = getPluginId(pluginName);
   await asyncInvoke('museCore.pm.beforeReleasePlugin', ctx, params);
+  const newVersion = genNewVersion(releases?.[0]?.version, version);
+  logger.info(`Creating release ${pluginName}@${newVersion}...`);
 
   ctx.release = {
     pluginName,
-    version: genNewVersion(releases?.[0]?.version, version),
+    version: newVersion,
     branch: '',
     sha: '',
     createdAt: new Date().toJSON(),
@@ -86,5 +88,7 @@ module.exports = async (params) => {
 
   // await asyncInvoke('museCore.pm.releasePlugin', ctx, params);
   await asyncInvoke('museCore.pm.afterReleasePlugin', ctx, params);
+  logger.info(`Succeeded to create release ${pluginName}@${ctx.release.version}.`);
+
   return ctx.release;
 };
