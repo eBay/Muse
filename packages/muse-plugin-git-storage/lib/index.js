@@ -6,7 +6,7 @@ module.exports = ({
   extPoint,
   endpoint,
   repo,
-  // url,
+  branch,
   // organizationName,
   // projectName,
   token,
@@ -14,12 +14,14 @@ module.exports = ({
   const obj = {
     name: 'muse-plugin-git-storage' || pluginName,
   };
+
   _.set(
     obj,
     extPoint,
     new GitStorage({
       endpoint,
       repo,
+      branch,
       token,
     }),
   );

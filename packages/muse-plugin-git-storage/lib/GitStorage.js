@@ -23,6 +23,7 @@ class GitStorage {
     this.gitClient = new GitClient({
       endpoint: this.endpoint,
       token: this.token,
+      branch: options.branch || 'main',
     });
   }
 
@@ -88,7 +89,6 @@ class GitStorage {
       return await this.gitClient.deleteFile({
         organizationName: this.organizationName,
         projectName: this.projectName,
-        branch: 'main',
         keyPath,
         file,
         message: msg,

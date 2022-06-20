@@ -9,6 +9,7 @@ module.exports = class GitClient {
     this.token = options.token;
     this.axiosGit = this.initGitClient();
     this.commitFile = this.commitFile.bind(this);
+    this.branch = options.branch || 'main';
   }
 
   initGitClient() {
@@ -35,7 +36,7 @@ module.exports = class GitClient {
   async commitFile(params) {
     logger.silly(`Committing file: ${params.keyPath}`);
     const {
-      branch = 'main',
+      branch = this.branch,
       message,
       keyPath,
       value: content,
@@ -92,7 +93,7 @@ module.exports = class GitClient {
 
   async getRepoContent(params) {
     logger.silly(`Get content: ${params.keyPath}`);
-    const { organizationName, projectName, keyPath, branch = 'main' } = params || {};
+    const { organizationName, projectName, branch = this.branch, keyPath } = params || {};
     const repo = `${organizationName}/${projectName}`;
 
     try {
@@ -111,7 +112,7 @@ module.exports = class GitClient {
 
   async deleteFile(params) {
     logger.silly(`Delete file: ${params.keyPath}`);
-    const { organizationName, projectName, keyPath, branch = 'main', file, message } = params;
+    const { organizationName, projectName, keyPath, branch = this.branch, file, message } = params;
     const repo = `${organizationName}/${projectName}`;
     const authorId = params.author;
     const committerId = await this.getCommitterId();
