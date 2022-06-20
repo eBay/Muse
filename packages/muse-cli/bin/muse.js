@@ -17,11 +17,6 @@ const confirmAnswer = (answer) => {
   return answer.length === 0 || answer.toLowerCase() === 'yes' || answer.toLowerCase() === 'y';
 };
 
-const asyncDeployPlugin = async ({ appName, envName, pluginName, version }) => {
-  const res = await muse.pm.deployPlugin({ appName, envName, pluginName, version });
-  console.log(chalk.cyan(`Deploy success: ${pluginName}@${res.version} to ${appName}/${envName}.`));
-};
-
 console.error = (message) => console.log(chalk.red(message));
 (async () => {
   const cmd = process.argv[2];
@@ -68,18 +63,19 @@ console.error = (message) => console.log(chalk.red(message));
       // should we prompt user to confirm before deleting ?
       const [appName, envName] = args;
       const rl = readline.createInterface({ input, output });
-      rl.question(
-        'ATTENTION !! This operation cannot be undone. Confirm environment deletion (yes/no) [Y] ? ',
-        async (answer) => {
-          if (confirmAnswer(answer)) {
-            await muse.am.deleteEnv({ appName, envName });
-            console.log(chalk.cyan(`Environment: ${appName}/${envName} deleted successfully.`));
-          } else {
-            console.log(chalk.cyan(`Environment: ${appName}/${envName} deletion ABORTED.`));
-          }
-          rl.close();
-        },
+      const answer = await new Promise((resolve) =>
+        rl.question(
+          'ATTENTION !! This operation cannot be undone. Confirm environment deletion (yes/no) [Y] ? ',
+          resolve,
+        ),
       );
+      rl.close();
+      if (confirmAnswer(answer)) {
+        await muse.am.deleteEnv({ appName, envName });
+        console.log(chalk.cyan(`Environment: ${appName}/${envName} deleted successfully.`));
+      } else {
+        console.log(chalk.cyan(`Command ABORTED.`));
+      }
       break;
     }
 
@@ -92,7 +88,20 @@ console.error = (message) => console.log(chalk.red(message));
     case 'del-plugin':
     case 'delete-plugin': {
       const [pluginName] = args;
-      await muse.pm.deletePlugin({ pluginName });
+      const rl = readline.createInterface({ input, output });
+      const answer = await new Promise((resolve) =>
+        rl.question(
+          'ATTENTION !! This operation cannot be undone. Confirm plugin deletion (yes/no) [Y] ? ',
+          resolve,
+        ),
+      );
+      rl.close();
+      if (confirmAnswer(answer)) {
+        await muse.pm.deletePlugin({ pluginName });
+        console.log(chalk.cyan(`Plugin: ${pluginName} deleted successfully.`));
+      } else {
+        console.log(chalk.cyan(`Command ABORTED.`));
+      }
       break;
     }
 
@@ -117,49 +126,65 @@ console.error = (message) => console.log(chalk.red(message));
     case 'deploy':
     case 'deploy-plugin': {
       const [appName, envName, pluginName, version] = args;
-      muse.pm
-        .checkDependencies({ appName, envName, pluginName, version })
-        .then((dependencyCheckResult) => {
-          if (
-            dependencyCheckResult &&
-            (Object.keys(dependencyCheckResult['dev']).length > 0 ||
-              Object.keys(dependencyCheckResult['dist']).length > 0)
-          ) {
-            // missing dependencies detected on either dev/dist, confirm with user to continue
-            const rl = readline.createInterface({ input, output });
-            console.log(
-              'WARNING: Detected non-satisfied module dependencies from the following library plugins:',
-            );
-            for (const library of Object.keys(dependencyCheckResult['dev'])) {
-              console.log(
-                `(dev) ${library} => [${dependencyCheckResult['dev'][library]}] not found`,
-              );
-            }
-            for (const library of Object.keys(dependencyCheckResult['dist'])) {
-              console.log(
-                `(dist) ${library} => [${dependencyCheckResult['dist'][library]}] not found`,
-              );
-            }
-            console.log(os.EOL);
-            rl.question('Do you want to continue (yes/no) [Y] ? ', (answer) => {
-              if (confirmAnswer(answer)) {
-                asyncDeployPlugin({ appName, envName, pluginName, version });
-              }
-              rl.close();
-            });
-          } else {
-            // no missing dependencies, deploy right away
-            asyncDeployPlugin({ appName, envName, pluginName, version });
-          }
-        });
+      const dependencyCheckResult = await muse.pm.checkDependencies({
+        appName,
+        envName,
+        pluginName,
+        version,
+      });
+
+      if (
+        dependencyCheckResult &&
+        (Object.keys(dependencyCheckResult['dev']).length > 0 ||
+          Object.keys(dependencyCheckResult['dist']).length > 0)
+      ) {
+        // missing dependencies detected on either dev/dist, confirm with user to continue
+        const rl = readline.createInterface({ input, output });
+        console.log(
+          'WARNING: Detected non-satisfied module dependencies from the following library plugins:',
+        );
+        for (const library of Object.keys(dependencyCheckResult['dev'])) {
+          console.log(`(dev) ${library} => [${dependencyCheckResult['dev'][library]}] not found`);
+        }
+        for (const library of Object.keys(dependencyCheckResult['dist'])) {
+          console.log(`(dist) ${library} => [${dependencyCheckResult['dist'][library]}] not found`);
+        }
+        console.log(os.EOL);
+        const answer = await new Promise((resolve) =>
+          rl.question('Do you want to continue (yes/no) [Y] ? ', resolve),
+        );
+        rl.close();
+        if (!confirmAnswer(answer)) {
+          console.log(chalk.cyan(`Command ABORTED.`));
+          break;
+        }
+      }
+      // no missing dependencies or confirm deploy, deploy right away
+      const res = await muse.pm.deployPlugin({ appName, envName, pluginName, version });
+      console.log(
+        chalk.cyan(`Deploy success: ${pluginName}@${res.version} to ${appName}/${envName}.`),
+      );
+
       break;
     }
     case 'undeploy':
     case 'undeploy-plugin': {
       const [appName, envName, pluginName] = args;
-      await muse.pm.undeployPlugin({ appName, envName, pluginName });
-      console.log(chalk.cyan(`Undeploy success: ${pluginName} from ${appName}/${envName}.`));
 
+      const rl = readline.createInterface({ input, output });
+      const answer = await new Promise((resolve) =>
+        rl.question(
+          'ATTENTION !! This operation cannot be undone. Confirm plugin undeployment (yes/no) [Y] ? ',
+          resolve,
+        ),
+      );
+      rl.close();
+      if (confirmAnswer(answer)) {
+        await muse.pm.undeployPlugin({ appName, envName, pluginName });
+        console.log(chalk.cyan(`Undeploy success: ${pluginName} from ${appName}/${envName}.`));
+      } else {
+        console.log(chalk.cyan(`Command ABORTED.`));
+      }
       break;
     }
     // case 'build':
@@ -187,58 +212,56 @@ console.error = (message) => console.log(chalk.red(message));
     case 'unreg-release':
     case 'unregister-release': {
       const [pluginName, version] = args;
-
       const rl = readline.createInterface({ input, output });
-      rl.question(
-        'ATTENTION !! This operation cannot be undone. Confirm unregister plugin release (yes/no) [Y] ? ',
-        async (answer) => {
-          if (confirmAnswer(answer)) {
-            await muse.pm.deleteRelease({
-              pluginName,
-              version,
-              delAssets: false,
-            });
-            console.log(
-              chalk.cyan(
-                `Plugin release version unregistered (assets still available): ${pluginName}@${version}`,
-              ),
-            );
-          } else {
-            console.log(chalk.cyan(`Plugin release version un-registration ABORTED.`));
-          }
-          rl.close();
-        },
+      const answer = await new Promise((resolve) =>
+        rl.question(
+          'ATTENTION !! This operation cannot be undone. Confirm unregister plugin release (yes/no) [Y] ? ',
+          resolve,
+        ),
       );
-
+      rl.close();
+      if (confirmAnswer(answer)) {
+        await muse.pm.deleteRelease({
+          pluginName,
+          version,
+          delAssets: false,
+        });
+        console.log(
+          chalk.cyan(
+            `Plugin release version unregistered (assets still available): ${pluginName}@${version}`,
+          ),
+        );
+      } else {
+        console.log(chalk.cyan(`Command ABORTED.`));
+      }
       break;
     }
 
     case 'del-release':
     case 'delete-release': {
       const [pluginName, version] = args;
-
       const rl = readline.createInterface({ input, output });
-      rl.question(
-        'ATTENTION !! This operation cannot be undone. Confirm delete plugin release (yes/no) [Y] ? ',
-        async (answer) => {
-          if (confirmAnswer(answer)) {
-            await muse.pm.deleteRelease({
-              pluginName,
-              version,
-              delAssets: true,
-            });
-            console.log(
-              chalk.cyan(
-                `Plugin release version deleted (including corresponding assets): ${pluginName}@${version}`,
-              ),
-            );
-          } else {
-            console.log(chalk.cyan(`Plugin release version deletion ABORTED.`));
-          }
-          rl.close();
-        },
+      const answer = await new Promise((resolve) =>
+        rl.question(
+          'ATTENTION !! This operation cannot be undone. Confirm delete plugin release (yes/no) [Y] ? ',
+          resolve,
+        ),
       );
-
+      rl.close();
+      if (confirmAnswer(answer)) {
+        await muse.pm.deleteRelease({
+          pluginName,
+          version,
+          delAssets: true,
+        });
+        console.log(
+          chalk.cyan(
+            `Plugin release version deleted (including corresponding assets): ${pluginName}@${version}`,
+          ),
+        );
+      } else {
+        console.log(chalk.cyan(`Command ABORTED.`));
+      }
       break;
     }
 
@@ -257,7 +280,7 @@ console.error = (message) => console.log(chalk.red(message));
       });
       break;
     }
-    case 'config': {
+    case 'show-config': {
       const filepath = muse.config?.filepath;
       if (!filepath) {
         console.log(chalk.cyan('No config.'));
@@ -282,9 +305,29 @@ console.error = (message) => console.log(chalk.red(message));
       break;
     }
 
+    case 'refresh-data-cache': {
+      const [key] = args;
+      if (!key) throw new Error('Data key is required.');
+      await muse.data.refreshCache(key);
+      break;
+    }
+
+    case 'show-data': {
+      const [key] = args;
+      if (!key) throw new Error('Data key is required.');
+      const data = await muse.data.get(key);
+      if (data) {
+        console.log(chalk.cyan(`${key}:\r\n${JSON.stringify(data, null, 2)}`));
+      } else {
+        console.log(chalk.yellow('Not found: ' + key));
+      }
+
+      break;
+    }
+
     case 'serve': {
       const [appName, envName = 'staging', port = 6070] = args;
-      if (!appName) throw new Error('App anem is required.');
+      if (!appName) throw new Error('App name is required.');
       require('muse-simple-server/lib/server')({ appName, envName, port });
       break;
     }
