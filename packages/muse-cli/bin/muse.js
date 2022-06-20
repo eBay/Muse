@@ -22,7 +22,7 @@ const confirmAnswer = (answer) => {
 const program = new Command();
 program
   .name('muse')
-  .description('MUSE CLI tool for managing MUSE plugins')
+  .description('MUSE CLI tool for managing MUSE apps and plugins')
   .version(
     require('../package.json').version,
     '-v, --version',
@@ -224,8 +224,8 @@ program
       version,
     });
 
-    const confirmDeployment = true;
-  
+    let confirmDeployment = true;
+
     if (
       dependencyCheckResult &&
       (Object.keys(dependencyCheckResult['dev']).length > 0 ||
