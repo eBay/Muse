@@ -33,6 +33,7 @@ module.exports = (appName, envName, isDev) => async (req, res) => {
   <html lang="en">
   <head>
     <title>${app.title || 'Muse App'}</title>
+    <link rel="shortcut icon" href="/favicon.png" />
     <script>
       window.MUSE_GLOBAL = ${JSON.stringify(museGlobal, null, 2)};
     </script>

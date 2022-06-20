@@ -225,7 +225,7 @@ program
     });
 
     const confirmDeployment = true;
-
+  
     if (
       dependencyCheckResult &&
       (Object.keys(dependencyCheckResult['dev']).length > 0 ||

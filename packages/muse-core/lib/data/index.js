@@ -1,47 +1,35 @@
-// const plugin = require('js-plugin');
-// const { pathToRegexp, match, parse, compile } = require('path-to-regexp');
-// const cacheStorage = require('../storage/cache');
-
-// const builders = [];
-
-// const cache = {
-//   refresh: async () => {},
-//   get: async (key) => {
-//     for (const builder of builders) {
-//       const m = builder.match(key.replace(/\./g, '/'));
-//       if (m) {
-//         return await builder.get(m.params);
-//       }
-//     }
-//     return null;
-//   },
-//   registerBuilder: (builder) => {
-//     if (builder.key.includes('/')) {
-//       throw new Error(`Cache builder key should not include '/'.`);
-//     }
-//     if (builders.some((b) => b.key === builder.key)) {
-//       throw new Error(`Cache builder ${builder.key} already exsits.`);
-//     }
-//     builders.push({
-//       ...builder,
-//       match: match(builder.key.replace(/\./g, '/')),
-//     });
-//   },
-// };
-
-// cache.registerBuilder(require('./builders/muse.app'));
-// cache.registerBuilder(require('./builders/muse.plugin-releases'));
-// cache.registerBuilder(require('./builders/muse.plugins.latest-releases'));
-
-// const extBuilders = plugin.invoke('!museCore.cache.builder').filter(Boolean);
-// extBuilders.forEach((builder) => {
-//   cache.registerBuilder(builder.name, builder);
-// });
-
+const _ = require('lodash');
+const plugin = require('js-plugin');
+const { asyncInvokeFirst } = require('../utils');
 const builder = require('./builder');
+const logger = require('../logger').createLogger('muse.data.index');
+
+// NOTE: sometimes the muse-core runtime is not able to get data from builder
+// e.g: prod runtime has different network than dev time
+// So, if there's cache provider, get data from it directly.
 module.exports = {
   get: async (key) => {
-    return await builder.get(key);
+    // If there's cache provider, always get it from cache
+    if (plugin.getPlugins('museCore.data.cache.get').length > 0) {
+      return JSON.parse(await asyncInvokeFirst('museCore.data.cache.get', key));
+    } else {
+      return await builder.get(key);
+    }
   },
+
+  // refreshCache is used to build cache data at dev time for prod usage
+  refreshCache: async (key) => {
+    if (!key) {
+      const err = new Error(`Key is missing in museCore.data.refreshCache.`);
+      logger.error(err.message);
+      throw new err();
+    }
+    const value = await builder.get(key);
+    if (!_.isNil(value)) {
+      // If found from builder, save to cache
+      await asyncInvokeFirst('museCore.data.cache.set', key, JSON.stringify(value));
+    }
+  },
+  // refreshCache: (key) => builder.refreshCache(key),
   builder,
 };

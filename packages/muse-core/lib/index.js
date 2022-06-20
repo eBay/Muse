@@ -15,9 +15,12 @@ const envFile2 = path.join(os.homedir(), '.muse.env');
   }
 });
 
-const muse = {};
-require('./initPlugins');
+const muse = {
+  logger: require('./logger'),
+};
 module.exports = muse;
+
+require('./initPlugins');
 
 Object.assign(muse, {
   am: require('./am'),
@@ -27,5 +30,5 @@ Object.assign(muse, {
   config: require('./config'),
   storage: require('./storage'),
   utils: require('./utils'),
-  logger: require('./logger'),
+  // logger: require('./logger'),
 });

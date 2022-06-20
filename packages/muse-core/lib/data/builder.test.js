@@ -6,6 +6,7 @@ describe('Muse cache builder basic tests.', () => {
   it('Register builder with constant name should work', async () => {
     const muse = require('../');
     muse.data.builder.register({
+      name: 'muse-data',
       key: 'muse.data-value',
       get: async () => {
         return 'cache-value';
@@ -18,6 +19,7 @@ describe('Muse cache builder basic tests.', () => {
   it('Register builder with args should work', async () => {
     const muse = require('../');
     muse.data.builder.register({
+      name: 'musetest.app',
       key: 'musetest.app.:appName',
       get: async ({ appName }) => {
         return { name: appName };
@@ -30,6 +32,7 @@ describe('Muse cache builder basic tests.', () => {
   it('No match should return null', async () => {
     const muse = require('../');
     muse.data.builder.register({
+      name: 'some name',
       key: 'some.key',
       get: async ({ appName }) => {
         return { name: appName };

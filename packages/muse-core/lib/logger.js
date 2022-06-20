@@ -14,8 +14,8 @@ const config = require('./config');
 //   silly: 6,
 // }
 
-function getTimestamp(d) {
-  const now = new Date(d);
+function getTimestamp(date) {
+  const now = new Date(date);
   const m = _.padStart(now.getMinutes(), 2, '0');
   const s = _.padStart(now.getSeconds(), 2, '0');
   const mms = _.padStart(now.getMilliseconds(), 3, '0');
@@ -23,30 +23,59 @@ function getTimestamp(d) {
 }
 
 function createLogger(name) {
-  const transports = _.flatten(plugin.invoke('museCore.logger.getTransports'));
-  transports.push(new winston.transports.Console({}));
-  const logger = winston.createLogger({
-    level: config.get('logLevel') || 'info',
-    silent: process.env.NODE_ENV === 'test',
-    format: winston.format.combine(
-      winston.format.colorize(),
-      winston.format.simple(),
-      winston.format.timestamp(),
-      {
-        transform: (info) => {
-          info[MESSAGE] = `${info.level} [${info.name}] ${getTimestamp(info.timestamp)} ${
-            info.message
-          }`;
-          return info;
-        },
+  let logger = null;
+  const getLogger = () => {
+    if (!logger) {
+      const transports = _.flatten(plugin.invoke('museCore.logger.getTransports'));
+      transports.push(new winston.transports.Console({}));
+      logger = winston.createLogger({
+        level: config.get('logLevel') || 'info',
+        silent: process.env.NODE_ENV === 'test',
+        format: winston.format.combine(
+          winston.format.colorize(),
+          winston.format.simple(),
+          winston.format.timestamp(),
+          {
+            transform: (info) => {
+              info[MESSAGE] = `${info.level} [${info.name}] ${getTimestamp(info.timestamp)} ${
+                info.message
+              }`;
+              return info;
+            },
+          },
+        ),
+        defaultMeta: { name },
+        exitOnError: false,
+        transports,
+      });
+    }
+    return logger;
+  };
+  const wrappedLogger = {
+    fatalError: (err) => {
+      this.error(err.message);
+      throw err;
+    },
+  };
+  ['error', 'warn', 'info', 'http', 'verbose', 'debug', 'silly'].forEach((name) => {
+    Object.assign(wrappedLogger, {
+      // get [name]() {
+      // console.log('get metd');
+      [name]: (...args) => {
+        if (!config.__pluginLoaded) {
+          throw new Error(
+            "Muse logger should NOT be used before all plugins are loaded. Usually because it's used in the global scope in a plugin.",
+          );
+        }
+        getLogger()[name](...args);
       },
-    ),
-    defaultMeta: { name },
-    exitOnError: false,
-    transports,
+      getWinstonInstance() {
+        return getLogger();
+      },
+    });
   });
 
-  return logger;
+  return wrappedLogger;
 }
 
 const logger = createLogger('default');

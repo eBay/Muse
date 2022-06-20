@@ -2,6 +2,7 @@ const { asyncInvoke, jsonByYamlBuff } = require('../utils');
 const { registry } = require('../storage');
 const { validate } = require('schema-utils');
 const schema = require('../schemas/am/getApp.json');
+const logger = require('../logger').createLogger('muse.am.getApp');
 
 /**
  * @module muse-core/am/getApp
@@ -16,6 +17,7 @@ const schema = require('../schemas/am/getApp.json');
 module.exports = async (appName) => {
   validate(schema, appName);
   const ctx = {};
+  logger.info(`Getting app ${appName}...`);
   await asyncInvoke('museCore.am.beforeGetApp', ctx, appName);
 
   try {
@@ -28,22 +30,7 @@ module.exports = async (appName) => {
     throw err;
   }
   await asyncInvoke('museCore.am.afterGetApp', ctx, appName);
+  logger.info(`Get app success: ${appName}...`);
+
   return ctx.app;
 };
-
-// module.exports = async () => {
-//   return {
-//     name: 'testapp',
-//     envs: {
-//       staging: {
-//         url: '',
-//         pluginList: [
-//           { name: '@ebay/muse-boot', type: 'boot', version: '1.0.0' },
-//           { name: '@ebay/muse-react', version: '1.0.0' },
-//           { name: '@ebay/muse-antd', version: '1.0.0' },
-//           { name: 'muse-layout', version: '1.0.0' },
-//         ],
-//       },
-//     },
-//   };
-// };

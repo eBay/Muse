@@ -1,27 +1,28 @@
 module.exports = {
+  logLevel: 'silly',
   plugins: [
-    // [
-    //   './packages/muse-plugin-git-storage',
-    //   {
-    //     pluginName: 'muse-plugin-git-storage',
-    //     extPoint: 'museCore.registry.storage',
-    //     url: 'https://github.corp.ebay.com',
-    //     organizationName: 'gling',
-    //     projectName: 'muse-registry-sample',
-    //     token: '$env.MY_TOKEN',
-    //   },
-    // ],
-    // [
-    //   './packages/muse-plugin-s3-storage',
-    //   {
-    //     pluginName: 'nuobject-assets-ebay',
-    //     extPoint: 'museCore.assets.storage',
-    //     basePath: '',
-    //     accessKey: '$env.NUOBJECT_ACCESS_KEY',
-    //     secretKey: '$env.NUBOJECT_SECRET_KEY',
-    //     endPoint: 'muse.nuobject.io',
-    //     bucketName: 'testbucket',
-    //   },
-    // ],
+    [
+      './packages/muse-plugin-git-storage',
+      {
+        pluginName: 'muse-plugin-git-storage',
+        extPoint: 'museCore.registry.storage',
+        endpoint: 'https://github.corp.ebay.com/api/v3',
+        repo: 'muse/muse-registry',
+        branch: 'dev',
+        token: '$env.MUSE_REGISTRY_GIT_TOKEN',
+      },
+    ],
+    [
+      './packages/muse-plugin-s3-storage',
+      {
+        pluginName: 'nuobject-assets-ebay',
+        extPoint: 'museCore.assets.storage',
+        basePath: '',
+        accessKey: '$env.NUOBJECT_ACCESS_KEY',
+        secretKey: '$env.NUOBJECT_SECRET_KEY',
+        endpoint: 'muse.nuobject.io',
+        bucketName: 'testbucket',
+      },
+    ],
   ],
 };
