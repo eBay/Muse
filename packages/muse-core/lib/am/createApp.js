@@ -3,6 +3,7 @@ const { registry } = require('../storage');
 const getApp = require('./getApp');
 const { validate } = require('schema-utils');
 const schema = require('../schemas/am/createApp.json');
+const logger = require('../logger').createLogger('muse.am.createApp');
 
 /**
  * @module muse-core/am/createApp
@@ -22,9 +23,9 @@ const schema = require('../schemas/am/createApp.json');
 module.exports = async (params = {}) => {
   validate(schema, params);
   const ctx = {};
-  await asyncInvoke('museCore.am.beforeCreateApp', ctx, params);
-
   const { appName, author = osUsername, options } = params;
+  logger.info(`Creating app ${appName}...`);
+  await asyncInvoke('museCore.am.beforeCreateApp', ctx, params);
 
   if (await getApp(appName)) {
     throw new Error(`App ${appName} already exists.`);
@@ -48,5 +49,7 @@ module.exports = async (params = {}) => {
     throw err;
   }
   await asyncInvoke('museCore.am.afterCreateApp', ctx, params);
+  logger.info(`Create app success: ${appName}.`);
+
   return ctx.app;
 };

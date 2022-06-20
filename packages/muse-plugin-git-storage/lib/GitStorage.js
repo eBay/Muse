@@ -1,32 +1,35 @@
 const path = require('path');
 const os = require('os');
+const logger = require('muse-core').logger.createLogger('git-storage-plugin.GitStorage');
 const GitClient = require('./GitClient');
 
 class GitStorage {
   constructor(options) {
-    if (!options?.url) throw new Error('No github repo specified for GitStorage.');
+    if (!options?.endpoint) throw new Error('No github API endpoint specified for GitStorage.');
     if (!options?.token)
       throw new Error('No PAT(Personal access tokens) specified for GitStorage.');
-    if (!options?.organizationName)
-      throw new Error('No organizationName specified for GitStorage.');
-    if (!options?.projectName) throw new Error('No projectName specified for GitStorage.');
 
-    this.url = options.url;
+    if (!options?.repo) throw new Error('No repo specified for GitStorage.');
+
+    this.endpoint = options.endpoint;
     this.token = options.token;
-    this.organizationName = options.organizationName;
-    this.projectName = options.projectName;
+    const arr = options.repo.split('/');
+    this.organizationName = arr[0];
+    this.projectName = arr[1];
+    if (!this.projectName) throw new Error(`Invalid repo: ${options.repo}.`);
+
     this.author = os.userInfo().username;
 
     this.gitClient = new GitClient({
-      url: this.url,
+      endpoint: this.endpoint,
       token: this.token,
+      branch: options.branch || 'main',
     });
   }
 
   init() {
-    console.log('GitStorage init...');
+    // logger.info('GitStorage init...');
   }
-
   mapPath(p) {
     const absPath = path.join(this.location, p);
     if (!absPath.startsWith(this.location)) {
@@ -42,6 +45,7 @@ class GitStorage {
    * @param {Buffer|String} value
    */
   async set(keyPath, value, msg) {
+    // logger.verbose(`Set value: ${keyPath}`);
     return await this.gitClient.commitFile({
       keyPath,
       value,
@@ -58,6 +62,7 @@ class GitStorage {
    * @returns Buffer
    */
   async get(keyPath) {
+    logger.verbose(`Get value: ${keyPath}`);
     const data = await this.gitClient.getRepoContent({
       keyPath,
       organizationName: this.organizationName,
@@ -70,6 +75,7 @@ class GitStorage {
   }
 
   async del(keyPath, msg) {
+    logger.verbose(`Delete value: ${keyPath}`);
     try {
       const file = await this.gitClient.getRepoContent({
         organizationName: this.organizationName,
@@ -83,7 +89,6 @@ class GitStorage {
       return await this.gitClient.deleteFile({
         organizationName: this.organizationName,
         projectName: this.projectName,
-        branch: 'main',
         keyPath,
         file,
         message: msg,
@@ -95,21 +100,24 @@ class GitStorage {
 
   // list items in a container
   async list(keyPath) {
+    logger.verbose(`List dir: ${keyPath}`);
     const files = await this.gitClient.getRepoContent({
       organizationName: this.organizationName,
       projectName: this.projectName,
       keyPath,
     });
 
-    return files.map(({ name, path, type, size, sha }) => {
-      return {
-        name,
-        path,
-        type,
-        size,
-        sha,
-      };
-    });
+    return files
+      ? files.map(({ name, path, type, size, sha }) => {
+          return {
+            name,
+            path,
+            type,
+            size,
+            sha,
+          };
+        })
+      : [];
   }
 }
 

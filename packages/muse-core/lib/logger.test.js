@@ -24,14 +24,13 @@ const testLoggerPlugin = {
 
 plugin.register(testLoggerPlugin);
 
-const muse = require('./');
-
 describe('CreateLogger tests.', () => {
   beforeAll(() => {});
   beforeEach(() => {});
 
   it('Transports can be extended by muse-core plugin', async () => {
-    muse.logger.silent = false; // by default it's silent for testing
+    const muse = require('./');
+    muse.logger.getWinstonInstance().silent = false; // by default it's silent for testing
     muse.logger.info('abc');
     expect(mockObj.log).toBeCalledTimes(1);
     expect(mockObj.log).toBeCalledWith(expect.objectContaining({ message: 'abc' }));

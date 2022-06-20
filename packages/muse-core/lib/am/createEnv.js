@@ -3,6 +3,7 @@ const getApp = require('./getApp');
 const updateApp = require('./updateApp');
 const { validate } = require('schema-utils');
 const schema = require('../schemas/am/createEnv.json');
+const logger = require('../logger').createLogger('muse.am.createEnv');
 
 /**
  * @module muse-core/am/createEnv
@@ -22,6 +23,7 @@ const schema = require('../schemas/am/createEnv.json');
 module.exports = async (params) => {
   validate(schema, params);
   const { appName, envName, options, author = osUsername } = params;
+  logger.info(`Creating env ${appName}/${envName}...`);
   const ctx = {};
 
   await asyncInvoke('museCore.am.beforeCreateEnv', ctx, params);
@@ -52,7 +54,10 @@ module.exports = async (params) => {
   } catch (err) {
     ctx.error = err;
     await asyncInvoke('museCore.am.failedCreateEnv', ctx, params);
-    throw err;
+    logger.fatalError(err);
+    return;
   }
   await asyncInvoke('museCore.am.afterCreateEnv', ctx, params);
+  logger.info(`Create env success: ${appName}/${envName}.`);
+  return ctx;
 };

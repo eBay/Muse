@@ -1,19 +1,20 @@
 const axios = require('axios');
-const _ = require('lodash');
+const logger = require('muse-core').logger.createLogger('git-storage-plugin.GitClient');
 
 module.exports = class GitClient {
   constructor(options) {
-    if (!options.url) throw new Error('No github url specified for GitStorage.');
+    if (!options.endpoint) throw new Error('No github endpoint specified for GitStorage.');
     if (!options.token) throw new Error('No PAT(Personal access tokens) specified for GitStorage.');
-    this.url = options.url;
+    this.endpoint = options.endpoint;
     this.token = options.token;
-    this.axiosGit = this.init();
+    this.axiosGit = this.initGitClient();
     this.commitFile = this.commitFile.bind(this);
+    this.branch = options.branch || 'main';
   }
 
-  init() {
+  initGitClient() {
     return axios.create({
-      baseURL: `${this.url}/api/v3`,
+      baseURL: this.endpoint, //`${this.endpoint}/api/v3`,
       timeout: 60000,
       maxContentLength: 100000000,
       maxBodyLength: 1000000000,
@@ -24,9 +25,18 @@ module.exports = class GitClient {
     });
   }
 
+  async getCommitterId() {
+    if (!this.committerId) {
+      this.committerId = (await this.axiosGit.get('/user')).data.login;
+    }
+
+    return this.committerId;
+  }
+
   async commitFile(params) {
+    logger.silly(`Committing file: ${params.keyPath}`);
     const {
-      branch = 'main',
+      branch = this.branch,
       message,
       keyPath,
       value: content,
@@ -36,9 +46,11 @@ module.exports = class GitClient {
     const repo = `${organizationName}/${projectName}`;
     const authorId = params.author;
 
+    const committerId = await this.getCommitterId();
+
     const committer = {
-      name: authorId,
-      email: `${authorId}@ebay.com`,
+      name: committerId,
+      email: `${committerId}@ebay.com`,
       date: new Date().toISOString(),
     };
 
@@ -80,8 +92,10 @@ module.exports = class GitClient {
   }
 
   async getRepoContent(params) {
-    const { organizationName, projectName, keyPath, branch = 'main' } = params || {};
+    logger.silly(`Get content: ${params.keyPath}`);
+    const { organizationName, projectName, branch = this.branch, keyPath } = params || {};
     const repo = `${organizationName}/${projectName}`;
+
     try {
       return (
         await this.axiosGit.get(`/repos/${repo}/contents${keyPath}`, {
@@ -97,12 +111,14 @@ module.exports = class GitClient {
   }
 
   async deleteFile(params) {
-    const { organizationName, projectName, keyPath, branch = 'main', file, message } = params;
+    logger.silly(`Delete file: ${params.keyPath}`);
+    const { organizationName, projectName, keyPath, branch = this.branch, file, message } = params;
     const repo = `${organizationName}/${projectName}`;
     const authorId = params.author;
+    const committerId = await this.getCommitterId();
     const committer = {
-      name: authorId,
-      email: `${authorId}@ebay.com`,
+      name: committerId,
+      email: `${committerId}@ebay.com`,
       date: new Date().toISOString(),
     };
 
