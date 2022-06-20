@@ -63,7 +63,6 @@ module.exports = async (params) => {
     await asyncInvoke('museCore.pm.deleteRelease', ctx, pluginName);
     logger.verbose(`Call ext museCore.pm.deleteRelease completed`);
   } catch (err) {
-    logger.error(`Failed to delete plugin release version ${pluginName}@${version} by ${author}`);
     await asyncInvoke('museCore.pm.failedDeleteRelease', ctx, pluginName);
     logger.verbose(`Call ext museCore.pm.failedDeleteRelease completed`);
     throw err;

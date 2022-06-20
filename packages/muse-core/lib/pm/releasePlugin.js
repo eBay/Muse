@@ -33,13 +33,13 @@ module.exports = async (params) => {
 
   // Check if plugin exists
   const plugin = await getPlugin(pluginName);
-  if (!plugin) logger.fatalError(new Error(`Plugin ${pluginName} doesn't exist.`));
+  if (!plugin) throw new Error(`Plugin ${pluginName} doesn't exist.`);
 
   // Check if release exists
   const releases = await getReleases(pluginName);
 
   if (releases?.find((r) => r.version === version)) {
-    logger.fatalError(new Error(`Version ${version} already exists for plugin ${pluginName}`));
+    throw new Error(`Version ${version} already exists for plugin ${pluginName}`);
   }
 
   const pid = getPluginId(pluginName);

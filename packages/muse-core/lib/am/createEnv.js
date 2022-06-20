@@ -54,8 +54,7 @@ module.exports = async (params) => {
   } catch (err) {
     ctx.error = err;
     await asyncInvoke('museCore.am.failedCreateEnv', ctx, params);
-    logger.fatalError(err);
-    return;
+    throw err;
   }
   await asyncInvoke('museCore.am.afterCreateEnv', ctx, params);
   logger.info(`Create env success: ${appName}/${envName}.`);

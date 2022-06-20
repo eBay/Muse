@@ -51,12 +51,7 @@ function createLogger(name) {
     }
     return logger;
   };
-  const wrappedLogger = {
-    fatalError: (err) => {
-      this.error(err.message);
-      throw err;
-    },
-  };
+  const wrappedLogger = {};
   ['error', 'warn', 'info', 'http', 'verbose', 'debug', 'silly'].forEach((name) => {
     Object.assign(wrappedLogger, {
       // get [name]() {
