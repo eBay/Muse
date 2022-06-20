@@ -4,9 +4,6 @@ const path = require('path');
 const fs = require('fs-extra');
 const { defaultAssetStorageLocation } = require('../utils');
 
-jest.mock('fs');
-jest.mock('fs/promises');
-
 const testJsPlugin = {
   name: 'test',
   museCore: {
