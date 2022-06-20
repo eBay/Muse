@@ -200,11 +200,13 @@ importers:
   packages/muse-cli:
     specifiers:
       chalk: 4.1.2
+      commander: 9.3.0
       eslint: ^8.16.0
       muse-core: workspace:^1.0.0
       muse-simple-server: workspace:^1.0.0
     dependencies:
       chalk: 4.1.2
+      commander: 9.3.0
       muse-core: link:../muse-core
       muse-simple-server: link:../muse-simple-server
     devDependencies:
@@ -4165,6 +4167,11 @@ packages:
   /commander/8.3.0:
     resolution: {integrity: sha1-SDfqGy2me5xhamevuw+v7lZ7ymY=}
     engines: {node: '>= 12'}
+
+  /commander/9.3.0:
+    resolution: {integrity: sha1-9hkRSlotIFTg2f8bMdXM+JJV4ms=}
+    engines: {node: ^12.20.0 || >=14}
+    dev: false
 
   /common-path-prefix/3.0.0:
     resolution: {integrity: sha1-fQB6fgfFjEtNX0MxMaGRQbKfEeA=}
