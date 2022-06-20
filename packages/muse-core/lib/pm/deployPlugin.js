@@ -8,6 +8,7 @@ const getPlugin = require('./getPlugin');
 const { getApp } = require('../am');
 const getDeployedPlugin = require('./getDeployedPlugin');
 const getReleases = require('./getReleases');
+const logger = require('../logger').createLogger('muse.pm.deployPlugin');
 
 /**
  * @module muse-core/pm/deployplugin
@@ -37,9 +38,12 @@ const getReleases = require('./getReleases');
 module.exports = async (params) => {
   validate(schema, params);
   const ctx = {};
+  const { appName, envName, pluginName, options, changes, author = osUsername, msg } = params;
+  logger.info(
+    `Deploying plugin ${pluginName}@${params.version || 'latest'} to ${appName}/${envName}...`,
+  );
   await asyncInvoke('museCore.pm.beforeDeployPlugin', ctx, params);
 
-  const { appName, envName, pluginName, options, changes, author = osUsername, msg } = params;
   let version = params.version;
   // Check if plugin name exist
   const p = await getPlugin(pluginName);
@@ -87,6 +91,8 @@ module.exports = async (params) => {
     throw err;
   }
   await asyncInvoke('museCore.pm.afterDeployPlugin', ctx, params);
+  logger.info(`Deploy plugin success: ${pluginName}@${version} to ${appName}/${envName}...`);
+
   return {
     appName,
     envName,

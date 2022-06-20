@@ -3,6 +3,8 @@ const { registry } = require('../storage');
 const { getApp } = require('../am');
 const { validate } = require('schema-utils');
 const schema = require('../schemas/pm/getDeployedPlugin.json');
+const logger = require('../logger').createLogger('muse.pm.getDeployedPlugin');
+
 /**
  * @module muse-core/pm/getDeployedPlugin
  */
@@ -18,6 +20,7 @@ module.exports = async (appName, envName, pluginName) => {
   validate(schema, appName);
   validate(schema, envName);
   validate(schema, pluginName);
+  logger.verbose(`Getting deployed plugin ${pluginName}@${appName}/${envName}`);
   const ctx = {};
   await asyncInvoke('museCore.pm.beforeGetDeployedPlugin', ctx, appName, envName, pluginName);
 
@@ -40,5 +43,6 @@ module.exports = async (appName, envName, pluginName) => {
     throw err;
   }
   await asyncInvoke('museCore.pm.afterGetDeployedPlugin', ctx, appName, envName, pluginName);
+  logger.verbose(`Get deployed plugin success: ${pluginName}@${appName}/${envName}`);
   return ctx.plugin;
 };

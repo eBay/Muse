@@ -3,6 +3,7 @@ const { registry } = require('../storage');
 const { getApp } = require('../am');
 const { validate } = require('schema-utils');
 const schema = require('../schemas/pm/undeployPlugin.json');
+const logger = require('../logger').createLogger('muse.pm.undeployPlugin');
 /**
  * @module muse-core/pm/undeployPlugin
  */
@@ -27,9 +28,9 @@ const schema = require('../schemas/pm/undeployPlugin.json');
 module.exports = async (params) => {
   validate(schema, params);
   const ctx = {};
-  await asyncInvoke('museCore.pm.beforeUndeployPlugin', ctx, params);
-
   const { appName, envName, pluginName, author = osUsername, msg } = params;
+  logger.verbose(`Undeploying plugin ${pluginName}@${appName}/${envName}...`);
+  await asyncInvoke('museCore.pm.beforeUndeployPlugin', ctx, params);
 
   const app = await getApp(appName);
   if (!app) {
@@ -53,6 +54,8 @@ module.exports = async (params) => {
     throw err;
   }
   await asyncInvoke('museCore.pm.afterUndeployPlugin', ctx, params);
+  logger.verbose(`Succeeded to undeploy plugin: ${pluginName}@${appName}/${envName}.`);
+
   return {
     appName,
     envName,
