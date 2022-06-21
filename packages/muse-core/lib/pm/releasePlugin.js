@@ -1,5 +1,7 @@
 const yaml = require('js-yaml');
-const { asyncInvoke, getPluginId, osUsername, genNewVersion } = require('../utils');
+const path = require('path');
+const fs = require('fs-extra');
+const { asyncInvoke, getPluginId, osUsername, genNewVersion, doZip } = require('../utils');
 const { assets, registry } = require('../storage');
 const getReleases = require('./getReleases');
 const getPlugin = require('./getPlugin');
@@ -77,8 +79,21 @@ module.exports = async (params) => {
     `Create release ${pluginName}@${ctx.release.version} by ${author}`,
   );
 
-  // If build dir exists, upload it to assets storage
+  // If build dir exists, compress into a zip file and upload it and the unzip files to assets storage
   if (buildDir) {
+    try {
+      const zipFile = path.join(process.cwd(), 'tmp', 'assets.zip');
+      fs.ensureDirSync('./tmp');
+      await doZip(buildDir, zipFile);
+      // Move files to build folder first and then upload assets to nuobject for the migration
+      await fs.moveSync(
+        path.join(process.cwd(), 'tmp/assets.zip'),
+        path.join(process.cwd(), 'build/assets.zip'),
+        { overwrite: true },
+      );
+    } catch (err) {
+      logger.warn(err);
+    }
     await assets.uploadDir(
       buildDir,
       `/p/${pid}/v${ctx.release.version}`,
