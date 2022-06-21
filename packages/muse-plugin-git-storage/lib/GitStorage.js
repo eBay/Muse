@@ -63,15 +63,17 @@ class GitStorage {
    */
   async get(keyPath) {
     logger.verbose(`Get value: ${keyPath}`);
-    const data = await this.gitClient.getRepoContent({
-      keyPath,
-      organizationName: this.organizationName,
-      projectName: this.projectName,
-    });
-    if (!data) return;
-    const content = Buffer.from(data?.content, 'base64').toString();
-    // const content = data.content;
-    return content;
+    try {
+      const data = await this.gitClient.getRepoContent({
+        keyPath,
+        organizationName: this.organizationName,
+        projectName: this.projectName,
+      });
+      return Buffer.from(data?.content, 'base64').toString();
+    } catch (err) {
+      logger.info('Content Not Found.');
+      return;
+    }
   }
 
   async del(keyPath, msg) {
@@ -83,7 +85,7 @@ class GitStorage {
         keyPath,
       });
       if (!file) {
-        console.warn(`${keyPath} does not exist.`);
+        logger.warn(`${keyPath} does not exist.`);
         return;
       }
       return await this.gitClient.deleteFile({
@@ -94,30 +96,33 @@ class GitStorage {
         message: msg,
       });
     } catch (err) {
-      console.log('delete error:', err);
+      logger.fatalError(err);
     }
   }
 
   // list items in a container
   async list(keyPath) {
     logger.verbose(`List dir: ${keyPath}`);
-    const files = await this.gitClient.getRepoContent({
-      organizationName: this.organizationName,
-      projectName: this.projectName,
-      keyPath,
-    });
-
-    return files
-      ? files.map(({ name, path, type, size, sha }) => {
-          return {
-            name,
-            path,
-            type,
-            size,
-            sha,
-          };
-        })
-      : [];
+    try {
+      const files = await this.gitClient.getRepoContent({
+        organizationName: this.organizationName,
+        projectName: this.projectName,
+        keyPath,
+      });
+      return files
+        ? files.map(({ name, path, type, size, sha }) => {
+            return {
+              name,
+              path,
+              type,
+              size,
+              sha,
+            };
+          })
+        : [];
+    } catch (err) {
+      logger.fatalError(err);
+    }
   }
 }
 

@@ -95,7 +95,7 @@ console.error = (message) => console.log(chalk.red(message));
       const plugins = await muse.pm.getPlugins();
       console.log(chalk.cyan(`Plugins (${plugins.length}):`));
       plugins.forEach((p) => {
-        console.log(chalk.cyan(` - ${p.name}`));
+        console.log(chalk.cyan(` - ${p?.name}`));
       });
       break;
     }
