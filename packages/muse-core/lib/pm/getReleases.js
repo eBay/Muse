@@ -2,6 +2,7 @@ const { asyncInvoke, jsonByYamlBuff, getPluginId } = require('../utils');
 const { registry } = require('../storage');
 const { validate } = require('schema-utils');
 const schema = require('../schemas/pm/getReleases.json');
+const logger = require('../logger').createLogger('muse.pm.getReleases');
 /**
  * @module muse-core/pm/getReleases
  */
@@ -13,6 +14,7 @@ const schema = require('../schemas/pm/getReleases.json');
 module.exports = async (pluginName) => {
   validate(schema, pluginName);
   const ctx = {};
+  logger.verbose(`Getting releases of ${pluginName}.`);
   await asyncInvoke('museCore.pm.beforeGetReleases', ctx, pluginName);
 
   const pid = getPluginId(pluginName);
@@ -26,5 +28,6 @@ module.exports = async (pluginName) => {
     throw err;
   }
   await asyncInvoke('museCore.pm.afterGetReleases', ctx, pluginName);
+  logger.verbose(`Succeeded to get releases of ${pluginName}.`);
   return ctx.result;
 };

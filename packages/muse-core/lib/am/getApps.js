@@ -1,5 +1,6 @@
 const { asyncInvoke, jsonByYamlBuff, batchAsync, makeRetryAble } = require('../utils');
 const { registry } = require('../storage');
+const logger = require('../logger').createLogger('muse.am.getApps');
 
 /**
  * @module muse-core/am/getApps
@@ -12,6 +13,7 @@ const { registry } = require('../storage');
  */
 module.exports = async (params) => {
   const ctx = {};
+  logger.info(`Getting apps...`);
   await asyncInvoke('museCore.am.beforeGetApps', ctx, params);
   try {
     const items = await registry.list('/apps');
@@ -34,5 +36,6 @@ module.exports = async (params) => {
     throw err;
   }
   await asyncInvoke('museCore.am.afterGetApps', ctx, params);
+  logger.info(`Get apps success.`);
   return ctx.apps;
 };

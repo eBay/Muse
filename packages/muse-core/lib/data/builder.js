@@ -27,14 +27,10 @@ const builder = {
     //   throw err;
     // }
     if (!builder.key) {
-      const err = new Error(`Every builder should have a key: ${builder.name}.`);
-      logger.error(err.message);
-      throw err;
+      throw new Error(`Every builder should have a key: ${builder.name}.`);
     }
     if (builder.key.includes('/')) {
-      const err = new Error(`Cache builder key should not include '/'.`);
-      logger.error(err.message);
-      throw err;
+      throw new Error(`Cache builder key should not include '/'.`);
     }
     // if (builders.some((b) => b.name === builder.name)) {
     //   const err = new Error(`Cache builder with name ${builder.name} already exsits.`);
@@ -42,9 +38,7 @@ const builder = {
     //   throw err;
     // }
     if (builders.some((b) => b.key === builder.key)) {
-      const err = new Error(`Cache builder with key ${builder.key} already exsits.`);
-      logger.error(err.message);
-      throw err;
+      throw new Error(`Cache builder with key ${builder.key} already exsits.`);
     }
     builders.push({
       ...builder,

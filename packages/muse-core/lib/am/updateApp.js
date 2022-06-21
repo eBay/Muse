@@ -3,6 +3,7 @@ const { registry } = require('../storage');
 const getApp = require('./getApp');
 const { validate } = require('schema-utils');
 const schema = require('../schemas/am/updateApp.json');
+const logger = require('../logger').createLogger('muse.am.updateApp');
 
 /**
  * @module muse-core/am/updateApp
@@ -28,6 +29,7 @@ const schema = require('../schemas/am/updateApp.json');
 module.exports = async (params) => {
   validate(schema, params);
   const { appName, changes, author = osUsername, msg } = params;
+  logger.info(`Updating app ${appName}...`);
   const ctx = {};
 
   await asyncInvoke('museCore.am.beforeUpdateApp', ctx, params);
@@ -47,5 +49,6 @@ module.exports = async (params) => {
     throw err;
   }
   await asyncInvoke('museCore.am.afterUpdateApp', ctx, params);
+  logger.info(`Update app success: ${appName}.`);
   return ctx.app;
 };

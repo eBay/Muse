@@ -64,7 +64,6 @@ module.exports = async (params) => {
     logger.verbose(`Set registry storage ${pluginKeyPath} finished.`);
   } catch (err) {
     ctx.error = err;
-    logger.error(`Failed to set registry storage ${pluginKeyPath}: ${JSON.stringify(params)} .`);
     await asyncInvoke('museCore.pm.failedCreatePlugin', ctx, params);
     throw err;
   }

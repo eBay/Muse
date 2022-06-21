@@ -2,6 +2,7 @@ const { asyncInvoke, getPluginId, osUsername } = require('../utils');
 const { registry } = require('../storage');
 const { validate } = require('schema-utils');
 const schema = require('../schemas/pm/deletePlugin.json');
+const logger = require('../logger').createLogger('muse.pm.deletePlugin');
 /**
  * @module muse-core/pm/deletePlugin
  */
@@ -20,9 +21,9 @@ const schema = require('../schemas/pm/deletePlugin.json');
 module.exports = async (params) => {
   validate(schema, params);
   const ctx = {};
-  await asyncInvoke('museCore.pm.beforeDeletePlugin', ctx, params);
-
   const { pluginName, author = osUsername, msg } = params;
+  logger.info(`Deleting plugin ${pluginName}...`);
+  await asyncInvoke('museCore.pm.beforeDeletePlugin', ctx, params);
 
   const pid = getPluginId(pluginName);
   const pluginKeyPath = `/plugins/${pid}.yaml`;
@@ -36,4 +37,7 @@ module.exports = async (params) => {
     throw err;
   }
   await asyncInvoke('museCore.pm.afterDeletePlugin', ctx, params);
+  logger.info(`Delete plugin success: ${pluginName}...`);
+
+  return ctx;
 };

@@ -53,8 +53,7 @@ module.exports = async (params) => {
   } catch (err) {
     ctx.error = err;
     await asyncInvoke('museCore.am.failedDeleteEnv', ctx, params);
-    logger.fatalError(err);
-    return;
+    throw err;
   }
   await asyncInvoke('museCore.am.afterDeleteEnv', ctx, params);
   logger.info(`Delete env success: ${appName}/${envName}.`);
