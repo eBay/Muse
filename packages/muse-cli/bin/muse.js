@@ -2,7 +2,7 @@
 const { Command } = require('commander');
 const chalk = require('chalk');
 const muse = require('muse-core');
-const fs = require('fs');
+const fs = require('fs-extra');
 const path = require('path');
 const readline = require('node:readline');
 const { stdin: input, stdout: output } = require('node:process');
@@ -300,15 +300,39 @@ program
 program
   .command('release')
   .alias('release-plugin')
-  .description('Release a plugin version')
+  .description('Releases a plugin version')
+  .argument('[version]', 'plugin version', 'patch')
+  .action(async (version) => {
+    const pkgJson = fs.readJSONSync(path.join(process.cwd(), 'package.json'), {
+      throws: false,
+    });
+
+    if (!pkgJson?.muse) {
+      throw new Error(`"muse release" need to be run under a Muse plugin project.`);
+    }
+    const buildDir = path.join(process.cwd(), 'build');
+    if (!buildDir) {
+      throw new Error(`No "build" folder found. Please build before release.`);
+    }
+    console.log('version: ', version);
+    const r = await muse.pm.releasePlugin({
+      pluginName: pkgJson.name,
+      version: version,
+      buildDir: buildDir,
+    });
+    console.log(chalk.cyan(`Plugin released ${r.pluginName}@${r.version}`));
+  });
+
+program
+  .command('reg-release')
+  .alias('register-release')
+  .description('Register a plugin release.')
   .argument('<pluginName>', 'plugin name')
   .argument('[version]', 'plugin version', 'patch')
   .action(async (pluginName, version) => {
-    const buildDir = path.join(process.cwd(), 'build');
     const r = await muse.pm.releasePlugin({
       pluginName,
       version,
-      buildDir: fs.existsSync(buildDir) ? buildDir : null,
     });
     console.log(chalk.cyan(`Plugin released ${r.pluginName}@${r.version}`));
   });
