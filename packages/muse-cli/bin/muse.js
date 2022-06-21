@@ -300,8 +300,14 @@ program
 program
   .command('release')
   .alias('release-plugin')
-  .description('Releases a plugin version')
-  .argument('[version]', 'plugin version', 'patch')
+  .description(
+    'Releases a plugin: it registers a release in the Muse registry and uploads content from the "build" folder to the defined static assets storage.',
+  )
+  .argument(
+    '[version]',
+    'The version of the release, can be patch, minor, major or a specified version like 1.0.8.',
+    'patch',
+  )
   .action(async (version) => {
     const pkgJson = fs.readJSONSync(path.join(process.cwd(), 'package.json'), {
       throws: false,
