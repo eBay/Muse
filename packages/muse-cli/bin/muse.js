@@ -22,7 +22,7 @@ const confirmAnswer = (answer) => {
 const program = new Command();
 program
   .name('muse')
-  .description('MUSE CLI tool for managing MUSE apps and plugins')
+  .description('MUSE CLI tool for managing MUSE deployments')
   .version(
     require('../package.json').version,
     '-v, --version',
@@ -31,7 +31,7 @@ program
 
 program
   .command('info')
-  .description('Shows MUSE core/CLI version')
+  .description('Show MUSE core/CLI version')
   .action(() => {
     console.log(chalk.cyan(`Muse CLI version: ${require('../package.json').version}.`));
     console.log(chalk.cyan(`Muse core version: ${require('muse-core/package.json').version}.`));
@@ -62,7 +62,7 @@ program
 
 program
   .command('show-config')
-  .description('Shows MUSE config')
+  .description('Show MUSE config')
   .action(() => {
     const filepath = muse.config?.filepath;
     if (!filepath) {
@@ -75,10 +75,9 @@ program
 
 program
   .command('show-data')
-  .description('Shows data from a key')
+  .description('Show cached data from a cache key')
   .argument('<key>', 'data key')
   .action(async (key) => {
-    if (!key) throw new Error('Data key is required.');
     const data = await muse.data.get(key);
     if (data) {
       console.log(chalk.cyan(`${key}:\r\n${JSON.stringify(data, null, 2)}`));
@@ -89,27 +88,25 @@ program
 
 program
   .command('serve')
-  .description('Serves a MUSE application environment')
+  .description('Serve a MUSE application environment')
   .argument('<appName>', 'application name')
   .argument('[envName]', 'environment name', 'staging')
   .argument('[port]', 'port', 6070)
   .action((appName, envName, port) => {
-    if (!appName) throw new Error('App name is required.');
     require('muse-simple-server/lib/server')({ appName, envName, port });
   });
 
 program
   .command('refresh-data-cache')
-  .description('Refreshes a cache key')
+  .description('Refresh a cache key')
   .argument('<key>', 'cache key')
   .action(async (key) => {
-    if (!key) throw new Error('Data key is required.');
     await muse.data.refreshCache(key);
   });
 
 program
   .command('create-app')
-  .description('Creates a new MUSE application')
+  .description('Create a new MUSE application')
   .argument('<appName>', 'application name')
   .action(async (appName) => {
     await muse.am.createApp({ appName });
@@ -117,7 +114,7 @@ program
 
 program
   .command('view-app')
-  .description('Views a MUSE application details')
+  .description('Display basic details of a MUSE application')
   .argument('<appName>', 'application name')
   .action(async (appName) => {
     const app = await muse.am.getApp(appName);
@@ -126,7 +123,7 @@ program
 
 program
   .command('view-full-app')
-  .description('Views a MUSE application full details')
+  .description('Display full details of a MUSE application')
   .argument('<appName>', 'application name')
   .action(async (appName) => {
     const fullApp = await muse.data.get(`muse.app.${appName}`);
@@ -135,7 +132,7 @@ program
 
 program
   .command('create-env')
-  .description('Creates a MUSE application environment')
+  .description('Create a MUSE application environment')
   .argument('<appName>', 'application name')
   .argument('<envName>', 'environment name')
   .action(async (appName, envName) => {
@@ -145,7 +142,7 @@ program
 program
   .command('del-env')
   .alias('delete-env')
-  .description('Deletes a MUSE application environment')
+  .description('Delete a MUSE application environment')
   .argument('<appName>', 'application name')
   .argument('<envName>', 'environment name')
   .action(async (appName, envName) => {
@@ -168,7 +165,7 @@ program
 
 program
   .command('create-plugin')
-  .description('Creates a new MUSE plugin')
+  .description('Create a new MUSE plugin')
   .argument('<pluginName>', 'plugin name')
   .action(async (pluginName) => {
     await muse.pm.createPlugin({ pluginName });
@@ -177,7 +174,7 @@ program
 program
   .command('del-plugin')
   .alias('delete-plugin')
-  .description('Deletes a MUSE plugin')
+  .description('Delete a MUSE plugin')
   .argument('<pluginName>', 'plugin name')
   .action(async (pluginName) => {
     const rl = readline.createInterface({ input, output });
@@ -198,7 +195,7 @@ program
 
 program
   .command('list-deployed-plugins')
-  .description('List deplpyed plugins on a MUSE application environment')
+  .description('List deployed plugins on a MUSE application environment')
   .argument('<appName>', 'application name')
   .argument('<envName>', 'environment name')
   .action(async (appName, envName) => {
@@ -212,7 +209,7 @@ program
 program
   .command('deploy')
   .alias('deploy-plugin')
-  .description('Deploys a plugin/version on a MUSE application environment')
+  .description('Deploy a plugin version on a MUSE application environment')
   .argument('<appName>', 'application name')
   .argument('<envName>', 'environment name')
   .argument('<pluginName>', 'plugin name')
@@ -264,7 +261,7 @@ program
 
 program
   .command('request-deploy')
-  .description('Requests to deploy a plugin/version on a MUSE application environment')
+  .description('Request to deploy a plugin version on a MUSE application environment')
   .argument('<appName>', 'application name')
   .argument('<envName>', 'environment name')
   .argument('<pluginName>', 'plugin name')
@@ -279,7 +276,7 @@ program
 program
   .command('undeploy')
   .alias('undeploy-plugin')
-  .description('Deploys a plugin/version on a MUSE application environment')
+  .description('Undeploy a plugin from a MUSE application environment')
   .argument('<appName>', 'application name')
   .argument('<envName>', 'environment name')
   .argument('<pluginName>', 'plugin name')
@@ -303,7 +300,7 @@ program
 program
   .command('release')
   .alias('release-plugin')
-  .description('Releases a plugin version')
+  .description('Release a plugin version')
   .argument('<pluginName>', 'plugin name')
   .argument('[version]', 'plugin version', 'patch')
   .action(async (pluginName, version) => {
@@ -319,10 +316,13 @@ program
 program
   .command('del-release')
   .alias('delete-release')
-  .description('Deletes a plugin release version')
+  .description('Delete a released plugin version')
   .argument('<pluginName>', 'plugin name')
   .argument('<version>', 'plugin version')
-  .option('-d, --delAssets', 'delete associated assets (not just unregister release)')
+  .option(
+    '-d, --delAssets',
+    'delete associated build assets (by default only registry information is deleted)',
+  )
   .action(async (pluginName, version, options) => {
     const rl = readline.createInterface({ input, output });
     const answer = await new Promise((resolve) =>
