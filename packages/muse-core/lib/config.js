@@ -1,6 +1,7 @@
 const fs = require('fs-extra');
 const _ = require('lodash');
 const { cosmiconfigSync } = require('cosmiconfig');
+const os = require('os');
 
 const explorerSync = cosmiconfigSync('muse', {
   searchPlaces: [
@@ -27,6 +28,9 @@ if (envConfigFile) {
   cosmicResult = explorerSync.load(envConfigFile);
 } else {
   cosmicResult = explorerSync.search();
+  if (!cosmicResult) {
+    cosmicResult = explorerSync.search(os.homedir());
+  }
 }
 
 if (cosmicResult) {
