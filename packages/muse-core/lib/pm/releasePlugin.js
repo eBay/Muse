@@ -92,7 +92,7 @@ module.exports = async (params) => {
         { overwrite: true },
       );
     } catch (err) {
-      logger.warn(err);
+      throw new Error('Failed to zip assets.');
     }
     await assets.uploadDir(
       buildDir,

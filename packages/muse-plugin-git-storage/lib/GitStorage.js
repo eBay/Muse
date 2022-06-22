@@ -71,58 +71,56 @@ class GitStorage {
       });
       return Buffer.from(data?.content, 'base64').toString();
     } catch (err) {
-      logger.info('Content Not Found.');
+      if (err?.response?.status === 404) {
+        logger.info('Content Not Found.');
+      } else {
+        throw err;
+      }
+
       return;
     }
   }
 
   async del(keyPath, msg) {
     logger.verbose(`Delete value: ${keyPath}`);
-    try {
-      const file = await this.gitClient.getRepoContent({
-        organizationName: this.organizationName,
-        projectName: this.projectName,
-        keyPath,
-      });
-      if (!file) {
-        logger.warn(`${keyPath} does not exist.`);
-        return;
-      }
-      return await this.gitClient.deleteFile({
-        organizationName: this.organizationName,
-        projectName: this.projectName,
-        keyPath,
-        file,
-        message: msg,
-      });
-    } catch (err) {
-      logger.fatalError(err);
+    const file = await this.gitClient.getRepoContent({
+      organizationName: this.organizationName,
+      projectName: this.projectName,
+      keyPath,
+    });
+    if (!file) {
+      logger.warn(`${keyPath} does not exist.`);
+      return;
     }
+    return await this.gitClient.deleteFile({
+      organizationName: this.organizationName,
+      projectName: this.projectName,
+      keyPath,
+      file,
+      message: msg,
+    });
   }
 
   // list items in a container
   async list(keyPath) {
     logger.verbose(`List dir: ${keyPath}`);
-    try {
-      const files = await this.gitClient.getRepoContent({
-        organizationName: this.organizationName,
-        projectName: this.projectName,
-        keyPath,
-      });
-      return files
-        ? files.map(({ name, path, type, size, sha }) => {
-            return {
-              name,
-              path,
-              type,
-              size,
-              sha,
-            };
-          })
-        : [];
-    } catch (err) {
-      logger.fatalError(err);
-    }
+
+    const files = await this.gitClient.getRepoContent({
+      organizationName: this.organizationName,
+      projectName: this.projectName,
+      keyPath,
+    });
+    return files
+      ? files.map(({ name, path, type, size, sha }) => {
+          return {
+            name,
+            path,
+            type,
+            size,
+            sha,
+          };
+        })
+      : [];
   }
 }
 
