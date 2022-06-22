@@ -2,9 +2,10 @@ jest.mock('./getDeployedPlugins');
 jest.mock('../storage');
 
 const { vol } = require('memfs');
-const checkDependencies = require('./checkDependencies');
-const { assets } = require('../storage');
-const getDeployedPlugins = require('./getDeployedPlugins');
+const muse = require('../');
+
+const { checkDependencies, getDeployedPlugins } = muse.pm;
+const { assets } = muse.storage;
 
 describe('Check Dependencies tests.', () => {
   beforeEach(() => {
