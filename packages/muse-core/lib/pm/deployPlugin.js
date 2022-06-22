@@ -79,7 +79,6 @@ module.exports = async (params) => {
       msg || `Deploy plugin ${pluginName} to ${appName}/${envName} by ${author}`,
     );
   } catch (err) {
-    console.log(err);
     ctx.error = err;
     await asyncInvoke('museCore.pm.failedDeployPlugin', ctx, params);
     throw err;

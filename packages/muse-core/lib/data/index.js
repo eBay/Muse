@@ -10,6 +10,7 @@ const logger = require('../logger').createLogger('muse.data.index');
 module.exports = {
   get: async (key) => {
     // If there's cache provider, always get it from cache
+    plugin.invoke(`museCore.data.beforeGet`, key);
     if (plugin.getPlugins('museCore.data.cache.get').length > 0) {
       logger.verbose(`Getting data from cache: ${key}`);
       return JSON.parse(await asyncInvokeFirst('museCore.data.cache.get', key));
@@ -24,12 +25,14 @@ module.exports = {
     if (!key) {
       throw new Error(`Key is missing in museCore.data.refreshCache.`);
     }
+    plugin.invoke(`museCore.data.beforeRefreshCache`, key);
     logger.verbose(`Refreshing data cache: ${key}`);
     const value = await builder.get(key);
     if (!_.isNil(value)) {
       // If found from builder, save to cache
       await asyncInvokeFirst('museCore.data.cache.set', key, JSON.stringify(value));
     }
+    plugin.invoke(`museCore.data.afterRefreshCache`, key);
   },
   builder,
 };
