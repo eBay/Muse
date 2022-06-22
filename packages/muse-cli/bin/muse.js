@@ -211,10 +211,19 @@ program
   .alias('deploy-plugin')
   .description('Deploy a plugin version on a MUSE application environment')
   .argument('<appName>', 'application name')
-  .argument('<envName>', 'environment name')
-  .argument('<pluginName>', 'plugin name')
-  .argument('<version>', 'plugin version')
+  .argument('[envName]', 'environment name', 'staging')
+  .argument('[pluginName]', 'plugin name', null)
+  .argument('[version]', 'plugin version')
   .action(async (appName, envName, pluginName, version) => {
+    const pkgJson = fs.readJSONSync(path.join(process.cwd(), 'package.json'), {
+      throws: false,
+    });
+    if (!pluginName && pkgJson.muse) {
+      pluginName = pkgJson.name;
+    } else if (!pluginName) {
+      throw new Error(`Plugin name is required.`);
+    }
+
     const dependencyCheckResult = await muse.pm.checkDependencies({
       appName,
       envName,
