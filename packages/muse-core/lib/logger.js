@@ -54,8 +54,6 @@ function createLogger(name) {
   const wrappedLogger = {};
   ['error', 'warn', 'info', 'http', 'verbose', 'debug', 'silly'].forEach((name) => {
     Object.assign(wrappedLogger, {
-      // get [name]() {
-      // console.log('get metd');
       [name]: (...args) => {
         if (!config.__pluginLoaded) {
           throw new Error(
