@@ -1,10 +1,11 @@
 jest.mock('./getDeployedPlugins');
+jest.mock('./checkReleaseVersion');
 jest.mock('../storage');
 
 const { vol } = require('memfs');
 const muse = require('../');
 
-const { checkDependencies, getDeployedPlugins } = muse.pm;
+const { checkDependencies, getDeployedPlugins, checkReleaseVersion } = muse.pm;
 const { assets } = muse.storage;
 
 describe('Check Dependencies tests.', () => {
@@ -38,6 +39,9 @@ describe('Check Dependencies tests.', () => {
       .mockImplementationOnce((cb) => mockedLibManifestResult)
       .mockImplementationOnce((cb) => mockedLibManifestResult);
 
+    checkReleaseVersion.mockImplementation((pluginName, version) => {
+      return '1.0.0';
+    });
     getDeployedPlugins.mockImplementation((cb, ca) => mockedDeployedPlugins);
 
     const result = await checkDependencies({
@@ -78,6 +82,10 @@ describe('Check Dependencies tests.', () => {
       .mockImplementationOnce((cb) => mockedLibManifestResult)
       .mockImplementationOnce((cb) => mockedLibManifestResult);
 
+    checkReleaseVersion.mockImplementation((pluginName, version) => {
+      return '1.0.0';
+    });
+
     getDeployedPlugins.mockImplementation((cb, ca) => mockedDeployedPlugins);
 
     const result = await checkDependencies({
@@ -110,6 +118,10 @@ describe('Check Dependencies tests.', () => {
       .mockImplementationOnce((cb) => mockedDepsResult)
       .mockImplementationOnce((cb) => mockedLibManifestResult)
       .mockImplementationOnce((cb) => mockedLibManifestResult);
+
+    checkReleaseVersion.mockImplementation((pluginName, version) => {
+      return '1.0.0';
+    });
 
     getDeployedPlugins.mockImplementation((cb, ca) => mockedDeployedPlugins);
 
@@ -146,6 +158,10 @@ describe('Check Dependencies tests.', () => {
       .mockImplementationOnce((cb) => mockedLibManifestResult)
       .mockImplementationOnce((cb) => mockedLibManifestResult);
 
+    checkReleaseVersion.mockImplementation((pluginName, version) => {
+      return '1.0.0';
+    });
+
     getDeployedPlugins.mockImplementation((cb, ca) => mockedDeployedPlugins);
 
     const result = await checkDependencies({
@@ -179,6 +195,10 @@ describe('Check Dependencies tests.', () => {
       .mockImplementationOnce((cb) => mockedDepsResult)
       .mockImplementationOnce((cb) => mockedLibManifestResult)
       .mockImplementationOnce((cb) => mockedLibManifestResult);
+
+    checkReleaseVersion.mockImplementation((pluginName, version) => {
+      return '1.0.0';
+    });
 
     getDeployedPlugins.mockImplementation((cb, ca) => mockedDeployedPlugins);
 
