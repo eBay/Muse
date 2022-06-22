@@ -7,7 +7,7 @@ const { registry } = require('../storage');
 const getPlugin = require('./getPlugin');
 const { getApp } = require('../am');
 const getDeployedPlugin = require('./getDeployedPlugin');
-const getReleases = require('./getReleases');
+const checkReleaseVersion = require('./checkReleaseVersion');
 const logger = require('../logger').createLogger('muse.pm.deployPlugin');
 
 /**
@@ -44,20 +44,14 @@ module.exports = async (params) => {
   );
   await asyncInvoke('museCore.pm.beforeDeployPlugin', ctx, params);
 
-  let version = params.version;
   // Check if plugin name exist
   const p = await getPlugin(pluginName);
   if (!p) {
     throw new Error(`Plugin ${pluginName} doesn't exist.`);
   }
 
-  // Check if release exists
-  const releases = await getReleases(pluginName);
-  if (!version) {
-    version = releases[0].version;
-  } else if (!_.find(releases, { version })) {
-    throw new Error(`Version ${version} doesn't exist.`);
-  }
+  // Check if release version exists (throws exception if no version/release found)
+  let version = await checkReleaseVersion({ pluginName, version: params.version });
 
   const app = await getApp(appName);
   if (!app) {

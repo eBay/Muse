@@ -26,6 +26,8 @@ module.exports = {
   releasePlugin: require('./releasePlugin'),
   /** @member {function} getReleases */
   getReleases: require('./getReleases'),
+  /** @member {function} checkReleaseVersion */
+  checkReleaseVersion: require('./checkReleaseVersion'),
   /** @member {function} deleteRelease */
   deleteRelease: require('./deleteRelease'),
   /** @member {function} getReleaseAssets */
