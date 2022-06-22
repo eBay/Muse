@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const museAssetsMiddleware = require('muse-express-middleware/lib/assetsMiddleware');
+const museAssetsMiddleware = require('muse-express-middleware/lib/assets');
 const { getMuseLibs } = require('./utils');
 const muse = require('muse-core');
 
