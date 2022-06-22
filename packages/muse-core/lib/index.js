@@ -4,6 +4,7 @@
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
+const plugin = require('js-plugin');
 
 const envFile1 = path.join(process.cwd(), '.muse.env');
 const envFile2 = path.join(os.homedir(), '.muse.env');
@@ -15,8 +16,19 @@ const envFile2 = path.join(os.homedir(), '.muse.env');
   }
 });
 
+const config = require('./config');
 const muse = {
+  config,
   logger: require('./logger'),
+  // register plugin must be called in the global scope
+  registerPlugin: (p) => {
+    if (config.__pluginLoaded) {
+      throw new Error(
+        `You can only register a plugin before initialization. Usually you should register a plugin in the global scope in your code.`,
+      );
+    }
+    plugin.register(p);
+  },
 };
 module.exports = muse;
 
@@ -27,7 +39,7 @@ Object.assign(muse, {
   pm: require('./pm'),
   req: require('./req'),
   data: require('./data'),
-  config: require('./config'),
+  // config: require('./config'),
   storage: require('./storage'),
   utils: require('./utils'),
   // logger: require('./logger'),
