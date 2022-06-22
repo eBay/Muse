@@ -24,6 +24,8 @@
   ],
   "dependencies": {
     "@ant-design/charts": "^1.3.6",
+    "@ebay/muse-react": "workspace:^1.0.0",
+    "js-plugin": "^1.1.0",
     "@craco/craco": "^6.4.3",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.2.0",
@@ -35,8 +37,8 @@
     "antd": "^4.20.7",
     "craco-less": "^2.0.0",
     "json-parse-better-errors": "^1.0.2",
-    "muse-craco-plugin": "../../packages/muse-craco-plugin",
-    "@ebay/muse-react": "link:../muse-react",
+    "muse-craco-plugin": "workspace:^1.0.0",
+    "muse-scripts-react": "workspace:^1.0.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-scripts": "5.0.1",
@@ -44,14 +46,14 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "GENERATE_SOURCEMAP=false PORT=3034 muse start",
-    "build": "GENERATE_SOURCEMAP=false muse build",
+    "start": "cross-env PORT=3033 muse-scripts-react start",
+    "build": "muse-scripts-react build --verbose",
+    "build:dev": "muse-scripts-react build --dev --verbose",
+    "deploy": "yarn build && yarn build:dev && muse release plugin-library && muse deploy testApp1 staging plugin-library",
     "build:esm": "tsc",
     "build:cjs": "tsc --module commonjs --outDir lib/cjs",
-    "build:dev": "GENERATE_SOURCEMAP=false muse build --dev",
     "test": "muse-scripts test",
     "e2e-test": "muse-scripts e2e-test",
-    "release": "muse-scripts release",
     "prestart2": "muse-scripts check-updates",
     "prebuild2": "muse-scripts check-updates"
   },

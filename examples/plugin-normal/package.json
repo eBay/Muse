@@ -4,16 +4,14 @@
   "private": true,
   "muse": {
     "devConfig": {
-      "app": "nate",
+      "app": "testApp1",
       "env": "staging",
-      "remotePlugins": [
-        "plugin-library"
-      ]
+      "remotePlugins": []
     }
   },
   "dependencies": {
     "@craco/craco": "^6.4.3",
-    "@ebay/muse-react": "link:../muse-react",
+    "@ebay/muse-react": "workspace:^1.0.0",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.2.0",
     "@testing-library/user-event": "^13.5.0",
@@ -25,23 +23,30 @@
     "dotenv": "^16.0.1",
     "js-plugin": "^1.1.0",
     "json-parse-better-errors": "^1.0.2",
-    "muse-craco-plugin": "../../packages/muse-craco-plugin",
-    "plugin-library": "link:../plugin-library",
+    "muse-craco-plugin": "workspace:^1.0.0",
+    "muse-scripts-react": "workspace:^1.0.0",
+    "plugin-library": "workspace:^0.1.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-scripts": "5.0.1",
     "typescript": "^4.7.2",
     "web-vitals": "^2.1.4"
   },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "eslint": "^8.17.0",
+    "eslint-config-react-app": "^7.0.1",
+    "eslint-plugin-react-hooks": "^4.5.0"
+  },
   "scripts": {
-    "start": "GENERATE_SOURCEMAP=false PORT=3033 muse start",
-    "build": "GENERATE_SOURCEMAP=false muse build",
-    "build:dev": "GENERATE_SOURCEMAP=false muse build --dev",
+    "start": "cross-env PORT=3034 muse-scripts-react start",
+    "build": "muse-scripts-react build --verbose",
+    "build:dev": "muse-scripts-react build --dev --verbose",
+    "deploy": "yarn build && yarn build:dev && muse release plugin-normal && muse deploy testApp1 staging plugin-normal",
     "test": "muse-scripts test",
     "e2e-test2": "muse-scripts e2e-test",
     "prestart2": "muse-scripts check-updates",
-    "prebuild2": "muse-scripts check-updates",
-    "release": "muse-scripts release"
+    "prebuild2": "muse-scripts check-updates"
   },
   "eslintConfig": {
     "extends": [

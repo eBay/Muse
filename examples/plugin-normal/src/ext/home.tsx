@@ -1,11 +1,10 @@
 import React from 'react';
-import { Line } from '@ant-design/charts';
-import pluginLibrary from 'plugin-library';
+import { SayHello } from 'plugin-library/src';
 
 const homePage = {
   homepage: () => (
     <div>
-        <pluginLibrary.SayHello name="Alberg"/>
+        <SayHello name="Alberg"/>
     </div> 
 ),
 }

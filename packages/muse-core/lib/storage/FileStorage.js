@@ -45,7 +45,8 @@ class FileStorage {
   async del(keyPath) {
     if (this.exists(keyPath)) {
       const absPath = this.mapPath(keyPath);
-      await fs.promises.unlink(absPath);
+      //await fs.promises.unlink(absPath);
+      await fs.promises.rm(absPath,{recursive:true});
     }
   }
 
