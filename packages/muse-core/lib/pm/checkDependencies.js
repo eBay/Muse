@@ -1,11 +1,12 @@
 const { assets } = require('../storage');
 const { getPluginId } = require('../utils');
 const getDeployedPlugins = require('./getDeployedPlugins');
+const checkReleaseVersion = require('./checkReleaseVersion');
 
-const generateMissingDeps = async (ctx, params, depsManifest, buildEnv) => {
+const generateMissingDeps = async (ctx, appName, envName, depsManifest, buildEnv) => {
   // not all the plugins will have a deps-manifest.json, only the ones using shared lib plugins
   const depsLibsKeys = Object.keys(depsManifest.content);
-  const deployedPlugins = await getDeployedPlugins(params.appName, params.envName);
+  const deployedPlugins = await getDeployedPlugins(appName, envName);
   const deployedLibPlugins = deployedPlugins?.filter((dp) => dp.type === 'lib');
 
   if (deployedLibPlugins) {
@@ -52,18 +53,25 @@ const generateMissingDeps = async (ctx, params, depsManifest, buildEnv) => {
 module.exports = async (params) => {
   const ctx = { missingDeps: { dev: [], dist: [] } };
 
+  // Check if release version exists (throws exception if no version/release found)
+  // Or try getting the latest one automatically if none specified
+  let version = await checkReleaseVersion({
+    pluginName: params.pluginName,
+    version: params.version,
+  });
+
   const depsDistManifest = await assets.getJson(
-    decodeURIComponent(`p/${params.pluginName}/v${params.version}/dist/deps-manifest.json`),
+    decodeURIComponent(`p/${params.pluginName}/v${version}/dist/deps-manifest.json`),
   );
   const depsDevManifest = await assets.getJson(
-    decodeURIComponent(`p/${params.pluginName}/v${params.version}/dev/deps-manifest.json`),
+    decodeURIComponent(`p/${params.pluginName}/v${version}/dev/deps-manifest.json`),
   );
 
   if (depsDistManifest) {
-    await generateMissingDeps(ctx, params, depsDistManifest, 'dist');
+    await generateMissingDeps(ctx, params.appName, params.envName, depsDistManifest, 'dist');
   }
   if (depsDevManifest) {
-    await generateMissingDeps(ctx, params, depsDevManifest, 'dev');
+    await generateMissingDeps(ctx, params.appName, params.envName, depsDevManifest, 'dev');
   }
   return ctx.missingDeps;
 };
