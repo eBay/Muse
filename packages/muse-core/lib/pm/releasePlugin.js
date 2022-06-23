@@ -81,19 +81,16 @@ module.exports = async (params) => {
 
   // If build dir exists, compress into a zip file and upload it and the unzip files to assets storage
   if (buildDir) {
-    try {
-      const zipFile = path.join(process.cwd(), 'tmp', 'assets.zip');
-      fs.ensureDirSync('./tmp');
-      await doZip(buildDir, zipFile);
-      // Move files to build folder first and then upload assets to nuobject for the migration
-      await fs.moveSync(
-        path.join(process.cwd(), 'tmp/assets.zip'),
-        path.join(process.cwd(), 'build/assets.zip'),
-        { overwrite: true },
-      );
-    } catch (err) {
-      throw new Error('Failed to zip assets.');
-    }
+    const zipFile = path.join(process.cwd(), 'tmp', 'assets.zip');
+    fs.ensureDirSync('./tmp');
+    await doZip(buildDir, zipFile);
+    // Move files to build folder first and then upload assets to nuobject for the migration
+    await fs.moveSync(
+      path.join(process.cwd(), 'tmp/assets.zip'),
+      path.join(process.cwd(), 'build/assets.zip'),
+      { overwrite: true },
+    );
+
     await assets.uploadDir(
       buildDir,
       `/p/${pid}/v${ctx.release.version}`,
