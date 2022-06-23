@@ -63,50 +63,53 @@ class GitStorage {
    */
   async get(keyPath) {
     logger.verbose(`Get value: ${keyPath}`);
-    const data = await this.gitClient.getRepoContent({
-      keyPath,
-      organizationName: this.organizationName,
-      projectName: this.projectName,
-    });
-    if (!data) return;
-    const content = Buffer.from(data?.content, 'base64').toString();
-    // const content = data.content;
-    return content;
+    try {
+      const data = await this.gitClient.getRepoContent({
+        keyPath,
+        organizationName: this.organizationName,
+        projectName: this.projectName,
+      });
+      return Buffer.from(data?.content, 'base64').toString();
+    } catch (err) {
+      if (err?.response?.status === 404) {
+        logger.info('Content Not Found.');
+      } else {
+        throw err;
+      }
+
+      return;
+    }
   }
 
   async del(keyPath, msg) {
     logger.verbose(`Delete value: ${keyPath}`);
-    try {
-      const file = await this.gitClient.getRepoContent({
-        organizationName: this.organizationName,
-        projectName: this.projectName,
-        keyPath,
-      });
-      if (!file) {
-        console.warn(`${keyPath} does not exist.`);
-        return;
-      }
-      return await this.gitClient.deleteFile({
-        organizationName: this.organizationName,
-        projectName: this.projectName,
-        keyPath,
-        file,
-        message: msg,
-      });
-    } catch (err) {
-      console.log('delete error:', err);
+    const file = await this.gitClient.getRepoContent({
+      organizationName: this.organizationName,
+      projectName: this.projectName,
+      keyPath,
+    });
+    if (!file) {
+      logger.warn(`${keyPath} does not exist.`);
+      return;
     }
+    return await this.gitClient.deleteFile({
+      organizationName: this.organizationName,
+      projectName: this.projectName,
+      keyPath,
+      file,
+      message: msg,
+    });
   }
 
   // list items in a container
   async list(keyPath) {
     logger.verbose(`List dir: ${keyPath}`);
+
     const files = await this.gitClient.getRepoContent({
       organizationName: this.organizationName,
       projectName: this.projectName,
       keyPath,
     });
-
     return files
       ? files.map(({ name, path, type, size, sha }) => {
           return {

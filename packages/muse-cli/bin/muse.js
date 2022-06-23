@@ -114,6 +114,27 @@ program
   });
 
 program
+  .command('delete-app')
+  .description('Delete a MUSE application')
+  .argument('<appName>', 'application name')
+  .action(async (appName) => {
+    const rl = readline.createInterface({ input, output });
+    const answer = await new Promise((resolve) =>
+      rl.question(
+        'ATTENTION !! This operation cannot be undone. Confirm application deletion (yes/no) [Y] ? ',
+        resolve,
+      ),
+    );
+    rl.close();
+    if (confirmAnswer(answer)) {
+      await muse.am.deleteApp({ appName });
+      console.log(chalk.cyan(`Application: ${appName} deleted successfully.`));
+    } else {
+      console.log(chalk.cyan(`Command ABORTED.`));
+    }
+  });
+
+program
   .command('view-app')
   .description('Display basic details of a MUSE application')
   .argument('<appName>', 'application name')

@@ -14,6 +14,7 @@ const {
   assetsLruCachePlugin,
   dataCachePlugin,
   environmentVariablesPlugin,
+  ...restPlugins
 } = require('./plugins');
 
 const configDir = config.filepath ? path.dirname(config.filepath) : process.cwd();
@@ -80,6 +81,8 @@ if (config.get('defaultDataCachePlugin')) {
 }
 
 plugin.register(environmentVariablesPlugin());
+
+Object.values(restPlugins).forEach((p) => plugin.register(p()));
 
 // When all plugins are loaded, invoke onReady on each plugin
 plugin.invoke('onReady', config);

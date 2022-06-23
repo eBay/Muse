@@ -64,4 +64,31 @@ describe('utils basic tests.', () => {
     expect(() => genNewVersion('1.0.0', 'aaa')).toThrowError();
     expect(() => genNewVersion('abc')).toThrowError();
   });
+
+  it('Parse registry key should work', () => {
+    const { parseRegistryKey } = utils;
+    expect(parseRegistryKey('/apps/myapp/myapp.yaml')).toEqual({
+      type: 'app',
+      appName: 'myapp',
+    });
+
+    expect(parseRegistryKey('/apps/myapp/staging/myplugin.yaml')).toEqual({
+      type: 'deployed-plugin',
+      appName: 'myapp',
+      pluginName: 'myplugin',
+      envName: 'staging',
+    });
+
+    expect(parseRegistryKey('/plugins/myplugin.yaml')).toEqual({
+      type: 'plugin',
+      pluginName: 'myplugin',
+    });
+
+    expect(parseRegistryKey('/plugins/releases/myplugin.yaml')).toEqual({
+      type: 'releases',
+      pluginName: 'myplugin',
+    });
+
+    expect(parseRegistryKey('/unknown-pattern')).toBeNull();
+  });
 });
