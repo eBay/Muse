@@ -5,6 +5,7 @@ const semver = require('semver');
 const _ = require('lodash');
 const plugin = require('js-plugin');
 const jsYaml = require('js-yaml');
+const archiver = require('archiver');
 
 async function asyncInvoke(extPoint, ...args) {
   const noThrows = extPoint.endsWith('!');
@@ -160,6 +161,20 @@ const getMuseGlobal = (app, envName) => {
   };
 };
 
+const doZip = (sourceDir, zipFile) => {
+  return new Promise((resolve, reject) => {
+    const output = fs.createWriteStream(zipFile);
+    const archive = archiver('zip', { zlib: { level: 9 } });
+    archive.directory(sourceDir, false);
+    archive.pipe(output);
+    archive.on('error', (err) => reject(err));
+    output.on('close', () => {
+      resolve();
+    });
+    archive.finalize();
+  });
+};
+
 module.exports = {
   getPluginId,
   getPluginName,
@@ -174,6 +189,7 @@ module.exports = {
   genNewVersion,
   updateJson,
   getMuseGlobal,
+  doZip,
   osUsername: os.userInfo().username,
   defaultAssetStorageLocation: path.join(os.homedir(), 'muse-storage/assets'),
   defaultRegistryStorageLocation: path.join(os.homedir(), 'muse-storage/registry'),

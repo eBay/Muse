@@ -30,7 +30,7 @@ module.exports = async (appName) => {
     throw err;
   }
   await asyncInvoke('museCore.am.afterGetApp', ctx, appName);
-  logger.info(`Get app success: ${appName}...`);
+  logger.info(`Get app success: ${appName}`);
 
   return ctx.app;
 };
