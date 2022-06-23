@@ -5,6 +5,19 @@ const schema = require('../schemas/pm/updatePlugin.json');
 const logger = require('../logger').createLogger('muse.pm.updatePlugin');
 
 /**
+ * @module muse-core/pm/updatePlugin
+ */
+/**
+ * @typedef {object} UpdatePluginArgument
+ * @property {string} pluginName the plugin name
+ * @property {string} appName the app name
+ * @property {string} envName the environment name
+ * @property {object} changes the changes to apply
+ * @property {string} [author] default to the current os logged in user
+ * @property {string} [msg] action message
+ */
+
+/**
  *
  * @param {UpdatePluginArgument} params args to update a plugin
  * @returns {object} plugin object

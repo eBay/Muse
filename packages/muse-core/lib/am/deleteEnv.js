@@ -13,7 +13,7 @@ const logger = require('../logger').createLogger('muse.am.deleteEnv');
 /**
  * @typedef {object} DeleteEnvArgument
  * @property {string} appName the app name
- * @property {string} envName the enviroment of app
+ * @property {string} envName the environment of app
  * @property {string} [author=osUsername] default to the current os logged in user
  */
 

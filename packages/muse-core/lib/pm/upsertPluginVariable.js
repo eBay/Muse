@@ -2,7 +2,24 @@ const updatePlugin = require('./updatePlugin');
 const { getPluginId, osUsername } = require('../utils');
 const { validate } = require('schema-utils');
 const schema = require('../schemas/pm/upsertPluginVariable.json');
+const logger = require('../logger').createLogger('muse.pm.upsertPluginVariable');
 
+/**
+ * @module muse-core/pm/updatePlugin
+ */
+/**
+ * @typedef {object} UpsertPluginVariableArgument
+ * @property {string} pluginName the plugin name
+ * @property {array} variables the variables to apply. Each array element is an object { name: 'var. name', value: 'var. value'}
+ * @property {string} appName the app name
+ * @property {string} envName the environment name
+ */
+
+/**
+ *
+ * @param {UpsertPluginVariableArgument} params args to update a plugin variable
+ * @returns {object} plugin object
+ */
 module.exports = async (params) => {
   validate(schema, params);
   const { pluginName, variables, appName, envName = 'staging' } = params;
@@ -41,4 +58,7 @@ module.exports = async (params) => {
     ctx.error = err;
     throw err;
   }
+
+  logger.info(`Upsert plugin variables success: ${pluginName}.`);
+  return ctx;
 };
