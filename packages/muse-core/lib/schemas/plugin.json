@@ -1,0 +1,10 @@
+{
+  "type": "object",
+  "properties": {
+    "name": { "type": "string" },
+    "createdAt": { "type": "string" },
+    "createdBy": { "type": "string" }
+  },
+  "required": ["name", "createdAt", "createdBy"],
+  "additionalProperties": true
+}

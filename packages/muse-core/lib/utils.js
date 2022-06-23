@@ -83,6 +83,7 @@ async function batchAsync(tasks, size = 100, msg = 'Batch async') {
   }
   return res;
 }
+
 function makeRetryAble(executor, times = 3, checker = () => {}) {
   // if checker returns something, it will break retry logic and return the result of checker
   return async (...args) => {
@@ -175,6 +176,39 @@ const doZip = (sourceDir, zipFile) => {
   });
 };
 
+const parseRegistryKey = (key) => {
+  const arr = key.split('/').filter(Boolean);
+
+  if (arr[0] === 'apps' && arr[2] === `${arr[1]}.yaml`) {
+    // validate app yaml with keypath pattern: /apps/myapp/myapp.yaml
+    return {
+      type: 'app',
+      appName: arr[1],
+    };
+  } else if (arr[0] === 'plugins' && arr[1].endsWith('.yaml')) {
+    // validate plugin.yaml with keypath pattern: /plugins/myplugin.yaml
+    return {
+      type: 'plugin',
+      pluginName: getPluginName(arr[1].replace('.yaml', '')),
+    };
+  } else if (arr[0] === 'apps' && arr[3].endsWith('.yaml')) {
+    // validate deployed plugin.yaml with keypath pattern: /apps/myapp/staging/myplugin.yaml
+    return {
+      type: 'deployed-plugin',
+      pluginName: getPluginName(arr[3].replace('.yaml', '')),
+      appName: arr[1],
+      envName: arr[2],
+    };
+  } else if (arr[0] === 'plugins' && arr[1] === 'releases' && arr[2].endsWith('.yaml')) {
+    // validate releases.yaml with keypath pattern: /plugins/releases/myplugin.yaml
+    return {
+      type: 'releases',
+      pluginName: getPluginName(arr[2].replace('.yaml', '')),
+    };
+  }
+  return null;
+}
+
 module.exports = {
   getPluginId,
   getPluginName,
@@ -190,6 +224,7 @@ module.exports = {
   updateJson,
   getMuseGlobal,
   doZip,
+  parseRegistryKey,
   osUsername: os.userInfo().username,
   defaultAssetStorageLocation: path.join(os.homedir(), 'muse-storage/assets'),
   defaultRegistryStorageLocation: path.join(os.homedir(), 'muse-storage/registry'),
