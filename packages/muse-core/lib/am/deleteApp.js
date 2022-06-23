@@ -3,7 +3,7 @@
 
 const { asyncInvoke, osUsername } = require('../utils');
 const { registry } = require('../storage');
-const logger = require('../logger').createLogger('muse.am.createEnv');
+const logger = require('../logger').createLogger('muse.am.deleteApp');
 
 /**
  *
