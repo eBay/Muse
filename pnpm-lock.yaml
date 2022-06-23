@@ -292,9 +292,11 @@ importers:
   packages/muse-express-middleware:
     specifiers:
       eslint: ^8.16.0
+      lodash: ^4.17.21
       mime-types: ^2.1.35
       muse-core: workspace:^1.0.0
     dependencies:
+      lodash: 4.17.21
       mime-types: 2.1.35
       muse-core: link:../muse-core
     devDependencies:
