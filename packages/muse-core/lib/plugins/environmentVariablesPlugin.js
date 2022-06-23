@@ -7,7 +7,7 @@ module.exports = () => {
     museCli: {
       processProgram: (program) => {
         program
-          .command('add-app-var')
+          .command('set-app-var')
           .alias('upsert-app-var')
           .description('Upsert environment variables from an application')
           .argument('<appName>', 'Application name')
@@ -43,7 +43,7 @@ If --env is not specified, variables are deleted from the apps's default configu
           });
 
         program
-          .command('add-plugin-var')
+          .command('set-plugin-var')
           .alias('upsert-plugin-var')
           .description('Upsert environment variables from a plugin')
           .argument('<pluginName>', 'Plugin name')
