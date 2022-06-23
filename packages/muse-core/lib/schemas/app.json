@@ -3,7 +3,7 @@
   "properties": {
     "name": { "type": "string" },
     "createdAt": { "type": "string" },
-    "createdBy": { "type": "timestamp" },
+    "createdBy": { "type": "string" },
     "owners": { "type": "array" },
     "envs": { "type": "object" },
     "variables": { "type": "object" }
