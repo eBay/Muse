@@ -6,6 +6,7 @@ const fs = require('fs-extra');
 const path = require('path');
 const readline = require('node:readline');
 const { stdin: input, stdout: output } = require('node:process');
+const plugin = require('js-plugin');
 // const build = require('../lib/build');
 // const start = require('../lib/start');
 // const test = require('../lib/test');
@@ -409,6 +410,9 @@ program
       );
     });
   });
+
+// let other plugins add their own cli program commands
+plugin.invoke('museCli.processProgram', program);
 
 program
   .parseAsync(process.argv)
