@@ -5,7 +5,7 @@ const schema = require('../../schemas/pm/deletePluginVariable.json');
 const logger = require('../../logger').createLogger('muse.pm.upsertPluginVariable');
 
 /**
- * @module muse-core/pm/deletePluginVariable
+ * @module muse-core/plugins/environmentVariablesPlugin/deletePluginVariable
  */
 /**
  * @typedef {object} DeletePluginVariableArgument

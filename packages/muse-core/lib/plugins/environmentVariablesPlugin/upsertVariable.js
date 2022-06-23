@@ -6,7 +6,7 @@ const schema = require('../../schemas/am/upsertVariable.json');
 const logger = require('../../logger').createLogger('muse.am.upsertVariable');
 
 /**
- * @module muse-core/am/upsertVariable
+ * @module muse-core/plugins/environmentVariablesPlugin/upsertVariable
  */
 
 /**

@@ -5,7 +5,7 @@ const schema = require('../../schemas/pm/upsertPluginVariable.json');
 const logger = require('../../logger').createLogger('muse.pm.upsertPluginVariable');
 
 /**
- * @module muse-core/pm/updatePlugin
+ * @module muse-core/plugins/environmentVariablesPlugin/updatePlugin
  */
 /**
  * @typedef {object} UpsertPluginVariableArgument

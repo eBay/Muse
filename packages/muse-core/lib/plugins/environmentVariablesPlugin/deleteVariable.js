@@ -6,7 +6,7 @@ const schema = require('../../schemas/am/deleteVariable.json');
 const logger = require('../../logger').createLogger('muse.am.deleteVariable');
 
 /**
- * @module muse-core/am/deleteVariable
+ * @module muse-core/plugins/environmentVariablesPlugin/deleteVariable
  */
 
 /**
