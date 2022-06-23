@@ -83,11 +83,7 @@ module.exports = class GitClient {
       await this.axiosGit.delete(`/repos/${repo}/contents${keyPath}`, { params: payload });
     } else {
       // Add or update file
-      try {
-        await this.axiosGit.put(`/repos/${repo}/contents${keyPath}`, payload);
-      } catch (err) {
-        console.log('set error:', err);
-      }
+      await this.axiosGit.put(`/repos/${repo}/contents${keyPath}`, payload);
     }
   }
 
@@ -96,18 +92,13 @@ module.exports = class GitClient {
     const { organizationName, projectName, branch = this.branch, keyPath } = params || {};
     const repo = `${organizationName}/${projectName}`;
 
-    try {
-      return (
-        await this.axiosGit.get(`/repos/${repo}/contents${keyPath}`, {
-          params: {
-            ref: branch,
-          },
-        })
-      ).data;
-    } catch (err) {
-      // console.log('Not Found:', `${keyPath}`);
-      return;
-    }
+    return (
+      await this.axiosGit.get(`/repos/${repo}/contents${keyPath}`, {
+        params: {
+          ref: branch,
+        },
+      })
+    ).data;
   }
 
   async deleteFile(params) {
