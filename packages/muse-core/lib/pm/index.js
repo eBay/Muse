@@ -34,8 +34,4 @@ module.exports = {
   deleteRelease: require('./deleteRelease'),
   /** @member {function} getReleaseAssets */
   getReleaseAssets: require('./getReleaseAssets'),
-  /** @member {function} upsertPluginVariable */
-  upsertPluginVariable: require('./upsertPluginVariable'),
-  /** @member {function} deletePluginVariable */
-  deletePluginVariable: require('./deletePluginVariable'),
 };

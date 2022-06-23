@@ -1,9 +1,21 @@
-const { upsertVariable, deleteVariable } = require('../am');
-const { upsertPluginVariable, deletePluginVariable } = require('../pm');
+const {
+  upsertVariable,
+  deleteVariable,
+  upsertPluginVariable,
+  deletePluginVariable,
+} = require('./');
 
 module.exports = () => {
   return {
     name: 'environment-variables',
+    museCore: {
+      processMuse: (museObj) => {
+        museObj.am.deleteVariable = require('./deleteVariable');
+        museObj.pm.deletePluginVariable = require('./deletePluginVariable');
+        museObj.am.upsertVariable = require('./upsertVariable');
+        museObj.pm.upsertPluginVariable = require('./upsertPluginVariable');
+      },
+    },
     museCli: {
       processProgram: (program) => {
         program

@@ -1,9 +1,9 @@
-const getApp = require('./getApp');
-const updateApp = require('./updateApp');
-const { osUsername } = require('../utils');
+const getApp = require('../../am/getApp');
+const updateApp = require('../../am/updateApp');
+const { osUsername } = require('../../utils');
 const { validate } = require('schema-utils');
-const schema = require('../schemas/am/upsertVariable.json');
-const logger = require('../logger').createLogger('muse.am.upsertVariable');
+const schema = require('../../schemas/am/upsertVariable.json');
+const logger = require('../../logger').createLogger('muse.am.upsertVariable');
 
 /**
  * @module muse-core/am/upsertVariable

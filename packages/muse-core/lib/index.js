@@ -44,3 +44,6 @@ Object.assign(muse, {
   utils: require('./utils'),
   // logger: require('./logger'),
 });
+
+// plugins that implement this endpoint can extend muse object itself !!
+plugin.invoke('museCore.processMuse', muse);

@@ -18,8 +18,4 @@ module.exports = {
   updateEnv: require('./updateEnv'),
   /** @member {function} deleteEnv */
   deleteEnv: require('./deleteEnv'),
-  /** @member {function} upsertVariable */
-  upsertVariable: require('./upsertVariable'),
-  /** @member {function} deleteVariable */
-  deleteVariable: require('./deleteVariable'),
 };

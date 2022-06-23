@@ -3,7 +3,10 @@
   "properties": {
     "name": { "type": "string" },
     "createdAt": { "type": "string" },
-    "createdBy": { "type": "string" }
+    "createdBy": { "type": "timestamp" },
+    "owners": { "type": "array" },
+    "envs": { "type": "object" },
+    "variables": { "type": "object" }
   },
   "required": ["name", "createdAt", "createdBy"],
   "additionalProperties": true

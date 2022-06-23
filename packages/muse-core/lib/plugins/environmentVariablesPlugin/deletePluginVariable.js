@@ -1,8 +1,8 @@
-const updatePlugin = require('./updatePlugin');
-const { getPluginId, osUsername } = require('../utils');
+const updatePlugin = require('../../pm/updatePlugin');
+const { getPluginId, osUsername } = require('../../utils');
 const { validate } = require('schema-utils');
-const schema = require('../schemas/pm/deletePluginVariable.json');
-const logger = require('../logger').createLogger('muse.pm.upsertPluginVariable');
+const schema = require('../../schemas/pm/deletePluginVariable.json');
+const logger = require('../../logger').createLogger('muse.pm.upsertPluginVariable');
 
 /**
  * @module muse-core/pm/deletePluginVariable

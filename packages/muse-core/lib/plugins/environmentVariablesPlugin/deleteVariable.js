@@ -1,9 +1,9 @@
-const getApp = require('./getApp');
-const updateApp = require('./updateApp');
-const { osUsername } = require('../utils');
+const getApp = require('../../am/getApp');
+const updateApp = require('../../am/updateApp');
+const { osUsername } = require('../../utils');
 const { validate } = require('schema-utils');
-const schema = require('../schemas/am/deleteVariable.json');
-const logger = require('../logger').createLogger('muse.am.deleteVariable');
+const schema = require('../../schemas/am/deleteVariable.json');
+const logger = require('../../logger').createLogger('muse.am.deleteVariable');
 
 /**
  * @module muse-core/am/deleteVariable
