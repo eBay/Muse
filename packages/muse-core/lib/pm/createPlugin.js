@@ -48,6 +48,7 @@ module.exports = async (params) => {
   ctx.plugin = {
     name: pluginName,
     createdBy: author,
+    createdAt: new Date().toJSON(),
     type,
     owners: [author],
     ...options,

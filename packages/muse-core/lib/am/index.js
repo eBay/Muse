@@ -10,6 +10,8 @@ module.exports = {
   createApp: require('./createApp'),
   /** @member {function} updateApp */
   updateApp: require('./updateApp'),
+  /** @member {function} deleteApp */
+  deleteApp: require('./deleteApp'),
   /** @member {function} createEnv */
   createEnv: require('./createEnv'),
   /** @member {function} updateEnv */

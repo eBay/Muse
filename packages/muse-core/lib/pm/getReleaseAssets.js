@@ -8,7 +8,7 @@ const schema = require('../schemas/pm/getReleaseAssets.json');
 /**
  * @typedef {object} GetReleaseAssetsArgument
  * @property {string} pluginName the plugin name
- * @property {string} version the type of plugin
+ * @property {string} version the released version
  * @property {string} [author] default to the current os logged in user
  * @property {string} [msg] action message
  */

@@ -4,4 +4,5 @@ module.exports = {
   registryFileStoragePlugin: require('./registryFileStoragePlugin'),
   dataCachePlugin: require('./dataCachePlugin'),
   environmentVariablesPlugin: require('./environmentVariablesPlugin'),
+  registrySchemaPlugin: require('./registrySchemaPlugin'),
 };
