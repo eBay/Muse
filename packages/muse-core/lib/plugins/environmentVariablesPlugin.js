@@ -23,7 +23,7 @@ If --env is not specified, variables are set as default for any environment`,
               const varObj = v.split('=');
               return { name: varObj[0], value: varObj[1] };
             });
-            upsertVariable(appName, mappedVariables, options.env);
+            upsertVariable({ appName, variables: mappedVariables, envName: options.env });
           });
 
         program
@@ -39,7 +39,7 @@ If --env is not specified, variables are set as default for any environment`,
 If --env is not specified, variables are deleted from the apps's default configuration`,
           )
           .action(async (appName, options) => {
-            deleteVariable(appName, options.vars, options.env);
+            deleteVariable({ appName, variables: options.vars, envName: options.env });
           });
 
         program
@@ -84,7 +84,12 @@ If --app is not specified, variables are deleted from plugin default configurati
 If --env is not specified, 'staging' env is assumed by default`,
           )
           .action(async (pluginName, options) => {
-            deletePluginVariable(pluginName, options.vars, options.application, options.env);
+            deletePluginVariable({
+              pluginName,
+              variables: options.vars,
+              appName: options.application,
+              envName: options.env,
+            });
           });
       },
     },
