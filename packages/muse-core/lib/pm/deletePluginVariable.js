@@ -1,7 +1,12 @@
 const updatePlugin = require('./updatePlugin');
 const { getPluginId, osUsername } = require('../utils');
+const { validate } = require('schema-utils');
+const schema = require('../schemas/pm/deletePluginVariable.json');
 
-module.exports = async (pluginName, variables, appName, envName = 'staging') => {
+module.exports = async (params) => {
+  validate(schema, params);
+  const { pluginName, variables, appName, envName = 'staging' } = params;
+
   const ctx = {};
   try {
     const pid = getPluginId(pluginName);

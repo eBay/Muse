@@ -1,12 +1,16 @@
 const { asyncInvoke, getPluginId, updateJson, osUsername } = require('../utils');
 const { registry } = require('../storage');
+const { validate } = require('schema-utils');
+const schema = require('../schemas/pm/updatePlugin.json');
 const logger = require('../logger').createLogger('muse.pm.updatePlugin');
 
 /**
- * @module muse-core/pm/updatePlugin
+ *
+ * @param {UpdatePluginArgument} params args to update a plugin
+ * @returns {object} plugin object
  */
 module.exports = async (params) => {
-  //validate(schema, params);
+  validate(schema, params);
   const { pluginName, appName, envName = 'staging', changes, author = osUsername, msg } = params;
   logger.info(`Updating plugin ${pluginName}...`);
   const ctx = {};
@@ -34,5 +38,5 @@ module.exports = async (params) => {
   }
   await asyncInvoke('museCore.pm.afterUpdatePlugin', ctx, params);
   logger.info(`Update plugin success: ${pluginName}.`);
-  return ctx.app;
+  return ctx.plugin;
 };

@@ -1,8 +1,13 @@
 const getApp = require('./getApp');
 const updateApp = require('./updateApp');
 const { osUsername } = require('../utils');
+const { validate } = require('schema-utils');
+const schema = require('../schemas/am/upsertVariable.json');
 
-module.exports = async (appName, variables, envName) => {
+module.exports = async (params) => {
+  validate(schema, params);
+  const { appName, variables, envName } = params;
+
   const ctx = {};
   try {
     ctx.app = await getApp(appName);

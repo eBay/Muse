@@ -1,0 +1,18 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Upsert Application variables",
+    "type": "object",
+    "properties": {
+      "appName": {
+        "type": "string"
+      },
+      "variables": {
+        "type": "array"
+      },
+      "envName": {
+        "type": "string"
+      }
+    },
+    "required": ["appName", "variables"],
+    "additionalProperties": false
+  }

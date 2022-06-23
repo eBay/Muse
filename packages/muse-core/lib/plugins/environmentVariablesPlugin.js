@@ -61,7 +61,12 @@ If --env is not specified, 'staging' env is assumed by default`,
               const varObj = v.split('=');
               return { name: varObj[0], value: varObj[1] };
             });
-            upsertPluginVariable(pluginName, mappedVariables, options.application, options.env);
+            upsertPluginVariable({
+              pluginName,
+              variables: mappedVariables,
+              appName: options.application,
+              envName: options.env,
+            });
           });
 
         program

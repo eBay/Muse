@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Delete Plugin variables",
+  "type": "object",
+  "properties": {
+    "pluginName": {
+      "type": "string"
+    },
+    "variables": {
+      "type": "array"
+    },
+    "appName": {
+      "type": "string"
+    },
+    "envName": {
+      "type": "string"
+    }
+  },
+  "required": ["pluginName", "variables"],
+  "additionalProperties": false
+}
