@@ -207,7 +207,7 @@ const parseRegistryKey = (key) => {
     };
   }
   return null;
-}
+};
 
 module.exports = {
   getPluginId,
