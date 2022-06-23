@@ -1,4 +1,5 @@
 const { upsertVariable, deleteVariable } = require('../am');
+const { upsertPluginVariable, deletePluginVariable } = require('../pm');
 
 module.exports = () => {
   return {
@@ -8,14 +9,14 @@ module.exports = () => {
         program
           .command('add-app-var')
           .alias('upsert-app-var')
-          .description('Upsert an environment variable from an application')
+          .description('Upsert environment variables from an application')
           .argument('<appName>', 'Application name')
           .option('-v, --vars <variables...>', 'space separated list of variable = value')
           .option('--env <envName>', 'Environment name')
           .addHelpText(
             'after',
             `
-If --env is not specified, the variable is set as default for any environment`,
+If --env is not specified, variables are set as default for any environment`,
           )
           .action(async (appName, options) => {
             const mappedVariables = options.vars.map((v) => {
@@ -28,17 +29,57 @@ If --env is not specified, the variable is set as default for any environment`,
         program
           .command('del-app-var')
           .alias('delete-app-var')
-          .description('Delete an environment variable from an application')
+          .description('Delete environment variables from an application')
           .argument('<appName>', 'Application name')
-          .option('-v, --vars <variables...>', 'space separated list of variables')
+          .option('-v, --vars <variables...>', 'space separated list of variable names')
           .option('--env <envName>', 'Environment name')
           .addHelpText(
             'after',
             `
-If --env is not specified, the variable is deleted from the apps's default configuration`,
+If --env is not specified, variables are deleted from the apps's default configuration`,
           )
           .action(async (appName, options) => {
             deleteVariable(appName, options.vars, options.env);
+          });
+
+        program
+          .command('add-plugin-var')
+          .alias('upsert-plugin-var')
+          .description('Upsert environment variables from a plugin')
+          .argument('<pluginName>', 'Plugin name')
+          .option('-v, --vars <variables...>', 'space separated list of variable = value')
+          .option('-app, --application <appName>', 'Application name')
+          .option('--env <envName>', 'Environment name')
+          .addHelpText(
+            'after',
+            `
+If --app is not specified, variables are set as plugin default for any environment.
+If --env is not specified, 'staging' env is assumed by default`,
+          )
+          .action(async (pluginName, options) => {
+            const mappedVariables = options.vars.map((v) => {
+              const varObj = v.split('=');
+              return { name: varObj[0], value: varObj[1] };
+            });
+            upsertPluginVariable(pluginName, mappedVariables, options.application, options.env);
+          });
+
+        program
+          .command('del-plugin-var')
+          .alias('delete-plugin-var')
+          .description('Delete environment variables from a plugin')
+          .argument('<pluginName>', 'Plugin name')
+          .option('-v, --vars <variables...>', 'space separated list of variable names')
+          .option('-app, --application <appName>', 'Application name')
+          .option('--env <envName>', 'Environment name')
+          .addHelpText(
+            'after',
+            `
+If --app is not specified, variables are deleted from plugin default configuration for any environment.
+If --env is not specified, 'staging' env is assumed by default`,
+          )
+          .action(async (pluginName, options) => {
+            deletePluginVariable(pluginName, options.vars, options.application, options.env);
           });
       },
     },

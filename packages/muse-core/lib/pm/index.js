@@ -6,6 +6,8 @@ module.exports = {
   createPlugin: require('./createPlugin'),
   /** @member {function} getPlugin */
   getPlugin: require('./getPlugin'),
+  /** @member {function} updatePlugin */
+  updatePlugin: require('./updatePlugin'),
   /** @member {function} getPlugins */
   getPlugins: require('./getPlugins'),
   /** @member {function} buildPlugin */
@@ -32,4 +34,8 @@ module.exports = {
   deleteRelease: require('./deleteRelease'),
   /** @member {function} getReleaseAssets */
   getReleaseAssets: require('./getReleaseAssets'),
+  /** @member {function} upsertPluginVariable */
+  upsertPluginVariable: require('./upsertPluginVariable'),
+  /** @member {function} deletePluginVariable */
+  deletePluginVariable: require('./deletePluginVariable'),
 };
