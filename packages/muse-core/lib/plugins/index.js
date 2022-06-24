@@ -3,5 +3,6 @@ module.exports = {
   assetsLruCachePlugin: require('./assetsLruCachePlugin'),
   registryFileStoragePlugin: require('./registryFileStoragePlugin'),
   dataCachePlugin: require('./dataCachePlugin'),
+  environmentVariablesPlugin: require('./environmentVariablesPlugin/environmentVariablesPlugin'),
   registrySchemaPlugin: require('./registrySchemaPlugin'),
 };

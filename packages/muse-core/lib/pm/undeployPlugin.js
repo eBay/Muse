@@ -10,7 +10,7 @@ const logger = require('../logger').createLogger('muse.pm.undeployPlugin');
 /**
  * @typedef {object} UndeployPluginArgument
  * @property {string} appName the app name
- * @property {string} envName the enviroment
+ * @property {string} envName the environment
  * @property {string} pluginName the plugin name
  * @property {string} [author] default to the current os logged in user
  * @property {string} [msg] action message

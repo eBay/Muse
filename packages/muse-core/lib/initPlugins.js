@@ -13,6 +13,7 @@ const {
   registryFileStoragePlugin,
   assetsLruCachePlugin,
   dataCachePlugin,
+  environmentVariablesPlugin,
   ...restPlugins
 } = require('./plugins');
 
@@ -78,6 +79,8 @@ if (config.get('assetStorageCache') !== false) {
 if (config.get('defaultDataCachePlugin')) {
   plugin.register(dataCachePlugin());
 }
+
+plugin.register(environmentVariablesPlugin());
 
 Object.values(restPlugins).forEach((p) => plugin.register(p()));
 

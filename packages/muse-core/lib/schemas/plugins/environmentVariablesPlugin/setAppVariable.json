@@ -1,28 +1,21 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "title": "Update Plugin params",
+    "title": "Upsert Application variables",
     "type": "object",
     "properties": {
-      "pluginName": {
-        "type": "string"
-      },
       "appName": {
         "type": "string"
+      },
+      "variables": {
+        "type": "array"
       },
       "envName": {
         "type": "string"
       },
-      "changes": {
-        "type": "object"
-      },
       "author": {
-        "type": "string"
-      },
-      "msg": {
         "type": "string"
       }
     },
-    "required": ["pluginName"],
+    "required": ["appName", "variables"],
     "additionalProperties": false
   }
-  

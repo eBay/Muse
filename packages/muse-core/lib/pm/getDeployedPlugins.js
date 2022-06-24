@@ -10,7 +10,7 @@ const logger = require('../logger').createLogger('muse.pm.getDeployedPlugins');
 /**
  * @description Get information about all deployed plugins from an environment of an app
  * @param {string} appName app name
- * @param {string} envName enviroment
+ * @param {string} envName environment
  * @returns {object[]} list of plugin object
  *
  */

@@ -16,7 +16,7 @@ const logger = require('../logger').createLogger('muse.pm.deployPlugin');
 /**
  * @typedef {object} DeployPluginArgument
  * @property {string} appName the app name
- * @property {string} envName the enviroment
+ * @property {string} envName the environment
  * @property {string} pluginName the plugin name
  * @property {string} [version] the exact version you want to deploy, default by the latest version
  * @property {object} [options]
@@ -30,7 +30,7 @@ const logger = require('../logger').createLogger('muse.pm.deployPlugin');
  * @param {DeployPluginArgument} params args to delete a plugin
  * @returns {object}
  * @property {string} appName app name
- * @property {string} envName enviroment
+ * @property {string} envName environment
  * @property {string} pluginName plugin name
  * @property {string} version deployed plugin version
  */

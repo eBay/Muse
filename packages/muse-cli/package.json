@@ -10,6 +10,7 @@
     "chalk": "4.1.2",
     "commander": "9.3.0",
     "fs-extra": "^10.1.0",
+    "js-plugin": "^1.1.0",
     "muse-core": "workspace:^1.0.0",
     "muse-simple-server": "workspace:^1.0.0"
   },
