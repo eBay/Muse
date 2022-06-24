@@ -57,6 +57,10 @@ class FileStorage {
     }
   }
 
+  async delDir(keyPath) {
+    await this.del(keyPath);
+  }
+
   exists(keyPath) {
     return fs.existsSync(this.mapPath(keyPath));
   }

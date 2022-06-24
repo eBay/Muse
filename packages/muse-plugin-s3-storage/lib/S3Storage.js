@@ -58,29 +58,20 @@ class S3Storage {
     await this.s3Client.putObject(this.bucketName, this.basePath + key, readStream);
   }
 
+  async delDir(key) {
+    logger.verbose(`Deleting folder: ${key}...`);
+    const objectsList = await this.listBucketFolder(key);
+    await this.s3Client.removeObjects(this.bucketName, objectsList);
+  }
+
   async del(key) {
     logger.verbose(`Deleting data: ${key}...`);
-    try {
-      const objectsList = await this.list(key);
-      await this.s3Client.removeObjects(this.bucketName, objectsList);
-    } catch (err) {
-      console.log(err);
-    }
+    await this.s3Client.removeObject(this.bucketName, key);
   }
 
   async list(key) {
     logger.verbose(`Listing data: ${key}`);
-    let objectsList = [];
-    const objectsStream = await this.s3Client.listObjects(
-      this.bucketName,
-      this.basePath + key,
-      true,
-    );
-    await new Promise((resolve, reject) => {
-      objectsStream.on('data', (chunk) => objectsList.push(chunk));
-      objectsStream.on('error', (err) => reject(err));
-      objectsStream.on('end', () => resolve(objectsList.concat(objectsList)));
-    });
+    const objectsList = await this.listBucketFolder(key);
     return objectsList.map((o) => {
       return {
         name: o?.name?.replace(this.basePath + key, ''),
@@ -93,6 +84,21 @@ class S3Storage {
         sha: null,
       };
     });
+  }
+
+  async listBucketFolder(key) {
+    let objectsList = [];
+    const objectsStream = await this.s3Client.listObjects(
+      this.bucketName,
+      this.basePath + key,
+      true,
+    );
+    await new Promise((resolve, reject) => {
+      objectsStream.on('data', (chunk) => objectsList.push(chunk));
+      objectsStream.on('error', (err) => reject(err));
+      objectsStream.on('end', () => resolve(objectsList.concat(objectsList)));
+    });
+    return objectsList;
   }
 
   async readStream(key) {
