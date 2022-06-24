@@ -1,7 +1,7 @@
 const { vol } = require('memfs');
 const muse = require('../..');
 
-describe('Update plugin variables', () => {
+describe('Upsert plugin variables', () => {
   beforeEach(() => {
     vol.reset();
   });
