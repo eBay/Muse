@@ -20,8 +20,7 @@ module.exports = () => {
       processProgram: (program) => {
         program
           .command('set-app-var')
-          .alias('upsert-app-var')
-          .description('Upsert environment variables from an application')
+          .description('Set or update environment variables for an application')
           .argument('<appName>', 'Application name')
           .option('-v, --vars <variables...>', 'space separated list of variable = value')
           .option('--env <envName>', 'Environment name')
@@ -56,8 +55,7 @@ If --env is not specified, variables are deleted from the apps's default configu
 
         program
           .command('set-plugin-var')
-          .alias('upsert-plugin-var')
-          .description('Upsert environment variables from a plugin')
+          .description('Set or update environment variables for a plugin')
           .argument('<pluginName>', 'Plugin name')
           .option('-v, --vars <variables...>', 'space separated list of variable = value')
           .option('-app, --application <appName>', 'Application name')
