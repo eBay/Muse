@@ -13,7 +13,7 @@
         "type": "string"
       },
       "changes": {
-        "type": ["null", "object"]
+        "type": "object"
       },
       "author": {
         "type": "string"

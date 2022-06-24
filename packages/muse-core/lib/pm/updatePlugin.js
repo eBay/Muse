@@ -1,4 +1,5 @@
 const { asyncInvoke, getPluginId, updateJson, osUsername } = require('../utils');
+const getPlugin = require('./getPlugin');
 const { registry } = require('../storage');
 const { validate } = require('schema-utils');
 const schema = require('../schemas/pm/updatePlugin.json');
@@ -10,9 +11,13 @@ const logger = require('../logger').createLogger('muse.pm.updatePlugin');
 /**
  * @typedef {object} UpdatePluginArgument
  * @property {string} pluginName the plugin name
- * @property {string} appName the app name
- * @property {string} envName the environment name
- * @property {object} changes the changes to apply
+ * @property {string} [appName] the app name
+ * @property {string} [envName] the environment name
+ * @property {object} [changes] the changes to apply
+ * @property {null | object | object[]} [changes.set]
+ * @property {null | object | object[]} [changes.unset]
+ * @property {null | object | object[]} [changes.remove]
+ * @property {null | object | object[]} [changes.push]
  * @property {string} [author] default to the current os logged in user
  * @property {string} [msg] action message
  */
@@ -31,11 +36,12 @@ module.exports = async (params) => {
   await asyncInvoke('museCore.pm.beforeUpdatePlugin', ctx, params);
 
   try {
-    const pid = getPluginId(pluginName);
-    if (!pid) {
+    const plugin = await getPlugin(pluginName);
+    if (!plugin) {
       throw new Error(`Plugin ${pluginName} doesn't exist.`);
     }
 
+    const pid = getPluginId(pluginName);
     const keyPath =
       appName && envName ? `/apps/${appName}/${envName}/${pid}.yaml` : `/plugins/${pid}.yaml`;
 
