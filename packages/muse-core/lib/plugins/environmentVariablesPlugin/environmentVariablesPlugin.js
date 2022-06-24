@@ -11,9 +11,9 @@ module.exports = () => {
     museCore: {
       processMuse: (museObj) => {
         museObj.am.deleteVariable = require('./deleteVariable');
-        museObj.pm.deletePluginVariable = require('./deletePluginVariable');
-        museObj.am.upsertVariable = require('./upsertVariable');
-        museObj.pm.upsertPluginVariable = require('./upsertPluginVariable');
+        museObj.pm.deleteVariable = require('./deletePluginVariable');
+        museObj.am.setVariable = require('./upsertVariable');
+        museObj.pm.setVariable = require('./upsertPluginVariable');
       },
     },
     museCli: {

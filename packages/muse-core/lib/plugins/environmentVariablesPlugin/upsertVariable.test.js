@@ -10,7 +10,7 @@ describe('Upsert application variables', () => {
     await muse.am.createApp({ appName, author: 'nate' });
 
     // add default variables
-    await muse.am.upsertVariable({
+    await muse.am.setVariable({
       appName,
       variables: [
         { name: 'var1', value: 'value1' },
@@ -27,7 +27,7 @@ describe('Upsert application variables', () => {
     expect(app.variables['var2']).toBe('value2');
 
     // update default variables
-    await muse.am.upsertVariable({
+    await muse.am.setVariable({
       appName,
       variables: [{ name: 'var1', value: 'new-value' }],
     });
@@ -48,7 +48,7 @@ describe('Upsert application variables', () => {
     await muse.am.createEnv({ appName, envName, author: 'nate' });
 
     // add env variables
-    await muse.am.upsertVariable({
+    await muse.am.setVariable({
       appName,
       variables: [
         { name: 'var1', value: 'value1' },
@@ -67,7 +67,7 @@ describe('Upsert application variables', () => {
     expect(app.envs.test.variables['var2']).toBe('value2');
 
     // update env variables
-    await muse.am.upsertVariable({
+    await muse.am.setVariable({
       appName,
       variables: [{ name: 'var1', value: 'new-value' }],
       envName,

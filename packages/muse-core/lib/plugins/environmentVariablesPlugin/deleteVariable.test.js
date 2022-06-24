@@ -10,7 +10,7 @@ describe('Delete application variables', () => {
     await muse.am.createApp({ appName, author: 'nate' });
 
     // add default variables
-    await muse.am.upsertVariable({
+    await muse.am.setVariable({
       appName,
       variables: [
         { name: 'var1', value: 'value1' },
@@ -43,7 +43,7 @@ describe('Delete application variables', () => {
     await muse.am.createEnv({ appName, envName, author: 'nate' });
 
     // add env variables
-    await muse.am.upsertVariable({
+    await muse.am.setVariable({
       appName,
       variables: [
         { name: 'var1', value: 'value1' },

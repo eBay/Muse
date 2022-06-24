@@ -14,6 +14,9 @@
     },
     "envName": {
       "type": "string"
+    },
+    "author": {
+      "type": "string"
     }
   },
   "required": ["pluginName", "variables"],

@@ -10,7 +10,7 @@ describe('Upsert plugin variables', () => {
     await muse.pm.createPlugin({ pluginName, author: 'nate' });
 
     // add default variables
-    await muse.pm.upsertPluginVariable({
+    await muse.pm.setVariable({
       pluginName,
       variables: [
         { name: 'var1', value: 'value1' },
@@ -27,7 +27,7 @@ describe('Upsert plugin variables', () => {
     expect(plugin.variables['var2']).toBe('value2');
 
     // update default variables
-    await muse.pm.upsertPluginVariable({
+    await muse.pm.setVariable({
       pluginName,
       variables: [{ name: 'var1', value: 'new-value' }],
     });
@@ -52,7 +52,7 @@ describe('Upsert plugin variables', () => {
     await muse.pm.deployPlugin({ appName, envName, pluginName, version: '1.0.0' });
 
     // add deployed plugin variables
-    await muse.pm.upsertPluginVariable({
+    await muse.pm.setVariable({
       pluginName,
       variables: [
         { name: 'var1', value: 'value1' },
@@ -71,7 +71,7 @@ describe('Upsert plugin variables', () => {
     expect(plugin.variables['var2']).toBe('value2');
 
     // update deployed plugin variables
-    await muse.pm.upsertPluginVariable({
+    await muse.pm.setVariable({
       pluginName,
       variables: [{ name: 'var1', value: 'new-value' }],
       appName,

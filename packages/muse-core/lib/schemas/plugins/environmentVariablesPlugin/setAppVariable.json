@@ -11,6 +11,9 @@
       },
       "envName": {
         "type": "string"
+      },
+      "author": {
+        "type": "string"
       }
     },
     "required": ["appName", "variables"],

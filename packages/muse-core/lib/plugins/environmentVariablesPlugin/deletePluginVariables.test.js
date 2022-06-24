@@ -10,7 +10,7 @@ describe('Delete plugin variables', () => {
     await muse.pm.createPlugin({ pluginName, author: 'nate' });
 
     // add default variables
-    await muse.pm.upsertPluginVariable({
+    await muse.pm.setVariable({
       pluginName,
       variables: [
         { name: 'var1', value: 'value1' },
@@ -27,7 +27,7 @@ describe('Delete plugin variables', () => {
     expect(plugin.variables['var2']).toBe('value2');
 
     // remove default variables
-    await muse.pm.deletePluginVariable({
+    await muse.pm.deleteVariable({
       pluginName,
       variables: ['var1', 'var2'],
     });
@@ -48,7 +48,7 @@ describe('Delete plugin variables', () => {
     await muse.pm.deployPlugin({ appName, envName, pluginName, version: '1.0.0' });
 
     // add variables on deployed plugin
-    await muse.pm.upsertPluginVariable({
+    await muse.pm.setVariable({
       pluginName,
       variables: [
         { name: 'var1', value: 'value1' },
@@ -67,7 +67,7 @@ describe('Delete plugin variables', () => {
     expect(plugin.variables['var2']).toBe('value2');
 
     // remove variables on deployed plugin
-    await muse.pm.deletePluginVariable({
+    await muse.pm.deleteVariable({
       pluginName,
       variables: ['var1', 'var2'],
       appName,

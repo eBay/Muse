@@ -1,18 +1,24 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "title": "Delete App variables",
+    "title": "Upsert Plugin variables",
     "type": "object",
     "properties": {
-      "appName": {
+      "pluginName": {
         "type": "string"
       },
       "variables": {
         "type": "array"
       },
+      "appName": {
+        "type": "string"
+      },
       "envName": {
+        "type": "string"
+      },
+      "author": {
         "type": "string"
       }
     },
-    "required": ["appName", "variables"],
+    "required": ["pluginName", "variables"],
     "additionalProperties": false
   }
