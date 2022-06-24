@@ -48,7 +48,7 @@ module.exports = async (params) => {
         appName,
         changes: ctx.changes,
         author: osUsername,
-        msg: `Upsert environment variables ${variables} on ${appName}${
+        msg: `Upsert environment variables on ${appName}${
           envName ? `/${envName}` : ''
         }  by ${osUsername}.`,
       });

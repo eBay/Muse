@@ -47,7 +47,7 @@ module.exports = async (params) => {
         appName,
         changes: ctx.changes,
         author: osUsername,
-        msg: `Delete environment variables ${variables} on ${appName}${
+        msg: `Delete environment variables on ${appName}${
           envName ? `/${envName}` : ''
         }  by ${osUsername}.`,
       });

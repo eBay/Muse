@@ -50,7 +50,7 @@ module.exports = async (params) => {
         envName,
         changes: ctx.changes,
         author: osUsername,
-        msg: `Upsert environment variables ${variables} for ${pluginName} ${
+        msg: `Upsert environment variables for ${pluginName} ${
           appName ? ` on ${appName}${envName ? `/${envName}` : ''}` : ''
         }  by ${osUsername}.`,
       });
