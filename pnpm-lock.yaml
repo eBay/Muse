@@ -422,6 +422,9 @@ importers:
       lodash: 4.17.21
       muse-core: link:../muse-core
 
+  packages/muse-plugin-multiple-tenants:
+    specifiers: {}
+
   packages/muse-plugin-react-scripts:
     specifiers: {}
 
