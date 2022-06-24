@@ -117,6 +117,8 @@ Muse global command line interface to manage Muse apps/plugins. Implemented by `
 ### Config
 * ✅ `muse show-config` Show the current loaded muse config.
 
+For more commands, plz use `muse -h` to see the list.
+
 
 ## Using pnpm
 We switched package manager from yarn v1 to [pnpm](https://pnpm.io) to improve installation efficiency.
