@@ -10,10 +10,10 @@ module.exports = () => {
     name: 'environment-variables',
     museCore: {
       processMuse: (museObj) => {
-        museObj.am.deleteVariable = require('./deleteVariable');
+        museObj.am.deleteVariable = require('./deleteAppVariable');
         museObj.pm.deleteVariable = require('./deletePluginVariable');
-        museObj.am.setVariable = require('./upsertVariable');
-        museObj.pm.setVariable = require('./upsertPluginVariable');
+        museObj.am.setVariable = require('./setAppVariable');
+        museObj.pm.setVariable = require('./setPluginVariable');
       },
     },
     museCli: {

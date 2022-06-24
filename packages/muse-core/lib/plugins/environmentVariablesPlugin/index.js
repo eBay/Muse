@@ -1,7 +1,7 @@
 module.exports = {
   deletePluginVariable: require('./deletePluginVariable'),
-  upsertPluginVariable: require('./upsertPluginVariable'),
-  deleteVariable: require('./deleteVariable'),
-  upsertVariable: require('./upsertVariable'),
+  upsertPluginVariable: require('./setPluginVariable'),
+  deleteVariable: require('./deleteAppVariable'),
+  upsertVariable: require('./setAppVariable'),
   environmentVariablesPlugin: require('./environmentVariablesPlugin'),
 };

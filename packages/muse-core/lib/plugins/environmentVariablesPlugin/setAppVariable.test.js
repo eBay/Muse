@@ -1,5 +1,5 @@
 const { vol } = require('memfs');
-const muse = require('../../');
+const muse = require('../..');
 
 describe('Upsert application variables', () => {
   beforeEach(() => {
