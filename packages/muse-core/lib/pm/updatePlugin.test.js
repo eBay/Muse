@@ -20,12 +20,8 @@ describe('Update plugin basic tests.', () => {
     vol.reset();
   });
   it('Update plugin should work', async () => {
-    //pluginName, appName, envName = 'staging', changes, author = osUsername, msg
     const pluginName = 'plugin1';
-    const appName = 'testapp';
-    const envName = 'test';
     await muse.pm.createPlugin({ pluginName, author: 'nate' });
-
     await muse.pm.updatePlugin({
       pluginName,
       changes: {
