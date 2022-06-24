@@ -435,6 +435,11 @@ program
 // let other plugins add their own cli program commands
 plugin.invoke('museCli.processProgram', program);
 
+// sort commands alphabetically
+program.configureHelp({
+  sortSubcommands: true,
+});
+
 program
   .parseAsync(process.argv)
   .then(() => {
