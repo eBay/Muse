@@ -1,5 +1,6 @@
 const updatePlugin = require('../../pm/updatePlugin');
-const { getPluginId, osUsername } = require('../../utils');
+const getPlugin = require('../../pm/getPlugin');
+const { osUsername } = require('../../utils');
 const { validate } = require('schema-utils');
 const schema = require('../../schemas/pm/deletePluginVariable.json');
 const logger = require('../../logger').createLogger('muse.pm.upsertPluginVariable');
@@ -26,8 +27,8 @@ module.exports = async (params) => {
 
   const ctx = {};
   try {
-    const pid = getPluginId(pluginName);
-    if (!pid) {
+    ctx.plugin = await getPlugin(pluginName);
+    if (!ctx.plugin) {
       throw new Error(`Plugin ${pluginName} doesn't exist.`);
     }
 
@@ -40,7 +41,7 @@ module.exports = async (params) => {
         ctx.changes.unset.push(`variables.${vari}`);
       }
 
-      await updatePlugin({
+      ctx.plugin = await updatePlugin({
         pluginName,
         appName,
         envName,
@@ -57,5 +58,5 @@ module.exports = async (params) => {
   }
 
   logger.info(`Delete plugin variables success: ${pluginName}.`);
-  return ctx;
+  return ctx.plugin;
 };

@@ -43,7 +43,7 @@ module.exports = async (params) => {
         );
       }
 
-      await updateApp({
+      ctx.app = await updateApp({
         appName,
         changes: ctx.changes,
         author: osUsername,
