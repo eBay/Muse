@@ -1,7 +1,25 @@
+const _ = require('lodash');
 const muse = require('muse-core');
 
+const defaultTemplate = `
+<!doctype html>
+<html lang="en">
+<head>
+  <title>${app.title || 'Muse App'}</title>
+  <link rel="shortcut icon" href="/favicon.png" />
+  <script>
+    window.MUSE_GLOBAL = ${JSON.stringify(museGlobal, null, 2)};
+  </script>
+</head>
+<body></body>
+<script src="/muse-assets/p/${muse.utils.getPluginId(bootPlugin.name)}/v${
+  bootPlugin.version
+}/dist/boot.js"></script>
+</html>
+`;
+
 module.exports =
-  ({ appName, envName, isDev }) =>
+  ({ appName, envName, isDev, template = defaultTemplate }) =>
   async (req, res) => {
     const app = await muse.data.get(`muse.app.${appName}`);
     if (!app) {
@@ -25,7 +43,6 @@ module.exports =
       envName: envName,
       plugins,
       isDev: !!isDev,
-      pluginList: plugins,
       cdn: '/muse-assets',
       bootPlugin: bootPlugin.name,
     };

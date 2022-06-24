@@ -39,10 +39,8 @@ Object.assign(muse, {
   pm: require('./pm'),
   req: require('./req'),
   data: require('./data'),
-  // config: require('./config'),
   storage: require('./storage'),
   utils: require('./utils'),
-  // logger: require('./logger'),
 });
 
 // plugins that implement this endpoint can extend muse object itself !!
