@@ -1,6 +1,6 @@
 {
   "name": "@ebay/muse-boot",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "main": "index.js",
   "license": "MIT",
   "muse": {
@@ -38,8 +38,8 @@
     ]
   },
   "dependencies": {
-    "muse-craco-plugin": "workspace:^1.0.0",
-    "muse-modules": "workspace:^1.0.0",
-    "muse-scripts-react": "workspace:^1.0.0"
+    "muse-craco-plugin": "workspace:^0.0.1",
+    "@ebay/muse-modules": "workspace:^0.0.1",
+    "muse-scripts-react": "workspace:^0.0.1"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "muse-init-plugin-sample",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "main": "index.js",
   "muse": {
     "type": "init"
@@ -30,7 +30,7 @@
   "devDependencies": {
     "cross-env": "^7.0.3",
     "@craco/craco": "^6.4.3",
-    "muse-scripts-react": "workspace:^1.0.0",
-    "muse-craco-plugin": "workspace:^1.0.0"
+    "muse-scripts-react": "workspace:^0.0.1",
+    "muse-craco-plugin": "workspace:^0.0.1"
   }
 }

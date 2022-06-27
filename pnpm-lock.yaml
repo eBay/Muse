@@ -6,7 +6,7 @@ importers:
     specifiers:
       '@ant-design/icons': ^4.7.0
       '@craco/craco': ^6.4.3
-      '@ebay/muse-react': workspace:^1.0.24
+      '@ebay/muse-react': workspace:^0.0.1
       antd: 4.20.7
       antd-form-builder: 2.1.4
       craco-less: ^2.0.0
@@ -15,9 +15,9 @@ importers:
       js-plugin: ^1.1.0
       lodash: ^4.17.21
       moment: ^2.29.3
-      muse-craco-plugin: workspace:^1.0.0
-      muse-scripts-react: workspace:^1.0.0
-      muse-webpack-plugin: workspace:^1.0.0
+      muse-craco-plugin: workspace:^0.0.1
+      muse-scripts-react: workspace:^0.0.1
+      muse-webpack-plugin: workspace:^0.0.1
       prop-types: ^15.8.1
       react: ^18.1.0
       react-copy-to-clipboard: ^5.1.0
@@ -60,16 +60,16 @@ importers:
   examples/muse-boot:
     specifiers:
       '@craco/craco': ^6.4.3
+      '@ebay/muse-modules': workspace:^0.0.1
       cross-env: ^7.0.3
       eslint: ^8.17.0
-      muse-craco-plugin: workspace:^1.0.0
-      muse-modules: workspace:^1.0.0
-      muse-scripts-react: workspace:^1.0.0
+      muse-craco-plugin: workspace:^0.0.1
+      muse-scripts-react: workspace:^0.0.1
       react: ^18.1.0
       react-scripts: ^5.0.1
     dependencies:
+      '@ebay/muse-modules': link:../../packages/muse-modules
       muse-craco-plugin: link:../../packages/muse-craco-plugin
-      muse-modules: link:../../packages/muse-modules
       muse-scripts-react: link:../../packages/muse-scripts-react
     devDependencies:
       '@craco/craco': 6.4.3_react-scripts@5.0.1
@@ -82,8 +82,8 @@ importers:
     specifiers:
       '@craco/craco': ^6.4.3
       cross-env: ^7.0.3
-      muse-craco-plugin: workspace:^1.0.0
-      muse-scripts-react: workspace:^1.0.0
+      muse-craco-plugin: workspace:^0.0.1
+      muse-scripts-react: workspace:^0.0.1
       react-scripts: ^5.0.1
     dependencies:
       react-scripts: 5.0.1
@@ -105,7 +105,7 @@ importers:
       js-plugin: ^1.1.0
       lodash: ^4.17.21
       muse-craco-plugin: workspace:^
-      muse-scripts-react: workspace:^1.0.0
+      muse-scripts-react: workspace:^0.0.1
       react: ^18.1.0
       react-dom: ^18.1.0
       react-redux: ^8.0.2
@@ -149,8 +149,8 @@ importers:
       history: ^5.3.0
       js-plugin: 1.1.0
       lodash: ^4.17.21
-      muse-craco-plugin: workspace:^1.0.0
-      muse-scripts-react: workspace:^1.0.0
+      muse-craco-plugin: workspace:^0.0.1
+      muse-scripts-react: workspace:^0.0.1
       path-to-regexp: 6.2.1
       react: ^18.1.0
       react-dom: ^18.1.0
@@ -201,7 +201,7 @@ importers:
     specifiers:
       '@ant-design/charts': ^1.3.6
       '@craco/craco': ^6.4.3
-      '@ebay/muse-react': workspace:^1.0.0
+      '@ebay/muse-react': workspace:^0.0.1
       '@testing-library/jest-dom': ^5.16.4
       '@testing-library/react': ^13.2.0
       '@testing-library/user-event': ^13.5.0
@@ -213,8 +213,8 @@ importers:
       craco-less: ^2.0.0
       js-plugin: ^1.1.0
       json-parse-better-errors: ^1.0.2
-      muse-craco-plugin: workspace:^1.0.0
-      muse-scripts-react: workspace:^1.0.0
+      muse-craco-plugin: workspace:^0.0.1
+      muse-scripts-react: workspace:^0.0.1
       react: ^18.1.0
       react-dom: ^18.1.0
       react-scripts: 5.0.1
@@ -246,7 +246,7 @@ importers:
   examples/plugin-normal:
     specifiers:
       '@craco/craco': ^6.4.3
-      '@ebay/muse-react': workspace:^1.0.0
+      '@ebay/muse-react': workspace:^0.0.1
       '@testing-library/jest-dom': ^5.16.4
       '@testing-library/react': ^13.2.0
       '@testing-library/user-event': ^13.5.0
@@ -262,8 +262,8 @@ importers:
       eslint-plugin-react-hooks: ^4.5.0
       js-plugin: ^1.1.0
       json-parse-better-errors: ^1.0.2
-      muse-craco-plugin: workspace:^1.0.0
-      muse-scripts-react: workspace:^1.0.0
+      muse-craco-plugin: workspace:^0.0.1
+      muse-scripts-react: workspace:^0.0.1
       plugin-library: workspace:^0.1.0
       react: ^18.1.0
       react-dom: ^18.1.0
@@ -305,8 +305,8 @@ importers:
       eslint: ^8.16.0
       fs-extra: ^10.1.0
       js-plugin: ^1.1.0
-      muse-core: workspace:^1.0.0
-      muse-simple-server: workspace:^1.0.0
+      muse-core: workspace:^0.0.1
+      muse-simple-server: workspace:^0.0.1
     dependencies:
       chalk: 4.1.2
       commander: 9.3.0
@@ -370,9 +370,9 @@ importers:
     specifiers:
       eslint: ^8.14.0
       html-webpack-inject-string-plugin: ^1.0.2
-      muse-core: workspace:^1.0.0
-      muse-dev-utils: workspace:^1.0.0
-      muse-webpack-plugin: workspace:^1.0.0
+      muse-core: workspace:^0.0.1
+      muse-dev-utils: workspace:^0.0.1
+      muse-webpack-plugin: workspace:^0.0.1
       resolve-cwd: ^3.0.0
     dependencies:
       html-webpack-inject-string-plugin: 1.0.2
@@ -386,8 +386,8 @@ importers:
   packages/muse-dev-utils:
     specifiers:
       eslint: ^8.15.0
-      muse-core: workspace:^1.0.0
-      muse-express-middleware: workspace:^1.0.0
+      muse-core: workspace:^0.0.1
+      muse-express-middleware: workspace:^0.0.1
       resolve-cwd: ^3.0.0
     dependencies:
       muse-core: link:../muse-core
@@ -401,7 +401,7 @@ importers:
       eslint: ^8.16.0
       lodash: ^4.17.21
       mime-types: ^2.1.35
-      muse-core: workspace:^1.0.0
+      muse-core: workspace:^0.0.1
     dependencies:
       lodash: 4.17.21
       mime-types: 2.1.35
@@ -416,7 +416,7 @@ importers:
     specifiers:
       axios: ^0.27.2
       lodash: ^4.17.21
-      muse-core: workspace:^1.0.0
+      muse-core: workspace:^0.0.1
     dependencies:
       axios: 0.27.2
       lodash: 4.17.21
@@ -432,7 +432,7 @@ importers:
     specifiers:
       lodash: ^4.17.21
       minio: ^7.0.28
-      muse-core: workspace:^1.0.0
+      muse-core: workspace:^0.0.1
     dependencies:
       lodash: 4.17.21
       minio: 7.0.28
@@ -451,8 +451,8 @@ importers:
     specifiers:
       eslint: ^8.16.0
       express: ^4.18.1
-      muse-core: workspace:^1.0.0
-      muse-express-middleware: workspace:^1.0.0
+      muse-core: workspace:^0.0.1
+      muse-express-middleware: workspace:*
     dependencies:
       express: 4.18.1
       muse-core: link:../muse-core
@@ -462,12 +462,12 @@ importers:
 
   packages/muse-webpack-plugin:
     specifiers:
+      '@ebay/muse-modules': workspace:^0.0.1
       eslint: ^8.9.0
       json-parse-better-errors: ^1.0.2
-      muse-modules: workspace:^1.0.0
     dependencies:
+      '@ebay/muse-modules': link:../muse-modules
       json-parse-better-errors: 1.0.2
-      muse-modules: link:../muse-modules
     devDependencies:
       eslint: 8.18.0
 
