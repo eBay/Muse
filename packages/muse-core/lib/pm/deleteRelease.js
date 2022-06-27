@@ -55,7 +55,7 @@ module.exports = async (params) => {
 
     if (delAssets) {
       const keyPath = `/p/${pid}/v${version}`;
-      ctx.result = await assets.del(
+      ctx.result = await assets.delDir(
         keyPath,
         msg || `Deleted Release ${pluginName}@${version} by ${author}.`,
       );

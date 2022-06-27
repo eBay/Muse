@@ -101,6 +101,16 @@ class GitStorage {
     });
   }
 
+  async delDir(keyPath, msg) {
+    logger.verbose(`Delete dir: ${keyPath}`);
+    return await this.gitClient.deleteFolder({
+      organizationName: this.organizationName,
+      projectName: this.projectName,
+      keyPath,
+      message: msg,
+    });
+  }
+
   // list items in a container
   async list(keyPath) {
     logger.verbose(`List dir: ${keyPath}`);
