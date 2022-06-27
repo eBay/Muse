@@ -194,6 +194,14 @@ program
   });
 
 program
+  .command('view-plugin')
+  .description('View meta of a MUSE plugin')
+  .argument('<pluginName>', 'plugin name')
+  .action(async (pluginName) => {
+    console.log(chalk.cyan(JSON.stringify(await muse.pm.getPlugin(pluginName), null, 2)));
+  });
+
+program
   .command('del-plugin')
   .alias('delete-plugin')
   .description('Delete a MUSE plugin')
