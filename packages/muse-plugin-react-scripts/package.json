@@ -3,6 +3,12 @@
   "version": "0.0.1",
   "description": "",
   "main": "lib/index.js",
+  "publishConfig": {
+    "registry": "https://artifactory.corp.ebay.com/artifactory/api/npm/npm-muse"
+  },
+  "files": [
+    "lib"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

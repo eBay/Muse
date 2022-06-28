@@ -3,6 +3,13 @@
   "version": "0.0.1",
   "main": "index.js",
   "license": "MIT",
+  "publishConfig": {
+    "registry": "https://artifactory.corp.ebay.com/artifactory/api/npm/npm-muse"
+  },
+  "files": [
+    "lib",
+    "static"
+  ],
   "scripts": {
     "start": "node lib/start.js"
   },

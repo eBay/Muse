@@ -1,3 +1,3 @@
 #!/usr/bin/env zx
 
-await $`pnpm --filter "@ebay/muse-core" publish`;
+await $`pnpm --filter "./packages/**" publish`;

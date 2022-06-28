@@ -6,6 +6,9 @@
   "repository": "git@github.corp.ebay.com:muse/muse-next.git",
   "author": "Nate Wang <pwang7@ebay.com>",
   "license": "MIT",
+  "publishConfig": {
+    "registry": "https://artifactory.corp.ebay.com/artifactory/api/npm/npm-muse"
+  },
   "files": [
     "lib"
   ],
