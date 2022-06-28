@@ -1,7 +1,7 @@
-const { asyncInvoke, osUsername } = require('../utils');
+const { asyncInvoke, osUsername, validate } = require('../utils');
 const { registry } = require('../storage');
 const getApp = require('./getApp');
-const { validate } = require('schema-utils');
+// const { validate } = require('schema-utils');
 const schema = require('../schemas/am/createApp.json');
 const logger = require('../logger').createLogger('muse.am.createApp');
 
