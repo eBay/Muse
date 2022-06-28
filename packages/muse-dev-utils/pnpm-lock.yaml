@@ -1,14 +1,14 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@ebay/muse-core': workspace:^
+  '@ebay/muse-express-middleware': workspace:^
   eslint: ^8.15.0
-  muse-core: workspace:^0.0.1
-  muse-express-middleware: workspace:^0.0.1
   resolve-cwd: ^3.0.0
 
 dependencies:
-  muse-core: link:../muse-core
-  muse-express-middleware: link:../muse-express-middleware
+  '@ebay/muse-core': link:../muse-core
+  '@ebay/muse-express-middleware': link:../muse-express-middleware
   resolve-cwd: 3.0.0
 
 devDependencies:

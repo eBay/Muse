@@ -1,6 +1,6 @@
 const path = require('path');
 const os = require('os');
-const logger = require('muse-core').logger.createLogger('git-storage-plugin.GitStorage');
+const logger = require('@ebay/muse-core').logger.createLogger('git-storage-plugin.GitStorage');
 const GitClient = require('./GitClient');
 
 class GitStorage {

@@ -30,7 +30,7 @@
   "devDependencies": {
     "cross-env": "^7.0.3",
     "@craco/craco": "^6.4.3",
-    "muse-scripts-react": "workspace:^0.0.1",
-    "muse-craco-plugin": "workspace:^0.0.1"
+    "@ebay/muse-scripts-react": "workspace:^",
+    "@ebay/muse-craco-plugin": "workspace:^"
   }
 }

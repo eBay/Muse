@@ -1,5 +1,5 @@
 {
-  "name": "muse-plugin-react-scripts",
+  "name": "@ebay/muse-plugin-react-scripts",
   "version": "0.0.1",
   "description": "",
   "main": "lib/index.js",

@@ -1,5 +1,5 @@
 {
-  "name": "muse-plugin-multiple-tenants",
+  "name": "@ebay/muse-plugin-multiple-tenants",
   "version": "0.0.1",
   "description": "",
   "main": "index.js",

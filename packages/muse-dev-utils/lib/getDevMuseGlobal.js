@@ -1,6 +1,6 @@
 const { pkgJson, museConfig } = require('./museContext');
 const { getLocalPlugins, getMuseLibs } = require('./utils');
-const muse = require('muse-core');
+const muse = require('@ebay/muse-core');
 
 const castArray = (a) => (Array.isArray(a) ? a : [a]);
 const getPluginByUrl = (s) => {

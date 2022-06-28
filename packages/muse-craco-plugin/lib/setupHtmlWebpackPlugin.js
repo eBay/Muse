@@ -1,12 +1,11 @@
 const path = require('path');
-const muse = require('muse-core');
+const muse = require('@ebay/muse-core');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackInjectStringPlugin = require('html-webpack-inject-string-plugin');
-const { museContext, getDevMuseGlobal } = require('muse-dev-utils');
+const { museContext, getDevMuseGlobal } = require('@ebay/muse-dev-utils');
 const { pkgJson, isDev, museConfig } = museContext;
 
 module.exports = async (cracoConfig) => {
-
   // Remove old HtmlWebpackPlugin
   cracoConfig.webpack.plugins.remove.push('HtmlWebpackPlugin');
 
@@ -20,7 +19,10 @@ module.exports = async (cracoConfig) => {
   // bootPlugin is only useful when it's not a boot plugin project
   const bootPlugin = museGlobal.plugins.find((p) => p.type === 'boot');
   const bootUrl =
-    bootPlugin.url || `/_muse_static/p/${muse.utils.getPluginId(bootPlugin.name)}/v${bootPlugin.version}/dist/boot.js`;
+    bootPlugin.url ||
+    `/_muse_static/p/${muse.utils.getPluginId(bootPlugin.name)}/v${
+      bootPlugin.version
+    }/dist/boot.js`;
 
   cracoConfig.webpack.plugins.add.push(
     ...[

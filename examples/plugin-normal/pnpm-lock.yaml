@@ -2,7 +2,9 @@ lockfileVersion: 5.4
 
 specifiers:
   '@craco/craco': ^6.4.3
-  '@ebay/muse-react': workspace:^0.0.1
+  '@ebay/muse-craco-plugin': workspace:^
+  '@ebay/muse-lib-react': workspace:^
+  '@ebay/muse-scripts-react': workspace:^
   '@testing-library/jest-dom': ^5.16.4
   '@testing-library/react': ^13.2.0
   '@testing-library/user-event': ^13.5.0
@@ -18,8 +20,6 @@ specifiers:
   eslint-plugin-react-hooks: ^4.5.0
   js-plugin: ^1.1.0
   json-parse-better-errors: ^1.0.2
-  muse-craco-plugin: workspace:^0.0.1
-  muse-scripts-react: workspace:^0.0.1
   plugin-library: workspace:^0.1.0
   react: ^18.1.0
   react-dom: ^18.1.0
@@ -29,7 +29,9 @@ specifiers:
 
 dependencies:
   '@craco/craco': 6.4.3_f4mn2lxb4776j264eoyu36jjhe
-  '@ebay/muse-react': link:../muse-react
+  '@ebay/muse-craco-plugin': link:../../packages/muse-craco-plugin
+  '@ebay/muse-lib-react': link:../muse-react
+  '@ebay/muse-scripts-react': link:../../packages/muse-scripts-react
   '@testing-library/jest-dom': 5.16.4
   '@testing-library/react': 13.3.0_biqbaboplfbrettd7655fr4n2y
   '@testing-library/user-event': 13.5.0
@@ -41,8 +43,6 @@ dependencies:
   dotenv: 16.0.1
   js-plugin: 1.1.0
   json-parse-better-errors: 1.0.2
-  muse-craco-plugin: link:../../packages/muse-craco-plugin
-  muse-scripts-react: link:../../packages/muse-scripts-react
   plugin-library: link:../plugin-library
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0

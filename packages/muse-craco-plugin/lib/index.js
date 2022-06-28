@@ -1,6 +1,6 @@
 // Config env variables for react-scripts
 process.env.BROWSER = 'none';
-const { isDevBuild } = require('muse-dev-utils').museContext;
+const { isDevBuild } = require('@ebay/muse-dev-utils').museContext;
 if (isDevBuild) {
   process.env.BUILD_PATH = './build/dev';
 } else {

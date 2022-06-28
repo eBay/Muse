@@ -1,5 +1,5 @@
 const path = require('path');
-const muse = require('muse-core');
+const muse = require('@ebay/muse-core');
 const mimeTypes = require('mime-types');
 
 module.exports = (options) => async (req, res, next) => {

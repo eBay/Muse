@@ -1,5 +1,5 @@
 {
-  "name": "muse-plugin-s3-storage",
+  "name": "@ebay/muse-plugin-s3-storage",
   "version": "0.0.1",
   "description": "",
   "main": "lib/index.js",
@@ -12,6 +12,6 @@
   "dependencies": {
     "lodash": "^4.17.21",
     "minio": "^7.0.28",
-    "muse-core": "workspace:^0.0.1"
+    "@ebay/muse-core": "workspace:^"
   }
 }

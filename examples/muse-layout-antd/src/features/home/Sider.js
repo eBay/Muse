@@ -2,7 +2,7 @@ import React, { useCallback, useRef } from 'react';
 import { Drawer } from 'antd';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import plugin from 'js-plugin';
-import { MetaMenu } from '@ebay/muse-antd/src/features/common';
+import { MetaMenu } from '@ebay/muse-lib-antd/src/features/common';
 import { useSetSiderCollapsed } from './redux/hooks';
 
 export default function Sider() {

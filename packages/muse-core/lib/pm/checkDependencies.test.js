@@ -16,7 +16,7 @@ describe('Check Dependencies tests.', () => {
   it('Finds missing deps and returns no-empty JSON', async () => {
     const mockedDepsResult = {
       content: {
-        '@ebay/muse-react@1.0.0': ['missing-lib@1.1.1', 'another-missing-lib@1.0.0'],
+        '@ebay/muse-lib-react@1.0.0': ['missing-lib@1.1.1', 'another-missing-lib@1.0.0'],
       },
     };
     const mockedLibManifestResult = {
@@ -28,7 +28,7 @@ describe('Check Dependencies tests.', () => {
     const mockedDeployedPlugins = [
       {
         type: 'lib',
-        name: '@ebay/muse-react',
+        name: '@ebay/muse-lib-react',
         version: '1.0.0',
       },
     ];
@@ -53,13 +53,13 @@ describe('Check Dependencies tests.', () => {
 
     expect(result).not.toBeNull();
     expect(Object.keys(result['dist']).length).toBe(1);
-    expect(Object.keys(result['dist'])[0]).toBe('@ebay/muse-react@1.0.0');
+    expect(Object.keys(result['dist'])[0]).toBe('@ebay/muse-lib-react@1.0.0');
   });
 
   it('Returns empty JSON if no dependencies are missing', async () => {
     const mockedDepsResult = {
       content: {
-        '@ebay/muse-react@1.0.0': ['@babel/runtime@7.18.3/arrayLikeToArray.js'],
+        '@ebay/muse-lib-react@1.0.0': ['@babel/runtime@7.18.3/arrayLikeToArray.js'],
       },
     };
     const mockedLibManifestResult = {
@@ -71,7 +71,7 @@ describe('Check Dependencies tests.', () => {
     const mockedDeployedPlugins = [
       {
         type: 'lib',
-        name: '@ebay/muse-react',
+        name: '@ebay/muse-lib-react',
         version: '1.0.0',
       },
     ];
@@ -102,7 +102,7 @@ describe('Check Dependencies tests.', () => {
   it('Returns empty JSON if no library plugins are deployed yet', async () => {
     const mockedDepsResult = {
       content: {
-        '@ebay/muse-react@1.0.0': ['@babel/runtime@7.18.3/arrayLikeToArray.js'],
+        '@ebay/muse-lib-react@1.0.0': ['@babel/runtime@7.18.3/arrayLikeToArray.js'],
       },
     };
     const mockedLibManifestResult = {
@@ -147,7 +147,7 @@ describe('Check Dependencies tests.', () => {
     const mockedDeployedPlugins = [
       {
         type: 'lib',
-        name: '@ebay/muse-react',
+        name: '@ebay/muse-lib-react',
         version: '1.0.0',
       },
     ];
@@ -178,14 +178,14 @@ describe('Check Dependencies tests.', () => {
   it('Returns empty JSON if no lib-manifest.json found', async () => {
     const mockedDepsResult = {
       content: {
-        '@ebay/muse-react@1.0.0': ['@babel/runtime@7.18.3/arrayLikeToArray.js'],
+        '@ebay/muse-lib-react@1.0.0': ['@babel/runtime@7.18.3/arrayLikeToArray.js'],
       },
     };
     const mockedLibManifestResult = null;
     const mockedDeployedPlugins = [
       {
         type: 'lib',
-        name: '@ebay/muse-react',
+        name: '@ebay/muse-lib-react',
         version: '1.0.0',
       },
     ];

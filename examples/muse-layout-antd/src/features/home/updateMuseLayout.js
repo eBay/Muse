@@ -1,4 +1,4 @@
-import store from '@ebay/muse-react/src/common/store';
+import store from '@ebay/muse-lib-react/src/common/store';
 
 export default () => {
   store.dispatch({

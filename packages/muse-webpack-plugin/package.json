@@ -1,5 +1,5 @@
 {
-  "name": "muse-webpack-plugin",
+  "name": "@ebay/muse-webpack-plugin",
   "version": "0.0.1",
   "description": "Muse webpack plugin.",
   "main": "lib/index.js",
@@ -17,6 +17,6 @@
   },
   "dependencies": {
     "json-parse-better-errors": "^1.0.2",
-    "@ebay/muse-modules": "workspace:^0.0.1"
+    "@ebay/muse-modules": "workspace:^"
   }
 }

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 const { Command } = require('commander');
 const chalk = require('chalk');
-const muse = require('muse-core');
+const muse = require('@ebay/muse-core');
 const fs = require('fs-extra');
 const path = require('path');
 const readline = require('node:readline');
@@ -35,7 +35,9 @@ program
   .description('Show MUSE core/CLI version')
   .action(() => {
     console.log(chalk.cyan(`Muse CLI version: ${require('../package.json').version}.`));
-    console.log(chalk.cyan(`Muse core version: ${require('muse-core/package.json').version}.`));
+    console.log(
+      chalk.cyan(`Muse core version: ${require('@ebay/muse-core/package.json').version}.`),
+    );
     muse.config.filepath && console.log(chalk.cyan(`Muse config file: ${muse.config.filepath}.`));
   });
 

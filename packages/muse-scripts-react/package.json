@@ -1,5 +1,5 @@
 {
-  "name": "muse-scripts-react",
+  "name": "@ebay/muse-scripts-react",
   "version": "0.0.1",
   "main": "index.js",
   "license": "MIT",

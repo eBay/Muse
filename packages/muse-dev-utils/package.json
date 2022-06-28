@@ -1,5 +1,5 @@
 {
-  "name": "muse-dev-utils",
+  "name": "@ebay/muse-dev-utils",
   "version": "0.0.1",
   "main": "lib/index.js",
   "license": "MIT",
@@ -7,8 +7,8 @@
     "eslint": "^8.15.0"
   },
   "dependencies": {
-    "muse-core": "workspace:^0.0.1",
-    "muse-express-middleware": "workspace:^0.0.1",
+    "@ebay/muse-core": "workspace:^",
+    "@ebay/muse-express-middleware": "workspace:^",
     "resolve-cwd": "^3.0.0"
   }
 }

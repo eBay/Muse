@@ -1,5 +1,5 @@
 const axios = require('axios');
-const logger = require('muse-core').logger.createLogger('git-storage-plugin.GitClient');
+const logger = require('@ebay/muse-core').logger.createLogger('git-storage-plugin.GitClient');
 
 module.exports = class GitClient {
   constructor(options) {

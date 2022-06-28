@@ -3,7 +3,7 @@ const Minio = require('minio');
 const httpsAgent = new (require('https').Agent)({
   rejectUnauthorized: false,
 });
-const logger = require('muse-core').logger.createLogger('s3-storage-plugin.S2Storage');
+const logger = require('@ebay/muse-core').logger.createLogger('s3-storage-plugin.S2Storage');
 
 function streamToBuffer(stream) {
   const chunks = [];

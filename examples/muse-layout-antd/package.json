@@ -1,5 +1,5 @@
 {
-  "name": "muse-layout",
+  "name": "muse-layout-antd",
   "version": "0.0.1",
   "repository": "",
   "muse": {
@@ -32,14 +32,14 @@
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
     "@craco/craco": "^6.4.3",
-    "@ebay/muse-antd": "workspace:^",
-    "@ebay/muse-react": "workspace:^",
+    "@ebay/muse-lib-antd": "workspace:^",
+    "@ebay/muse-lib-react": "workspace:^",
     "antd": "4.20.7",
     "craco-less": "^2.0.0",
     "js-plugin": "^1.1.0",
     "lodash": "^4.17.21",
-    "muse-craco-plugin": "workspace:^",
-    "muse-scripts-react": "workspace:^0.0.1",
+    "@ebay/muse-craco-plugin": "workspace:^",
+    "@ebay/muse-scripts-react": "workspace:^",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-redux": "^8.0.2",

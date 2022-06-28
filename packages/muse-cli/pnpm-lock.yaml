@@ -1,21 +1,21 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@ebay/muse-core': workspace:^0.0.1
+  '@ebay/muse-simple-server': workspace:^
   chalk: 4.1.2
   commander: 9.3.0
   eslint: ^8.16.0
   fs-extra: ^10.1.0
   js-plugin: ^1.1.0
-  muse-core: workspace:^0.0.1
-  muse-simple-server: workspace:^0.0.1
 
 dependencies:
+  '@ebay/muse-core': link:../muse-core
+  '@ebay/muse-simple-server': link:../muse-simple-server
   chalk: 4.1.2
   commander: 9.3.0
   fs-extra: 10.1.0
   js-plugin: 1.1.0
-  muse-core: link:../muse-core
-  muse-simple-server: link:../muse-simple-server
 
 devDependencies:
   eslint: 8.18.0

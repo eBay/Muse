@@ -1,5 +1,5 @@
 {
-  "name": "muse-express-middleware",
+  "name": "@ebay/muse-express-middleware",
   "version": "0.0.1",
   "main": "index.js",
   "license": "MIT",
@@ -9,6 +9,6 @@
   "dependencies": {
     "lodash": "^4.17.21",
     "mime-types": "^2.1.35",
-    "muse-core": "workspace:^0.0.1"
+    "@ebay/muse-core": "workspace:^"
   }
 }

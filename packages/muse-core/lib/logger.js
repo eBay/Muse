@@ -57,7 +57,7 @@ function createLogger(name) {
       [name]: (...args) => {
         if (!config.__pluginLoaded) {
           throw new Error(
-            "Muse logger should NOT be used before all plugins are loaded. Usually because the logger is used in the global scope in a plugin. Or you imported a module directly by module path (like require('muse-core/lib/utils') instead of require('muse-core').",
+            "Muse logger should NOT be used before all plugins are loaded. Usually because the logger is used in the global scope in a plugin. Or you imported a module directly by module path (like require('muse-core/lib/utils') instead of require('@ebay/muse-core').",
           );
         }
         getLogger()[name](...args);

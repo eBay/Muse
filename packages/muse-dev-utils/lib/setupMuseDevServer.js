@@ -1,8 +1,8 @@
 const express = require('express');
 const path = require('path');
-const museAssetsMiddleware = require('muse-express-middleware/lib/assets');
+const museAssetsMiddleware = require('@ebay/muse-express-middleware/lib/assets');
 const { getMuseLibs } = require('./utils');
-const muse = require('muse-core');
+const muse = require('@ebay/muse-core');
 
 module.exports = (devServer) => {
   // serve local muse libs resources

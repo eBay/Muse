@@ -1,11 +1,11 @@
 {
-  "name": "muse-git-storage",
+  "name": "@ebay/muse-git-storage",
   "version": "0.0.1",
   "main": "lib/index.js",
   "license": "MIT",
   "dependencies": {
     "axios": "^0.27.2",
     "lodash": "^4.17.21",
-    "muse-core": "workspace:^0.0.1"
+    "@ebay/muse-core": "workspace:^"
   }
 }

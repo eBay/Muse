@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import getIconNode from './getIconNode';
-import history from '@ebay/muse-react/src/common/history';
-import { MetaMenu } from '@ebay/muse-antd/src/features/common';
+import history from '@ebay/muse-lib-react/src/common/history';
+import { MetaMenu } from '@ebay/muse-lib-antd/src/features/common';
 
 export default function HeaderItem({ meta }) {
   const { label, link, linkTarget, onClick, icon, className = '' } = meta;

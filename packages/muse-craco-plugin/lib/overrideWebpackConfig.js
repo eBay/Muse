@@ -1,6 +1,6 @@
 const crypto = require('crypto');
 const { getLoaders, loaderByName } = require('@craco/craco');
-const { pkgJson, isDev } = require('muse-dev-utils').museContext;
+const { pkgJson, isDev } = require('@ebay/muse-dev-utils').museContext;
 const handleMuseLocalPlugins = require('./handleMuseLocalPlugins');
 
 const hashed = crypto.createHash('md5').update(pkgJson.name).digest('hex').substring(0, 6);
