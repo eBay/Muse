@@ -24,8 +24,8 @@ dependencies:
   '@ant-design/icons': 4.7.0_biqbaboplfbrettd7655fr4n2y
   '@craco/craco': 6.4.3_react-scripts@5.0.1
   '@ebay/muse-craco-plugin': link:../../packages/muse-craco-plugin
-  '@ebay/muse-lib-antd': link:../muse-antd
-  '@ebay/muse-lib-react': link:../muse-react
+  '@ebay/muse-lib-antd': link:../muse-lib-antd
+  '@ebay/muse-lib-react': link:../muse-lib-react
   '@ebay/muse-scripts-react': link:../../packages/muse-scripts-react
   antd: 4.20.7_biqbaboplfbrettd7655fr4n2y
   craco-less: 2.0.0_ywo5ddri3hpflch3d7fwy72l7y

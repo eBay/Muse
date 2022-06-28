@@ -27,7 +27,7 @@ dependencies:
   '@ant-design/charts': 1.3.6_6ny5tcpn5v6lrv3vk3ntx3f7iq
   '@craco/craco': 6.4.3_f4mn2lxb4776j264eoyu36jjhe
   '@ebay/muse-craco-plugin': link:../../packages/muse-craco-plugin
-  '@ebay/muse-lib-react': link:../muse-react
+  '@ebay/muse-lib-react': link:../muse-lib-react
   '@ebay/muse-scripts-react': link:../../packages/muse-scripts-react
   '@testing-library/jest-dom': 5.16.4
   '@testing-library/react': 13.3.0_biqbaboplfbrettd7655fr4n2y
