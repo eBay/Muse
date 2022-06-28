@@ -6,7 +6,9 @@ const _ = require('lodash');
 const plugin = require('js-plugin');
 const jsYaml = require('js-yaml');
 const archiver = require('archiver');
-const ajv = require('ajv');
+const Ajv = require('ajv');
+
+const ajv = new Ajv();
 
 async function asyncInvoke(extPoint, ...args) {
   const noThrows = extPoint.endsWith('!');
@@ -223,6 +225,7 @@ const validate = (schema, data) => {
     throw new Error(JSON.stringify(validate.errors));
   }
 };
+
 
 
 module.exports = {
