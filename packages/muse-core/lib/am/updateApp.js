@@ -1,7 +1,6 @@
-const { asyncInvoke, updateJson, osUsername } = require('../utils');
+const { asyncInvoke, updateJson, osUsername , validate } = require('../utils');
 const { registry } = require('../storage');
 const getApp = require('./getApp');
-const { validate } = require('schema-utils');
 const schema = require('../schemas/am/updateApp.json');
 const logger = require('../logger').createLogger('muse.am.updateApp');
 

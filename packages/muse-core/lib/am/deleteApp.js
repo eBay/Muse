@@ -1,7 +1,7 @@
 // Delete app in the Muse registry.
 // A plugin is <registry-storage>/apps/<app-name>.yaml
 
-const { asyncInvoke, osUsername } = require('../utils');
+const { asyncInvoke, osUsername  } = require('../utils');
 const { registry } = require('../storage');
 const logger = require('../logger').createLogger('muse.am.deleteApp');
 

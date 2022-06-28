@@ -1,9 +1,8 @@
-const { asyncInvoke, getPluginId, osUsername } = require('../utils');
+const { asyncInvoke, getPluginId, osUsername, validate  } = require('../utils');
 const { assets } = require('../storage');
 const yaml = require('js-yaml');
 const { registry } = require('../storage');
 const getReleases = require('./getReleases');
-const { validate } = require('schema-utils');
 const schema = require('../schemas/pm/deleteRelease.json');
 const logger = require('../logger').createLogger('muse.pm.deleteRelease');
 

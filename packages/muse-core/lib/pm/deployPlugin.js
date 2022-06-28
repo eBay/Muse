@@ -1,8 +1,7 @@
 const yaml = require('js-yaml');
 const _ = require('lodash');
-const { validate } = require('schema-utils');
 const schema = require('../schemas/pm/deployPlugin.json');
-const { asyncInvoke, getPluginId, updateJson, osUsername } = require('../utils');
+const { asyncInvoke, getPluginId, updateJson, osUsername, validate  } = require('../utils');
 const { registry } = require('../storage');
 const getPlugin = require('./getPlugin');
 const { getApp } = require('../am');

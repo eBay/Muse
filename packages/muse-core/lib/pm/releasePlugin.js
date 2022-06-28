@@ -1,11 +1,10 @@
 const yaml = require('js-yaml');
 const path = require('path');
 const fs = require('fs-extra');
-const { asyncInvoke, getPluginId, osUsername, genNewVersion, doZip } = require('../utils');
+const { asyncInvoke, getPluginId, osUsername, genNewVersion, doZip , validate } = require('../utils');
 const { assets, registry } = require('../storage');
 const getReleases = require('./getReleases');
 const getPlugin = require('./getPlugin');
-const { validate } = require('schema-utils');
 const schema = require('../schemas/pm/releasePlugin.json');
 const logger = require('../logger').createLogger('muse.pm.releasePlugin');
 /**

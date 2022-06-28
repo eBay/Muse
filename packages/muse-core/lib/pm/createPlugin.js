@@ -4,10 +4,9 @@
  */
 
 const yaml = require('js-yaml');
-const { asyncInvoke, getPluginId, osUsername } = require('../utils');
+const { asyncInvoke, getPluginId, osUsername , validate } = require('../utils');
 const { registry } = require('../storage');
 const getPlugin = require('./getPlugin');
-const { validate } = require('schema-utils');
 const schema = require('../schemas/pm/createPlugin.json');
 const logger = require('../logger').createLogger('muse.pm.createPlugin');
 
