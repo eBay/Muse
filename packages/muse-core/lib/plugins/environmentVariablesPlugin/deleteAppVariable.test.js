@@ -49,7 +49,7 @@ describe('Delete application variables', () => {
         { name: 'var1', value: 'value1' },
         { name: 'var2', value: 'value2' },
       ],
-      envName,
+      envNames: [envName],
     });
 
     let app = await muse.am.getApp(appName);
@@ -65,7 +65,7 @@ describe('Delete application variables', () => {
     await muse.am.deleteVariable({
       appName,
       variables: ['var1', 'var2'],
-      envName,
+      envNames: [envName],
     });
     app = await muse.am.getApp(appName);
     expect(app.variables).toBeFalsy();
