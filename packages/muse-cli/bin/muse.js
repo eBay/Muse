@@ -14,9 +14,9 @@ const plugin = require('js-plugin');
 const timeStart = Date.now();
 const os = require('os');
 
-console.error = (message) => console.log(chalk.red(message));
+console.error = message => console.log(chalk.red(message));
 
-const confirmAnswer = (answer) => {
+const confirmAnswer = answer => {
   return answer.length === 0 || answer.toLowerCase() === 'yes' || answer.toLowerCase() === 'y';
 };
 
@@ -47,7 +47,7 @@ program
   .action(async () => {
     const apps = await muse.am.getApps();
     console.log(chalk.cyan(`Apps (${apps.length}):`));
-    apps.forEach((app) => {
+    apps.forEach(app => {
       console.log(chalk.cyan(` - ${app.name}`));
     });
   });
@@ -58,7 +58,7 @@ program
   .action(async () => {
     const plugins = await muse.pm.getPlugins();
     console.log(chalk.cyan(`Plugins (${plugins.length}):`));
-    plugins.forEach((p) => {
+    plugins.forEach(p => {
       console.log(chalk.cyan(` - ${p.name}`));
     });
   });
@@ -80,7 +80,7 @@ program
   .command('show-data')
   .description('Show cached data from a cache key')
   .argument('<key>', 'data key')
-  .action(async (key) => {
+  .action(async key => {
     const data = await muse.data.get(key);
     if (data) {
       console.log(chalk.cyan(`${key}:\r\n${JSON.stringify(data, null, 2)}`));
@@ -103,7 +103,7 @@ program
   .command('refresh-data-cache')
   .description('Refresh a cache key')
   .argument('<key>', 'cache key')
-  .action(async (key) => {
+  .action(async key => {
     await muse.data.refreshCache(key);
   });
 
@@ -111,7 +111,7 @@ program
   .command('create-app')
   .description('Create a new MUSE application')
   .argument('<appName>', 'application name')
-  .action(async (appName) => {
+  .action(async appName => {
     await muse.am.createApp({ appName });
   });
 
@@ -119,9 +119,9 @@ program
   .command('delete-app')
   .description('Delete a MUSE application')
   .argument('<appName>', 'application name')
-  .action(async (appName) => {
+  .action(async appName => {
     const rl = readline.createInterface({ input, output });
-    const answer = await new Promise((resolve) =>
+    const answer = await new Promise(resolve =>
       rl.question(
         'ATTENTION !! This operation cannot be undone. Confirm application deletion (yes/no) [Y] ? ',
         resolve,
@@ -140,7 +140,7 @@ program
   .command('view-app')
   .description('Display basic details of a MUSE application')
   .argument('<appName>', 'application name')
-  .action(async (appName) => {
+  .action(async appName => {
     const app = await muse.am.getApp(appName);
     console.log(chalk.cyan(JSON.stringify(app, null, 2)));
   });
@@ -149,7 +149,7 @@ program
   .command('view-full-app')
   .description('Display full details of a MUSE application')
   .argument('<appName>', 'application name')
-  .action(async (appName) => {
+  .action(async appName => {
     const fullApp = await muse.data.get(`muse.app.${appName}`);
     console.log(chalk.cyan(JSON.stringify(fullApp, null, 2)));
   });
@@ -172,7 +172,7 @@ program
   .action(async (appName, envName) => {
     // should we prompt user to confirm before deleting ?
     const rl = readline.createInterface({ input, output });
-    const answer = await new Promise((resolve) =>
+    const answer = await new Promise(resolve =>
       rl.question(
         'ATTENTION !! This operation cannot be undone. Confirm environment deletion (yes/no) [Y] ? ',
         resolve,
@@ -191,7 +191,7 @@ program
   .command('create-plugin')
   .description('Create a new MUSE plugin')
   .argument('<pluginName>', 'plugin name')
-  .action(async (pluginName) => {
+  .action(async pluginName => {
     await muse.pm.createPlugin({ pluginName });
   });
 
@@ -199,7 +199,7 @@ program
   .command('view-plugin')
   .description('View meta of a MUSE plugin')
   .argument('<pluginName>', 'plugin name')
-  .action(async (pluginName) => {
+  .action(async pluginName => {
     console.log(chalk.cyan(JSON.stringify(await muse.pm.getPlugin(pluginName), null, 2)));
   });
 
@@ -208,9 +208,9 @@ program
   .alias('delete-plugin')
   .description('Delete a MUSE plugin')
   .argument('<pluginName>', 'plugin name')
-  .action(async (pluginName) => {
+  .action(async pluginName => {
     const rl = readline.createInterface({ input, output });
-    const answer = await new Promise((resolve) =>
+    const answer = await new Promise(resolve =>
       rl.question(
         'ATTENTION !! This operation cannot be undone. Confirm plugin deletion (yes/no) [Y] ? ',
         resolve,
@@ -233,7 +233,7 @@ program
   .action(async (appName, envName) => {
     const plugins = await muse.pm.getDeployedPlugins(appName, envName);
     console.log(chalk.cyan(`Deployed plugins on ${appName}/${envName} (${plugins.length}):`));
-    plugins.forEach((p) => {
+    plugins.forEach(p => {
       console.log(chalk.cyan(` - ${p.name}@${p.version}`));
     });
   });
@@ -282,7 +282,7 @@ program
         console.log(`(dist) ${library} => [${dependencyCheckResult['dist'][library]}] not found`);
       }
       console.log(os.EOL);
-      const answer = await new Promise((resolve) =>
+      const answer = await new Promise(resolve =>
         rl.question('Do you want to continue (yes/no) [Y] ? ', resolve),
       );
       rl.close();
@@ -323,7 +323,7 @@ program
   .argument('<pluginName>', 'plugin name')
   .action(async (appName, envName, pluginName) => {
     const rl = readline.createInterface({ input, output });
-    const answer = await new Promise((resolve) =>
+    const answer = await new Promise(resolve =>
       rl.question(
         'ATTENTION !! This operation cannot be undone. Confirm plugin undeployment (yes/no) [Y] ? ',
         resolve,
@@ -341,6 +341,7 @@ program
 program
   .command('release')
   .alias('release-plugin')
+  .summary('Releases a plugin')
   .description(
     'Releases a plugin: it registers a release in the Muse registry and uploads content from the "build" folder to the defined static assets storage.',
   )
@@ -349,7 +350,7 @@ program
     'The version of the release, can be patch, minor, major or a specified version like 1.0.8.',
     'patch',
   )
-  .action(async (version) => {
+  .action(async version => {
     const pkgJson = fs.readJSONSync(path.join(process.cwd(), 'package.json'), {
       throws: false,
     });
@@ -373,7 +374,7 @@ program
 program
   .command('reg-release')
   .alias('register-release')
-  .description('Register a plugin release.')
+  .description('Register a plugin release')
   .argument('<pluginName>', 'plugin name')
   .argument('[version]', 'plugin version', 'patch')
   .action(async (pluginName, version) => {
@@ -396,7 +397,7 @@ program
   )
   .action(async (pluginName, version, options) => {
     const rl = readline.createInterface({ input, output });
-    const answer = await new Promise((resolve) =>
+    const answer = await new Promise(resolve =>
       rl.question(
         'ATTENTION !! This operation cannot be undone. Confirm delete plugin release (yes/no) [Y] ? ',
         resolve,
@@ -433,7 +434,7 @@ program
       pluginName,
       version,
     });
-    objectList.forEach((o) => {
+    objectList.forEach(o => {
       console.log(
         chalk.cyan(
           ` - ${o.name}        ${o.size} bytes        ${new Date(o.mtime).toLocaleString()}`,
@@ -457,7 +458,7 @@ program
     const timeSpan = (timeEnd - timeStart) / 1000;
     console.log(chalk.green(`✨ Done in ${timeSpan}s.`));
   })
-  .catch((err) => {
+  .catch(err => {
     const timeEnd = Date.now();
     const timeSpan = (timeEnd - timeStart) / 1000;
 
