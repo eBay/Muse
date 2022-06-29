@@ -10,11 +10,16 @@
     "lib"
   ],
   "devDependencies": {
-    "eslint": "^8.15.0"
+    "eslint": "^8.15.0",
+    "express": "^4.18.1"
   },
   "dependencies": {
     "@ebay/muse-core": "workspace:^",
     "@ebay/muse-express-middleware": "workspace:^",
+    "dotenv": "^16.0.1",
     "resolve-cwd": "^3.0.0"
+  },
+  "peerDependencies": {
+    "express": "^4.18.1"
   }
 }

@@ -2,6 +2,7 @@
 
 // This file is copied from @craco/craco/bin/craco.js
 const spawn = require('cross-spawn');
+const resolveCwd = require('resolve-cwd');
 
 const args = process.argv.slice(2);
 const scriptIndex = args.findIndex((x) => x === 'build' || x === 'start' || x === 'test');
@@ -18,7 +19,7 @@ switch (script) {
   case 'start':
   case 'test': {
     const nodeArgs = scriptIndex > 0 ? args.slice(0, scriptIndex) : [];
-    const scriptPath = require.resolve(`@craco/craco/scripts/${script}`);
+    const scriptPath = resolveCwd(`@craco/craco/scripts/${script}`);
     const scriptArgs = args.slice(scriptIndex + 1);
     const processArgs = nodeArgs.concat(scriptPath).concat(scriptArgs);
 

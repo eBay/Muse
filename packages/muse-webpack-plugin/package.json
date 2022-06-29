@@ -15,11 +15,9 @@
   "devDependencies": {
     "eslint": "^8.9.0"
   },
-  "peerDependencies": {
-    "webpack": "^5.68.0"
-  },
   "dependencies": {
+    "@ebay/muse-modules": "workspace:^",
     "json-parse-better-errors": "^1.0.2",
-    "@ebay/muse-modules": "workspace:^"
+    "resolve-cwd": "^3.0.0"
   }
 }

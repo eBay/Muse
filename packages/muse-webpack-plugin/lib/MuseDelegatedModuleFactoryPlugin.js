@@ -1,7 +1,7 @@
 'use strict';
 
 const DelegatedModule = require('webpack/lib/DelegatedModule');
-const { findMuseModule } = require('muse-modules');
+const { findMuseModule } = require('@ebay/muse-modules');
 
 /**
  * MUSE DelegatedModuleFactoryPlugin
@@ -23,10 +23,19 @@ class MuseDelegatedModuleFactoryPlugin {
       const request = module.libIdent(this.options);
       const relPath = rrd?.relativePath?.replace('./', '');
       const museModuleId = `${dfd.name}@${dfd.version}/${relPath}`;
-      const closestSemanticModule = findMuseModule(museModuleId, { modules: this.options.mergedContent });
+      const closestSemanticModule = findMuseModule(museModuleId, {
+        modules: this.options.mergedContent,
+      });
       if (closestSemanticModule) {
         // we build a reference to the module as a DelegatedModule, using the closest semantic module found
-        return new DelegatedModule(this.options.source, closestSemanticModule, this.options.type, request, module, museModuleId);
+        return new DelegatedModule(
+          this.options.source,
+          closestSemanticModule,
+          this.options.type,
+          request,
+          module,
+          museModuleId,
+        );
       }
       return module;
     });

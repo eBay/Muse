@@ -21,7 +21,7 @@ module.exports = ({ webpackConfig }) => {
       if (item?.use?.some((u) => u?.loader?.includes('mini-css-extract-plugin'))) {
         item.use = item.use?.filter((u) => !u?.loader?.includes('mini-css-extract-plugin'));
         item.use.unshift({
-          loader: require.resolve('style-loader'),
+          loader: 'style-loader',
           options: { base: styleBase++ },
         });
       }
@@ -36,7 +36,7 @@ module.exports = ({ webpackConfig }) => {
     matches.forEach((match) => {
       if (typeof match.loader === 'string') {
         match.parent[match.index] = {
-          loader: require.resolve('style-loader'),
+          loader: 'style-loader',
           options: { base: styleBase++ },
         };
       } else if (match.loader.options) {

@@ -4,10 +4,12 @@ specifiers:
   '@ebay/muse-modules': workspace:^
   eslint: ^8.9.0
   json-parse-better-errors: ^1.0.2
+  resolve-cwd: ^3.0.0
 
 dependencies:
   '@ebay/muse-modules': link:../muse-modules
   json-parse-better-errors: 1.0.2
+  resolve-cwd: 3.0.0
 
 devDependencies:
   eslint: 8.18.0
@@ -475,10 +477,22 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
+  /resolve-cwd/3.0.0:
+    resolution: {integrity: sha1-DwB18bslRHZs9zumpuKt/ryxPy0=}
+    engines: {node: '>=8'}
+    dependencies:
+      resolve-from: 5.0.0
+    dev: false
+
   /resolve-from/4.0.0:
     resolution: {integrity: sha1-SrzYUq0y3Xuqv+m0DgCjbbXzkuY=}
     engines: {node: '>=4'}
     dev: true
+
+  /resolve-from/5.0.0:
+    resolution: {integrity: sha1-w1IlhD3493bfIcV1V7wIfp39/Gk=}
+    engines: {node: '>=8'}
+    dev: false
 
   /rimraf/3.0.2:
     resolution: {integrity: sha1-8aVAK6YiCtUswSgrrBrjqkn9Bho=}
