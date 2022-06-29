@@ -32,6 +32,8 @@ module.exports = {
   checkReleaseVersion: require('./checkReleaseVersion'),
   /** @member {function} deleteRelease */
   deleteRelease: require('./deleteRelease'),
+  /** @member {function} unregisterRelease */
+  unregisterRelease: require('./unregisterRelease'),
   /** @member {function} getReleaseAssets */
   getReleaseAssets: require('./getReleaseAssets'),
 };
