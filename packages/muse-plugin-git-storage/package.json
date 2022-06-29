@@ -1,5 +1,5 @@
 {
-  "name": "@ebay/muse-git-storage",
+  "name": "@ebay/muse-plugin-git-storage",
   "version": "0.0.2",
   "main": "lib/index.js",
   "license": "MIT",
