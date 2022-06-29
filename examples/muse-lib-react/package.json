@@ -25,8 +25,8 @@
   ],
   "scripts": {
     "start": "cross-env PORT=3030 NODE_PATH=./node_modules muse-scripts-react start",
-    "build": "cross-env NODE_PATH=./node_modules muse-scripts-react build --verbose",
-    "build:dev": "cross-env NODE_PATH=./node_modules muse-scripts-react build --dev --verbose",
+    "build": "cross-env NODE_PATH=./node_modules muse-scripts-react build",
+    "build:dev": "cross-env NODE_PATH=./node_modules muse-scripts-react build --dev",
     "test": "craco test",
     "e2e-test": "muse-scripts e2e-test",
     "prestart2": "muse-scripts check-updates",
