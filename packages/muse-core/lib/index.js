@@ -9,7 +9,7 @@ const plugin = require('js-plugin');
 const envFile1 = path.join(process.cwd(), '.muse.env');
 const envFile2 = path.join(os.homedir(), '.muse.env');
 
-[envFile1, envFile2].some((envFile) => {
+[envFile1, envFile2].some(envFile => {
   if (fs.existsSync(envFile)) {
     require('dotenv').config({ path: envFile });
     return true;
@@ -21,7 +21,7 @@ const muse = {
   config,
   logger: require('./logger'),
   // register plugin must be called in the global scope
-  registerPlugin: (p) => {
+  registerPlugin: p => {
     if (config.__pluginLoaded) {
       throw new Error(
         `You can only register a plugin before initialization. Usually you should register a plugin in the global scope in your code.`,
@@ -41,6 +41,7 @@ Object.assign(muse, {
   data: require('./data'),
   storage: require('./storage'),
   utils: require('./utils'),
+  plugin,
 });
 
 // plugins that implement this endpoint can extend muse object itself !!
