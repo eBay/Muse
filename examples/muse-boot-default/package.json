@@ -15,8 +15,8 @@
   },
   "scripts": {
     "start": "muse-scripts-react start",
-    "build": "muse-scripts-react build --verbose",
-    "deploy": "yarn build && muse release muse-boot && muse deploy app1 staging muse-boot"
+    "build": "muse-scripts-react build",
+    "deploy": "yarn build && muse release && muse deploy app1 "
   },
   "devDependencies": {
     "@craco/craco": "^6.4.3",
@@ -38,8 +38,8 @@
     ]
   },
   "dependencies": {
-    "@ebay/muse-craco-plugin": "workspace:^",
-    "@ebay/muse-modules": "workspace:^",
-    "@ebay/muse-scripts-react": "workspace:^"
+    "@ebay/muse-craco-plugin": "^0.0.2",
+    "@ebay/muse-modules": "^0.0.2",
+    "@ebay/muse-scripts-react": "^0.0.2"
   }
 }
