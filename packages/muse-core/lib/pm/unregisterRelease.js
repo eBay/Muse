@@ -1,5 +1,4 @@
 const { asyncInvoke, getPluginId, osUsername } = require('../utils');
-const { assets } = require('../storage');
 const yaml = require('js-yaml');
 const { registry } = require('../storage');
 const getReleases = require('./getReleases');
@@ -35,6 +34,8 @@ module.exports = async params => {
       throw new Error(`Plugin ${pluginName} doesn't exist.`);
     }
 
+    ctx.pid = pid;
+
     const releases = await getReleases(pluginName);
     const releaseToDelete = releases.find(rel => rel.version === version);
     if (!releaseToDelete) {
@@ -61,5 +62,5 @@ module.exports = async params => {
   await asyncInvoke('museCore.pm.afterUnregisterRelease', ctx, pluginName);
   logger.verbose(`Call ext museCore.pm.afterUnregisterRelease completed`);
   logger.info(`Unregister plugin release ${pluginName}@${version} finished`);
-  return ctx.releases;
+  return ctx;
 };

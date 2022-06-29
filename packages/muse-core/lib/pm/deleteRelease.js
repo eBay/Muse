@@ -1,8 +1,6 @@
-const { asyncInvoke, getPluginId, osUsername } = require('../utils');
+const { asyncInvoke, osUsername } = require('../utils');
 const { assets } = require('../storage');
-const yaml = require('js-yaml');
-const { registry } = require('../storage');
-const getReleases = require('./getReleases');
+const unregisterRelease = require('./unregisterRelease');
 const { validate } = require('schema-utils');
 const schema = require('../schemas/pm/deleteRelease.json');
 const logger = require('../logger').createLogger('muse.pm.deleteRelease');
@@ -30,28 +28,7 @@ module.exports = async params => {
   logger.verbose(`Call ext point museCore.pm.beforeDeleteRelease completed`);
 
   try {
-    const pid = getPluginId(pluginName);
-    if (!pid) {
-      throw new Error(`Plugin ${pluginName} doesn't exist.`);
-    }
-
-    const releases = await getReleases(pluginName);
-    const releaseToDelete = releases.find(rel => rel.version === version);
-    if (!releaseToDelete) {
-      logger.warn(`Version ${version} doesn't exist or has been already unregistered.`);
-    } else {
-      const updatedReleases = releases.filter(rel => rel.version !== version);
-      ctx.releases = updatedReleases;
-
-      // Save updated releases (without the now deleted version) to registry
-      const releasesKeyPath = `/plugins/releases/${pid}.yaml`;
-      await registry.set(
-        releasesKeyPath,
-        Buffer.from(yaml.dump(updatedReleases)),
-        `Unregistered release ${pluginName}@${version} by ${author}`,
-      );
-    }
-
+    const { pid } = await unregisterRelease({ pluginName, version, author, msg });
     const keyPath = `/p/${pid}/v${version}`;
     ctx.result = await assets.delDir(
       keyPath,
