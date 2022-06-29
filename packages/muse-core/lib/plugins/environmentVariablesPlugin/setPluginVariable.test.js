@@ -59,7 +59,7 @@ describe('Upsert plugin variables', () => {
         { name: 'var2', value: 'value2' },
       ],
       appName,
-      envName,
+      envNames: [envName],
     });
 
     let plugin = await muse.pm.getDeployedPlugin(appName, envName, pluginName);
@@ -75,7 +75,7 @@ describe('Upsert plugin variables', () => {
       pluginName,
       variables: [{ name: 'var1', value: 'new-value' }],
       appName,
-      envName,
+      envNames: [envName],
     });
     plugin = await muse.pm.getDeployedPlugin(appName, envName, pluginName);
     expect(plugin.variables).toBeTruthy();

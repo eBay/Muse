@@ -3,28 +3,28 @@ const getPlugin = require('../../pm/getPlugin');
 const { osUsername } = require('../../utils');
 const { validate } = require('schema-utils');
 const schema = require('../../schemas/plugins/environmentVariablesPlugin/setPluginVariable.json');
-const logger = require('../../logger').createLogger('muse.pm.upsertPluginVariable');
+const logger = require('../../logger').createLogger('muse.pm.setPluginVariable');
 
 /**
- * @module muse-core/plugins/environmentVariablesPlugin/updatePlugin
+ * @module muse-core/plugins/environmentVariablesPlugin/setPluginVariable
  */
 /**
- * @typedef {object} UpsertPluginVariableArgument
+ * @typedef {object} SetPluginVariableArgument
  * @property {string} pluginName the plugin name
  * @property {array} variables the variables to apply. Each array element is an object { name: 'var. name', value: 'var. value'}
  * @property {string} appName the app name
- * @property {string} envName the environment name
+ * @property {array} envNames the environments of app
  * @property {string} [author=osUsername] default to the current os logged in user
  */
 
 /**
  *
- * @param {UpsertPluginVariableArgument} params args to update a plugin variable
+ * @param {SetPluginVariableArgument} params args to update a plugin variable
  * @returns {object} plugin object
  */
-module.exports = async (params) => {
+module.exports = async params => {
   validate(schema, params);
-  const { pluginName, variables, appName, envName = 'staging', author = osUsername } = params;
+  const { pluginName, variables, appName, envNames = [], author = osUsername } = params;
 
   const ctx = {};
   try {
@@ -48,11 +48,11 @@ module.exports = async (params) => {
       ctx.plugin = await updatePlugin({
         pluginName,
         appName,
-        envName,
+        envNames,
         changes: ctx.changes,
         author,
-        msg: `Upsert environment variables for ${pluginName} ${
-          appName ? ` on ${appName}${envName ? `/${envName}` : ''}` : ''
+        msg: `Set environment variables for ${pluginName} ${
+          appName ? ` on ${appName}${envNames ? ` [${envNames.toString()}]` : ''}` : ''
         }  by ${author}.`,
       });
     }
@@ -61,6 +61,6 @@ module.exports = async (params) => {
     throw err;
   }
 
-  logger.info(`Upsert plugin variables success: ${pluginName}.`);
+  logger.info(`Set plugin variables success: ${pluginName}.`);
   return ctx.plugin;
 };

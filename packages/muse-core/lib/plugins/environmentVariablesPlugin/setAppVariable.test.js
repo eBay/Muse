@@ -54,7 +54,7 @@ describe('Upsert application variables', () => {
         { name: 'var1', value: 'value1' },
         { name: 'var2', value: 'value2' },
       ],
-      envName,
+      envNames: [envName],
     });
 
     let app = await muse.am.getApp(appName);
@@ -70,7 +70,7 @@ describe('Upsert application variables', () => {
     await muse.am.setVariable({
       appName,
       variables: [{ name: 'var1', value: 'new-value' }],
-      envName,
+      envNames: [envName],
     });
 
     app = await muse.am.getApp(appName);
