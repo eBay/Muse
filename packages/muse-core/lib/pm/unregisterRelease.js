@@ -25,7 +25,7 @@ module.exports = async params => {
   validate(schema, params);
   const { pluginName, version, author = osUsername, msg } = params;
   const ctx = {};
-  await asyncInvoke('museCore.pm.beforeUnregisterRelease', ctx, pluginName);
+  await asyncInvoke('museCore.pm.beforeUnregisterRelease', ctx, params);
   logger.verbose(`Call ext point museCore.pm.beforeUnregisterRelease completed`);
 
   try {
@@ -52,14 +52,14 @@ module.exports = async params => {
         msg || `Unregistered release ${pluginName}@${version} by ${author}`,
       );
     }
-    await asyncInvoke('museCore.pm.unregisterRelease', ctx, pluginName);
+    await asyncInvoke('museCore.pm.unregisterRelease', ctx, params);
     logger.verbose(`Call ext museCore.pm.unregisterRelease completed`);
   } catch (err) {
-    await asyncInvoke('museCore.pm.failedUnregisterRelease', ctx, pluginName);
+    await asyncInvoke('museCore.pm.failedUnregisterRelease', ctx, params);
     logger.verbose(`Call ext museCore.pm.failedUnregisterRelease completed`);
     throw err;
   }
-  await asyncInvoke('museCore.pm.afterUnregisterRelease', ctx, pluginName);
+  await asyncInvoke('museCore.pm.afterUnregisterRelease', ctx, params);
   logger.verbose(`Call ext museCore.pm.afterUnregisterRelease completed`);
   logger.info(`Unregister plugin release ${pluginName}@${version} finished`);
   return ctx;

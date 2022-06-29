@@ -24,7 +24,7 @@ module.exports = async params => {
   validate(schema, params);
   const { pluginName, version, author = osUsername, msg } = params;
   const ctx = {};
-  await asyncInvoke('museCore.pm.beforeDeleteRelease', ctx, pluginName);
+  await asyncInvoke('museCore.pm.beforeDeleteRelease', ctx, params);
   logger.verbose(`Call ext point museCore.pm.beforeDeleteRelease completed`);
 
   try {
@@ -35,14 +35,14 @@ module.exports = async params => {
       msg || `Deleted Release ${pluginName}@${version} by ${author}.`,
     );
 
-    await asyncInvoke('museCore.pm.deleteRelease', ctx, pluginName);
+    await asyncInvoke('museCore.pm.deleteRelease', ctx, params);
     logger.verbose(`Call ext museCore.pm.deleteRelease completed`);
   } catch (err) {
-    await asyncInvoke('museCore.pm.failedDeleteRelease', ctx, pluginName);
+    await asyncInvoke('museCore.pm.failedDeleteRelease', ctx, params);
     logger.verbose(`Call ext museCore.pm.failedDeleteRelease completed`);
     throw err;
   }
-  await asyncInvoke('museCore.pm.afterDeleteRelease', ctx, pluginName);
+  await asyncInvoke('museCore.pm.afterDeleteRelease', ctx, params);
   logger.verbose(`Call ext museCore.pm.afterDeleteRelease completed`);
   logger.info(`Delete plugin release ${pluginName}@${version} finished`);
   return ctx.releases;
