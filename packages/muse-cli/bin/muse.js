@@ -388,14 +388,11 @@ program
 program
   .command('del-release')
   .alias('delete-release')
-  .description('Delete a released plugin version')
+  .summary('Delete a released plugin version')
+  .description('Deletes a released plugin version including their uploaded assets')
   .argument('<pluginName>', 'plugin name')
   .argument('<version>', 'plugin version')
-  .option(
-    '-d, --delAssets',
-    'delete associated build assets (by default only registry information is deleted)',
-  )
-  .action(async (pluginName, version, options) => {
+  .action(async (pluginName, version) => {
     const rl = readline.createInterface({ input, output });
     const answer = await new Promise(resolve =>
       rl.question(
@@ -408,16 +405,41 @@ program
       await muse.pm.deleteRelease({
         pluginName,
         version,
-        delAssets: options.delAssets,
       });
       console.log(
-        !options.delAssets
-          ? chalk.cyan(
-              `Plugin release version unregistered (assets still available): ${pluginName}@${version}`,
-            )
-          : chalk.cyan(
-              `Plugin release version deleted (including corresponding assets): ${pluginName}@${version}`,
-            ),
+        chalk.cyan(
+          `Plugin release version deleted (including corresponding assets): ${pluginName}@${version}`,
+        ),
+      );
+    } else {
+      console.log(chalk.cyan(`Command ABORTED.`));
+    }
+  });
+
+program
+  .command('unreg-release')
+  .alias('unregister-release')
+  .description('Unregister a released plugin version')
+  .argument('<pluginName>', 'plugin name')
+  .argument('<version>', 'plugin version')
+  .action(async (pluginName, version) => {
+    const rl = readline.createInterface({ input, output });
+    const answer = await new Promise(resolve =>
+      rl.question(
+        'ATTENTION !! This operation cannot be undone. Confirm unregister plugin release (yes/no) [Y] ? ',
+        resolve,
+      ),
+    );
+    rl.close();
+    if (confirmAnswer(answer)) {
+      await muse.pm.unregisterRelease({
+        pluginName,
+        version,
+      });
+      console.log(
+        chalk.cyan(
+          `Plugin release version unregistered (assets still available): ${pluginName}@${version}`,
+        ),
       );
     } else {
       console.log(chalk.cyan(`Command ABORTED.`));

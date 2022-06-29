@@ -4,14 +4,14 @@ const yaml = require('js-yaml');
 const { registry } = require('../storage');
 const getReleases = require('./getReleases');
 const { validate } = require('schema-utils');
-const schema = require('../schemas/pm/deleteRelease.json');
-const logger = require('../logger').createLogger('muse.pm.deleteRelease');
+const schema = require('../schemas/pm/unregisterRelease.json');
+const logger = require('../logger').createLogger('muse.pm.unregisterRelease');
 
 /**
- * @module muse-core/pm/deleteRelease
+ * @module muse-core/pm/unregisterRelease
  */
 /**
- * @typedef {object} DeleteReleaseArgument
+ * @typedef {object} UnregisterReleaseArgument
  * @property {string} pluginName the plugin name
  * @property {string} version the exact version you want to delete
  * @property {string} [author] default to the current os logged in user
@@ -20,14 +20,14 @@ const logger = require('../logger').createLogger('muse.pm.deleteRelease');
 
 /**
  *
- * @param {DeleteReleaseArgument} params args to delete a plugin
+ * @param {UnregisterReleaseArgument} params args to delete a plugin
  */
 module.exports = async params => {
   validate(schema, params);
   const { pluginName, version, author = osUsername, msg } = params;
   const ctx = {};
-  await asyncInvoke('museCore.pm.beforeDeleteRelease', ctx, pluginName);
-  logger.verbose(`Call ext point museCore.pm.beforeDeleteRelease completed`);
+  await asyncInvoke('museCore.pm.beforeUnregisterRelease', ctx, pluginName);
+  logger.verbose(`Call ext point museCore.pm.beforeUnregisterRelease completed`);
 
   try {
     const pid = getPluginId(pluginName);
@@ -48,25 +48,18 @@ module.exports = async params => {
       await registry.set(
         releasesKeyPath,
         Buffer.from(yaml.dump(updatedReleases)),
-        `Unregistered release ${pluginName}@${version} by ${author}`,
+        msg || `Unregistered release ${pluginName}@${version} by ${author}`,
       );
     }
-
-    const keyPath = `/p/${pid}/v${version}`;
-    ctx.result = await assets.delDir(
-      keyPath,
-      msg || `Deleted Release ${pluginName}@${version} by ${author}.`,
-    );
-
-    await asyncInvoke('museCore.pm.deleteRelease', ctx, pluginName);
-    logger.verbose(`Call ext museCore.pm.deleteRelease completed`);
+    await asyncInvoke('museCore.pm.unregisterRelease', ctx, pluginName);
+    logger.verbose(`Call ext museCore.pm.unregisterRelease completed`);
   } catch (err) {
-    await asyncInvoke('museCore.pm.failedDeleteRelease', ctx, pluginName);
-    logger.verbose(`Call ext museCore.pm.failedDeleteRelease completed`);
+    await asyncInvoke('museCore.pm.failedUnregisterRelease', ctx, pluginName);
+    logger.verbose(`Call ext museCore.pm.failedUnregisterRelease completed`);
     throw err;
   }
-  await asyncInvoke('museCore.pm.afterDeleteRelease', ctx, pluginName);
-  logger.verbose(`Call ext museCore.pm.afterDeleteRelease completed`);
-  logger.info(`Delete plugin release ${pluginName}@${version} finished`);
+  await asyncInvoke('museCore.pm.afterUnregisterRelease', ctx, pluginName);
+  logger.verbose(`Call ext museCore.pm.afterUnregisterRelease completed`);
+  logger.info(`Unregister plugin release ${pluginName}@${version} finished`);
   return ctx.releases;
 };
