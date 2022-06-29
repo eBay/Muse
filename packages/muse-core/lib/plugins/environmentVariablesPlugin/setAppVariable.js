@@ -3,28 +3,28 @@ const updateApp = require('../../am/updateApp');
 const { osUsername } = require('../../utils');
 const { validate } = require('schema-utils');
 const schema = require('../../schemas/plugins/environmentVariablesPlugin/setAppVariable.json');
-const logger = require('../../logger').createLogger('muse.am.upsertVariable');
+const logger = require('../../logger').createLogger('muse.am.setAppVariable');
 
 /**
- * @module muse-core/plugins/environmentVariablesPlugin/upsertVariable
+ * @module muse-core/plugins/environmentVariablesPlugin/setAppVariable
  */
 
 /**
- * @typedef {object} UpsertVariableArgument
+ * @typedef {object} SetAppVariableArgument
  * @property {string} appName the app name
  * @property {array} variables the variables of app to be upsert. Each array element is an object { name: 'var. name', value: 'var. value'}
- * @property {string} envName the environment of app
+ * @property {array} envNames the environments of app
  * @property {string} [author=osUsername] default to the current os logged in user
  */
 
 /**
  *
- * @param {UpsertVariableArgument} params args to upsert variables from apps
+ * @param {SetAppVariableArgument} params args to upsert variables from apps
  * @returns {object} app
  */
-module.exports = async (params) => {
+module.exports = async params => {
   validate(schema, params);
-  const { appName, variables, envName, author = osUsername } = params;
+  const { appName, variables, envNames = [], author = osUsername } = params;
 
   const ctx = {};
   try {
@@ -38,19 +38,32 @@ module.exports = async (params) => {
     };
 
     if (variables) {
-      for (const vari of variables) {
-        ctx.changes.set.push({
-          path: !envName ? `variables.${vari.name}` : `envs.${envName}.variables.${vari.name}`,
-          value: vari.value,
-        });
+      if (envNames.length === 0) {
+        // if no environments specified, we update app configuration directly ( defaults for any environment )
+        for (const vari of variables) {
+          ctx.changes.set.push({
+            path: `variables.${vari.name}`,
+            value: vari.value,
+          });
+        }
+      } else {
+        // set variables for each environment specified
+        for (const vari of variables) {
+          for (const envi of envNames) {
+            ctx.changes.set.push({
+              path: `envs.${envi}.variables.${vari.name}`,
+              value: vari.value,
+            });
+          }
+        }
       }
 
       ctx.app = await updateApp({
         appName,
         changes: ctx.changes,
         author,
-        msg: `Upsert environment variables on ${appName}${
-          envName ? `/${envName}` : ''
+        msg: `Set environment variables on ${appName}${
+          envNames.length > 0 ? ` [${envNames.toString()}]` : ''
         }  by ${author}.`,
       });
     }
@@ -59,6 +72,10 @@ module.exports = async (params) => {
     throw err;
   }
 
-  logger.info(`Upsert Application variables success: ${appName}${envName ? `/${envName}` : ``}.`);
+  logger.info(
+    `Set Application variables success: ${appName}${
+      envNames.length > 0 ? `[${envNames.toString()}]` : ''
+    }.`,
+  );
   return ctx.app;
 };

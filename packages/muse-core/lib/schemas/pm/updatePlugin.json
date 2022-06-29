@@ -9,8 +9,8 @@
       "appName": {
         "type": "string"
       },
-      "envName": {
-        "type": "string"
+      "envNames": {
+        "type": "array"
       },
       "changes": {
         "type": "object"
