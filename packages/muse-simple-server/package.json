@@ -12,6 +12,6 @@
     "muse-express-middleware": "workspace:*"
   },
   "devDependencies": {
-    "eslint": "^8.16.0"
+    "eslint": "^8.18.0"
   }
 }

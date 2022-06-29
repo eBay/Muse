@@ -4,11 +4,11 @@
   "main": "lib/index.js",
   "license": "MIT",
   "devDependencies": {
-    "eslint": "^8.15.0"
+    "eslint": "^8.18.0"
   },
   "dependencies": {
     "muse-core": "workspace:^1.0.0",
-    "muse-express-middleware": "workspace:^1.0.0",
+    "muse-express-middleware": "workspace:^0.0.1",
     "resolve-cwd": "^3.0.0"
   }
 }
