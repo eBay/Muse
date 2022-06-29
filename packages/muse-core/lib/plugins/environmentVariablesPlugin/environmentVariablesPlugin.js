@@ -22,7 +22,7 @@ module.exports = () => {
           .command('set-app-var')
           .description('Set or update environment variables for an application')
           .argument('<appName>', 'Application name')
-          .option('-v, --vars <variables...>', 'space separated list of variable = value')
+          .option('--vars <variables...>', 'space separated list of variable = value')
           .option('-e, --envs <environments...>', 'space separated list of environment names')
           .addHelpText(
             'after',
@@ -42,7 +42,7 @@ If --envs is not specified, variables are set as default for any environment`,
           .alias('delete-app-var')
           .description('Delete environment variables from an application')
           .argument('<appName>', 'Application name')
-          .option('-v, --vars <variables...>', 'space separated list of variable names')
+          .option('--vars <variables...>', 'space separated list of variable names')
           .option('-e, --envs <environments...>', 'space separated list of environment names')
           .addHelpText(
             'after',
@@ -57,9 +57,9 @@ If --envs is not specified, variables are deleted from the apps's default config
           .command('set-plugin-var')
           .description('Set or update environment variables for a plugin')
           .argument('<pluginName>', 'Plugin name')
-          .option('-v, --vars <variables...>', 'space separated list of variable = value')
+          .option('--vars <variables...>', 'space separated list of variable = value')
           .option('-app, --application <appName>', 'Application name')
-          .option('-e, --envs <environments>', 'space separated list of environment names')
+          .option('-e, --envs <environments...>', 'space separated list of environment names')
           .addHelpText(
             'after',
             `
@@ -84,9 +84,9 @@ If --envs is not specified, 'staging' env is assumed by default`,
           .alias('delete-plugin-var')
           .description('Delete environment variables from a plugin')
           .argument('<pluginName>', 'Plugin name')
-          .option('-v, --vars <variables...>', 'space separated list of variable names')
+          .option('--vars <variables...>', 'space separated list of variable names')
           .option('-app, --application <appName>', 'Application name')
-          .option('-e, --envs <environments>', 'space separated list of environment names')
+          .option('-e, --envs <environments...>', 'space separated list of environment names')
           .addHelpText(
             'after',
             `
