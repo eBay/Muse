@@ -1,7 +1,7 @@
 // Expose core APIs are RESTful APIs
-const muse = require('muse-core');
+const muse = require('@ebay/muse-core');
 const _ = require('lodash');
-const logger = muse.logger.createLogger('muse-express-middleware.api');
+const logger = muse.logger.createLogger('@ebay/muse-express-middleware.api');
 
 module.exports = ({ basePath = '/api/v2' }) => {
   return async (req, res, next) => {

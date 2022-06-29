@@ -1,25 +1,23 @@
-const { museContext, utils } = require('muse-dev-utils');
-const { MusePlugin, MuseReferencePlugin } = require('muse-webpack-plugin');
+const { museContext, utils } = require('@ebay/muse-dev-utils');
+const { MusePlugin, MuseReferencePlugin } = require('@ebay/muse-webpack-plugin');
 const setupHtmlWebpackPlugin = require('./setupHtmlWebpackPlugin');
 const { isDev, isDevBuild, museConfig } = museContext;
 
 /**
  * Main Craco Configuration plugin.
- * 
+ *
  * For non-boot plugins, it adds two webpack plugins:
  *  - MusePlugin : main webpack plugin for compiling the current muse plugin being built from CLI (as a Dll bundle)
  *  - MuseReferencePlugin : webpack plugin for building dependency manifests
- * 
+ *
  * @param {cracoConfig} original craco configuration
  * @returns modified craco onfiguration
  */
 module.exports = async ({ cracoConfig }) => {
-  
   utils.assertPath(cracoConfig, 'webpack.plugins.add', [], true);
   utils.assertPath(cracoConfig, 'webpack.plugins.remove', [], true);
 
   if (museConfig.type !== 'boot') {
-
     // for non-boot plugins, we gather a list of muse library plugins to be used by the MuseReferencePlugin
     let museLibs = utils.getMuseLibs();
     if (isDev) {

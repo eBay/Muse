@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const muse = require('muse-core');
+const muse = require('@ebay/muse-core');
 
 const defaultTemplate = `
 <!doctype html>

@@ -1,9 +1,13 @@
 {
-  "name": "muse-scripts-react",
-  "version": "1.0.0",
+  "name": "@ebay/muse-scripts-react",
+  "version": "0.0.2",
   "main": "index.js",
   "license": "MIT",
+  "publishConfig": {
+    "registry": "https://artifactory.corp.ebay.com/artifactory/api/npm/npm-muse"
+  },
   "files": [
+    "lib",
     "bin"
   ],
   "bin": {
@@ -13,6 +17,7 @@
     "eslint": "^8.18.0"
   },
   "dependencies": {
-    "cross-spawn": "^7.0.3"
+    "cross-spawn": "^7.0.3",
+    "resolve-cwd": "^3.0.0"
   }
 }

@@ -14,9 +14,6 @@
     },
     "msg": {
       "type": "string"
-    },
-    "delAssets": {
-      "type": "boolean"
     }
   },
   "required": ["pluginName", "version"],

@@ -1,6 +1,6 @@
 const path = require('path');
 const os = require('os');
-const logger = require('muse-core').logger.createLogger('git-storage-plugin.GitStorage');
+const logger = require('@ebay/muse-core').logger.createLogger('git-storage-plugin.GitStorage');
 const GitClient = require('./GitClient');
 
 class GitStorage {
@@ -97,6 +97,16 @@ class GitStorage {
       projectName: this.projectName,
       keyPath,
       file,
+      message: msg,
+    });
+  }
+
+  async delDir(keyPath, msg) {
+    logger.verbose(`Delete dir: ${keyPath}`);
+    return await this.gitClient.deleteFolder({
+      organizationName: this.organizationName,
+      projectName: this.projectName,
+      keyPath,
       message: msg,
     });
   }

@@ -1,11 +1,11 @@
 // Patch react-scripts and craco to support development build
 const fs = require('fs');
-
+const resolveCwd = require('resolve-cwd');
 // Patch react-scripts/scripts/build.js
 const markPatched = `// muse_scripts_react_patched\r\n`;
 let p, content;
 
-p = require.resolve('react-scripts/scripts/build.js');
+p = resolveCwd('react-scripts/scripts/build.js');
 content = fs.readFileSync(p).toString('utf-8');
 
 if (!content.startsWith(markPatched)) {
@@ -23,7 +23,10 @@ if (process.env.MUSE_DEV_BUILD) {
 }
     `,
     )
-    .replace("configFactory('production')", `configFactory(process.env.MUSE_DEV_BUILD ? 'development' : 'production')`)
+    .replace(
+      "configFactory('production')",
+      `configFactory(process.env.MUSE_DEV_BUILD ? 'development' : 'production')`,
+    )
     .replace(
       'Creating an optimized production build...',
       `Creating ' + (process.env.MUSE_DEV_BUILD ? 'a development' : 'an optimized production') + ' build...`,
@@ -34,7 +37,7 @@ if (process.env.MUSE_DEV_BUILD) {
 }
 
 // Patch @craco/craco/scripts/build.js
-p = require.resolve('@craco/craco/scripts/build.js');
+p = resolveCwd('@craco/craco/scripts/build.js');
 content = fs.readFileSync(p).toString('utf-8');
 
 if (!content.startsWith(markPatched)) {
@@ -48,7 +51,10 @@ if (!content.startsWith(markPatched)) {
       `process.env.NODE_ENV = process.env.MUSE_DEV_BUILD ? "development" : "production"`,
     )
     .replace(`{ overrideWebpackProd }`, `{ overrideWebpackProd, overrideWebpackDev }`)
-    .replace(`overrideWebpackProd(`, `(process.env.MUSE_DEV_BUILD ? overrideWebpackDev : overrideWebpackProd)(`);
+    .replace(
+      `overrideWebpackProd(`,
+      `(process.env.MUSE_DEV_BUILD ? overrideWebpackDev : overrideWebpackProd)(`,
+    );
 
   content = `${markPatched}${content}`;
   fs.writeFileSync(p, content);

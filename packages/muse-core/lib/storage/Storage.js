@@ -75,6 +75,9 @@ class Storage extends EventEmitter {
   async del(path, msg) {
     await wrappedAsyncInvoke(this.extPath, 'del', path, msg);
   }
+  async delDir(path, msg) {
+    await wrappedAsyncInvoke(this.extPath, 'delDir', path, msg);
+  }
   async count(path) {
     return await wrappedAsyncInvoke(this.extPath, 'count', path);
   }

@@ -1,8 +1,14 @@
 {
-  "name": "muse-plugin-s3-storage",
-  "version": "1.0.0",
+  "name": "@ebay/muse-plugin-s3-storage",
+  "version": "0.0.2",
   "description": "",
   "main": "lib/index.js",
+  "publishConfig": {
+    "registry": "https://artifactory.corp.ebay.com/artifactory/api/npm/npm-muse"
+  },
+  "files": [
+    "lib"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -12,6 +18,6 @@
   "dependencies": {
     "lodash": "^4.17.21",
     "minio": "^7.0.28",
-    "muse-core": "workspace:^1.0.0"
+    "@ebay/muse-core": "workspace:^"
   }
 }

@@ -1,0 +1,45 @@
+{
+  "name": "@ebay/muse-boot-default",
+  "version": "0.0.2",
+  "main": "index.js",
+  "license": "MIT",
+  "muse": {
+    "type": "boot",
+    "devConfig": {
+      "app": "app1",
+      "env": "staging",
+      "remotePlugins": [
+        "@ebay/muse-react"
+      ]
+    }
+  },
+  "scripts": {
+    "start": "muse-scripts-react start",
+    "build": "muse-scripts-react build --verbose",
+    "deploy": "yarn build && muse release muse-boot && muse deploy app1 staging muse-boot"
+  },
+  "devDependencies": {
+    "@craco/craco": "^6.4.3",
+    "cross-env": "^7.0.3",
+    "eslint": "^8.18.0",
+    "react": "^18.2.0",
+    "react-scripts": "^5.0.1"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "dependencies": {
+    "@ebay/muse-craco-plugin": "workspace:^",
+    "@ebay/muse-modules": "workspace:^",
+    "@ebay/muse-scripts-react": "workspace:^"
+  }
+}

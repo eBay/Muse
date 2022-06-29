@@ -1,8 +1,14 @@
 {
-  "name": "muse-plugin-multiple-tenants",
-  "version": "1.0.0",
+  "name": "@ebay/muse-plugin-multiple-tenants",
+  "version": "0.0.2",
   "description": "",
   "main": "index.js",
+  "publishConfig": {
+    "registry": "https://artifactory.corp.ebay.com/artifactory/api/npm/npm-muse"
+  },
+  "files": [
+    "lib"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

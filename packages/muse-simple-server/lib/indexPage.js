@@ -1,4 +1,4 @@
-const muse = require('muse-core');
+const muse = require('@ebay/muse-core');
 
 module.exports = (appName, envName, isDev) => async (req, res) => {
   const app = await muse.data.get(`muse.app.${appName}`);

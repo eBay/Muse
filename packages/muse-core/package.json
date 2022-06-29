@@ -1,11 +1,17 @@
 {
-  "name": "muse-core",
-  "version": "1.0.0",
+  "name": "@ebay/muse-core",
+  "version": "0.0.2",
   "main": "lib/index.js",
   "license": "MIT",
   "scripts": {
     "test": "jest"
   },
+  "publishConfig": {
+    "registry": "https://artifactory.corp.ebay.com/artifactory/api/npm/npm-muse"
+  },
+  "files": [
+    "lib"
+  ],
   "dependencies": {
     "archiver": "^5.3.1",
     "ajv": "^8.11.0",

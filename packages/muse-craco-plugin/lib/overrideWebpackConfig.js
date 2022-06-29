@@ -1,6 +1,6 @@
 const crypto = require('crypto');
 const { getLoaders, loaderByName } = require('@craco/craco');
-const { pkgJson, isDev } = require('muse-dev-utils').museContext;
+const { pkgJson, isDev } = require('@ebay/muse-dev-utils').museContext;
 const handleMuseLocalPlugins = require('./handleMuseLocalPlugins');
 
 const hashed = crypto.createHash('md5').update(pkgJson.name).digest('hex').substring(0, 6);
@@ -21,7 +21,7 @@ module.exports = ({ webpackConfig }) => {
       if (item?.use?.some((u) => u?.loader?.includes('mini-css-extract-plugin'))) {
         item.use = item.use?.filter((u) => !u?.loader?.includes('mini-css-extract-plugin'));
         item.use.unshift({
-          loader: require.resolve('style-loader'),
+          loader: 'style-loader',
           options: { base: styleBase++ },
         });
       }
@@ -36,7 +36,7 @@ module.exports = ({ webpackConfig }) => {
     matches.forEach((match) => {
       if (typeof match.loader === 'string') {
         match.parent[match.index] = {
-          loader: require.resolve('style-loader'),
+          loader: 'style-loader',
           options: { base: styleBase++ },
         };
       } else if (match.loader.options) {
