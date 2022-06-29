@@ -3,8 +3,8 @@ lockfileVersion: 5.4
 specifiers:
   '@babel/core': ^7.18.2
   '@craco/craco': ^6.4.3
-  '@ebay/muse-craco-plugin': ^0.0.1
-  '@ebay/muse-scripts-react': ^0.0.1
+  '@ebay/muse-craco-plugin': ^0.0.2
+  '@ebay/muse-scripts-react': ^0.0.2
   '@ebay/nice-modal-react': 1.2.6
   '@types/node': ^17.0.39
   axios: ^0.27.2
