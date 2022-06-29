@@ -96,7 +96,7 @@ program
   .argument('[envName]', 'environment name', 'staging')
   .argument('[port]', 'port', 6070)
   .action((appName, envName, port) => {
-    require('muse-simple-server/lib/server')({ appName, envName, port });
+    require('@ebay/muse-simple-server/lib/server')({ appName, envName, port });
   });
 
 program
