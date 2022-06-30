@@ -33,7 +33,7 @@
     "@ant-design/icons": "^4.7.0",
     "@craco/craco": "^6.4.3",
     "@ebay/muse-lib-antd": "workspace:^0.0.2",
-    "@ebay/muse-lib-react": "^0.0.3",
+    "@ebay/muse-lib-react": "^0.0.6",
     "antd": "4.20.7",
     "craco-less": "^2.0.0",
     "js-plugin": "^1.1.0",
