@@ -1,5 +1,17 @@
 # @ebay/muse-simple-server
 
+## 1.0.0
+
+### Major Changes
+
+- af8b23c: first major
+
+### Patch Changes
+
+- Updated dependencies [af8b23c]
+  - @ebay/muse-core@1.0.0
+  - @ebay/muse-express-middleware@1.0.0
+
 ## 0.0.2
 
 ### Patch Changes

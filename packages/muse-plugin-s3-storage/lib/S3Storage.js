@@ -3,13 +3,13 @@ const Minio = require('minio');
 const httpsAgent = new (require('https').Agent)({
   rejectUnauthorized: false,
 });
-const logger = require('@ebay/muse-core').logger.createLogger('s3-storage-plugin.S2Storage');
+const logger = require('@ebay/muse-core').logger.createLogger('s3-storage-plugin.S3Storage');
 
 function streamToBuffer(stream) {
   const chunks = [];
   return new Promise((resolve, reject) => {
-    stream.on('data', (chunk) => chunks.push(Buffer.from(chunk)));
-    stream.on('error', (err) => reject(err));
+    stream.on('data', chunk => chunks.push(Buffer.from(chunk)));
+    stream.on('error', err => reject(err));
     stream.on('end', () => resolve(Buffer.concat(chunks)));
   });
 }
@@ -72,7 +72,7 @@ class S3Storage {
   async list(key) {
     logger.verbose(`Listing data: ${key}`);
     const objectsList = await this.listBucketFolder(key);
-    return objectsList.map((o) => {
+    return objectsList.map(o => {
       return {
         name: o?.name?.replace(this.basePath + key, ''),
         path: o?.name,
@@ -94,15 +94,15 @@ class S3Storage {
       true,
     );
     await new Promise((resolve, reject) => {
-      objectsStream.on('data', (chunk) => objectsList.push(chunk));
-      objectsStream.on('error', (err) => reject(err));
+      objectsStream.on('data', chunk => objectsList.push(chunk));
+      objectsStream.on('error', err => reject(err));
       objectsStream.on('end', () => resolve(objectsList.concat(objectsList)));
     });
     return objectsList;
   }
 
   async readStream(key) {
-    console.log('read Stream key: ', key);
+    return await this.s3Client.getObject(this.bucketName, this.basePath + key);
   }
 
   async writeStream(key) {

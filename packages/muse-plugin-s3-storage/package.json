@@ -1,6 +1,6 @@
 {
   "name": "@ebay/muse-plugin-s3-storage",
-  "version": "0.0.3",
+  "version": "1.0.0",
   "description": "",
   "main": "lib/index.js",
   "publishConfig": {
@@ -20,9 +20,9 @@
     "minio": "^7.0.28"
   },
   "devDependencies": {
-    "@ebay/muse-core": "workspace:^0.0.3"
+    "@ebay/muse-core": "workspace:^1.0.0"
   },
   "peerDependencies": {
-    "@ebay/muse-core": "workspace:^0.0.3"
+    "@ebay/muse-core": "workspace:^1.0.0"
   }
 }

@@ -18,9 +18,9 @@
   ],
   "devDependencies": {
     "cross-env": "^7.0.3",
-    "@ebay/muse-craco-plugin": "workspace:^",
-    "@ebay/muse-scripts-react": "workspace:^",
-    "@ebay/muse-webpack-plugin": "workspace:^"
+    "@ebay/muse-craco-plugin": "^1.0.0",
+    "@ebay/muse-scripts-react": "^1.0.0",
+    "@ebay/muse-webpack-plugin": "^1.0.0"
   },
   "scripts": {
     "start": "cross-env PORT=3031 muse-scripts-react start",
@@ -43,7 +43,7 @@
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
     "@craco/craco": "^6.4.3",
-    "@ebay/muse-lib-react": "workspace:^",
+    "@ebay/muse-lib-react": "^1.0.0",
     "antd": "4.20.7",
     "antd-form-builder": "2.1.4",
     "craco-less": "^2.0.0",

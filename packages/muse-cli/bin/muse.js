@@ -386,6 +386,16 @@ program
   });
 
 program
+  .command('view-releases')
+  .summary('Show releases of a plugin')
+  .description('Show releases of a plugin.')
+  .argument('<pluginName>', 'The plugin name in the registry.')
+  .action(async pluginName => {
+    const releases = await muse.pm.getReleases(pluginName);
+    console.log(chalk.cyan(JSON.stringify(releases, null, 2)));
+  });
+
+program
   .command('del-release')
   .alias('delete-release')
   .summary('Delete a released plugin version')
