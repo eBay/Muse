@@ -1,5 +1,6 @@
 module.exports = {
   logLevel: 'silly',
+  presets: ['../muse-next-ebay/packages/muse-ebay-plugins'],
   plugins: [
     [
       './packages/muse-plugin-git-storage',

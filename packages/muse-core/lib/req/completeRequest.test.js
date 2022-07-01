@@ -6,9 +6,9 @@ const testJsPlugin = {
   name: 'test',
   museCore: {
     req: {
-      mergeRequest: jest.fn(),
-      beforeMergeRequest: jest.fn(),
-      afterMergeRequest: jest.fn(),
+      completeRequest: jest.fn(),
+      beforeCompleteRequest: jest.fn(),
+      afterCompleteRequest: jest.fn(),
     },
   },
 };
@@ -37,7 +37,7 @@ describe('Merge request basic tests.', () => {
     expect(await muse.pm.getDeployedPlugin('app1', 'staging', 'plugin1')).toBeNull();
 
     // Merge the request
-    await muse.req.mergeRequest({ requestId: req.id });
+    await muse.req.completeRequest({ requestId: req.id });
 
     // After merge, the request should have been deleted
     expect(await muse.req.getRequest(req.id)).toBeNull();
@@ -48,8 +48,8 @@ describe('Merge request basic tests.', () => {
       version: '1.0.0',
     });
 
-    expect(testJsPlugin.museCore.req.mergeRequest).toBeCalledTimes(1);
-    expect(testJsPlugin.museCore.req.beforeMergeRequest).toBeCalledTimes(1);
-    expect(testJsPlugin.museCore.req.afterMergeRequest).toBeCalledTimes(1);
+    expect(testJsPlugin.museCore.req.completeRequest).toBeCalledTimes(1);
+    expect(testJsPlugin.museCore.req.beforeCompleteRequest).toBeCalledTimes(1);
+    expect(testJsPlugin.museCore.req.afterCompleteRequest).toBeCalledTimes(1);
   });
 });

@@ -10,6 +10,11 @@ const { stdin: input, stdout: output } = require('node:process');
 // const build = require('../lib/build');
 // const start = require('../lib/start');
 // const test = require('../lib/test');
+const TimeAgo = require('javascript-time-ago');
+const en = require('javascript-time-ago/locale/en');
+TimeAgo.addDefaultLocale(en);
+
+const timeAgo = new TimeAgo('en-US');
 
 const timeStart = Date.now();
 const os = require('os');
@@ -457,6 +462,35 @@ program
   });
 
 program
+  .command('list-requests')
+  .description('List open requests.')
+  .argument('[state]', 'plugin version', null)
+  .action(async state => {
+    let requests = await muse.req.getRequests();
+    if (state) requests = requests.filter(r => r.state === state);
+    console.log(chalk.cyan(`Requests (${requests.length}): `));
+    requests.forEach(r => {
+      console.log(
+        chalk.cyan(
+          ` - ${r.id} by ${r.createdBy} ${chalk.yellow(
+            timeAgo.format(new Date(r.createdAt)),
+          )}: ${r.description || ''}`,
+        ),
+      );
+    });
+  });
+
+program
+  .command('delete-request')
+  .alias('del-request')
+  .description('Delete a request by id.')
+  .argument('<requestId>', 'The request id')
+  .action(async requestId => {
+    await muse.req.deleteRequest({ requestId });
+    console.log(chalk.cyan(`Request deleted.`));
+  });
+
+program
   .command('list-released-assets')
   .description('List released assets of a plugin version')
   .argument('<pluginName>', 'plugin name')
@@ -476,7 +510,7 @@ program
   });
 
 // let other plugins add their own cli program commands
-muse.plugin.invoke('museCli.processProgram', program);
+muse.plugin.invoke('museCli.processProgram', program, chalk);
 
 // sort commands alphabetically
 program.configureHelp({

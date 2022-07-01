@@ -11,6 +11,7 @@ specifiers:
   fs-extra: ^10.1.0
   globby: ^13.1.1
   import-from: ^4.0.0
+  javascript-time-ago: ^2.5.5
   jest: ^28.1.0
   js-plugin: ^1.1.0
   js-yaml: ^4.1.0
@@ -32,6 +33,7 @@ dependencies:
   fs-extra: 10.1.0
   globby: 13.1.2
   import-from: 4.0.0
+  javascript-time-ago: 2.5.5
   js-plugin: 1.1.0
   js-yaml: 4.1.0
   lodash: 4.17.21
@@ -1925,6 +1927,12 @@ packages:
       istanbul-lib-report: 3.0.0
     dev: true
 
+  /javascript-time-ago/2.5.5:
+    resolution: {integrity: sha1-VIcBXFnHEVxigVSOYnvk7m9jdqg=}
+    dependencies:
+      relative-time-format: 1.1.4
+    dev: false
+
   /jest-changed-files/28.0.2:
     resolution: {integrity: sha1-fXgQZgpb0EOvnpz75NWK2wXpFTE=}
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
@@ -2801,6 +2809,10 @@ packages:
     resolution: {integrity: sha1-BCWido2PI7rXDKS5BGH6LxIT4bI=}
     engines: {node: '>=8'}
     dev: true
+
+  /relative-time-format/1.1.4:
+    resolution: {integrity: sha1-UMMIpIKYUzOhPfEZsf8nY+PrBoU=}
+    dev: false
 
   /require-directory/2.1.1:
     resolution: {integrity: sha1-jGStX9MNqxyXbiNE/+f3kqam30I=}

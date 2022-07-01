@@ -4,6 +4,8 @@
 module.exports = {
   /** @member {function} createRequest */
   createRequest: require('./createRequest'),
+  /** @member {function} completeRequest */
+  completeRequest: require('./completeRequest'),
   /** @member {function} deleteRequest */
   deleteRequest: require('./deleteRequest'),
   /** @member {function} getRequest */
@@ -16,6 +18,4 @@ module.exports = {
   updateStatus: require('./updateStatus'),
   /** @member {function} deleteStatus */
   deleteStatus: require('./deleteStatus'),
-  /** @member {function} mergeRequest */
-  mergeRequest: require('./mergeRequest'),
 };

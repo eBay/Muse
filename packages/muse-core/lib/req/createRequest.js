@@ -28,7 +28,7 @@ module.exports = async (params = {}) => {
   const ctx = {};
   await asyncInvoke('museCore.req.beforeCreateRequest', ctx, params);
 
-  const { type, payload, author = osUsername, options, msg } = params;
+  const { type, payload, author = osUsername, autoComplete = true, options, msg } = params;
   const reqId = `${type}-${Date.now()}`;
   const keyPath = `/requests/${reqId}.yaml`;
   ctx.request = {
@@ -36,6 +36,8 @@ module.exports = async (params = {}) => {
     type,
     createdBy: author,
     createdAt: new Date().toJSON(),
+    description: msg || '',
+    autoComplete,
     ...options,
     payload,
   };
@@ -45,7 +47,7 @@ module.exports = async (params = {}) => {
     await registry.set(
       keyPath,
       Buffer.from(yaml.dump(ctx.request)),
-      '[request] ' + (msg || `${type} by ${author}`),
+      `[Request] ${msg || type} by ${author}.`,
     );
   } catch (err) {
     ctx.error = err;

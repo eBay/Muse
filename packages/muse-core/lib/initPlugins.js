@@ -19,7 +19,7 @@ const {
 
 const configDir = config.filepath ? path.dirname(config.filepath) : process.cwd();
 
-const loadPlugin = (pluginDef) => {
+const loadPlugin = pluginDef => {
   let pluginInstance = null;
   let pluginOptions = null;
   if (_.isString(pluginDef)) {
@@ -29,6 +29,8 @@ const loadPlugin = (pluginDef) => {
     pluginOptions = pluginDef[1];
   } else if (_.isObject(pluginDef)) {
     pluginInstance = pluginDef;
+  } else if (_.isFunction(pluginDef)) {
+    pluginInstance = pluginDef();
   } else {
     throw new Error(`Unknown plugin definition: ${String(pluginDef)}`);
   }
@@ -39,7 +41,7 @@ const loadPlugin = (pluginDef) => {
 config.plugins?.forEach(loadPlugin);
 _.castArray(config.presets)
   .filter(Boolean)
-  .forEach((preset) => {
+  .forEach(preset => {
     let plugins = importFrom(configDir, preset);
     if (_.isFunction(plugins)) plugins = plugins();
     plugins.forEach(loadPlugin);
@@ -51,7 +53,7 @@ const assetsStorageProviders = plugin.getPlugins('museCore.assets.storage.get').
 if (assetsStorageProviders.length > 1) {
   console.log(
     `[WARNING]: multiple assets stroage providers found: ${assetsStorageProviders
-      .map((p) => p.name)
+      .map(p => p.name)
       .join(', ')}. Only the first one is used: ${assetsStorageProviders[0].name}.`,
   );
 }
@@ -64,7 +66,7 @@ const registryStorageProviders = plugin.getPlugins('museCore.registry.storage.ge
 if (registryStorageProviders.length > 1) {
   console.log(
     `[WARNING]: multiple registry stroage providers found: ${registryStorageProviders
-      .map((p) => p.name)
+      .map(p => p.name)
       .join(', ')}. Only the first one is used: ${registryStorageProviders[0].name}.`,
   );
 }
@@ -82,7 +84,7 @@ if (config.get('defaultDataCachePlugin')) {
 
 plugin.register(environmentVariablesPlugin());
 
-Object.values(restPlugins).forEach((p) => plugin.register(p()));
+Object.values(restPlugins).forEach(p => plugin.register(p()));
 
 // When all plugins are loaded, invoke onReady on each plugin
 plugin.invoke('onReady', config);
