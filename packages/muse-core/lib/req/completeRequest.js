@@ -23,6 +23,7 @@ module.exports = async ({ requestId, msg, author = osUsername }) => {
   await asyncInvoke('museCore.req.beforeCompleteRequest', ctx, requestId);
 
   const req = await getRequest(requestId);
+  ctx.request = req;
   const { type, payload } = req;
 
   try {
