@@ -71,7 +71,7 @@ class FileStorage {
     const absPath = this.mapPath(keyPath);
     const arr = await fs.promises.readdir(absPath);
     return await Promise.all(
-      arr.map(async (name) => {
+      arr.map(async name => {
         const p = path.join(absPath, name);
         const stat = await fs.promises.stat(p);
         return {
