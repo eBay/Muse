@@ -2,6 +2,7 @@ const winston = require('winston');
 const { MESSAGE } = require('triple-beam');
 const plugin = require('js-plugin');
 const _ = require('lodash');
+const colorsEnabled = require('colors/safe').enabled;
 const config = require('./config');
 
 // levels: {
@@ -32,11 +33,13 @@ function createLogger(name) {
         level: config.get('logLevel') || 'info',
         silent: process.env.NODE_ENV === 'test',
         format: winston.format.combine(
-          winston.format.colorize(),
+          colorsEnabled // the rest is pretty much the same idea as @aldofunes
+            ? winston.format.colorize({ all: false })
+            : winston.format(i => i)(),
           winston.format.simple(),
           winston.format.timestamp(),
           {
-            transform: (info) => {
+            transform: info => {
               info[MESSAGE] = `${info.level} [${info.name}] ${getTimestamp(info.timestamp)} ${
                 info.message
               }`;
@@ -52,7 +55,7 @@ function createLogger(name) {
     return logger;
   };
   const wrappedLogger = {};
-  ['error', 'warn', 'info', 'http', 'verbose', 'debug', 'silly'].forEach((name) => {
+  ['error', 'warn', 'info', 'http', 'verbose', 'debug', 'silly'].forEach(name => {
     Object.assign(wrappedLogger, {
       [name]: (...args) => {
         if (!config.__pluginLoaded) {
