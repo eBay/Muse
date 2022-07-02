@@ -1,5 +1,14 @@
 # plugin-normal
 
+## 0.1.3
+
+### Patch Changes
+
+- Updated dependencies
+  - @ebay/muse-craco-plugin@1.0.1
+  - @ebay/muse-scripts-react@1.0.1
+  - plugin-library@0.1.3
+
 ## 0.1.2
 
 ### Patch Changes
