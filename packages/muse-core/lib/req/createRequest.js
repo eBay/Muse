@@ -28,11 +28,11 @@ module.exports = async (params = {}) => {
   const ctx = {};
   await asyncInvoke('museCore.req.beforeCreateRequest', ctx, params);
 
-  const { type, payload, author = osUsername, autoComplete = true, options, msg } = params;
-  const reqId = `${type}-${Date.now()}`;
-  const keyPath = `/requests/${reqId}.yaml`;
+  const { id, type, payload, author = osUsername, autoComplete = true, options, msg } = params;
+  if (!id) throw new Error(`id is required to create request.`);
+  const keyPath = `/requests/${id}.yaml`;
   ctx.request = {
-    id: reqId,
+    id,
     type,
     createdBy: author,
     createdAt: new Date().toJSON(),

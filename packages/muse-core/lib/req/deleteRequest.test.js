@@ -21,13 +21,14 @@ describe('Delete request basic tests.', () => {
   });
   it('Delete request should work', async () => {
     const type = 'deploy-plugin';
+    const id = 'testid';
     const payload = {
       appName: 'app1',
       envName: 'staging',
       pluginName: 'test-plugin',
       version: '1.0.0',
     };
-    const req = await muse.req.createRequest({ type, author: 'nate', payload });
+    const req = await muse.req.createRequest({ id, type, author: 'nate', payload });
     let arr = await muse.req.getRequests();
     expect(arr.length).toBe(1);
     await muse.req.deleteRequest({ requestId: req.id });
