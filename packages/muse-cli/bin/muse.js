@@ -391,7 +391,7 @@ program
   });
 
 program
-  .command('view-releases')
+  .command('list-releases')
   .summary('Show releases of a plugin')
   .description('Show releases of a plugin.')
   .argument('<pluginName>', 'The plugin name in the registry.')
