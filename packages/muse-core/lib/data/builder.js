@@ -8,7 +8,7 @@ const builders = [];
 const builder = {
   // refresh cache is only useful when there's cache provider
   // refreshCache: async (name) => {},
-  get: async (key) => {
+  get: async key => {
     for (const builder of builders) {
       const m = builder.match(key);
       if (m) {
@@ -19,7 +19,7 @@ const builder = {
     }
     return null;
   },
-  register: (builder) => {
+  register: builder => {
     // TODO: use json schema
     // if (!builder.name) {
     //   const err = new Error(`Every builder should have a name.`);
@@ -37,20 +37,21 @@ const builder = {
     //   logger.error(err.message);
     //   throw err;
     // }
-    if (builders.some((b) => b.key === builder.key)) {
+    if (builders.some(b => b.key === builder.key)) {
       throw new Error(`Cache builder with key ${builder.key} already exsits.`);
     }
     builders.push({
       ...builder,
-      match: (k) => match(builder.key.replace(/\./g, '/'))(k.replace(/\./g, '/')),
+      match: k => match(builder.key.replace(/\./g, '/'))(k.replace(/\./g, '/')),
     });
   },
 };
 
 builder.register(require('./builders/muse.app'));
+builder.register(require('./builders/muse.requests'));
 _.flatten(_.invoke('museCore.data.getBuilders'))
   .filter(Boolean)
-  .forEach((b) => {
+  .forEach(b => {
     builder.register(b);
   });
 
