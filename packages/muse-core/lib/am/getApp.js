@@ -1,6 +1,5 @@
-const { asyncInvoke, jsonByYamlBuff } = require('../utils');
+const { asyncInvoke, jsonByYamlBuff, validate  } = require('../utils');
 const { registry } = require('../storage');
-const { validate } = require('schema-utils');
 const schema = require('../schemas/am/getApp.json');
 const logger = require('../logger').createLogger('muse.am.getApp');
 

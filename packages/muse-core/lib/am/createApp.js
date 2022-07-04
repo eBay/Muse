@@ -1,7 +1,6 @@
-const { asyncInvoke, osUsername } = require('../utils');
+const { asyncInvoke, osUsername, validate } = require('../utils');
 const { registry } = require('../storage');
 const getApp = require('./getApp');
-const { validate } = require('schema-utils');
 const schema = require('../schemas/am/createApp.json');
 const logger = require('../logger').createLogger('muse.am.createApp');
 
@@ -9,16 +8,13 @@ const logger = require('../logger').createLogger('muse.am.createApp');
  * @module muse-core/am/createApp
  */
 
-/**
- * @typedef {object} CreateAppArgument
- * @property {string} appName the app name
- * @property {string} [author=osUsername] default to the current os logged in user
- */
 
 /**
  * @description Create app in the Muse registry.
  * A app is <registry-storage>/apps/<app-name>.yaml
- * @param {CreateAppArgument} params args to create an app
+ * @param {object} params args to create an app
+ * @param {string} params.appName the app name
+ * @param {string} [params.author=osUsername] default to the current os logged in user
  */
 module.exports = async (params = {}) => {
   validate(schema, params);

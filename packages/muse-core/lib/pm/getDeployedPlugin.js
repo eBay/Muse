@@ -1,7 +1,6 @@
-const { asyncInvoke, getPluginId, jsonByYamlBuff } = require('../utils');
+const { asyncInvoke, getPluginId, jsonByYamlBuff , validate } = require('../utils');
 const { registry } = require('../storage');
 const { getApp } = require('../am');
-const { validate } = require('schema-utils');
 const schema = require('../schemas/pm/getDeployedPlugin.json');
 const logger = require('../logger').createLogger('muse.pm.getDeployedPlugin');
 

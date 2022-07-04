@@ -6,6 +6,9 @@ const _ = require('lodash');
 const plugin = require('js-plugin');
 const jsYaml = require('js-yaml');
 const archiver = require('archiver');
+const Ajv = require('ajv');
+
+const ajv = new Ajv();
 
 async function asyncInvoke(extPoint, ...args) {
   const noThrows = extPoint.endsWith('!');
@@ -215,6 +218,22 @@ const parseRegistryKey = key => {
   return null;
 };
 
+const ajvCache = new WeakMap();
+const validate = (schema, data) => {
+  let validateRes;
+  if (!ajvCache.has(schema)) {
+    validateRes = ajv.compile(schema);
+    ajvCache.set(schema, validateRes);
+  } else {
+    validateRes = ajvCache.get(schema);
+  }
+  if (!validateRes(data)) {
+    throw new Error(JSON.stringify(validate.errors));
+  }
+};
+
+
+
 module.exports = {
   getPluginId,
   getPluginName,
@@ -231,6 +250,7 @@ module.exports = {
   getMuseGlobal,
   doZip,
   parseRegistryKey,
+  validate,
   osUsername: os.userInfo().username,
   defaultAssetStorageLocation: path.join(os.homedir(), 'muse-storage/assets'),
   defaultRegistryStorageLocation: path.join(os.homedir(), 'muse-storage/registry'),

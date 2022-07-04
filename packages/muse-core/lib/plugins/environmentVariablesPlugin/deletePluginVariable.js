@@ -1,7 +1,6 @@
 const updatePlugin = require('../../pm/updatePlugin');
 const getPlugin = require('../../pm/getPlugin');
-const { osUsername } = require('../../utils');
-const { validate } = require('schema-utils');
+const { osUsername , validate } = require('../../utils');
 const schema = require('../../schemas/plugins/environmentVariablesPlugin/deletePluginVariable.json');
 const logger = require('../../logger').createLogger('muse.pm.deletePluginVariable');
 

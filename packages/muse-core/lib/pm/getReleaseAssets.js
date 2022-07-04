@@ -1,6 +1,5 @@
-const { asyncInvoke, getPluginId, osUsername } = require('../utils');
+const { asyncInvoke, getPluginId, osUsername , validate } = require('../utils');
 const { assets } = require('../storage');
-const { validate } = require('schema-utils');
 const schema = require('../schemas/pm/getReleaseAssets.json');
 /**
  * @module muse-core/pm/getReleaseAssets

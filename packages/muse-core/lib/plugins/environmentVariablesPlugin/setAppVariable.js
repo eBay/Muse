@@ -1,7 +1,6 @@
 const getApp = require('../../am/getApp');
 const updateApp = require('../../am/updateApp');
-const { osUsername } = require('../../utils');
-const { validate } = require('schema-utils');
+const { osUsername , validate } = require('../../utils');
 const schema = require('../../schemas/plugins/environmentVariablesPlugin/setAppVariable.json');
 const logger = require('../../logger').createLogger('muse.am.setAppVariable');
 
