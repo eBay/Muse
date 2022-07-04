@@ -13,7 +13,8 @@
     "lib"
   ],
   "devDependencies": {
-    "eslint": "^8.18.0"
+    "eslint": "^8.18.0",
+    "webpack": "^5.73.0"
   },
   "dependencies": {
     "@ebay/muse-modules": "workspace:^",

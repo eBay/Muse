@@ -11,4 +11,5 @@ module.exports = {
   overrideCracoConfig: require('./overrideCracoConfig'),
   overrideWebpackConfig: require('./overrideWebpackConfig'),
   overrideDevServerConfig: require('./overrideDevServerConfig'),
+  overrideJestConfig: require('./overrideJestConfig'),
 };

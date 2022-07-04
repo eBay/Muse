@@ -7,7 +7,7 @@ const generateMissingDeps = async (ctx, appName, envName, depsManifest, buildEnv
   // not all the plugins will have a deps-manifest.json, only the ones using shared lib plugins
   const depsLibsKeys = Object.keys(depsManifest.content);
   const deployedPlugins = await getDeployedPlugins(appName, envName);
-  const deployedLibPlugins = deployedPlugins?.filter((dp) => dp.type === 'lib');
+  const deployedLibPlugins = deployedPlugins?.filter(dp => dp.type === 'lib');
 
   if (deployedLibPlugins) {
     for (const libPlugin of deployedLibPlugins) {
@@ -22,7 +22,7 @@ const generateMissingDeps = async (ctx, appName, envName, depsManifest, buildEnv
         // now check, if deps from this library plugin (from deps-manifest.json) are met on the libs-manifest.json.
         // we strip the version here, because the version we have on deps-manifest.json comes from package.json,
         // while the version from deployed plugins has nothing to do with the one in package.json
-        const currentDepsLibKey = depsLibsKeys.find((lib) => lib.startsWith(libPlugin.name)); // e.g @ebay/muse-react
+        const currentDepsLibKey = depsLibsKeys.find(lib => lib.startsWith(libPlugin.name)); // e.g @ebay/muse-lib-react
         const currentDepsLibModules = depsManifest.content[currentDepsLibKey];
         for (const exportedModule of currentDepsLibModules) {
           if (!libExportedDeps.includes(exportedModule)) {
@@ -47,10 +47,10 @@ const generateMissingDeps = async (ctx, appName, envName, depsManifest, buildEnv
  * Every key will correspond to a library plugin, and every value, an array of unsatisfied module dependencies.
  * e.g :
  *    {
- *       "@ebay/muse-react@1.0.0": ['antd@4.20.0']
+ *       "@ebay/muse-lib-react@1.0.0": ['antd@4.20.0']
  *    }
  */
-module.exports = async (params) => {
+module.exports = async params => {
   const ctx = { missingDeps: { dev: [], dist: [] } };
 
   // Check if release version exists (throws exception if no version/release found)

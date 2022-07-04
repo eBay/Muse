@@ -9,13 +9,14 @@
       "app": "app1",
       "env": "staging",
       "remotePlugins": [
-        "@ebay/muse-react"
+        "@ebay/muse-lib-react"
       ]
     }
   },
   "scripts": {
     "start": "muse-scripts-react start",
     "build": "muse-scripts-react build",
+    "test": "muse-scripts-react test",
     "deploy": "yarn build && muse release && muse deploy app1 "
   },
   "devDependencies": {
@@ -38,7 +39,7 @@
     ]
   },
   "dependencies": {
-    "@ebay/muse-craco-plugin": "^1.0.0",
+    "@ebay/muse-craco-plugin": "workspace:^",
     "@ebay/muse-modules": "^1.0.0",
     "@ebay/muse-scripts-react": "^1.0.0"
   }

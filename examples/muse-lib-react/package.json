@@ -31,7 +31,7 @@
     "e2e-test": "muse-scripts e2e-test",
     "prestart2": "muse-scripts check-updates",
     "prebuild2": "muse-scripts check-updates",
-    "deploy": "yarn build:dev && muse release @ebay/muse-react && muse deploy app1 staging @ebay/muse-react"
+    "deploy": "yarn build:dev && muse release @ebay/muse-lib-react && muse deploy app1 staging @ebay/muse-lib-react"
   },
   "dependencies": {
     "@babel/core": "^7.18.5",
