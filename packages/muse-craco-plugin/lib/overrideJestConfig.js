@@ -40,10 +40,10 @@ module.exports = ({
   jestConfig.reporters = ['default'];
   jestConfig.coverageReporters = ['lcov', 'text', 'cobertura'];
   jestConfig.setupFiles.push(
-    require(resolveCwd('jest-localstorage-mock')),
-    require(resolveCwd('jest-canvas-mock')),
+    require.resolve('jest-localstorage-mock'),
+    require.resolve('jest-canvas-mock'),
   );
-  jestConfig.setupFilesAfterEnv = [require(resolveCwd('./jest/setupAfterEnv.js'))];
+  jestConfig.setupFilesAfterEnv = [require.resolve('./jest/setupAfterEnv.js')];
   console.log(JSON.stringify(jestConfig, null, 4));
 
   // Always return the config object.
