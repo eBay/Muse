@@ -101,6 +101,21 @@ module.exports = class GitClient {
     ).data;
   }
 
+  // Read a file content up to 1 megabyte in size
+  async getBigFile(params) {
+    const { organizationName, projectName, keyPath, branch = this.branch, decode = true } =
+      params || {};
+    const repo = `${organizationName}/${projectName}`;
+    const arr = keyPath.split('/');
+    const filename = arr.pop();
+    const parentPath = arr.join('/');
+    const folder = (await this.axiosGit.get(`/repos/${repo}/contents/${parentPath}?ref=${branch}`))
+      .data;
+    const fileSha = folder.find(file => file.name === filename)?.sha;
+    const blob = (await this.axiosGit.get(`/repos/${repo}/git/blobs/${fileSha}`)).data;
+    return decode ? Buffer.from(blob.content, 'base64').toString() : blob.content;
+  }
+
   async deleteFile(params) {
     logger.silly(`Delete file: ${params.keyPath}`);
     const { organizationName, projectName, keyPath, branch = this.branch, file, message } = params;
