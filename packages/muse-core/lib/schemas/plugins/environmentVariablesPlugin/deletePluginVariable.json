@@ -12,8 +12,8 @@
     "appName": {
       "type": "string"
     },
-    "envName": {
-      "type": "string"
+    "envNames": {
+      "type": "array"
     },
     "author": {
       "type": "string"

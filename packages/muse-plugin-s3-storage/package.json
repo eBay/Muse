@@ -1,6 +1,6 @@
 {
   "name": "@ebay/muse-plugin-s3-storage",
-  "version": "0.0.2",
+  "version": "1.0.1",
   "description": "",
   "main": "lib/index.js",
   "publishConfig": {
@@ -17,7 +17,12 @@
   "license": "ISC",
   "dependencies": {
     "lodash": "^4.17.21",
-    "minio": "^7.0.28",
-    "@ebay/muse-core": "workspace:^"
+    "minio": "^7.0.28"
+  },
+  "devDependencies": {
+    "@ebay/muse-core": "workspace:^1.0.1"
+  },
+  "peerDependencies": {
+    "@ebay/muse-core": "workspace:^1.0.1"
   }
 }

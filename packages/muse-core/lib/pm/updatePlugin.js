@@ -26,9 +26,22 @@ const logger = require('../logger').createLogger('muse.pm.updatePlugin');
  * @param {UpdatePluginArgument} params args to update a plugin
  * @returns {object} plugin object
  */
-module.exports = async (params) => {
+module.exports = async params => {
+  const updateRegistryKey = async ({ ctx, keyPath, params }) => {
+    ctx.plugin = await registry.getJsonByYaml(keyPath);
+    updateJson(ctx.plugin, params.changes || {});
+
+    await asyncInvoke('museCore.pm.updatePlugin', ctx, params);
+    await registry.setYaml(
+      keyPath,
+      ctx.plugin,
+      params.msg ||
+        `Update plugin ${params.pluginName} by ${params.author ? params.author : osUsername}`,
+    );
+  };
+
   validate(schema, params);
-  const { pluginName, appName, envName = 'staging', changes, author = osUsername, msg } = params;
+  const { pluginName, appName, envNames = [] } = params;
   logger.info(`Updating plugin ${pluginName}...`);
   const ctx = {};
 
@@ -41,14 +54,16 @@ module.exports = async (params) => {
     }
 
     const pid = getPluginId(pluginName);
-    const keyPath =
-      appName && envName ? `/apps/${appName}/${envName}/${pid}.yaml` : `/plugins/${pid}.yaml`;
 
-    ctx.plugin = await registry.getJsonByYaml(keyPath);
-    updateJson(ctx.plugin, changes || {});
-
-    await asyncInvoke('museCore.pm.updatePlugin', ctx, params);
-    await registry.setYaml(keyPath, ctx.plugin, msg || `Update plugin ${pluginName} by ${author}`);
+    if (!appName) {
+      const keyPath = `/plugins/${pid}.yaml`;
+      await updateRegistryKey({ ctx, keyPath, params });
+    } else {
+      for (envi of envNames) {
+        const keyPath = `/apps/${appName}/${envi}/${pid}.yaml`;
+        await updateRegistryKey({ ctx, keyPath, params });
+      }
+    }
   } catch (err) {
     ctx.error = err;
     await asyncInvoke('museCore.pm.failedUpdatePlugin', ctx, params);

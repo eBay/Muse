@@ -4,6 +4,7 @@ specifiers:
   '@types/jest': ^27.5.1
   ajv: ^8.11.0
   archiver: ^5.3.1
+  colors: ^1.4.0
   cosmiconfig: ^7.0.1
   dotenv: ^16.0.1
   eslint: ^8.15.0
@@ -11,6 +12,7 @@ specifiers:
   fs-extra: ^10.1.0
   globby: ^13.1.1
   import-from: ^4.0.0
+  javascript-time-ago: ^2.5.5
   jest: ^28.1.0
   js-plugin: ^1.1.0
   js-yaml: ^4.1.0
@@ -27,11 +29,13 @@ specifiers:
 dependencies:
   ajv: 8.11.0
   archiver: 5.3.1
+  colors: 1.4.0
   cosmiconfig: 7.0.1
   dotenv: 16.0.1
   fs-extra: 10.1.0
   globby: 13.1.2
   import-from: 4.0.0
+  javascript-time-ago: 2.5.5
   js-plugin: 1.1.0
   js-yaml: 4.1.0
   lodash: 4.17.21
@@ -1227,6 +1231,11 @@ packages:
       color-string: 1.9.1
     dev: false
 
+  /colors/1.4.0:
+    resolution: {integrity: sha1-xQSRR51MG9rtLJztMs98fcI2D3g=}
+    engines: {node: '>=0.1.90'}
+    dev: false
+
   /colorspace/1.1.4:
     resolution: {integrity: sha1-jUQtEYYVL2BFO/gHDNZus2TlkkM=}
     dependencies:
@@ -1924,6 +1933,12 @@ packages:
       html-escaper: 2.0.2
       istanbul-lib-report: 3.0.0
     dev: true
+
+  /javascript-time-ago/2.5.5:
+    resolution: {integrity: sha1-VIcBXFnHEVxigVSOYnvk7m9jdqg=}
+    dependencies:
+      relative-time-format: 1.1.4
+    dev: false
 
   /jest-changed-files/28.0.2:
     resolution: {integrity: sha1-fXgQZgpb0EOvnpz75NWK2wXpFTE=}
@@ -2801,6 +2816,10 @@ packages:
     resolution: {integrity: sha1-BCWido2PI7rXDKS5BGH6LxIT4bI=}
     engines: {node: '>=8'}
     dev: true
+
+  /relative-time-format/1.1.4:
+    resolution: {integrity: sha1-UMMIpIKYUzOhPfEZsf8nY+PrBoU=}
+    dev: false
 
   /require-directory/2.1.1:
     resolution: {integrity: sha1-jGStX9MNqxyXbiNE/+f3kqam30I=}

@@ -1,6 +1,6 @@
 {
-  "name": "@ebay/muse-git-storage",
-  "version": "0.0.2",
+  "name": "@ebay/muse-plugin-git-storage",
+  "version": "1.0.1",
   "main": "lib/index.js",
   "license": "MIT",
   "publishConfig": {
@@ -11,7 +11,12 @@
   ],
   "dependencies": {
     "axios": "^0.27.2",
-    "lodash": "^4.17.21",
-    "@ebay/muse-core": "workspace:^"
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "@ebay/muse-core": "workspace:^1.0.1"
+  },
+  "peerDependencies": {
+    "@ebay/muse-core": "workspace:^1.0.1"
   }
 }

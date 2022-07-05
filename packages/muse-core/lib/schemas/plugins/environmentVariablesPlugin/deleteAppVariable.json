@@ -9,8 +9,8 @@
       "variables": {
         "type": "array"
       },
-      "envName": {
-        "type": "string"
+      "envNames": {
+        "type": "array"
       },
       "author": {
         "type": "string"

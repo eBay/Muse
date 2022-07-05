@@ -10,13 +10,14 @@ describe('Get requests basic tests.', () => {
     let requests = await muse.req.getRequests();
     expect(requests.length).toBe(0);
     const type = 'deploy-plugin';
+    const id = 'testid';
     const payload = {
       appName: 'app1',
       envName: 'staging',
       pluginName: 'test-plugin',
       version: '1.0.0',
     };
-    const req = await muse.req.createRequest({ type, author: 'nate', payload });
+    const req = await muse.req.createRequest({ id, type, author: 'nate', payload });
     requests = await muse.req.getRequests();
     expect(requests.length).toBe(1);
     expect(requests[0]).toMatchObject(req);

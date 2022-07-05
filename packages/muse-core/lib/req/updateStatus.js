@@ -3,7 +3,7 @@ const yaml = require('js-yaml');
 const { asyncInvoke, updateJson, osUsername } = require('../utils');
 const { registry } = require('../storage');
 const getRequest = require('./getRequest');
-const mergeRequest = require('./mergeRequest');
+const completeRequest = require('./completeRequest');
 
 /** This also includes the creation of status */
 /**
@@ -23,7 +23,7 @@ const mergeRequest = require('./mergeRequest');
  * @returns {request} request object
  */
 
-module.exports = async (params) => {
+module.exports = async params => {
   const { requestId, status, author = osUsername, msg } = params;
   const ctx = {};
 
@@ -61,8 +61,8 @@ module.exports = async (params) => {
 
     // When ever a status is updated, we need to check if all status is succes
     // If so, merge the request.
-    if (ctx.request.statuses.every((s) => s.state === 'success')) {
-      await mergeRequest({ requestId });
+    if (ctx.request.autoComplete && ctx.request.statuses.every(s => s.state === 'success')) {
+      await completeRequest({ requestId });
     }
   } catch (err) {
     ctx.error = err;

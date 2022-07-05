@@ -1,5 +1,5 @@
 // boot plugin is used to load other plugins based on the app config
-import museModules from 'muse-modules';
+import museModules from '@ebay/muse-modules';
 import { loadInParallel, getPluginId } from './utils';
 
 async function start() {
@@ -12,7 +12,7 @@ async function start() {
     initEntries: [], // entries from init plugins
     pluginEntries: [], // entries from lib or normal plugins
     // Allow to register some func to wait for before starting the app
-    waitFor: (asyncFuncOrPromise) => {
+    waitFor: asyncFuncOrPromise => {
       waitForLoaders.push(asyncFuncOrPromise);
     },
     __shared__: {
@@ -37,19 +37,22 @@ async function start() {
   window.MUSE_GLOBAL.getUser = () => ({});
 
   // Print app plugins in dev console
-  const bootPlugin = plugins.find((p) => p.type === 'boot');
+  const bootPlugin = plugins.find(p => p.type === 'boot');
   if (!bootPlugin) {
     throw new Error('Boot plugin not found.');
   }
   console.log(`Loading Muse app by ${bootPlugin.name}@${bootPlugin.version || bootPlugin.url}...`);
   console.log(`Plugins(${plugins.length}):`);
-  plugins.forEach((p) => console.log(`  * ${p.name}@${p.version || p.url}`));
+  plugins.forEach(p => console.log(`  * ${p.name}@${p.version || p.url}`));
 
   // Load init plugins
   // Init plugins should be small and not depends on each other
   const initPluginUrls = plugins
-    .filter((p) => p.type === 'init')
-    .map((p) => p.url || `${cdn}/p/${getPluginId(p.name)}/v${p.version}/${isDev ? 'dev' : 'dist'}/main.js`);
+    .filter(p => p.type === 'init')
+    .map(
+      p =>
+        p.url || `${cdn}/p/${getPluginId(p.name)}/v${p.version}/${isDev ? 'dev' : 'dist'}/main.js`,
+    );
 
   // Load init plugins
   await loadInParallel(initPluginUrls);
@@ -63,15 +66,18 @@ async function start() {
 
   // Load plugins bundles
   const pluginUrls = plugins
-    .filter((p) => p.type !== 'boot' && p.type !== 'init')
-    .map((p) => p.url || `${cdn}/p/${getPluginId(p.name)}/v${p.version}/${isDev ? 'dev' : 'dist'}/main.js`);
+    .filter(p => p.type !== 'boot' && p.type !== 'init')
+    .map(
+      p =>
+        p.url || `${cdn}/p/${getPluginId(p.name)}/v${p.version}/${isDev ? 'dev' : 'dist'}/main.js`,
+    );
 
   // Load plugin bundles
   await loadInParallel(pluginUrls);
 
   // Exec plugin entries
   console.log('Execution plugin entries...');
-  pluginEntries.forEach((entry) => entry.func());
+  pluginEntries.forEach(entry => entry.func());
 
   // Wait for loader
   for (const loader of waitForLoaders) {
@@ -82,7 +88,7 @@ async function start() {
   }
 
   // Start the application
-  const entryApp = appEntries.find((e) => e.name === entry);
+  const entryApp = appEntries.find(e => e.name === entry);
   console.log(`Starting the app from ${entry}...`);
   await entryApp.func();
 }
@@ -91,7 +97,7 @@ start()
   .then(() => {
     console.log(`Muse app started.`);
   })
-  .catch((err) => {
+  .catch(err => {
     console.log('Failed to start app.');
     console.error(err);
   });

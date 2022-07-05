@@ -8,10 +8,10 @@ const logger = require('../logger').createLogger('muse.data.index');
 // e.g: prod runtime has different network than dev time
 // So, if there's cache provider, get data from it directly.
 module.exports = {
-  get: async (key) => {
+  get: async (key, { noCache }) => {
     // If there's cache provider, always get it from cache
     plugin.invoke(`museCore.data.beforeGet`, key);
-    if (plugin.getPlugins('museCore.data.cache.get').length > 0) {
+    if (!noCache && plugin.getPlugins('museCore.data.cache.get').length > 0) {
       logger.verbose(`Getting data from cache: ${key}`);
       return JSON.parse(await asyncInvokeFirst('museCore.data.cache.get', key));
     } else {
@@ -20,14 +20,26 @@ module.exports = {
     }
   },
 
+  /**
+   * @description
+   *  Notify the Muse data engine that some keys in the storage have been changed
+   *  This usually causes some builder to refresh the cache.
+   * @param { string } type         - The type of the storage.
+   * @param { string | array} keys  - Changed keys in the storage
+   */
+
+  handleDataChange: (type, keys) => {
+    keys = _.castArray(keys);
+  },
+
   // refreshCache is used to build cache data at dev time for prod usage
-  refreshCache: async (key) => {
+  refreshCache: async key => {
     if (!key) {
       throw new Error(`Key is missing in museCore.data.refreshCache.`);
     }
     plugin.invoke(`museCore.data.beforeRefreshCache`, key);
     logger.verbose(`Refreshing data cache: ${key}`);
-    const value = await builder.get(key);
+    const value = await builder.get(key, { noCache: true });
     if (!_.isNil(value)) {
       // If found from builder, save to cache
       await asyncInvokeFirst('museCore.data.cache.set', key, JSON.stringify(value));

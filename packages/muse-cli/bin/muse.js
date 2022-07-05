@@ -6,10 +6,15 @@ const fs = require('fs-extra');
 const path = require('path');
 const readline = require('node:readline');
 const { stdin: input, stdout: output } = require('node:process');
-const plugin = require('js-plugin');
+// const plugin = require('js-plugin');
 // const build = require('../lib/build');
 // const start = require('../lib/start');
 // const test = require('../lib/test');
+const TimeAgo = require('javascript-time-ago');
+const en = require('javascript-time-ago/locale/en');
+TimeAgo.addDefaultLocale(en);
+
+const timeAgo = new TimeAgo('en-US');
 
 const timeStart = Date.now();
 const os = require('os');
@@ -96,7 +101,7 @@ program
   .argument('[envName]', 'environment name', 'staging')
   .argument('[port]', 'port', 6070)
   .action((appName, envName, port) => {
-    require('muse-simple-server/lib/server')({ appName, envName, port });
+    require('@ebay/muse-simple-server/lib/server')({ appName, envName, port });
   });
 
 program
@@ -386,6 +391,16 @@ program
   });
 
 program
+  .command('list-releases')
+  .summary('Show releases of a plugin')
+  .description('Show releases of a plugin.')
+  .argument('<pluginName>', 'The plugin name in the registry.')
+  .action(async pluginName => {
+    const releases = await muse.pm.getReleases(pluginName);
+    console.log(chalk.cyan(JSON.stringify(releases, null, 2)));
+  });
+
+program
   .command('del-release')
   .alias('delete-release')
   .summary('Delete a released plugin version')
@@ -447,6 +462,35 @@ program
   });
 
 program
+  .command('list-requests')
+  .description('List open requests.')
+  .argument('[state]', 'plugin version', null)
+  .action(async state => {
+    let requests = await muse.req.getRequests();
+    if (state) requests = requests.filter(r => r.state === state);
+    console.log(chalk.cyan(`Requests (${requests.length}): `));
+    requests.forEach(r => {
+      console.log(
+        chalk.cyan(
+          ` - ${r.id} by ${r.createdBy} ${chalk.yellow(
+            timeAgo.format(new Date(r.createdAt)),
+          )}: ${r.description || ''}`,
+        ),
+      );
+    });
+  });
+
+program
+  .command('delete-request')
+  .alias('del-request')
+  .description('Delete a request by id.')
+  .argument('<requestId>', 'The request id')
+  .action(async requestId => {
+    await muse.req.deleteRequest({ requestId });
+    console.log(chalk.cyan(`Request deleted.`));
+  });
+
+program
   .command('list-released-assets')
   .description('List released assets of a plugin version')
   .argument('<pluginName>', 'plugin name')
@@ -466,7 +510,7 @@ program
   });
 
 // let other plugins add their own cli program commands
-plugin.invoke('museCli.processProgram', program);
+muse.plugin.invoke('museCli.processProgram', program, chalk);
 
 // sort commands alphabetically
 program.configureHelp({

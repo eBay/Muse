@@ -1,6 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "title": "Upsert Application variables",
+    "title": "Set Application variables",
     "type": "object",
     "properties": {
       "appName": {
@@ -9,8 +9,8 @@
       "variables": {
         "type": "array"
       },
-      "envName": {
-        "type": "string"
+      "envNames": {
+        "type": "array"
       },
       "author": {
         "type": "string"
