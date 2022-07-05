@@ -16,9 +16,9 @@ This is a monorepo to host all Muse code.
 3. Create a Muse app in the local registry: `muse create-app app1`
 4. Create a new staging env on app1: `muse create-env app1 staging`
 5. Create muse plugins in the local registry for every project under `/examples`:
-   - Create plugin `muse create @ebay/muse-lib-react` (and @ebay/muse-antd etc...)
+   - Create plugin `muse create @ebay/muse-lib-react`  (and @ebay/muse-lib-antd etc...)
    - Build plugin: run `pnpm build` and `pnpm build:dev` under example projects
-   - Release plugin: run `muse release @ebay/muse-lib-react` under example projects (use correct plugin name)
+   - Release plugin: run `muse release` under example projects (use correct plugin name)
    - Deploy plugin on `app1/staging`: `muse deploy app1 staging @ebay/muse-lib-react`. This deploys the latest version of plugin on the app.
 6. Run `muse serve app1 staging` to start the local testing server.
 

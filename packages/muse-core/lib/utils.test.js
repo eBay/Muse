@@ -94,7 +94,7 @@ describe('utils basic tests.', () => {
     expect(parseRegistryKey('/unknown-pattern')).toBeNull();
   });
 
-  it('Validate should work', () => {
+  it('Validate should throw the error', () => {
     const schema = {
       properties: {
         appName: {
@@ -103,7 +103,7 @@ describe('utils basic tests.', () => {
       },
     };
     const data = {
-      appName: 123
+      appName: 123,
     };
     expect(() => utils.validate(schema, data)).toThrowError();
   });
@@ -124,7 +124,7 @@ describe('utils basic tests.', () => {
     expect(valid).toBeTruthy();
   });
 
-  it('Validate should work', () => {
+  it('Validate should skip the ajv.compile in the second', () => {
     const schema = {
       properties: {
         appName: {
