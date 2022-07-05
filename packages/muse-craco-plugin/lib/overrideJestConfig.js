@@ -25,25 +25,27 @@ module.exports = ({
 }) => {
   const pkgJson = require(path.join(paths.appPackageJson));
   const libModules = getMuseLibs(pkgJson, paths);
-  const esModules = ['lodash-es', 'react-syntax-highlighter'];
-  const excludedModules = [...libModules, ...esModules].join('|');
+  const excludedModules = [...libModules].join('|');
   const moduleNameMapperForMuseLibs = {};
   libModules.forEach(lib => {
     moduleNameMapperForMuseLibs[`${lib}/(.*)`] = `<rootDir>/node_modules/${lib}/src/$1`;
   });
 
   jestConfig.moduleNameMapper = { ...jestConfig.moduleNameMapper, ...moduleNameMapperForMuseLibs };
-  jestConfig.transformIgnorePatterns.push(`/node_modules/(?!${excludedModules})`);
-  jestConfig.testURL = 'http://localhost';
-  jestConfig.testTimeout = 10000;
-  jestConfig.reporters = ['default', require.resolve('jest-junit')];
-  jestConfig.coverageReporters = ['lcov', 'text', 'cobertura'];
-  jestConfig.setupFiles.push(
-    require.resolve('jest-localstorage-mock'),
-    require.resolve('jest-canvas-mock'),
-  );
-  jestConfig.setupFilesAfterEnv = [require.resolve('./jest/setupAfterEnv.js')];
-  //console.log(JSON.stringify(jestConfig, null, 4));
+  if (excludedModules.length > 0) {
+    jestConfig.transformIgnorePatterns.push(`/node_modules/(?!(${excludedModules})/)`);
+  }
+  jestConfig.reporters =
+    jestConfig.reporters && jestConfig.reporters.length > 0 ? jestConfig.reporters : ['default'];
+
+  jestConfig.setupFilesAfterEnv =
+    jestConfig.setupFilesAfterEnv && jestConfig.setupFilesAfterEnv.length > 0
+      ? jestConfig.setupFilesAfterEnv
+      : [require.resolve('./jest/setupAfterEnv.js')];
+
+  if (pluginOptions && pluginOptions.showJestConfig) {
+    console.log(JSON.stringify(jestConfig, null, 4));
+  }
 
   // Always return the config object.
   return jestConfig;

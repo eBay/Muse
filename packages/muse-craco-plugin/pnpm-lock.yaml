@@ -5,15 +5,10 @@ specifiers:
   '@ebay/muse-core': workspace:^
   '@ebay/muse-dev-utils': workspace:^
   '@ebay/muse-webpack-plugin': workspace:^
-  '@testing-library/jest-dom': ^5.11.9
   eslint: ^8.14.0
   html-webpack-inject-string-plugin: ^1.0.2
   html-webpack-plugin: ^5.5.0
   jest: ^28.1.1
-  jest-canvas-mock: ^2.3.1
-  jest-junit: ^13.0.0
-  jest-localstorage-mock: ^2.4.18
-  jest-location-mock: ^1.0.9
   resolve-cwd: ^3.0.0
 
 dependencies:
@@ -26,13 +21,8 @@ dependencies:
 
 devDependencies:
   '@craco/craco': 6.4.3
-  '@testing-library/jest-dom': 5.16.4
   eslint: 8.18.0
   jest: 28.1.2
-  jest-canvas-mock: 2.4.0
-  jest-junit: 13.2.0
-  jest-localstorage-mock: 2.4.21
-  jest-location-mock: 1.0.9
 
 packages:
 
@@ -320,13 +310,6 @@ packages:
       '@babel/helper-plugin-utils': 7.18.6
     dev: true
 
-  /@babel/runtime/7.18.6:
-    resolution: {integrity: sha1-ah71n4ON69ZwQh+Mfyy7jal1FYA=}
-    engines: {node: '>=6.9.0'}
-    dependencies:
-      regenerator-runtime: 0.13.9
-    dev: true
-
   /@babel/template/7.18.6:
     resolution: {integrity: sha1-EoP0mT4AuSnW4tPHL9yRaKKXejE=}
     engines: {node: '>=6.9.0'}
@@ -439,10 +422,6 @@ packages:
   /@istanbuljs/schema/0.1.3:
     resolution: {integrity: sha1-5F44TkuOwWvOL9kDr3hFD2v37Jg=}
     engines: {node: '>=8'}
-    dev: true
-
-  /@jedmao/location/3.0.0:
-    resolution: {integrity: sha1-8rJOk3OG+VJS86H++/fKLgpLh+k=}
     dev: true
 
   /@jest/console/28.1.1:
@@ -722,21 +701,6 @@ packages:
       '@sinonjs/commons': 1.8.3
     dev: true
 
-  /@testing-library/jest-dom/5.16.4:
-    resolution: {integrity: sha1-k4MC17i0g5Y6Ough8cCAj4ciRc0=}
-    engines: {node: '>=8', npm: '>=6', yarn: '>=1'}
-    dependencies:
-      '@babel/runtime': 7.18.6
-      '@types/testing-library__jest-dom': 5.14.5
-      aria-query: 5.0.0
-      chalk: 3.0.0
-      css: 3.0.0
-      css.escape: 1.5.1
-      dom-accessibility-api: 0.5.14
-      lodash: 4.17.21
-      redent: 3.0.0
-    dev: true
-
   /@tsconfig/node10/1.0.9:
     resolution: {integrity: sha1-30kH/AeohpImN7FeAtTOvEwAIbI=}
     dev: true
@@ -808,13 +772,6 @@ packages:
       '@types/istanbul-lib-report': 3.0.0
     dev: true
 
-  /@types/jest/28.1.4:
-    resolution: {integrity: sha1-oR7myP0LUsGcnBgTi3i7zCAdrVo=}
-    dependencies:
-      jest-matcher-utils: 28.1.1
-      pretty-format: 28.1.1
-    dev: true
-
   /@types/node/18.0.1:
     resolution: {integrity: sha1-6RvXMjmzOFV6hNH2f3ueDyVkOHA=}
     dev: true
@@ -829,12 +786,6 @@ packages:
 
   /@types/stack-utils/2.0.1:
     resolution: {integrity: sha1-IPGClPeX8iCbX2XI47XI6CYdEnw=}
-    dev: true
-
-  /@types/testing-library__jest-dom/5.14.5:
-    resolution: {integrity: sha1-0RNwnJCzx1/bEn7DONrX1fhsl08=}
-    dependencies:
-      '@types/jest': 28.1.4
     dev: true
 
   /@types/yargs-parser/21.0.0:
@@ -924,17 +875,6 @@ packages:
 
   /argparse/2.0.1:
     resolution: {integrity: sha1-JG9Q88p4oyQPbJl+ipvR6sSeSzg=}
-    dev: true
-
-  /aria-query/5.0.0:
-    resolution: {integrity: sha1-IQwhqvRpYT7oyaYsf4ZSXgWNtSw=}
-    engines: {node: '>=6.0'}
-    dev: true
-
-  /atob/2.1.2:
-    resolution: {integrity: sha1-bZUX654DDSQ2ZmZR6GvZ9vE1M8k=}
-    engines: {node: '>= 4.5.0'}
-    hasBin: true
     dev: true
 
   /babel-jest/28.1.2_@babel+core@7.18.6:
@@ -1086,14 +1026,6 @@ packages:
       supports-color: 5.5.0
     dev: true
 
-  /chalk/3.0.0:
-    resolution: {integrity: sha1-P3PCv1JlkfV0zEksUeJFY0n4ROQ=}
-    engines: {node: '>=8'}
-    dependencies:
-      ansi-styles: 4.3.0
-      supports-color: 7.2.0
-    dev: true
-
   /chalk/4.1.2:
     resolution: {integrity: sha1-qsTit3NKdAhnrrFr8CqtVWoeegE=}
     engines: {node: '>=10'}
@@ -1232,22 +1164,6 @@ packages:
     engines: {node: '>= 6'}
     dev: false
 
-  /css.escape/1.5.1:
-    resolution: {integrity: sha1-QuJ9T6BK4y+TGktNQZH6nN3ul8s=}
-    dev: true
-
-  /css/3.0.0:
-    resolution: {integrity: sha1-REek1Y/dAzZ8UWyp9krjZc7kql0=}
-    dependencies:
-      inherits: 2.0.4
-      source-map: 0.6.1
-      source-map-resolve: 0.6.0
-    dev: true
-
-  /cssfontparser/1.2.1:
-    resolution: {integrity: sha1-9AIvyPlwDGgCnVQghK+69CWj8+M=}
-    dev: true
-
   /debug/4.3.4:
     resolution: {integrity: sha1-Exn2V5NX8jONMzfSzdSRS7XcyGU=}
     engines: {node: '>=6.0'}
@@ -1258,11 +1174,6 @@ packages:
         optional: true
     dependencies:
       ms: 2.1.2
-    dev: true
-
-  /decode-uri-component/0.2.0:
-    resolution: {integrity: sha1-6zkTMzRYd1y4TNGh+uBiEGu4dUU=}
-    engines: {node: '>=0.10'}
     dev: true
 
   /dedent/0.7.0:
@@ -1283,11 +1194,6 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /diff-sequences/27.5.1:
-    resolution: {integrity: sha1-6uzA0yf9aMjZZyoeZKuNzLLvUyc=}
-    engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
-    dev: true
-
   /diff-sequences/28.1.1:
     resolution: {integrity: sha1-mYnccxJm3CkDRXpw6ZbzoEGROsY=}
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
@@ -1303,10 +1209,6 @@ packages:
     engines: {node: '>=6.0.0'}
     dependencies:
       esutils: 2.0.3
-    dev: true
-
-  /dom-accessibility-api/0.5.14:
-    resolution: {integrity: sha1-VggvcbHceqxp2DxChe7znBXZP1Y=}
     dev: true
 
   /dom-converter/0.2.0:
@@ -1763,11 +1665,6 @@ packages:
     engines: {node: '>=0.8.19'}
     dev: true
 
-  /indent-string/4.0.0:
-    resolution: {integrity: sha1-Yk+PRJfWGbLZdoUx1Y9BIoVNclE=}
-    engines: {node: '>=8'}
-    dev: true
-
   /inflight/1.0.6:
     resolution: {integrity: sha1-Sb1jMdfQLQwJvJEKEHW6gWW1bfk=}
     dependencies:
@@ -1869,13 +1766,6 @@ packages:
     dependencies:
       html-escaper: 2.0.2
       istanbul-lib-report: 3.0.0
-    dev: true
-
-  /jest-canvas-mock/2.4.0:
-    resolution: {integrity: sha1-lHtxRC13GfjgVd7K7NszSAlGU0E=}
-    dependencies:
-      cssfontparser: 1.2.1
-      moo-color: 1.0.3
     dev: true
 
   /jest-changed-files/28.0.2:
@@ -2018,16 +1908,6 @@ packages:
       - supports-color
     dev: true
 
-  /jest-diff/27.5.1:
-    resolution: {integrity: sha1-oH9QEayeZkPPipWkYrex7PZoDe8=}
-    engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
-    dependencies:
-      chalk: 4.1.2
-      diff-sequences: 27.5.1
-      jest-get-type: 27.5.1
-      pretty-format: 27.5.1
-    dev: true
-
   /jest-diff/28.1.1:
     resolution: {integrity: sha1-Gj7t/YGueYEJMcY6HQ8gG5EgEGw=}
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
@@ -2068,11 +1948,6 @@ packages:
       jest-util: 28.1.1
     dev: true
 
-  /jest-get-type/27.5.1:
-    resolution: {integrity: sha1-PNYTxQew96zgE99Aehwc1Xi8tPE=}
-    engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
-    dev: true
-
   /jest-get-type/28.0.2:
     resolution: {integrity: sha1-NGIuYo5P3NeT1G24okIieQH88gM=}
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
@@ -2097,35 +1972,12 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /jest-junit/13.2.0:
-    resolution: {integrity: sha1-Zu64ZCmq+sjBdFpw9ErOGFqsuUM=}
-    engines: {node: '>=10.12.0'}
-    dependencies:
-      mkdirp: 1.0.4
-      strip-ansi: 6.0.1
-      uuid: 8.3.2
-      xml: 1.0.1
-    dev: true
-
   /jest-leak-detector/28.1.1:
     resolution: {integrity: sha1-U383r9YQpLP0yrFeBrr2BIRUjvs=}
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
     dependencies:
       jest-get-type: 28.0.2
       pretty-format: 28.1.1
-    dev: true
-
-  /jest-localstorage-mock/2.4.21:
-    resolution: {integrity: sha1-kgqm/I+KsvgeQEM+SOLv2y2BpuA=}
-    engines: {node: '>=6.16.0'}
-    dev: true
-
-  /jest-location-mock/1.0.9:
-    resolution: {integrity: sha1-9EZjYkI7Jz4SyjcWRno9R4znj6g=}
-    engines: {node: '>=10.0.0'}
-    dependencies:
-      '@jedmao/location': 3.0.0
-      jest-diff: 27.5.1
     dev: true
 
   /jest-matcher-utils/28.1.1:
@@ -2486,27 +2338,10 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
-  /min-indent/1.0.1:
-    resolution: {integrity: sha1-pj9oFnOzBXH76LwlaGrnRu76mGk=}
-    engines: {node: '>=4'}
-    dev: true
-
   /minimatch/3.1.2:
     resolution: {integrity: sha1-Gc0ZS/0+Qo8EmnCBfAONiatL41s=}
     dependencies:
       brace-expansion: 1.1.11
-    dev: true
-
-  /mkdirp/1.0.4:
-    resolution: {integrity: sha1-PrXtYmInVteaXw4qIh3+utdcL34=}
-    engines: {node: '>=10'}
-    hasBin: true
-    dev: true
-
-  /moo-color/1.0.3:
-    resolution: {integrity: sha1-1WQ1+DWcgoTYOsWAFt90J/6+znQ=}
-    dependencies:
-      color-name: 1.1.4
     dev: true
 
   /ms/2.1.2:
@@ -2682,15 +2517,6 @@ packages:
       renderkid: 3.0.0
     dev: false
 
-  /pretty-format/27.5.1:
-    resolution: {integrity: sha1-IYGHn96lGnpYUfs52SD6pj8B2I4=}
-    engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
-    dependencies:
-      ansi-regex: 5.0.1
-      ansi-styles: 5.2.0
-      react-is: 17.0.2
-    dev: true
-
   /pretty-format/28.1.1:
     resolution: {integrity: sha1-9zFTA5Tg9/zZWrprQ8UOAthrlcs=}
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
@@ -2714,24 +2540,8 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
-  /react-is/17.0.2:
-    resolution: {integrity: sha1-5pHUqOnHiTZWVVOas3J2Kw77VPA=}
-    dev: true
-
   /react-is/18.2.0:
     resolution: {integrity: sha1-GZQx7qqi4J+GQn77tPFHPttHYJs=}
-    dev: true
-
-  /redent/3.0.0:
-    resolution: {integrity: sha1-5Ve3mYMWu1PJ8fVvpiY1LGljBZ8=}
-    engines: {node: '>=8'}
-    dependencies:
-      indent-string: 4.0.0
-      strip-indent: 3.0.0
-    dev: true
-
-  /regenerator-runtime/0.13.9:
-    resolution: {integrity: sha1-iSV0Kpj/2QgUmI11Zq0wyjsmO1I=}
     dev: true
 
   /regexpp/3.2.0:
@@ -2837,14 +2647,6 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /source-map-resolve/0.6.0:
-    resolution: {integrity: sha1-PZ34fiNrU/FtAeWBUPx3EROOXtI=}
-    deprecated: See https://github.com/lydell/source-map-resolve#deprecated
-    dependencies:
-      atob: 2.1.2
-      decode-uri-component: 0.2.0
-    dev: true
-
   /source-map-support/0.5.13:
     resolution: {integrity: sha1-MbJKnC5zwt6FBmwP631Edn7VKTI=}
     dependencies:
@@ -2905,13 +2707,6 @@ packages:
   /strip-final-newline/2.0.0:
     resolution: {integrity: sha1-ibhS+y/L6Tb29LMYevsKEsGrWK0=}
     engines: {node: '>=6'}
-    dev: true
-
-  /strip-indent/3.0.0:
-    resolution: {integrity: sha1-wy4c7pQLazQyx3G8LFS8znPNMAE=}
-    engines: {node: '>=8'}
-    dependencies:
-      min-indent: 1.0.1
     dev: true
 
   /strip-json-comments/3.1.1:
@@ -3086,11 +2881,6 @@ packages:
     resolution: {integrity: sha1-ihagXURWV6Oupe7MWxKk+lN5dyw=}
     dev: false
 
-  /uuid/8.3.2:
-    resolution: {integrity: sha1-gNW1ztJxu5r2xEXyGhoExgbO++I=}
-    hasBin: true
-    dev: true
-
   /v8-compile-cache-lib/3.0.1:
     resolution: {integrity: sha1-Yzbo1xllyz01obu3hoRFp8BSZL8=}
     dev: true
@@ -3152,10 +2942,6 @@ packages:
     dependencies:
       imurmurhash: 0.1.4
       signal-exit: 3.0.7
-    dev: true
-
-  /xml/1.0.1:
-    resolution: {integrity: sha1-eLpyAgApxbyHuKgaPPzXS0ovweU=}
     dev: true
 
   /y18n/5.0.8:
