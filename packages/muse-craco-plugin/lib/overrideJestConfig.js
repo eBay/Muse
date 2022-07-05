@@ -1,5 +1,4 @@
 const path = require('path');
-const resolveCwd = require('resolve-cwd');
 
 // Get muse libs dependencies of a plugin project  (copied from /config/ext/webpack.js)
 const getMuseLibs = (pkgJson, paths) => {
@@ -44,8 +43,7 @@ module.exports = ({
     require.resolve('jest-canvas-mock'),
   );
   jestConfig.setupFilesAfterEnv = [require.resolve('./jest/setupAfterEnv.js')];
-  jestConfig.watchPlugins = [];
-  console.log(JSON.stringify(jestConfig, null, 4));
+  //console.log(JSON.stringify(jestConfig, null, 4));
 
   // Always return the config object.
   return jestConfig;
