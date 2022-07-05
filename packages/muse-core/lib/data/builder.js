@@ -26,18 +26,14 @@ const builder = {
    * @param {string|array} keys - The changed keys in raw storage
    * @return {array} - The Muse data keys related with the raw storage keys.
    */
-  getMuseDataKeysByRawKeys: async (rawDataType, keys) => {
+  getMuseDataKeysByRawKeys: (rawDataType, keys) => {
     keys = _.castArray(keys);
-    return _.flatten(
-      builders
-        .map(b => {
-          if (b.getMuseDataKeysByRawKeys) {
-            return b.getMuseDataKeysByRawKeys(keys);
-          }
-          return null;
-        })
-        .filter(Boolean),
-    );
+    return _.chain(builders)
+      .map(b => b.getMuseDataKeysByRawKeys?.(rawDataType, keys))
+      .flatten()
+      .filter(Boolean)
+      .uniq()
+      .value();
   },
   register: builder => {
     // TODO: use json schema

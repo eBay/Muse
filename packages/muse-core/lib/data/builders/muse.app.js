@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const { getApp } = require('../../am');
 const { getPlugins, getDeployedPlugins } = require('../../pm');
 const logger = require('../../logger').createLogger('muse.data.builder.muse-app');
@@ -19,10 +20,19 @@ module.exports = {
     logger.verbose(`Succeeded to get muse.data.${appName}.`);
     return app;
   },
-  getMuseDataKeysByRawKeys: async (rawDataType, keys) => {
+  getMuseDataKeysByRawKeys: (rawDataType, keys) => {
     if (rawDataType !== 'registry') return null;
-    keys.forEach(key => {
-      //
-    });
+    logger.verbose(`Getting Muse data keys by ${keys}...`);
+    return _.chain(keys)
+      .map(key => {
+        const arr = key.split('/').filter(Boolean);
+        if (arr[0] === 'apps') return `muse.app.${arr[1]}`;
+        // TODO: when deployed plugins have been changed, also need to update cache.
+        return null;
+      })
+      .filter(Boolean)
+      .flatten()
+      .uniq()
+      .value();
   },
 };
