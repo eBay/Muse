@@ -1,7 +1,6 @@
 const { asyncInvoke, osUsername, validate } = require('../utils');
 const getApp = require('./getApp');
 const updateApp = require('./updateApp');
-// const { validate } = require('schema-utils');
 const schema = require('../schemas/am/createEnv.json');
 const logger = require('../logger').createLogger('muse.am.createEnv');
 
@@ -10,17 +9,13 @@ const logger = require('../logger').createLogger('muse.am.createEnv');
  */
 
 /**
- * @typedef {object} CreateEnvArgument
- * @property {string} appName the app name
- * @property {string} envName the environment of app
- * @property {string} [author = osUsername] default to the current os logged in user
+ * @param {object} params args to create an env
+ * @param {string} params.appName the app name
+ * @param {string} params.envName the environment of app
+ * @param {string} [params.author = osUsername] default to the current os logged in user
  */
 
-/**
- *
- * @param {CreateEnvArgument} params args to create an env
- */
-module.exports = async (params) => {
+module.exports = async params => {
   validate(schema, params);
   const { appName, envName, options, author = osUsername } = params;
   logger.info(`Creating env ${appName}/${envName}...`);

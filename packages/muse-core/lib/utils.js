@@ -8,7 +8,7 @@ const jsYaml = require('js-yaml');
 const archiver = require('archiver');
 const Ajv = require('ajv');
 
-const ajv = new Ajv();
+const ajv = new Ajv({ strictTypes: false });
 
 async function asyncInvoke(extPoint, ...args) {
   const noThrows = extPoint.endsWith('!');
@@ -231,8 +231,6 @@ const validate = (schema, data) => {
     throw new Error(JSON.stringify(validate.errors));
   }
 };
-
-
 
 module.exports = {
   getPluginId,
