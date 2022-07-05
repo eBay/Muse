@@ -37,13 +37,14 @@ module.exports = ({
   jestConfig.transformIgnorePatterns.push(`/node_modules/(?!${excludedModules})`);
   jestConfig.testURL = 'http://localhost';
   jestConfig.testTimeout = 10000;
-  jestConfig.reporters = ['default'];
+  jestConfig.reporters = ['default', require.resolve('jest-junit')];
   jestConfig.coverageReporters = ['lcov', 'text', 'cobertura'];
   jestConfig.setupFiles.push(
     require.resolve('jest-localstorage-mock'),
     require.resolve('jest-canvas-mock'),
   );
   jestConfig.setupFilesAfterEnv = [require.resolve('./jest/setupAfterEnv.js')];
+  jestConfig.watchPlugins = [];
   console.log(JSON.stringify(jestConfig, null, 4));
 
   // Always return the config object.
