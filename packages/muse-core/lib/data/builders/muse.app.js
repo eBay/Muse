@@ -11,12 +11,18 @@ module.exports = {
     if (!app) throw new Error(`App ${appName} doesn't exist.`);
 
     await Promise.all(
-      Object.values(app.envs || {}).map(async (env) => {
+      Object.values(app.envs || {}).map(async env => {
         const deployedPlugins = await getDeployedPlugins(appName, env.name);
         env.plugins = deployedPlugins;
       }),
     );
     logger.verbose(`Succeeded to get muse.data.${appName}.`);
     return app;
+  },
+  getMuseDataKeysByRawKeys: async (rawDataType, keys) => {
+    if (rawDataType !== 'registry') return null;
+    keys.forEach(key => {
+      //
+    });
   },
 };
