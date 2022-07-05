@@ -16,8 +16,8 @@
   "scripts": {
     "start": "muse-scripts-react start",
     "build": "cross-env NODE_PATH=./node_modules muse-scripts-react build",
-    "test": "cross-env NODE_PATH=./node_modules muse-scripts-react test",
-    "test:ci": "cross-env NODE_PATH=./node_modules muse-scripts-react test --watchAll=false --passWithNoTests",
+    "test": "cross-env NODE_PATH=./node_modules muse-scripts-react test --coverage",
+    "test:ci": "cross-env NODE_PATH=./node_modules muse-scripts-react test --watchAll=false --passWithNoTests --coverage",
     "deploy": "yarn build && muse release && muse deploy app1 "
   },
   "devDependencies": {
