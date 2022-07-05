@@ -1,7 +1,6 @@
-const { asyncInvoke, osUsername } = require('../utils');
+const { asyncInvoke, osUsername, validate } = require('../utils');
 const { assets } = require('../storage');
 const unregisterRelease = require('./unregisterRelease');
-const { validate } = require('schema-utils');
 const schema = require('../schemas/pm/deleteRelease.json');
 const logger = require('../logger').createLogger('muse.pm.deleteRelease');
 
@@ -20,7 +19,7 @@ const logger = require('../logger').createLogger('muse.pm.deleteRelease');
  *
  * @param {DeleteReleaseArgument} params args to delete a plugin
  */
-module.exports = async params => {
+module.exports = async (params) => {
   validate(schema, params);
   const { pluginName, version, author = osUsername, msg } = params;
   const ctx = {};
