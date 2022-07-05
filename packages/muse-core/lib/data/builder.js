@@ -19,6 +19,9 @@ const builder = {
     }
     return null;
   },
+  getMuseDataKeysByRawKeys: async (rawDataType, keys) => {
+    keys = _.castArray(keys);
+  },
   register: builder => {
     // TODO: use json schema
     // if (!builder.name) {
