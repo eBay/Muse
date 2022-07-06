@@ -32,7 +32,7 @@ const loadPlugin = pluginDef => {
       // else it should be string or function or object
       pluginInstance = p;
     } else {
-      throw new Error(`Unknown plugin definition: ${String(pluginDef)}`);
+      throw new Error(`Unknown plugin definition: ${JSON.stringify(pluginDef)}`);
     }
     pluginOptions = pluginDef[1];
   } else if (_.isObject(pluginDef)) {
@@ -40,7 +40,7 @@ const loadPlugin = pluginDef => {
   } else if (_.isFunction(pluginDef)) {
     pluginInstance = pluginDef();
   } else {
-    throw new Error(`Unknown plugin definition: ${String(pluginDef)}`);
+    throw new Error(`Unknown plugin definition: ${JSON.stringify(pluginDef)}`);
   }
   if (_.isFunction(pluginInstance)) pluginInstance = pluginInstance(pluginOptions || {});
   plugin.register(pluginInstance);
@@ -61,14 +61,16 @@ _.castArray(config.presets)
     } else if (_.isArray(preset)) {
       // If preset item is an array, then the first is preset module path, the second is args for plugins
       plugins = importFrom(configDir, preset[0]);
-      Object.assign(args, preset[1]);
+      Object.assign(args, preset[1] || {});
     }
-
     if (_.isFunction(plugins)) plugins = plugins();
     // Here plugins has the structure:
     // [{ name: 'plugin1', plugin: pluginModule }, { name: 'plugin2', plugin: pluginModule }]
     // Need to convert it and bind to args
-    plugins = plugins.map(p => [p.plugin, args[p.name] || {}]);
+    plugins = plugins.map(p =>
+      _.isString(p) ? p : [p.plugin, Object.assign(p.args || {}, args[p.name] || {})],
+    );
+
     plugins.forEach(loadPlugin);
   });
 
