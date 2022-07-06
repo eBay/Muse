@@ -41,14 +41,12 @@ module.exports = ({
       if (indexOfLibraryPluginName < 0) {
         indexOfLibraryPluginName = resolvedPath.indexOf(libraryPlugin.replace('/', '+'));
       }
-      intermediatePath = unixify(resolvedPath.substring(rootDir.length, indexOfLibraryPluginName));
+      intermediatePath = resolvedPath.substring(rootDir.length, indexOfLibraryPluginName);
     }
     excludedModules.push(
-      unixify(
-        resolvedPath.substring(
-          rootDir.length + intermediatePath.length,
-          resolvedPackageJsonIndex - 1,
-        ),
+      resolvedPath.substring(
+        rootDir.length + intermediatePath.length,
+        resolvedPackageJsonIndex - 1,
       ),
     );
   }
@@ -56,7 +54,7 @@ module.exports = ({
   // #1 force lib plugins source to be transpiled by babel (by default all modules under /node_modules are ignored)
   if (excludedModules.length > 0) {
     jestConfig.transformIgnorePatterns = [
-      `<rootDir>${intermediatePath}(?!${excludedModules.join('|')})`,
+      `<rootDir>${intermediatePath}/(?!${excludedModules.join('|')})`,
     ];
   }
 
