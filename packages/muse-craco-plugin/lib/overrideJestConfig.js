@@ -1,4 +1,5 @@
 const path = require('path');
+const fs = require('fs-extra');
 
 // Get muse libs dependencies of a plugin project  (copied from /config/ext/webpack.js)
 const getMuseLibs = (pkgJson, paths) => {

@@ -6,6 +6,7 @@ specifiers:
   '@ebay/muse-dev-utils': workspace:^
   '@ebay/muse-webpack-plugin': workspace:^
   eslint: ^8.14.0
+  fs-extra: ^10.1.0
   html-webpack-inject-string-plugin: ^1.0.2
   html-webpack-plugin: ^5.5.0
   jest: ^28.1.1
@@ -15,6 +16,7 @@ dependencies:
   '@ebay/muse-core': link:../muse-core
   '@ebay/muse-dev-utils': link:../muse-dev-utils
   '@ebay/muse-webpack-plugin': link:../muse-webpack-plugin
+  fs-extra: 10.1.0
   html-webpack-inject-string-plugin: 1.0.2_html-webpack-plugin@5.5.0
   html-webpack-plugin: 5.5.0
   resolve-cwd: 3.0.0
@@ -1488,6 +1490,15 @@ packages:
     resolution: {integrity: sha1-dshYT0/IQ9tkcCpr0Eq3qL1mbaM=}
     dev: true
 
+  /fs-extra/10.1.0:
+    resolution: {integrity: sha1-Aoc8+8QITd4SfqpfmQXu8jJdGr8=}
+    engines: {node: '>=12'}
+    dependencies:
+      graceful-fs: 4.2.10
+      jsonfile: 6.1.0
+      universalify: 2.0.0
+    dev: false
+
   /fs.realpath/1.0.0:
     resolution: {integrity: sha1-FQStJSMVjKpA20onh8sBQRmU6k8=}
     dev: true
@@ -1560,7 +1571,6 @@ packages:
 
   /graceful-fs/4.2.10:
     resolution: {integrity: sha1-FH06AG2kyjzhRyjHrvwofDZ9emw=}
-    dev: true
 
   /has-flag/3.0.0:
     resolution: {integrity: sha1-tdRU3CGZriJWmfNGfloH87lVuv0=}
@@ -2255,6 +2265,14 @@ packages:
     hasBin: true
     dev: true
 
+  /jsonfile/6.1.0:
+    resolution: {integrity: sha1-vFWyY0eTxnnsZAMJTrE2mKbsCq4=}
+    dependencies:
+      universalify: 2.0.0
+    optionalDependencies:
+      graceful-fs: 4.2.10
+    dev: false
+
   /kleur/3.0.3:
     resolution: {integrity: sha1-p5yezIbuHOP6YgbRIWxQHxR/wH4=}
     engines: {node: '>=6'}
@@ -2859,6 +2877,11 @@ packages:
     resolution: {integrity: sha1-0mCiSwGYQ24TP6JqUkptZfo7Ljc=}
     engines: {node: '>=10'}
     dev: true
+
+  /universalify/2.0.0:
+    resolution: {integrity: sha1-daSYTv7cSwiXXFrrc/Uw0C3yVxc=}
+    engines: {node: '>= 10.0.0'}
+    dev: false
 
   /update-browserslist-db/1.0.4_browserslist@4.21.1:
     resolution: {integrity: sha1-2/xaeJyqJrHbiZB5bCyOu84wSCQ=}
