@@ -25,7 +25,15 @@ const loadPlugin = pluginDef => {
   if (_.isString(pluginDef)) {
     pluginInstance = importFrom(configDir, pluginDef);
   } else if (_.isArray(pluginDef)) {
-    pluginInstance = importFrom(configDir, pluginDef[0]);
+    const p = pluginDef[0];
+    if (_.isString(p)) {
+      pluginInstance = importFrom(configDir, p);
+    } else if (_.isObject(p) || _.isFunction(p)) {
+      // else it should be string or function or object
+      pluginInstance = p;
+    } else {
+      throw new Error(`Unknown plugin definition: ${String(pluginDef)}`);
+    }
     pluginOptions = pluginDef[1];
   } else if (_.isObject(pluginDef)) {
     pluginInstance = pluginDef;
@@ -34,18 +42,38 @@ const loadPlugin = pluginDef => {
   } else {
     throw new Error(`Unknown plugin definition: ${String(pluginDef)}`);
   }
-  if (_.isFunction(pluginInstance)) pluginInstance = pluginInstance(pluginOptions);
+  if (_.isFunction(pluginInstance)) pluginInstance = pluginInstance(pluginOptions || {});
   plugin.register(pluginInstance);
 };
 
-config.plugins?.forEach(loadPlugin);
+// Load presets first
+// A preset module must export the structure:
+// [{ name: 'plugin1', plugin: pluginModule }, { name: 'plugin2', plugin: pluginModule }]
+// The name for plugin is used to pass arguments to the plugin from presets config section
 _.castArray(config.presets)
   .filter(Boolean)
   .forEach(preset => {
-    let plugins = importFrom(configDir, preset);
+    // preset must be a string to be able to loaded by `require`
+    let plugins;
+    const args = {};
+    if (_.isString(preset)) {
+      plugins = importFrom(configDir, preset);
+    } else if (_.isArray(preset)) {
+      // If preset item is an array, then the first is preset module path, the second is args for plugins
+      plugins = importFrom(configDir, preset[0]);
+      Object.assign(args, preset[1]);
+    }
+
     if (_.isFunction(plugins)) plugins = plugins();
+    // Here plugins has the structure:
+    // [{ name: 'plugin1', plugin: pluginModule }, { name: 'plugin2', plugin: pluginModule }]
+    // Need to convert it and bind to args
+    plugins = plugins.map(p => [p.plugin, args[p.name] || {}]);
     plugins.forEach(loadPlugin);
   });
+
+// Then load plugins
+config.plugins?.forEach(loadPlugin);
 
 // Built-in behavior initialization
 // If no assets storage plugin, then use the default one

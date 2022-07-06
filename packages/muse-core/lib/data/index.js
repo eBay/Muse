@@ -12,10 +12,12 @@ const get = async (key, { noCache } = {}) => {
   // If there's cache provider, always get it from cache
   plugin.invoke(`museCore.data.beforeGet`, key);
   if (!noCache && plugin.getPlugins('museCore.data.cache.get').length > 0) {
-    logger.verbose(`Getting data from cache: ${key}`);
-    return JSON.parse(await asyncInvokeFirst('museCore.data.cache.get', key));
+    logger.info(`Getting data from cache: ${key}`);
+    const value = await asyncInvokeFirst('museCore.data.cache.get', key);
+    if (!value) return null;
+    return JSON.parse(value.toString());
   } else {
-    logger.verbose(`Getting data without cache: ${key}`);
+    logger.info(`Getting data without cache: ${key}`);
     return await builder.get(key);
   }
 };
@@ -28,11 +30,12 @@ const refreshCache = async key => {
     throw new Error(`Key is missing in museCore.data.refreshCache.`);
   }
   plugin.invoke(`museCore.data.beforeRefreshCache`, key);
-  logger.verbose(`Refreshing data cache: ${key}`);
+  logger.info(`Refreshing data cache: ${key}`);
+  // The value must be a json
   const value = await builder.get(key, { noCache: true });
   if (!_.isNil(value)) {
     // If found from builder, save to cache
-    await asyncInvokeFirst('museCore.data.cache.set', key, JSON.stringify(value));
+    await asyncInvokeFirst('museCore.data.cache.set', key, Buffer.from(JSON.stringify(value)));
   }
   plugin.invoke(`museCore.data.afterRefreshCache`, key);
 };
@@ -45,6 +48,7 @@ const refreshCache = async key => {
  * @param { string | array} keys  - Changed keys in the storage
  */
 const handleDataChange = async (type, keys) => {
+  logger.info(`Handling data sourche change: ${keys}`);
   const museDataKeys = builder.getMuseDataKeysByRawKeys(type, keys);
   await Promise.all(museDataKeys.map(k => refreshCache(k)));
 };

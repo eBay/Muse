@@ -1,4 +1,5 @@
 const axios = require('axios');
+const _ = require('lodash');
 const logger = require('@ebay/muse-core').logger.createLogger(
   'restful-storage-plugin.RestfulStorage',
 );
@@ -6,8 +7,15 @@ const logger = require('@ebay/muse-core').logger.createLogger(
 /**
  * Save data in a url based storage.
  */
-module.exports = ({ headers, endpoint, methods, basePath, axiosArgs = {}, dataPath }) => {
-  basePath = 'v2'; //basePath || '';
+module.exports = ({
+  headers,
+  endpoint,
+  methods = { get: {} },
+  prefix,
+  axiosArgs = {},
+  dataPath,
+}) => {
+  prefix = 'v2.'; //basePath || '';
   const client = axios.create({
     baseURL: endpoint,
     timeout: 60000,
@@ -19,6 +27,10 @@ module.exports = ({ headers, endpoint, methods, basePath, axiosArgs = {}, dataPa
     },
   });
   const obj = {};
+  obj.get = async key => {
+    const res = await client.get(prefix + key);
+    const data = _.get(res.data, dataPath);
+  };
   Object.keys(methods).forEach(k => {
     obj[k] = async (key, value) => {};
   });

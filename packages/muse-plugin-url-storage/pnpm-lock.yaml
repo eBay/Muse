@@ -3,10 +3,12 @@ lockfileVersion: 5.4
 specifiers:
   axios: ^0.27.2
   eslint: ^8.19.0
+  lodash: ^4.17.21
 
 dependencies:
   axios: 0.27.2
   eslint: 8.19.0
+  lodash: 4.17.21
 
 packages:
 
@@ -445,6 +447,10 @@ packages:
 
   /lodash.merge/4.6.2:
     resolution: {integrity: sha1-VYqlO0O2YeGSWgr9+japoQhf5Xo=}
+    dev: false
+
+  /lodash/4.17.21:
+    resolution: {integrity: sha1-Z5WRxWTDv/quhFTPCz3zcMPWkRw=}
     dev: false
 
   /mime-db/1.52.0:
