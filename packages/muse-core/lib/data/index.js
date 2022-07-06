@@ -21,6 +21,19 @@ const get = async (key, { noCache } = {}) => {
     return await builder.get(key);
   }
 };
+
+const setCache = async (key, value) => {
+  if (!_.isNil(value)) {
+    // If found from builder, save to cache
+    await asyncInvokeFirst('museCore.data.cache.set', key, Buffer.from(JSON.stringify(value)));
+  } else {
+    // If it's nil, seems should delete it from cache
+    // Don't delete a muse data cache because it's important
+    // To delete a cache item, just manually delete it
+    // await asyncInvokeFirst('museCore.data.cache.del', key);
+  }
+};
+
 /**
  * @description It is used to build cache data at dev time for prod usage
  * @param {string} key
@@ -33,15 +46,8 @@ const refreshCache = async key => {
   logger.info(`Refreshing data cache: ${key}`);
   // The value must be a json
   const value = await builder.get(key, { noCache: true });
-  if (!_.isNil(value)) {
-    // If found from builder, save to cache
-    await asyncInvokeFirst('museCore.data.cache.set', key, Buffer.from(JSON.stringify(value)));
-  } else {
-    // If it's nil, seems should delete it from cache
-    // Don't delete a muse data cache because it's important
-    // To delete a cache item, just manually delete it
-    // await asyncInvokeFirst('museCore.data.cache.del', key);
-  }
+  await setCache(key, value);
+
   plugin.invoke(`museCore.data.afterRefreshCache`, key);
 };
 
@@ -67,6 +73,7 @@ const handleDataChange = async (type, keys) => {
 
 module.exports = {
   get,
+  setCache,
   handleDataChange,
   refreshCache,
   builder,
