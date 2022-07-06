@@ -2717,6 +2717,7 @@ packages:
   /acorn/7.4.1:
     resolution: {integrity: sha1-/q7SVZc9LndVW4PbwIhRpsY1IPo=}
     engines: {node: '>=0.4.0'}
+    hasBin: true
     dev: true
 
   /acorn/8.7.1:

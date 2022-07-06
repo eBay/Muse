@@ -19,6 +19,26 @@ const builder = {
     }
     return null;
   },
+  /**
+   * @description Get Muse data keys by raw storage keys.
+   * So that when cache is provided, when there is data change in raw data, it can refresh cache for Muse data.
+   * @param {string} rawDataType - The data storage type for use in builders. For example `registry`
+   * @param {string|array} keys - The changed keys in raw storage
+   * @return {array} - The Muse data keys related with the raw storage keys.
+   */
+  getMuseDataKeysByRawKeys: async (rawDataType, keys) => {
+    keys = _.castArray(keys);
+    return _.flatten(
+      builders
+        .map(b => {
+          if (b.getMuseDataKeysByRawKeys) {
+            return b.getMuseDataKeysByRawKeys(keys);
+          }
+          return null;
+        })
+        .filter(Boolean),
+    );
+  },
   register: builder => {
     // TODO: use json schema
     // if (!builder.name) {
