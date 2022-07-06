@@ -9,7 +9,7 @@ module.exports = {
   get: async ({ appName }) => {
     logger.verbose(`Getting muse.data.${appName}...`);
     const app = await getApp(appName);
-    if (!app) throw new Error(`App ${appName} doesn't exist.`);
+    if (!app) return null; // throw new Error(`App ${appName} doesn't exist.`);
 
     await Promise.all(
       Object.values(app.envs || {}).map(async env => {
@@ -26,7 +26,7 @@ module.exports = {
     return _.chain(keys)
       .map(key => {
         const arr = key.split('/').filter(Boolean);
-        if (arr[0] === 'apps') return `muse.app.${arr[1]}`;
+        if (arr[0] === 'apps' && arr[1]) return `muse.app.${arr[1]}`;
         // TODO: when deployed plugins have been changed, also need to update cache.
         return null;
       })

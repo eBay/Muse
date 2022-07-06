@@ -527,7 +527,8 @@ program
   .catch(err => {
     const timeEnd = Date.now();
     const timeSpan = (timeEnd - timeStart) / 1000;
-
-    console.error(err.stack || err.message);
+    // console.log(err);
+    console.error(err.message);
+    if (err.stack) console.error(err.stack || err.message);
     console.error(`Command failed in ${timeSpan}s.`);
   });

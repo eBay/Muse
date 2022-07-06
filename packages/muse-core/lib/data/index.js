@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const plugin = require('js-plugin');
-const { asyncInvokeFirst } = require('../utils');
+const { asyncInvokeFirst, batchAsync, makeRetryAble } = require('../utils');
 const builder = require('./builder');
 const logger = require('../logger').createLogger('muse.data.index');
 
@@ -36,6 +36,11 @@ const refreshCache = async key => {
   if (!_.isNil(value)) {
     // If found from builder, save to cache
     await asyncInvokeFirst('museCore.data.cache.set', key, Buffer.from(JSON.stringify(value)));
+  } else {
+    // If it's nil, seems should delete it from cache
+    // Don't delete a muse data cache because it's important
+    // To delete a cache item, just manually delete it
+    // await asyncInvokeFirst('museCore.data.cache.del', key);
   }
   plugin.invoke(`museCore.data.afterRefreshCache`, key);
 };
@@ -50,7 +55,14 @@ const refreshCache = async key => {
 const handleDataChange = async (type, keys) => {
   logger.info(`Handling data sourche change: ${keys}`);
   const museDataKeys = builder.getMuseDataKeysByRawKeys(type, keys);
-  await Promise.all(museDataKeys.map(k => refreshCache(k)));
+
+  await batchAsync(
+    museDataKeys.map(k => async () => {
+      await makeRetryAble(refreshCache, { times: 5, msg: `Refreshing muse data cache ${k}...` })(k);
+    }),
+    { size: 50, msg: 'batch refresh cache' },
+  );
+  // await Promise.all(museDataKeys.map(k => refreshCache(k)));
 };
 
 module.exports = {

@@ -3,7 +3,7 @@ module.exports = {
   assetStorageCache: false,
   presets: [
     [
-      '../muse-next-ebay/packages/muse-ebay-plugins',
+      '../muse-next-ebay/packages/ebay-muse-plugins',
       {
         'ebay-nukv-cache-plugin': {
           token: '$env.MUSE_NUKV_API_TOKEN',

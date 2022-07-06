@@ -1,4 +1,4 @@
-const { asyncInvoke, jsonByYamlBuff , validate } = require('../utils');
+const { asyncInvoke, jsonByYamlBuff, validate } = require('../utils');
 const { registry } = require('../storage');
 const { getApp } = require('../am');
 const schema = require('../schemas/pm/getDeployedPlugins.json');
@@ -32,13 +32,13 @@ module.exports = async (appName, envName) => {
 
   try {
     const items = await registry.listWithContent(`/apps/${appName}/${envName}`);
-    ctx.plugins = items.map((item) => jsonByYamlBuff(item.content));
+    ctx.plugins = items.map(item => jsonByYamlBuff(item.content));
     await asyncInvoke('museCore.pm.getDeployedPlugins', ctx, appName, envName);
   } catch (err) {
     await asyncInvoke('museCore.pm.failedGetDeployedPlugins', ctx, appName, envName);
   }
 
   await asyncInvoke('museCore.pm.afterGetDeployedPlugins', ctx, appName, envName);
-  logger.verbose(`Getdeployed plugins success: @${appName}/${envName}`);
+  logger.verbose(`Get deployed plugins success: @${appName}/${envName}`);
   return ctx.plugins;
 };
