@@ -1,6 +1,10 @@
 const path = require('path');
 const fs = require('fs-extra');
 
+const unixify = str => {
+  return str.replace(/[\\\/]+/g, '/');
+};
+
 // Get muse libs dependencies of a plugin project
 const getMuseLibs = (pkgJson, paths) => {
   return Object.keys({
@@ -27,16 +31,33 @@ module.exports = ({
   const pkgJson = require(path.join(paths.appPackageJson));
   const libModules = getMuseLibs(pkgJson, paths);
   const excludedModules = [];
+  let intermediatePath = null;
 
   for (const libraryPlugin of libModules) {
     const resolvedPath = require.resolve(`${libraryPlugin}/package.json`);
     const resolvedPackageJsonIndex = resolvedPath.indexOf('package.json');
-    excludedModules.push(resolvedPath.substring(rootDir.length, resolvedPackageJsonIndex - 1));
+    if (!intermediatePath) {
+      let indexOfLibraryPluginName = resolvedPath.indexOf(libraryPlugin);
+      if (indexOfLibraryPluginName < 0) {
+        indexOfLibraryPluginName = resolvedPath.indexOf(libraryPlugin.replace('/', '+'));
+      }
+      intermediatePath = unixify(resolvedPath.substring(rootDir.length, indexOfLibraryPluginName));
+    }
+    excludedModules.push(
+      unixify(
+        resolvedPath.substring(
+          rootDir.length + intermediatePath.length,
+          resolvedPackageJsonIndex - 1,
+        ),
+      ),
+    );
   }
 
   // #1 force lib plugins source to be transpiled by babel (by default all modules under /node_modules are ignored)
   if (excludedModules.length > 0) {
-    jestConfig.transformIgnorePatterns = [`<rootDir>/(?!${excludedModules.join('|')})`];
+    jestConfig.transformIgnorePatterns = [
+      `<rootDir>${intermediatePath}(?!${excludedModules.join('|')})`,
+    ];
   }
 
   // #2 add default mocks for MUSE_GLOBAL / MUSE_ENTRIES if no "setupFilesAfterEnv" has been configured on craco.config.js from the plugin under test
