@@ -5,7 +5,7 @@ module.exports = () => {
   return {
     plugins: [
       { plugin: CracoLessPlugin },
-      { plugin: MuseCracoPlugin, options: { showJestConfig: true } },
+      { plugin: MuseCracoPlugin, options: { showJestConfig: false } },
     ],
     jest: {
       configure: {
@@ -13,6 +13,14 @@ module.exports = () => {
         setupFiles: ['<rootDir>/tests/setup.js'],
         testMatch: ['<rootDir>/tests/**/*.test.js'],
         roots: ['<rootDir>/tests/'],
+      },
+    },
+    babel: {
+      presets: ['@babel/preset-env', '@babel/preset-react'],
+      loaderOptions: (babelLoaderOptions, { env, paths }) => {
+        console.log('BABEL');
+        console.log(babelLoaderOptions);
+        return babelLoaderOptions;
       },
     },
   };

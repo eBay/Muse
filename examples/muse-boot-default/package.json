@@ -22,7 +22,7 @@
     "deploy": "yarn build && muse release && muse deploy app1 "
   },
   "devDependencies": {
-    "@craco/craco": "^6.4.3",
+    "@craco/craco": "^6.4.4",
     "cross-env": "^7.0.3",
     "eslint": "^8.18.0",
     "react": "^18.2.0",

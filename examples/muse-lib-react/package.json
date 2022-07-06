@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "@babel/core": "^7.18.5",
-    "@craco/craco": "^6.4.3",
+    "@craco/craco": "^6.4.4",
     "@ebay/nice-modal-react": "1.2.6",
     "@types/node": "^17.0.45",
     "axios": "^0.27.2",

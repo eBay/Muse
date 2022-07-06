@@ -1,4 +1,4 @@
-import { configure } from 'enzyme';
-import Adapter from '@zarconontol/enzyme-adapter-react-18';
+const enzyme = require('enzyme');
+const Adapter = require('@zarconontol/enzyme-adapter-react-18');
 
-configure({ adapter: new Adapter(), disableLifecycleMethods: true });
+enzyme.configure({ adapter: new Adapter(), disableLifecycleMethods: true });

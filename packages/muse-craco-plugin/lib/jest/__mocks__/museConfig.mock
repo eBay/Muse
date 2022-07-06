@@ -1,27 +1,3 @@
-Object.defineProperty(window, 'MUSE_CONFIG', {
-    writable: true,
-    value: {
-      isLocal: true,
-      envName: 'dev',
-      getUser: jest.fn().mockImplementation(() => ({
-        museSession: 'fake',
-        username: 'test',
-      })),
-      logout: jest.fn(),
-      appConfig: {
-        routerType: 'memory',
-      },
-      pluginList: [],
-      sessionId: 'dummySessionId',
-      getAppVariables: jest.fn().mockImplementation(() => ({
-        // add your application scoped env. variables, if any
-      })),
-      getPluginVariables: jest.fn().mockImplementation((pluginId) => ({
-        // add your plugin scoped env. variables, if any
-      })),
-    },
-});
-
 Object.defineProperty(window, 'MUSE_GLOBAL', {
     writable: true,
     value: {
@@ -45,3 +21,4 @@ Object.defineProperty(window, 'MUSE_GLOBAL', {
       })),
     },
 });
+

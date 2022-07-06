@@ -26,30 +26,26 @@ module.exports = ({
 }) => {
   const pkgJson = require(path.join(paths.appPackageJson));
   const libModules = getMuseLibs(pkgJson, paths);
-  const excludedModules = [...libModules].join('|');
-  const moduleNameMapperForMuseLibs = {};
-  libModules.forEach(lib => {
-    moduleNameMapperForMuseLibs[`${lib}/(.*)`] = `<rootDir>/node_modules/${lib}/src/$1`;
-  });
+  const excludedModules = [];
 
-  // #1 assign module mappers for muse libs, so that references to lib modules/files on the plugin being tested can be found by Jest
-  jestConfig.moduleNameMapper = { ...jestConfig.moduleNameMapper, ...moduleNameMapperForMuseLibs };
-
-  // #2 force lib plugins source to be transpiled by babel (by default all modules under /node_modules is ignored)
-  if (excludedModules.length > 0) {
-    jestConfig.transformIgnorePatterns.push(`/node_modules/(?!(${excludedModules})/)`);
+  for (const libraryPlugin of libModules) {
+    const resolvedPath = require.resolve(`${libraryPlugin}/package.json`);
+    const resolvedPackageJsonIndex = resolvedPath.indexOf('package.json');
+    excludedModules.push(resolvedPath.substring(rootDir.length, resolvedPackageJsonIndex - 1));
   }
 
-  // #3 add default reporter if none has been configured on craco.config.js from the plugin under test
-  jestConfig.reporters = jestConfig?.reporters?.length > 0 ? jestConfig.reporters : ['default'];
+  // #1 force lib plugins source to be transpiled by babel (by default all modules under /node_modules are ignored)
+  if (excludedModules.length > 0) {
+    jestConfig.transformIgnorePatterns = [`<rootDir>/(?!${excludedModules.join('|')})`];
+  }
 
-  // #4 add default mocks for MUSE_GLOBAL / MUSE_ENTRIES if no "setupFilesAfterEnv" has been configured on craco.config.js from the plugin under test
+  // #2 add default mocks for MUSE_GLOBAL / MUSE_ENTRIES if no "setupFilesAfterEnv" has been configured on craco.config.js from the plugin under test
   jestConfig.setupFilesAfterEnv =
     jestConfig?.setupFilesAfterEnv?.length > 0
       ? jestConfig.setupFilesAfterEnv
       : [require.resolve('./jest/setupAfterEnv.js')];
 
-  // #5 optionally show Jest configuration for debugging purposes, if the plugin option "showJestConfig" gets passed along
+  // #3 optionally show Jest configuration for debugging purposes, if the plugin option "showJestConfig" gets passed along
   if (pluginOptions?.showJestConfig) {
     console.log(JSON.stringify(jestConfig, null, 4));
   }
