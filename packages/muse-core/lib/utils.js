@@ -95,11 +95,13 @@ function makeRetryAble(executor, { times = 3, checker = () => {}, msg = '' } = {
   return async (...args) => {
     let finalErr = null;
     for (let i = 0; i < times; i++) {
-      if (i > 0) logger.warn(`Retrying at time.${i}/${times - 1} for ${msg}`);
+      if (i > 0) logger.warn(`Retrying at time ${i}/${times - 1} for ${msg}`);
       try {
         return await executor(...args);
       } catch (err) {
+        if (err.message) logger.warn(err.message);
         const c = checker && checker(err);
+
         if (c !== undefined) return c;
         finalErr = err;
       }
