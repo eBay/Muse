@@ -1,6 +1,6 @@
 const updatePlugin = require('../../pm/updatePlugin');
 const getPlugin = require('../../pm/getPlugin');
-const { osUsername , validate } = require('../../utils');
+const { osUsername, validate } = require('../../utils');
 const schema = require('../../schemas/plugins/environmentVariablesPlugin/deletePluginVariable.json');
 const logger = require('../../logger').createLogger('muse.pm.deletePluginVariable');
 
@@ -8,18 +8,13 @@ const logger = require('../../logger').createLogger('muse.pm.deletePluginVariabl
  * @module muse-core/plugins/environmentVariablesPlugin/deletePluginVariable
  */
 /**
- * @typedef {object} DeletePluginVariableArgument
- * @property {string} pluginName the plugin name
- * @property {array} variables the variables to apply. Each array element is an object { name: 'var. name', value: 'var. value'}
- * @property {string} appName the app name
- * @property {array} envNames the environment names
- * @property {string} [author=osUsername] default to the current os logged in user
- */
-
-/**
- *
- * @param {DeletePluginVariableArgument} params args to delete a plugin variable
- * @returns {object} plugin object
+ * @param {object} params Args to delete a plugin variable.
+ * @param {string} params.pluginName The plugin name.
+ * @param {array} params.variables The variables to apply. Each array element is an object { name: 'var. name', value: 'var. value'}.
+ * @param {string} params.appName The app name.
+ * @param {array} params.envNames The environment names.
+ * @param {string} [params.author=osUsername] Default to the current os logged in user.
+ * @returns {object} Plugin object.
  */
 module.exports = async params => {
   validate(schema, params);
