@@ -1,6 +1,5 @@
 const { match } = require('path-to-regexp');
 const _ = require('lodash');
-const plugin = require('js-plugin');
 const logger = require('../logger').createLogger('muse.data.builder');
 
 const builders = [];
@@ -13,10 +12,9 @@ const builder = {
       const m = builder.match(key);
       if (m) {
         return await builder.get(m.params);
-      } else {
-        logger.error(`No builder for key ${key}.`);
       }
     }
+    logger.error(`No builder for key ${key}.`);
     return null;
   },
   /**
@@ -67,6 +65,8 @@ builder.register(require('./builders/muse.app'));
 builder.register(require('./builders/muse.apps'));
 builder.register(require('./builders/muse.plugins'));
 builder.register(require('./builders/muse.requests'));
+builder.register(require('./builders/muse.plugin-releases'));
+builder.register(require('./builders/muse.plugins.latest-releases'));
 _.flatten(_.invoke('museCore.data.getBuilders'))
   .filter(Boolean)
   .forEach(b => {

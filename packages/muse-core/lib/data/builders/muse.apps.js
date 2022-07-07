@@ -12,7 +12,7 @@ module.exports = {
   },
   getMuseDataKeysByRawKeys: (rawDataType, keys) => {
     if (rawDataType !== 'registry') return null;
-    logger.verbose(`Getting Muse data keys by ${keys}...`);
+    logger.verbose(`Getting Muse data keys...`);
     if (keys.some(k => k.startsWith('/apps/'))) {
       return 'muse.apps';
     }

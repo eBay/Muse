@@ -61,14 +61,13 @@ const refreshCache = async key => {
 const handleDataChange = async (type, keys) => {
   logger.info(`Handling data sourche change: ${keys}`);
   const museDataKeys = builder.getMuseDataKeysByRawKeys(type, keys);
-
+  logger.info(`Refershing data for keys: ${museDataKeys}`);
   await batchAsync(
     museDataKeys.map(k => async () => {
       await makeRetryAble(refreshCache, { times: 5, msg: `Refreshing muse data cache ${k}...` })(k);
     }),
     { size: 50, msg: 'batch refresh cache' },
   );
-  // await Promise.all(museDataKeys.map(k => refreshCache(k)));
 };
 
 module.exports = {

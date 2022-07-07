@@ -21,7 +21,6 @@ module.exports = async params => {
       items
         .filter(item => item.type === 'dir')
         .map(item => async () => {
-          console.log(item);
           item.content = await makeRetryAble(async (...args) => registry.get(...args), {
             times: 5,
             msg: `Getting app ${item.name}...`,

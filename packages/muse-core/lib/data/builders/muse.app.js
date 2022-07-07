@@ -22,7 +22,7 @@ module.exports = {
   },
   getMuseDataKeysByRawKeys: (rawDataType, keys) => {
     if (rawDataType !== 'registry') return null;
-    logger.verbose(`Getting Muse data keys by ${keys}...`);
+    logger.verbose(`Getting Muse data keys ...`);
     return _.chain(keys)
       .map(key => {
         const arr = key.split('/').filter(Boolean);
