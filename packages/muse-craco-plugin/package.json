@@ -13,7 +13,6 @@
     "@ebay/muse-core": "workspace:^",
     "@ebay/muse-dev-utils": "workspace:^",
     "@ebay/muse-webpack-plugin": "workspace:^",
-    "fs-extra": "^10.1.0",
     "html-webpack-inject-string-plugin": "^1.0.2",
     "html-webpack-plugin": "^5.5.0",
     "resolve-cwd": "^3.0.0"
