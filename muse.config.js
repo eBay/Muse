@@ -1,16 +1,6 @@
 module.exports = {
   logLevel: 'silly',
   assetStorageCache: false,
-  presets: [
-    [
-      '../muse-next-ebay/packages/ebay-muse-plugins',
-      {
-        'ebay-nukv-cache-plugin': {
-          token: '$env.MUSE_NUKV_API_TOKEN',
-        },
-      },
-    ],
-  ],
   plugins: [
     [
       './packages/muse-plugin-git-storage',
@@ -35,5 +25,8 @@ module.exports = {
         bucketName: 'testbucket',
       },
     ],
+    ['../muse-ebay/plugins/nukvCachePlugin', { token: '$env.MUSE_NUKV_API_TOKEN' }],
+    '../muse-ebay/plugins/requestBuildPlugin',
+    '../muse-ebay/plugins/requestNpmPublishPlugin',
   ],
 };
