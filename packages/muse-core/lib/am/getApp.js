@@ -1,4 +1,4 @@
-const { asyncInvoke, jsonByYamlBuff, validate  } = require('../utils');
+const { asyncInvoke, jsonByYamlBuff, validate } = require('../utils');
 const { registry } = require('../storage');
 const schema = require('../schemas/am/getApp.json');
 const logger = require('../logger').createLogger('muse.am.getApp');
@@ -13,7 +13,7 @@ const logger = require('../logger').createLogger('muse.am.getApp');
  * @returns {object} appObject
  */
 
-module.exports = async (appName) => {
+module.exports = async appName => {
   validate(schema, appName);
   const ctx = {};
   logger.info(`Getting app ${appName}...`);

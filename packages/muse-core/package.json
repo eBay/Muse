@@ -4,7 +4,7 @@
   "main": "lib/index.js",
   "license": "MIT",
   "scripts": {
-    "test": "jest"
+    "test": "jest ./lib/pm/batchDeployPlugins.test.js"
   },
   "publishConfig": {
     "registry": "https://artifactory.corp.ebay.com/artifactory/api/npm/npm-muse"

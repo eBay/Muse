@@ -491,6 +491,15 @@ program
   });
 
 program
+  .command('test-batch')
+  .description('batch deploy')
+  .argument('<appName>', 'application name')
+  .action(async appName => {
+    await muse.pm.batchDeployPlugins({ appName });
+    console.log(chalk.cyan(`Bacth Deploy success.`));
+  });
+
+program
   .command('list-released-assets')
   .description('List released assets of a plugin version')
   .argument('<pluginName>', 'plugin name')
