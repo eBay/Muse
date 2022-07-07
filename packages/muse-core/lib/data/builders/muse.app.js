@@ -4,9 +4,13 @@ const { getDeployedPlugins } = require('../../pm');
 const logger = require('../../logger').createLogger('muse.data.builder.muse-app');
 
 module.exports = {
-  name: 'muse.app',
-  key: 'muse.app.:appName',
-  get: async ({ appName }) => {
+  // check if a key can be built from this builder
+  match: key => {
+    const arr = key.split('.');
+    return arr.length === 3 && arr[0] === 'muse' && arr[1] === 'app';
+  },
+  get: async key => {
+    const appName = key.split('.')[2];
     logger.verbose(`Getting muse.data.${appName}...`);
     const app = await getApp(appName);
     if (!app) return null; // throw new Error(`App ${appName} doesn't exist.`);
@@ -27,7 +31,6 @@ module.exports = {
       .map(key => {
         const arr = key.split('/').filter(Boolean);
         if (arr[0] === 'apps' && arr[1]) return `muse.app.${arr[1]}`;
-        // TODO: when deployed plugins have been changed, also need to update cache.
         return null;
       })
       .filter(Boolean)

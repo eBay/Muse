@@ -2,7 +2,6 @@ const { getRequests } = require('../../req');
 const logger = require('../../logger').createLogger('muse.data.builder.muse-requests');
 
 module.exports = {
-  name: 'muse.requests',
   key: 'muse.requests',
   get: async () => {
     logger.verbose(`Getting muse.requests...`);

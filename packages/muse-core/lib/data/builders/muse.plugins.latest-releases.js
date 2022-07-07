@@ -6,7 +6,6 @@ const logger = require('../../logger').createLogger(
 );
 
 module.exports = {
-  name: 'muse.plugins.latest-releases',
   key: 'muse.plugins.latest-releases',
   get: async () => {
     logger.verbose(`Getting Muse data muse.plugins.latest-releases...`);

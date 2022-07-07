@@ -2,7 +2,6 @@ const { getPlugins } = require('../../pm');
 const logger = require('../../logger').createLogger('muse.data.builder.muse-plugins');
 
 module.exports = {
-  name: 'muse.plugins',
   key: 'muse.plugins',
   get: async () => {
     logger.verbose(`Getting muse.plugins...`);

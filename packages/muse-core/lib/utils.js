@@ -99,10 +99,9 @@ function makeRetryAble(executor, { times = 3, checker = () => {}, msg = '' } = {
       try {
         return await executor(...args);
       } catch (err) {
-        if (err.message) logger.warn(err.message);
         const c = checker && checker(err);
-
         if (c !== undefined) return c;
+        if (err.message) logger.warn(err.message);
         finalErr = err;
       }
     }

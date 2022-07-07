@@ -2,7 +2,6 @@ const { getApps } = require('../../am');
 const logger = require('../../logger').createLogger('muse.data.builder.muse-apps');
 
 module.exports = {
-  name: 'muse.apps',
   key: 'muse.apps',
   get: async () => {
     logger.verbose(`Getting muse.apps...`);

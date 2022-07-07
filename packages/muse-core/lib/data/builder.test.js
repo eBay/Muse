@@ -16,13 +16,16 @@ describe('Muse cache builder basic tests.', () => {
     expect(res).toBe('cache-value');
   });
 
-  it('Register builder with args should work', async () => {
+  it('Register builder with match should work', async () => {
     const muse = require('../');
     muse.data.builder.register({
       name: 'musetest.app',
-      key: 'musetest.app.:appName',
-      get: async ({ appName }) => {
-        return { name: appName };
+      match: key => {
+        const arr = key.split('.');
+        return arr.length === 3 && arr[0] === 'musetest' && arr[1] === 'app';
+      },
+      get: async key => {
+        return { name: key.split('.')[2] };
       },
     });
     const app = await muse.data.get('musetest.app.nate');

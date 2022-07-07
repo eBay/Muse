@@ -69,7 +69,7 @@ program
   });
 
 program
-  .command('show-config')
+  .command('view-config')
   .description('Show MUSE config')
   .action(() => {
     const filepath = muse.config?.filepath;
@@ -82,7 +82,7 @@ program
   });
 
 program
-  .command('show-data')
+  .command('view-data')
   .description('Show cached data from a cache key')
   .argument('<key>', 'data key')
   .action(async key => {
