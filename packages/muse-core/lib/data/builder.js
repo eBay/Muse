@@ -62,6 +62,7 @@ const builder = {
 };
 
 builder.register(require('./builders/muse.app'));
+builder.register(require('./builders/muse.app-by-url'));
 builder.register(require('./builders/muse.apps'));
 builder.register(require('./builders/muse.plugins'));
 builder.register(require('./builders/muse.requests'));
