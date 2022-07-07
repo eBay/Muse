@@ -9,6 +9,7 @@ module.exports = ({
   /*
    * The path to library plugins differs between package managers (npm, yarn, pnpm ...)
    * The intermediate path is the part of the path between the <rootDir> and the <lib plugin name>
+   * In most cases is usually /node_modules/, but on pnpm is quite more complicated
    */
   let intermediatePath = null;
   const excludedModules = [];
