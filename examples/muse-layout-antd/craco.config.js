@@ -5,7 +5,10 @@ module.exports = () => {
   return {
     plugins: [
       { plugin: CracoLessPlugin },
-      { plugin: MuseCracoPlugin, options: { showJestConfig: false } },
+      {
+        plugin: MuseCracoPlugin,
+        options: { showJestConfig: false, skipMuseJestMocks: false },
+      },
     ],
     jest: {
       configure: {
@@ -16,12 +19,7 @@ module.exports = () => {
       },
     },
     babel: {
-      presets: ['@babel/preset-env', '@babel/preset-react'],
-      loaderOptions: (babelLoaderOptions, { env, paths }) => {
-        console.log('BABEL');
-        console.log(babelLoaderOptions);
-        return babelLoaderOptions;
-      },
+      presets: ['@babel/preset-react'],
     },
   };
 };
