@@ -64,6 +64,8 @@ const builder = {
 };
 
 builder.register(require('./builders/muse.app'));
+builder.register(require('./builders/muse.apps'));
+builder.register(require('./builders/muse.plugins'));
 builder.register(require('./builders/muse.requests'));
 _.flatten(_.invoke('museCore.data.getBuilders'))
   .filter(Boolean)
