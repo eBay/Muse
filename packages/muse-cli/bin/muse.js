@@ -69,7 +69,7 @@ program
   });
 
 program
-  .command('show-config')
+  .command('view-config')
   .description('Show MUSE config')
   .action(() => {
     const filepath = muse.config?.filepath;
@@ -82,7 +82,7 @@ program
   });
 
 program
-  .command('show-data')
+  .command('view-data')
   .description('Show cached data from a cache key')
   .argument('<key>', 'data key')
   .action(async key => {
@@ -491,15 +491,6 @@ program
   });
 
 program
-  .command('test-batch')
-  .description('batch deploy')
-  .argument('<appName>', 'application name')
-  .action(async appName => {
-    await muse.pm.batchDeployPlugins({ appName });
-    console.log(chalk.cyan(`Bacth Deploy success.`));
-  });
-
-program
   .command('list-released-assets')
   .description('List released assets of a plugin version')
   .argument('<pluginName>', 'plugin name')
@@ -536,7 +527,8 @@ program
   .catch(err => {
     const timeEnd = Date.now();
     const timeSpan = (timeEnd - timeStart) / 1000;
-
-    console.error(err.stack || err.message);
+    // console.log(err);
+    console.error(err.message);
+    if (err.stack) console.error(err.stack || err.message);
     console.error(`Command failed in ${timeSpan}s.`);
   });

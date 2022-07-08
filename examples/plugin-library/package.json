@@ -26,7 +26,6 @@
     "@ant-design/charts": "^1.3.6",
     "@ebay/muse-lib-react": "workspace:^",
     "@craco/craco": "^6.4.3",
-    "@ebay/muse-react": "^1.0.24",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",

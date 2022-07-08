@@ -1,6 +1,4 @@
-const { match } = require('path-to-regexp');
 const _ = require('lodash');
-const plugin = require('js-plugin');
 const logger = require('../logger').createLogger('muse.data.builder');
 
 const builders = [];
@@ -9,14 +7,13 @@ const builder = {
   // refresh cache is only useful when there's cache provider
   // refreshCache: async (name) => {},
   get: async key => {
+    if (!key) throw Error('Builder.get need a key');
     for (const builder of builders) {
-      const m = builder.match(key);
-      if (m) {
-        return await builder.get(m.params);
-      } else {
-        logger.error(`No builder for key ${key}.`);
+      if (key === builder.key || builder.match?.(key)) {
+        return await builder.get(key);
       }
     }
+    logger.error(`No builder for key ${key}.`);
     return null;
   },
   /**
@@ -26,18 +23,14 @@ const builder = {
    * @param {string|array} keys - The changed keys in raw storage
    * @return {array} - The Muse data keys related with the raw storage keys.
    */
-  getMuseDataKeysByRawKeys: async (rawDataType, keys) => {
+  getMuseDataKeysByRawKeys: (rawDataType, keys) => {
     keys = _.castArray(keys);
-    return _.flatten(
-      builders
-        .map(b => {
-          if (b.getMuseDataKeysByRawKeys) {
-            return b.getMuseDataKeysByRawKeys(keys);
-          }
-          return null;
-        })
-        .filter(Boolean),
-    );
+    return _.chain(builders)
+      .map(b => b.getMuseDataKeysByRawKeys?.(rawDataType, keys))
+      .flatten()
+      .filter(Boolean)
+      .uniq()
+      .value();
   },
   register: builder => {
     // TODO: use json schema
@@ -46,29 +39,36 @@ const builder = {
     //   logger.error(err.message);
     //   throw err;
     // }
-    if (!builder.key) {
-      throw new Error(`Every builder should have a key: ${builder.name}.`);
+    if (!builder.key && !builder.match) {
+      throw new Error(`Every builder should have a key or match method: ${builder.name}.`);
     }
-    if (builder.key.includes('/')) {
-      throw new Error(`Cache builder key should not include '/'.`);
-    }
+    // if (builder.key.includes('/')) {
+    //   throw new Error(`Cache builder key should not include '/'.`);
+    // }
     // if (builders.some((b) => b.name === builder.name)) {
     //   const err = new Error(`Cache builder with name ${builder.name} already exsits.`);
     //   logger.error(err.message);
     //   throw err;
     // }
-    if (builders.some(b => b.key === builder.key)) {
-      throw new Error(`Cache builder with key ${builder.key} already exsits.`);
-    }
-    builders.push({
-      ...builder,
-      match: k => match(builder.key.replace(/\./g, '/'))(k.replace(/\./g, '/')),
-    });
+    // if (builders.some(b => b.key === builder.key)) {
+    //   throw new Error(`Cache builder with key ${builder.key} already exsits.`);
+    // }
+    builders.push(builder);
+    // {
+    //   ...builder,
+    //   match: k => match(builder.key.replace(/\./g, '/'))(k.replace(/\./g, '/')),
+    // });
   },
 };
 
 builder.register(require('./builders/muse.app'));
+builder.register(require('./builders/muse.app-by-url'));
+builder.register(require('./builders/muse.apps'));
+builder.register(require('./builders/muse.plugins'));
 builder.register(require('./builders/muse.requests'));
+builder.register(require('./builders/muse.plugin'));
+builder.register(require('./builders/muse.plugin-releases'));
+builder.register(require('./builders/muse.plugins.latest-releases'));
 _.flatten(_.invoke('museCore.data.getBuilders'))
   .filter(Boolean)
   .forEach(b => {
