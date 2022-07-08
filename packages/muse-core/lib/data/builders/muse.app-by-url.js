@@ -8,7 +8,7 @@ module.exports = {
     logger.verbose(`Getting muse.app-by-url...`);
     const apps = await getApps();
     return apps.reduce((p, app) => {
-      Object.entries(([envName, env]) => {
+      Object.entries(app.envs || {}).forEach(([envName, env]) => {
         if (env.url) {
           _.castArray(env.url)
             .filter(Boolean)
