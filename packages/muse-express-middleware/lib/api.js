@@ -29,6 +29,7 @@ const exposedApis = [
   'pm.updatePlugin',
   'data.get',
   'data.refreshCache',
+  'data.syncCache',
   'req.createRequest',
   'req.completeRequest',
   'req.deleteRequest',
@@ -83,7 +84,9 @@ module.exports = ({ basePath = '/api/v2' }) => {
         res,
       });
       const isGet = req.method.toLowerCase();
-      const args = isGet ? _.castArray(JSON.parse(decodeURIComponent(req.query.args))) : [req.body];
+      const args = isGet
+        ? _.castArray(JSON.parse(decodeURIComponent(req.query.args || '[]')))
+        : [req.body];
       // TODO: inject author info
       const result = { data: await _.invoke(muse, apiKey, ...args) };
       await muse.utils.asyncInvoke('museExpressMiddleware.api.after', {

@@ -28,5 +28,6 @@ module.exports = {
     ['../muse-ebay/plugins/nukvCachePlugin', { token: '$env.MUSE_NUKV_API_TOKEN' }],
     '../muse-ebay/plugins/requestBuildPlugin',
     '../muse-ebay/plugins/requestNpmPublishPlugin',
+    '../muse-ebay/plugins/syncMuseDataPlugin',
   ],
 };

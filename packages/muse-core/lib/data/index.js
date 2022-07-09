@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const plugin = require('js-plugin');
-const { asyncInvokeFirst, batchAsync, makeRetryAble } = require('../utils');
+const { asyncInvoke, asyncInvokeFirst, batchAsync, makeRetryAble } = require('../utils');
 const builder = require('./builder');
 const logger = require('../logger').createLogger('muse.data.index');
 
@@ -51,6 +51,11 @@ const refreshCache = async key => {
   plugin.invoke(`museCore.data.afterRefreshCache`, key);
 };
 
+const syncCache = async () => {
+  // allows plugins to provide logic to sync all cache to muse data cace
+  await asyncInvokeFirst('museCore.data.syncCache');
+};
+
 /**
  * @description
  *  Notify the Muse data engine that some keys in the storage have been changed
@@ -75,5 +80,6 @@ module.exports = {
   setCache,
   handleDataChange,
   refreshCache,
+  syncCache,
   builder,
 };
