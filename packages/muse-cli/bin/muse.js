@@ -97,11 +97,13 @@ program
 program
   .command('serve')
   .description('Serve a MUSE application environment')
-  .argument('<appName>', 'application name')
+  .argument('[appName]', 'application name')
   .argument('[envName]', 'environment name', 'staging')
   .argument('[port]', 'port', 6070)
-  .action((appName, envName, port) => {
-    require('@ebay/muse-simple-server/lib/server')({ appName, envName, port });
+  .option('--is-dev', 'Start the server to load dev bundles.')
+  .option('--by-url', 'Detect app by url.')
+  .action((appName, envName, port, options) => {
+    require('@ebay/muse-simple-server/lib/server')({ appName, envName, port, ...options });
   });
 
 program
