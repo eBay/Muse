@@ -37,7 +37,7 @@ const exposedApis = [
   'req.deleteStatus',
 ];
 
-module.exports = ({ basePath = '/api/v2' }) => {
+module.exports = ({ basePath = '/api/v2' } = {}) => {
   // Allow a plugin to provide api from RESTful service
   const apis = _.flatten(muse.plugin.invoke('museMiddleware.api.getApis'));
   exposedApis.push(...apis);
