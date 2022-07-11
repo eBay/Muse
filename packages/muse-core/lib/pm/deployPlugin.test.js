@@ -36,7 +36,6 @@ describe('Deploy plugin basic tests.', () => {
     });
     const p = await muse.pm.getDeployedPlugin(appName, envName, pluginName);
     expect(p).toMatchObject({ name: pluginName, version: '1.0.0', prop1: 'prop1', type: 'init' });
-
     expect(testJsPlugin.museCore.pm.deployPlugin).toBeCalledTimes(1);
     expect(testJsPlugin.museCore.pm.beforeDeployPlugin).toBeCalledTimes(1);
     expect(testJsPlugin.museCore.pm.afterDeployPlugin).toBeCalledTimes(1);

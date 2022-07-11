@@ -15,20 +15,6 @@ const logger = require('../logger').createLogger('muse.pm.batchDeployPlugins');
  * @module muse-core/pm/deployPlugin
  */
 
-/**
- * Compatible with single and multiple deployments
- * @param {object} params args to deploy a plugin
- * @param {string} params.appName the app name
- * @param {object} params.envMap the environmentMap
- * @param {string} params.envMap[].pluginName the plugin name
- * @param {string} params.envMap[].type the plugin name
- * @param {string} [params.envMap[].version] the plugin name
- * @param {object} [params.envMap[].options] the plugin name
- * @param {string} [author] default to the current os logged in user
- * @param {string} [msg] action message
- * @returns {object}
- */
-
 const getFileObj = async ({ appName, envName, type, pluginName, version, options }) => {
   // Check if plugin name exist
   const p = await getPlugin(pluginName);
@@ -61,9 +47,18 @@ const getAllFilesByEnv = async ({ appName, envName, deployments = [] }) => {
   const newDeployments = deployments?.map(d => ({ ...d, appName, envName }));
   return await Promise.all(newDeployments.map(getFileObj));
 };
+
 /**
- * Batch deployment
- * @param {*} params
+ * Compatible with single and multiple deployments
+ * @param {object} params args to deploy a plugin
+ * @param {string} params.appName the app name
+ * @param {object} params.envMap the environmentMap
+ * @param {string} params.envMap[].pluginName the plugin name
+ * @param {string} params.envMap[].type the plugin name
+ * @param {string} [params.envMap[].version] the plugin name
+ * @param {object} [params.envMap[].options] the plugin name
+ * @param {string} [author] default to the current os logged in user
+ * @param {string} [msg] action message
  * @returns {object}
  */
 module.exports = async params => {
