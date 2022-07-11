@@ -11,11 +11,11 @@ const logger = require('../logger').createLogger('muse.am.deleteEnv');
 
 /**
  *
- * @param {object} params args to create an env
- * @param {string} params.appName the app name
- * @param {string} params.envName the environment of app
- * @param {string} [params.author = osUsername] default to the current os logged in user
- * @returns {object} app
+ * @param {object} params Args to create an env.
+ * @param {string} params.appName The app name.
+ * @param {string} params.envName The environment of app.
+ * @param {string} [params.author = osUsername] Default to the current os logged in user.
+ * @returns {object} App.
  */
 module.exports = async params => {
   validate(schema, params);
