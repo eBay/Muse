@@ -1,33 +1,45 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "Deploy plugin params",
+  "title": "Deploy plugins params",
   "type": "object",
   "properties": {
     "appName": {
       "type": "string"
     },
-    "envName": {
-      "type": "string"
-    },
-    "pluginName": {
-      "type": "string"
-    },
-    "version": {
-      "pattern": ""
-    },
-    "changes": {
-      "type": ["null", "object"]
+    "envMap": {
+      "type": "object",
+      "patternProperties": {
+        "^S_": { "type": "array", "items": { "$ref": "#/$defs/deployment" } }
+      }
     },
     "author": {
       "type": "string"
-    },
-    "options": {
-      "type": "object"
     },
     "msg": {
       "type": "string"
     }
   },
-  "required": ["appName", "envName", "pluginName"],
-  "additionalProperties": false
+  "required": ["appName", "envMap"],
+  "additionalProperties": true,
+  "$defs": {
+    "deployment": {
+      "type": "object",
+      "properties": {
+        "pluginName": {
+          "type": "string"
+        },
+        "type": {
+          "enum": ["add", "remove"]
+        },
+        "version": {
+          "type": "string"
+        },
+        "options": {
+          "type": "object"
+        }
+      },
+      "required": ["pluginName", "type"],
+      "additionalProperties": true
+    }
+  }
 }

@@ -1,7 +1,6 @@
 const yaml = require('js-yaml');
 const { flatten } = require('lodash');
-const batchDeploySchema = require('../schemas/pm/batchDeployPlugin.json');
-const deploySchema = require('../schemas/pm/deployPlugin.json');
+const schema = require('../schemas/pm/deployPlugin.json');
 const { asyncInvoke, getPluginId, osUsername, validate } = require('../utils');
 const { registry } = require('../storage');
 const getPlugin = require('./getPlugin');
@@ -53,10 +52,11 @@ const getAllFilesByEnv = async ({ appName, envName, deployments = [] }) => {
  * @param {object} params args to deploy a plugin
  * @param {string} params.appName the app name
  * @param {object} params.envMap the environmentMap
- * @param {string} params.envMap[].pluginName the plugin name
- * @param {string} params.envMap[].type the plugin name
- * @param {string} [params.envMap[].version] the plugin name
- * @param {object} [params.envMap[].options] the plugin name
+ * @param {object[]} params.envMap.
+ * @param {string} params.envMap.[].pluginName the plugin name
+ * @param {string} params.envMap.[].type the plugin name
+ * @param {string} [params.envMap.[].version] the plugin name
+ * @param {object} [params.envMap.[].options] the plugin name
  * @param {string} [author] default to the current os logged in user
  * @param {string} [msg] action message
  * @returns {object}
@@ -68,14 +68,13 @@ module.exports = async params => {
   let envMap = params.envMap;
   if (envName && pluginName) {
     isBatchDeploy = false;
-    validate(deploySchema, params);
     version = await checkReleaseVersion({ pluginName, version: params.version });
     envMap = { ...envMap, [envName]: [{ pluginName, type: 'add', version, options }] };
+    params.envMap = envMap;
   } else {
     isBatchDeploy = true;
-    validate(batchDeploySchema, params);
   }
-
+  validate(schema, params);
   const ctx = {};
 
   logger.info(
