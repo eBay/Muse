@@ -21,15 +21,6 @@ module.exports = async (appName, envName) => {
 
   await asyncInvoke('museCore.pm.beforeGetDeployedPlugins', ctx, appName, envName);
 
-  const app = await getApp(appName);
-  if (!app) {
-    throw new Error(`App ${appName} doesn't exist.`);
-  }
-
-  if (!app.envs?.[envName]) {
-    throw new Error(`Env ${appName}/${envName} doesn't exist.`);
-  }
-
   try {
     const items = await registry.listWithContent(`/apps/${appName}/${envName}`);
     ctx.plugins = items.map(item => jsonByYamlBuff(item.content));
@@ -39,6 +30,6 @@ module.exports = async (appName, envName) => {
   }
 
   await asyncInvoke('museCore.pm.afterGetDeployedPlugins', ctx, appName, envName);
-  logger.verbose(`Getdeployed plugins success: @${appName}/${envName}`);
+  logger.verbose(`Get deployed plugins success: @${appName}/${envName}`);
   return ctx.plugins;
 };

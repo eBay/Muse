@@ -9,6 +9,7 @@ const archiver = require('archiver');
 const Ajv = require('ajv');
 
 const ajv = new Ajv({ strictTypes: false });
+const logger = require('./logger').createLogger('muse.utils');
 
 async function asyncInvoke(extPoint, ...args) {
   const noThrows = extPoint.endsWith('!');
@@ -74,29 +75,33 @@ function jsonByYamlBuff(b) {
   return jsYaml.load(Buffer.from(b).toString('utf8'));
 }
 
-async function batchAsync(tasks, size = 100, msg = 'Batch async') {
+async function batchAsync(tasks, { size = 100, msg = 'Batch async' } = {}) {
   const chunks = _.chunk(tasks, size);
   const res = [];
 
   for (let i = 0; i < chunks.length; i++) {
     const chunk = chunks[i];
-    // console.log(`${msg}: ${i * size + 1}~${Math.min(i * size + size, tasks.length)} of ${tasks.length}`);
+    logger.verbose(
+      `${msg}: ${i * size + 1}~${Math.min(i * size + size, tasks.length)} of ${tasks.length}`,
+    );
     const arr = await Promise.all(chunk.map(c => c()));
     res.push(...arr);
   }
   return res;
 }
 
-function makeRetryAble(executor, times = 3, checker = () => {}) {
+function makeRetryAble(executor, { times = 3, checker = () => {}, msg = '' } = {}) {
   // if checker returns something, it will break retry logic and return the result of checker
   return async (...args) => {
     let finalErr = null;
     for (let i = 0; i < times; i++) {
+      if (i > 0) logger.warn(`Retrying at time ${i}/${times - 1} for ${msg}`);
       try {
         return await executor(...args);
       } catch (err) {
         const c = checker && checker(err);
         if (c !== undefined) return c;
+        if (err.message) logger.warn(err.message);
         finalErr = err;
       }
     }

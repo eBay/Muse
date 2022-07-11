@@ -1,5 +1,7 @@
 const axios = require('axios');
 const logger = require('@ebay/muse-core').logger.createLogger('git-storage-plugin.GitClient');
+const museCore = require('@ebay/muse-core');
+const yaml = require('js-yaml');
 
 module.exports = class GitClient {
   constructor(options) {
@@ -33,16 +35,10 @@ module.exports = class GitClient {
     return this.committerId;
   }
 
+  /** Create or update file contents */
   async commitFile(params) {
     logger.silly(`Committing file: ${params.keyPath}`);
-    const {
-      branch = this.branch,
-      message,
-      keyPath,
-      value: content,
-      organizationName,
-      projectName,
-    } = params;
+    const { branch = this.branch, message, keyPath, value, organizationName, projectName } = params;
     const repo = `${organizationName}/${projectName}`;
     const authorId = params.author;
 
@@ -72,19 +68,115 @@ module.exports = class GitClient {
 
     const payload = {
       message,
-      content: (content && Buffer.from(content).toString('base64')) || undefined,
+      content: (value && Buffer.from(value).toString('base64')) || undefined,
       branch,
       committer,
       author,
       sha,
     };
-    if (content === null) {
-      // Delete file
-      await this.axiosGit.delete(`/repos/${repo}/contents${keyPath}`, { params: payload });
-    } else {
-      // Add or update file
-      await this.axiosGit.put(`/repos/${repo}/contents${keyPath}`, payload);
+    await this.axiosGit.put(`/repos/${repo}/contents${keyPath}`, payload);
+  }
+
+  async batchCommit(params) {
+    const {
+      organizationName,
+      projectName,
+      items = [],
+      branch = this.branch,
+      message,
+      author: authorId,
+    } = params;
+
+    const repo = `${organizationName}/${projectName}`;
+
+    logger.info(`Commiting files to ${repo}...`);
+    logger.info('Get branch info for head sha...');
+    const branchInfo = (await this.axiosGit.get(`/repos/${repo}/branches/${branch}`)).data;
+    let latestCommitSha = branchInfo.commit.sha;
+    const treeSha = branchInfo.commit.commit.tree.sha;
+
+    const committerId = await this.getCommitterId();
+
+    const committer = {
+      name: committerId,
+      email: `${committerId}@ebay.com`,
+      date: new Date().toISOString(),
+    };
+
+    const author = {
+      name: authorId,
+      email: `${authorId}@ebay.com`,
+      date: new Date().toISOString(),
+    };
+
+    // If multiple files are changed, need to create a commit to apply changes.
+    // Otherwise use file API for creation, update or deletion for better performance.
+    if (items.length > 1) {
+      logger.info('Getting commits tree data...');
+      const tree = items.map(({ keyPath, value }) => {
+        const obj = { path: keyPath.startsWith('/') ? keyPath.slice(1) : keyPath, mode: '100644' };
+        const content = museCore.utils.jsonByYamlBuff(value);
+        if (content === null) {
+          obj.sha = null;
+        } else {
+          obj.content = yaml.dump(content);
+        }
+        return obj;
+      });
+
+      // Create tree
+      logger.info('Creating the tree for the commit...');
+      let response = await this.axiosGit.post(`/repos/${repo}/git/trees`, {
+        base_tree: treeSha,
+        tree,
+      });
+
+      const newTreeSha = response.data.sha;
+      const params = {
+        message,
+        tree: newTreeSha,
+        parents: [latestCommitSha],
+        committer,
+        author,
+      };
+
+      logger.info('Creating commit...');
+      response = await this.axiosGit.post(`/repos/${repo}/git/commits`, params);
+      latestCommitSha = response.data.sha;
+
+      logger.info(`Updating branch ${branch} head...`);
+      await this.axiosGit.patch(`/repos/${repo}/git/refs/heads/${branch}`, {
+        sha: latestCommitSha,
+      });
+    } else if (items.length === 1) {
+      const { keyPath, value } = items[0];
+      const [, , appName, envName, pluginYaml] = keyPath.split('/');
+      const content = museCore.utils.jsonByYamlBuff(value);
+
+      if (content === null) {
+        await this.deleteFile({
+          organizationName,
+          projectName,
+          keyPath,
+          branch,
+          message: `Undeploy plugin ${pluginYaml.replace(
+            '.yaml',
+            '',
+          )} from ${appName}/${envName} by ${authorId}`,
+        });
+      } else {
+        await this.commitFile({
+          ...params,
+          keyPath: keyPath,
+          value,
+          message: `Deploy plugin ${pluginYaml.replace(
+            '.yaml',
+            '',
+          )} to ${appName}/${envName} by ${authorId}`,
+        });
+      }
     }
+    logger.info(`Batch Commit success.`);
   }
 
   async getRepoContent(params) {
@@ -101,9 +193,38 @@ module.exports = class GitClient {
     ).data;
   }
 
+  // Read a file content up to 1 megabyte in size
+  async getBigFile(params) {
+    const { organizationName, projectName, keyPath, branch = this.branch, decode = true } =
+      params || {};
+    const repo = `${organizationName}/${projectName}`;
+    const arr = keyPath.split('/');
+    const filename = arr.pop();
+    const parentPath = arr.join('/');
+    const folder = (await this.axiosGit.get(`/repos/${repo}/contents/${parentPath}?ref=${branch}`))
+      .data;
+    const fileSha = folder.find(file => file.name === filename)?.sha;
+    const blob = (await this.axiosGit.get(`/repos/${repo}/git/blobs/${fileSha}`)).data;
+    return decode ? Buffer.from(blob.content, 'base64').toString() : blob.content;
+  }
+
+  /** Deletes a file in a repository. */
   async deleteFile(params) {
     logger.silly(`Delete file: ${params.keyPath}`);
-    const { organizationName, projectName, keyPath, branch = this.branch, file, message } = params;
+    const { organizationName, projectName, keyPath, branch = this.branch, message } = params;
+
+    let file;
+    try {
+      file = await this.getRepoContent({
+        organizationName,
+        projectName,
+        branch,
+        keyPath,
+      });
+    } catch (err) {
+      throw new Error(`${keyPath} not exist in repo ${organizationName}/${projectName}`);
+    }
+
     const repo = `${organizationName}/${projectName}`;
     const authorId = params.author;
     const committerId = await this.getCommitterId();

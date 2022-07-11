@@ -21,15 +21,17 @@ module.exports = async params => {
       items
         .filter(item => item.type === 'dir')
         .map(item => async () => {
-          console.log(item);
-          item.content = await makeRetryAble(async (...args) => registry.get(...args))(
-            `/apps/${item.name}/${item.name}.yaml`,
-          );
+          item.content = await makeRetryAble(async (...args) => registry.get(...args), {
+            times: 5,
+            msg: `Getting app ${item.name}...`,
+          })(`/apps/${item.name}/${item.name}.yaml`);
         }),
-      100, // TODO: make it configurable
+      {
+        size: 100, // TODO: make it configurable
+        msg: 'Getting app yaml',
+      },
     );
-
-    ctx.apps = items.map(item => jsonByYamlBuff(item.content));
+    ctx.apps = items.map(item => jsonByYamlBuff(item.content)).filter(Boolean);
     await asyncInvoke('museCore.am.getApps', ctx, params);
   } catch (err) {
     ctx.error = err;

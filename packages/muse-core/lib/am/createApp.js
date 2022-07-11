@@ -9,11 +9,11 @@ const logger = require('../logger').createLogger('muse.am.createApp');
  */
 
 /**
- * @description Create app in the Muse registry.
- * A app is <registry-storage>/apps/<app-name>.yaml
- * @param {object} params Args to create an app.
+ * @description Create an application in the Muse registry.
+ * A app is [registry-storage]/apps/[app-name].yaml
+ * @param {object} params The arguments to create an app.
  * @param {string} params.appName The app name.
- * @param {string} [params.author=osUsername] Default to the current os logged in user.
+ * @param {string} [params.author=osUsername] The author who performs the action, default to the current os logged in user.
  */
 module.exports = async (params = {}) => {
   validate(schema, params);
