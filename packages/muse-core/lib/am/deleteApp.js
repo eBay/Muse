@@ -8,9 +8,9 @@ const logger = require('../logger').createLogger('muse.am.deleteApp');
 
 /**
  *
- * @param {object} params args to delete an app
- * @param {string} params.appName the app name
- * @param {string} [params.author=osUsername] default to the current os logged in user
+ * @param {object} params Args to delete an app.
+ * @param {string} params.appName The app name.
+ * @param {string} [params.author=osUsername] Default to the current os logged in user.
  *
  */
 module.exports = async (params = {}) => {

@@ -7,9 +7,9 @@ const logger = require('../logger').createLogger('muse.am.getApps');
  */
 
 /**
- * @description get metadata of all apps
- * @param {*} [params] args to get all apps
- * @returns {object[]} list of app object
+ * @description Get metadata of all apps.
+ * @param {*} [params] Args to get all apps.
+ * @returns {object[]} List of app object.
  */
 module.exports = async params => {
   const ctx = {};

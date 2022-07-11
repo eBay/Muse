@@ -7,16 +7,12 @@ const pm = require('../pm');
  * @module muse-core/req/completeRequest
  */
 /**
- * @typedef {object} CompleteRequestArgument
- * @property {string} requestId the request Id
- * @property {string} [author] default to the current os logged in user
- * @property {string} [msg] action message
- */
-
-/**
- * @description Merge a request
- * @param {CompleteRequestArgument} params args to merge a request
- * @returns {request} request object
+ * @description Merge a request.
+ * @param {object} params Args to merge a request.
+ * @param {string} params.requestId The request Id.
+ * @param {string} [params.author] Default to the current os logged in user.
+ * @param {string} [params.msg] Action message.
+ * @returns {request} Request object.
  */
 module.exports = async ({ requestId, msg, author = osUsername }) => {
   const ctx = {};

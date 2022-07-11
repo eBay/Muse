@@ -1,4 +1,4 @@
-const { asyncInvoke, updateJson, osUsername , validate } = require('../utils');
+const { asyncInvoke, updateJson, osUsername, validate } = require('../utils');
 const { registry } = require('../storage');
 const getApp = require('./getApp');
 const schema = require('../schemas/am/updateApp.json');
@@ -9,23 +9,18 @@ const logger = require('../logger').createLogger('muse.am.updateApp');
  */
 
 /**
- * @typedef {object} UpdateAppArgument
- * @property {string} appName the app name
- * @property {object} [changes]
- * @property {null | object | object[]} [changes.set]
- * @property {null | object | object[]} [changes.unset]
- * @property {null | object | object[]} [changes.remove]
- * @property {null | object | object[]} [changes.push]
- * @property {string} author default to the current os logged in user
- * @property {string} msg action messsage
+ * @param {object} params Args to update an app.
+ * @param {string} params.appName The app name.
+ * @param {object} [params.changes]
+ * @param {null | object | object[]} [params.changes.set]
+ * @param {null | object | object[]} [params.changes.unset]
+ * @param {null | object | object[]} [params.changes.remove]
+ * @param {null | object | object[]} [params.changes.push]
+ * @param {string} params.author Default to the current os logged in user.
+ * @param {string} params.msg Action messsage.
+ * @returns {object} App object.
  */
-
-/**
- *
- * @param {UpdateAppArgument} params args to update an app
- * @returns {object} app object
- */
-module.exports = async (params) => {
+module.exports = async params => {
   validate(schema, params);
   const { appName, changes, author = osUsername, msg } = params;
   logger.info(`Updating app ${appName}...`);
