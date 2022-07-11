@@ -37,9 +37,12 @@ module.exports = () => {
       pm: {
         beforeDeployPlugin: async function() {
           const [, params] = arguments;
-          const admins = await getAdminMembers(params);
-          const appOwners = await getAppMembers(params);
-          const pluginOwners = await getPluginMembers(params);
+          const [admins, appOwners, pluginOwners] = await Promise.all(
+            getAdminMembers(params),
+            getAppMembers(params),
+            getPluginMembers(params),
+          );
+
           const defaultAuthorizedRoles = {
             admin: isMember(params.author, admins),
             appOwner: isMember(params.author, appOwners),
@@ -58,8 +61,10 @@ module.exports = () => {
 
         deletePlugin: async function(...args) {
           const [, params] = arguments;
-          const admins = await getAdminMembers(params);
-          const pluginOwners = await getPluginMembers(params);
+          const [admins, pluginOwners] = await Promise.all(
+            getAdminMembers(params),
+            getPluginMembers(params),
+          );
           const defaultAuthorizedRoles = {
             admin: isMember(params.author, admins),
             pluginOwner: isMember(params.author, pluginOwners),
