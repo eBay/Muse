@@ -1,4 +1,4 @@
-const { asyncInvoke, getPluginId, updateJson, osUsername , validate } = require('../utils');
+const { asyncInvoke, getPluginId, updateJson, osUsername, validate } = require('../utils');
 const getPlugin = require('./getPlugin');
 const { registry } = require('../storage');
 const schema = require('../schemas/pm/updatePlugin.json');
@@ -7,24 +7,21 @@ const logger = require('../logger').createLogger('muse.pm.updatePlugin');
 /**
  * @module muse-core/pm/updatePlugin
  */
-/**
- * @typedef {object} UpdatePluginArgument
- * @property {string} pluginName the plugin name
- * @property {string} [appName] the app name
- * @property {string} [envName] the environment name
- * @property {object} [changes] the changes to apply
- * @property {null | object | object[]} [changes.set]
- * @property {null | object | object[]} [changes.unset]
- * @property {null | object | object[]} [changes.remove]
- * @property {null | object | object[]} [changes.push]
- * @property {string} [author] default to the current os logged in user
- * @property {string} [msg] action message
- */
 
 /**
  *
- * @param {UpdatePluginArgument} params args to update a plugin
- * @returns {object} plugin object
+ * @param {object} params Args to update a plugin.
+ * @param {string} params.pluginName The plugin name.
+ * @param {string} [params.appName] The app name.
+ * @param {string} [params.envName] The environment name.
+ * @param {object} [params.changes] The changes to apply.
+ * @param {null | object | object[]} [params.changes.set]
+ * @param {null | object | object[]} [params.changes.unset]
+ * @param {null | object | object[]} [params.changes.remove]
+ * @param {null | object | object[]} [params.changes.push]
+ * @param {string} [params.author] Default to the current os logged in user.
+ * @param {string} [params.msg] Action message.
+ * @returns {object} Plugin object.
  */
 module.exports = async params => {
   const updateRegistryKey = async ({ ctx, keyPath, params }) => {

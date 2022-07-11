@@ -4,18 +4,15 @@ const { registry } = require('../storage');
 /**
  * @module muse-core/req/createRequest
  */
-/**
- * @typedef {object} CreateRequestArgument
- * @property {string} type the request type
- * @property {object} payload the request payload
- * @property {string} options
- * @property {string} [author] default to the current os logged in user
- * @property {string} [msg] action message
- */
 
 /**
- * @description Create a request
- * @param {CreateRequestArgument} params args to release a plugin
+ * @description Create a request.
+ * @param {object} params Args to release a plugin.
+ * @param {string} params.type The request type.
+ * @param {object} params.payload The request payload.
+ * @param {string} params.options
+ * @param {string} [params.author] Default to the current os logged in user.
+ * @param {string} [params.msg] Action message.
  * @returns {request}
  * @property {string} id `${type}-${Date.now()}`
  * @property {string} type

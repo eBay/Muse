@@ -4,19 +4,16 @@ const { registry } = require('../storage');
 /**
  * @module muse-core/req/deleteRequest
  */
-/**
- * @typedef {object} DeleteRequestArgument
- * @property {string} requestId the request id
- * @property {string} [author] default to the current os logged in user
- * @property {string} [msg] action message
- */
 
 /**
- * @description Create a request
- * @param {DeleteRequestArgument} params args to release a plugin
+ * @description Create a request.
+ * @param {object} params Args to release a plugin.
+ * @param {string} params.requestId The request id.
+ * @param {string} [params.author] Default to the current os logged in user.
+ * @param {string} [params.msg] Action message.
  * @returns {request} request object
  */
-module.exports = async (params) => {
+module.exports = async params => {
   const ctx = {};
   const { requestId, author = osUsername, msg } = params;
   if (!requestId) throw new Error(`requestId is required.`);
