@@ -36,6 +36,4 @@ module.exports = {
   unregisterRelease: require('./unregisterRelease'),
   /** @member {function} getReleaseAssets */
   getReleaseAssets: require('./getReleaseAssets'),
-  /** @member {function} deployPlugins */
-  batchDeployPlugins: require('./batchDeployPlugins'),
 };
