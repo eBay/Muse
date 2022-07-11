@@ -59,18 +59,18 @@ module.exports = ({
   if (!appName && !envName && !byUrl) {
     throw new Error('appName/envName or byUrl should be set.');
   }
-  return async (req, res) => {
+  return async (req, res, next) => {
     if (byUrl) {
       const appInfo = await getAppInfoByUrl(req);
       logger.info(`App info by url: ${JSON.stringify(appInfo)}`);
 
       if (!appInfo) {
-        res.statusCode = 400;
-        res.write(
-          `Error: unable to detect Muse app by: ${req.get('host') + (req.originalUrl || '/')}`,
-        );
-        res.end();
-        return;
+        // res.statusCode = 400;
+        // res.write(
+        //   `Error: unable to detect Muse app by: ${req.get('host') + (req.originalUrl || '/')}`,
+        // );
+        // res.end();
+        return next();
       }
       appName = appInfo.appName;
       envName = appInfo.envName;

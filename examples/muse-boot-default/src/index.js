@@ -1,11 +1,15 @@
 // boot plugin is used to load other plugins based on the app config
 import museModules from '@ebay/muse-modules';
+import loading from './loading';
 import { loadInParallel, getPluginId } from './utils';
+import './style.css';
 
 async function start() {
+  loading.showMessage('Starting...');
   if (!window.MUSE_GLOBAL) {
     window.MUSE_GLOBAL = {};
   }
+  window.MUSE_GLOBAL.loading = loading;
   const waitForLoaders = [];
   Object.assign(window.MUSE_GLOBAL, {
     appEntries: [], // entries to start the app
@@ -31,9 +35,8 @@ async function start() {
     appEntries,
     isDev = false,
   } = window.MUSE_GLOBAL;
-
-  // TODO: remove below two lines after migrate old Muse plugins inside eBay
   window.MUSE_CONFIG = window.MUSE_GLOBAL;
+  // TODO: remove below two lines after migrate old Muse plugins inside eBay
   window.MUSE_GLOBAL.getUser = () => ({});
 
   // Print app plugins in dev console
@@ -41,6 +44,7 @@ async function start() {
   if (!bootPlugin) {
     throw new Error('Boot plugin not found.');
   }
+
   console.log(`Loading Muse app by ${bootPlugin.name}@${bootPlugin.version || bootPlugin.url}...`);
   console.log(`Plugins(${plugins.length}):`);
   plugins.forEach(p => console.log(`  * ${p.name}@${p.version || p.url}`));
@@ -55,13 +59,16 @@ async function start() {
     );
 
   // Load init plugins
-  await loadInParallel(initPluginUrls);
+  loading.showMessage(`Loading init plugins 1/${initPluginUrls.length}...`);
+  await loadInParallel(initPluginUrls, loadedCount =>
+    loading.showMessage(`Loading init plugins ${loadedCount}/${pluginUrls.length}...`),
+  );
 
   // Exec init entries
   console.log('Execution init entries...');
   for (const initEntry of initEntries) {
     // Allow an init entry to break the start of the app
-    if (initEntry.func() === false) return;
+    if ((await initEntry.func()) === false) return;
   }
 
   // Load plugins bundles
@@ -73,13 +80,18 @@ async function start() {
     );
 
   // Load plugin bundles
-  await loadInParallel(pluginUrls);
+  loading.showMessage(`Loading plugins 1/${pluginUrls.length}...`);
+  await loadInParallel(pluginUrls, loadedCount =>
+    loading.showMessage(`Loading plugins ${loadedCount}/${pluginUrls.length}...`),
+  );
 
   // Exec plugin entries
   console.log('Execution plugin entries...');
   pluginEntries.forEach(entry => entry.func());
 
   // Wait for loader
+  loading.showMessage(`Custom initializing...`);
+
   for (const loader of waitForLoaders) {
     // Usually a plugin waitFor a promise so that it doesn't need to wait for all plugins loaded before executing
     if (loader.then) await loader;
@@ -90,14 +102,19 @@ async function start() {
   // Start the application
   const entryApp = appEntries.find(e => e.name === entry);
   console.log(`Starting the app from ${entry}...`);
+  loading.showMessage(`Starting...`);
   await entryApp.func();
+  loading.hide();
 }
 
-start()
-  .then(() => {
-    console.log(`Muse app started.`);
-  })
-  .catch(err => {
-    console.log('Failed to start app.');
-    console.error(err);
-  });
+loading.init();
+setTimeout(() => {
+  start()
+    .then(() => {
+      console.log(`Muse app started.`);
+    })
+    .catch(err => {
+      console.log('Failed to start app.');
+      console.error(err);
+    });
+}, 50);
