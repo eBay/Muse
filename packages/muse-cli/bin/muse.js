@@ -69,7 +69,7 @@ program
   });
 
 program
-  .command('show-config')
+  .command('view-config')
   .description('Show MUSE config')
   .action(() => {
     const filepath = muse.config?.filepath;
@@ -82,7 +82,7 @@ program
   });
 
 program
-  .command('show-data')
+  .command('view-data')
   .description('Show cached data from a cache key')
   .argument('<key>', 'data key')
   .action(async key => {
@@ -97,11 +97,13 @@ program
 program
   .command('serve')
   .description('Serve a MUSE application environment')
-  .argument('<appName>', 'application name')
+  .argument('[appName]', 'application name')
   .argument('[envName]', 'environment name', 'staging')
   .argument('[port]', 'port', 6070)
-  .action((appName, envName, port) => {
-    require('@ebay/muse-simple-server/lib/server')({ appName, envName, port });
+  .option('--is-dev', 'Start the server to load dev bundles.')
+  .option('--by-url', 'Detect app by url.')
+  .action((appName, envName, port, options) => {
+    require('@ebay/muse-simple-server/lib/server')({ appName, envName, port, ...options });
   });
 
 program
@@ -527,7 +529,8 @@ program
   .catch(err => {
     const timeEnd = Date.now();
     const timeSpan = (timeEnd - timeStart) / 1000;
-
-    console.error(err.stack || err.message);
+    // console.log(err);
+    console.error(err.message);
+    if (err.stack) console.error(err.stack || err.message);
     console.error(`Command failed in ${timeSpan}s.`);
   });

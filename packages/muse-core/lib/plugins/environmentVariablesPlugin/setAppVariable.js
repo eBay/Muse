@@ -1,6 +1,6 @@
 const getApp = require('../../am/getApp');
 const updateApp = require('../../am/updateApp');
-const { osUsername , validate } = require('../../utils');
+const { osUsername, validate } = require('../../utils');
 const schema = require('../../schemas/plugins/environmentVariablesPlugin/setAppVariable.json');
 const logger = require('../../logger').createLogger('muse.am.setAppVariable');
 
@@ -9,17 +9,12 @@ const logger = require('../../logger').createLogger('muse.am.setAppVariable');
  */
 
 /**
- * @typedef {object} SetAppVariableArgument
- * @property {string} appName the app name
- * @property {array} variables the variables of app to be upsert. Each array element is an object { name: 'var. name', value: 'var. value'}
- * @property {array} envNames the environments of app
- * @property {string} [author=osUsername] default to the current os logged in user
- */
-
-/**
- *
- * @param {SetAppVariableArgument} params args to upsert variables from apps
- * @returns {object} app
+ * @param {object} params Args to upsert variables from apps.
+ * @param {string} params.appName The app name.
+ * @param {array} params.variables The variables of app to be upsert. Each array element is an object { name: 'var. name', value: 'var. value'}.
+ * @param {array} params.envNames The environments of app.
+ * @param {string} [params.author=osUsername] Default to the current os logged in user.
+ * @returns {object} App.
  */
 module.exports = async params => {
   validate(schema, params);

@@ -1,6 +1,6 @@
 const path = require('path');
 const fs = require('fs-extra');
-
+const { jsonByYamlBuff } = require('../utils');
 /**
  * @class
  */
@@ -37,6 +37,20 @@ class FileStorage {
     const absPath = this.mapPath(keyPath);
     await fs.ensureDir(path.dirname(absPath));
     await fs.promises.writeFile(absPath, value);
+  }
+
+  async batchSet(items, msg) {
+    const setFile = async ({ keyPath, value }) => {
+      const content = jsonByYamlBuff(value);
+      if (content) {
+        // add
+        await this.set(keyPath, value);
+      } else {
+        // remove
+        await this.del(keyPath);
+      }
+    };
+    await Promise.all(items.map(item => setFile(item)));
   }
 
   /**

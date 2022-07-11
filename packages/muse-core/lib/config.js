@@ -48,10 +48,11 @@ if (config.provider) {
 }
 
 // parse $env.ENV_VAR to the real value from process.env.ENV_VAR
-const parsePropEnvs = (obj) => {
-  Object.keys(obj).forEach((p) => {
+const parsePropEnvs = obj => {
+  // While using Object.keys it includes array
+  Object.keys(obj).forEach(p => {
     const v = obj[p];
-    if (_.isObject(v)) parsePropEnvs(v);
+    if (_.isObject(v) || _.isArray(v)) parsePropEnvs(v);
     else if (_.isString(v)) {
       if (v.startsWith('$env.')) {
         obj[p] = process.env[v.replace('$env.', '')];
@@ -62,6 +63,6 @@ const parsePropEnvs = (obj) => {
 
 parsePropEnvs(config);
 
-config.get = (prop) => _.get(config, prop);
+config.get = prop => _.get(config, prop);
 config.filepath = cosmicResult?.filepath;
 module.exports = config;

@@ -1,18 +1,20 @@
 // Delete app in the Muse registry.
 // A plugin is <registry-storage>/apps/<app-name>.yaml
 
-const { asyncInvoke, osUsername } = require('../utils');
+const { asyncInvoke, osUsername, validate } = require('../utils');
 const { registry } = require('../storage');
+const schema = require('../schemas/am/deleteApp.json');
 const logger = require('../logger').createLogger('muse.am.deleteApp');
 
 /**
  *
- * @param {object} params args to delete an app
- * @param {string} params.appName the app name
- * @param {string} [params.author=osUsername] default to the current os logged in user
+ * @param {object} params Args to delete an app.
+ * @param {string} params.appName The app name.
+ * @param {string} [params.author=osUsername] Default to the current os logged in user.
  *
  */
 module.exports = async (params = {}) => {
+  validate(schema, params);
   const ctx = {};
   logger.info(`Deleting app ${params.appName}...`);
   await asyncInvoke('museCore.am.beforeDeleteApp', ctx, params);

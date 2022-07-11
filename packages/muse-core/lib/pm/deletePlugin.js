@@ -1,23 +1,19 @@
-const { asyncInvoke, getPluginId, osUsername, validate  } = require('../utils');
+const { asyncInvoke, getPluginId, osUsername, validate } = require('../utils');
 const { registry } = require('../storage');
 const schema = require('../schemas/pm/deletePlugin.json');
 const logger = require('../logger').createLogger('muse.pm.deletePlugin');
 /**
  * @module muse-core/pm/deletePlugin
  */
-/**
- * @typedef {object} DeletePluginArgument
- * @property {string} pluginName the plugin name
- * @property {string} [author] default to the current os logged in user
- * @property {string} [msg] action message
- */
 
 /**
- *
- * @param {DeletePluginArgument} params args to delete a plugin
+ * @param {object} params Args to delete a plugin.
+ * @param {string} params.pluginName The plugin name.
+ * @param {string} [params.author] Default to the current os logged in user.
+ * @param {string} [params.msg] Action message.
  */
 
-module.exports = async (params) => {
+module.exports = async params => {
   validate(schema, params);
   const ctx = {};
   const { pluginName, author = osUsername, msg } = params;
