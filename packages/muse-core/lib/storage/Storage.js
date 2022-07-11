@@ -49,13 +49,13 @@ class Storage extends EventEmitter {
     return processor ? processor(value) : value;
   }
   async getJson(path) {
-    return await this.get(path, (value) => JSON.parse(value.toString()));
+    return await this.get(path, value => JSON.parse(value.toString()));
   }
   async getJsonByYaml(path) {
-    return await this.get(path, (value) => yaml.load(value.toString()));
+    return await this.get(path, value => yaml.load(value.toString()));
   }
   async getString(path) {
-    return await this.get(path, (value) => value.toString());
+    return await this.get(path, value => value.toString());
   }
   async set(path, value, msg) {
     await wrappedAsyncInvoke(this.extPath, 'set', path, value, msg);
@@ -99,15 +99,18 @@ class Storage extends EventEmitter {
   async listWithContent(keyPath) {
     const ctx = {};
     await asyncInvoke(getExtPoint(this.extPath, 'beforeListWithContent'), ctx);
-    ctx.items = (await this.list(keyPath)).filter((item) => item.type === 'file');
+    ctx.items = (await this.list(keyPath)).filter(item => item.type === 'file');
 
     await batchAsync(
-      ctx.items.map((item) => async () => {
+      ctx.items.map(item => async () => {
         item.content = await makeRetryAble(async (...args) => this.get(...args))(
           keyPath + '/' + item.name,
         );
       }),
-      100, // TODO: make it configurable
+      {
+        size: 100, // TODO: make it configurable
+        msg: `list files under ${keyPath}`,
+      },
     );
     await asyncInvoke(getExtPoint(this.extPath, 'afterListWithContent'), ctx);
     return ctx.items;
@@ -120,15 +123,17 @@ class Storage extends EventEmitter {
     const files = await getFilesRecursively(fromDir);
     ctx.files = files;
     await batchAsync(
-      files.map((f) => async () => {
+      files.map(f => async () => {
         const buff = await fs.readFile(f);
         await makeRetryAble(async (...args) => this.set(...args))(
           toPath + f.replace(fromDir, ''),
           buff,
         );
       }),
-      100, // TODO: make it configurable
-      `Batch upload files from ${fromDir}`,
+      {
+        size: 100, // TODO: make it configurable
+        msg: `Batch upload files from ${fromDir}`,
+      },
     );
     await asyncInvoke(getExtPoint(this.extPath, 'afterUploadDir'), ctx, toPath, fromDir, msg);
   }

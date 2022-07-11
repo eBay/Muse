@@ -21,7 +21,7 @@ describe('initializer basic tests.', () => {
     const registryGet = await muse.storage.registry.getString('foo');
     const assetsGet = await muse.storage.assets.getString('foo');
     expect(registryGet).toEqual('dummy get registry');
-    expect(assetsGet).toEqual('dummy get assets');
+    expect(assetsGet).toEqual('bar');
   });
 
   it('It throws error if plugin  not found', async () => {
@@ -46,7 +46,7 @@ describe('initializer basic tests.', () => {
     jest.mock(
       'test-muse-preset',
       () => {
-        return ['test-plugin-1', ['test-plugin-2', { foo: 'bar' }]];
+        return ['test-plugin-1', { plugin: 'test-plugin-2', name: 'test-plugin-2' }];
       },
       { virtual: true },
     );
@@ -55,14 +55,14 @@ describe('initializer basic tests.', () => {
     fs.writeFileSync(
       path.join(process.cwd(), 'muse.config.yaml'),
       yaml.dump({
-        presets: 'test-muse-preset',
+        presets: [['test-muse-preset', { 'test-plugin-2': { foo: 'foo2' } }]],
       }),
     );
     const muse = require('./');
     const registryGet = await muse.storage.registry.getString('foo');
     const assetsGet = await muse.storage.assets.getString('foo');
     expect(registryGet).toEqual('dummy get registry');
-    expect(assetsGet).toEqual('dummy get assets');
+    expect(assetsGet).toEqual('foo2');
   });
 
   it('It handles presets as an array', async () => {
@@ -71,7 +71,10 @@ describe('initializer basic tests.', () => {
     jest.mock(
       'test-muse-preset',
       () => {
-        return ['test-plugin-1', ['test-plugin-2', { foo: 'bar' }]];
+        return [
+          'test-plugin-1',
+          { plugin: 'test-plugin-2', name: 'test-plugin-2', args: { foo: 'barbar' } },
+        ];
       },
       { virtual: true },
     );
@@ -87,6 +90,6 @@ describe('initializer basic tests.', () => {
     const registryGet = await muse.storage.registry.getString('foo');
     const assetsGet = await muse.storage.assets.getString('foo');
     expect(registryGet).toEqual('dummy get registry');
-    expect(assetsGet).toEqual('dummy get assets');
+    expect(assetsGet).toEqual('barbar');
   });
 });

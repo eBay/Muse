@@ -1,5 +1,11 @@
 # @ebay/muse-scripts-react
 
+## 1.0.2
+
+### Patch Changes
+
+- Dev testing.
+
 ## 1.0.1
 
 ### Patch Changes
