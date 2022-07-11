@@ -31,8 +31,7 @@ module.exports = async params => {
         msg: 'Getting app yaml',
       },
     );
-
-    ctx.apps = items.map(item => jsonByYamlBuff(item.content));
+    ctx.apps = items.map(item => jsonByYamlBuff(item.content)).filter(Boolean);
     await asyncInvoke('museCore.am.getApps', ctx, params);
   } catch (err) {
     ctx.error = err;

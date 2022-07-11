@@ -56,6 +56,16 @@ class GitStorage {
     });
   }
 
+  async batchSet(items, msg) {
+    return await this.gitClient.batchCommit({
+      organizationName: this.organizationName,
+      projectName: this.projectName,
+      items,
+      message: msg,
+      author: this.author,
+    });
+  }
+
   /**
    *
    * @param {String} keyPath
@@ -83,20 +93,10 @@ class GitStorage {
 
   async del(keyPath, msg) {
     logger.verbose(`Delete value: ${keyPath}`);
-    const file = await this.gitClient.getRepoContent({
-      organizationName: this.organizationName,
-      projectName: this.projectName,
-      keyPath,
-    });
-    if (!file) {
-      logger.warn(`${keyPath} does not exist.`);
-      return;
-    }
     return await this.gitClient.deleteFile({
       organizationName: this.organizationName,
       projectName: this.projectName,
       keyPath,
-      file,
       message: msg,
     });
   }

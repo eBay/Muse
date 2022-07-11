@@ -58,6 +58,10 @@ class S3Storage {
     await this.s3Client.putObject(this.bucketName, this.basePath + key, readStream);
   }
 
+  async batchSet(items, msg) {
+    await Promise.all(items.map(async item => await this.set(item.keyPath, item.value)));
+  }
+
   async delDir(key) {
     logger.verbose(`Deleting folder: ${key}...`);
     const objectsList = await this.listBucketFolder(key);
