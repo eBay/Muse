@@ -10,7 +10,7 @@
     }
   },
   "dependencies": {
-    "@craco/craco": "^6.4.3",
+    "@craco/craco": "^6.4.4",
     "@ebay/muse-lib-react": "workspace:^",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
