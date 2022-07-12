@@ -23,7 +23,7 @@ module.exports = async ({ cracoConfig }) => {
     if (isDev) {
       // At dev time, should exclude local lib plugins
       const localPlugins = utils.getLocalPlugins();
-      museLibs = museLibs.filter((libName) => !localPlugins.find((p) => p.name === libName));
+      museLibs = museLibs.filter(libName => !localPlugins.find(p => p.name === libName));
     }
 
     // main webpack plugin for compiling the current muse plugin called from CLI (as a Dll bundle)
@@ -43,6 +43,7 @@ module.exports = async ({ cracoConfig }) => {
         new MuseReferencePlugin({
           isDevBuild,
           museLibs,
+          museConfig,
         }),
         'prepend',
       ]);

@@ -13,7 +13,21 @@ class MuseDelegatedModuleFactoryPlugin {
   }
 
   apply(normalModuleFactory) {
-    normalModuleFactory.hooks.module.tap('MuseDelegatedModuleFactoryPlugin', (module) => {
+    normalModuleFactory.hooks.module.tap('MuseDelegatedModuleFactoryPlugin', module => {
+      const mergedContent = this.options.mergedContent;
+
+      // if this plugin defines a "customLibs" section on the museConfig,
+      // we have to exclude those libs from the DelegatedModule definition (return the module directly)
+      const customLibs = this.options.museConfig?.customLibs;
+      for (const customLib of customLibs) {
+        for (const keyToRemove of Object.keys(mergedContent).filter(key => {
+          const regex = new RegExp(`^${customLib}@`);
+          return regex.test(key);
+        })) {
+          delete mergedContent[keyToRemove];
+        }
+      }
+
       const rrd = module.resourceResolveData;
       const dfd = rrd?.descriptionFileData;
       if (!dfd || !dfd.name || !dfd.version) {
@@ -24,7 +38,7 @@ class MuseDelegatedModuleFactoryPlugin {
       const relPath = rrd?.relativePath?.replace('./', '');
       const museModuleId = `${dfd.name}@${dfd.version}/${relPath}`;
       const closestSemanticModule = findMuseModule(museModuleId, {
-        modules: this.options.mergedContent,
+        modules: mergedContent,
       });
       if (closestSemanticModule) {
         // we build a reference to the module as a DelegatedModule, using the closest semantic module found
