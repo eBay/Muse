@@ -61,7 +61,7 @@ async function start() {
   // Load init plugins
   loading.showMessage(`Loading init plugins 1/${initPluginUrls.length}...`);
   await loadInParallel(initPluginUrls, loadedCount =>
-    loading.showMessage(`Loading init plugins ${loadedCount}/${pluginUrls.length}...`),
+    loading.showMessage(`Loading init plugins ${loadedCount}/${initPluginUrls.length}...`),
   );
 
   // Exec init entries
