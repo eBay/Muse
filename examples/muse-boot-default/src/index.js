@@ -61,7 +61,11 @@ async function start() {
   // Load init plugins
   loading.showMessage(`Loading init plugins 1/${initPluginUrls.length}...`);
   await loadInParallel(initPluginUrls, loadedCount =>
-    loading.showMessage(`Loading init plugins ${loadedCount}/${initPluginUrls.length}...`),
+    loading.showMessage(
+      `Loading init plugins ${Math.min(loadedCount + 1, initPluginUrls.length)}/${
+        initPluginUrls.length
+      }...`,
+    ),
   );
 
   // Exec init entries
@@ -82,7 +86,9 @@ async function start() {
   // Load plugin bundles
   loading.showMessage(`Loading plugins 1/${pluginUrls.length}...`);
   await loadInParallel(pluginUrls, loadedCount =>
-    loading.showMessage(`Loading plugins ${loadedCount}/${pluginUrls.length}...`),
+    loading.showMessage(
+      `Loading plugins ${Math.min(loadedCount + 1, pluginUrls.length)}/${pluginUrls.length}...`,
+    ),
   );
 
   // Exec plugin entries
@@ -90,14 +96,21 @@ async function start() {
   pluginEntries.forEach(entry => entry.func());
 
   // Wait for loader
-  loading.showMessage(`Custom initializing...`);
+  loading.showMessage(`Custom loaders 1/${waitForLoaders.length}...`);
 
-  for (const loader of waitForLoaders) {
-    // Usually a plugin waitFor a promise so that it doesn't need to wait for all plugins loaded before executing
-    if (loader.then) await loader;
-    // If pass an async function, it executes while all plugins are loaded.
-    else await loader();
-  }
+  let loaderLoadedCount = 0;
+  const arr = await Promise.all(
+    waitForLoaders.map(async loader => {
+      // Usually a plugin waitFor a promise so that it doesn't need to wait for all plugins loaded before executing
+
+      loading.showMessage(`Custom loaders ${++loaderLoadedCount}/${waitForLoaders.length}...`);
+      if (loader.then) return await loader;
+      // If pass an async function, it executes while all plugins are loaded.
+      else return await loader();
+    }),
+  );
+  // If a loader returns false, then don't continue starting
+  if (arr.some(s => s === false)) return;
 
   // Start the application
   const entryApp = appEntries.find(e => e.name === entry);
@@ -108,13 +121,11 @@ async function start() {
 }
 
 loading.init();
-setTimeout(() => {
-  start()
-    .then(() => {
-      console.log(`Muse app started.`);
-    })
-    .catch(err => {
-      console.log('Failed to start app.');
-      console.error(err);
-    });
-}, 50);
+start()
+  .then(() => {
+    console.log(`Muse app started.`);
+  })
+  .catch(err => {
+    console.log('Failed to start app.');
+    console.error(err);
+  });
