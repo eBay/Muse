@@ -5,6 +5,7 @@ specifiers:
   '@ebay/muse-craco-plugin': workspace:^
   '@ebay/muse-modules': ^1.0.0
   '@ebay/muse-scripts-react': ^1.0.0
+  base64-inline-loader: ^2.0.1
   cross-env: ^7.0.3
   eslint: ^8.18.0
   react: ^18.2.0
@@ -12,8 +13,9 @@ specifiers:
 
 dependencies:
   '@ebay/muse-craco-plugin': link:../../packages/muse-craco-plugin
-  '@ebay/muse-modules': 1.0.0
-  '@ebay/muse-scripts-react': 1.0.0
+  '@ebay/muse-modules': link:../../packages/muse-modules
+  '@ebay/muse-scripts-react': link:../../packages/muse-scripts-react
+  base64-inline-loader: 2.0.1
 
 devDependencies:
   '@craco/craco': 6.4.4_react-scripts@5.0.1
@@ -1561,18 +1563,6 @@ packages:
       postcss: 8.4.14
       postcss-selector-parser: 6.0.10
     dev: true
-
-  /@ebay/muse-modules/1.0.0:
-    resolution: {integrity: sha1-8JflJexEQxviR+MuSqDmidVPFz8=, tarball: '@ebay/muse-modules/-/@ebay/muse-modules-1.0.0.tgz'}
-    dev: false
-
-  /@ebay/muse-scripts-react/1.0.0:
-    resolution: {integrity: sha1-nAYQ1l6D53qKkwJgN9XcaYYzGFg=, tarball: '@ebay/muse-scripts-react/-/@ebay/muse-scripts-react-1.0.0.tgz'}
-    hasBin: true
-    dependencies:
-      cross-spawn: 7.0.3
-      resolve-cwd: 3.0.0
-    dev: false
 
   /@eslint/eslintrc/1.3.0:
     resolution: {integrity: sha1-KfksMLs+dx5KIEjJX6aFU5LfrE8=}
@@ -3144,6 +3134,14 @@ packages:
     resolution: {integrity: sha1-6D46fj8wCzTLnYf2FfoMvzV2kO4=}
     dev: true
 
+  /base64-inline-loader/2.0.1:
+    resolution: {integrity: sha1-u18qeQB7wpH3KYwy71KVt7RQqbI=}
+    engines: {node: '>=6.2', npm: '>=3.8'}
+    dependencies:
+      loader-utils: 2.0.2
+      mime-types: 2.1.35
+    dev: false
+
   /batch/0.6.1:
     resolution: {integrity: sha1-3DQxT05nkxgJP8dgJyUl+UvyXBY=}
     dev: true
@@ -3160,7 +3158,6 @@ packages:
 
   /big.js/5.2.2:
     resolution: {integrity: sha1-ZfCvOC9Xi83HQr2cKB6cstd2gyg=}
-    dev: true
 
   /binary-extensions/2.2.0:
     resolution: {integrity: sha1-dfUC7q+f/eQvyYgpZFvk6na9ni0=}
@@ -3612,6 +3609,7 @@ packages:
       path-key: 3.1.1
       shebang-command: 2.0.0
       which: 2.0.2
+    dev: true
 
   /crypto-random-string/2.0.0:
     resolution: {integrity: sha1-7yp6lm7BEIM4g2m6oC6+rSKbMNU=}
@@ -4136,7 +4134,6 @@ packages:
   /emojis-list/3.0.0:
     resolution: {integrity: sha1-VXBmIEatKeLpFucariYKvf9Pang=}
     engines: {node: '>= 4'}
-    dev: true
 
   /encodeurl/1.0.2:
     resolution: {integrity: sha1-rT/0yG7C0CkyL1oCw6mmBslbP1k=}
@@ -5540,6 +5537,7 @@ packages:
 
   /isexe/2.0.0:
     resolution: {integrity: sha1-6PvzdNxVb/iUehDcsFctYz8s+hA=}
+    dev: true
 
   /istanbul-lib-coverage/3.2.0:
     resolution: {integrity: sha1-GJ55CdCjn6Wj361bA/cZR3cBkdM=}
@@ -6240,7 +6238,6 @@ packages:
   /json5/2.2.1:
     resolution: {integrity: sha1-ZV1Q7R5vla0aPKq6vSsO/aELOVw=}
     engines: {node: '>=6'}
-    dev: true
 
   /jsonfile/6.1.0:
     resolution: {integrity: sha1-vFWyY0eTxnnsZAMJTrE2mKbsCq4=}
@@ -6330,7 +6327,6 @@ packages:
       big.js: 5.2.2
       emojis-list: 3.0.0
       json5: 2.2.1
-    dev: true
 
   /loader-utils/3.2.0:
     resolution: {integrity: sha1-vOzFGniYvudHPUvGuEWyOvgwTU8=}
@@ -6483,14 +6479,12 @@ packages:
   /mime-db/1.52.0:
     resolution: {integrity: sha1-u6vNwChZ9JhzAchW4zh85exDv3A=}
     engines: {node: '>= 0.6'}
-    dev: true
 
   /mime-types/2.1.35:
     resolution: {integrity: sha1-OBqHG2KnNEUGYK497uRIE/cNlZo=}
     engines: {node: '>= 0.6'}
     dependencies:
       mime-db: 1.52.0
-    dev: true
 
   /mime/1.6.0:
     resolution: {integrity: sha1-Ms2eXGRVO9WNGaVor0Uqz/BJgbE=}
@@ -6900,6 +6894,7 @@ packages:
   /path-key/3.1.1:
     resolution: {integrity: sha1-WB9q3mWMu6ZaDTOA3ndTKVBU83U=}
     engines: {node: '>=8'}
+    dev: true
 
   /path-parse/1.0.7:
     resolution: {integrity: sha1-+8EUtgykKzDZ2vWFjkvWi77bZzU=}
@@ -8135,6 +8130,7 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       resolve-from: 5.0.0
+    dev: true
 
   /resolve-from/4.0.0:
     resolution: {integrity: sha1-SrzYUq0y3Xuqv+m0DgCjbbXzkuY=}
@@ -8144,6 +8140,7 @@ packages:
   /resolve-from/5.0.0:
     resolution: {integrity: sha1-w1IlhD3493bfIcV1V7wIfp39/Gk=}
     engines: {node: '>=8'}
+    dev: true
 
   /resolve-url-loader/4.0.0:
     resolution: {integrity: sha1-1Q1N3HRrsQRoRDFnrPgA3NbDrVc=}
@@ -8415,10 +8412,12 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       shebang-regex: 3.0.0
+    dev: true
 
   /shebang-regex/3.0.0:
     resolution: {integrity: sha1-rhbxZE2HPsrYQ7AwexQzYtTEIXI=}
     engines: {node: '>=8'}
+    dev: true
 
   /shell-quote/1.7.3:
     resolution: {integrity: sha1-qkDtrBcERbmkMeF7tiwLiBucQSM=}
@@ -9425,6 +9424,7 @@ packages:
     engines: {node: '>= 8'}
     dependencies:
       isexe: 2.0.0
+    dev: true
 
   /word-wrap/1.2.3:
     resolution: {integrity: sha1-YQY29rH3A4kb00dxzLF/uTtHB5w=}
