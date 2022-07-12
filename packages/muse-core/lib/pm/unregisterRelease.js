@@ -1,8 +1,7 @@
-const { asyncInvoke, getPluginId, osUsername } = require('../utils');
+const { asyncInvoke, getPluginId, osUsername, validate } = require('../utils');
 const yaml = require('js-yaml');
 const { registry } = require('../storage');
 const getReleases = require('./getReleases');
-const { validate } = require('schema-utils');
 const schema = require('../schemas/pm/unregisterRelease.json');
 const logger = require('../logger').createLogger('muse.pm.unregisterRelease');
 
@@ -10,17 +9,13 @@ const logger = require('../logger').createLogger('muse.pm.unregisterRelease');
  * @module muse-core/pm/unregisterRelease
  */
 /**
- * @typedef {object} UnregisterReleaseArgument
- * @property {string} pluginName the plugin name
- * @property {string} version the exact version you want to delete
- * @property {string} [author] default to the current os logged in user
- * @property {string} [msg] action message
+ * @param {object} params Args to delete a plugin.
+ * @param {string} params.pluginName The plugin name.
+ * @param {string} params.version The exact version you want to delete.
+ * @param {string} [params.author] Default to the current os logged in user.
+ * @param {string} [params.msg] Action message.
  */
 
-/**
- *
- * @param {UnregisterReleaseArgument} params args to delete a plugin
- */
 module.exports = async params => {
   validate(schema, params);
   const { pluginName, version, author = osUsername, msg } = params;

@@ -1,6 +1,6 @@
 {
   "name": "plugin-normal",
-  "version": "0.1.2",
+  "version": "0.1.5",
   "private": true,
   "muse": {
     "devConfig": {
@@ -10,14 +10,14 @@
     }
   },
   "dependencies": {
-    "@craco/craco": "^6.4.3",
+    "@craco/craco": "^6.4.4",
     "@ebay/muse-lib-react": "workspace:^",
     "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^13.2.0",
+    "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
-    "@types/jest": "^27.5.1",
-    "@types/node": "^16.11.36",
-    "@types/react": "^18.0.9",
+    "@types/jest": "^27.5.2",
+    "@types/node": "^16.11.41",
+    "@types/react": "^18.0.14",
     "@types/react-dom": "^18.0.5",
     "craco-less": "^2.0.0",
     "dotenv": "^16.0.1",
@@ -25,18 +25,18 @@
     "json-parse-better-errors": "^1.0.2",
     "@ebay/muse-craco-plugin": "workspace:^",
     "@ebay/muse-scripts-react": "workspace:^",
-    "plugin-library": "workspace:^0.1.2",
+    "plugin-library": "workspace:^0.1.5",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-scripts": "5.0.1",
-    "typescript": "^4.7.2",
+    "typescript": "^4.7.4",
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
-    "eslint": "^8.17.0",
+    "eslint": "^8.18.0",
     "eslint-config-react-app": "^7.0.1",
-    "eslint-plugin-react-hooks": "^4.5.0"
+    "eslint-plugin-react-hooks": "^4.6.0"
   },
   "scripts": {
     "start": "cross-env PORT=3034 muse-scripts-react start",

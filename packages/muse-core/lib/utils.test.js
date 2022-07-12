@@ -1,4 +1,6 @@
 const { utils } = require('./');
+var Ajv = require('ajv');
+var ajv = new Ajv();
 
 describe('utils basic tests.', () => {
   it('Update json with delta change', async () => {
@@ -90,5 +92,51 @@ describe('utils basic tests.', () => {
     });
 
     expect(parseRegistryKey('/unknown-pattern')).toBeNull();
+  });
+
+  it('Validate should throw the error', () => {
+    const schema = {
+      properties: {
+        appName: {
+          type: 'string',
+        },
+      },
+    };
+    const data = {
+      appName: 123,
+    };
+    expect(() => utils.validate(schema, data)).toThrowError();
+  });
+
+  it('Validate should work', () => {
+    const schema = {
+      properties: {
+        appName: {
+          type: 'string',
+        },
+      },
+    };
+    const data = {
+      appName: 'guo',
+    };
+    utils.validate(schema, data);
+    const valid = ajv.compile(schema, data);
+    expect(valid).toBeTruthy();
+  });
+
+  it('Validate should skip the ajv.compile in the second', () => {
+    const schema = {
+      properties: {
+        appName: {
+          type: 'string',
+        },
+      },
+    };
+    const data = {
+      appName: 'test',
+    };
+    expect(utils.ajvCache).toBeUndefined();
+    utils.validate(schema, data);
+    expect(utils.ajvCache).not.toBeNull();
   });
 });

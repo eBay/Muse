@@ -10,6 +10,11 @@ const { stdin: input, stdout: output } = require('node:process');
 // const build = require('../lib/build');
 // const start = require('../lib/start');
 // const test = require('../lib/test');
+const TimeAgo = require('javascript-time-ago');
+const en = require('javascript-time-ago/locale/en');
+TimeAgo.addDefaultLocale(en);
+
+const timeAgo = new TimeAgo('en-US');
 
 const timeStart = Date.now();
 const os = require('os');
@@ -64,7 +69,7 @@ program
   });
 
 program
-  .command('show-config')
+  .command('view-config')
   .description('Show MUSE config')
   .action(() => {
     const filepath = muse.config?.filepath;
@@ -77,7 +82,7 @@ program
   });
 
 program
-  .command('show-data')
+  .command('view-data')
   .description('Show cached data from a cache key')
   .argument('<key>', 'data key')
   .action(async key => {
@@ -92,11 +97,13 @@ program
 program
   .command('serve')
   .description('Serve a MUSE application environment')
-  .argument('<appName>', 'application name')
+  .argument('[appName]', 'application name')
   .argument('[envName]', 'environment name', 'staging')
   .argument('[port]', 'port', 6070)
-  .action((appName, envName, port) => {
-    require('@ebay/muse-simple-server/lib/server')({ appName, envName, port });
+  .option('--is-dev', 'Start the server to load dev bundles.')
+  .option('--by-url', 'Detect app by url.')
+  .action((appName, envName, port, options) => {
+    require('@ebay/muse-simple-server/lib/server')({ appName, envName, port, ...options });
   });
 
 program
@@ -136,6 +143,16 @@ program
     }
   });
 
+program
+  .command('export-app')
+  .description('Export a MUSE application')
+  .argument('<appName>', 'application name')
+  .argument('<envName>', 'env name')
+  .argument('<output>', 'output folder name')
+  .action(async (appName, envName, output) => {
+    await muse.am.export({ appName, envName, output });
+  });
+  
 program
   .command('view-app')
   .description('Display basic details of a MUSE application')
@@ -386,7 +403,7 @@ program
   });
 
 program
-  .command('view-releases')
+  .command('list-releases')
   .summary('Show releases of a plugin')
   .description('Show releases of a plugin.')
   .argument('<pluginName>', 'The plugin name in the registry.')
@@ -457,6 +474,35 @@ program
   });
 
 program
+  .command('list-requests')
+  .description('List open requests.')
+  .argument('[state]', 'plugin version', null)
+  .action(async state => {
+    let requests = await muse.req.getRequests();
+    if (state) requests = requests.filter(r => r.state === state);
+    console.log(chalk.cyan(`Requests (${requests.length}): `));
+    requests.forEach(r => {
+      console.log(
+        chalk.cyan(
+          ` - ${r.id} by ${r.createdBy} ${chalk.yellow(
+            timeAgo.format(new Date(r.createdAt)),
+          )}: ${r.description || ''}`,
+        ),
+      );
+    });
+  });
+
+program
+  .command('delete-request')
+  .alias('del-request')
+  .description('Delete a request by id.')
+  .argument('<requestId>', 'The request id')
+  .action(async requestId => {
+    await muse.req.deleteRequest({ requestId });
+    console.log(chalk.cyan(`Request deleted.`));
+  });
+
+program
   .command('list-released-assets')
   .description('List released assets of a plugin version')
   .argument('<pluginName>', 'plugin name')
@@ -476,7 +522,7 @@ program
   });
 
 // let other plugins add their own cli program commands
-muse.plugin.invoke('museCli.processProgram', program);
+muse.plugin.invoke('museCli.processProgram', program, chalk);
 
 // sort commands alphabetically
 program.configureHelp({
@@ -493,7 +539,8 @@ program
   .catch(err => {
     const timeEnd = Date.now();
     const timeSpan = (timeEnd - timeStart) / 1000;
-
-    console.error(err.stack || err.message);
+    // console.log(err);
+    console.error(err.message);
+    if (err.stack) console.error(err.stack || err.message);
     console.error(`Command failed in ${timeSpan}s.`);
   });

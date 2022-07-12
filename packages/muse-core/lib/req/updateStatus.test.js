@@ -21,13 +21,14 @@ describe('Update request status basic tests.', () => {
   });
   it('Update a single status should work', async () => {
     const type = 'deploy-plugin';
+    const id = 'testid';
     const payload = {
       appName: 'app1',
       envName: 'staging',
       pluginName: 'test-plugin',
       version: '1.0.0',
     };
-    const req = await muse.req.createRequest({ type, author: 'nate', payload });
+    const req = await muse.req.createRequest({ id, type, author: 'nate', payload });
 
     await muse.req.updateStatus({
       requestId: req.id,
@@ -45,13 +46,14 @@ describe('Update request status basic tests.', () => {
 
   it('Update multiple statuses should work', async () => {
     const type = 'deploy-plugin';
+    const id = 'testid';
     const payload = {
       appName: 'app1',
       envName: 'staging',
       pluginName: 'test-plugin',
       version: '1.0.0',
     };
-    const req = await muse.req.createRequest({ type, author: 'nate', payload });
+    const req = await muse.req.createRequest({ id, type, author: 'nate', payload });
 
     await muse.req.updateStatus({
       requestId: req.id,
@@ -80,6 +82,7 @@ describe('Update request status basic tests.', () => {
     await muse.pm.createPlugin({ pluginName: 'plugin1' });
     await muse.pm.releasePlugin({ pluginName: 'plugin1', version: '1.0.0' });
     const type = 'deploy-plugin';
+    const id = 'testid';
     const payload = {
       appName: 'app1',
       envName: 'staging',
@@ -87,7 +90,7 @@ describe('Update request status basic tests.', () => {
       version: '1.0.0',
     };
 
-    const req = await muse.req.createRequest({ type, author: 'nate', payload });
+    const req = await muse.req.createRequest({ id, type, author: 'nate', payload });
 
     // Before merge, the plugin should have not been deployed
     expect(await muse.pm.getDeployedPlugin('app1', 'staging', 'plugin1')).toBeNull();

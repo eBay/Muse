@@ -22,13 +22,14 @@ describe('Create request basic tests.', () => {
 
   it('Create request should create the correct yaml file', async () => {
     const type = 'deploy-plugin';
+    const id = 'testid';
     const payload = {
       appName: 'app1',
       envName: 'staging',
       pluginName: 'test-plugin',
       version: '1.0.0',
     };
-    const req = await muse.req.createRequest({ type, author: 'nate', payload });
+    const req = await muse.req.createRequest({ id, type, author: 'nate', payload });
     const result = jsonByYamlBuff(await registry.get(`/requests/${req.id}.yaml`));
     expect(result).toMatchObject({ id: req.id, createdBy: 'nate', payload });
 

@@ -6,6 +6,7 @@ const appSchema = require('../schemas/app.json');
 const pluginSchema = require('../schemas/plugin.json');
 const deployedPluginSchema = require('../schemas/deployedPlugin.json');
 const releasesSchema = require('../schemas/releases.json');
+const requestSchema = require('../schemas/request.json');
 const logger = require('../logger').createLogger('museCore.plugins.registrySchemaPlugin');
 /**
  * Validate schema for all data saved to registry
@@ -17,6 +18,7 @@ module.exports = () => {
   ajv.addSchema(pluginSchema, 'plugin');
   ajv.addSchema(deployedPluginSchema, 'deployed-plugin');
   ajv.addSchema(releasesSchema, 'releases');
+  ajv.addSchema(requestSchema, 'request');
 
   return {
     name: 'registrySchemaPlugin',

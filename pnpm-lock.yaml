@@ -356,7 +356,7 @@ packages:
     resolution: {integrity: sha1-sdTonmiBGcPJqQOtMKuy9qkZvjw=}
     dependencies:
       function-bind: 1.1.1
-      get-intrinsic: 1.1.1
+      get-intrinsic: 1.1.2
     dev: true
 
   /camelcase-keys/6.2.2:
@@ -534,7 +534,7 @@ packages:
       es-to-primitive: 1.2.1
       function-bind: 1.1.1
       function.prototype.name: 1.1.5
-      get-intrinsic: 1.1.1
+      get-intrinsic: 1.1.2
       get-symbol-description: 1.0.0
       has: 1.0.3
       has-property-descriptors: 1.0.0
@@ -687,8 +687,8 @@ packages:
     engines: {node: 6.* || 8.* || >= 10.*}
     dev: true
 
-  /get-intrinsic/1.1.1:
-    resolution: {integrity: sha1-FfWfN2+FXERpY5SPDSTNNje0q8Y=}
+  /get-intrinsic/1.1.2:
+    resolution: {integrity: sha1-M2l1Ej4FrQt7pB8VLuSq2+ps9Zg=}
     dependencies:
       function-bind: 1.1.1
       has: 1.0.3
@@ -700,7 +700,7 @@ packages:
     engines: {node: '>= 0.4'}
     dependencies:
       call-bind: 1.0.2
-      get-intrinsic: 1.1.1
+      get-intrinsic: 1.1.2
     dev: true
 
   /glob-parent/5.1.2:
@@ -752,7 +752,7 @@ packages:
   /has-property-descriptors/1.0.0:
     resolution: {integrity: sha1-YQcIYAYG02lh7QTBlhk7amB/qGE=}
     dependencies:
-      get-intrinsic: 1.1.1
+      get-intrinsic: 1.1.2
     dev: true
 
   /has-symbols/1.0.3:
@@ -803,7 +803,7 @@ packages:
     resolution: {integrity: sha1-c0fjB97uovqsKsYgXUvH00ln9Zw=}
     engines: {node: '>= 0.4'}
     dependencies:
-      get-intrinsic: 1.1.1
+      get-intrinsic: 1.1.2
       has: 1.0.3
       side-channel: 1.0.4
     dev: true
@@ -1335,7 +1335,7 @@ packages:
     resolution: {integrity: sha1-785cj9wQTudRslxY1CkAEfpeos8=}
     dependencies:
       call-bind: 1.0.2
-      get-intrinsic: 1.1.1
+      get-intrinsic: 1.1.2
       object-inspect: 1.12.2
     dev: true
 

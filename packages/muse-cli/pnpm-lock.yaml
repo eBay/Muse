@@ -5,8 +5,9 @@ specifiers:
   '@ebay/muse-simple-server': workspace:^
   chalk: 4.1.2
   commander: 9.3.0
-  eslint: ^8.16.0
+  eslint: ^8.18.0
   fs-extra: ^10.1.0
+  javascript-time-ago: ^2.5.5
   js-plugin: ^1.1.0
 
 dependencies:
@@ -15,6 +16,7 @@ dependencies:
   chalk: 4.1.2
   commander: 9.3.0
   fs-extra: 10.1.0
+  javascript-time-ago: 2.5.5
   js-plugin: 1.1.0
 
 devDependencies:
@@ -401,6 +403,12 @@ packages:
     resolution: {integrity: sha1-6PvzdNxVb/iUehDcsFctYz8s+hA=}
     dev: true
 
+  /javascript-time-ago/2.5.5:
+    resolution: {integrity: sha1-VIcBXFnHEVxigVSOYnvk7m9jdqg=}
+    dependencies:
+      relative-time-format: 1.1.4
+    dev: false
+
   /js-plugin/1.1.0:
     resolution: {integrity: sha1-3mpYTItmgifYErthWKGOhYh+g9s=}
     dev: false
@@ -503,6 +511,10 @@ packages:
     resolution: {integrity: sha1-BCWido2PI7rXDKS5BGH6LxIT4bI=}
     engines: {node: '>=8'}
     dev: true
+
+  /relative-time-format/1.1.4:
+    resolution: {integrity: sha1-UMMIpIKYUzOhPfEZsf8nY+PrBoU=}
+    dev: false
 
   /resolve-from/4.0.0:
     resolution: {integrity: sha1-SrzYUq0y3Xuqv+m0DgCjbbXzkuY=}

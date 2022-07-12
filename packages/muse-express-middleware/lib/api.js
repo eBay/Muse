@@ -1,9 +1,48 @@
-// Expose core APIs are RESTful APIs
+// Expose Muse APIs via express
 const muse = require('@ebay/muse-core');
 const _ = require('lodash');
 const logger = muse.logger.createLogger('@ebay/muse-express-middleware.api');
 
-module.exports = ({ basePath = '/api/v2' }) => {
+// All exposed APIs are predefined and they are able to convert to API path from museCore
+const exposedApis = [
+  'am.createApp',
+  'am.createEnv',
+  'am.deleteApp',
+  'am.deleteEnv',
+  'am.getApp',
+  'am.getApps',
+  'am.updateApp',
+  'am.updateEnv',
+  'pm.checkDependencies',
+  'pm.checkReleaseVersion',
+  'pm.createPlugin',
+  'pm.deletePlugin',
+  'pm.deleteRelease',
+  'pm.deployPlugin',
+  'pm.getDeployedPlugins',
+  'pm.getPlugin',
+  'pm.getPlugins',
+  'pm.getReleases',
+  'pm.releasePlugin',
+  'pm.undeployPlugin',
+  'pm.unregisterRelease',
+  'pm.updatePlugin',
+  'data.get',
+  'data.refreshCache',
+  'data.syncCache',
+  'req.createRequest',
+  'req.completeRequest',
+  'req.deleteRequest',
+  'req.updateStatus',
+  'req.deleteStatus',
+];
+
+module.exports = ({ basePath = '/api/v2' } = {}) => {
+  // Allow a plugin to provide api from RESTful service
+  const apis = _.flatten(muse.plugin.invoke('museMiddleware.api.getApis'));
+  exposedApis.push(...apis);
+  muse.plugin.invoke('museMiddleware.api.processApis');
+
   return async (req, res, next) => {
     if (!req.path.startsWith(basePath)) {
       return next();
@@ -15,15 +54,20 @@ module.exports = ({ basePath = '/api/v2' }) => {
     const apiKey = apiPath
       .split('/')
       .filter(Boolean)
-      .map((s) => _.camelCase(s))
+      .map(s => _.camelCase(s))
       .join('.');
 
-    if (!_.get(muse, apiKey)) {
-      return next();
+    // If not a defined api or it doesn't exist, then just say 404
+    if (!exposedApis.includes(apiKey) || !_.get(muse, apiKey)) {
+      res.statusCode = 404;
+      res.write('API not exist.');
+      res.end();
+      return;
     }
 
     // Only get apis need define args in query
     res.setHeader('Content-Type', 'application/json');
+    // All apis allow either get or post method
     if (!['get', 'post'].includes(req.method.toLowerCase())) {
       const errMsg = `Method '${req.method}' is not allowed.`;
       logger.error(errMsg);
@@ -40,7 +84,10 @@ module.exports = ({ basePath = '/api/v2' }) => {
         res,
       });
       const isGet = req.method.toLowerCase();
-      const args = isGet ? _.castArray(JSON.parse(decodeURIComponent(req.query.args))) : [req.body];
+      const args = isGet
+        ? _.castArray(JSON.parse(decodeURIComponent(req.query.args || '[]')))
+        : [req.body];
+      // TODO: inject author info
       const result = { data: await _.invoke(muse, apiKey, ...args) };
       await muse.utils.asyncInvoke('museExpressMiddleware.api.after', {
         result,

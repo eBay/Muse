@@ -6,6 +6,10 @@ const _ = require('lodash');
 const plugin = require('js-plugin');
 const jsYaml = require('js-yaml');
 const archiver = require('archiver');
+const Ajv = require('ajv');
+
+const ajv = new Ajv({ strictTypes: false });
+const logger = require('./logger').createLogger('muse.utils');
 
 async function asyncInvoke(extPoint, ...args) {
   const noThrows = extPoint.endsWith('!');
@@ -71,29 +75,33 @@ function jsonByYamlBuff(b) {
   return jsYaml.load(Buffer.from(b).toString('utf8'));
 }
 
-async function batchAsync(tasks, size = 100, msg = 'Batch async') {
+async function batchAsync(tasks, { size = 100, msg = 'Batch async' } = {}) {
   const chunks = _.chunk(tasks, size);
   const res = [];
 
   for (let i = 0; i < chunks.length; i++) {
     const chunk = chunks[i];
-    // console.log(`${msg}: ${i * size + 1}~${Math.min(i * size + size, tasks.length)} of ${tasks.length}`);
-    const arr = await Promise.all(chunk.map((c) => c()));
+    logger.verbose(
+      `${msg}: ${i * size + 1}~${Math.min(i * size + size, tasks.length)} of ${tasks.length}`,
+    );
+    const arr = await Promise.all(chunk.map(c => c()));
     res.push(...arr);
   }
   return res;
 }
 
-function makeRetryAble(executor, times = 3, checker = () => {}) {
+function makeRetryAble(executor, { times = 3, checker = () => {}, msg = '' } = {}) {
   // if checker returns something, it will break retry logic and return the result of checker
   return async (...args) => {
     let finalErr = null;
     for (let i = 0; i < times; i++) {
+      if (i > 0) logger.warn(`Retrying at time ${i}/${times - 1} for ${msg}`);
       try {
         return await executor(...args);
       } catch (err) {
         const c = checker && checker(err);
         if (c !== undefined) return c;
+        if (err.message) logger.warn(err.message);
         finalErr = err;
       }
     }
@@ -101,10 +109,10 @@ function makeRetryAble(executor, times = 3, checker = () => {}) {
   };
 }
 
-const getFilesRecursively = async (dir) => {
+const getFilesRecursively = async dir => {
   const dirents = await fs.readdir(dir, { withFileTypes: true });
   const files = await Promise.all(
-    dirents.map((dirent) => {
+    dirents.map(dirent => {
       const res = path.resolve(dir, dirent.name);
       return dirent.isDirectory() ? getFilesRecursively(res) : res;
     }),
@@ -118,20 +126,20 @@ const updateJson = (obj, changes) => {
   // push: [{ path, value }] // for array
   // remove: [{ path, predicate, value }, ...]
   const { set = [], unset = [], remove = [], push = [] } = changes;
-  _.castArray(set).forEach((item) => {
+  _.castArray(set).forEach(item => {
     _.set(obj, item.path, item.value);
   });
 
-  _.castArray(unset).forEach((p) => {
+  _.castArray(unset).forEach(p => {
     _.unset(obj, p);
   });
 
-  _.castArray(push).forEach((item) => {
+  _.castArray(push).forEach(item => {
     if (!_.get(obj, item.path)) _.set(obj, item.path, []);
     _.get(obj, item.path).push(item.value);
   });
 
-  _.castArray(remove).forEach((item) => {
+  _.castArray(remove).forEach(item => {
     const arr = _.get(obj, item.path);
     if (!arr) return;
     if (item.value) _.pull(arr, item.value);
@@ -152,7 +160,7 @@ const genNewVersion = (oldVersion, verionType = 'patch') => {
 const getMuseGlobal = (app, envName) => {
   const plugins = app.envs?.[envName]?.plugins;
 
-  const bootPlugin = plugins.find((p) => p.type === 'boot');
+  const bootPlugin = plugins.find(p => p.type === 'boot');
 
   return {
     appName: app.name,
@@ -168,7 +176,7 @@ const doZip = (sourceDir, zipFile) => {
     const archive = archiver('zip', { zlib: { level: 9 } });
     archive.directory(sourceDir, false);
     archive.pipe(output);
-    archive.on('error', (err) => reject(err));
+    archive.on('error', err => reject(err));
     output.on('close', () => {
       resolve();
     });
@@ -176,7 +184,7 @@ const doZip = (sourceDir, zipFile) => {
   });
 };
 
-const parseRegistryKey = (key) => {
+const parseRegistryKey = key => {
   const arr = key.split('/').filter(Boolean);
 
   if (arr[0] === 'apps' && arr[2] === `${arr[1]}.yaml`) {
@@ -205,8 +213,28 @@ const parseRegistryKey = (key) => {
       type: 'releases',
       pluginName: getPluginName(arr[2].replace('.yaml', '')),
     };
+  } else if (arr[0] === 'requests' && arr[1].endsWith('.yaml')) {
+    // validate request yaml with keypath pattern: /requests/req-id.yaml
+    return {
+      type: 'request',
+      id: arr[1].replace('.yaml', ''),
+    };
   }
   return null;
+};
+
+const ajvCache = new WeakMap();
+const validate = (schema, data) => {
+  let validateRes;
+  if (!ajvCache.has(schema)) {
+    validateRes = ajv.compile(schema);
+    ajvCache.set(schema, validateRes);
+  } else {
+    validateRes = ajvCache.get(schema);
+  }
+  if (!validateRes(data)) {
+    throw new Error(JSON.stringify(validate.errors));
+  }
 };
 
 module.exports = {
@@ -225,6 +253,7 @@ module.exports = {
   getMuseGlobal,
   doZip,
   parseRegistryKey,
+  validate,
   osUsername: os.userInfo().username,
   defaultAssetStorageLocation: path.join(os.homedir(), 'muse-storage/assets'),
   defaultRegistryStorageLocation: path.join(os.homedir(), 'muse-storage/registry'),

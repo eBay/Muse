@@ -1,34 +1,34 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@craco/craco': ^6.4.3
+  '@craco/craco': ^6.4.4
   '@ebay/muse-craco-plugin': workspace:^
   '@ebay/muse-lib-react': workspace:^
   '@ebay/muse-scripts-react': workspace:^
   '@testing-library/jest-dom': ^5.16.4
-  '@testing-library/react': ^13.2.0
+  '@testing-library/react': ^13.3.0
   '@testing-library/user-event': ^13.5.0
-  '@types/jest': ^27.5.1
-  '@types/node': ^16.11.36
-  '@types/react': ^18.0.9
+  '@types/jest': ^27.5.2
+  '@types/node': ^16.11.41
+  '@types/react': ^18.0.14
   '@types/react-dom': ^18.0.5
   craco-less: ^2.0.0
   cross-env: ^7.0.3
   dotenv: ^16.0.1
-  eslint: ^8.17.0
+  eslint: ^8.18.0
   eslint-config-react-app: ^7.0.1
-  eslint-plugin-react-hooks: ^4.5.0
+  eslint-plugin-react-hooks: ^4.6.0
   js-plugin: ^1.1.0
   json-parse-better-errors: ^1.0.2
-  plugin-library: workspace:^0.1.2
+  plugin-library: workspace:^0.1.5
   react: ^18.1.0
   react-dom: ^18.1.0
   react-scripts: 5.0.1
-  typescript: ^4.7.2
+  typescript: ^4.7.4
   web-vitals: ^2.1.4
 
 dependencies:
-  '@craco/craco': 6.4.3_f4mn2lxb4776j264eoyu36jjhe
+  '@craco/craco': 6.4.4_f4mn2lxb4776j264eoyu36jjhe
   '@ebay/muse-craco-plugin': link:../../packages/muse-craco-plugin
   '@ebay/muse-lib-react': link:../muse-lib-react
   '@ebay/muse-scripts-react': link:../../packages/muse-scripts-react
@@ -39,7 +39,7 @@ dependencies:
   '@types/node': 16.11.41
   '@types/react': 18.0.14
   '@types/react-dom': 18.0.5
-  craco-less: 2.0.0_ywo5ddri3hpflch3d7fwy72l7y
+  craco-less: 2.0.0_5etiqhkfjdttz5dcmi2hz5fcv4
   dotenv: 16.0.1
   js-plugin: 1.1.0
   json-parse-better-errors: 1.0.2
@@ -1318,8 +1318,8 @@ packages:
     resolution: {integrity: sha1-daLotRy3WKdVPWgEpZMteqznXDk=}
     dev: false
 
-  /@craco/craco/6.4.3_f4mn2lxb4776j264eoyu36jjhe:
-    resolution: {integrity: sha1-eEOVtuurdkBWVQooYElNJMOr1E4=}
+  /@craco/craco/6.4.4_f4mn2lxb4776j264eoyu36jjhe:
+    resolution: {integrity: sha1-29iZwZpmjsOWDBiT9a4kuHSRGo8=}
     engines: {node: '>=6'}
     hasBin: true
     peerDependencies:
@@ -3567,13 +3567,13 @@ packages:
       path-type: 4.0.0
       yaml: 1.10.2
 
-  /craco-less/2.0.0_ywo5ddri3hpflch3d7fwy72l7y:
+  /craco-less/2.0.0_5etiqhkfjdttz5dcmi2hz5fcv4:
     resolution: {integrity: sha1-ot8Ywy6X6/APYsPy6kzZcDX19kA=}
     peerDependencies:
       '@craco/craco': ^6.0.0
       react-scripts: ^5.0.0
     dependencies:
-      '@craco/craco': 6.4.3_f4mn2lxb4776j264eoyu36jjhe
+      '@craco/craco': 6.4.4_f4mn2lxb4776j264eoyu36jjhe
       less: 4.1.3
       less-loader: 7.3.0_less@4.1.3
       react-scripts: 5.0.1_qtbnez4q7bzoc4eqybg3efzzxe

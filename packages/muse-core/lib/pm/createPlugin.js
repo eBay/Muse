@@ -4,31 +4,27 @@
  */
 
 const yaml = require('js-yaml');
-const { asyncInvoke, getPluginId, osUsername } = require('../utils');
+const { asyncInvoke, getPluginId, osUsername, validate } = require('../utils');
 const { registry } = require('../storage');
 const getPlugin = require('./getPlugin');
-const { validate } = require('schema-utils');
 const schema = require('../schemas/pm/createPlugin.json');
 const logger = require('../logger').createLogger('muse.pm.createPlugin');
 
 /**
  * @module muse-core/pm/createPlugin
  */
-/**
- * @typedef {object} CreatePluginArgument
- * @property {string} pluginName the plugin name
- * @property {string} [type='normal'] the type of plugin
- * @property {string} [author] default to the current os logged in user
- * @property {object} [options] optional options
- * @property {string} [msg] action message
- */
 
 /**
- *
- * @param {CreatePluginArgument} params args to create new plugin
- * @returns {object} plugin object
+ * @param {object} params Args to create new plugin.
+ * @param {string} params.pluginName The plugin name.
+ * @param {string} [params.type='normal'] The type of plugin.
+ * @param {string} [params.author] Default to the current os logged in user.
+ * @param {object} [params.options] Optional options.
+ * @param {string} [params.msg] Action message.
+ * @returns {object} Plugin object.
  */
-module.exports = async (params) => {
+
+module.exports = async params => {
   validate(schema, params);
   const ctx = {};
   logger.info(`Creating plugin ${params?.pluginName}...`);

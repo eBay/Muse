@@ -1,8 +1,7 @@
-const { asyncInvoke, osUsername } = require('../utils');
+const { asyncInvoke, osUsername, validate } = require('../utils');
 const { registry } = require('../storage');
 const getApp = require('./getApp');
 const updateApp = require('./updateApp');
-const { validate } = require('schema-utils');
 const schema = require('../schemas/am/deleteEnv.json');
 const logger = require('../logger').createLogger('muse.am.deleteEnv');
 
@@ -11,18 +10,14 @@ const logger = require('../logger').createLogger('muse.am.deleteEnv');
  */
 
 /**
- * @typedef {object} DeleteEnvArgument
- * @property {string} appName the app name
- * @property {string} envName the environment of app
- * @property {string} [author=osUsername] default to the current os logged in user
- */
-
-/**
  *
- * @param {DeleteEnvArgument} params args to create an env
- * @returns {object} app
+ * @param {object} params Args to create an env.
+ * @param {string} params.appName The app name.
+ * @param {string} params.envName The environment of app.
+ * @param {string} [params.author = osUsername] Default to the current os logged in user.
+ * @returns {object} App.
  */
-module.exports = async (params) => {
+module.exports = async params => {
   validate(schema, params);
   const { appName, envName, author = osUsername } = params;
   logger.info(`Deleting env ${appName}/${envName}...`);

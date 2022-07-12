@@ -11,13 +11,15 @@ const { registry } = require('../storage');
  * @returns {object[]} list of request object
  */
 
-module.exports = async (params) => {
+module.exports = async params => {
   const ctx = {};
   await asyncInvoke('museCore.req.beforeGetRequests', ctx, params);
   try {
     const items = await registry.listWithContent('/requests');
 
-    ctx.requests = items.map((item) => jsonByYamlBuff(item.content));
+    ctx.requests = items
+      .filter(item => item.type !== 'dir' && item.name.endsWith('.yaml'))
+      .map(item => jsonByYamlBuff(item.content));
     await asyncInvoke('museCore.req.getRequests', ctx, params);
   } catch (err) {
     ctx.error = err;

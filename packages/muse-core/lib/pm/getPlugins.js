@@ -9,7 +9,7 @@ const logger = require('../logger').createLogger('muse.pm.getPlugins');
  * @param {*} params
  * @returns {Buffer[]}
  */
-module.exports = async (params) => {
+module.exports = async params => {
   const ctx = {};
   logger.verbose(`Getting plugins...`);
   await asyncInvoke('museCore.pm.beforeGetPlugins', ctx, params);
@@ -17,7 +17,9 @@ module.exports = async (params) => {
   try {
     const items = await registry.listWithContent('/plugins');
 
-    ctx.plugins = items.map((item) => jsonByYamlBuff(item.content));
+    ctx.plugins = items
+      .filter(item => item.type !== 'dir' && item.name.endsWith('.yaml'))
+      .map(item => jsonByYamlBuff(item.content));
     await asyncInvoke('museCore.pm.getPlugins', ctx, params);
   } catch (err) {
     await asyncInvoke('museCore.pm.failedGetPlugins', ctx, params);

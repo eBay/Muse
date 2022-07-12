@@ -9,7 +9,7 @@ const { asyncInvoke } = require('../utils');
  */
 /**
  * Create a release a plugin
- * @param  {object} params args to build plugn
+ * @param  {object} params Args to build plugn.
  * @example
  * buildPlugin({ pluginId: 'muse-react' });
  */

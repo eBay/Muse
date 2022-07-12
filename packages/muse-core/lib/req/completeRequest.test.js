@@ -6,9 +6,9 @@ const testJsPlugin = {
   name: 'test',
   museCore: {
     req: {
-      mergeRequest: jest.fn(),
-      beforeMergeRequest: jest.fn(),
-      afterMergeRequest: jest.fn(),
+      completeRequest: jest.fn(),
+      beforeCompleteRequest: jest.fn(),
+      afterCompleteRequest: jest.fn(),
     },
   },
 };
@@ -24,6 +24,7 @@ describe('Merge request basic tests.', () => {
     await muse.pm.createPlugin({ pluginName: 'plugin1' });
     await muse.pm.releasePlugin({ pluginName: 'plugin1', version: '1.0.0' });
     const type = 'deploy-plugin';
+    const id = 'testid';
     const payload = {
       appName: 'app1',
       envName: 'staging',
@@ -31,13 +32,13 @@ describe('Merge request basic tests.', () => {
       version: '1.0.0',
     };
 
-    const req = await muse.req.createRequest({ type, author: 'nate', payload });
+    const req = await muse.req.createRequest({ id, type, author: 'nate', payload });
 
     // Before merge, the plugin should have not been deployed
     expect(await muse.pm.getDeployedPlugin('app1', 'staging', 'plugin1')).toBeNull();
 
     // Merge the request
-    await muse.req.mergeRequest({ requestId: req.id });
+    await muse.req.completeRequest({ requestId: req.id });
 
     // After merge, the request should have been deleted
     expect(await muse.req.getRequest(req.id)).toBeNull();
@@ -48,8 +49,8 @@ describe('Merge request basic tests.', () => {
       version: '1.0.0',
     });
 
-    expect(testJsPlugin.museCore.req.mergeRequest).toBeCalledTimes(1);
-    expect(testJsPlugin.museCore.req.beforeMergeRequest).toBeCalledTimes(1);
-    expect(testJsPlugin.museCore.req.afterMergeRequest).toBeCalledTimes(1);
+    expect(testJsPlugin.museCore.req.completeRequest).toBeCalledTimes(1);
+    expect(testJsPlugin.museCore.req.beforeCompleteRequest).toBeCalledTimes(1);
+    expect(testJsPlugin.museCore.req.afterCompleteRequest).toBeCalledTimes(1);
   });
 });

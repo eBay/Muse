@@ -112,3 +112,7 @@ examples/*/build
 
 # JsDoc output
 out
+
+.beans
+
+tmp

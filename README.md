@@ -1,7 +1,9 @@
 # muse-next
+
 Next generation of Muse.
 
 ## Overview
+
 This is a monorepo to host all Muse code.
 
 - examples: Sample plugin projects to test Muse build system and dev time setup.
@@ -14,14 +16,13 @@ This is a monorepo to host all Muse code.
 3. Create a Muse app in the local registry: `muse create-app app1`
 4. Create a new staging env on app1: `muse create-env app1 staging`
 5. Create muse plugins in the local registry for every project under `/examples`:
-   - Create plugin `muse create @ebay/muse-react`  (and @ebay/muse-antd etc...)
+   - Create plugin `muse create @ebay/muse-lib-react`  (and @ebay/muse-lib-antd etc...)
    - Build plugin: run `pnpm build` and `pnpm build:dev` under example projects
-   - Release plugin: run `muse release @ebay/muse-react` under example projects (use correct plugin name)
-   - Deploy plugin on `app1/staging`: `muse deploy app1 staging @ebay/muse-react`. This deploys the latest version of plugin on the app.
+   - Release plugin: run `muse release` under example projects (use correct plugin name)
+   - Deploy plugin on `app1/staging`: `muse deploy app1 staging @ebay/muse-lib-react`. This deploys the latest version of plugin on the app.
 6. Run `muse serve app1 staging` to start the local testing server.
 
 Then you should be able to access http://localhost:6070 and see the Muse app locally.
-
 
 To start an example local project, you can use `pnpm start` just like the current Muse behavior. And it also supports `MUSE_LOCAL_PLUGINS` in the `.env` file.
 
@@ -30,25 +31,25 @@ For the full Muse CLI commands, please see: https://github.corp.ebay.com/muse/mu
 > You can check `<home-dir>/muse-storage` to see the new Muse registry and static resource storage.
 
 ## Muse Core Configuration
+
 Muse engine could be extended by plugins, for example log, monitoring, storage, etc. All muse-core plugins are normal npm modules defined in a Muse config file. Muse uses [cosmiconfig](https://github.com/davidtheclark/cosmiconfig) to load config from a config file with below priority:
-* `.muserc` : yaml format
-* `.muserc.json` : json format
-* `.muserc.yaml` : yaml format
-* `muse.config.yaml` : yaml format
-* `muse.config.js` : a commonjs module to export the config object or a function to return the object
-* `muse.config.json` : json format
+
+- `.muserc` : yaml format
+- `.muserc.json` : json format
+- `.muserc.yaml` : yaml format
+- `muse.config.yaml` : yaml format
+- `muse.config.js` : a commonjs module to export the config object or a function to return the object
+- `muse.config.json` : json format
 
 It looks for the config file from the current working directory to the parents until the home dir.
-
 
 Muse core config is designed with a simple structure: all configurations are done by plugins. So normally the only property in a config file is `plugins`. See below example about all possible plugin definition:
 
 ```js
-
 // muse.config.js
 module.exports = {
   plugins: [
-    // 1. Use a string to load the plugin 
+    // 1. Use a string to load the plugin
     // A commonjs module to export a plugin object or a function to return the plugin object
     // It's loaded by require('my-muse-plugin')
     'my-muse-plugin',
@@ -59,10 +60,7 @@ module.exports = {
 
     // 2. Load a plugin with options
     // In this case the plugin module should be a function so that it accepts the options to initialize the plugin object
-    [
-      'my-plugin',
-      { endpoint: 'some.com/api', token: '$env.MY_TOKEN' }
-    ],
+    ['my-plugin', { endpoint: 'some.com/api', token: '$env.MY_TOKEN' }],
 
     // 3. A plugin object directly. For example: a plugin implement "some.ext.point" extension point
     // If plugin instance contains some methods then it is not supported in yaml or json format.
@@ -72,12 +70,12 @@ module.exports = {
         ext: {
           point: async () => {
             // do something
-          }
-        }
-      }
-    }
-  ]
-}
+          },
+        },
+      },
+    },
+  ],
+};
 ```
 
 Muse config supports using a environment variable a config value by using `$env.MY_TOKEN`. Whenever a property value starts with `$env.` then it will get the environment variable with the left part of the string as name. For example: `$env.MY_TOKEN` will get the value from `process.env.MY_TOKEN`.
@@ -85,42 +83,49 @@ Muse config supports using a environment variable a config value by using `$env.
 You can use a dotenv file named `.env.muse` under the current working directory or homedir to set the environtment variables.
 
 ## Using Muse CLI
+
 Muse global command line interface to manage Muse apps/plugins. Implemented by `packages/muse-cli`.
 
 ### App management
-* ✅ `muse create-app [app-name]` Create a new app.
-* ✅ `muse view-app [app-name]` View the app meta.
-* ✅ `muse view-full-app [app-name]` View the full app including deployed plugins.
-* ❓ `muse delete-app [app-name]`
-* ✅ `muse list-apps` View all Muse apps in the registry.
-* ❓ `muse export-app [app-name]`
+
+- ✅ `muse create-app [app-name]` Create a new app.
+- ✅ `muse view-app [app-name]` View the app meta.
+- ✅ `muse view-full-app [app-name]` View the full app including deployed plugins.
+- ❓ `muse delete-app [app-name]`
+- ✅ `muse list-apps` View all Muse apps in the registry.
+- ❓ `muse export-app [app-name]`
 
 ### Env management
-* ✅ `muse create-env [app-name] [env-name]` Create a new env for an app.
-* ❓ `muse delete-env [app-name] [env-name]`
+
+- ✅ `muse create-env [app-name] [env-name]` Create a new env for an app.
+- ❓ `muse delete-env [app-name] [env-name]`
 
 ### Plugin management
-* ✅ `muse create-plugin [plugin-name]` Create a Muse plugin.
-* ✅ `muse release/release-plugin [plugin-name] [version?]` Release a plugin from the current `build` folder. Should run `yarn build && yarn build:dev` first. `version` is optional, if not provided, will increase the patch version.
-* ✅ `muse deploy/deploy-plugin [app-name] [env-name] [plugin-name] [version?]` Deploy a plugin to the app/env. `version` is optional. if not provided, it will deploy the latest release.
-* ✅ `muse undeploy/undeploy-plugin [app-name] [env-name] [plugin-name]` Undeploy a plugin.
-* ❓ `muse delete-plugin [plugin-name]`
-* ❓ `muse list-deployed-plugins [app-name] [env-name]` Show the list of deployed plugins on a app/env.
-* ✅ `muse list-plugins` List all registered plugins.
+
+- ✅ `muse create-plugin [plugin-name]` Create a Muse plugin.
+- ✅ `muse release/release-plugin [plugin-name] [version?]` Release a plugin from the current `build` folder. Should run `yarn build && yarn build:dev` first. `version` is optional, if not provided, will increase the patch version.
+- ✅ `muse deploy/deploy-plugin [app-name] [env-name] [plugin-name] [version?]` Deploy a plugin to the app/env. `version` is optional. if not provided, it will deploy the latest release.
+- ✅ `muse undeploy/undeploy-plugin [app-name] [env-name] [plugin-name]` Undeploy a plugin.
+- ❓ `muse delete-plugin [plugin-name]`
+- ❓ `muse list-deployed-plugins [app-name] [env-name]` Show the list of deployed plugins on a app/env.
+- ✅ `muse list-plugins` List all registered plugins.
 
 ### Local Dev/Testing Server
-* ✅ `muse serve [app-name] [env-name?] [port?] [--isDev]` Serve the Muse application, `env-name` defaults to `staging`, `port` defaults to `6070`.
+
+- ✅ `muse serve [app-name] [env-name?] [port?] [--isDev]` Serve the Muse application, `env-name` defaults to `staging`, `port` defaults to `6070`.
 
 ### Requests
-* ✅ `muse request [action] [...args]` Request to do something. For example: `muse request deploy-plugin app1 staging muse-react`.
+
+- ✅ `muse request [action] [...args]` Request to do something. For example: `muse request deploy-plugin app1 staging muse-react`.
 
 ### Config
-* ✅ `muse show-config` Show the current loaded muse config.
+
+- ✅ `muse show-config` Show the current loaded muse config.
 
 For more commands, plz use `muse -h` to see the list.
 
-
 ## Using pnpm
+
 We switched package manager from yarn v1 to [pnpm](https://pnpm.io) to improve installation efficiency.
 
 `muse-next` use pnpm workspaces feature to manage all packages under examples and packages folder.
@@ -128,4 +133,5 @@ We switched package manager from yarn v1 to [pnpm](https://pnpm.io) to improve i
 Please learn every details of pnpm from its docs.
 
 ## License
+
 MIT

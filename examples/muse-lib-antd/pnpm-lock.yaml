@@ -2,7 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@ant-design/icons': ^4.7.0
-  '@craco/craco': ^6.4.3
+  '@craco/craco': ^6.4.4
   '@ebay/muse-craco-plugin': ^1.0.0
   '@ebay/muse-lib-react': ^1.0.0
   '@ebay/muse-scripts-react': ^1.0.0
@@ -16,9 +16,9 @@ specifiers:
   lodash: ^4.17.21
   moment: ^2.29.3
   prop-types: ^15.8.1
-  react: ^18.1.0
+  react: ^18.2.0
   react-copy-to-clipboard: ^5.1.0
-  react-dom: ^18.1.0
+  react-dom: ^18.2.0
   react-highlight-words: ^0.18.0
   react-redux: ^8.0.2
   react-router-dom: ^6.3.0
@@ -29,11 +29,11 @@ specifiers:
 
 dependencies:
   '@ant-design/icons': 4.7.0_biqbaboplfbrettd7655fr4n2y
-  '@craco/craco': 6.4.3_react-scripts@5.0.1
+  '@craco/craco': 6.4.4_react-scripts@5.0.1
   '@ebay/muse-lib-react': 1.0.0
   antd: 4.20.7_biqbaboplfbrettd7655fr4n2y
   antd-form-builder: 2.1.4_avqzthnwxfrzxtlyigsueimkbq
-  craco-less: 2.0.0_ywo5ddri3hpflch3d7fwy72l7y
+  craco-less: 2.0.0_5etiqhkfjdttz5dcmi2hz5fcv4
   history: 5.3.0
   js-plugin: 1.1.0
   lodash: 4.17.21
@@ -51,7 +51,7 @@ dependencies:
   redux: 4.2.0
 
 devDependencies:
-  '@ebay/muse-craco-plugin': 1.0.0_@craco+craco@6.4.3
+  '@ebay/muse-craco-plugin': 1.0.0_@craco+craco@6.4.4
   '@ebay/muse-scripts-react': 1.0.0
   '@ebay/muse-webpack-plugin': 1.0.0
   cross-env: 7.0.3
@@ -1356,8 +1356,8 @@ packages:
     resolution: {integrity: sha1-u1BFecHK6SPmV2pPXaQ9Jfl729k=}
     engines: {node: '>=0.1.90'}
 
-  /@craco/craco/6.4.3_hsv26antxuqwg6pblgtk7klj5y:
-    resolution: {integrity: sha1-eEOVtuurdkBWVQooYElNJMOr1E4=}
+  /@craco/craco/6.4.4_hsv26antxuqwg6pblgtk7klj5y:
+    resolution: {integrity: sha1-29iZwZpmjsOWDBiT9a4kuHSRGo8=}
     engines: {node: '>=6'}
     hasBin: true
     peerDependencies:
@@ -1377,8 +1377,8 @@ packages:
       - typescript
     dev: false
 
-  /@craco/craco/6.4.3_react-scripts@5.0.1:
-    resolution: {integrity: sha1-eEOVtuurdkBWVQooYElNJMOr1E4=}
+  /@craco/craco/6.4.4_react-scripts@5.0.1:
+    resolution: {integrity: sha1-29iZwZpmjsOWDBiT9a4kuHSRGo8=}
     engines: {node: '>=6'}
     hasBin: true
     peerDependencies:
@@ -1561,12 +1561,12 @@ packages:
       winston: 3.8.0
       winston-transport: 4.5.0
 
-  /@ebay/muse-craco-plugin/1.0.0_@craco+craco@6.4.3:
+  /@ebay/muse-craco-plugin/1.0.0_@craco+craco@6.4.4:
     resolution: {integrity: sha1-GDJe9FP79qaZMDZ2w/lyuUTt+xw=, tarball: '@ebay/muse-craco-plugin/-/@ebay/muse-craco-plugin-1.0.0.tgz'}
     peerDependencies:
       '@craco/craco': ^6.4.3
     dependencies:
-      '@craco/craco': 6.4.3_react-scripts@5.0.1
+      '@craco/craco': 6.4.4_react-scripts@5.0.1
       '@ebay/muse-core': 1.0.0
       '@ebay/muse-dev-utils': 1.0.0
       '@ebay/muse-webpack-plugin': 1.0.0
@@ -1578,12 +1578,12 @@ packages:
       - webpack
     dev: true
 
-  /@ebay/muse-craco-plugin/1.0.0_n73afmjh5x7vswuab5vyy65sjq:
+  /@ebay/muse-craco-plugin/1.0.0_nrs2bkzreheazwdijfnnaz6mtu:
     resolution: {integrity: sha1-GDJe9FP79qaZMDZ2w/lyuUTt+xw=, tarball: '@ebay/muse-craco-plugin/-/@ebay/muse-craco-plugin-1.0.0.tgz'}
     peerDependencies:
       '@craco/craco': ^6.4.3
     dependencies:
-      '@craco/craco': 6.4.3_hsv26antxuqwg6pblgtk7klj5y
+      '@craco/craco': 6.4.4_hsv26antxuqwg6pblgtk7klj5y
       '@ebay/muse-core': 1.0.0
       '@ebay/muse-dev-utils': 1.0.0
       '@ebay/muse-webpack-plugin': 1.0.0
@@ -1616,13 +1616,13 @@ packages:
     resolution: {integrity: sha1-c3JLapST5JqzF+dqP5dZ/s+kvlI=, tarball: '@ebay/muse-lib-react/-/@ebay/muse-lib-react-1.0.0.tgz'}
     dependencies:
       '@babel/core': 7.18.5
-      '@craco/craco': 6.4.3_hsv26antxuqwg6pblgtk7klj5y
-      '@ebay/muse-craco-plugin': 1.0.0_n73afmjh5x7vswuab5vyy65sjq
+      '@craco/craco': 6.4.4_hsv26antxuqwg6pblgtk7klj5y
+      '@ebay/muse-craco-plugin': 1.0.0_nrs2bkzreheazwdijfnnaz6mtu
       '@ebay/muse-scripts-react': 1.0.0
       '@ebay/nice-modal-react': 1.2.6_biqbaboplfbrettd7655fr4n2y
       '@types/node': 17.0.45
       axios: 0.27.2
-      craco-less: 2.0.0_ibtjbwvchvlxub7l77rt2ahube
+      craco-less: 2.0.0_nfkdexkcxprs5zrtkktmc2t5lm
       history: 5.3.0
       js-plugin: 1.1.0
       lodash: 4.17.21
@@ -3858,31 +3858,31 @@ packages:
       path-type: 4.0.0
       yaml: 1.10.2
 
-  /craco-less/2.0.0_ibtjbwvchvlxub7l77rt2ahube:
+  /craco-less/2.0.0_5etiqhkfjdttz5dcmi2hz5fcv4:
     resolution: {integrity: sha1-ot8Ywy6X6/APYsPy6kzZcDX19kA=}
     peerDependencies:
       '@craco/craco': ^6.0.0
       react-scripts: ^5.0.0
     dependencies:
-      '@craco/craco': 6.4.3_hsv26antxuqwg6pblgtk7klj5y
+      '@craco/craco': 6.4.4_react-scripts@5.0.1
       less: 4.1.3
-      less-loader: 7.3.0_less@4.1.3+webpack@5.73.0
-      react-scripts: 5.0.1_qtbnez4q7bzoc4eqybg3efzzxe
+      less-loader: 7.3.0_less@4.1.3
+      react-scripts: 5.0.1_react@18.2.0
     transitivePeerDependencies:
       - supports-color
       - webpack
     dev: false
 
-  /craco-less/2.0.0_ywo5ddri3hpflch3d7fwy72l7y:
+  /craco-less/2.0.0_nfkdexkcxprs5zrtkktmc2t5lm:
     resolution: {integrity: sha1-ot8Ywy6X6/APYsPy6kzZcDX19kA=}
     peerDependencies:
       '@craco/craco': ^6.0.0
       react-scripts: ^5.0.0
     dependencies:
-      '@craco/craco': 6.4.3_react-scripts@5.0.1
+      '@craco/craco': 6.4.4_hsv26antxuqwg6pblgtk7klj5y
       less: 4.1.3
-      less-loader: 7.3.0_less@4.1.3
-      react-scripts: 5.0.1_react@18.2.0
+      less-loader: 7.3.0_less@4.1.3+webpack@5.73.0
+      react-scripts: 5.0.1_qtbnez4q7bzoc4eqybg3efzzxe
     transitivePeerDependencies:
       - supports-color
       - webpack

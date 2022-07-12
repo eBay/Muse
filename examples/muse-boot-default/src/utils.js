@@ -80,20 +80,19 @@ export function load(resource, callback) {
 }
 
 export function loadInParallel(items, callback) {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     callback = callback || noop;
     let count = items.length;
     if (count === 0) {
       resolve();
-      callback([]);
     }
     const arr = [];
     items.forEach((url, idx) => {
-      load(url, (data) => {
+      load(url, data => {
         count--;
+        callback(items.length - count);
         arr[idx] = data;
         if (count === 0) {
-          callback(arr);
           resolve(arr);
         }
       });

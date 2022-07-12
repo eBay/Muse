@@ -1,6 +1,6 @@
 {
   "name": "@ebay/muse-simple-server",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "main": "index.js",
   "license": "MIT",
   "publishConfig": {
@@ -19,6 +19,6 @@
     "@ebay/muse-express-middleware": "workspace:^"
   },
   "devDependencies": {
-    "eslint": "^8.16.0"
+    "eslint": "^8.18.0"
   }
 }

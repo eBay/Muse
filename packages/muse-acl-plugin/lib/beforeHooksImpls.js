@@ -15,19 +15,20 @@ const {
 } = require('./utils');
 
 module.exports = () => {
-  plugin.register({
-    name: 'test-extend-acl',
-    museACL: {
-      deployPlugin: {
-        roles: {
-          custoizedRole: true,
-        },
-      },
-      deletePlugin: {
-        ability: customizedAbility,
-      },
-    },
-  });
+  // // for test purpose
+  // plugin.register({
+  //   name: 'test-extend-acl',
+  //   museACL: {
+  //     deployPlugin: {
+  //       roles: {
+  //         custoizedRole: true,
+  //       },
+  //     },
+  //     deletePlugin: {
+  //       ability: customizedAbility,
+  //     },
+  //   },
+  // });
 
   return {
     museCore: {
@@ -37,11 +38,11 @@ module.exports = () => {
       pm: {
         beforeDeployPlugin: async function() {
           const [, params] = arguments;
-          const [admins, appOwners, pluginOwners] = await Promise.all(
+          const [admins, appOwners, pluginOwners] = await Promise.all([
             getAdminMembers(params),
             getAppMembers(params),
             getPluginMembers(params),
-          );
+          ]);
 
           const defaultAuthorizedRoles = {
             admin: isMember(params.author, admins),
@@ -61,10 +62,10 @@ module.exports = () => {
 
         deletePlugin: async function(...args) {
           const [, params] = arguments;
-          const [admins, pluginOwners] = await Promise.all(
+          const [admins, pluginOwners] = await Promise.all([
             getAdminMembers(params),
             getPluginMembers(params),
-          );
+          ]);
           const defaultAuthorizedRoles = {
             admin: isMember(params.author, admins),
             pluginOwner: isMember(params.author, pluginOwners),

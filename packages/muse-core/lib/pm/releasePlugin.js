@@ -1,31 +1,33 @@
 const yaml = require('js-yaml');
 const path = require('path');
 const fs = require('fs-extra');
-const { asyncInvoke, getPluginId, osUsername, genNewVersion, doZip } = require('../utils');
+const {
+  asyncInvoke,
+  getPluginId,
+  osUsername,
+  genNewVersion,
+  doZip,
+  validate,
+} = require('../utils');
 const { assets, registry } = require('../storage');
 const getReleases = require('./getReleases');
 const getPlugin = require('./getPlugin');
-const { validate } = require('schema-utils');
 const schema = require('../schemas/pm/releasePlugin.json');
 const logger = require('../logger').createLogger('muse.pm.releasePlugin');
 /**
  * @module muse-core/pm/releasePlugin
  */
 /**
- * @typedef {object} ReleasePluginArgument
- * @property {string} pluginName the plugin name
- * @property {string} [version="patch"] semver version number type
- * @property {string} [buildDir] output directory of bundles
- * @property {string} [author] default to the current os logged in user
- * @property {string} [msg] action message
- * @property {object} [options]
- */
-
-/**
- * @description Release a new version of a plugin
+ * @description Release a new version of a plugin.
  * if the buildDir is not empty, will upload the build directory to assets storag
- * @param {ReleasePluginArgument} params args to release a plugin
- * @returns {object} release object
+ * @param {object}  params Args to release a plugin.
+ * @param {string} params.pluginName The plugin name.
+ * @param {string} [params.version="patch"] Semver version number type.
+ * @param {string} [params.buildDir] Output directory of bundles.
+ * @param {string} [params.author] Default to the current os logged in user.
+ * @param {string} [params.msg] Action message.
+ * @param {object} [params.options]
+ * @returns {object} Release object.
  */
 
 module.exports = async params => {

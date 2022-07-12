@@ -22,13 +22,14 @@ describe('Delete request status basic tests.', () => {
 
   it('Delete status should work', async () => {
     const type = 'deploy-plugin';
+    const id = 'testid';
     const payload = {
       appName: 'app1',
       envName: 'staging',
       pluginName: 'test-plugin',
       version: '1.0.0',
     };
-    const req = await muse.req.createRequest({ type, author: 'nate', payload });
+    const req = await muse.req.createRequest({ id, type, author: 'nate', payload });
 
     await muse.req.updateStatus({
       requestId: req.id,

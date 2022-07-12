@@ -1,7 +1,6 @@
 const getApp = require('../../am/getApp');
 const updateApp = require('../../am/updateApp');
-const { osUsername } = require('../../utils');
-const { validate } = require('schema-utils');
+const { osUsername, validate } = require('../../utils');
 const schema = require('../../schemas/plugins/environmentVariablesPlugin/deleteAppVariable.json');
 const logger = require('../../logger').createLogger('muse.am.deleteAppVariable');
 
@@ -10,18 +9,14 @@ const logger = require('../../logger').createLogger('muse.am.deleteAppVariable')
  */
 
 /**
- * @typedef {object} DeleteAppVariableArgument
- * @property {string} appName the app name
- * @property {array} variables the variables of app to be deleted. Each array element is an object { name: 'var. name', value: 'var. value'}
- * @property {array} envNames the environments of app
- * @property {string} [author=osUsername] default to the current os logged in user
+ * @param {object} params Args to delete variables from apps.
+ * @param {string} params.appName The app name.
+ * @param {array} params.variables The variables of app to be deleted. Each array element is an object { name: 'var. name', value: 'var. value'}.
+ * @param {array} params.envNames The environments of app.
+ * @param {string} [params.author=osUsername] Default to the current os logged in user.
+ * @returns {object} App.
  */
 
-/**
- *
- * @param {DeleteAppVariableArgument} params args to delete variables from apps
- * @returns {object} app
- */
 module.exports = async params => {
   validate(schema, params);
   const { appName, variables, envNames = [], author = osUsername } = params;

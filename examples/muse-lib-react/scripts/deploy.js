@@ -15,10 +15,10 @@ if (!path.isAbsolute(target)) {
 }
 
 console.log('Deploy to: ', target);
-console.log(path.join(target, 'node_modules/@ebay/muse-react'));
+console.log(path.join(target, 'node_modules/@ebay/muse-lib-react'));
 fs.copySync(
   path.join(__dirname, '../build'),
-  path.join(target, 'node_modules/@ebay/muse-react/build'),
+  path.join(target, 'node_modules/@ebay/muse-lib-react/build'),
 );
 // // fs.copySync(path.join(__dirname, '../build/apm.js'), path.join(target, 'node_modules/muse-boot/build/apm.js'))
 

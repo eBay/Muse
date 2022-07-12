@@ -1,0 +1,17 @@
+{
+  "name": "@ebay/muse-plugin-url-storage",
+  "version": "1.0.1",
+  "description": "",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "eslint": "^8.19.0",
+    "lodash": "^4.17.21"
+  }
+}

@@ -1,6 +1,6 @@
 const path = require('path');
 const fs = require('fs-extra');
-
+const { jsonByYamlBuff } = require('../utils');
 /**
  * @class
  */
@@ -39,6 +39,20 @@ class FileStorage {
     await fs.promises.writeFile(absPath, value);
   }
 
+  async batchSet(items, msg) {
+    const setFile = async ({ keyPath, value }) => {
+      const content = jsonByYamlBuff(value);
+      if (content) {
+        // add
+        await this.set(keyPath, value);
+      } else {
+        // remove
+        await this.del(keyPath);
+      }
+    };
+    await Promise.all(items.map(item => setFile(item)));
+  }
+
   /**
    *
    * @param {String} keyPath
@@ -71,7 +85,7 @@ class FileStorage {
     const absPath = this.mapPath(keyPath);
     const arr = await fs.promises.readdir(absPath);
     return await Promise.all(
-      arr.map(async (name) => {
+      arr.map(async name => {
         const p = path.join(absPath, name);
         const stat = await fs.promises.stat(p);
         return {

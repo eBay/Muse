@@ -1,25 +1,21 @@
-const { asyncInvoke, getPluginId, osUsername } = require('../utils');
+const { asyncInvoke, getPluginId, osUsername, validate } = require('../utils');
 const { assets } = require('../storage');
-const { validate } = require('schema-utils');
 const schema = require('../schemas/pm/getReleaseAssets.json');
 /**
  * @module muse-core/pm/getReleaseAssets
  */
-/**
- * @typedef {object} GetReleaseAssetsArgument
- * @property {string} pluginName the plugin name
- * @property {string} version the released version
- * @property {string} [author] default to the current os logged in user
- * @property {string} [msg] action message
- */
 
 /**
- * @description List all static resource file information under a certain version
- * @param {GetReleaseAssetsArgument} params
- * @returns {object[]} list of object information
+ * @description List all static resource file information under a certain version.
+ * @param {object} params
+ * @param {string} params.pluginName The plugin name.
+ * @param {string} params.version The released version.
+ * @param {string} [params.author] Default to the current os logged in user.
+ * @param {string} [params.msg] Action message.
+ * @returns {object[]} List of object information.
  */
 
-module.exports = async (params) => {
+module.exports = async params => {
   validate(schema, params);
   const { pluginName, version, author = osUsername, msg } = params;
   const ctx = {};

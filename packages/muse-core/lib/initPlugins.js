@@ -19,31 +19,63 @@ const {
 
 const configDir = config.filepath ? path.dirname(config.filepath) : process.cwd();
 
-const loadPlugin = (pluginDef) => {
+const loadPlugin = pluginDef => {
   let pluginInstance = null;
   let pluginOptions = null;
   if (_.isString(pluginDef)) {
     pluginInstance = importFrom(configDir, pluginDef);
   } else if (_.isArray(pluginDef)) {
-    pluginInstance = importFrom(configDir, pluginDef[0]);
+    const p = pluginDef[0];
+    if (_.isString(p)) {
+      pluginInstance = importFrom(configDir, p);
+    } else if (_.isObject(p) || _.isFunction(p)) {
+      // else it should be string or function or object
+      pluginInstance = p;
+    } else {
+      throw new Error(`Unknown plugin definition: ${JSON.stringify(pluginDef)}`);
+    }
     pluginOptions = pluginDef[1];
   } else if (_.isObject(pluginDef)) {
     pluginInstance = pluginDef;
+  } else if (_.isFunction(pluginDef)) {
+    pluginInstance = pluginDef();
   } else {
-    throw new Error(`Unknown plugin definition: ${String(pluginDef)}`);
+    throw new Error(`Unknown plugin definition: ${JSON.stringify(pluginDef)}`);
   }
-  if (_.isFunction(pluginInstance)) pluginInstance = pluginInstance(pluginOptions);
+  if (_.isFunction(pluginInstance)) pluginInstance = pluginInstance(pluginOptions || {});
   plugin.register(pluginInstance);
 };
 
-config.plugins?.forEach(loadPlugin);
+// Load presets first
+// A preset module must export the structure:
+// [{ name: 'plugin1', plugin: pluginModule }, { name: 'plugin2', plugin: pluginModule }]
+// The name for plugin is used to pass arguments to the plugin from presets config section
 _.castArray(config.presets)
   .filter(Boolean)
-  .forEach((preset) => {
-    let plugins = importFrom(configDir, preset);
+  .forEach(preset => {
+    // preset must be a string to be able to loaded by `require`
+    let plugins;
+    const args = {};
+    if (_.isString(preset)) {
+      plugins = importFrom(configDir, preset);
+    } else if (_.isArray(preset)) {
+      // If preset item is an array, then the first is preset module path, the second is args for plugins
+      plugins = importFrom(configDir, preset[0]);
+      Object.assign(args, preset[1] || {});
+    }
     if (_.isFunction(plugins)) plugins = plugins();
+    // Here plugins has the structure:
+    // [{ name: 'plugin1', plugin: pluginModule }, { name: 'plugin2', plugin: pluginModule }]
+    // Need to convert it and bind to args
+    plugins = plugins.map(p =>
+      _.isString(p) ? p : [p.plugin, Object.assign(p.args || {}, args[p.name] || {})],
+    );
+
     plugins.forEach(loadPlugin);
   });
+
+// Then load plugins
+config.plugins?.forEach(loadPlugin);
 
 // Built-in behavior initialization
 // If no assets storage plugin, then use the default one
@@ -51,7 +83,7 @@ const assetsStorageProviders = plugin.getPlugins('museCore.assets.storage.get').
 if (assetsStorageProviders.length > 1) {
   console.log(
     `[WARNING]: multiple assets stroage providers found: ${assetsStorageProviders
-      .map((p) => p.name)
+      .map(p => p.name)
       .join(', ')}. Only the first one is used: ${assetsStorageProviders[0].name}.`,
   );
 }
@@ -64,7 +96,7 @@ const registryStorageProviders = plugin.getPlugins('museCore.registry.storage.ge
 if (registryStorageProviders.length > 1) {
   console.log(
     `[WARNING]: multiple registry stroage providers found: ${registryStorageProviders
-      .map((p) => p.name)
+      .map(p => p.name)
       .join(', ')}. Only the first one is used: ${registryStorageProviders[0].name}.`,
   );
 }
@@ -82,7 +114,7 @@ if (config.get('defaultDataCachePlugin')) {
 
 plugin.register(environmentVariablesPlugin());
 
-Object.values(restPlugins).forEach((p) => plugin.register(p()));
+Object.values(restPlugins).forEach(p => plugin.register(p()));
 
 // When all plugins are loaded, invoke onReady on each plugin
 plugin.invoke('onReady', config);
