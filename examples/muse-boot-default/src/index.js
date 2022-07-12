@@ -1,6 +1,7 @@
 // boot plugin is used to load other plugins based on the app config
 import museModules from '@ebay/muse-modules';
 import loading from './loading';
+import error from './error';
 import { loadInParallel, getPluginId } from './utils';
 import './style.css';
 
@@ -26,6 +27,7 @@ async function start() {
       parseMuseId: museModules.parseMuseId,
     },
   });
+
   const {
     cdn = '',
     plugins = [],
@@ -59,20 +61,24 @@ async function start() {
     );
 
   // Load init plugins
-  loading.showMessage(`Loading init plugins 1/${initPluginUrls.length}...`);
-  await loadInParallel(initPluginUrls, loadedCount =>
-    loading.showMessage(
-      `Loading init plugins ${Math.min(loadedCount + 1, initPluginUrls.length)}/${
-        initPluginUrls.length
-      }...`,
-    ),
-  );
+  if (initPluginUrls.length > 0) {
+    loading.showMessage(`Loading init plugins 1/${initPluginUrls.length}...`);
+    await loadInParallel(initPluginUrls, loadedCount =>
+      loading.showMessage(
+        `Loading init plugins ${Math.min(loadedCount + 1, initPluginUrls.length)}/${
+          initPluginUrls.length
+        }...`,
+      ),
+    );
+  }
 
   // Exec init entries
-  console.log('Execution init entries...');
-  for (const initEntry of initEntries) {
-    // Allow an init entry to break the start of the app
-    if ((await initEntry.func()) === false) return;
+  if (initEntries.length > 0) {
+    loading.showMessage(`Executing init entries...`);
+    for (const initEntry of initEntries) {
+      // Allow an init entry to break the start of the app
+      if ((await initEntry.func()) === false) return;
+    }
   }
 
   // Load plugins bundles
@@ -92,40 +98,50 @@ async function start() {
   );
 
   // Exec plugin entries
-  console.log('Execution plugin entries...');
-  pluginEntries.forEach(entry => entry.func());
+  if (pluginEntries.length > 0) {
+    loading.showMessage(`Executing plugin entries...`);
+    pluginEntries.forEach(entry => entry.func());
+  }
 
   // Wait for loader
-  loading.showMessage(`Custom loaders 1/${waitForLoaders.length}...`);
+  if (waitForLoaders.length > 0) {
+    loading.showMessage(`Custom loaders 1/${waitForLoaders.length}...`);
+    let loaderLoadedCount = 0;
+    const arr = await Promise.all(
+      waitForLoaders.map(async loader => {
+        // Usually a plugin waitFor a promise so that it doesn't need to wait for all plugins loaded before executing
 
-  let loaderLoadedCount = 0;
-  const arr = await Promise.all(
-    waitForLoaders.map(async loader => {
-      // Usually a plugin waitFor a promise so that it doesn't need to wait for all plugins loaded before executing
-
-      loading.showMessage(`Custom loaders ${++loaderLoadedCount}/${waitForLoaders.length}...`);
-      if (loader.then) return await loader;
-      // If pass an async function, it executes while all plugins are loaded.
-      else return await loader();
-    }),
-  );
-  // If a loader returns false, then don't continue starting
-  if (arr.some(s => s === false)) return;
+        loading.showMessage(`Custom loaders ${++loaderLoadedCount}/${waitForLoaders.length}...`);
+        if (loader.then) return await loader;
+        // If pass an async function, it executes while all plugins are loaded.
+        else return await loader();
+      }),
+    );
+    // If a loader returns false, then don't continue starting
+    if (arr.some(s => s === false)) return;
+  }
 
   // Start the application
   const entryApp = appEntries.find(e => e.name === entry);
-  console.log(`Starting the app from ${entry}...`);
-  loading.showMessage(`Starting...`);
-  await entryApp.func();
+  if (entryApp) {
+    console.log(`Starting the app from ${entry}...`);
+    loading.showMessage(`Starting the app...`);
+    await entryApp.func();
+  }
   loading.hide();
 }
 
 loading.init();
+
 start()
   .then(() => {
     console.log(`Muse app started.`);
   })
   .catch(err => {
     console.log('Failed to start app.');
-    console.error(err);
+    err && console.error(err);
+    loading.hide();
+    if (err?.message) {
+      error.show(err.message);
+    }
   });

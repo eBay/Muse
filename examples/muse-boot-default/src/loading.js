@@ -21,19 +21,20 @@ export default {
   },
 
   hide() {
-    document.body.removeChild(this.mountNode);
-    document.body.style.opacity = 0;
+    if (!this.mountNode) return;
     setTimeout(() => {
-      document.body.classList.add('loading-finish-transition');
-      document.body.style.opacity = 1;
+      this.mountNode.style.opacity = 0;
     }, 10);
 
     setTimeout(() => {
-      document.body.classList.remove('loading-finish-transition');
-    }, 1000);
+      document.body.removeChild(this.mountNode);
+      delete this.mountNode;
+    }, 800);
+
+    delete this.labelNode;
   },
 
   showMessage(msg) {
-    this.labelNode.innerHTML = msg || '';
+    if (this.labelNode) this.labelNode.innerHTML = msg || '';
   },
 };

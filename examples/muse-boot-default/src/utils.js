@@ -1,14 +1,5 @@
-// import { fatalError } from './loading';
-
+import error from './error';
 const noop = () => {};
-export const queries = document.location.search
-  .replace(/^\?/, '')
-  .split('&')
-  .reduce((p, c) => {
-    const arr = c.split('=');
-    p[arr[0]] = decodeURIComponent(arr[1]);
-    return p;
-  }, {});
 
 export function xhr(url, options = {}) {
   const request = new XMLHttpRequest();
@@ -39,14 +30,6 @@ export function xhr(url, options = {}) {
   });
 }
 
-export function injectCss(css) {
-  const head = document.getElementsByTagName('head')[0];
-  const style = document.createElement('style');
-  head.appendChild(style);
-  style.type = 'text/css';
-  style.appendChild(document.createTextNode(css));
-}
-
 export function load(resource, callback) {
   callback = callback || noop;
   if (resource.then && resource.catch) {
@@ -66,56 +49,21 @@ export function load(resource, callback) {
       };
       script.onerror = () => {
         // fatalError('Failed to load resource: ' + resource);
+        error.show(`Failed to load resource: ${resource} .`);
         reject();
       };
     });
-  } else if (resource.endsWith('.css')) {
-    const head = document.getElementsByTagName('head')[0];
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.type = 'text/css';
-    link.href = resource;
-    head.appendChild(link);
   }
 }
 
-export function loadInParallel(items, callback) {
-  return new Promise(resolve => {
-    callback = callback || noop;
-    let count = items.length;
-    if (count === 0) {
-      resolve();
-    }
-    const arr = [];
-    items.forEach((url, idx) => {
-      load(url, data => {
-        count--;
-        callback(items.length - count);
-        arr[idx] = data;
-        if (count === 0) {
-          resolve(arr);
-        }
-      });
-    });
-  });
-}
-
-export function loadSerialized(items, callback) {
-  callback = callback || noop;
-  function loadAndNext() {
-    if (!items.length) {
-      callback();
-      return;
-    }
-    const url = items.shift();
-    if (url.push && url.pop && url.shift) {
-      // is array
-      loadInParallel(url, loadAndNext);
-    } else {
-      load(url, loadAndNext);
-    }
-  }
-  loadAndNext();
+export async function loadInParallel(items, callback = noop) {
+  let count = 0;
+  await Promise.all(
+    items.map(async item => {
+      await load(item);
+      callback(++count);
+    }),
+  );
 }
 
 export function joinPath(p1, p2) {
