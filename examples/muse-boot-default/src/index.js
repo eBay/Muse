@@ -5,12 +5,13 @@ import error from './error';
 import { loadInParallel, getPluginId } from './utils';
 import './style.css';
 
+loading.init();
+
 async function start() {
   loading.showMessage('Starting...');
   if (!window.MUSE_GLOBAL) {
     window.MUSE_GLOBAL = {};
   }
-  window.MUSE_GLOBAL.loading = loading;
   const waitForLoaders = [];
   Object.assign(window.MUSE_GLOBAL, {
     appEntries: [], // entries to start the app
@@ -20,6 +21,7 @@ async function start() {
     waitFor: asyncFuncOrPromise => {
       waitForLoaders.push(asyncFuncOrPromise);
     },
+    // Muse shared modules global methods
     __shared__: {
       modules: {},
       register: museModules.register,
@@ -40,14 +42,15 @@ async function start() {
   window.MUSE_CONFIG = window.MUSE_GLOBAL;
   // TODO: remove below two lines after migrate old Muse plugins inside eBay
   window.MUSE_GLOBAL.getUser = () => ({});
+  window.MUSE_GLOBAL.loading = loading;
 
   // Print app plugins in dev console
   const bootPlugin = plugins.find(p => p.type === 'boot');
-  if (!bootPlugin) {
-    throw new Error('Boot plugin not found.');
+  if (bootPlugin) {
+    console.log(
+      `Loading Muse app by ${bootPlugin.name}@${bootPlugin.version || bootPlugin.url}...`,
+    );
   }
-
-  console.log(`Loading Muse app by ${bootPlugin.name}@${bootPlugin.version || bootPlugin.url}...`);
   console.log(`Plugins(${plugins.length}):`);
   plugins.forEach(p => console.log(`  * ${p.name}@${p.version || p.url}`));
 
@@ -81,7 +84,7 @@ async function start() {
     }
   }
 
-  // Load plugins bundles
+  // Load normal and lib plugins
   const pluginUrls = plugins
     .filter(p => p.type !== 'boot' && p.type !== 'init')
     .map(
@@ -105,13 +108,11 @@ async function start() {
 
   // Wait for loader
   if (waitForLoaders.length > 0) {
-    loading.showMessage(`Custom loaders 1/${waitForLoaders.length}...`);
-    let loaderLoadedCount = 0;
+    loading.showMessage(`Executing custom loaders ...`);
+    // let loaderLoadedCount = 0;
     const arr = await Promise.all(
       waitForLoaders.map(async loader => {
         // Usually a plugin waitFor a promise so that it doesn't need to wait for all plugins loaded before executing
-
-        loading.showMessage(`Custom loaders ${++loaderLoadedCount}/${waitForLoaders.length}...`);
         if (loader.then) return await loader;
         // If pass an async function, it executes while all plugins are loaded.
         else return await loader();
@@ -130,8 +131,6 @@ async function start() {
   }
   loading.hide();
 }
-
-loading.init();
 
 start()
   .then(() => {
