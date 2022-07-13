@@ -18,7 +18,7 @@ class MuseDelegatedModuleFactoryPlugin {
 
       // if this plugin defines a "customLibs" section on the museConfig,
       // we have to exclude those libs from the DelegatedModule definition (return the module directly)
-      const customLibs = this.options.museConfig?.customLibs;
+      const customLibs = this.options.museConfig?.customLibs || [];
       for (const customLib of customLibs) {
         for (const keyToRemove of Object.keys(mergedContent).filter(key => {
           const regex = new RegExp(`^${customLib}@`);
