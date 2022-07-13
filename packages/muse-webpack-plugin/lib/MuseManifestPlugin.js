@@ -63,7 +63,7 @@ class MuseManifestPlugin {
             if (!module?.buildInfo?.museData?.id) continue;
 
             // ////////  exclude modules from sharedLibs.exclude configuration  ///////////////////
-            let moduleName = parseMuseId(module.buildInfo.museData.id).name;
+            const moduleName = parseMuseId(module.buildInfo.museData.id).name;
             if (sharedLibs.some(cl => moduleName === cl)) continue;
             // ////////////////////////////////////////////////////////////////////////////////////
 
