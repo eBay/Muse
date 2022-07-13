@@ -4,7 +4,7 @@
   "repository": "",
   "muse": {
     "devConfig": {
-      "app": "nate",
+      "app": "app1",
       "env": "staging"
     }
   },
@@ -16,8 +16,8 @@
   },
   "scripts": {
     "start": "cross-env PORT=3032 muse-scripts-react start",
-    "build": "muse-scripts-react build",
-    "build:dev": "muse-scripts-react build --dev",
+    "build": "cross-env NODE_PATH=./node_modules muse-scripts-react build",
+    "build:dev": "cross-env NODE_PATH=./node_modules muse-scripts-react build --dev",
     "deploy": "yarn build:dev && muse release muse-layout && muse deploy app1 staging muse-layout",
     "test": "cross-env NODE_PATH=./node_modules muse-scripts-react test --coverage",
     "test:config": "cross-env NODE_PATH=./node_modules muse-scripts-react test --showConfig",
