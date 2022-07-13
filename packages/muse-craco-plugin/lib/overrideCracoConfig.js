@@ -30,6 +30,7 @@ module.exports = async ({ cracoConfig }) => {
       new MusePlugin({
         isDevBuild,
         type: museConfig.type,
+        museConfig,
       }),
       'prepend',
     ]);
@@ -42,6 +43,7 @@ module.exports = async ({ cracoConfig }) => {
         new MuseReferencePlugin({
           isDevBuild,
           museLibs,
+          museConfig,
         }),
         'prepend',
       ]);
