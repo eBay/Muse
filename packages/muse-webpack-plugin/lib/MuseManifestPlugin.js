@@ -3,6 +3,7 @@
 const asyncLib = require('neo-async');
 const { compareModulesById } = require('webpack/lib/util/comparators');
 const { dirname, mkdirp } = require('webpack/lib/util/fs');
+const { parseMuseId } = require('@ebay/muse-modules');
 const path = require('path');
 
 /** @typedef {import("./Compiler")} Compiler */
@@ -30,6 +31,8 @@ class MuseManifestPlugin {
   apply(compiler) {
     compiler.hooks.emit.tapAsync('MuseManifestPlugin', (compilation, callback) => {
       const moduleGraph = compilation.moduleGraph;
+      const sharedLibs = this.options.museConfig?.sharedLibs?.exclude || [];
+
       asyncLib.forEach(
         Array.from(compilation.chunks),
         (chunk, callback) => {
@@ -38,9 +41,15 @@ class MuseManifestPlugin {
             return;
           }
           const chunkGraph = compilation.chunkGraph;
-          const targetPath = compilation.getPath(path.join(process.cwd(), `build/${this.options.isDevBuild ? 'dev' : 'dist'}/lib-manifest.json`), {
-            chunk,
-          });
+          const targetPath = compilation.getPath(
+            path.join(
+              process.cwd(),
+              `build/${this.options.isDevBuild ? 'dev' : 'dist'}/lib-manifest.json`,
+            ),
+            {
+              chunk,
+            },
+          );
           const name =
             this.options.name &&
             compilation.getPath(this.options.name, {
@@ -52,6 +61,12 @@ class MuseManifestPlugin {
             compareModulesById(chunkGraph),
           )) {
             if (!module?.buildInfo?.museData?.id) continue;
+
+            // ////////  exclude modules from sharedLibs.exclude configuration  ///////////////////
+            let moduleName = parseMuseId(module.buildInfo.museData.id).name;
+            if (sharedLibs.some(cl => moduleName === cl)) continue;
+            // ////////////////////////////////////////////////////////////////////////////////////
+
             const ident = module.libIdent({
               context: this.options.context || compiler.options.context,
               associatedObjectForCache: compiler.root,
@@ -84,7 +99,7 @@ class MuseManifestPlugin {
           mkdirp(
             compiler.intermediateFileSystem,
             dirname(compiler.intermediateFileSystem, targetPath),
-            (err) => {
+            err => {
               if (err) return callback(err);
               compiler.intermediateFileSystem.writeFile(targetPath, buffer, callback);
             },
