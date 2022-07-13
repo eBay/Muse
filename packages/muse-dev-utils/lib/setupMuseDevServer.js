@@ -44,6 +44,9 @@ muse.plugin.register({
         const { app: appName, env: envName = 'staging' } = museConfig.devConfig;
         return { appName, envName };
       },
+      processMuseGlobal: museGlobal => {
+        museGlobal.isLocal = true;
+      },
       processPlugins: plugins => {
         // Modify plugins array to be loaded by Muse app middleware
         const pkgJson = getPkgJson();
