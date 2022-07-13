@@ -33,14 +33,23 @@ describe('Export basic tests.', () => {
       version: 'minor',
       author: 'nate',
     });
-    await muse.pm.deployPlugin({ appName, envName, pluginName, version: '1.0.0', options: { prop1: 'prop1' } });
+    await muse.pm.deployPlugin({
+      appName,
+      envName,
+      pluginName,
+      version: '1.0.0',
+      options: { prop1: 'prop1' },
+    });
 
     unzipper.Open.buffer.mockResolvedValue({
-      extract: ({path}) => {
+      extract: ({ path }) => {
         console.log(`mock extract from ${path}`);
-      }
+      },
     });
-    muse.storage.assets.get = jest.fn(assetsZipKey => {console.log(`mock asset get for ${assetsZipKey}`); return 'test'; });
+    muse.storage.assets.get = jest.fn(assetsZipKey => {
+      console.log(`mock asset get for ${assetsZipKey}`);
+      return 'test';
+    });
     await muse.am.export({ appName, envName, output: 'exportutonly' });
 
     // const app = await muse.am.getApp(appName);
@@ -59,7 +68,7 @@ describe('Export basic tests.', () => {
       await muse.am.export({ appName, envName, output: 'exportutonly' });
       expect(true).toBe(false); // above statement should throw error
     } catch (err) {
-      expect(err?.message).toMatch(`App ${appName} doesn't exist.`);
+      expect(err?.message).toMatch(`App ${appName} not exists.`);
     }
   });
 

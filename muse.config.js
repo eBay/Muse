@@ -1,6 +1,6 @@
 module.exports = {
   logLevel: 'silly',
-  assetStorageCache: false,
+  // assetStorageCache: false,
   plugins: [
     // [
     //   './packages/muse-plugin-git-storage',

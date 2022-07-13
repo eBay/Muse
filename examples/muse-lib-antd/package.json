@@ -24,8 +24,8 @@
   },
   "scripts": {
     "start": "cross-env PORT=3031 muse-scripts-react start",
-    "build": "muse-scripts-react build",
-    "build:dev": "muse-scripts-react build --dev",
+    "build": "cross-env NODE_PATH=./node_modules muse-scripts-react build",
+    "build:dev": "cross-env NODE_PATH=./node_modules muse-scripts-react build --dev",
     "deploy": "yarn build:dev && yarn build && muse release muse-antd && muse deploy app1 staging muse-antd"
   },
   "browserslist": {

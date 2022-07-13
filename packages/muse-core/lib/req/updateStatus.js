@@ -9,18 +9,15 @@ const completeRequest = require('./completeRequest');
 /**
  * @module muse-core/req/updateStatus
  */
-/**
- * @typedef {object} UpdateStatusArgument
- * @property {string} requestId the request Id
- * @property {string} status the request status
- * @property {string} [author] default to the current os logged in user
- * @property {string} [msg] action message
- */
 
 /**
- * @description Merge a request
- * @param {UpdateStatusArgument} params args to merge a request
- * @returns {request} request object
+ * @description Merge a request.
+ * @param {object} params Args to merge a request.
+ * @param {string} params.requestId The request Id.
+ * @param {string} params.status the request status.
+ * @param {string} [params.author] Default to the current os logged in user.
+ * @param {string} [params.msg] Action message.
+ * @returns {request} Request object.
  */
 
 module.exports = async params => {

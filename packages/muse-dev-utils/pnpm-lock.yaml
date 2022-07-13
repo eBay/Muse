@@ -1,17 +1,19 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@ebay/muse-core': workspace:^
-  '@ebay/muse-express-middleware': workspace:^
+  '@ebay/muse-core': workspace:^1.0.0
+  '@ebay/muse-express-middleware': workspace:^1.0.0
   dotenv: ^16.0.1
   eslint: ^8.15.0
   express: ^4.18.1
+  lodash: ^4.17.21
   resolve-cwd: ^3.0.0
 
 dependencies:
   '@ebay/muse-core': link:../muse-core
   '@ebay/muse-express-middleware': link:../muse-express-middleware
   dotenv: 16.0.1
+  lodash: 4.17.21
   resolve-cwd: 3.0.0
 
 devDependencies:
@@ -632,6 +634,10 @@ packages:
   /lodash.merge/4.6.2:
     resolution: {integrity: sha1-VYqlO0O2YeGSWgr9+japoQhf5Xo=}
     dev: true
+
+  /lodash/4.17.21:
+    resolution: {integrity: sha1-Z5WRxWTDv/quhFTPCz3zcMPWkRw=}
+    dev: false
 
   /media-typer/0.3.0:
     resolution: {integrity: sha1-hxDXrwqmJvj/+hzgAWhUUmMlV0g=}
