@@ -160,4 +160,6 @@ module.exports = middlewares => {
     console.log(err);
     process.exit(1);
   }
+
+  return middlewares;
 };
