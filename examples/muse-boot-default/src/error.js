@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   errors: [],
   init() {
     const errorDiv = document.createElement('div');
