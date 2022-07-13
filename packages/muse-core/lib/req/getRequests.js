@@ -6,9 +6,9 @@ const { registry } = require('../storage');
  */
 
 /**
- * @description Get metadata of all apps
- * @param {*} [params] args to get all apps
- * @returns {object[]} list of request object
+ * @description Get metadata of all apps.
+ * @param {*} [params] Args to get all apps.
+ * @returns {object[]} List of request object.
  */
 
 module.exports = async params => {

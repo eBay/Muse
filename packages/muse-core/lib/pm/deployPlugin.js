@@ -1,7 +1,7 @@
 const yaml = require('js-yaml');
 const _ = require('lodash');
 const schema = require('../schemas/pm/deployPlugin.json');
-const { asyncInvoke, getPluginId, updateJson, osUsername, validate  } = require('../utils');
+const { asyncInvoke, getPluginId, updateJson, osUsername, validate } = require('../utils');
 const { registry } = require('../storage');
 const getPlugin = require('./getPlugin');
 const { getApp } = require('../am');
@@ -12,29 +12,26 @@ const logger = require('../logger').createLogger('muse.pm.deployPlugin');
 /**
  * @module muse-core/pm/deployplugin
  */
-/**
- * @typedef {object} DeployPluginArgument
- * @property {string} appName the app name
- * @property {string} envName the environment
- * @property {string} pluginName the plugin name
- * @property {string} [version] the exact version you want to deploy, default by the latest version
- * @property {object} [options]
- * @property {object} [changes]
- * @property {string} [author] default to the current os logged in user
- * @property {string} [msg] action message
- */
 
 /**
  *
- * @param {DeployPluginArgument} params args to delete a plugin
+ * @param {object} params Args to delete a plugin.
+ * @param {string} params.appName The app name.
+ * @param {string} params.envName The environment.
+ * @param {string} params.pluginName The plugin name.
+ * @param {string} [params.version] The exact version you want to deploy, default by the latest version.
+ * @param {object} [params.options]
+ * @param {object} [params.changes]
+ * @param {string} [params.author] Default to the current os logged in user.
+ * @param {string} [params.msg] Action message.
  * @returns {object}
- * @property {string} appName app name
- * @property {string} envName environment
- * @property {string} pluginName plugin name
- * @property {string} version deployed plugin version
+ * @property {string} appName App name.
+ * @property {string} envName Environment.
+ * @property {string} pluginName Plugin name.
+ * @property {string} version Deployed plugin version.
  */
 
-module.exports = async (params) => {
+module.exports = async params => {
   validate(schema, params);
   const ctx = {};
   const { appName, envName, pluginName, options, changes, author = osUsername, msg } = params;

@@ -6,11 +6,11 @@ const { registry } = require('../storage');
  */
 
 /**
- * @description Get metadata of a request
- * @param {string}  requestId the request Id
- * @returns {Buffer} buffer of request
+ * @description Get metadata of a request.
+ * @param {string}  requestId The request Id.
+ * @returns {Buffer} Buffer of request.
  */
-module.exports = async (requestId) => {
+module.exports = async requestId => {
   const ctx = {};
   await asyncInvoke('museCore.req.beforeGetRequest', ctx, requestId);
 
