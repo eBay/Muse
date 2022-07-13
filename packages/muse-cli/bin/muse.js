@@ -120,7 +120,7 @@ program
   .command('create-app')
   .description('Create a new MUSE application')
   .argument('<appName>', 'application name')
-  .option('--args <args...>', 'space separated list of variable names')
+  .option('--args <args...>', 'space separated list of argument names')
   .action(async (appName, options) => {
     const mappedArgs = options.args?.reduce((mappedArgs, option, index, args) => {
       const argObj = option.split('=');
@@ -220,7 +220,7 @@ program
   .command('create-plugin')
   .description('Create a new MUSE plugin')
   .argument('<pluginName>', 'plugin name')
-  .option('--args <args...>', 'space separated list of variable names')
+  .option('--args <args...>', 'space separated list of argument names')
   .action(async (pluginName, options) => {
     const mappedArgs = options.args?.reduce((mappedArgs, option, index, args) => {
       const argObj = option.split('=');
