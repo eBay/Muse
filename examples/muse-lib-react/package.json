@@ -10,9 +10,12 @@
       "noSSO": true
     },
     "devConfig": {
-      "app": "app1",
+      "app": "nateapp",
       "env": "staging",
-      "remotePlugins": []
+      "remotePlugins": [
+        "@ebay/muse-lib-antd",
+        "muse-layout-antd"
+      ]
     }
   },
   "publishConfig": {
