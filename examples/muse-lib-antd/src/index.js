@@ -24,6 +24,7 @@ if (theme === 'dark' || document.location.search.includes('theme=dark')) {
 }
 
 if (window.MUSE_LOADER && themeLoader) window.MUSE_LOADER.waitFor(themeLoader);
+window.MUSE_GLOBAL.waitFor?.(themeLoader);
 
 // Use this trick to force include all antd's modules into the library.
 export default { antd, icons, FormBuilder };

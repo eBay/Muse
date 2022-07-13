@@ -1,4 +1,4 @@
-const { asyncInvoke, getPluginId, osUsername, validate  } = require('../utils');
+const { asyncInvoke, getPluginId, osUsername, validate } = require('../utils');
 const { registry } = require('../storage');
 const { getApp } = require('../am');
 const schema = require('../schemas/pm/undeployPlugin.json');
@@ -6,25 +6,22 @@ const logger = require('../logger').createLogger('muse.pm.undeployPlugin');
 /**
  * @module muse-core/pm/undeployPlugin
  */
-/**
- * @typedef {object} UndeployPluginArgument
- * @property {string} appName the app name
- * @property {string} envName the environment
- * @property {string} pluginName the plugin name
- * @property {string} [author] default to the current os logged in user
- * @property {string} [msg] action message
- */
 
 /**
- * @description Undeploy a plugin from an environment of an app
- * @param {UndeployPluginArgument} params args to release a plugin
+ * @description Undeploy a plugin from an environment of an app.
+ * @param {object} params Args to release a plugin.
+ * @param {string} params.appName The app name.
+ * @param {string} params.envName The environment.
+ * @param {string} params.pluginName The plugin name.
+ * @param {string} [params.author] Default to the current os logged in user.
+ * @param {string} [params.msg] Action message.
  * @returns {object}
  * @property {string} appName
  * @property {string} envName
  * @property {string} pluginName
  */
 
-module.exports = async (params) => {
+module.exports = async params => {
   validate(schema, params);
   const ctx = {};
   const { appName, envName, pluginName, author = osUsername, msg } = params;

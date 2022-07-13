@@ -13,10 +13,16 @@ class MuseDelegatedModuleFactoryPlugin {
   }
 
   apply(normalModuleFactory) {
-    normalModuleFactory.hooks.module.tap('MuseDelegatedModuleFactoryPlugin', (module) => {
+    normalModuleFactory.hooks.module.tap('MuseDelegatedModuleFactoryPlugin', module => {
+      const customLibs = this.options.museConfig?.customLibs || [];
       const rrd = module.resourceResolveData;
       const dfd = rrd?.descriptionFileData;
-      if (!dfd || !dfd.name || !dfd.version) {
+      if (
+        !dfd ||
+        !dfd.name ||
+        !dfd.version ||
+        (dfd.name && customLibs.some(cl => cl === dfd.name))
+      ) {
         return module;
       }
 

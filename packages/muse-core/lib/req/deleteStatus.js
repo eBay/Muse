@@ -8,20 +8,17 @@ const getRequest = require('./getRequest');
 /**
  * @module muse-core/req/deleteStatus
  */
-/**
- * @typedef {object} DeleteStatusArgument
- * @property {string} requestId the request id
- * @property {string} status the request status
- * @property {string} [author] default to the current os logged in user
- * @property {string} [msg] action message
- */
 
 /**
- * @description Create a request
- * @param {DeleteStatusArgument} params args to release a plugin
- * @returns {request} request object
+ * @description Create a request.
+ * @param {object} params Args to release a plugin.
+ * @param {string} params.requestId The request id.
+ * @param {string} params.status The request status.
+ * @param {string} [params.author] Default to the current os logged in user.
+ * @param {string} [params.msg] Action message.
+ * @returns {request} Request object.
  */
-module.exports = async (params) => {
+module.exports = async params => {
   const { requestId, status, author = osUsername, msg } = params;
   const ctx = {};
 
@@ -34,7 +31,7 @@ module.exports = async (params) => {
     }
 
     if (ctx.request.statuses) {
-      ctx.request.statuses = ctx.request.statuses.filter((s) => !toDelete.includes(s.name));
+      ctx.request.statuses = ctx.request.statuses.filter(s => !toDelete.includes(s.name));
     }
 
     const keyPath = `/requests/${requestId}.yaml`;

@@ -145,6 +145,16 @@ program
   });
 
 program
+  .command('export-app')
+  .description('Export a MUSE application')
+  .argument('<appName>', 'application name')
+  .argument('<envName>', 'env name')
+  .argument('<output>', 'output folder name')
+  .action(async (appName, envName, output) => {
+    await muse.am.export({ appName, envName, output });
+  });
+  
+program
   .command('view-app')
   .description('Display basic details of a MUSE application')
   .argument('<appName>', 'application name')
