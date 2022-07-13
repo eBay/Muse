@@ -119,18 +119,18 @@ program
   .command('create-app')
   .description('Create a new MUSE application')
   .argument('<appName>', 'application name')
-  .option('--vars <variables...>', 'space separated list of variable names')
+  .option('--args <args...>', 'space separated list of variable names')
   .action(async (appName, options) => {
-    const mappedVariables = options.vars?.reduce((additionalOpts, option, index, args) => {
-      const varObj = option.split('=');
-      if (varObj[0] in additionalOpts) {
-        additionalOpts[[varObj[0]]] = [..._.castArray(additionalOpts[varObj[0]]), varObj[1]];
+    const mappedArgs = options.args?.reduce((mappedArgs, option, index, args) => {
+      const argObj = option.split('=');
+      if (argObj[0] in mappedArgs) {
+        mappedArgs[[argObj[0]]] = [..._.castArray(mappedArgs[argObj[0]]), argObj[1]];
       } else {
-        additionalOpts[varObj[0]] = varObj[1];
+        mappedArgs[argObj[0]] = argObj[1];
       }
-      return additionalOpts;
+      return mappedArgs;
     }, {});
-    await muse.am.createApp({ appName, ...mappedVariables });
+    await muse.am.createApp({ appName, ...mappedArgs });
   });
 
 program
@@ -219,14 +219,18 @@ program
   .command('create-plugin')
   .description('Create a new MUSE plugin')
   .argument('<pluginName>', 'plugin name')
-  .option('--vars <variables...>', 'space separated list of variable names')
+  .option('--args <args...>', 'space separated list of variable names')
   .action(async (pluginName, options) => {
-    const mappedVariables = options.vars?.reduce((additionalOpts, option, index, args) => {
-      const varObj = option.split('=');
-      additionalOpts[varObj[0]] = varObj[1];
-      return additionalOpts;
+    const mappedArgs = options.args?.reduce((mappedArgs, option, index, args) => {
+      const argObj = option.split('=');
+      if (argObj[0] in mappedArgs) {
+        mappedArgs[[argObj[0]]] = [..._.castArray(mappedArgs[argObj[0]]), argObj[1]];
+      } else {
+        mappedArgs[argObj[0]] = argObj[1];
+      }
+      return mappedArgs;
     }, {});
-    await muse.pm.createPlugin({ pluginName, ...mappedVariables });
+    await muse.pm.createPlugin({ pluginName, ...mappedArgs });
   });
 
 program
