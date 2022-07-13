@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+const _ = require('lodash');
 const { Command } = require('commander');
 const chalk = require('chalk');
 const muse = require('@ebay/muse-core');
@@ -118,8 +119,18 @@ program
   .command('create-app')
   .description('Create a new MUSE application')
   .argument('<appName>', 'application name')
-  .action(async appName => {
-    await muse.am.createApp({ appName });
+  .option('--vars <variables...>', 'space separated list of variable names')
+  .action(async (appName, options) => {
+    const mappedVariables = options.vars?.reduce((additionalOpts, option, index, args) => {
+      const varObj = option.split('=');
+      if (varObj[0] in additionalOpts) {
+        additionalOpts[[varObj[0]]] = [..._.castArray(additionalOpts[varObj[0]]), varObj[1]];
+      } else {
+        additionalOpts[varObj[0]] = varObj[1];
+      }
+      return additionalOpts;
+    }, {});
+    await muse.am.createApp({ appName, ...mappedVariables });
   });
 
 program
@@ -152,7 +163,7 @@ program
   .action(async (appName, envName, output) => {
     await muse.am.export({ appName, envName, output });
   });
-  
+
 program
   .command('view-app')
   .description('Display basic details of a MUSE application')
@@ -208,8 +219,14 @@ program
   .command('create-plugin')
   .description('Create a new MUSE plugin')
   .argument('<pluginName>', 'plugin name')
-  .action(async pluginName => {
-    await muse.pm.createPlugin({ pluginName });
+  .option('--vars <variables...>', 'space separated list of variable names')
+  .action(async (pluginName, options) => {
+    const mappedVariables = options.vars?.reduce((additionalOpts, option, index, args) => {
+      const varObj = option.split('=');
+      additionalOpts[varObj[0]] = varObj[1];
+      return additionalOpts;
+    }, {});
+    await muse.pm.createPlugin({ pluginName, ...mappedVariables });
   });
 
 program
