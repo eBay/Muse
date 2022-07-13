@@ -72,7 +72,7 @@ module.exports = async params => {
     await registry.set(
       keyPath,
       Buffer.from(yaml.dump(ctx.plugin)),
-      msg || `Deploy plugin ${pluginName} to ${appName}/${envName} by ${author}`,
+      msg || `Deploy plugin ${pluginName}@${version} to ${appName}/${envName} by ${author}`,
     );
   } catch (err) {
     ctx.error = err;
