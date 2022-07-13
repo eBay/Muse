@@ -7,6 +7,7 @@ const fs = require('fs-extra');
 const path = require('path');
 const readline = require('node:readline');
 const { stdin: input, stdout: output } = require('node:process');
+const inquirer = require('inquirer');
 // const plugin = require('js-plugin');
 // const build = require('../lib/build');
 // const start = require('../lib/start');
@@ -540,6 +541,26 @@ program
         ),
       );
     });
+  });
+
+program
+  .command('batch-deploy')
+  .description(
+    'Undeploy/Deploy multiple plugins on single/mulitple MUSE application environment(s)',
+  )
+  .arguments('<appName>', 'app name')
+  .action(async appName => {
+    const answer = await inquirer.prompt([
+      {
+        name: 'envMap',
+        message: 'Input a envMap to batch deployment:',
+        type: 'editor',
+        postfix: '.json',
+      },
+    ]);
+    const unescapAnswer = answer.envMap?.replace(/\\/g, '');
+    const envMap = JSON.parse(unescapAnswer);
+    await muse.pm.deployPlugin({ appName, envMap });
   });
 
 // let other plugins add their own cli program commands
