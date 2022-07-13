@@ -17,6 +17,7 @@
     "@ebay/muse-core": "workspace:^",
     "@ebay/muse-express-middleware": "workspace:^",
     "dotenv": "^16.0.1",
+    "lodash": "^4.17.21",
     "resolve-cwd": "^3.0.0"
   },
   "peerDependencies": {

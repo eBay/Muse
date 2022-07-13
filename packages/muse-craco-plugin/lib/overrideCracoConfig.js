@@ -1,6 +1,5 @@
 const { museContext, utils } = require('@ebay/muse-dev-utils');
 const { MusePlugin, MuseReferencePlugin } = require('@ebay/muse-webpack-plugin');
-const setupHtmlWebpackPlugin = require('./setupHtmlWebpackPlugin');
 const { isDev, isDevBuild, museConfig } = museContext;
 
 /**
@@ -23,7 +22,7 @@ module.exports = async ({ cracoConfig }) => {
     if (isDev) {
       // At dev time, should exclude local lib plugins
       const localPlugins = utils.getLocalPlugins();
-      museLibs = museLibs.filter((libName) => !localPlugins.find((p) => p.name === libName));
+      museLibs = museLibs.filter(libName => !localPlugins.find(p => p.name === libName));
     }
 
     // main webpack plugin for compiling the current muse plugin called from CLI (as a Dll bundle)
@@ -49,7 +48,8 @@ module.exports = async ({ cracoConfig }) => {
     }
   }
 
-  await setupHtmlWebpackPlugin(cracoConfig);
+  // Muse use dev server to serve index.html at dev time
+  cracoConfig.webpack.plugins.remove.push('HtmlWebpackPlugin');
 
   // Muse doesn't support MiniCssExtractPlugin at this time.
   cracoConfig.webpack.plugins.remove.push('MiniCssExtractPlugin');

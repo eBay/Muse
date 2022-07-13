@@ -9,7 +9,7 @@
       "app": "nateapp",
       "env": "staging",
       "remotePlugins": [
-        "*"
+        "@ebay/muse-lib-react"
       ]
     }
   },

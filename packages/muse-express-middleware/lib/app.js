@@ -14,7 +14,7 @@ const defaultTemplate = `
   </script>
 </head>
 <body></body>
-<script src="/muse-assets/p/<%= bootPluginId %>/v<%= bootPluginVersion %>/dist/boot.js"></script>
+<script src="<%= bootPluginUrl %>"></script>
 </html>
 `;
 
@@ -50,17 +50,18 @@ const getAppInfoByUrl = async req => {
 
 module.exports = ({
   appName,
-  envName,
+  envName = 'staging',
   cdn = '/muse-assets',
   isDev = false,
   template = defaultTemplate,
   byUrl = false,
 }) => {
-  if (!appName && !envName && !byUrl) {
-    throw new Error('appName/envName or byUrl should be set.');
-  }
   return async (req, res, next) => {
-    if (byUrl) {
+    const appInfo = museCore.plugin.invoke('museMiddleware.app.getAppInfo', req)[0];
+    if (appInfo) {
+      appName = appInfo.appName;
+      envName = appInfo.envName;
+    } else if (byUrl) {
       const appInfo = await getAppInfoByUrl(req);
       logger.info(`App info by url: ${JSON.stringify(appInfo)}`);
 
@@ -74,6 +75,8 @@ module.exports = ({
       }
       appName = appInfo.appName;
       envName = appInfo.envName;
+    } else if (!appName) {
+      throw new Error(`No appName provided to start the Muse app.`);
     } else {
       logger.info(`Getting app by specified ${appName}/${envName}`);
     }
@@ -89,6 +92,11 @@ module.exports = ({
       return;
     }
     const plugins = app.envs?.[envName]?.plugins;
+    museCore.plugin.invoke('museMiddleware.app.processPlugins', plugins, {
+      app,
+      appName,
+      envName,
+    });
 
     const bootPlugins = plugins.filter(p => p.type === 'boot');
 
@@ -111,14 +119,19 @@ module.exports = ({
       cdn,
       bootPlugin: bootPlugin.name,
     };
+
     logger.info(`Muse global: ${JSON.stringify(museGlobal)}`);
+    museCore.plugin.invoke('museMiddleware.app.processMuseGlobal', museGlobal);
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
 
     res.write(
       _.template(template)({
         title: app.title || 'Muse App',
-        bootPluginId: museCore.utils.getPluginId(bootPlugin.name),
-        bootPluginVersion: bootPlugin.version,
+        bootPluginUrl:
+          bootPlugin.url ||
+          `${cdn}/p/${museCore.utils.getPluginId(bootPlugin.name)}/v${
+            bootPlugin.version
+          }/dist/boot.js`,
         museGlobal: JSON.stringify(museGlobal),
       }),
     );
