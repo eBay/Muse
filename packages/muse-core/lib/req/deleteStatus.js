@@ -1,8 +1,9 @@
 const _ = require('lodash');
 const yaml = require('js-yaml');
-const { asyncInvoke, osUsername } = require('../utils');
+const { asyncInvoke, osUsername, validate } = require('../utils');
 const { registry } = require('../storage');
 const getRequest = require('./getRequest');
+const schema = require('../schemas/req/deleteStatus.json');
 
 /** This also includes the creation of status */
 /**
@@ -19,6 +20,8 @@ const getRequest = require('./getRequest');
  * @returns {request} Request object.
  */
 module.exports = async params => {
+  validate(schema, params);
+
   const { requestId, status, author = osUsername, msg } = params;
   const ctx = {};
 

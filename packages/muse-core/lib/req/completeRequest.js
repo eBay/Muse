@@ -1,7 +1,8 @@
-const { asyncInvoke, osUsername } = require('../utils');
+const { asyncInvoke, osUsername, validate } = require('../utils');
 const getRequest = require('./getRequest');
 const deleteRequest = require('./deleteRequest');
 const pm = require('../pm');
+const schema = require('../schemas/req/completeRequest.json');
 
 /**
  * @module muse-core/req/completeRequest
@@ -14,7 +15,9 @@ const pm = require('../pm');
  * @param {string} [params.msg] Action message.
  * @returns {request} Request object.
  */
-module.exports = async ({ requestId, msg, author = osUsername }) => {
+module.exports = async params => {
+  validate(schema, params);
+  const { requestId, author = osUsername, msg } = params;
   const ctx = {};
   await asyncInvoke('museCore.req.beforeCompleteRequest', ctx, requestId);
 
