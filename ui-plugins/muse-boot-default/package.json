@@ -23,6 +23,7 @@
   },
   "devDependencies": {
     "@craco/craco": "^6.4.5",
+    "@ebay/muse-ebay": "^1.0.5",
     "cross-env": "^7.0.3",
     "eslint": "^8.19.0",
     "react": "^18.2.0",
@@ -41,9 +42,9 @@
     ]
   },
   "dependencies": {
-    "@ebay/muse-craco-plugin": "^1.0.5",
-    "@ebay/muse-modules": "^1.0.5",
-    "@ebay/muse-scripts-react": "^1.0.5",
+    "@ebay/muse-craco-plugin": "^1.0.6",
+    "@ebay/muse-modules": "^1.0.6",
+    "@ebay/muse-scripts-react": "^1.0.6",
     "base64-inline-loader": "^2.0.1"
   }
 }

@@ -1,0 +1,5 @@
+{
+  "logLevel": "silly",
+  "assetStorageCache": false,
+  "presets": "@ebay/muse-ebay/presets/museDev"
+}
