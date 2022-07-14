@@ -1,5 +1,6 @@
-const { asyncInvoke, osUsername } = require('../utils');
+const { asyncInvoke, osUsername, validate } = require('../utils');
 const { registry } = require('../storage');
+const schema = require('../schemas/req/deleteRequest.json');
 
 /**
  * @module muse-core/req/deleteRequest
@@ -14,6 +15,7 @@ const { registry } = require('../storage');
  * @returns {request} request object
  */
 module.exports = async params => {
+  validate(schema, params);
   const ctx = {};
   const { requestId, author = osUsername, msg } = params;
   if (!requestId) throw new Error(`requestId is required.`);

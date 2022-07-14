@@ -1,6 +1,8 @@
 const yaml = require('js-yaml');
-const { asyncInvoke, osUsername } = require('../utils');
+const { asyncInvoke, osUsername, validate } = require('../utils');
 const { registry } = require('../storage');
+const schema = require('../schemas/req/createRequest.json');
+
 /**
  * @module muse-core/req/createRequest
  */
@@ -22,6 +24,7 @@ const { registry } = require('../storage');
  * @property {...*}
  */
 module.exports = async (params = {}) => {
+  validate(schema, params);
   const ctx = {};
   await asyncInvoke('museCore.req.beforeCreateRequest', ctx, params);
 
