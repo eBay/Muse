@@ -58,10 +58,7 @@ async function start() {
   // Init plugins should be small and not depends on each other
   const initPluginUrls = plugins
     .filter(p => p.type === 'init')
-    .map(
-      p =>
-        p.url || `${cdn}/p/${getPluginId(p.name)}/v${p.version}/${isDev ? 'dev' : 'dist'}/main.js`,
-    );
+    .map(p => p.url || `${cdn}/p/${getPluginId(p.name)}/v${p.version}/dist/main.js`);
 
   // Load init plugins
   if (initPluginUrls.length > 0) {

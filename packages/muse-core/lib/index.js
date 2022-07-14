@@ -3,14 +3,11 @@
 var Module = require('module');
 var originalRequire = Module.prototype.require;
 
-let __museCoreSingleton = null;
 // Ensure @ebay/muse-core only has one instance
+const __museCoreSingleton = module.exports;
 Module.prototype.require = function() {
-  const name = arguments[0];
-  if (name === '@ebay/muse-core' && __museCoreSingleton) return __museCoreSingleton;
-  const m = originalRequire.apply(this, arguments);
-  if (name === '@ebay/muse-core') __museCoreSingleton = m;
-  return m;
+  if (arguments[0] === '@ebay/muse-core') return __museCoreSingleton;
+  return originalRequire.apply(this, arguments);
 };
 
 const fs = require('fs');
