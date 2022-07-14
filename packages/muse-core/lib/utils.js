@@ -233,7 +233,7 @@ const validate = (schema, data) => {
     validateRes = ajvCache.get(schema);
   }
   if (!validateRes(data)) {
-    throw new Error(JSON.stringify(validate.errors));
+    throw new Error(JSON.stringify(validateRes.errors));
   }
 };
 
