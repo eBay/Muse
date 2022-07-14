@@ -1,24 +1,26 @@
 #!/usr/bin/env node
+
+const os = require('os');
+const path = require('path');
+const timeStart = Date.now();
+
+if (!process.env.MUSE_CLI_CONFIG_FILE) {
+  process.env.MUSE_CLI_CONFIG_FILE = path.join(os.homedir(), 'muse-cli.config.js');
+}
+
+process.env.MUSE_CONFIG_FILE = process.env.MUSE_CLI_CONFIG_FILE;
 const { Command } = require('commander');
 const chalk = require('chalk');
 const muse = require('@ebay/muse-core');
 const fs = require('fs-extra');
-const path = require('path');
 const readline = require('node:readline');
 const { stdin: input, stdout: output } = require('node:process');
 const inquirer = require('inquirer');
-// const plugin = require('js-plugin');
-// const build = require('../lib/build');
-// const start = require('../lib/start');
-// const test = require('../lib/test');
 const TimeAgo = require('javascript-time-ago');
 const en = require('javascript-time-ago/locale/en');
 TimeAgo.addDefaultLocale(en);
 
 const timeAgo = new TimeAgo('en-US');
-
-const timeStart = Date.now();
-const os = require('os');
 
 console.error = message => console.log(chalk.red(message));
 
@@ -153,7 +155,7 @@ program
   .action(async (appName, envName, output) => {
     await muse.am.export({ appName, envName, output });
   });
-  
+
 program
   .command('view-app')
   .description('Display basic details of a MUSE application')
