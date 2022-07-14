@@ -1,0 +1,13 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "get request params",
+    "type": "object",
+    "properties": {
+      "requestId": {
+        "type": "string"
+    },
+
+    "additionalProperties": false
+  }
+}
+  

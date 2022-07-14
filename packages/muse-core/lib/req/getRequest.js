@@ -1,5 +1,6 @@
-const { asyncInvoke, jsonByYamlBuff } = require('../utils');
+const { asyncInvoke, jsonByYamlBuff, validate } = require('../utils');
 const { registry } = require('../storage');
+const schema = require('../schemas/req/getRequest.json');
 
 /**
  * @module muse-core/req/getRequest
@@ -11,6 +12,7 @@ const { registry } = require('../storage');
  * @returns {Buffer} Buffer of request.
  */
 module.exports = async requestId => {
+  validate(schema, requestId);
   const ctx = {};
   await asyncInvoke('museCore.req.beforeGetRequest', ctx, requestId);
 
