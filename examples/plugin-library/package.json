@@ -1,6 +1,6 @@
 {
   "name": "plugin-library",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "repository": "",
   "private": false,
   "main": "./lib/cjs/index.js",

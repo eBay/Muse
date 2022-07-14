@@ -1,5 +1,14 @@
 # @ebay/muse-cli
 
+## 1.0.5
+
+### Patch Changes
+
+- Dev test.
+- Updated dependencies
+  - @ebay/muse-core@1.0.5
+  - @ebay/muse-simple-server@1.0.5
+
 ## 1.0.4
 
 ### Patch Changes

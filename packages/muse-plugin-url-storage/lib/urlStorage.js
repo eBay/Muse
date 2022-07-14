@@ -1,8 +1,6 @@
 const axios = require('axios');
 const _ = require('lodash');
-const logger = require('@ebay/muse-core').logger.createLogger(
-  'restful-storage-plugin.RestfulStorage',
-);
+const logger = require('@ebay/muse-core').logger.createLogger('url-storage-plugin.urlStorage');
 
 /**
  * Save data in a url based storage.
@@ -13,9 +11,10 @@ module.exports = ({
   methods = { get: {} },
   prefix,
   axiosArgs = {},
-  dataPath,
+  mapKey = '$key',
+  contentType,
 }) => {
-  prefix = 'v2.'; //basePath || '';
+  // prefix = 'v2.'; //basePath || '';
   const client = axios.create({
     baseURL: endpoint,
     timeout: 60000,
@@ -28,12 +27,19 @@ module.exports = ({
   });
   const obj = {};
   obj.get = async key => {
-    const res = await client.get(prefix + key);
-    const data = _.get(res.data, dataPath);
+    // Example:
+    // get: muse.app.nateapp
+    // => musenextsvc.vip.qa.ebay.com/api/v2/data/get?args=['muse.app.nateapp']
+
+    // get: /p/@ebay.muse-lib-react/v1.0.6/dist/main.js
+    // => musenextweb.vip.qa.ebay.com/muse-assets/p/@ebay.muse-lib-react/v1.0.6/dist/main.js
+    const res = await client.get(mapKey.replace('$key', key));
+    const data = res.data;
+    return data;
   };
-  Object.keys(methods).forEach(k => {
-    obj[k] = async (key, value) => {};
-  });
+  // Object.keys(methods).forEach(k => {
+  //   obj[k] = async (key, value) => {};
+  // });
 
   return obj;
 

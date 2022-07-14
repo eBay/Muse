@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const RestfulStorage = require('./RestfulStorage');
+const urlStorage = require('./urlStorage');
 
 module.exports = ({
   pluginName,
