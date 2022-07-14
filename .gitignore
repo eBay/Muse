@@ -116,3 +116,5 @@ out
 .beans
 
 tmp
+build
+node_modules
