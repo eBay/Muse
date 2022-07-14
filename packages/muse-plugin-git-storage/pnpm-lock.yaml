@@ -1,7 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@ebay/muse-core': workspace:^1.0.4
+  '@ebay/muse-core': workspace:^1.0.6
   axios: ^0.27.2
   lodash: ^4.17.21
 
