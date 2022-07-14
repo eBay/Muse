@@ -1,5 +1,17 @@
 // This is the only entry point for muse-core
 // Never require a module by module path
+var Module = require('module');
+var originalRequire = Module.prototype.require;
+
+let __museCoreSingleton = null;
+// Ensure @ebay/muse-core only has one instance
+Module.prototype.require = function() {
+  const name = arguments[0];
+  if (name === '@ebay/muse-core' && __museCoreSingleton) return __museCoreSingleton;
+  const m = originalRequire.apply(this, arguments);
+  if (name === '@ebay/muse-core') __museCoreSingleton = m;
+  return m;
+};
 
 const fs = require('fs');
 const os = require('os');
@@ -18,20 +30,6 @@ const envFile2 = path.join(os.homedir(), '.muse.env');
 
 const config = require('./config');
 
-// const muse = {
-//   config,
-//   logger: require('./logger'),
-//   // register plugin must be called in the global scope
-//   registerPlugin: p => {
-//     if (config.__pluginLoaded) {
-//       throw new Error(
-//         `You can only register a plugin before initialization. Usually you should register a plugin in the global scope in your code.`,
-//       );
-//     }
-//     plugin.register(p);
-//   },
-// };
-
 module.exports.config = config;
 module.exports.logger = require('./logger');
 module.exports.registerPlugin = p => {
@@ -42,6 +40,8 @@ module.exports.registerPlugin = p => {
   }
   plugin.register(p);
 };
+
+global.MUSE_CORE = module.exports;
 
 require('./initPlugins');
 
