@@ -3,8 +3,9 @@ lockfileVersion: 5.4
 specifiers:
   '@babel/core': ^7.18.6
   '@craco/craco': ^6.4.5
-  '@ebay/muse-craco-plugin': ^1.0.4
-  '@ebay/muse-scripts-react': ^1.0.4
+  '@ebay/muse-craco-plugin': ^1.0.8
+  '@ebay/muse-ebay-dev-config': ^1.0.2
+  '@ebay/muse-scripts-react': ^1.0.8
   '@ebay/nice-modal-react': 1.2.6
   '@types/node': ^17.0.45
   axios: ^0.27.2
@@ -34,8 +35,9 @@ specifiers:
 dependencies:
   '@babel/core': 7.18.6
   '@craco/craco': 6.4.5_hsv26antxuqwg6pblgtk7klj5y
-  '@ebay/muse-craco-plugin': 1.0.4_qob6qou5lf7vbedovdxhmhxbca
-  '@ebay/muse-scripts-react': 1.0.4
+  '@ebay/muse-craco-plugin': 1.0.8_@craco+craco@6.4.5
+  '@ebay/muse-ebay-dev-config': 1.0.2
+  '@ebay/muse-scripts-react': 1.0.8
   '@ebay/nice-modal-react': 1.2.6_biqbaboplfbrettd7655fr4n2y
   '@types/node': 17.0.45
   axios: 0.27.2
@@ -81,7 +83,7 @@ packages:
     dependencies:
       ajv: 8.11.0
       json-schema: 0.4.0
-      jsonpointer: 5.0.0
+      jsonpointer: 5.0.1
       leven: 3.1.0
     dev: false
 
@@ -160,7 +162,7 @@ packages:
       '@babel/compat-data': 7.18.8
       '@babel/core': 7.18.6
       '@babel/helper-validator-option': 7.18.6
-      browserslist: 4.21.1
+      browserslist: 4.21.2
       semver: 6.3.0
 
   /@babel/helper-create-class-features-plugin/7.18.6_@babel+core@7.18.6:
@@ -1510,8 +1512,8 @@ packages:
       kuler: 2.0.0
     dev: false
 
-  /@ebay/muse-core/1.0.4:
-    resolution: {integrity: sha1-J5Mu8aa3PFpKuPW2J4szRHPoY1o=, tarball: '@ebay/muse-core/-/@ebay/muse-core-1.0.4.tgz'}
+  /@ebay/muse-core/1.0.8:
+    resolution: {integrity: sha1-Zcb4eoVX7Twip6kGH1of9s8sipY=, tarball: '@ebay/muse-core/-/@ebay/muse-core-1.0.8.tgz'}
     dependencies:
       ajv: 8.11.0
       archiver: 5.3.1
@@ -1535,59 +1537,66 @@ packages:
       winston-transport: 4.5.0
     dev: false
 
-  /@ebay/muse-craco-plugin/1.0.4_qob6qou5lf7vbedovdxhmhxbca:
-    resolution: {integrity: sha1-0NyjwMShbUXVXwIGJolzqxuZeTQ=, tarball: '@ebay/muse-craco-plugin/-/@ebay/muse-craco-plugin-1.0.4.tgz'}
+  /@ebay/muse-craco-plugin/1.0.8_@craco+craco@6.4.5:
+    resolution: {integrity: sha1-vNJWCW8njove2y3kNlRLs5DTS0I=, tarball: '@ebay/muse-craco-plugin/-/@ebay/muse-craco-plugin-1.0.8.tgz'}
     peerDependencies:
-      '@craco/craco': ^6.4.4
+      '@craco/craco': ^6.4.5
     dependencies:
       '@craco/craco': 6.4.5_hsv26antxuqwg6pblgtk7klj5y
-      '@ebay/muse-core': 1.0.4
-      '@ebay/muse-dev-utils': 1.0.4
-      '@ebay/muse-webpack-plugin': 1.0.4
-      html-webpack-inject-string-plugin: 1.0.2_vaqkluxv57wdoiytlozrwxzyse
-      html-webpack-plugin: 5.5.0_webpack@5.73.0
+      '@ebay/muse-core': 1.0.8
+      '@ebay/muse-dev-utils': 1.0.8
+      '@ebay/muse-webpack-plugin': 1.0.8
       resolve-cwd: 3.0.0
     transitivePeerDependencies:
       - express
-      - webpack
     dev: false
 
-  /@ebay/muse-dev-utils/1.0.4:
-    resolution: {integrity: sha1-44XQ4BdBZy1v8t/sE9kdY/D/M1M=, tarball: '@ebay/muse-dev-utils/-/@ebay/muse-dev-utils-1.0.4.tgz'}
+  /@ebay/muse-dev-utils/1.0.8:
+    resolution: {integrity: sha1-s8DwD6ws5ex+U+8In47aQXueOSc=, tarball: '@ebay/muse-dev-utils/-/@ebay/muse-dev-utils-1.0.8.tgz'}
     peerDependencies:
       express: ^4.18.1
     dependencies:
-      '@ebay/muse-core': 1.0.4
-      '@ebay/muse-express-middleware': 1.0.4
+      '@ebay/muse-core': 1.0.8
+      '@ebay/muse-express-middleware': 1.0.8
       dotenv: 16.0.1
       lodash: 4.17.21
       resolve-cwd: 3.0.0
     dev: false
 
-  /@ebay/muse-express-middleware/1.0.4:
-    resolution: {integrity: sha1-JAVt9UmP/Bv7Nu5TCIrVrkSJv1w=, tarball: '@ebay/muse-express-middleware/-/@ebay/muse-express-middleware-1.0.4.tgz'}
+  /@ebay/muse-ebay-dev-config/1.0.2:
+    resolution: {integrity: sha1-bwZNamiIcdjq8nUbsKhb9veSYs0=, tarball: '@ebay/muse-ebay-dev-config/-/@ebay/muse-ebay-dev-config-1.0.2.tgz'}
+    peerDependencies:
+      '@ebay/muse-core': ^1.0.6
     dependencies:
-      '@ebay/muse-core': 1.0.4
+      axios: 0.27.2
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /@ebay/muse-express-middleware/1.0.8:
+    resolution: {integrity: sha1-O7i1/iUFgI0BAfqT6Wzje8n+7RE=, tarball: '@ebay/muse-express-middleware/-/@ebay/muse-express-middleware-1.0.8.tgz'}
+    dependencies:
+      '@ebay/muse-core': 1.0.8
       lodash: 4.17.21
       mime-types: 2.1.35
     dev: false
 
-  /@ebay/muse-modules/1.0.4:
-    resolution: {integrity: sha1-ELpycJPPFKq/69NMD96DhkXB1p8=, tarball: '@ebay/muse-modules/-/@ebay/muse-modules-1.0.4.tgz'}
+  /@ebay/muse-modules/1.0.8:
+    resolution: {integrity: sha1-7V6x8sw6wFxyBTQgLFM9+ilSyjg=, tarball: '@ebay/muse-modules/-/@ebay/muse-modules-1.0.8.tgz'}
     dev: false
 
-  /@ebay/muse-scripts-react/1.0.4:
-    resolution: {integrity: sha1-nNuSpIsGmtVQnqW0xvstF+71ryc=, tarball: '@ebay/muse-scripts-react/-/@ebay/muse-scripts-react-1.0.4.tgz'}
+  /@ebay/muse-scripts-react/1.0.8:
+    resolution: {integrity: sha1-gmS5DHloy8ccsZU35qSZjQIGeVo=, tarball: '@ebay/muse-scripts-react/-/@ebay/muse-scripts-react-1.0.8.tgz'}
     hasBin: true
     dependencies:
       cross-spawn: 7.0.3
       resolve-cwd: 3.0.0
     dev: false
 
-  /@ebay/muse-webpack-plugin/1.0.4:
-    resolution: {integrity: sha1-g5b4409vrDrKQhYC0NJk3MhNosw=, tarball: '@ebay/muse-webpack-plugin/-/@ebay/muse-webpack-plugin-1.0.4.tgz'}
+  /@ebay/muse-webpack-plugin/1.0.8:
+    resolution: {integrity: sha1-TJxNZL8WIi8QHuRNvVqG0SkZ9MU=, tarball: '@ebay/muse-webpack-plugin/-/@ebay/muse-webpack-plugin-1.0.8.tgz'}
     dependencies:
-      '@ebay/muse-modules': 1.0.4
+      '@ebay/muse-modules': 1.0.8
       json-parse-better-errors: 1.0.2
       resolve-cwd: 3.0.0
     dev: false
@@ -1659,15 +1668,15 @@ packages:
       slash: 3.0.0
     dev: false
 
-  /@jest/console/28.1.1:
-    resolution: {integrity: sha1-MF+MpQtucEE4OfVMDgArYKDy/X0=}
+  /@jest/console/28.1.3:
+    resolution: {integrity: sha1-IDBgbsA6GMMYA7ijY4J2LkR2Vd8=}
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
     dependencies:
-      '@jest/types': 28.1.1
+      '@jest/types': 28.1.3
       '@types/node': 17.0.45
       chalk: 4.1.2
-      jest-message-util: 28.1.1
-      jest-util: 28.1.1
+      jest-message-util: 28.1.3
+      jest-util: 28.1.3
       slash: 3.0.0
     dev: false
 
@@ -1771,7 +1780,7 @@ packages:
       istanbul-lib-instrument: 5.2.0
       istanbul-lib-report: 3.0.0
       istanbul-lib-source-maps: 4.0.1
-      istanbul-reports: 3.1.4
+      istanbul-reports: 3.1.5
       jest-haste-map: 27.5.1
       jest-resolve: 27.5.1
       jest-util: 27.5.1
@@ -1785,11 +1794,11 @@ packages:
       - supports-color
     dev: false
 
-  /@jest/schemas/28.0.2:
-    resolution: {integrity: sha1-CMMN9qjQfq/qCu+fsiLF4m1y5hM=}
+  /@jest/schemas/28.1.3:
+    resolution: {integrity: sha1-rYuGpm8R8zYZ49fh3N3X8tQP+QU=}
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
     dependencies:
-      '@sinclair/typebox': 0.23.5
+      '@sinclair/typebox': 0.24.19
     dev: false
 
   /@jest/source-map/27.5.1:
@@ -1811,12 +1820,12 @@ packages:
       collect-v8-coverage: 1.0.1
     dev: false
 
-  /@jest/test-result/28.1.1:
-    resolution: {integrity: sha1-xvGNG7sBqoiSXdaHhyp1+EFLMXo=}
+  /@jest/test-result/28.1.3:
+    resolution: {integrity: sha1-Xq6UX9n0uPz8500jnm9yW2vwdsU=}
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
     dependencies:
-      '@jest/console': 28.1.1
-      '@jest/types': 28.1.1
+      '@jest/console': 28.1.3
+      '@jest/types': 28.1.3
       '@types/istanbul-lib-coverage': 2.0.4
       collect-v8-coverage: 1.0.1
     dev: false
@@ -1867,11 +1876,11 @@ packages:
       chalk: 4.1.2
     dev: false
 
-  /@jest/types/28.1.1:
-    resolution: {integrity: sha1-0Fm7yA5tpu2p8IHykymTSL147gs=}
+  /@jest/types/28.1.3:
+    resolution: {integrity: sha1-sF3oCZb/ElErxc6x0ggoWn0RdIs=}
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
     dependencies:
-      '@jest/schemas': 28.0.2
+      '@jest/schemas': 28.1.3
       '@types/istanbul-lib-coverage': 2.0.4
       '@types/istanbul-reports': 3.0.1
       '@types/node': 17.0.45
@@ -2044,8 +2053,8 @@ packages:
   /@rushstack/eslint-patch/1.1.4:
     resolution: {integrity: sha1-DIt0xQ8p7kT0I/dBaCnAv4u16yc=}
 
-  /@sinclair/typebox/0.23.5:
-    resolution: {integrity: sha1-k/e59OMoWnqa3nVX2ajTaAnLxH0=}
+  /@sinclair/typebox/0.24.19:
+    resolution: {integrity: sha1-Upcnjg2KGuoIRoWjIWB0kQrGwRM=}
     dev: false
 
   /@sinonjs/commons/1.8.3:
@@ -3011,8 +3020,8 @@ packages:
     peerDependencies:
       postcss: ^8.1.0
     dependencies:
-      browserslist: 4.21.1
-      caniuse-lite: 1.0.30001365
+      browserslist: 4.21.2
+      caniuse-lite: 1.0.30001366
       fraction.js: 4.2.0
       normalize-range: 0.1.2
       picocolors: 1.0.0
@@ -3020,9 +3029,9 @@ packages:
       postcss-value-parser: 4.2.0
     dev: false
 
-  /axe-core/4.4.2:
-    resolution: {integrity: sha1-3Pf7beqGYWbD6rM9aCCK/k1fZww=}
-    engines: {node: '>=12'}
+  /axe-core/4.4.3:
+    resolution: {integrity: sha1-EcdNI9UBPA+l0YN5Zym8NIK9L28=}
+    engines: {node: '>=4'}
 
   /axios/0.27.2:
     resolution: {integrity: sha1-IHZYzIYhYG5YbIXbS0GnUOdW2XI=}
@@ -3317,15 +3326,15 @@ packages:
     resolution: {integrity: sha1-PJtLfXgsgSHlbxAQbYTA0P/JRiY=}
     dev: false
 
-  /browserslist/4.21.1:
-    resolution: {integrity: sha1-ybmwpUx2B+jcPgGg0xFycYgBGgA=}
+  /browserslist/4.21.2:
+    resolution: {integrity: sha1-WaQAdXRlU1lUlGpAC4Qe034rTs8=}
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001365
-      electron-to-chromium: 1.4.187
+      caniuse-lite: 1.0.30001366
+      electron-to-chromium: 1.4.191
       node-releases: 2.0.6
-      update-browserslist-db: 1.0.4_browserslist@4.21.1
+      update-browserslist-db: 1.0.4_browserslist@4.21.2
 
   /bser/2.1.1:
     resolution: {integrity: sha1-5nh9og7OnQeZhTPP2d5vXDj0vAU=}
@@ -3408,14 +3417,14 @@ packages:
   /caniuse-api/3.0.0:
     resolution: {integrity: sha1-Xk2Q4idJYdRikZl99Znj7QCO5MA=}
     dependencies:
-      browserslist: 4.21.1
-      caniuse-lite: 1.0.30001365
+      browserslist: 4.21.2
+      caniuse-lite: 1.0.30001366
       lodash.memoize: 4.1.2
       lodash.uniq: 4.5.0
     dev: false
 
-  /caniuse-lite/1.0.30001365:
-    resolution: {integrity: sha1-csLDhjsaVFz9PZlTU1vS7hdWgVg=}
+  /caniuse-lite/1.0.30001366:
+    resolution: {integrity: sha1-xzNSyDgwqery3qD/cftLmku6qJw=}
 
   /case-sensitive-paths-webpack-plugin/2.4.0:
     resolution: {integrity: sha1-22QGbGQi7tLgjMFLmGykN5bbxtQ=}
@@ -3485,8 +3494,8 @@ packages:
     resolution: {integrity: sha1-n4S6MkSlEvOlTlJ36O70xImGTkA=}
     dev: false
 
-  /clean-css/5.3.0:
-    resolution: {integrity: sha1-rT2CONXzVJ6D1fhyBRiUlLx8u1k=}
+  /clean-css/5.3.1:
+    resolution: {integrity: sha1-0GELC5DRJRlqKJTTU2b3NOXXqjI=}
     engines: {node: '>= 10.0'}
     dependencies:
       source-map: 0.6.1
@@ -3687,7 +3696,7 @@ packages:
   /core-js-compat/3.23.4:
     resolution: {integrity: sha1-Vq1KNSiEMXoV9rBFSP9xOdI7kX8=}
     dependencies:
-      browserslist: 4.21.1
+      browserslist: 4.21.2
       semver: 7.0.0
 
   /core-js-pure/3.23.4:
@@ -3712,7 +3721,7 @@ packages:
     dependencies:
       '@types/node': 17.0.45
       cosmiconfig: 7.0.1
-      ts-node: 10.8.2_x2utdhayajzrh747hktprshhby
+      ts-node: 10.9.1_x2utdhayajzrh747hktprshhby
       typescript: 4.7.4
     transitivePeerDependencies:
       - '@swc/core'
@@ -4315,8 +4324,8 @@ packages:
       jake: 10.8.5
     dev: false
 
-  /electron-to-chromium/1.4.187:
-    resolution: {integrity: sha1-uIRJPfAIFtws6SiVjE9qUak/4ag=}
+  /electron-to-chromium/1.4.191:
+    resolution: {integrity: sha1-Ad1L8yUCpIziS/OJC1VTocX5NTk=}
 
   /emittery/0.10.2:
     resolution: {integrity: sha1-kC7siu24xBk4xG6ThenbfgMYKTM=}
@@ -4668,7 +4677,7 @@ packages:
       aria-query: 4.2.2
       array-includes: 3.1.5
       ast-types-flow: 0.0.7
-      axe-core: 4.4.2
+      axe-core: 4.4.3
       axobject-query: 2.2.0
       damerau-levenshtein: 1.0.8
       emoji-regex: 9.2.2
@@ -4761,7 +4770,7 @@ packages:
     dependencies:
       '@types/eslint': 8.4.5
       eslint: 8.19.0
-      jest-worker: 28.1.1
+      jest-worker: 28.1.3
       micromatch: 4.0.5
       normalize-path: 3.0.0
       schema-utils: 4.0.0
@@ -5440,22 +5449,12 @@ packages:
     hasBin: true
     dependencies:
       camel-case: 4.1.2
-      clean-css: 5.3.0
+      clean-css: 5.3.1
       commander: 8.3.0
       he: 1.2.0
       param-case: 3.0.4
       relateurl: 0.2.7
-      terser: 5.14.1
-    dev: false
-
-  /html-webpack-inject-string-plugin/1.0.2_vaqkluxv57wdoiytlozrwxzyse:
-    resolution: {integrity: sha1-eFoM+A4IpYMaQ5qLEL8ENmr7zqE=}
-    peerDependencies:
-      html-webpack-plugin: ^4.0.0-beta.11
-      webpack: ^4.41.2
-    dependencies:
-      html-webpack-plugin: 5.5.0_webpack@5.73.0
-      webpack: 5.73.0
+      terser: 5.14.2
     dev: false
 
   /html-webpack-plugin/5.5.0_webpack@5.73.0:
@@ -5898,8 +5897,8 @@ packages:
       - supports-color
     dev: false
 
-  /istanbul-reports/3.1.4:
-    resolution: {integrity: sha1-G28GjsvGwzEECqtXQZkSc+YJ5Aw=}
+  /istanbul-reports/3.1.5:
+    resolution: {integrity: sha1-zJpqslyyVlmBDkeF7Z2ft0JXi64=}
     engines: {node: '>=8'}
     dependencies:
       html-escaper: 2.0.2
@@ -6170,17 +6169,17 @@ packages:
       stack-utils: 2.0.5
     dev: false
 
-  /jest-message-util/28.1.1:
-    resolution: {integrity: sha1-YKoLR1z8CMipNj7S+5EIUU3Zq4k=}
+  /jest-message-util/28.1.3:
+    resolution: {integrity: sha1-Iy3vfy4zPx7syQZJtblLAFXnxD0=}
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
     dependencies:
       '@babel/code-frame': 7.18.6
-      '@jest/types': 28.1.1
+      '@jest/types': 28.1.3
       '@types/stack-utils': 2.0.1
       chalk: 4.1.2
       graceful-fs: 4.2.10
       micromatch: 4.0.5
-      pretty-format: 28.1.1
+      pretty-format: 28.1.3
       slash: 3.0.0
       stack-utils: 2.0.5
     dev: false
@@ -6354,11 +6353,11 @@ packages:
       picomatch: 2.3.1
     dev: false
 
-  /jest-util/28.1.1:
-    resolution: {integrity: sha1-/znkNqGso5fAq5mNtaUa4rcIDQU=}
+  /jest-util/28.1.3:
+    resolution: {integrity: sha1-9PkyqgB08GeZQyIP+cu6fklwKLA=}
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
     dependencies:
-      '@jest/types': 28.1.1
+      '@jest/types': 28.1.3
       '@types/node': 17.0.45
       chalk: 4.1.2
       ci-info: 3.3.2
@@ -6388,7 +6387,7 @@ packages:
       chalk: 4.1.2
       jest: 27.5.1
       jest-regex-util: 28.0.2
-      jest-watcher: 28.1.1
+      jest-watcher: 28.1.3
       slash: 4.0.0
       string-length: 5.0.1
       strip-ansi: 7.0.1
@@ -6407,17 +6406,17 @@ packages:
       string-length: 4.0.2
     dev: false
 
-  /jest-watcher/28.1.1:
-    resolution: {integrity: sha1-UzWX+zv+/VK1zRFc2RbP/SN/tgw=}
+  /jest-watcher/28.1.3:
+    resolution: {integrity: sha1-xgI6WboiVeO0xXF5/JQWSz5zq9Q=}
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
     dependencies:
-      '@jest/test-result': 28.1.1
-      '@jest/types': 28.1.1
+      '@jest/test-result': 28.1.3
+      '@jest/types': 28.1.3
       '@types/node': 17.0.45
       ansi-escapes: 4.3.2
       chalk: 4.1.2
       emittery: 0.10.2
-      jest-util: 28.1.1
+      jest-util: 28.1.3
       string-length: 4.0.2
     dev: false
 
@@ -6439,8 +6438,8 @@ packages:
       supports-color: 8.1.1
     dev: false
 
-  /jest-worker/28.1.1:
-    resolution: {integrity: sha1-NIDHMkcXHf0B7adyAPAGOrajvyg=}
+  /jest-worker/28.1.3:
+    resolution: {integrity: sha1-fjxM4/oj0btqzLFp5/OW+Y7Uu5g=}
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
     dependencies:
       '@types/node': 17.0.45
@@ -6585,8 +6584,8 @@ packages:
       graceful-fs: 4.2.10
     dev: false
 
-  /jsonpointer/5.0.0:
-    resolution: {integrity: sha1-+AJmmlJOxIBfpzierbyZIdXcgHI=}
+  /jsonpointer/5.0.1:
+    resolution: {integrity: sha1-IRDgrwkA/TdGe1kH7NE6eIShtVk=}
     engines: {node: '>=0.10.0'}
     dev: false
 
@@ -7405,14 +7404,14 @@ packages:
       postcss-selector-parser: 6.0.10
     dev: false
 
-  /postcss-browser-comments/4.0.0_vqntrzeodbkzmktqxvgijrtgk4:
+  /postcss-browser-comments/4.0.0_ueju2bwfzqc5aneogkggyoaage:
     resolution: {integrity: sha1-vPyGE031gH9dPA7voZHUITa15yo=}
     engines: {node: '>=8'}
     peerDependencies:
       browserslist: '>=4'
       postcss: '>=8'
     dependencies:
-      browserslist: 4.21.1
+      browserslist: 4.21.2
       postcss: 8.4.14
     dev: false
 
@@ -7472,7 +7471,7 @@ packages:
     peerDependencies:
       postcss: ^8.2.15
     dependencies:
-      browserslist: 4.21.1
+      browserslist: 4.21.2
       caniuse-api: 3.0.0
       colord: 2.9.2
       postcss: 8.4.14
@@ -7485,7 +7484,7 @@ packages:
     peerDependencies:
       postcss: ^8.2.15
     dependencies:
-      browserslist: 4.21.1
+      browserslist: 4.21.2
       postcss: 8.4.14
       postcss-value-parser: 4.2.0
     dev: false
@@ -7749,7 +7748,7 @@ packages:
     peerDependencies:
       postcss: ^8.2.15
     dependencies:
-      browserslist: 4.21.1
+      browserslist: 4.21.2
       caniuse-api: 3.0.0
       cssnano-utils: 3.1.0_postcss@8.4.14
       postcss: 8.4.14
@@ -7784,7 +7783,7 @@ packages:
     peerDependencies:
       postcss: ^8.2.15
     dependencies:
-      browserslist: 4.21.1
+      browserslist: 4.21.2
       cssnano-utils: 3.1.0_postcss@8.4.14
       postcss: 8.4.14
       postcss-value-parser: 4.2.0
@@ -7927,7 +7926,7 @@ packages:
     peerDependencies:
       postcss: ^8.2.15
     dependencies:
-      browserslist: 4.21.1
+      browserslist: 4.21.2
       postcss: 8.4.14
       postcss-value-parser: 4.2.0
     dev: false
@@ -7953,7 +7952,7 @@ packages:
       postcss-value-parser: 4.2.0
     dev: false
 
-  /postcss-normalize/10.0.1_vqntrzeodbkzmktqxvgijrtgk4:
+  /postcss-normalize/10.0.1_ueju2bwfzqc5aneogkggyoaage:
     resolution: {integrity: sha1-RkaSZ2tSeSoGsGiAoXYnkhZUDdc=}
     engines: {node: '>= 12'}
     peerDependencies:
@@ -7961,9 +7960,9 @@ packages:
       postcss: '>= 8'
     dependencies:
       '@csstools/normalize.css': 12.0.0
-      browserslist: 4.21.1
+      browserslist: 4.21.2
       postcss: 8.4.14
-      postcss-browser-comments: 4.0.0_vqntrzeodbkzmktqxvgijrtgk4
+      postcss-browser-comments: 4.0.0_ueju2bwfzqc5aneogkggyoaage
       sanitize.css: 13.0.0
     dev: false
 
@@ -8030,7 +8029,7 @@ packages:
       '@csstools/postcss-trigonometric-functions': 1.0.2_postcss@8.4.14
       '@csstools/postcss-unset-value': 1.0.2_postcss@8.4.14
       autoprefixer: 10.4.7_postcss@8.4.14
-      browserslist: 4.21.1
+      browserslist: 4.21.2
       css-blank-pseudo: 3.0.3_postcss@8.4.14
       css-has-pseudo: 3.0.4_postcss@8.4.14
       css-prefers-color-scheme: 6.0.3_postcss@8.4.14
@@ -8083,7 +8082,7 @@ packages:
     peerDependencies:
       postcss: ^8.2.15
     dependencies:
-      browserslist: 4.21.1
+      browserslist: 4.21.2
       caniuse-api: 3.0.0
       postcss: 8.4.14
     dev: false
@@ -8196,11 +8195,11 @@ packages:
       react-is: 17.0.2
     dev: false
 
-  /pretty-format/28.1.1:
-    resolution: {integrity: sha1-9zFTA5Tg9/zZWrprQ8UOAthrlcs=}
+  /pretty-format/28.1.3:
+    resolution: {integrity: sha1-yfuozt+ZzlCWOhGyfZgqmukJcNU=}
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
     dependencies:
-      '@jest/schemas': 28.0.2
+      '@jest/schemas': 28.1.3
       ansi-regex: 5.0.1
       ansi-styles: 5.2.0
       react-is: 18.2.0
@@ -8317,7 +8316,7 @@ packages:
     dependencies:
       '@babel/code-frame': 7.18.6
       address: 1.2.0
-      browserslist: 4.21.1
+      browserslist: 4.21.2
       chalk: 4.1.2
       cross-spawn: 7.0.3
       detect-port-alt: 1.1.6
@@ -8458,7 +8457,7 @@ packages:
       babel-plugin-named-asset-import: 0.3.8_@babel+core@7.18.6
       babel-preset-react-app: 10.0.1
       bfj: 7.0.2
-      browserslist: 4.21.1
+      browserslist: 4.21.2
       camelcase: 6.3.0
       case-sensitive-paths-webpack-plugin: 2.4.0
       css-loader: 6.7.1_webpack@5.73.0
@@ -8479,7 +8478,7 @@ packages:
       postcss: 8.4.14
       postcss-flexbugs-fixes: 5.0.2_postcss@8.4.14
       postcss-loader: 6.2.1_mepnsno3xmng6eyses4tepu7bu
-      postcss-normalize: 10.0.1_vqntrzeodbkzmktqxvgijrtgk4
+      postcss-normalize: 10.0.1_ueju2bwfzqc5aneogkggyoaage
       postcss-preset-env: 7.7.2_postcss@8.4.14
       prompts: 2.4.2
       react: 18.2.0
@@ -8826,7 +8825,7 @@ packages:
       jest-worker: 26.6.2
       rollup: 2.76.0
       serialize-javascript: 4.0.0
-      terser: 5.14.1
+      terser: 5.14.2
     dev: false
 
   /rollup/2.76.0:
@@ -9373,7 +9372,7 @@ packages:
     peerDependencies:
       postcss: ^8.2.15
     dependencies:
-      browserslist: 4.21.1
+      browserslist: 4.21.2
       postcss: 8.4.14
       postcss-selector-parser: 6.0.10
     dev: false
@@ -9551,12 +9550,12 @@ packages:
       jest-worker: 27.5.1
       schema-utils: 3.1.1
       serialize-javascript: 6.0.0
-      terser: 5.14.1
+      terser: 5.14.2
       webpack: 5.73.0
     dev: false
 
-  /terser/5.14.1:
-    resolution: {integrity: sha1-fJXuw2Q2yxHPGQLMeaxWR0HRnso=}
+  /terser/5.14.2:
+    resolution: {integrity: sha1-msnyKwaZTXNhdPQJGqNo24lvHBA=}
     engines: {node: '>=10'}
     hasBin: true
     dependencies:
@@ -9656,8 +9655,8 @@ packages:
     resolution: {integrity: sha1-yKijUCUQVWZYjYfb2gXdf7+lpOw=}
     dev: false
 
-  /ts-node/10.8.2_x2utdhayajzrh747hktprshhby:
-    resolution: {integrity: sha1-MYW3UijO8Ra/gv/odiWU9UsqI/I=}
+  /ts-node/10.9.1_x2utdhayajzrh747hktprshhby:
+    resolution: {integrity: sha1-5z3pEClYr54fCxaKb/Mg4lrc/0s=}
     hasBin: true
     peerDependencies:
       '@swc/core': '>=1.2.50'
@@ -9835,13 +9834,13 @@ packages:
     engines: {node: '>=4'}
     dev: false
 
-  /update-browserslist-db/1.0.4_browserslist@4.21.1:
+  /update-browserslist-db/1.0.4_browserslist@4.21.2:
     resolution: {integrity: sha1-2/xaeJyqJrHbiZB5bCyOu84wSCQ=}
     hasBin: true
     peerDependencies:
       browserslist: '>= 4.21.0'
     dependencies:
-      browserslist: 4.21.1
+      browserslist: 4.21.2
       escalade: 3.1.1
       picocolors: 1.0.0
 
@@ -10069,7 +10068,7 @@ packages:
       '@webassemblyjs/wasm-parser': 1.11.1
       acorn: 8.7.1
       acorn-import-assertions: 1.8.0_acorn@8.7.1
-      browserslist: 4.21.1
+      browserslist: 4.21.2
       chrome-trace-event: 1.0.3
       enhanced-resolve: 5.10.0
       es-module-lexer: 0.9.3
