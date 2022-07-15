@@ -1,0 +1,53 @@
+lockfileVersion: 5.4
+
+specifiers:
+  '@casl/ability': ^5.4.4
+  '@ebay/muse-core': workspace:^1.0.6
+  js-plugin: ^1.1.0
+  lodash: ^4.17.21
+
+dependencies:
+  '@casl/ability': 5.4.4
+  '@ebay/muse-core': link:../muse-core
+  js-plugin: 1.1.0
+  lodash: 4.17.21
+
+packages:
+
+  /@casl/ability/5.4.4:
+    resolution: {integrity: sha1-++VDQMFWJI5zgElC7tNQkDsnufM=}
+    dependencies:
+      '@ucast/mongo2js': 1.3.3
+    dev: false
+
+  /@ucast/core/1.10.1:
+    resolution: {integrity: sha1-A6d6eAS8tQAqXK02gehs0Yl+Lh8=}
+    dev: false
+
+  /@ucast/js/3.0.2:
+    resolution: {integrity: sha1-hig47mgRLGwmLU9Gk8xZK6gxV+A=}
+    dependencies:
+      '@ucast/core': 1.10.1
+    dev: false
+
+  /@ucast/mongo/2.4.2:
+    resolution: {integrity: sha1-qKHDLmXMq2I74CPmztsR0TbVDxk=}
+    dependencies:
+      '@ucast/core': 1.10.1
+    dev: false
+
+  /@ucast/mongo2js/1.3.3:
+    resolution: {integrity: sha1-poOlnOoiiHpy5DAvOCbkHM9R274=}
+    dependencies:
+      '@ucast/core': 1.10.1
+      '@ucast/js': 3.0.2
+      '@ucast/mongo': 2.4.2
+    dev: false
+
+  /js-plugin/1.1.0:
+    resolution: {integrity: sha1-3mpYTItmgifYErthWKGOhYh+g9s=}
+    dev: false
+
+  /lodash/4.17.21:
+    resolution: {integrity: sha1-Z5WRxWTDv/quhFTPCz3zcMPWkRw=}
+    dev: false

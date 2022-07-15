@@ -1,0 +1,22 @@
+{
+  "name": "@ebay/muse-plugin-git-storage",
+  "version": "1.0.8",
+  "main": "lib/index.js",
+  "license": "MIT",
+  "publishConfig": {
+    "registry": "https://artifactory.corp.ebay.com/artifactory/api/npm/npm-muse"
+  },
+  "files": [
+    "lib"
+  ],
+  "dependencies": {
+    "axios": "^0.27.2",
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "@ebay/muse-core": "workspace:^1.0.8"
+  },
+  "peerDependencies": {
+    "@ebay/muse-core": "workspace:^1.0.8"
+  }
+}

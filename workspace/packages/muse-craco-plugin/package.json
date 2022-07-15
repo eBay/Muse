@@ -1,0 +1,25 @@
+{
+  "name": "@ebay/muse-craco-plugin",
+  "version": "1.0.8",
+  "main": "lib/index.js",
+  "license": "MIT",
+  "publishConfig": {
+    "registry": "https://artifactory.corp.ebay.com/artifactory/api/npm/npm-muse"
+  },
+  "files": [
+    "lib"
+  ],
+  "dependencies": {
+    "@ebay/muse-core": "workspace:^1.0.8",
+    "@ebay/muse-dev-utils": "workspace:^1.0.8",
+    "@ebay/muse-webpack-plugin": "workspace:^1.0.8",
+    "resolve-cwd": "^3.0.0"
+  },
+  "devDependencies": {
+    "@craco/craco": "^6.4.5",
+    "eslint": "^8.14.0"
+  },
+  "peerDependencies": {
+    "@craco/craco": "^6.4.5"
+  }
+}

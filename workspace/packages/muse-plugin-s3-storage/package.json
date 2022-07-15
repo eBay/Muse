@@ -1,0 +1,28 @@
+{
+  "name": "@ebay/muse-plugin-s3-storage",
+  "version": "1.0.8",
+  "description": "",
+  "main": "lib/index.js",
+  "publishConfig": {
+    "registry": "https://artifactory.corp.ebay.com/artifactory/api/npm/npm-muse"
+  },
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "lodash": "^4.17.21",
+    "minio": "^7.0.28"
+  },
+  "devDependencies": {
+    "@ebay/muse-core": "workspace:^1.0.8"
+  },
+  "peerDependencies": {
+    "@ebay/muse-core": "workspace:^1.0.8"
+  }
+}
