@@ -2,10 +2,11 @@ lockfileVersion: 5.4
 
 specifiers:
   '@craco/craco': ^6.4.5
-  '@ebay/muse-craco-plugin': ^1.0.6
+  '@ebay/muse-craco-plugin': ^1.0.8
   '@ebay/muse-ebay': ^1.0.5
-  '@ebay/muse-modules': ^1.0.6
-  '@ebay/muse-scripts-react': ^1.0.6
+  '@ebay/muse-ebay-dev-config': ^1.0.2
+  '@ebay/muse-modules': ^1.0.8
+  '@ebay/muse-scripts-react': ^1.0.8
   base64-inline-loader: ^2.0.1
   cross-env: ^7.0.3
   eslint: ^8.19.0
@@ -13,9 +14,10 @@ specifiers:
   react-scripts: ^5.0.1
 
 dependencies:
-  '@ebay/muse-craco-plugin': 1.0.6_@craco+craco@6.4.5
-  '@ebay/muse-modules': 1.0.6
-  '@ebay/muse-scripts-react': 1.0.6
+  '@ebay/muse-craco-plugin': 1.0.8_@craco+craco@6.4.5
+  '@ebay/muse-ebay-dev-config': 1.0.2
+  '@ebay/muse-modules': 1.0.8
+  '@ebay/muse-scripts-react': 1.0.8
   base64-inline-loader: 2.0.1
 
 devDependencies:
@@ -1660,8 +1662,8 @@ packages:
       - supports-color
     dev: true
 
-  /@ebay/muse-core/1.0.6:
-    resolution: {integrity: sha1-m4Qa+ng8G3nS8DMITE8AV/xo8Lk=, tarball: '@ebay/muse-core/-/@ebay/muse-core-1.0.6.tgz'}
+  /@ebay/muse-core/1.0.8:
+    resolution: {integrity: sha1-Zcb4eoVX7Twip6kGH1of9s8sipY=, tarball: '@ebay/muse-core/-/@ebay/muse-core-1.0.8.tgz'}
     dependencies:
       ajv: 8.11.0
       archiver: 5.3.1
@@ -1685,33 +1687,40 @@ packages:
       winston-transport: 4.5.0
     dev: false
 
-  /@ebay/muse-craco-plugin/1.0.6_@craco+craco@6.4.5:
-    resolution: {integrity: sha1-poLvflpgkxEqqYido6C1mV0p0/Y=, tarball: '@ebay/muse-craco-plugin/-/@ebay/muse-craco-plugin-1.0.6.tgz'}
+  /@ebay/muse-craco-plugin/1.0.8_@craco+craco@6.4.5:
+    resolution: {integrity: sha1-vNJWCW8njove2y3kNlRLs5DTS0I=, tarball: '@ebay/muse-craco-plugin/-/@ebay/muse-craco-plugin-1.0.8.tgz'}
     peerDependencies:
-      '@craco/craco': ^6.4.4
+      '@craco/craco': ^6.4.5
     dependencies:
       '@craco/craco': 6.4.5_react-scripts@5.0.1
-      '@ebay/muse-core': 1.0.6
-      '@ebay/muse-dev-utils': 1.0.6
-      '@ebay/muse-webpack-plugin': 1.0.6
-      html-webpack-inject-string-plugin: 1.0.2_html-webpack-plugin@5.5.0
-      html-webpack-plugin: 5.5.0
+      '@ebay/muse-core': 1.0.8
+      '@ebay/muse-dev-utils': 1.0.8
+      '@ebay/muse-webpack-plugin': 1.0.8
       resolve-cwd: 3.0.0
     transitivePeerDependencies:
       - express
-      - webpack
     dev: false
 
-  /@ebay/muse-dev-utils/1.0.6:
-    resolution: {integrity: sha1-MBbC5e8W3IlMr79L02Q2FYssJZ8=, tarball: '@ebay/muse-dev-utils/-/@ebay/muse-dev-utils-1.0.6.tgz'}
+  /@ebay/muse-dev-utils/1.0.8:
+    resolution: {integrity: sha1-s8DwD6ws5ex+U+8In47aQXueOSc=, tarball: '@ebay/muse-dev-utils/-/@ebay/muse-dev-utils-1.0.8.tgz'}
     peerDependencies:
       express: ^4.18.1
     dependencies:
-      '@ebay/muse-core': 1.0.6
-      '@ebay/muse-express-middleware': 1.0.6
+      '@ebay/muse-core': 1.0.8
+      '@ebay/muse-express-middleware': 1.0.8
       dotenv: 16.0.1
       lodash: 4.17.21
       resolve-cwd: 3.0.0
+    dev: false
+
+  /@ebay/muse-ebay-dev-config/1.0.2:
+    resolution: {integrity: sha1-bwZNamiIcdjq8nUbsKhb9veSYs0=, tarball: '@ebay/muse-ebay-dev-config/-/@ebay/muse-ebay-dev-config-1.0.2.tgz'}
+    peerDependencies:
+      '@ebay/muse-core': ^1.0.6
+    dependencies:
+      axios: 0.27.2
+    transitivePeerDependencies:
+      - debug
     dev: false
 
   /@ebay/muse-ebay/1.0.5:
@@ -1735,30 +1744,30 @@ packages:
       - supports-color
     dev: true
 
-  /@ebay/muse-express-middleware/1.0.6:
-    resolution: {integrity: sha1-tZgkelIFq24w7zzs9xHf+ukBQuQ=, tarball: '@ebay/muse-express-middleware/-/@ebay/muse-express-middleware-1.0.6.tgz'}
+  /@ebay/muse-express-middleware/1.0.8:
+    resolution: {integrity: sha1-O7i1/iUFgI0BAfqT6Wzje8n+7RE=, tarball: '@ebay/muse-express-middleware/-/@ebay/muse-express-middleware-1.0.8.tgz'}
     dependencies:
-      '@ebay/muse-core': 1.0.6
+      '@ebay/muse-core': 1.0.8
       lodash: 4.17.21
       mime-types: 2.1.35
     dev: false
 
-  /@ebay/muse-modules/1.0.6:
-    resolution: {integrity: sha1-L3Kh8KK45qq5zlyjK1QvC2tMgLE=, tarball: '@ebay/muse-modules/-/@ebay/muse-modules-1.0.6.tgz'}
+  /@ebay/muse-modules/1.0.8:
+    resolution: {integrity: sha1-7V6x8sw6wFxyBTQgLFM9+ilSyjg=, tarball: '@ebay/muse-modules/-/@ebay/muse-modules-1.0.8.tgz'}
     dev: false
 
-  /@ebay/muse-scripts-react/1.0.6:
-    resolution: {integrity: sha1-B34m+x645jZmH7dFdEHBuXD3eoc=, tarball: '@ebay/muse-scripts-react/-/@ebay/muse-scripts-react-1.0.6.tgz'}
+  /@ebay/muse-scripts-react/1.0.8:
+    resolution: {integrity: sha1-gmS5DHloy8ccsZU35qSZjQIGeVo=, tarball: '@ebay/muse-scripts-react/-/@ebay/muse-scripts-react-1.0.8.tgz'}
     hasBin: true
     dependencies:
       cross-spawn: 7.0.3
       resolve-cwd: 3.0.0
     dev: false
 
-  /@ebay/muse-webpack-plugin/1.0.6:
-    resolution: {integrity: sha1-BMQDN8vITsuWG2E6RCbRYnhSvWU=, tarball: '@ebay/muse-webpack-plugin/-/@ebay/muse-webpack-plugin-1.0.6.tgz'}
+  /@ebay/muse-webpack-plugin/1.0.8:
+    resolution: {integrity: sha1-TJxNZL8WIi8QHuRNvVqG0SkZ9MU=, tarball: '@ebay/muse-webpack-plugin/-/@ebay/muse-webpack-plugin-1.0.8.tgz'}
     dependencies:
-      '@ebay/muse-modules': 1.0.6
+      '@ebay/muse-modules': 1.0.8
       json-parse-better-errors: 1.0.2
       resolve-cwd: 3.0.0
     dev: false
@@ -3800,7 +3809,6 @@ packages:
       form-data: 4.0.0
     transitivePeerDependencies:
       - debug
-    dev: true
 
   /axobject-query/2.2.0:
     resolution: {integrity: sha1-lD1H4QwLcEqkInXiDt83ImSJib4=}
@@ -4176,7 +4184,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001366
-      electron-to-chromium: 1.4.189
+      electron-to-chromium: 1.4.191
       node-releases: 2.0.6
       update-browserslist-db: 1.0.4_browserslist@4.21.2
 
@@ -5477,8 +5485,8 @@ packages:
     dependencies:
       jake: 10.8.5
 
-  /electron-to-chromium/1.4.189:
-    resolution: {integrity: sha1-TlsiHcROCend3Jq7xkV4V97nuiU=}
+  /electron-to-chromium/1.4.191:
+    resolution: {integrity: sha1-Ad1L8yUCpIziS/OJC1VTocX5NTk=}
 
   /elliptic/6.5.4:
     resolution: {integrity: sha1-2jfOvTHnmhNn6UG1ku0fvr1Yq7s=}
@@ -6401,7 +6409,6 @@ packages:
       asynckit: 0.4.0
       combined-stream: 1.0.8
       mime-types: 2.1.35
-    dev: true
 
   /forwarded/0.2.0:
     resolution: {integrity: sha1-ImmTZCiq1MFcfr6XeahL8LKoGBE=}
@@ -6927,28 +6934,6 @@ packages:
       param-case: 3.0.4
       relateurl: 0.2.7
       terser: 5.14.2
-
-  /html-webpack-inject-string-plugin/1.0.2_html-webpack-plugin@5.5.0:
-    resolution: {integrity: sha1-eFoM+A4IpYMaQ5qLEL8ENmr7zqE=}
-    peerDependencies:
-      html-webpack-plugin: ^4.0.0-beta.11
-      webpack: ^4.41.2
-    dependencies:
-      html-webpack-plugin: 5.5.0
-    dev: false
-
-  /html-webpack-plugin/5.5.0:
-    resolution: {integrity: sha1-w5EZNvV2gcH59Ni2jBWM2d/lL1A=}
-    engines: {node: '>=10.13.0'}
-    peerDependencies:
-      webpack: ^5.20.0
-    dependencies:
-      '@types/html-minifier-terser': 6.1.0
-      html-minifier-terser: 6.1.0
-      lodash: 4.17.21
-      pretty-error: 4.0.0
-      tapable: 2.2.1
-    dev: false
 
   /html-webpack-plugin/5.5.0_webpack@5.73.0:
     resolution: {integrity: sha1-w5EZNvV2gcH59Ni2jBWM2d/lL1A=}
@@ -12769,7 +12754,7 @@ packages:
     dev: false
 
   github.com/deoxxa/dissolve/eeb806f2bad501548138c8e38d0adcf95d4d1bdb:
-    resolution: {commit: eeb806f2bad501548138c8e38d0adcf95d4d1bdb, repo: git+ssh://git@github.com/deoxxa/dissolve.git, type: git}
+    resolution: {tarball: https://codeload.github.com/deoxxa/dissolve/tar.gz/eeb806f2bad501548138c8e38d0adcf95d4d1bdb}
     name: dissolve
     version: 0.3.3
     engines: {node: ~0.10.0}
