@@ -2,14 +2,12 @@ lockfileVersion: 5.4
 
 specifiers:
   '@craco/craco': ^6.4.5
-  '@ebay/muse-core': workspace:^1.0.8
   '@ebay/muse-dev-utils': workspace:^1.0.8
   '@ebay/muse-webpack-plugin': workspace:^1.0.8
   eslint: ^8.14.0
   resolve-cwd: ^3.0.0
 
 dependencies:
-  '@ebay/muse-core': link:../muse-core
   '@ebay/muse-dev-utils': link:../muse-dev-utils
   '@ebay/muse-webpack-plugin': link:../muse-webpack-plugin
   resolve-cwd: 3.0.0

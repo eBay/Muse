@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+// This is the only place needs muse-core
 const muse = require('@ebay/muse-core');
 const _ = require('lodash');
 const museAssetsMiddleware = require('@ebay/muse-express-middleware/lib/assets');

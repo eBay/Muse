@@ -10,7 +10,6 @@
     "lib"
   ],
   "dependencies": {
-    "@ebay/muse-core": "workspace:^1.0.8",
     "@ebay/muse-dev-utils": "workspace:^1.0.8",
     "@ebay/muse-webpack-plugin": "workspace:^1.0.8",
     "resolve-cwd": "^3.0.0"
