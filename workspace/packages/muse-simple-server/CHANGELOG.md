@@ -1,5 +1,23 @@
 # @ebay/muse-simple-server
 
+## 1.0.8
+
+### Patch Changes
+
+- 8ce0f98: Dev test.
+- Updated dependencies [8ce0f98]
+  - @ebay/muse-core@1.0.8
+  - @ebay/muse-express-middleware@1.0.8
+
+## 1.0.7
+
+### Patch Changes
+
+- Dev test.
+- Updated dependencies
+  - @ebay/muse-core@1.0.7
+  - @ebay/muse-express-middleware@1.0.7
+
 ## 1.0.6
 
 ### Patch Changes

@@ -1,7 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@ebay/muse-modules': workspace:^1.0.6
+  '@ebay/muse-modules': workspace:^1.0.8
   eslint: ^8.18.0
   json-parse-better-errors: ^1.0.2
   resolve-cwd: ^3.0.0

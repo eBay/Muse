@@ -1,5 +1,17 @@
 # @ebay/muse-plugin-react-scripts
 
+## 1.0.8
+
+### Patch Changes
+
+- 8ce0f98: Dev test.
+
+## 1.0.7
+
+### Patch Changes
+
+- Dev test.
+
 ## 1.0.6
 
 ### Patch Changes
