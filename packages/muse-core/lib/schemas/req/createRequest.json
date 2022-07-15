@@ -3,7 +3,7 @@
     "title": "create request params",
     "type": "object",
     "properties": {
-      "requestId": {
+      "id": {
         "type": "string"
       },
       "type": {
@@ -22,7 +22,7 @@
         "type": "string"
       }
     },
-    "required": ["requestId"],
+    "required": ["id"],
     "additionalProperties": false
   }
   
