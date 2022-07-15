@@ -276,10 +276,12 @@ program
       throw new Error(`Plugin name is required.`);
     }
 
+    const pluginType = pkgJson.muse?.type;
     const dependencyCheckResult = await muse.pm.checkDependencies({
       appName,
       envName,
       pluginName,
+      pluginType,
       version,
     });
 
