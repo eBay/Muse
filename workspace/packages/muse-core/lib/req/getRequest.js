@@ -26,5 +26,7 @@ module.exports = async requestId => {
     }
     await asyncInvoke('museCore.req.afterGetRequest', ctx, requestId);
     return ctx.request;
+  } else {
+    throw new Error('The param requestId is required.');
   }
 };
