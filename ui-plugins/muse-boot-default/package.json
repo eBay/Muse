@@ -41,10 +41,10 @@
     ]
   },
   "dependencies": {
-    "@ebay/muse-craco-plugin": "^1.0.8",
+    "@ebay/muse-craco-plugin": "^1.0.9",
     "@ebay/muse-ebay-dev-config": "^1.0.2",
-    "@ebay/muse-modules": "^1.0.8",
-    "@ebay/muse-scripts-react": "^1.0.8",
+    "@ebay/muse-modules": "^1.0.9",
+    "@ebay/muse-scripts-react": "^1.0.9",
     "base64-inline-loader": "^2.0.1"
   }
 }
