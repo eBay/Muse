@@ -9,7 +9,8 @@ if (!process.env.MUSE_CLI_CONFIG_FILE) {
 }
 
 process.env.MUSE_CONFIG_FILE = process.env.MUSE_CLI_CONFIG_FILE;
-const { Command } = require('commander');
+const commander = require('commander');
+const { Command } = commander;
 const chalk = require('chalk');
 const muse = require('@ebay/muse-core');
 const fs = require('fs-extra');
@@ -547,7 +548,7 @@ program
   });
 
 // let other plugins add their own cli program commands
-muse.plugin.invoke('museCli.processProgram', program, chalk);
+muse.plugin.invoke('museCli.processProgram', program, { commander, chalk });
 
 // sort commands alphabetically
 program.configureHelp({
