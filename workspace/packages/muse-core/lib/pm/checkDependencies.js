@@ -3,10 +3,6 @@ const { getPluginId } = require('../utils');
 const getDeployedPlugins = require('./getDeployedPlugins');
 const checkReleaseVersion = require('./checkReleaseVersion');
 
-const isInitBootPlugin = type => {
-  return type === 'init' || type === 'boot';
-};
-
 const generateMissingDeps = async (ctx, appName, envName, depsManifest, buildEnv) => {
   // not all the plugins will have a deps-manifest.json, only the ones using shared lib plugins
   const depsLibsKeys = Object.keys(depsManifest.content);
@@ -58,7 +54,7 @@ module.exports = async params => {
   const ctx = { missingDeps: { dev: [], dist: [] } };
 
   // check dependencies only if plugin type is NOT init / boot
-  if (!isInitBootPlugin(params.pluginType)) {
+  if (!['boot', 'init'].includes(params.pluginType)) {
     // Check if release version exists (throws exception if no version/release found)
     // Or try getting the latest one automatically if none specified
     let version = await checkReleaseVersion({
