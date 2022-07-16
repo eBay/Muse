@@ -87,11 +87,12 @@ module.exports = ({
       res.send('No app found: ' + appName);
       return;
     }
-    if (!app.envs?.[envName]) {
+    const env = app.envs?.[envName];
+    if (!env) {
       res.send('No env found: ' + envName);
       return;
     }
-    const plugins = app.envs?.[envName]?.plugins;
+    const plugins = env.plugins;
     museCore.plugin.invoke('museMiddleware.app.processPlugins', plugins, {
       app,
       appName,
@@ -112,6 +113,8 @@ module.exports = ({
 
     const bootPlugin = bootPlugins[0];
     const museGlobal = {
+      app: _.omit(app, ['envs']),
+      env: _.omit(env, ['plugins']),
       appName: appName,
       envName: envName,
       plugins,
