@@ -66,11 +66,6 @@ module.exports = ({
       logger.info(`App info by url: ${JSON.stringify(appInfo)}`);
 
       if (!appInfo) {
-        // res.statusCode = 400;
-        // res.write(
-        //   `Error: unable to detect Muse app by: ${req.get('host') + (req.originalUrl || '/')}`,
-        // );
-        // res.end();
         return next();
       }
       appName = appInfo.appName;
