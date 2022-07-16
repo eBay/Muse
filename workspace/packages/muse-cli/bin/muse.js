@@ -548,7 +548,7 @@ program
   });
 
 // let other plugins add their own cli program commands
-muse.plugin.invoke('museCli.processProgram', program, { commander, chalk });
+muse.plugin.invoke('museCli.processProgram', program, { commander, chalk, timeAgo });
 
 // sort commands alphabetically
 program.configureHelp({
