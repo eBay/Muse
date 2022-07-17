@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const museCore = require('@ebay/muse-core');
+const fs = require('fs');
 const logger = museCore.logger.createLogger('muse-express-middleware.app');
 const path = require('path');
 
@@ -55,8 +56,26 @@ module.exports = ({
   isDev = false,
   template = defaultTemplate,
   byUrl = false,
+  serviceWorker = '/sw.js', // If not use service worker, set it to false
+  serviceWorkerCacheName = 'muse_assets',
 }) => {
+  let swContent = fs.readFileSync(path.join(__dirname, './sw.js')).toString();
+  if (serviceWorkerCacheName) {
+    // Simply replace cacheName if necessary
+    // If your old cache has some issues, you may need to change cacheName to invalidate all old cache
+    swContent = swContent.replace(
+      "const cacheName = 'muse_assets';",
+      `const cacheName = '${serviceWorkerCacheName}';`,
+    );
+  }
   return async (req, res, next) => {
+    if (serviceWorker && req.path === serviceWorker) {
+      // Service built-in service worker
+      res.set('Content-Type', 'application/javascript; charset=utf-8');
+      res.write(swContent);
+      res.end();
+      return;
+    }
     const appInfo = museCore.plugin.invoke('museMiddleware.app.getAppInfo', req)[0];
     if (appInfo) {
       appName = appInfo.appName;
@@ -116,6 +135,8 @@ module.exports = ({
       isDev,
       cdn,
       bootPlugin: bootPlugin.name,
+      // If app disabled service worker, or it's not confiugred for the app
+      noServiceWorker: app.noServiceWorker || !serviceWorker,
     };
 
     logger.info(`Muse global: ${JSON.stringify(museGlobal)}`);
