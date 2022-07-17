@@ -12,6 +12,8 @@ module.exports = {
   updateApp: require('./updateApp'),
   /** @member {function} deleteApp */
   deleteApp: require('./deleteApp'),
+  /** @member {function} setAppIcon */
+  setAppIcon: require('./setAppIcon'),
   /** @member {function} createEnv */
   createEnv: require('./createEnv'),
   /** @member {function} updateEnv */

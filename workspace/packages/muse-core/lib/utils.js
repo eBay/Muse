@@ -126,6 +126,7 @@ const updateJson = (obj, changes) => {
   // push: [{ path, value }] // for array
   // remove: [{ path, predicate, value }, ...]
   const { set = [], unset = [], remove = [], push = [] } = changes;
+
   _.castArray(set).forEach(item => {
     _.set(obj, item.path, item.value);
   });

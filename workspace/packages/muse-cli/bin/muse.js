@@ -158,6 +158,19 @@ program
   });
 
 program
+  .command('set-app-icon')
+  .description('Setting the app icon with a png file')
+  .argument('<appName>', 'The application name.')
+  .argument('<icon>', 'The icon file in png format.')
+  .action(async (appName, icon) => {
+    icon = fs.readFileSync(icon);
+    if (icon.length > 100000) {
+      throw new Error('App icon size should not be more than 100Kb.');
+    }
+    await muse.am.setAppIcon({ appName, icon });
+  });
+
+program
   .command('view-app')
   .description('Display basic details of a MUSE application')
   .argument('<appName>', 'application name')
