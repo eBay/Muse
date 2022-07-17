@@ -1,5 +1,11 @@
 # @ebay/muse-modules
 
+## 1.0.10
+
+### Patch Changes
+
+- dev testing
+
 ## 1.0.9
 
 ### Patch Changes
