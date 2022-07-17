@@ -2,13 +2,17 @@ import logo from './logo.png';
 
 export default {
   init() {
+    const { app, cdn } = window.MUSE_GLOBAL;
     const loadingDiv = document.createElement('div');
+    const logoUrl = app.iconId
+      ? `${cdn}/p/app-assets.${app.name}/v0.0.0/dist/icon-${app.iconId}.png`
+      : logo;
     loadingDiv.innerHTML = `
     <div>
       <div class='muse-loading-node-inner'>
       <div class="loadingio-spinner-eclipse-p5fn84x4bh8"><div class="ldio-klconu2768"><div>
       </div></div></div>
-      <img src="${logo}"/>
+      <img src="${logoUrl}"/>
       </div>
       <label>Starting...</label>
     </div>

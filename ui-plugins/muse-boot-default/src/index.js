@@ -8,13 +8,13 @@ import msgEngine from './msgEngine';
 
 import './style.css';
 
-loading.init();
+if (!window.MUSE_GLOBAL) {
+  throw new Error('There must be global MUSE_GLOBAL object.');
+}
 
+loading.init();
 async function start() {
   loading.showMessage('Starting...');
-  if (!window.MUSE_GLOBAL) {
-    window.MUSE_GLOBAL = {};
-  }
 
   const waitForLoaders = [];
   Object.assign(window.MUSE_GLOBAL, {
