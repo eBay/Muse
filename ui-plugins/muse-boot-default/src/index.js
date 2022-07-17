@@ -136,10 +136,11 @@ async function start() {
   }
   loading.hide();
 }
-
+const timeStart = Date.now();
 start()
   .then(() => {
-    console.log(`Muse app started.`);
+    const timeEnd = Date.now();
+    console.log(`Muse app started in ${(timeEnd - timeStart) / 1000} seconds.`);
   })
   .catch(err => {
     console.log('Failed to start app.');

@@ -17,7 +17,7 @@ export default function() {
         .register(serviceWorker, {})
         .then(function() {
           resolved = true;
-          console.log('Service Worker register done');
+          console.log('Service Worker register done.');
           resolve();
         })
         .catch(() => {
