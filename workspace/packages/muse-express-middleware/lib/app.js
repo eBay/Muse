@@ -151,8 +151,8 @@ module.exports = ({
     const favicon = app.iconId
       ? `${cdn}/p/app-assets.${app.name}/v0.0.0/dist/icon-${app.iconId}.png`
       : path.join(req.baseUrl || '/', 'favicon.png');
-    res.write(
-      _.template(template)({
+    const ctx = {
+      indexHtml: _.template(template)({
         title: app.title || 'Muse App',
         favicon,
         bootPluginUrl:
@@ -162,7 +162,9 @@ module.exports = ({
           }/dist/boot.js`,
         museGlobal: JSON.stringify(museGlobal),
       }),
-    );
+    };
+    museCore.plugin.invoke('museMiddleware.app.processIndexHtml', ctx);
+    res.write(ctx.indexHtml);
     res.end();
   };
 };
