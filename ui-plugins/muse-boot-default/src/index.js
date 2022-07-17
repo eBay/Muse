@@ -4,6 +4,8 @@ import loading from './loading';
 import error from './error';
 import registerSw from './registerSw';
 import { loadInParallel, getPluginId } from './utils';
+import msgEngine from './msgEngine';
+
 import './style.css';
 
 loading.init();
@@ -16,6 +18,10 @@ async function start() {
 
   const waitForLoaders = [];
   Object.assign(window.MUSE_GLOBAL, {
+    msgEngine,
+    loading,
+    error,
+    getUser: () => ({}),
     appEntries: [], // entries to start the app
     initEntries: [], // entries from init plugins
     pluginEntries: [], // entries from lib or normal plugins
@@ -44,8 +50,6 @@ async function start() {
   } = window.MUSE_GLOBAL;
   window.MUSE_CONFIG = window.MUSE_GLOBAL;
   // TODO: remove below two lines after migrate old Muse plugins inside eBay
-  window.MUSE_GLOBAL.getUser = () => ({});
-  window.MUSE_GLOBAL.loading = loading;
   registerSw();
 
   // Print app plugins in dev console
