@@ -25,7 +25,6 @@ class MuseReferencePlugin {
         const currentMuseLibManifestContent = require(resolveCwd(
           `${museLib}/build/${this.options.isDevBuild ? 'dev' : 'dist'}/lib-manifest.json`,
         )).content;
-
         libsManifestContent[`${museLib}`] = {
           version: require(resolveCwd(`${museLib}/package.json`)).version,
           content: currentMuseLibManifestContent,
