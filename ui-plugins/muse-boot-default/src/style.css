@@ -9,10 +9,7 @@
   z-index: 99999;
   background-color: #fff;
   transition: opacity ease-out 0.3s;
-}
-
-#muse-loading-node > div {
-  transform: translateY(-12%);
+  line-height: 1.5!important;
 }
 
 #muse-loading-node .muse-loading-node-inner {
