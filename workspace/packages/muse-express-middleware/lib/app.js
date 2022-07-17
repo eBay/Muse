@@ -9,7 +9,7 @@ const defaultTemplate = `
 <html lang="en">
 <head>
   <title><%= title %></title>
-  <link rel="shortcut icon" href="/favicon.png" />
+  <link rel="shortcut icon" href="<%= favicon %>" />
   <script>
     window.MUSE_GLOBAL = <%= museGlobal %>;
   </script>
@@ -54,6 +54,7 @@ module.exports = ({
   envName = 'staging',
   cdn = '/muse-assets',
   isDev = false,
+  isLocal = false,
   template = defaultTemplate,
   byUrl = false,
   serviceWorker = '/sw.js', // If not use service worker, set it to false
@@ -133,6 +134,7 @@ module.exports = ({
       envName: envName,
       plugins,
       isDev,
+      isLocal,
       cdn,
       bootPlugin: bootPlugin.name,
       // If app disabled service worker, or it's not confiugred for the app
@@ -146,9 +148,13 @@ module.exports = ({
     museCore.plugin.invoke('museMiddleware.app.processMuseGlobal', museGlobal);
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
 
+    const favicon = app.iconId
+      ? `${cdn}/p/app-assets.${app.name}/v0.0.0/dist/icon-${app.iconId}.png`
+      : path.join(req.baseUrl || '/', 'favicon.png');
     res.write(
       _.template(template)({
         title: app.title || 'Muse App',
+        favicon,
         bootPluginUrl:
           bootPlugin.url ||
           `${cdn}/p/${museCore.utils.getPluginId(bootPlugin.name)}/v${

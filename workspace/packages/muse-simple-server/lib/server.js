@@ -10,7 +10,7 @@ async function server({ appName, envName = 'staging', isDev, port = 6070 }) {
   app.get('/*', express.static(path.join(__dirname, '../static')));
   app.use(museApiMiddleware({}));
   app.use(museAssetsMiddleware({}));
-  app.use(museAppMiddleware({ appName, envName, isDev, byUrl: !appName }));
+  app.use(museAppMiddleware({ appName, envName, isDev, isLocal: true, byUrl: !appName }));
 
   app.listen(port, () => {
     console.log(
