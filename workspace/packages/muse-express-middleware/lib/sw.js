@@ -69,22 +69,14 @@ function parseUrl(url) {
   if (urlCache[url]) return urlCache[url];
 
   // https://static.muse.ebay.com/p/@ebay.muse-lib-react/v1.0.3/dist/main.js
-  // arr[0] => 'static.muse.ebay.com'
-  // arr[1] => 'p'
-  // arr[2] => '@ebay.muse-lib-react' (plugin id)
-  // arr[3] => 'v1.0.3'
-  // arr[4] => 'dist'
-  // arr[5] => 'main.js'
-  const arr = url.replace('https://', '').split('/');
-
+  const m = url.match(/\/p\/([\w@\.\-_]+)\/v(\d+\.\d+\.\d+[\w@\.\-_]*)\/[\w@\.\-_]+\/.*/);
   let result = null;
-  if (arr[1] === 'p' && /v?(\d+\.\d+\.\d+)/.test(arr[3]) && arr[5]) {
+  if (m) {
     result = {
       isAsset: true,
-      org: arr[1],
-      plugin: arr[2],
-      version: arr[3].replace(/^v/, ''),
-      filePath: arr.slice(4).join('/'),
+      filepath: m[0],
+      plugin: m[1],
+      version: m[2],
     };
   } else {
     result = {

@@ -136,7 +136,10 @@ module.exports = ({
       cdn,
       bootPlugin: bootPlugin.name,
       // If app disabled service worker, or it's not confiugred for the app
-      noServiceWorker: app.noServiceWorker || !serviceWorker,
+      serviceWorker:
+        !app.noServiceWorker && serviceWorker
+          ? path.join(req.baseUrl || '/', serviceWorker)
+          : false,
     };
 
     logger.info(`Muse global: ${JSON.stringify(museGlobal)}`);
