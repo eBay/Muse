@@ -2,6 +2,7 @@
 import museModules from '@ebay/muse-modules';
 import loading from './loading';
 import error from './error';
+import registerSw from './registerSw';
 import { loadInParallel, getPluginId } from './utils';
 import './style.css';
 
@@ -12,6 +13,7 @@ async function start() {
   if (!window.MUSE_GLOBAL) {
     window.MUSE_GLOBAL = {};
   }
+
   const waitForLoaders = [];
   Object.assign(window.MUSE_GLOBAL, {
     appEntries: [], // entries to start the app
@@ -31,6 +33,7 @@ async function start() {
   });
 
   const {
+    app,
     cdn = '',
     plugins = [],
     entry = 'muse-react',
@@ -43,6 +46,7 @@ async function start() {
   // TODO: remove below two lines after migrate old Muse plugins inside eBay
   window.MUSE_GLOBAL.getUser = () => ({});
   window.MUSE_GLOBAL.loading = loading;
+  registerSw();
 
   // Print app plugins in dev console
   const bootPlugin = plugins.find(p => p.type === 'boot');
