@@ -16,7 +16,6 @@ function renderRouteConfigV3(routes, contextPath) {
   const children = []; // children component list
 
   const renderRoute = (item, routeContextPath) => {
-    console.log('render route:', item);
     let newContextPath;
     const isPathArray = _.isArray(item.path);
     if (/^\//.test(item.path) || isPathArray) {
@@ -55,20 +54,20 @@ function renderRouteConfigV3(routes, contextPath) {
         />,
       );
     } else if (item.childRoutes) {
-      item.childRoutes.forEach((r) => renderRoute(r, newContextPath));
+      item.childRoutes.forEach(r => renderRoute(r, newContextPath));
     }
   };
 
-  routes.forEach((item) => renderRoute(item, contextPath));
+  routes.forEach(item => renderRoute(item, contextPath));
 
   // Use Switch so that only the first matched route is rendered.
   // return <Routes>{children}</Routes>;
   return children;
 }
 
-const renderChildren = (children) => {
+const renderChildren = children => {
   const providers = plugin.invoke('!root.renderChildren');
-  providers.forEach((p) => {
+  providers.forEach(p => {
     if (!_.isFunction(p)) throw new Error('root.renderChildren should be a function.');
     children = p(children);
   });
@@ -79,8 +78,7 @@ const WrappedInRedux = () => {
   const children = renderRouteConfigV3(routeConfig(), '/');
 
   const dispatch = useDispatch();
-  const modals = useSelector((s) => s.modals);
-  console.log('final children', children);
+  const modals = useSelector(s => s.modals);
   return (
     <NiceModal.Provider dispatch={dispatch} modals={modals}>
       <BrowserRouter>{renderChildren(<Routes>{children}</Routes>)}</BrowserRouter>
@@ -90,7 +88,7 @@ const WrappedInRedux = () => {
 
 const Root = () => {
   const [subAppContext, setSubAppContext] = useState(null);
-  const handleMsg = useCallback((msg) => {
+  const handleMsg = useCallback(msg => {
     if (msg.type === 'sub-app-context-change') {
       setSubAppContext(msg.data);
     }

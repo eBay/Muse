@@ -19,7 +19,7 @@ const routes = [
     childRoutes: [
       ...childRoutes,
       { path: '*', name: 'Page not found', component: PageNotFound },
-    ].filter((r) => r.component || (r.childRoutes && r.childRoutes.length > 0)),
+    ].filter(r => r.component || (r.childRoutes && r.childRoutes.length > 0)),
   },
 ];
 
@@ -30,7 +30,7 @@ function handleIndexRoute(route) {
     return;
   }
 
-  const indexRoute = _.find(route.childRoutes, (child) => child.isIndex);
+  const indexRoute = _.find(route.childRoutes, child => child.isIndex);
   if (indexRoute) {
     const first = { ...indexRoute };
     first.path = '';
@@ -56,7 +56,7 @@ function handleParentRoutes(routes) {
     if (r.childRoutes) {
       arr.push(...r.childRoutes);
       // find all routes which have parents
-      [...r.childRoutes].forEach((cr) => {
+      [...r.childRoutes].forEach(cr => {
         if (cr.parent) {
           hasParent.push(cr);
           _.pull(r.childRoutes, cr);
@@ -66,7 +66,7 @@ function handleParentRoutes(routes) {
   }
 
   // for all routes which have parents, put them in the correct childRoutes
-  hasParent.forEach((r) => {
+  hasParent.forEach(r => {
     const parentId = r.parent;
     if (byId[parentId]) {
       if (!byId[parentId].childRoutes) byId[parentId].childRoutes = [];
@@ -80,7 +80,7 @@ function handleParentRoutes(routes) {
 const routeConfig = () => {
   const newChildRoutes = [...childRoutes];
   // Get routes from plugins
-  plugin.invoke('!route').forEach((route) => {
+  plugin.invoke('!route').forEach(route => {
     newChildRoutes.push(..._.castArray(route));
   });
 
@@ -99,7 +99,7 @@ const routeConfig = () => {
       homepage = () => (
         <div style={{ color: 'red', padding: '20px' }}>
           Failed to show homepage: multiple homepages found from:{' '}
-          {homepagePlugins.map((p) => p.name).join(', ')}. You should load only one plugin which
+          {homepagePlugins.map(p => p.name).join(', ')}. You should load only one plugin which
           defines homepage.
         </div>
       );
@@ -118,14 +118,13 @@ const routeConfig = () => {
       childRoutes: [
         ...newChildRoutes,
         { path: '*', name: 'Page not found', component: PageNotFound },
-      ].filter((r) => r.component || r.render || (r.childRoutes && r.childRoutes.length > 0)),
+      ].filter(r => r.component || r.render || (r.childRoutes && r.childRoutes.length > 0)),
     },
   ];
   routes.forEach(handleIndexRoute);
 
   // Handle parent routes
   handleParentRoutes(routes);
-  console.log('routes: ', routes);
   return routes;
 };
 export default routeConfig;

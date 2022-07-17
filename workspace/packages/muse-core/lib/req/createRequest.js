@@ -24,7 +24,7 @@ const schema = require('../schemas/req/createRequest.json');
  * @property {...*}
  */
 module.exports = async (params = {}) => {
-  validate(schema, params);
+  // validate(schema, params);
   const ctx = {};
   await asyncInvoke('museCore.req.beforeCreateRequest', ctx, params);
 
