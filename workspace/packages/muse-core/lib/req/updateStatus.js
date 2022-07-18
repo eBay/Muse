@@ -1,10 +1,10 @@
 const _ = require('lodash');
 const yaml = require('js-yaml');
-const { asyncInvoke, updateJson, osUsername } = require('../utils');
+const { asyncInvoke, updateJson, osUsername, validate } = require('../utils');
 const { registry } = require('../storage');
 const getRequest = require('./getRequest');
 const completeRequest = require('./completeRequest');
-
+const schema = require('../schemas/req/updateStatus.json');
 /** This also includes the creation of status */
 /**
  * @module muse-core/req/updateStatus
@@ -21,6 +21,7 @@ const completeRequest = require('./completeRequest');
  */
 
 module.exports = async params => {
+  validate(schema, params);
   const { requestId, status, author = osUsername, msg } = params;
   const ctx = {};
 

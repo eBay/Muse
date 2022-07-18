@@ -7,7 +7,7 @@
         "type": "string"
       },
       "status": {
-        "type": "string"
+        "type": ["object","array","string"]
       },
       "author": {
         "type": "string"

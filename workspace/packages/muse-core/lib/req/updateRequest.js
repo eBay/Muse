@@ -1,8 +1,9 @@
 const _ = require('lodash');
 const yaml = require('js-yaml');
-const { asyncInvoke, updateJson, osUsername } = require('../utils');
+const { asyncInvoke, updateJson, osUsername, validate } = require('../utils');
 const { registry } = require('../storage');
 const getRequest = require('./getRequest');
+const schema = require('../schemas/req/updateRequest.json');
 
 /**
  * @module muse-core/req/updateRequest
@@ -15,13 +16,10 @@ const getRequest = require('./getRequest');
  * @param {object} params.changes The request Id.
  * @param {string} [params.author] Default to the current os logged in user.
  * @param {string} [params.msg] Action message.
- *
- *
- *
- *
  * @returns {request} request object
  */
 module.exports = async params => {
+  validate(schema, params);
   const { requestId, changes, author = osUsername, msg } = params;
   const ctx = {};
 
