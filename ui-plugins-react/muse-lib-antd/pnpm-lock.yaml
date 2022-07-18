@@ -5,7 +5,7 @@ specifiers:
   '@craco/craco': ^6.4.5
   '@ebay/muse-craco-plugin': 1.0.11
   '@ebay/muse-ebay-dev-config': ^1.0.5
-  '@ebay/muse-lib-react': 1.0.7
+  '@ebay/muse-lib-react': 1.0.10
   '@ebay/muse-scripts-react': ^1.0.10
   '@ebay/muse-webpack-plugin': 1.0.11
   antd: 4.20.7
@@ -32,7 +32,7 @@ dependencies:
   '@ant-design/icons': 4.7.0_biqbaboplfbrettd7655fr4n2y
   '@craco/craco': 6.4.5_react-scripts@5.0.1
   '@ebay/muse-ebay-dev-config': 1.0.5
-  '@ebay/muse-lib-react': 1.0.7
+  '@ebay/muse-lib-react': 1.0.10
   antd: 4.20.7_biqbaboplfbrettd7655fr4n2y
   antd-form-builder: 2.1.4_avqzthnwxfrzxtlyigsueimkbq
   craco-less: 2.0.0_xgxnkve2gkwyphykbzlgtzhxmi
@@ -1615,12 +1615,13 @@ packages:
       lodash: 4.17.21
       mime-types: 2.1.35
 
-  /@ebay/muse-lib-react/1.0.7:
-    resolution: {integrity: sha1-oNJiDlkH8OHyc2EeV7wQTh+ZdWg=, tarball: '@ebay/muse-lib-react/-/@ebay/muse-lib-react-1.0.7.tgz'}
+  /@ebay/muse-lib-react/1.0.10:
+    resolution: {integrity: sha1-bMv8iw4qGyTET0rQ3d44a9CvKzE=, tarball: '@ebay/muse-lib-react/-/@ebay/muse-lib-react-1.0.10.tgz'}
     dependencies:
       '@babel/core': 7.18.6
       '@craco/craco': 6.4.5_hsv26antxuqwg6pblgtk7klj5y
       '@ebay/muse-craco-plugin': 1.0.11_@craco+craco@6.4.5
+      '@ebay/muse-ebay-dev-config': 1.0.5
       '@ebay/muse-scripts-react': 1.0.10
       '@ebay/nice-modal-react': 1.2.6_biqbaboplfbrettd7655fr4n2y
       '@types/node': 17.0.45
@@ -1646,6 +1647,7 @@ packages:
     transitivePeerDependencies:
       - '@babel/plugin-syntax-flow'
       - '@babel/plugin-transform-react-jsx'
+      - '@ebay/muse-core'
       - '@parcel/css'
       - '@swc/core'
       - '@swc/wasm'
