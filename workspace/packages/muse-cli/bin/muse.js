@@ -48,6 +48,11 @@ program
       chalk.cyan(`Muse core version: ${require('@ebay/muse-core/package.json').version}.`),
     );
     muse.config.filepath && console.log(chalk.cyan(`Muse config file: ${muse.config.filepath}.`));
+    const plugins = muse.plugin.getPlugins();
+    console.log(chalk.cyan(`Plugins (${plugins.length}):`));
+    plugins.forEach(p => {
+      console.log(chalk.cyan(`  - ${p.name}`));
+    });
   });
 
 program

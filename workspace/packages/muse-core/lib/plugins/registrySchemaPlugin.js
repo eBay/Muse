@@ -21,7 +21,7 @@ module.exports = () => {
   ajv.addSchema(requestSchema, 'request');
 
   return {
-    name: 'registrySchemaPlugin',
+    name: 'registry-schema-plugin',
     museCore: {
       registry: {
         storage: {
