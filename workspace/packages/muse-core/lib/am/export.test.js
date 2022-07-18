@@ -43,11 +43,11 @@ describe('Export basic tests.', () => {
 
     unzipper.Open.buffer.mockResolvedValue({
       extract: ({ path }) => {
-        console.log(`mock extract from ${path}`);
+        // console.log(`mock extract from ${path}`);
       },
     });
     muse.storage.assets.get = jest.fn(assetsZipKey => {
-      console.log(`mock asset get for ${assetsZipKey}`);
+      // console.log(`mock asset get for ${assetsZipKey}`);
       return 'test';
     });
     await muse.am.export({ appName, envName, output: 'exportutonly' });

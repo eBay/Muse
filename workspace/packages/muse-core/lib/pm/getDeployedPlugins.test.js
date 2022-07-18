@@ -48,9 +48,9 @@ describe('Deploy plugin basic tests.', () => {
       prop1: 'prop1',
     });
 
-    expect(testJsPlugin.museCore.pm.getDeployedPlugins).toBeCalledTimes(2);
-    expect(testJsPlugin.museCore.pm.beforeGetDeployedPlugins).toBeCalledTimes(2);
-    expect(testJsPlugin.museCore.pm.afterGetDeployedPlugins).toBeCalledTimes(2);
+    expect(testJsPlugin.museCore.pm.getDeployedPlugins).toBeCalledTimes(4);
+    expect(testJsPlugin.museCore.pm.beforeGetDeployedPlugins).toBeCalledTimes(4);
+    expect(testJsPlugin.museCore.pm.afterGetDeployedPlugins).toBeCalledTimes(4);
   });
 
   it('It returns empty array if app not exists.', async () => {
