@@ -5,7 +5,7 @@ export default {
     const { app, cdn } = window.MUSE_GLOBAL;
     const loadingDiv = document.createElement('div');
     const logoUrl = app.iconId
-      ? `${cdn}/p/app-assets.${app.name}/v0.0.0/dist/icon-${app.iconId}.png`
+      ? `${cdn}/p/app-icon.${app.name}/v0.0.${app.iconId}/dist/icon.png`
       : logo;
     loadingDiv.innerHTML = `
     <div>

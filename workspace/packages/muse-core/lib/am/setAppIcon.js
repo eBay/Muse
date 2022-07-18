@@ -30,16 +30,16 @@ module.exports = async (params = {}) => {
   if (app.iconId) {
     try {
       // Delete old icon
-      await assetsStorage.del(`/p/app-assets.${appName}/v0.0.0/dist/icon-${app.iconId}.png`);
+      await assetsStorage.delDir(`/p/app-icon.${appName}/v0.0.${app.iconId}`);
     } catch (err) {
-      logger.error(`Failed to delete app icon-${app.iconId}: ${appName}`);
+      logger.error(`Failed to delete app icon@${app.iconId}: ${appName}`);
     }
     ctx.newIconId = parseInt(app.iconId || '0', 10) + 1;
   }
 
   try {
     await asyncInvoke('museCore.am.setAppIcon', ctx, params);
-    await assetsStorage.set(`/p/app-assets.${appName}/v0.0.0/dist/icon-${ctx.newIconId}.png`, icon);
+    await assetsStorage.set(`/p/app-icon.${appName}/v0.0.${ctx.newIconId}/dist/icon.png`, icon);
     await updateApp({
       appName,
       changes: {
@@ -48,7 +48,7 @@ module.exports = async (params = {}) => {
           value: ctx.newIconId,
         },
       },
-      msg: `Set app icon of ${appName} by ${author}.`,
+      msg: `Set app icon@${ctx.newIconId} for ${appName} by ${author}.`,
     });
   } catch (err) {
     ctx.error = err;
@@ -57,5 +57,5 @@ module.exports = async (params = {}) => {
   }
   await asyncInvoke('museCore.am.afterSetAppIcon', ctx, params);
 
-  logger.info(`Set app icon success: icon-${ctx.newIconId}@${appName}.`);
+  logger.info(`Set app icon success: icon@${ctx.newIconId} for ${appName}.`);
 };

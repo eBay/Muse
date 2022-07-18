@@ -149,7 +149,7 @@ module.exports = ({
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
 
     const favicon = app.iconId
-      ? `${cdn}/p/app-assets.${app.name}/v0.0.0/dist/icon-${app.iconId}.png`
+      ? `${cdn}/p/app-icon.${app.name}/v0.0.${app.iconId}/dist/icon.png`
       : path.join(req.baseUrl || '/', 'favicon.png');
     const ctx = {
       indexHtml: _.template(template)({
