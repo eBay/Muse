@@ -1,11 +1,15 @@
 const _ = require('lodash');
 const logger = require('../logger').createLogger('muse.data.builder');
+const plugin = require('js-plugin');
 
 const builders = [];
 
 const builder = {
-  // refresh cache is only useful when there's cache provider
-  // refreshCache: async (name) => {},
+  /**
+   * @description Get data value by key.
+   * @param {string} key
+   * @returns {any}
+   */
   get: async key => {
     if (!key) throw Error('Builder.get need a key');
     for (const builder of builders) {
@@ -34,30 +38,10 @@ const builder = {
   },
   register: builder => {
     // TODO: use json schema
-    // if (!builder.name) {
-    //   const err = new Error(`Every builder should have a name.`);
-    //   logger.error(err.message);
-    //   throw err;
-    // }
     if (!builder.key && !builder.match) {
       throw new Error(`Every builder should have a key or match method: ${builder.name}.`);
     }
-    // if (builder.key.includes('/')) {
-    //   throw new Error(`Cache builder key should not include '/'.`);
-    // }
-    // if (builders.some((b) => b.name === builder.name)) {
-    //   const err = new Error(`Cache builder with name ${builder.name} already exsits.`);
-    //   logger.error(err.message);
-    //   throw err;
-    // }
-    // if (builders.some(b => b.key === builder.key)) {
-    //   throw new Error(`Cache builder with key ${builder.key} already exsits.`);
-    // }
     builders.push(builder);
-    // {
-    //   ...builder,
-    //   match: k => match(builder.key.replace(/\./g, '/'))(k.replace(/\./g, '/')),
-    // });
   },
 };
 
@@ -69,7 +53,8 @@ builder.register(require('./builders/muse.requests'));
 builder.register(require('./builders/muse.plugin'));
 builder.register(require('./builders/muse.plugin-releases'));
 builder.register(require('./builders/muse.plugins.latest-releases'));
-_.flatten(_.invoke('museCore.data.getBuilders'))
+
+_.flatten(plugin.invoke('museCore.data.getBuilders'))
   .filter(Boolean)
   .forEach(b => {
     builder.register(b);
