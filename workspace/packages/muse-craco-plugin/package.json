@@ -15,10 +15,10 @@
     "resolve-cwd": "^3.0.0"
   },
   "devDependencies": {
-    "@craco/craco": "^6.4.5",
+    "@craco/craco": "6.4.4",
     "eslint": "^8.14.0"
   },
   "peerDependencies": {
-    "@craco/craco": "^6.4.5"
+    "@craco/craco": "6.4.4"
   }
 }
