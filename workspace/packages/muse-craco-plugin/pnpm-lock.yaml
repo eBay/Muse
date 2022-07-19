@@ -1,7 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@craco/craco': ^6.4.5
+  '@craco/craco': 6.4.4
   '@ebay/muse-dev-utils': workspace:^1.0.12
   '@ebay/muse-webpack-plugin': workspace:^1.0.12
   eslint: ^8.14.0
@@ -13,7 +13,7 @@ dependencies:
   resolve-cwd: 3.0.0
 
 devDependencies:
-  '@craco/craco': 6.4.5
+  '@craco/craco': 6.4.4
   eslint: 8.19.0
 
 packages:
@@ -39,8 +39,8 @@ packages:
       js-tokens: 4.0.0
     dev: true
 
-  /@craco/craco/6.4.5:
-    resolution: {integrity: sha1-Rx5nCCov/T7fc3WbIVvcFiUNJ7M=}
+  /@craco/craco/6.4.4:
+    resolution: {integrity: sha1-29iZwZpmjsOWDBiT9a4kuHSRGo8=}
     engines: {node: '>=6'}
     hasBin: true
     peerDependencies:
