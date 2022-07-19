@@ -1,4 +1,4 @@
-lockfileVersion: 5.4
+lockfileVersion: 5.3
 
 specifiers:
   '@ebay/muse-core': ^1.0.11
@@ -10,6 +10,7 @@ specifiers:
   inquirer: 8.2.3
   javascript-time-ago: ^2.5.5
   js-plugin: ^1.1.0
+  lodash: ^4.17.21
 
 dependencies:
   '@ebay/muse-core': 1.0.11
@@ -20,6 +21,7 @@ dependencies:
   inquirer: 8.2.3
   javascript-time-ago: 2.5.6
   js-plugin: 1.1.0
+  lodash: 4.17.21
 
 devDependencies:
   eslint: 8.19.0

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-
+const _ = require('lodash');
 const os = require('os');
 const path = require('path');
 const timeStart = Date.now();
@@ -127,8 +127,18 @@ program
   .command('create-app')
   .description('Create a new MUSE application')
   .argument('<appName>', 'application name')
-  .action(async appName => {
-    await muse.am.createApp({ appName });
+  .option('--args <args...>', 'space separated list of argument names')
+  .action(async (appName, options) => {
+    const mappedArgs = options.args?.reduce((mappedArgs, option, index, args) => {
+      const argObj = option.split('=');
+      if (argObj[0] in mappedArgs) {
+        mappedArgs[[argObj[0]]] = [..._.castArray(mappedArgs[argObj[0]]), argObj[1]];
+      } else {
+        mappedArgs[argObj[0]] = argObj[1];
+      }
+      return mappedArgs;
+    }, {});
+    await muse.am.createApp({ appName, ...mappedArgs });
   });
 
 program
@@ -230,8 +240,18 @@ program
   .command('create-plugin')
   .description('Create a new MUSE plugin')
   .argument('<pluginName>', 'plugin name')
-  .action(async pluginName => {
-    await muse.pm.createPlugin({ pluginName });
+  .option('--args <args...>', 'space separated list of argument names')
+  .action(async (pluginName, options) => {
+    const mappedArgs = options.args?.reduce((mappedArgs, option, index, args) => {
+      const argObj = option.split('=');
+      if (argObj[0] in mappedArgs) {
+        mappedArgs[[argObj[0]]] = [..._.castArray(mappedArgs[argObj[0]]), argObj[1]];
+      } else {
+        mappedArgs[argObj[0]] = argObj[1];
+      }
+      return mappedArgs;
+    }, {});
+    await muse.pm.createPlugin({ pluginName, ...mappedArgs });
   });
 
 program
