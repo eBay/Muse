@@ -2,8 +2,9 @@ const MuseClient = require('./lib/MuseClient');
 const httpsAgent = new (require('https').Agent)({
   rejectUnauthorized: false,
 });
+//'http://localhost:8080/api/v2', //
 const muse = new MuseClient({
-  endpoint: 'http://localhost:6070/api/v2', // 'https://musenextsvc.vip.qa.ebay.com/api/v2',
+  endpoint: 'https://musenextsvc.vip.qa.ebay.com/api/v2',
   axiosConfig: {
     httpsAgent,
   },
@@ -12,9 +13,10 @@ const muse = new MuseClient({
 (async () => {
   try {
     // const data = await muse.a.b.c.d.tes1t();
-    // const data = await muse.data.get('muse.app.nateapp');
-    // const data = await muse.am.getApps('muse.npm.versions');
-    const data = await muse.am.createApp({ appName: 'app9' });
+    const data = await muse.data.get('muse.npm.versions');
+    // const data = await muse.data.refreshCache('muse.npm.versions');
+    // const data = await muse.am.getApps();
+    // const data = await muse.am.createApp({ appName: 'app10' });
     console.log(data);
   } catch (err) {
     console.log(err);
