@@ -6,7 +6,7 @@ const museAppMiddleware = require('@ebay/muse-express-middleware/lib/app');
 
 async function server({ appName, envName = 'staging', isDev, port = 6070 }) {
   const app = express();
-
+  app.use(express.json());
   app.get('/*', express.static(path.join(__dirname, '../static')));
   app.use(museApiMiddleware({}));
   app.use(museAssetsMiddleware({}));
