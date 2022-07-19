@@ -1,0 +1,69 @@
+{
+  "name": "@ebay/muse-lib-antd",
+  "version": "1.0.2",
+  "repository": "",
+  "muse": {
+    "type": "lib",
+    "devConfig": {
+      "app": "app1",
+      "env": "staging"
+    }
+  },
+  "publishConfig": {
+    "registry": "https://artifactory.corp.ebay.com/artifactory/api/npm/npm-muse"
+  },
+  "files": [
+    "build",
+    "src"
+  ],
+  "devDependencies": {
+    "@ebay/muse-craco-plugin": "1.0.11",
+    "@ebay/muse-scripts-react": "^1.0.10",
+    "@ebay/muse-webpack-plugin": "1.0.11",
+    "cross-env": "^7.0.3"
+  },
+  "scripts": {
+    "start": "cross-env PORT=3031 muse-scripts-react start",
+    "build": "cross-env NODE_PATH=./node_modules muse-scripts-react build",
+    "build:dev": "cross-env NODE_PATH=./node_modules muse-scripts-react build --dev",
+    "prestart": "muse-ebay check-updates",
+    "prebuild": "muse-ebay check-updates",
+    "deploy": "pnpm build && pnpm build:dev && muse release && muse deploy nateapp staging"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "dependencies": {
+    "@ant-design/icons": "^4.7.0",
+    "@craco/craco": "^6.4.5",
+    "@ebay/muse-ebay-dev-config": "^1.0.5",
+    "@ebay/muse-lib-react": "1.0.7",
+    "antd": "4.20.7",
+    "antd-form-builder": "2.1.4",
+    "craco-less": "^2.0.0",
+    "history": "^5.3.0",
+    "js-plugin": "^1.1.0",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.4",
+    "prop-types": "^15.8.1",
+    "react": "^18.2.0",
+    "react-copy-to-clipboard": "^5.1.0",
+    "react-dom": "^18.2.0",
+    "react-highlight-words": "^0.18.0",
+    "react-redux": "^8.0.2",
+    "react-router-dom": "^6.3.0",
+    "react-scripts": "^5.0.1",
+    "react-syntax-highlighter": "^15.5.0",
+    "react-use": "^17.4.0",
+    "redux": "^4.2.0"
+  }
+}

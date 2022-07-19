@@ -1,0 +1,22 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "update status params",
+    "type": "object",
+    "properties": {
+      "requestId": {
+        "type": "string"
+      },
+    "status": {
+        "type": ["object", "array"]
+      },
+      "author": {
+        "type": "string"
+      },
+      "msg": {
+        "type": "string"
+      }
+    },
+    "required": ["requestId"],
+    "additionalProperties": false
+  }
+  

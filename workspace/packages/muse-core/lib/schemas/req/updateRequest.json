@@ -1,0 +1,22 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "update request params",
+    "type": "object",
+    "properties": {
+      "requestId": {
+        "type": "string"
+      },
+    "changes": {
+        "type": "object"
+      },
+      "author": {
+        "type": "string"
+      },
+      "msg": {
+        "type": "string"
+      }
+    },
+    "required": ["requestId"],
+    "additionalProperties": false
+  }
+  

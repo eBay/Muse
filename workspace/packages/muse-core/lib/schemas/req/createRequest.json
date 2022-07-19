@@ -1,0 +1,28 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "create request params",
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string"
+      },
+      "type": {
+        "type": "string"
+      },
+      "payload": {
+        "type": "object"
+      },
+      "options": {
+        "type": "string"
+      },
+      "author": {
+        "type": "string"
+      },
+      "msg": {
+        "type": "string"
+      }
+    },
+    "required": ["id"],
+    "additionalProperties": false
+  }
+  
