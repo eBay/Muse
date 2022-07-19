@@ -1,6 +1,6 @@
 {
   "name": "@ebay/muse-lib-react",
-  "version": "1.0.3",
+  "version": "1.0.11",
   "muse": {
     "isAppEntry": true,
     "type": "lib",
@@ -40,8 +40,7 @@
   },
   "dependencies": {
     "@babel/core": "^7.18.6",
-    "@craco/craco": "^6.4.5",
-    "@ebay/muse-craco-plugin": "1.0.11",
+    "@ebay/muse-craco-plugin": "1.0.14",
     "@ebay/muse-ebay-dev-config": "^1.0.2",
     "@ebay/muse-scripts-react": "^1.0.10",
     "@ebay/nice-modal-react": "1.2.6",
