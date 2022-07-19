@@ -1,7 +1,5 @@
 #!/usr/bin/env node
 const _ = require('lodash');
-const { Command } = require('commander');
-
 const os = require('os');
 const path = require('path');
 const timeStart = Date.now();
