@@ -6,6 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "publishConfig": {
+    "registry": "https://artifactory.corp.ebay.com/artifactory/api/npm/npm-muse"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
