@@ -40,7 +40,8 @@
   },
   "dependencies": {
     "@babel/core": "^7.18.6",
-    "@ebay/muse-craco-plugin": "1.0.14",
+    "@craco/craco": "6.4.4",
+    "@ebay/muse-craco-plugin": "1.0.15",
     "@ebay/muse-ebay-dev-config": "^1.0.2",
     "@ebay/muse-scripts-react": "^1.0.10",
     "@ebay/nice-modal-react": "1.2.6",
