@@ -3,8 +3,14 @@ const kebabCase = require('lodash/fp/kebabCase');
 
 // A muse-core API wrapper to use an existing Muse API service.
 // It uses post method for all requests.
-class MuseClient {
-  constructor({ endpoint, token, axiosConfig }) {
+// class MuseClient {
+//   constructor({ endpoint, token, axiosConfig }) {
+
+//   }
+// }
+
+module.exports = {
+  create({ endpoint, token, axiosConfig }) {
     const client = axios.create({
       baseURL: endpoint,
       timeout: 30000,
@@ -39,8 +45,7 @@ class MuseClient {
         return new Proxy(func, handler);
       },
     };
-    return new Proxy(this, handler);
-  }
-}
 
-module.exports = MuseClient;
+    return new Proxy({}, handler);
+  },
+};

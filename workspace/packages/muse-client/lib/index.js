@@ -1,1 +1,1 @@
-module.exports = require('./MuseClient');
+module.exports = require('./museClient');

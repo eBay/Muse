@@ -1,9 +1,9 @@
-const MuseClient = require('./lib/MuseClient');
 const httpsAgent = new (require('https').Agent)({
   rejectUnauthorized: false,
 });
+
 //'http://localhost:8080/api/v2', //
-const muse = new MuseClient({
+const muse = require('./lib/museClient').create({
   endpoint: 'https://musenextsvc.vip.qa.ebay.com/api/v2',
   axiosConfig: {
     httpsAgent,
