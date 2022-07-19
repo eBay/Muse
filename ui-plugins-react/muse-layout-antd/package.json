@@ -1,6 +1,6 @@
 {
   "name": "muse-layout-antd",
-  "version": "0.0.3",
+  "version": "1.0.3",
   "repository": "",
   "muse": {
     "devConfig": {
@@ -38,9 +38,10 @@
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
     "@craco/craco": "^6.4.5",
-    "@ebay/muse-craco-plugin": "^1.0.10",
+    "@ebay/muse-craco-plugin": "1.0.11",
+    "@ebay/muse-ebay-dev-config": "^1.0.5",
     "@ebay/muse-lib-antd": "^1.0.0",
-    "@ebay/muse-lib-react": "^1.0.7",
+    "@ebay/muse-lib-react": "1.0.7",
     "@ebay/muse-scripts-react": "^1.0.10",
     "antd": "4.20.7",
     "craco-less": "^2.0.0",

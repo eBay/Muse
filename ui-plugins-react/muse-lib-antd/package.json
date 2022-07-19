@@ -1,6 +1,6 @@
 {
   "name": "@ebay/muse-lib-antd",
-  "version": "0.0.2",
+  "version": "1.0.2",
   "repository": "",
   "muse": {
     "type": "lib",
@@ -17,15 +17,17 @@
     "src"
   ],
   "devDependencies": {
-    "@ebay/muse-craco-plugin": "^1.0.10",
+    "@ebay/muse-craco-plugin": "1.0.11",
     "@ebay/muse-scripts-react": "^1.0.10",
-    "@ebay/muse-webpack-plugin": "^1.0.10",
+    "@ebay/muse-webpack-plugin": "1.0.11",
     "cross-env": "^7.0.3"
   },
   "scripts": {
     "start": "cross-env PORT=3031 muse-scripts-react start",
     "build": "cross-env NODE_PATH=./node_modules muse-scripts-react build",
     "build:dev": "cross-env NODE_PATH=./node_modules muse-scripts-react build --dev",
+    "prestart": "muse-ebay check-updates",
+    "prebuild": "muse-ebay check-updates",
     "deploy": "pnpm build && pnpm build:dev && muse release && muse deploy nateapp staging"
   },
   "browserslist": {
@@ -43,7 +45,8 @@
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
     "@craco/craco": "^6.4.5",
-    "@ebay/muse-lib-react": "^1.0.7",
+    "@ebay/muse-ebay-dev-config": "^1.0.5",
+    "@ebay/muse-lib-react": "1.0.7",
     "antd": "4.20.7",
     "antd-form-builder": "2.1.4",
     "craco-less": "^2.0.0",
