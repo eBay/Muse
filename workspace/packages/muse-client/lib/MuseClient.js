@@ -18,7 +18,7 @@ module.exports = {
       headers: {
         authorization: token || '',
       },
-      ...axiosConfig.headers,
+      ...axiosConfig?.headers,
     });
     const post = async (apiPath, args) => {
       try {
