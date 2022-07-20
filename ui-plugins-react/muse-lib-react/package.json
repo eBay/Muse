@@ -61,7 +61,7 @@
   "devDependencies": {
     "@craco/craco": "6.4.4",
     "@ebay/muse-craco-plugin": "1.0.14",
-    "@ebay/muse-ebay-dev-config": "^1.0.2",
+    "@ebay/muse-ebay-dev-config": "^1.0.5",
     "@ebay/muse-scripts-react": "^1.0.10",
     "craco-less": "^2.0.0",
     "cross-env": "^7.0.3",
