@@ -1,17 +1,21 @@
 {
-  "name": "muse-boilerplate-cra",
+  "name": "@ebay/muse-manager",
   "version": "0.1.0",
   "private": true,
   "muse": {
     "devConfig": {
       "app": "nateapp",
-      "env": "staging"
+      "env": "staging",
+      "remotePlugins": "*"
     }
   },
   "dependencies": {
     "@craco/craco": "6.4.4",
+    "@ebay/muse-client": "^1.0.3",
     "@ebay/muse-craco-plugin": "^1.0.15",
     "@ebay/muse-ebay-dev-config": "^1.0.5",
+    "@ebay/muse-lib-antd": "^1.0.8",
+    "@ebay/muse-lib-react": "^1.0.12",
     "@ebay/muse-scripts-react": "^1.0.12",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
@@ -23,7 +27,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "cross-env PORT=3030 muse-scripts-react start",
+    "start": "cross-env PORT=3061 muse-scripts-react start",
     "build": "muse-scripts-react build",
     "build:dev": "muse-scripts-react build --dev",
     "prestart": "muse-ebay check-updates",
