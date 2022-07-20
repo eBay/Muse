@@ -6,8 +6,8 @@ specifiers:
   '@craco/craco': 6.4.4
   '@ebay/muse-craco-plugin': 1.0.14
   '@ebay/muse-ebay-dev-config': ^1.0.5
-  '@ebay/muse-lib-antd': 1.0.7
-  '@ebay/muse-lib-react': 1.0.11
+  '@ebay/muse-lib-antd': 1.0.8
+  '@ebay/muse-lib-react': 1.0.12
   '@ebay/muse-scripts-react': ^1.0.12
   '@zarconontol/enzyme-adapter-react-18': ^0.7.3
   antd: 4.20.7
@@ -26,8 +26,8 @@ specifiers:
 
 dependencies:
   '@ant-design/icons': 4.7.0_biqbaboplfbrettd7655fr4n2y
-  '@ebay/muse-lib-antd': 1.0.7_@craco+craco@6.4.4
-  '@ebay/muse-lib-react': 1.0.11_@craco+craco@6.4.4
+  '@ebay/muse-lib-antd': 1.0.8
+  '@ebay/muse-lib-react': 1.0.12
   antd: 4.20.7_biqbaboplfbrettd7655fr4n2y
   js-plugin: 1.1.0
   lodash: 4.17.21
@@ -1417,6 +1417,7 @@ packages:
   /@colors/colors/1.5.0:
     resolution: {integrity: sha1-u1BFecHK6SPmV2pPXaQ9Jfl729k=}
     engines: {node: '>=0.1.90'}
+    dev: true
 
   /@craco/craco/6.4.4_react-scripts@5.0.1:
     resolution: {integrity: sha1-29iZwZpmjsOWDBiT9a4kuHSRGo8=}
@@ -1437,12 +1438,14 @@ packages:
       - '@swc/wasm'
       - '@types/node'
       - typescript
+    dev: true
 
   /@cspotcode/source-map-support/0.8.1:
     resolution: {integrity: sha1-AGKcNaaI4FqIsc2mhPudXnPwAKE=}
     engines: {node: '>=12'}
     dependencies:
       '@jridgewell/trace-mapping': 0.3.9
+    dev: true
 
   /@csstools/normalize.css/12.0.0:
     resolution: {integrity: sha1-qVg6dcPxUGZ3cfMLYNnwWUc+YsQ=}
@@ -1580,6 +1583,7 @@ packages:
       colorspace: 1.1.4
       enabled: 2.0.0
       kuler: 2.0.0
+    dev: true
 
   /@ebay/muse-core/1.0.13:
     resolution: {integrity: sha1-a4AfSwihoZfLaJuo1H7KDwjFRXU=, tarball: '@ebay/muse-core/-/@ebay/muse-core-1.0.13.tgz'}
@@ -1604,6 +1608,7 @@ packages:
       unzipper: 0.10.11
       winston: 3.8.1
       winston-transport: 4.5.0
+    dev: true
 
   /@ebay/muse-craco-plugin/1.0.14_@craco+craco@6.4.4:
     resolution: {integrity: sha1-6YYSJ2fUOqE4T1puCaM4cMAYBLE=, tarball: http://npm.corp.ebay.com/@ebay/muse-craco-plugin/-/@ebay/muse-craco-plugin-1.0.14.tgz}
@@ -1616,6 +1621,7 @@ packages:
       resolve-cwd: 3.0.0
     transitivePeerDependencies:
       - express
+    dev: true
 
   /@ebay/muse-dev-utils/1.0.13:
     resolution: {integrity: sha1-M5ZE0LG0uIiLZPo8TOLPj17LGXE=, tarball: '@ebay/muse-dev-utils/-/@ebay/muse-dev-utils-1.0.13.tgz'}
@@ -1627,6 +1633,7 @@ packages:
       dotenv: 16.0.1
       lodash: 4.17.21
       resolve-cwd: 3.0.0
+    dev: true
 
   /@ebay/muse-ebay-dev-config/1.0.5:
     resolution: {integrity: sha1-3oV/WBDQ4eMI8ZyCjYB9Gjjn0UI=, tarball: '@ebay/muse-ebay-dev-config/-/@ebay/muse-ebay-dev-config-1.0.5.tgz'}
@@ -1641,6 +1648,7 @@ packages:
       semver: 7.3.7
     transitivePeerDependencies:
       - debug
+    dev: true
 
   /@ebay/muse-express-middleware/1.0.15:
     resolution: {integrity: sha1-g9YPyioUWlTRPfjxQWS3B7mBNw8=, tarball: '@ebay/muse-express-middleware/-/@ebay/muse-express-middleware-1.0.15.tgz'}
@@ -1648,16 +1656,15 @@ packages:
       '@ebay/muse-core': 1.0.13
       lodash: 4.17.21
       mime-types: 2.1.35
+    dev: true
 
-  /@ebay/muse-lib-antd/1.0.7_@craco+craco@6.4.4:
-    resolution: {integrity: sha1-Yps5SMZFLf3026RErZIKW8KJoKg=, tarball: '@ebay/muse-lib-antd/-/@ebay/muse-lib-antd-1.0.7.tgz'}
+  /@ebay/muse-lib-antd/1.0.8:
+    resolution: {integrity: sha1-iTGoYGTduaR/1GXUOpL0/YjvhPo=, tarball: '@ebay/muse-lib-antd/-/@ebay/muse-lib-antd-1.0.8.tgz'}
     dependencies:
       '@ant-design/icons': 4.7.0_biqbaboplfbrettd7655fr4n2y
-      '@ebay/muse-ebay-dev-config': 1.0.5
-      '@ebay/muse-lib-react': 1.0.11_@craco+craco@6.4.4
+      '@ebay/muse-lib-react': 1.0.12
       antd: 4.20.7_biqbaboplfbrettd7655fr4n2y
       antd-form-builder: 2.1.4_avqzthnwxfrzxtlyigsueimkbq
-      craco-less: 2.0.0_5etiqhkfjdttz5dcmi2hz5fcv4
       history: 5.3.0
       js-plugin: 1.1.0
       lodash: 4.17.21
@@ -1677,8 +1684,6 @@ packages:
       - '@ant-design/compatible'
       - '@babel/plugin-syntax-flow'
       - '@babel/plugin-transform-react-jsx'
-      - '@craco/craco'
-      - '@ebay/muse-core'
       - '@parcel/css'
       - '@swc/core'
       - '@types/babel__core'
@@ -1694,7 +1699,6 @@ packages:
       - eslint
       - eslint-import-resolver-typescript
       - eslint-import-resolver-webpack
-      - express
       - fibers
       - node-notifier
       - node-sass
@@ -1712,23 +1716,18 @@ packages:
       - uglify-js
       - utf-8-validate
       - vue-template-compiler
-      - webpack
       - webpack-cli
       - webpack-hot-middleware
       - webpack-plugin-serve
     dev: false
 
-  /@ebay/muse-lib-react/1.0.11_@craco+craco@6.4.4:
-    resolution: {integrity: sha1-20akWNwQRBynKnv9rYWXAhxMkVE=, tarball: '@ebay/muse-lib-react/-/@ebay/muse-lib-react-1.0.11.tgz'}
+  /@ebay/muse-lib-react/1.0.12:
+    resolution: {integrity: sha1-8b3K2AeRh5qMLp6ShojGNVbbfHk=, tarball: '@ebay/muse-lib-react/-/@ebay/muse-lib-react-1.0.12.tgz'}
     dependencies:
       '@babel/core': 7.18.9
-      '@ebay/muse-craco-plugin': 1.0.14_@craco+craco@6.4.4
-      '@ebay/muse-ebay-dev-config': 1.0.5
-      '@ebay/muse-scripts-react': 1.0.12
       '@ebay/nice-modal-react': 1.2.6_biqbaboplfbrettd7655fr4n2y
       '@types/node': 17.0.45
       axios: 0.27.2
-      craco-less: 2.0.0_nfkdexkcxprs5zrtkktmc2t5lm
       history: 5.3.0
       js-plugin: 1.1.0
       lodash: 4.17.21
@@ -1742,15 +1741,10 @@ packages:
       react-use: 17.4.0_biqbaboplfbrettd7655fr4n2y
       redux: 4.2.0
       redux-logger: 3.0.6
-      redux-mock-store: 1.5.4
-      redux-thunk: 2.4.1_redux@4.2.0
       typescript: 4.7.4
-      webpack: 5.73.0
     transitivePeerDependencies:
       - '@babel/plugin-syntax-flow'
       - '@babel/plugin-transform-react-jsx'
-      - '@craco/craco'
-      - '@ebay/muse-core'
       - '@parcel/css'
       - '@swc/core'
       - '@types/babel__core'
@@ -1765,7 +1759,6 @@ packages:
       - esbuild
       - eslint-import-resolver-typescript
       - eslint-import-resolver-webpack
-      - express
       - fibers
       - node-notifier
       - node-sass
@@ -1788,6 +1781,7 @@ packages:
 
   /@ebay/muse-modules/1.0.12:
     resolution: {integrity: sha1-zxFkw6patjP/5qyBi/ELx50e6T4=, tarball: '@ebay/muse-modules/-/@ebay/muse-modules-1.0.12.tgz'}
+    dev: true
 
   /@ebay/muse-scripts-react/1.0.12:
     resolution: {integrity: sha1-+9QPT5vEqcAKtdm2hNP1Z+uEIFw=, tarball: '@ebay/muse-scripts-react/-/@ebay/muse-scripts-react-1.0.12.tgz'}
@@ -1795,6 +1789,7 @@ packages:
     dependencies:
       cross-spawn: 7.0.3
       resolve-cwd: 3.0.0
+    dev: true
 
   /@ebay/muse-webpack-plugin/1.0.13:
     resolution: {integrity: sha1-6dqihH1jHe0Mmu+/6XyCfl3iaZM=, tarball: '@ebay/muse-webpack-plugin/-/@ebay/muse-webpack-plugin-1.0.13.tgz'}
@@ -1802,6 +1797,7 @@ packages:
       '@ebay/muse-modules': 1.0.12
       json-parse-better-errors: 1.0.2
       resolve-cwd: 3.0.0
+    dev: true
 
   /@ebay/nice-modal-react/1.2.6_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha1-G2VtHoI6Zo8/dYB8CTsrGXKNOYw=}
@@ -2116,6 +2112,7 @@ packages:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.0
       '@jridgewell/sourcemap-codec': 1.4.14
+    dev: true
 
   /@leichtgewicht/ip-codec/2.0.4:
     resolution: {integrity: sha1-sqxibWy5yHGKtFkWbUu0Bbj/p4s=}
@@ -2356,15 +2353,19 @@ packages:
 
   /@tsconfig/node10/1.0.9:
     resolution: {integrity: sha1-30kH/AeohpImN7FeAtTOvEwAIbI=}
+    dev: true
 
   /@tsconfig/node12/1.0.11:
     resolution: {integrity: sha1-7j3vHyfZ7WbaxuRqKVz/sBUuBY0=}
+    dev: true
 
   /@tsconfig/node14/1.0.3:
     resolution: {integrity: sha1-5DhjFihPALmENb9A9y91oJ2r9sE=}
+    dev: true
 
   /@tsconfig/node16/1.0.3:
     resolution: {integrity: sha1-Ry6qtfFcH/3X+GKL1MT3U5lex54=}
+    dev: true
 
   /@types/babel__core/7.1.19:
     resolution: {integrity: sha1-e0l0lbfRtIEr250CgE0FdvQ+5GA=}
@@ -3014,6 +3015,7 @@ packages:
   /acorn-walk/8.2.0:
     resolution: {integrity: sha1-dBIQ8uJCZFRQiFOi9E0KuDt/acE=}
     engines: {node: '>=0.4.0'}
+    dev: true
 
   /acorn/7.4.1:
     resolution: {integrity: sha1-/q7SVZc9LndVW4PbwIhRpsY1IPo=}
@@ -3217,6 +3219,7 @@ packages:
       lodash.union: 4.6.0
       normalize-path: 3.0.0
       readable-stream: 2.3.7
+    dev: true
 
   /archiver/5.3.1:
     resolution: {integrity: sha1-IekoEdbwns/OZJ++/v6MeeV8u7Y=}
@@ -3229,9 +3232,11 @@ packages:
       readdir-glob: 1.1.2
       tar-stream: 2.2.0
       zip-stream: 4.1.0
+    dev: true
 
   /arg/4.1.3:
     resolution: {integrity: sha1-Jp/HrVuOQstjyJbVZmAXJhwUQIk=}
+    dev: true
 
   /arg/5.0.2:
     resolution: {integrity: sha1-yBQzzEJ8ksTc9IZRQtvKbxWs1Zw=}
@@ -3530,6 +3535,7 @@ packages:
 
   /base64-js/1.5.1:
     resolution: {integrity: sha1-GxtEAWClv3rUC2UPCVljSBkDkwo=}
+    dev: true
 
   /batch/0.6.1:
     resolution: {integrity: sha1-3DQxT05nkxgJP8dgJyUl+UvyXBY=}
@@ -3546,6 +3552,7 @@ packages:
   /big-integer/1.6.51:
     resolution: {integrity: sha1-DfkqXZiAVg0/8tX9ICRciJ0TBoY=}
     engines: {node: '>=0.6'}
+    dev: true
 
   /big.js/5.2.2:
     resolution: {integrity: sha1-ZfCvOC9Xi83HQr2cKB6cstd2gyg=}
@@ -3559,6 +3566,7 @@ packages:
     dependencies:
       buffers: 0.1.1
       chainsaw: 0.1.0
+    dev: true
 
   /bl/4.1.0:
     resolution: {integrity: sha1-RRU1JkGCvsL7vIOmKrmM8R2fezo=}
@@ -3566,9 +3574,11 @@ packages:
       buffer: 5.7.1
       inherits: 2.0.4
       readable-stream: 3.6.0
+    dev: true
 
   /bluebird/3.4.7:
     resolution: {integrity: sha1-9y12C+Cbf3bQjtj66Ysomo0F+rM=}
+    dev: true
 
   /bluebird/3.7.2:
     resolution: {integrity: sha1-nyKcFb4nJFT/qXOs4NvueaGww28=}
@@ -3640,6 +3650,7 @@ packages:
 
   /buffer-crc32/0.2.13:
     resolution: {integrity: sha1-DTM+PwDqxQqhRUq9MO+MKl2ackI=}
+    dev: true
 
   /buffer-from/1.1.2:
     resolution: {integrity: sha1-KxRqb9cugLT1XSVfNe1Zo6mkG9U=}
@@ -3647,16 +3658,19 @@ packages:
   /buffer-indexof-polyfill/1.0.2:
     resolution: {integrity: sha1-0nMhNcWZnGSyd/z5savjSYJUcpw=}
     engines: {node: '>=0.10'}
+    dev: true
 
   /buffer/5.7.1:
     resolution: {integrity: sha1-umLnwTEzBTWCGXFghRqPZI6Z7tA=}
     dependencies:
       base64-js: 1.5.1
       ieee754: 1.2.1
+    dev: true
 
   /buffers/0.1.1:
     resolution: {integrity: sha1-skV5w77U1tOWru5tmorn9Ugqt7s=}
     engines: {node: '>=0.2.0'}
+    dev: true
 
   /builtin-modules/3.3.0:
     resolution: {integrity: sha1-yuYoEriYAellYzbkYiPgMDhr57Y=}
@@ -3717,6 +3731,7 @@ packages:
     resolution: {integrity: sha1-XqtQsor+WAdNDVgpE4iCi15fvJg=}
     dependencies:
       traverse: 0.3.9
+    dev: true
 
   /chalk/2.4.2:
     resolution: {integrity: sha1-zUJUFnelQzPPVBpJEIwUMrRMlCQ=}
@@ -3858,12 +3873,14 @@ packages:
     dependencies:
       color-name: 1.1.4
       simple-swizzle: 0.2.2
+    dev: true
 
   /color/3.2.1:
     resolution: {integrity: sha1-NUTcGYyvRJDD7MmnkLVP6f9F4WQ=}
     dependencies:
       color-convert: 1.9.3
       color-string: 1.9.1
+    dev: true
 
   /colord/2.9.2:
     resolution: {integrity: sha1-JeK6y7qmWZFCLAfqIJ4giUKO/7E=}
@@ -3874,12 +3891,14 @@ packages:
   /colors/1.4.0:
     resolution: {integrity: sha1-xQSRR51MG9rtLJztMs98fcI2D3g=}
     engines: {node: '>=0.1.90'}
+    dev: true
 
   /colorspace/1.1.4:
     resolution: {integrity: sha1-jUQtEYYVL2BFO/gHDNZus2TlkkM=}
     dependencies:
       color: 3.2.1
       text-hex: 1.0.0
+    dev: true
 
   /combined-stream/1.0.8:
     resolution: {integrity: sha1-w9RaizT9cwYxoRCoolIGgrMdWn8=}
@@ -3920,6 +3939,7 @@ packages:
       crc32-stream: 4.0.2
       normalize-path: 3.0.0
       readable-stream: 3.6.0
+    dev: true
 
   /compressible/2.0.18:
     resolution: {integrity: sha1-r1PMprBw1MPAdQ+9dyhqbXzEb7o=}
@@ -3981,6 +4001,7 @@ packages:
     resolution: {integrity: sha1-CSRU6pWEp7etVXMGKyqH9ZAPxIA=}
     dependencies:
       is-what: 3.14.1
+    dev: true
 
   /copy-to-clipboard/3.3.1:
     resolution: {integrity: sha1-EVqhqZmP+rYZb5MHatbaO5E2Yq4=}
@@ -4017,6 +4038,7 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
+    dev: true
 
   /cosmiconfig/6.0.0:
     resolution: {integrity: sha1-2k/uhTxS9rHmk19BwaL8UL1KmYI=}
@@ -4051,26 +4073,13 @@ packages:
     transitivePeerDependencies:
       - supports-color
       - webpack
-
-  /craco-less/2.0.0_nfkdexkcxprs5zrtkktmc2t5lm:
-    resolution: {integrity: sha1-ot8Ywy6X6/APYsPy6kzZcDX19kA=}
-    peerDependencies:
-      '@craco/craco': ^6.0.0
-      react-scripts: ^5.0.0
-    dependencies:
-      '@craco/craco': 6.4.4_react-scripts@5.0.1
-      less: 4.1.3
-      less-loader: 7.3.0_less@4.1.3+webpack@5.73.0
-      react-scripts: 5.0.1_qtbnez4q7bzoc4eqybg3efzzxe
-    transitivePeerDependencies:
-      - supports-color
-      - webpack
-    dev: false
+    dev: true
 
   /crc-32/1.2.2:
     resolution: {integrity: sha1-PK01qTS4v3HyXKUkttpR+36s4v8=}
     engines: {node: '>=0.8'}
     hasBin: true
+    dev: true
 
   /crc32-stream/4.0.2:
     resolution: {integrity: sha1-ySKtIrODlavp04cPAvqBNO1wkAc=}
@@ -4078,9 +4087,11 @@ packages:
     dependencies:
       crc-32: 1.2.2
       readable-stream: 3.6.0
+    dev: true
 
   /create-require/1.1.1:
     resolution: {integrity: sha1-wdfo8eX2z8n/ZfnNNS03NIdWwzM=}
+    dev: true
 
   /cross-env/7.0.3:
     resolution: {integrity: sha1-hlJkspZ33AFbqEGJGJZd0jL8VM8=}
@@ -4467,6 +4478,7 @@ packages:
   /diff/4.0.2:
     resolution: {integrity: sha1-YPOuy4nV+uUgwRqhnvwruYKq3n0=}
     engines: {node: '>=0.3.1'}
+    dev: true
 
   /dir-glob/3.0.1:
     resolution: {integrity: sha1-Vtv3PZkqSpO6FYT0U0Bj/S5BcX8=}
@@ -4594,6 +4606,7 @@ packages:
   /dotenv/16.0.1:
     resolution: {integrity: sha1-j4+dlIdsNdrJiYdqXTqComf9zh0=}
     engines: {node: '>=12'}
+    dev: true
 
   /duplexer/0.1.2:
     resolution: {integrity: sha1-Or5DrvODX4rgd9E23c4PJ2sEAOY=}
@@ -4602,6 +4615,7 @@ packages:
     resolution: {integrity: sha1-ixLauHjA1p4+eJEFFmKjL8a93ME=}
     dependencies:
       readable-stream: 2.3.7
+    dev: true
 
   /ee-first/1.1.1:
     resolution: {integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=}
@@ -4636,6 +4650,7 @@ packages:
 
   /enabled/2.0.0:
     resolution: {integrity: sha1-+d2S7C1vS7wNXR5k4h1hzUZl58I=}
+    dev: true
 
   /encodeurl/1.0.2:
     resolution: {integrity: sha1-rT/0yG7C0CkyL1oCw6mmBslbP1k=}
@@ -4645,6 +4660,7 @@ packages:
     resolution: {integrity: sha1-WuZKX0UFe682JuwU2gyl5LJDHrA=}
     dependencies:
       once: 1.4.0
+    dev: true
 
   /enhanced-resolve/5.10.0:
     resolution: {integrity: sha1-DcV5w7sqEDLjV6xFuPOm861PseY=}
@@ -4701,6 +4717,7 @@ packages:
     requiresBuild: true
     dependencies:
       prr: 1.0.1
+    dev: true
     optional: true
 
   /error-ex/1.3.2:
@@ -5316,6 +5333,7 @@ packages:
 
   /fecha/4.2.3:
     resolution: {integrity: sha1-TZzNvGHoYpsln9ymfmWJFEjVaf0=}
+    dev: true
 
   /file-entry-cache/6.0.1:
     resolution: {integrity: sha1-IRst2WWcsDlLBz5zI6w8kz1SICc=}
@@ -5408,6 +5426,7 @@ packages:
 
   /fn.name/1.1.0:
     resolution: {integrity: sha1-JsrYAXlnrqhzG8QpYdBKPVmIrMw=}
+    dev: true
 
   /follow-redirects/1.15.1:
     resolution: {integrity: sha1-DKakUjBsmyduTTEnSD4pV14getU=}
@@ -5514,6 +5533,7 @@ packages:
 
   /fs-constants/1.0.0:
     resolution: {integrity: sha1-a+Dem+mYzhavivwkSXue6bfM2a0=}
+    dev: true
 
   /fs-extra/10.1.0:
     resolution: {integrity: sha1-Aoc8+8QITd4SfqpfmQXu8jJdGr8=}
@@ -5553,6 +5573,7 @@ packages:
       inherits: 2.0.4
       mkdirp: 0.5.6
       rimraf: 2.7.1
+    dev: true
 
   /function-bind/1.1.1:
     resolution: {integrity: sha1-pWiZ0+o8m6uHS7l3O3xe3pL0iV0=}
@@ -5674,6 +5695,7 @@ packages:
       ignore: 5.2.0
       merge2: 1.4.1
       slash: 4.0.0
+    dev: true
 
   /graceful-fs/4.2.10:
     resolution: {integrity: sha1-FH06AG2kyjzhRyjHrvwofDZ9emw=}
@@ -5945,6 +5967,7 @@ packages:
 
   /ieee754/1.2.1:
     resolution: {integrity: sha1-jrehCmP/8l0VpXsAFYbRd9Gw01I=}
+    dev: true
 
   /ignore/5.2.0:
     resolution: {integrity: sha1-bTusj6f+DUXZ+b57rC/CeVd+NFo=}
@@ -5955,6 +5978,7 @@ packages:
     engines: {node: '>=0.10.0'}
     hasBin: true
     requiresBuild: true
+    dev: true
     optional: true
 
   /immer/9.0.15:
@@ -5965,6 +5989,7 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       import-from: 3.0.0
+    dev: true
 
   /import-fresh/3.3.0:
     resolution: {integrity: sha1-NxYsJfy566oublPVtNiM4X2eDCs=}
@@ -5978,10 +6003,12 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       resolve-from: 5.0.0
+    dev: true
 
   /import-from/4.0.0:
     resolution: {integrity: sha1-JxC41mgX0jLhb0Fm4xkkjT1UkuI=}
     engines: {node: '>=12.2'}
+    dev: true
 
   /import-local/3.1.0:
     resolution: {integrity: sha1-tEed+KX9RPbNziQHBnVnYGPJXLQ=}
@@ -6048,6 +6075,7 @@ packages:
 
   /is-arrayish/0.3.2:
     resolution: {integrity: sha1-RXSirlb3qyBolvtDHq7tBm/fjwM=}
+    dev: true
 
   /is-bigint/1.0.4:
     resolution: {integrity: sha1-CBR6GHW8KzIAXUHM2Ckd/8ZpHfM=}
@@ -6191,6 +6219,7 @@ packages:
 
   /is-what/3.14.1:
     resolution: {integrity: sha1-4SIvRt3ahd6tD9HJ3xMXYOd3VcE=}
+    dev: true
 
   /is-wsl/2.2.0:
     resolution: {integrity: sha1-dKTHbnfKn9P5MvKQwX6jJs0VcnE=}
@@ -6264,6 +6293,7 @@ packages:
     resolution: {integrity: sha1-Gno4HcKsvoIBoYpy3LeHgrvvTGM=}
     dependencies:
       relative-time-format: 1.1.4
+    dev: true
 
   /jest-changed-files/27.5.1:
     resolution: {integrity: sha1-o0iu0A7Jv2ccxYpm/L58Pf1qaPU=}
@@ -6850,6 +6880,7 @@ packages:
 
   /json-parse-better-errors/1.0.2:
     resolution: {integrity: sha1-u4Z8+zRQ5pEHwTHRxRS6s9yLyqk=}
+    dev: true
 
   /json-parse-even-better-errors/2.3.1:
     resolution: {integrity: sha1-fEeAWpQxmSjgV3dAXcEuH3pO4C0=}
@@ -6915,6 +6946,7 @@ packages:
 
   /kuler/2.0.0:
     resolution: {integrity: sha1-4sVwo4ADiPtEQH6FFTHB1nCwYbM=}
+    dev: true
 
   /language-subtag-registry/0.3.22:
     resolution: {integrity: sha1-LhUAhhsuRX66fnroaHfL0I+h/R0=}
@@ -6929,6 +6961,7 @@ packages:
     engines: {node: '>= 0.6.3'}
     dependencies:
       readable-stream: 2.3.7
+    dev: true
 
   /less-loader/7.3.0_less@4.1.3:
     resolution: {integrity: sha1-+dbTbRhznWQgZ6Bftb1wyMYTF+U=}
@@ -6941,20 +6974,7 @@ packages:
       less: 4.1.3
       loader-utils: 2.0.2
       schema-utils: 3.1.1
-
-  /less-loader/7.3.0_less@4.1.3+webpack@5.73.0:
-    resolution: {integrity: sha1-+dbTbRhznWQgZ6Bftb1wyMYTF+U=}
-    engines: {node: '>= 10.13.0'}
-    peerDependencies:
-      less: ^3.5.0 || ^4.0.0
-      webpack: ^4.0.0 || ^5.0.0
-    dependencies:
-      klona: 2.0.5
-      less: 4.1.3
-      loader-utils: 2.0.2
-      schema-utils: 3.1.1
-      webpack: 5.73.0
-    dev: false
+    dev: true
 
   /less/4.1.3:
     resolution: {integrity: sha1-F1vp3cv5slAXPgoAtNaSClt3AkY=}
@@ -6974,6 +6994,7 @@ packages:
       source-map: 0.6.1
     transitivePeerDependencies:
       - supports-color
+    dev: true
 
   /leven/3.1.0:
     resolution: {integrity: sha1-d4kd6DQGTMy6gq54QrtrFKE+1/I=}
@@ -7002,6 +7023,7 @@ packages:
 
   /listenercount/1.0.1:
     resolution: {integrity: sha1-hMinKrWcRyUyFIDJdeZQg0LnCTc=}
+    dev: true
 
   /loader-runner/4.3.0:
     resolution: {integrity: sha1-wbShY7mfYUgwNTsWdV5xSawjFOE=}
@@ -7050,9 +7072,11 @@ packages:
 
   /lodash.defaults/4.2.0:
     resolution: {integrity: sha1-0JF4cW/+pN3p5ft7N/bwgCJ0WAw=}
+    dev: true
 
   /lodash.difference/4.5.0:
     resolution: {integrity: sha1-nMtOUF1Ia5FlE0V3KIWi3yf9AXw=}
+    dev: true
 
   /lodash.escape/4.0.1:
     resolution: {integrity: sha1-yQRGkMIeBClL6qUXcS/e0fqI3pg=}
@@ -7060,6 +7084,7 @@ packages:
 
   /lodash.flatten/4.4.0:
     resolution: {integrity: sha1-8xwiIlqWMtK7+OSt2+8kCqdlph8=}
+    dev: true
 
   /lodash.flattendeep/4.4.0:
     resolution: {integrity: sha1-+wMJF/hqMTTlvJvsDWngAT3f7bI=}
@@ -7071,6 +7096,7 @@ packages:
 
   /lodash.isplainobject/4.0.6:
     resolution: {integrity: sha1-fFJqUtibRcRcxpC4gWO+BJf1UMs=}
+    dev: true
 
   /lodash.memoize/4.1.2:
     resolution: {integrity: sha1-vMbEmkKihA7Zl/Mj6tpezRguC/4=}
@@ -7083,6 +7109,7 @@ packages:
 
   /lodash.union/4.6.0:
     resolution: {integrity: sha1-SLtQiECfFvGCFmZkHETdGqrjzYg=}
+    dev: true
 
   /lodash.uniq/4.5.0:
     resolution: {integrity: sha1-0CJTc662Uq3BvILklFM5qEJ1R3M=}
@@ -7098,6 +7125,7 @@ packages:
       ms: 2.1.3
       safe-stable-stringify: 2.3.1
       triple-beam: 1.3.0
+    dev: true
 
   /loose-envify/1.4.0:
     resolution: {integrity: sha1-ce5R+nvkyuwaY4OffmgtgTLTDK8=}
@@ -7135,6 +7163,7 @@ packages:
     dependencies:
       pify: 4.0.1
       semver: 5.7.1
+    dev: true
     optional: true
 
   /make-dir/3.1.0:
@@ -7145,6 +7174,7 @@ packages:
 
   /make-error/1.3.6:
     resolution: {integrity: sha1-LrLjfqm2fEiR9oShOUeZr0hM96I=}
+    dev: true
 
   /makeerror/1.0.12:
     resolution: {integrity: sha1-Pl3SB5qC6BLpg8xmEMSiyw6qgBo=}
@@ -7323,6 +7353,7 @@ packages:
       sax: 1.2.4
     transitivePeerDependencies:
       - supports-color
+    dev: true
     optional: true
 
   /negotiator/0.6.3:
@@ -7472,6 +7503,7 @@ packages:
     resolution: {integrity: sha1-4GvBdK7SFO1Y7e3lc7Qzu/gny0U=}
     dependencies:
       fn.name: 1.1.0
+    dev: true
 
   /onetime/5.1.2:
     resolution: {integrity: sha1-0Oluu1awdHbfHdnEgG5SN5hcpF4=}
@@ -7601,6 +7633,7 @@ packages:
   /parse-node-version/1.0.1:
     resolution: {integrity: sha1-4rXb7eAOf6m8NjYH9TMn6LBzGJs=}
     engines: {node: '>= 0.10'}
+    dev: true
 
   /parse5-htmlparser2-tree-adapter/7.0.0:
     resolution: {integrity: sha1-I8LMIzvPCbt766i4pp1GsIxiwvE=}
@@ -7677,6 +7710,7 @@ packages:
   /pify/4.0.1:
     resolution: {integrity: sha1-SyzSXFDVmHNcUCkiJP2MbfQeMjE=}
     engines: {node: '>=6'}
+    dev: true
     optional: true
 
   /pirates/4.0.5:
@@ -8476,6 +8510,7 @@ packages:
 
   /prr/1.0.1:
     resolution: {integrity: sha1-0/wRS6BplaRexok/SEzrHXj19HY=}
+    dev: true
     optional: true
 
   /psl/1.9.0:
@@ -9555,6 +9590,7 @@ packages:
     resolution: {integrity: sha1-sYV4m45qQ0kWNbaVMpXFxeP9Ikw=}
     dependencies:
       minimatch: 5.1.0
+    dev: true
 
   /readdirp/3.6.0:
     resolution: {integrity: sha1-dKNwvYVxFuJFspzJc0DNQxoCpsc=}
@@ -9572,20 +9608,6 @@ packages:
     resolution: {integrity: sha1-91VZZvMJjzyIYExEnPC69XeCdL8=}
     dependencies:
       deep-diff: 0.3.8
-    dev: false
-
-  /redux-mock-store/1.5.4:
-    resolution: {integrity: sha1-kNAklf2Rjduqlrg672Jih8mrWHI=}
-    dependencies:
-      lodash.isplainobject: 4.0.6
-    dev: false
-
-  /redux-thunk/2.4.1_redux@4.2.0:
-    resolution: {integrity: sha1-DdgELPR4aPSylpmUHeA8kwGnVxQ=}
-    peerDependencies:
-      redux: ^4
-    dependencies:
-      redux: 4.2.0
     dev: false
 
   /redux/4.2.0:
@@ -9660,6 +9682,7 @@ packages:
 
   /relative-time-format/1.1.4:
     resolution: {integrity: sha1-UMMIpIKYUzOhPfEZsf8nY+PrBoU=}
+    dev: true
 
   /renderkid/3.0.0:
     resolution: {integrity: sha1-X9gj5NaVHTc1jsyaWLHwaDa2Joo=}
@@ -9755,6 +9778,7 @@ packages:
     hasBin: true
     dependencies:
       glob: 7.2.3
+    dev: true
 
   /rimraf/3.0.2:
     resolution: {integrity: sha1-8aVAK6YiCtUswSgrrBrjqkn9Bho=}
@@ -9807,6 +9831,7 @@ packages:
   /safe-stable-stringify/2.3.1:
     resolution: {integrity: sha1-q2fL4f59QGA8pkHF52XLlC0E/HM=}
     engines: {node: '>=10'}
+    dev: true
 
   /safer-buffer/2.1.2:
     resolution: {integrity: sha1-RPoWGwGHuVSd2Eu5GAL5vYOFzWo=}
@@ -9907,6 +9932,7 @@ packages:
   /semver/5.7.1:
     resolution: {integrity: sha1-qVT5Ma66UI0we78Gnv8MAclhFvc=}
     hasBin: true
+    dev: true
     optional: true
 
   /semver/6.3.0:
@@ -9986,6 +10012,7 @@ packages:
 
   /setimmediate/1.0.5:
     resolution: {integrity: sha1-KQy7Iy4waULX1+qbg3Mqt4VvgoU=}
+    dev: true
 
   /setprototypeof/1.1.0:
     resolution: {integrity: sha1-0L2FU2iHtv58DYGMuWLZ2RxU5lY=}
@@ -10024,6 +10051,7 @@ packages:
     resolution: {integrity: sha1-pNprY1/8zMoz9w0Xy5JZLeleVXo=}
     dependencies:
       is-arrayish: 0.3.2
+    dev: true
 
   /sisteransi/1.0.5:
     resolution: {integrity: sha1-E01oEpd1ZDfMBcoBNw06elcQde0=}
@@ -10132,6 +10160,7 @@ packages:
 
   /stack-trace/0.0.10:
     resolution: {integrity: sha1-VHxws0fo0ytOEI6hoqFZ5f3eGcA=}
+    dev: true
 
   /stack-utils/2.0.5:
     resolution: {integrity: sha1-0lJl/KmVFUZZ27+6O0klR3jS/dU=}
@@ -10416,6 +10445,7 @@ packages:
       fs-constants: 1.0.0
       inherits: 2.0.4
       readable-stream: 3.6.0
+    dev: true
 
   /temp-dir/2.0.0:
     resolution: {integrity: sha1-vekrBb3+sVFugEycAK1FF38xMh4=}
@@ -10480,6 +10510,7 @@ packages:
 
   /text-hex/1.0.0:
     resolution: {integrity: sha1-adycGxdEbueakr9biEu0uRJ1BvU=}
+    dev: true
 
   /text-table/0.2.0:
     resolution: {integrity: sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=}
@@ -10537,9 +10568,11 @@ packages:
 
   /traverse/0.3.9:
     resolution: {integrity: sha1-cXuPIgzAu3tE5AUUwisui7xw2Lk=}
+    dev: true
 
   /triple-beam/1.3.0:
     resolution: {integrity: sha1-pZUhTHKY24M57u7gg+TRC9jLjdk=}
+    dev: true
 
   /tryer/1.0.1:
     resolution: {integrity: sha1-8shUBoALmw90yfdGW4HqrSQSUvg=}
@@ -10575,6 +10608,7 @@ packages:
       make-error: 1.3.6
       v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
+    dev: true
 
   /tsconfig-paths/3.14.1:
     resolution: {integrity: sha1-ugc0WZ6Oo2yGJ5jpILzxYyd7E3o=}
@@ -10715,6 +10749,7 @@ packages:
       listenercount: 1.0.1
       readable-stream: 2.3.7
       setimmediate: 1.0.5
+    dev: true
 
   /upath/1.2.0:
     resolution: {integrity: sha1-j2bbzVWog6za5ECK+LA1pQRMGJQ=}
@@ -10767,6 +10802,7 @@ packages:
 
   /v8-compile-cache-lib/3.0.1:
     resolution: {integrity: sha1-Yzbo1xllyz01obu3hoRFp8BSZL8=}
+    dev: true
 
   /v8-compile-cache/2.3.0:
     resolution: {integrity: sha1-LeGWGMZtwkfc+2+ZM4A12CRaLO4=}
@@ -10896,6 +10932,7 @@ packages:
     resolution: {integrity: sha1-onxS6ng9E5iv0gh/VH17nS9DY00=}
     dependencies:
       lodash: 4.17.21
+    dev: true
 
   /webpack-sources/1.4.3:
     resolution: {integrity: sha1-7t2OwLko+/HL/plOItLYkPMwqTM=}
@@ -11020,6 +11057,7 @@ packages:
       logform: 2.4.2
       readable-stream: 3.6.0
       triple-beam: 1.3.0
+    dev: true
 
   /winston/3.8.1:
     resolution: {integrity: sha1-dvFbNHjN4XC3gCNODEz4BcWn+1c=}
@@ -11035,6 +11073,7 @@ packages:
       stack-trace: 0.0.10
       triple-beam: 1.3.0
       winston-transport: 4.5.0
+    dev: true
 
   /word-wrap/1.2.3:
     resolution: {integrity: sha1-YQY29rH3A4kb00dxzLF/uTtHB5w=}
@@ -11269,6 +11308,7 @@ packages:
   /yn/3.1.1:
     resolution: {integrity: sha1-HodAGgnXZ8HV6rJqbkwYUYLS61A=}
     engines: {node: '>=6'}
+    dev: true
 
   /yocto-queue/0.1.0:
     resolution: {integrity: sha1-ApTrPe4FAo0x7hpfosVWpqrxChs=}
@@ -11281,3 +11321,4 @@ packages:
       archiver-utils: 2.1.0
       compress-commons: 4.1.1
       readable-stream: 3.6.0
+    dev: true
