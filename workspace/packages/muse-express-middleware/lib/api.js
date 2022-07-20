@@ -103,7 +103,7 @@ module.exports = ({ basePath = '/api/v2' } = {}) => {
       const isGet = req.method.toLowerCase() === 'get';
       const args = isGet
         ? _.castArray(JSON.parse(decodeURIComponent(req.query.args || '[]')))
-        : req.body.args;
+        : req.body.args || [];
       // TODO: inject author info
       const result = { data: await _.invoke(muse, apiKey, ...args) };
       await muse.utils.asyncInvoke('museExpressMiddleware.api.after', {
