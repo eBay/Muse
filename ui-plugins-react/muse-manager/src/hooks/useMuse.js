@@ -2,6 +2,24 @@ import { useEffect, useState } from 'react';
 import museClient from '../museClient';
 import _ from 'lodash';
 
+function _get(obj, prop) {
+  var arr = prop.split('.');
+  for (var i = 0; i < arr.length; i++) {
+    if (!obj[arr[i]]) return undefined;
+    obj = obj[arr[i]];
+  }
+  return obj;
+}
+
+const simpleInvoke = (obj, path, ...args) => {
+  const arr = path.split('.');
+  for (let i = 0; i < arr.length; i++) {
+    if (!obj[arr[i]]) return undefined;
+    obj = obj[arr[i]];
+  }
+  obj(args[0], args[1], args[2], args[3]);
+};
+
 function useMuse(apiPath, ...args) {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
@@ -9,10 +27,7 @@ function useMuse(apiPath, ...args) {
 
   useEffect(() => {
     if (!data) {
-      _.get(
-        museClient,
-        apiPath,
-      )(...args)
+      simpleInvoke(museClient, apiPath, ...args)
         .then(d => {
           setData(d);
           setPending(false);

@@ -3,11 +3,11 @@ lockfileVersion: 5.4
 specifiers:
   '@ant-design/icons': ^4.7.0
   '@craco/craco': 6.4.4
-  '@ebay/muse-craco-plugin': 1.0.14
+  '@ebay/muse-craco-plugin': 1.0.15
   '@ebay/muse-ebay-dev-config': ^1.0.5
   '@ebay/muse-lib-react': 1.0.12
   '@ebay/muse-scripts-react': ^1.0.10
-  '@ebay/muse-webpack-plugin': 1.0.11
+  '@ebay/muse-webpack-plugin': 1.0.13
   antd: 4.20.7
   antd-form-builder: 2.1.4
   craco-less: ^2.0.0
@@ -51,10 +51,10 @@ dependencies:
 
 devDependencies:
   '@craco/craco': 6.4.4_react-scripts@5.0.1
-  '@ebay/muse-craco-plugin': 1.0.14_@craco+craco@6.4.4
+  '@ebay/muse-craco-plugin': 1.0.15_@craco+craco@6.4.4
   '@ebay/muse-ebay-dev-config': 1.0.5
   '@ebay/muse-scripts-react': 1.0.12
-  '@ebay/muse-webpack-plugin': 1.0.11
+  '@ebay/muse-webpack-plugin': 1.0.13
   craco-less: 2.0.0_5etiqhkfjdttz5dcmi2hz5fcv4
   cross-env: 7.0.3
 
@@ -1554,8 +1554,8 @@ packages:
       winston-transport: 4.5.0
     dev: true
 
-  /@ebay/muse-craco-plugin/1.0.14_@craco+craco@6.4.4:
-    resolution: {integrity: sha1-6YYSJ2fUOqE4T1puCaM4cMAYBLE=, tarball: http://npm.corp.ebay.com/@ebay/muse-craco-plugin/-/@ebay/muse-craco-plugin-1.0.14.tgz}
+  /@ebay/muse-craco-plugin/1.0.15_@craco+craco@6.4.4:
+    resolution: {integrity: sha1-ds8ianc0/MuqigoeOFhcnOiip7M=, tarball: '@ebay/muse-craco-plugin/-/@ebay/muse-craco-plugin-1.0.15.tgz'}
     peerDependencies:
       '@craco/craco': 6.4.4
     dependencies:
@@ -1669,14 +1669,6 @@ packages:
     hasBin: true
     dependencies:
       cross-spawn: 7.0.3
-      resolve-cwd: 3.0.0
-    dev: true
-
-  /@ebay/muse-webpack-plugin/1.0.11:
-    resolution: {integrity: sha1-So0wHkjkENqwQ4e5GHPc3T6vJr0=, tarball: '@ebay/muse-webpack-plugin/-/@ebay/muse-webpack-plugin-1.0.11.tgz'}
-    dependencies:
-      '@ebay/muse-modules': 1.0.12
-      json-parse-better-errors: 1.0.2
       resolve-cwd: 3.0.0
     dev: true
 
@@ -2307,7 +2299,7 @@ packages:
     resolution: {integrity: sha1-N/wSI/B4bDlicGihLpTW5vxh3hY=}
     dependencies:
       '@types/eslint': 8.4.5
-      '@types/estree': 0.0.51
+      '@types/estree': 1.0.0
 
   /@types/eslint/8.4.5:
     resolution: {integrity: sha1-rN+33Ta5HMXYEtfAk4Eajz2bMeQ=}

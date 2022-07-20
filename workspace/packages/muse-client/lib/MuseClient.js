@@ -31,7 +31,7 @@ module.exports = {
     // Construct the API path by a javascript proxy
     const handler = {
       get(target, prop, receiver) {
-        if (prop === '_api_path_') return target._api_path_ || '';
+        if (['_api_path_', 'apply', 'call'].includes(prop)) return target[prop] || '';
         const apiPath = (receiver._api_path_ || '') + '/' + kebabCase(prop);
         const func = async (...args) => {
           return await post(apiPath, args);
