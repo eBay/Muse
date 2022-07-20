@@ -13,9 +13,11 @@ specifiers:
   '@testing-library/user-event': ^13.5.0
   craco-less: ^2.0.0
   cross-env: ^7.0.3
+  lodash: ^4.17.21
   react: ^18.2.0
   react-dom: ^18.2.0
   react-scripts: 5.0.1
+  react-time-ago: ^7.2.1
   web-vitals: ^2.1.4
 
 dependencies:
@@ -30,9 +32,11 @@ dependencies:
   '@testing-library/react': 13.3.0_biqbaboplfbrettd7655fr4n2y
   '@testing-library/user-event': 13.5.0
   cross-env: 7.0.3
+  lodash: 4.17.21
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
   react-scripts: 5.0.1_react@18.2.0
+  react-time-ago: 7.2.1_biqbaboplfbrettd7655fr4n2y
   web-vitals: 2.1.4
 
 devDependencies:
@@ -9364,6 +9368,20 @@ packages:
       prismjs: 1.28.0
       react: 18.2.0
       refractor: 3.6.0
+    dev: false
+
+  /react-time-ago/7.2.1_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha1-EBpUmo1/UcIlyCx0q8UX7O9keyQ=}
+    peerDependencies:
+      javascript-time-ago: ^2.3.7
+      react: '>=0.16.8'
+      react-dom: '>=0.16.8'
+    dependencies:
+      memoize-one: 6.0.0
+      prop-types: 15.8.1
+      raf: 3.4.1
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
     dev: false
 
   /react-universal-interface/0.6.2_react@18.2.0+tslib@2.4.0:
