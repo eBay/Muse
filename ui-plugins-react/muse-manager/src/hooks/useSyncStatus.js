@@ -1,4 +1,4 @@
-import { usePollingMuseData } from './useMuse';
+import { usePollingMuseData } from './museHooks';
 import { message } from 'antd';
 import museClient from '../museClient';
 

@@ -15,7 +15,7 @@ export default function PluginList({ app }) {
   //
   const { data, pending, error } = usePollingMuseData('muse.plugins');
   const { data: latestReleases } = usePollingMuseData('muse.plugins.latest-releases');
-  const { data: npmVersions } = usePollingMuseData('muse.npm.versions', { interval: 30 });
+  const { data: npmVersions } = usePollingMuseData('muse.npm.versions', { interval: 30000 });
   const columns = [
     {
       dataIndex: 'name',

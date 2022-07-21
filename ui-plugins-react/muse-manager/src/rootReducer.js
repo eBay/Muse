@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { reducer as museDataReducer } from './hooks/useMuse';
+import { reducer as museDataReducer } from './hooks/museHooks';
 
 const reducerMap = {
   museData: museDataReducer,

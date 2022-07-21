@@ -1,4 +1,4 @@
-import { usePollingMuseData } from '../../hooks/useMuse';
+import { usePollingMuseData } from '../../hooks';
 import _ from 'lodash';
 import { Tag } from 'antd';
 import { Loading3QuartersOutlined } from '@ant-design/icons';

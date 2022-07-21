@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { message } from 'antd';
-import _ from 'lodash';
+import _, { last } from 'lodash';
 import polling from '@ebay/muse-lib-react/src/features/common/polling';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 
@@ -19,6 +19,7 @@ export const reducer = (state = {}, action) => {
   switch (action?.type) {
     case 'MUSE_MANAGER$SET_MUSE_DATA': {
       // The request is success
+
       return {
         ...state,
         [action.data.key]: action.data.value,
@@ -80,7 +81,8 @@ export function useMuseApi(apiPath) {
   return { data, action, error, pending };
 }
 
-const pollers = {};
+const pollers = {}; // persist global uniq poller for one data key
+const lastData = {}; // cache last data so that we can update redux only if data is changed
 export function usePollingMuseData(dataKey, args = { interval: 10000 }) {
   const { data } = useSelector(
     state => ({
@@ -88,6 +90,7 @@ export function usePollingMuseData(dataKey, args = { interval: 10000 }) {
     }),
     shallowEqual,
   );
+  lastData[dataKey] = data;
   const dispatch = useDispatch();
 
   const pollerKey = dataKey;
@@ -95,8 +98,11 @@ export function usePollingMuseData(dataKey, args = { interval: 10000 }) {
   if (!poller) {
     poller = pollers[pollerKey] = polling({
       task: async () => {
-        const d = await museClient.data.get(dataKey);
-        dispatch(setMuseData(dataKey, d));
+        const newData = await museClient.data.get(dataKey);
+        const oldData = lastData[dataKey];
+        if (!_.isEqual(oldData, newData)) {
+          dispatch(setMuseData(dataKey, newData));
+        }
       },
       interval: args.interval || 10000,
     });

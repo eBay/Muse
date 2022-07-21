@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Breadcrumb, Tabs, Alert } from 'antd';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
-import { useMuseData } from '../../hooks/useMuse';
+import { useMuseData } from '../../hooks';
 import PluginList from '../pm/PluginList';
 const { TabPane } = Tabs;
 

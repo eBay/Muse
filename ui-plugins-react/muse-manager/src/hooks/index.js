@@ -1,2 +1,2 @@
 export { default as useSyncStatus } from './useSyncStatus';
-export * from './useMuse';
+export * from './museHooks';

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Select, Tooltip, Tag } from 'antd';
 import TimeAgo from 'react-time-ago';
-import { useMuseData } from '../../hooks/useMuse';
+import { useMuseData } from '../../hooks';
 
 const { Option } = Select;
 
