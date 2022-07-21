@@ -1,47 +1,37 @@
 import React from 'react';
 import { Select, Tooltip, Tag } from 'antd';
 import TimeAgo from 'react-time-ago';
-import useMuse from '../../hooks/useMuse';
+import { useMuseData } from '../../hooks/useMuse';
 
 const { Option } = Select;
 
-export default function PluginReleaseSelect({
-  value,
-  onChange,
-  pluginName,
-  appId,
-  app,
-  filter,
-  ...rest
-}) {
-  const { data: releases, error, pending } = useMuse(
-    'data.get',
-    `muse.plugin-releases.${pluginName}`,
-  );
-  if (!releases) return 'Loading...';
-  // let releases = pluginReleases;
-  // if (filter && releases) releases = releases.filter(filter);
+export default function PluginReleaseSelect({ value, onChange, plugin, app, filter, ...rest }) {
+  let { data: releases, error } = useMuseData(`muse.plugin-releases.${plugin.name}`);
+  if (error) return 'Failed, please refresh to retry.';
+  if (filter && releases) releases = releases.filter(filter);
 
   return (
     <div className="plugin-manager_home-plugin-release-select">
-      <Select value={value} onChange={onChange} {...rest} dropdownMatchSelectWidth={false}>
+      <Select
+        value={value}
+        loading={!releases}
+        placeholder={releases ? `Select a version to deploy` : 'Loading...'}
+        onChange={onChange}
+        {...rest}
+        dropdownMatchSelectWidth={false}
+        disabled={!releases}
+      >
         {releases &&
           releases.map(r => {
-            const mapName = name => (name === 'production' ? 'prod' : name);
             const tags = [];
             if (app) {
               Object.entries(app.envs).forEach(([envName, env]) => {
                 // const onEnv = env.plugins && env.plugins.find(a => 'v' + a.meta.version === r.tag_name)
-                if (
-                  env.plugins &&
-                  env.plugins.find(a => a.id === pluginName && 'v' + a.meta.version === r.tag_name)
-                ) {
+                if (env.plugins?.find(a => a.name === plugin.name && a.version === r.version)) {
                   // on env
                   tags.push(
                     <Tooltip key={envName} title={`Already on ${envName}`}>
-                      <Tag color={envName === 'production' ? 'green' : 'orange'}>
-                        {mapName(envName)}
-                      </Tag>
+                      <Tag color={envName === 'production' ? 'green' : 'orange'}>{envName}</Tag>
                     </Tooltip>,
                   );
                 }

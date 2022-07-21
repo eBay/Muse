@@ -24,13 +24,13 @@ const museLayout = {
         {
           key: 'apps',
           icon: 'StarOutlined',
-          link: '/app-list',
+          link: '/apps',
           label: 'Apps',
         },
         {
           key: 'plugins',
           icon: 'StarOutlined',
-          link: '/plugin-list',
+          link: '/plugins',
           label: 'Plugins',
         },
       ];

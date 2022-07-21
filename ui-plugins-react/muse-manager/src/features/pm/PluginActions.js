@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { DropdownMenu } from '@ebay/muse-lib-antd/src/features/common';
 import NiceModal from '@ebay/nice-modal-react';
 
-function PluginActions({ plugin }) {
+function PluginActions({ plugin, app }) {
   const items = useMemo(() => {
     return [
       {
@@ -23,7 +23,7 @@ function PluginActions({ plugin }) {
         icon: 'rocket',
         highlight: true,
         onClick: () => {
-          NiceModal.show('muse-manager.deploy-plugin-modal', { plugin });
+          NiceModal.show('muse-manager.deploy-plugin-modal', { plugin, app });
           // setDeployPluginModalVisible(true, {
           //   pluginId: plugin.id,
           //   plugin,

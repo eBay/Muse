@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@craco/craco": "6.4.4",
-    "@ebay/muse-client": "^1.0.3",
+    "@ebay/muse-client": "^1.0.4",
     "@ebay/muse-craco-plugin": "^1.0.15",
     "@ebay/muse-ebay-dev-config": "^1.0.5",
     "@ebay/muse-lib-antd": "^1.0.8",
@@ -26,6 +26,7 @@
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
     "react-time-ago": "^7.2.1",
+    "semver": "^7.3.7",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -42,7 +43,10 @@
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "rules": {
+      "jsx-a11y/anchor-is-valid": 0
+    }
   },
   "browserslist": {
     "production": [

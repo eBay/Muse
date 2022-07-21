@@ -1,17 +1,20 @@
 import { useEffect } from 'react';
 import museClient from '../../museClient';
 import { Table } from 'antd';
+import { useNavigate, Link } from 'react-router-dom';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
-import useMuse from '../../hooks/useMuse';
+import { useMuseData } from '../../hooks/useMuse';
 
 export default function AppList() {
   //
-  const { data, pending, error } = useMuse('data.get', 'muse.apps');
+
+  const { data, pending, error } = useMuseData('muse.apps');
   const columns = [
     {
       dataIndex: 'name',
       title: 'Name',
       width: '220px',
+      render: name => <Link to={`/app/${name}`}>{name}</Link>,
     },
     {
       dataIndex: 'createdBy',
@@ -30,8 +33,8 @@ export default function AppList() {
 
   return (
     <div>
-      <h1>App Manager</h1>
-      <RequestStatus loading={pending || !data} error={error} loadingMode="skeleton" />
+      <h1>App List</h1>
+      <RequestStatus loading={!error && (pending || !data)} error={error} loadingMode="skeleton" />
       {data && (
         <Table
           pagination={false}
