@@ -11,22 +11,20 @@ function PluginStatus({ plugin }) {
       if (req?.payload?.pluginName === plugin.name) {
         return req.statuses?.map(s => {
           const color = {
-            failed: 'error',
+            failure: 'error',
             success: 'success',
-            error: 'error',
             pending: 'processing',
-            building: 'processing',
-            queued: 'processing',
           }[s.state];
 
           const icon = color === 'processing' ? <Loading3QuartersOutlined spin /> : null;
           return (
             <Tag icon={icon} style={{ cursor: 'pointer' }} color={color}>
-              {s.description || s.name + ' ' + s.state}
+              {s.message || s.name + ' ' + s.state}
             </Tag>
           );
         });
       }
+      return null;
     }),
   ).filter(Boolean);
 }
