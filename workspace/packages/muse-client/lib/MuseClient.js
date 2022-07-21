@@ -3,11 +3,6 @@ const kebabCase = require('lodash/fp/kebabCase');
 
 // A muse-core API wrapper to use an existing Muse API service.
 // It uses post method for all requests.
-// class MuseClient {
-//   constructor({ endpoint, token, axiosConfig }) {
-
-//   }
-// }
 
 module.exports = {
   create({ endpoint, token, axiosConfig }) {
@@ -18,7 +13,7 @@ module.exports = {
       headers: {
         authorization: token || '',
       },
-      ...axiosConfig.headers,
+      ...axiosConfig?.headers,
     });
     const post = async (apiPath, args) => {
       try {
@@ -36,7 +31,7 @@ module.exports = {
     // Construct the API path by a javascript proxy
     const handler = {
       get(target, prop, receiver) {
-        if (prop === '_api_path_') return target._api_path_ || '';
+        if (['_api_path_', 'apply', 'call'].includes(prop)) return target[prop] || '';
         const apiPath = (receiver._api_path_ || '') + '/' + kebabCase(prop);
         const func = async (...args) => {
           return await post(apiPath, args);

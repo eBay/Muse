@@ -1,0 +1,66 @@
+{
+  "name": "@ebay/muse-manager",
+  "version": "0.1.0",
+  "private": true,
+  "muse": {
+    "devConfig": {
+      "app": "musemanager",
+      "env": "staging",
+      "remotePlugins": "*"
+    }
+  },
+  "dependencies": {
+    "@craco/craco": "6.4.4",
+    "@ebay/muse-client": "^1.0.4",
+    "@ebay/muse-craco-plugin": "^1.0.15",
+    "@ebay/muse-ebay-dev-config": "^1.0.5",
+    "@ebay/muse-lib-antd": "^1.0.8",
+    "@ebay/muse-lib-react": "^1.0.12",
+    "@ebay/muse-scripts-react": "^1.0.12",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.3.0",
+    "@testing-library/user-event": "^13.5.0",
+    "cross-env": "^7.0.3",
+    "lodash": "^4.17.21",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1",
+    "react-time-ago": "^7.2.1",
+    "semver": "^7.3.7",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "cross-env PORT=3061 muse-scripts-react start",
+    "build": "muse-scripts-react build",
+    "build:dev": "muse-scripts-react build --dev",
+    "deploy": "pnpm build && pnpm build:dev && muse release && muse deploy musemanager staging",
+    "prestart": "muse-ebay check-updates",
+    "prebuild": "muse-ebay check-updates",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ],
+    "rules": {
+      "jsx-a11y/anchor-is-valid": 0
+    }
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "craco-less": "^2.0.0"
+  }
+}
