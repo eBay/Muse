@@ -81,7 +81,7 @@ export function useMuseApi(apiPath) {
 }
 
 const pollers = {};
-export function usePollingMuseData(dataKey, args = { interval: 1000000 }) {
+export function usePollingMuseData(dataKey, args = { interval: 10000 }) {
   const { data } = useSelector(
     state => ({
       data: state.pluginEbayMuseManager.museData[dataKey],

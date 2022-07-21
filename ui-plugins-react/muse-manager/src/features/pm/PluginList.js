@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
-import { Table, Button, Tag } from 'antd';
+import { Table, Button, Tag, Tooltip } from 'antd';
 import plugin from 'js-plugin';
 import semver from 'semver';
+import TimeAgo from 'react-time-ago';
 import { RequestStatus, TableBar } from '@ebay/muse-lib-antd/src/features/common';
 import { usePollingMuseData } from '../../hooks';
 import PluginActions from './PluginActions';
@@ -14,7 +15,7 @@ export default function PluginList({ app }) {
   //
   const { data, pending, error } = usePollingMuseData('muse.plugins');
   const { data: latestReleases } = usePollingMuseData('muse.plugins.latest-releases');
-  const { data: npmVersions } = usePollingMuseData('muse.npm.versions');
+  const { data: npmVersions } = usePollingMuseData('muse.npm.versions', { interval: 30 });
   const columns = [
     {
       dataIndex: 'name',
@@ -69,8 +70,23 @@ export default function PluginList({ app }) {
       title: 'Latest',
       width: '120px',
       render: pluginName => {
-        const version = latestReleases?.[pluginName]?.version;
-        return version ? <a href="#">v{version}</a> : <NA />;
+        const latest = latestReleases?.[pluginName];
+        return latest ? (
+          <Tooltip
+            title={
+              <>
+                <TimeAgo date={new Date(latest.createdAt || 0)} /> from {latest.branch || 'unknown'}{' '}
+                branch.
+              </>
+            }
+          >
+            <Button type="link" onClick={() => null} style={{ textAlign: 'left', padding: 0 }}>
+              {latest.version}
+            </Button>
+          </Tooltip>
+        ) : (
+          <NA />
+        );
       },
     },
     {
