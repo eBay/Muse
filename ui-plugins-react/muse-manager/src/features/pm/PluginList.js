@@ -3,7 +3,7 @@ import { Table, Button, Tag } from 'antd';
 import plugin from 'js-plugin';
 import semver from 'semver';
 import { RequestStatus, TableBar } from '@ebay/muse-lib-antd/src/features/common';
-import { useMuseData } from '../../hooks/useMuse';
+import { usePollingMuseData } from '../../hooks/useMuse';
 import PluginActions from './PluginActions';
 import PluginStatus from './PluginStatus';
 import _ from 'lodash';
@@ -12,9 +12,9 @@ const NA = () => <span style={{ color: 'gray', fontSize: '13px' }}>N/A</span>;
 
 export default function PluginList({ app }) {
   //
-  const { data, pending, error } = useMuseData('muse.plugins');
-  const { data: latestReleases } = useMuseData('muse.plugins.latest-releases');
-  const { data: npmVersions } = useMuseData('muse.npm.versions');
+  const { data, pending, error } = usePollingMuseData('muse.plugins');
+  const { data: latestReleases } = usePollingMuseData('muse.plugins.latest-releases');
+  const { data: npmVersions } = usePollingMuseData('muse.npm.versions');
   const columns = [
     {
       dataIndex: 'name',

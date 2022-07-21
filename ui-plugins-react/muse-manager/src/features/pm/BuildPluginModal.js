@@ -1,16 +1,17 @@
 import { useCallback } from 'react';
 import NiceModal, { useModal, antdModal } from '@ebay/nice-modal-react';
-import { Modal, Button, Form } from 'antd';
+import { Modal, message, Button, Form } from 'antd';
 import FormBuilder from 'antd-form-builder';
+import museClient from '../../museClient';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
-import { useMuseApi } from '../../hooks/useMuse';
+import { useMuseApi, usePollingMuseData } from '../../hooks/useMuse';
 import { getPluginId } from '../../utils';
 
 const user = window.MUSE_GLOBAL.getUser();
 const BuildPluginModal = NiceModal.create(({ plugin }) => {
   const modal = useModal();
   const [form] = Form.useForm();
-
+  const { pollNow: pollRequestsNow } = usePollingMuseData('muse.data.requests');
   const {
     action: createRequest,
     error: createRequestError,
@@ -58,19 +59,16 @@ const BuildPluginModal = NiceModal.create(({ plugin }) => {
         newVersion: 'patch',
       },
     })
-      .then(() => {
-        Modal.success({
-          title: 'Request build success!',
-          content: `The jenkins job is triggered to build the plugin. `,
-          onOk: () => {
-            modal.hide();
-          },
-        });
+      .then(async () => {
+        message.success('Trigger build success.');
+        modal.hide();
+        await museClient.data.syncCache();
+        await pollRequestsNow();
       })
       .catch(err => {
         console.log('failed to deploy', err);
       });
-  }, [createRequest, plugin.name, modal, form]);
+  }, [createRequest, plugin.name, modal, pollRequestsNow, form]);
 
   return (
     <Modal
@@ -78,6 +76,7 @@ const BuildPluginModal = NiceModal.create(({ plugin }) => {
       title={`Build Plugin`}
       width="600px"
       okText="Build"
+      maskClosable={false}
       onOk={() => {
         form.validateFields().then(() => form.submit());
       }}

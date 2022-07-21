@@ -1,10 +1,10 @@
-import { useMuseData } from '../../hooks/useMuse';
+import { usePollingMuseData } from '../../hooks/useMuse';
 import _ from 'lodash';
 import { Tag } from 'antd';
 import { Loading3QuartersOutlined } from '@ant-design/icons';
 
 function PluginStatus({ plugin }) {
-  const { data: requests } = useMuseData('muse.requests');
+  const { data: requests } = usePollingMuseData('muse.requests');
 
   return _.flatten(
     requests?.map(req => {
