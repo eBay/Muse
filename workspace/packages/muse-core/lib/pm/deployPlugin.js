@@ -118,7 +118,7 @@ module.exports = async params => {
       flattenItems,
       msg || isBatchDeploy
         ? `Deploy multiple plugins to ${appName} by ${author}`
-        : `Deploy plugin ${pluginName} to ${appName}/${envName} by ${author}`,
+        : `Deploy plugin ${pluginName}@${version} to ${appName}/${envName} by ${author}`,
     );
   } catch (err) {
     ctx.error = err;
