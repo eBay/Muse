@@ -3,7 +3,7 @@ import { Table, Button, Tag } from 'antd';
 import plugin from 'js-plugin';
 import semver from 'semver';
 import { RequestStatus, TableBar } from '@ebay/muse-lib-antd/src/features/common';
-import { usePollingMuseData } from '../../hooks/useMuse';
+import { usePollingMuseData } from '../../hooks';
 import PluginActions from './PluginActions';
 import PluginStatus from './PluginStatus';
 import _ from 'lodash';

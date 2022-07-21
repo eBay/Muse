@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { message } from 'antd';
 import _ from 'lodash';
 import polling from '@ebay/muse-lib-react/src/features/common/polling';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
@@ -80,7 +81,7 @@ export function useMuseApi(apiPath) {
 }
 
 const pollers = {};
-export function usePollingMuseData(dataKey, args = { interval: 10000 }) {
+export function usePollingMuseData(dataKey, args = { interval: 1000000 }) {
   const { data } = useSelector(
     state => ({
       data: state.pluginEbayMuseManager.museData[dataKey],
@@ -90,24 +91,31 @@ export function usePollingMuseData(dataKey, args = { interval: 10000 }) {
   const dispatch = useDispatch();
 
   const pollerKey = dataKey;
-  if (!pollers[pollerKey]) {
-    pollers[pollerKey] = polling({
+  let poller = pollers[pollerKey];
+  if (!poller) {
+    poller = pollers[pollerKey] = polling({
       task: async () => {
         const d = await museClient.data.get(dataKey);
         dispatch(setMuseData(dataKey, d));
       },
       interval: args.interval || 10000,
     });
-  } else if (pollers[pollerKey].stopped) {
-    pollers[pollerKey].start();
+  } else if (poller.stopped) {
+    poller.start();
   }
 
   return {
     data,
     stopPolling: () => {
-      pollers[pollerKey].stop();
+      poller.stop();
       delete pollers[pollerKey];
     },
-    pollNow: () => pollers[pollerKey].restart(),
+    pollNow: () => poller.restart(),
+    syncStatus: async () => {
+      const hide = message.loading('Syncing status...', 0);
+      await museClient.data.syncCache();
+      await poller.restart();
+      hide();
+    },
   };
 }

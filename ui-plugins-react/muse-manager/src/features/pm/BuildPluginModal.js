@@ -1,17 +1,16 @@
 import { useCallback } from 'react';
 import NiceModal, { useModal, antdModal } from '@ebay/nice-modal-react';
-import { Modal, message, Button, Form } from 'antd';
+import { Modal, message, Form } from 'antd';
 import FormBuilder from 'antd-form-builder';
-import museClient from '../../museClient';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
-import { useMuseApi, usePollingMuseData } from '../../hooks/useMuse';
+import { useSyncStatus, useMuseApi } from '../../hooks';
 import { getPluginId } from '../../utils';
 
 const user = window.MUSE_GLOBAL.getUser();
 const BuildPluginModal = NiceModal.create(({ plugin }) => {
   const modal = useModal();
   const [form] = Form.useForm();
-  const { pollNow: pollRequestsNow } = usePollingMuseData('muse.data.requests');
+  const syncStatus = useSyncStatus('muse.requests');
   const {
     action: createRequest,
     error: createRequestError,
@@ -60,15 +59,14 @@ const BuildPluginModal = NiceModal.create(({ plugin }) => {
       },
     })
       .then(async () => {
-        message.success('Trigger build success.');
         modal.hide();
-        await museClient.data.syncCache();
-        await pollRequestsNow();
+        message.success('Trigger build success.');
+        await syncStatus();
       })
       .catch(err => {
         console.log('failed to deploy', err);
       });
-  }, [createRequest, plugin.name, modal, pollRequestsNow, form]);
+  }, [createRequest, plugin.name, syncStatus, modal, form]);
 
   return (
     <Modal
