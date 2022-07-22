@@ -29,8 +29,7 @@
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
-    "@craco/craco": "^6.4.4",
-    "@ebay/muse-scripts-react": "workspace:^",
-    "@ebay/muse-craco-plugin": "workspace:^"
+    "@ebay/muse-scripts-react": "^1.0.12",
+    "@ebay/muse-craco-plugin": "^1.0.14"
   }
 }

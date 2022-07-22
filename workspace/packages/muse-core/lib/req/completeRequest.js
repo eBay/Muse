@@ -1,7 +1,6 @@
 const { asyncInvoke, osUsername, validate } = require('../utils');
 const getRequest = require('./getRequest');
 const deleteRequest = require('./deleteRequest');
-const pm = require('../pm');
 const schema = require('../schemas/req/completeRequest.json');
 
 /**
@@ -23,20 +22,11 @@ module.exports = async params => {
 
   const req = await getRequest(requestId);
   ctx.request = req;
-  const { type, payload } = req;
 
   try {
     // You can extend merge request based on type by creating plugins
     await asyncInvoke('museCore.req.completeRequest', ctx);
-    switch (type) {
-      // This is the only built-in support type of request
-      case 'deploy-plugin':
-        await pm.deployPlugin({ ...payload, msg: msg || `Merge request of ${type} by ${author}.` });
-        break;
-      default:
-        break;
-    }
-    await deleteRequest({ requestId });
+    await deleteRequest({ requestId, msg: msg || `Complete request ${requestId} by ${author}.` });
   } catch (err) {
     ctx.error = err;
     await asyncInvoke('museCore.req.failedCompleteRequest', ctx);

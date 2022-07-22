@@ -309,13 +309,13 @@ program
     const pkgJson = fs.readJSONSync(path.join(process.cwd(), 'package.json'), {
       throws: false,
     });
-    if (!pluginName && pkgJson.muse) {
-      pluginName = pkgJson.name;
+    if (!pluginName && pkgJson?.muse) {
+      pluginName = pkgJson?.name;
     } else if (!pluginName) {
       throw new Error(`Plugin name is required.`);
     }
 
-    const pluginType = pkgJson.muse?.type;
+    const pluginType = pkgJson?.muse?.type;
     const dependencyCheckResult = await muse.pm.checkDependencies({
       appName,
       envName,

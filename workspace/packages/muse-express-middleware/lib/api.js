@@ -60,6 +60,7 @@ module.exports = ({ basePath = '/api/v2' } = {}) => {
     if (!req.path.startsWith(basePath)) {
       return next();
     }
+
     // e.g: /api/v2/create-app
     const apiPath = req.path.replace(basePath, '');
 
@@ -90,16 +91,19 @@ module.exports = ({ basePath = '/api/v2' } = {}) => {
       return;
     }
     try {
+      if (!req.body) {
+        throw new Error('No request.body found, did you config the express.json() middleware?');
+      }
       await muse.utils.asyncInvoke('museExpressMiddleware.api.before', {
         apiKey,
         basePath,
         req,
         res,
       });
-      const isGet = req.method.toLowerCase();
+      const isGet = req.method.toLowerCase() === 'get';
       const args = isGet
         ? _.castArray(JSON.parse(decodeURIComponent(req.query.args || '[]')))
-        : [req.body];
+        : req.body.args || [];
       // TODO: inject author info
       const result = { data: await _.invoke(muse, apiKey, ...args) };
       await muse.utils.asyncInvoke('museExpressMiddleware.api.after', {

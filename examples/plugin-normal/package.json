@@ -10,8 +10,7 @@
     }
   },
   "dependencies": {
-    "@craco/craco": "^6.4.4",
-    "@ebay/muse-lib-react": "workspace:^",
+    "@ebay/muse-lib-react": "1.0.11",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
@@ -23,9 +22,9 @@
     "dotenv": "^16.0.1",
     "js-plugin": "^1.1.0",
     "json-parse-better-errors": "^1.0.2",
-    "@ebay/muse-craco-plugin": "workspace:^",
-    "@ebay/muse-scripts-react": "workspace:^",
-    "plugin-library": "workspace:^0.1.8",
+    "@ebay/muse-craco-plugin": "^1.0.14",
+    "@ebay/muse-scripts-react": "^1.0.12",
+    "plugin-library": "link:../plugin-library",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-scripts": "5.0.1",
