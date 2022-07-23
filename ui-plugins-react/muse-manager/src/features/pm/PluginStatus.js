@@ -2,10 +2,13 @@ import { usePollingMuseData } from '../../hooks';
 import _ from 'lodash';
 import { Tag } from 'antd';
 import { Loading3QuartersOutlined } from '@ant-design/icons';
-
+import NiceModal from '@ebay/nice-modal-react';
 function PluginStatus({ plugin }) {
-  const { data: requests } = usePollingMuseData('muse.requests');
+  const { data: requests } = usePollingMuseData('muse.requests', { interval: 3000 });
 
+  const onTagClick = (request, status) => {
+    NiceModal.show('muse-manager.request-detail-modal', { request, status });
+  };
   return _.flatten(
     requests?.map(req => {
       if (req?.payload?.pluginName === plugin.name) {
@@ -18,7 +21,12 @@ function PluginStatus({ plugin }) {
 
           const icon = color === 'processing' ? <Loading3QuartersOutlined spin /> : null;
           return (
-            <Tag icon={icon} style={{ cursor: 'pointer' }} color={color}>
+            <Tag
+              icon={icon}
+              style={{ cursor: 'pointer' }}
+              color={color}
+              onClick={() => onTagClick(req, s)}
+            >
               {s.message || s.name + ' ' + s.state}
             </Tag>
           );
