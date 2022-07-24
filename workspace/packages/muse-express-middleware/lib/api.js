@@ -60,7 +60,7 @@ module.exports = ({ basePath = '/api/v2' } = {}) => {
     if (!req.path.startsWith(basePath)) {
       return next();
     }
-
+    // console.log(req);
     // e.g: /api/v2/create-app
     const apiPath = req.path.replace(basePath, '');
 
@@ -100,9 +100,11 @@ module.exports = ({ basePath = '/api/v2' } = {}) => {
         req,
         res,
       });
-      const isGet = req.method.toLowerCase() === 'get';
+      const isGet = req.query.useGetArgs || req.method.toLowerCase() === 'get';
       const args = isGet
         ? _.castArray(JSON.parse(decodeURIComponent(req.query.args || '[]')))
+        : req.query.singleArg
+        ? [req.body]
         : req.body.args || [];
       // TODO: inject author info
       const result = { data: await _.invoke(muse, apiKey, ...args) };
