@@ -28,7 +28,11 @@ export default function PluginList({ app }) {
         if (npmVersion && latestVersion) {
           const color = semver.lt(npmVersion, latestVersion) ? 'orange' : 'green';
           tags.push(
-            <Tag color={color} style={{ marginLeft: '0px', transform: 'scale(0.8)' }}>
+            <Tag
+              key={'npm-' + npmVersion}
+              color={color}
+              style={{ marginLeft: '0px', transform: 'scale(0.8)' }}
+            >
               npm v{npmVersion}
             </Tag>,
           );

@@ -18,7 +18,7 @@ function CiOutput({ ci, jobName, buildNumber, state }) {
       stopIf: () => state !== 'pending',
       task: async () => {
         try {
-          const text = await museClient.ebay.ci.build.log(jobName, buildNumber);
+          const text = await museClient.ebay.ci.client.build.log(jobName, buildNumber);
           setLog(text);
         } catch (err) {}
       },
@@ -68,7 +68,9 @@ function CiOutput({ ci, jobName, buildNumber, state }) {
           {fullscreen ? 'Exit Fullscreen' : 'Fullscreen'}
         </Button>
       )}
-      <pre style={preStyle}>{log || 'Loading...'}</pre>
+      <pre style={preStyle}>
+        {log || (buildNumber ? 'Loading...' : 'Waiting build to start...')}
+      </pre>
     </div>
   );
 }

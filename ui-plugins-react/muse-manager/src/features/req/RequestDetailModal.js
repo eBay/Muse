@@ -38,15 +38,15 @@ const RequestDetailModal = NiceModal.create(({ request, status }) => {
         label: 'Triggered by',
       },
       {
-        key: 'status.state',
+        key: 'status',
         label: 'Status',
-        renderView: state => {
+        renderView: status => {
           const color = {
             success: 'success',
             failure: 'error',
             pending: 'processing',
-          }[state];
-          return <Tag color={color}>{state}</Tag>;
+          }[status.state];
+          return <Tag color={color}>{status?.message || status.state}</Tag>;
         },
       },
       {

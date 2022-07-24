@@ -22,6 +22,7 @@ function PluginStatus({ plugin }) {
           const icon = color === 'processing' ? <Loading3QuartersOutlined spin /> : null;
           return (
             <Tag
+              key={req.id + '_' + s.name}
               icon={icon}
               style={{ cursor: 'pointer' }}
               color={color}

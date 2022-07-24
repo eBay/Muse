@@ -97,7 +97,7 @@ const BuildPluginModal = NiceModal.create(({ plugin }) => {
     createRequest({
       id: `build-plugin_${getPluginId(plugin.name)}`,
       type: 'build-plugin',
-      msg: `Build plugin ${plugin.name} by ${user.username}`,
+      msg: `Build plugin ${plugin.name}`,
       payload: {
         pluginName: plugin.name,
         buildBranch: values.branch || 'main',
