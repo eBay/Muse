@@ -9,14 +9,13 @@ import { FullscreenOutlined, FullscreenExitOutlined } from '@ant-design/icons';
  */
 
 function CiOutput({ ci, jobName, buildNumber, state }) {
-  //
-  console.log(arguments);
   const [log, setLog] = useState('');
   const [fullscreen, setFullscreen] = useState(false);
   useEffect(() => {
-    // if (status !== 'pending') return;
-    if (!jobName || !buildNumber) return;
+    if (!ci || !jobName || !buildNumber) return;
     const poller = polling({
+      interval: 1000,
+      stopIf: () => state !== 'pending',
       task: async () => {
         try {
           const text = await museClient.ebay.ci.build.log(jobName, buildNumber);
@@ -25,12 +24,7 @@ function CiOutput({ ci, jobName, buildNumber, state }) {
       },
     });
     return () => poller.stop();
-  }, [state, jobName, buildNumber]);
-
-  // useEffect(() => {
-  //   if (!log && build)
-  //     fetchBuildLog({ appName: build.ci, buildNumber: build.number, jobName: 'create-release' });
-  // }, [build, log, building, fetchBuildLog]);
+  }, [ci, jobName, buildNumber, state]);
 
   const style = {
     marginTop: '10px',
@@ -51,6 +45,7 @@ function CiOutput({ ci, jobName, buildNumber, state }) {
     padding: 15,
     whiteSpace: 'pre-wrap',
     backgroundColor: '#f7f7f7',
+    margin: 0,
   };
 
   if (fullscreen) {
