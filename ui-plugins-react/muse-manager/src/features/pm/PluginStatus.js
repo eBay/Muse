@@ -4,7 +4,7 @@ import { Tag } from 'antd';
 import { Loading3QuartersOutlined } from '@ant-design/icons';
 import NiceModal from '@ebay/nice-modal-react';
 function PluginStatus({ plugin }) {
-  const { data: requests } = usePollingMuseData('muse.requests', { interval: 3000 });
+  const { data: requests } = usePollingMuseData('muse.requests', { interval: 10000 });
 
   const onTagClick = (request, status) => {
     NiceModal.show('muse-manager.request-detail-modal', { request, status });

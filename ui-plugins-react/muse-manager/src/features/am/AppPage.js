@@ -1,7 +1,6 @@
 import plugin from 'js-plugin';
-import _ from 'lodash';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Breadcrumb, Tabs, Alert } from 'antd';
+import { Tabs, Alert } from 'antd';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import { useMuseData } from '../../hooks';
 import PluginList from '../pm/PluginList';
@@ -38,16 +37,6 @@ export default function AppPage() {
   }
   return (
     <div>
-      <Breadcrumb>
-        <Breadcrumb.Item>Home</Breadcrumb.Item>
-        <Breadcrumb.Item>
-          <a href="">Application Center</a>
-        </Breadcrumb.Item>
-        <Breadcrumb.Item>
-          <a href="">Application List</a>
-        </Breadcrumb.Item>
-        <Breadcrumb.Item>An Application</Breadcrumb.Item>
-      </Breadcrumb>
       <h1>Muse App: {appName}</h1>
       <RequestStatus loading={!error && (pending || !data)} error={error} loadingMode="skeleton" />
 

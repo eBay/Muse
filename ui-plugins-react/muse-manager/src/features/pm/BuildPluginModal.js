@@ -8,8 +8,6 @@ import { getPluginId } from '../../utils';
 import VersionSelect from './VersionSelect';
 import semver from 'semver';
 
-const user = window.MUSE_GLOBAL.getUser();
-
 const BuildPluginModal = NiceModal.create(({ plugin }) => {
   const modal = useModal();
   const [form] = Form.useForm();
@@ -29,6 +27,8 @@ const BuildPluginModal = NiceModal.create(({ plugin }) => {
       .slice(0, 2)
       .join('/'),
   );
+
+  const modalReady = branches && latestReleases;
 
   const latestVersion = latestReleases[plugin.name]?.version;
   const meta = {
@@ -123,6 +123,9 @@ const BuildPluginModal = NiceModal.create(({ plugin }) => {
       maskClosable={false}
       onOk={() => {
         form.validateFields().then(() => form.submit());
+      }}
+      okButtonProps={{
+        disabled: !modalReady,
       }}
     >
       <RequestStatus error={fetchBranchesError} errorArgs={{ title: 'Failed to fetch branches' }} />
