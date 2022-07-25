@@ -27,12 +27,12 @@ const museLayout = {
           link: '/apps',
           label: 'Apps',
         },
-        {
-          key: 'plugins',
-          icon: 'StarOutlined',
-          link: '/plugins',
-          label: 'Plugins',
-        },
+        // {
+        //   key: 'plugins',
+        //   icon: 'StarOutlined',
+        //   link: '/plugins',
+        //   label: 'Plugins',
+        // },
       ];
     },
   },
