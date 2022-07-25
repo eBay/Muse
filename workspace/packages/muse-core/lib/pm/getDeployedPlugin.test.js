@@ -83,4 +83,45 @@ version: 1.0.1
       expect(err?.message).toMatch(`Env ${appName}/${envName} doesn't exist`);
     }
   });
+
+  it('Fail to Get deployed plugin should throw the error', async () => {
+    const testJsPluginFails = {
+      name: 'testFails',
+      museCore: {
+        pm: {
+          getDeployedPlugin: jest.fn().mockRejectedValue(new Error('Async error')),
+          beforeGetDeployedPlugin: jest.fn(),
+          afterGetDeployedPlugin: jest.fn(),
+          failedGetDeployedPlugin: jest.fn(),
+        },
+      },
+    };
+    plugin.register(testJsPluginFails);
+    const appName = 'testapp';
+    const envName = 'staging';
+    const pluginName = 'test-plugin';
+
+    await muse.am.createApp({ appName });
+    await muse.am.createEnv({ appName, envName });
+
+    const pid = getPluginId(pluginName);
+    await registry.set(
+      `/apps/${appName}/${envName}/${pid}.yaml`,
+      `
+name: ${pluginName}
+version: 1.0.1
+    `,
+    );
+
+    try {
+      await muse.pm.getDeployedPlugin(appName, envName, pluginName);
+    } catch (e) {
+      expect(e?.message).toEqual('Async error');
+    }
+
+    expect(testJsPluginFails.museCore.pm.getDeployedPlugin).toBeCalledTimes(1);
+    expect(testJsPluginFails.museCore.pm.beforeGetDeployedPlugin).toBeCalledTimes(1);
+    expect(testJsPluginFails.museCore.pm.afterGetDeployedPlugin).toBeCalledTimes(0);
+    expect(testJsPluginFails.museCore.pm.failedGetDeployedPlugin).toBeCalledTimes(1);
+  });
 });
