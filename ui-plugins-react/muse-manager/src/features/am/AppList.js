@@ -3,7 +3,7 @@ import museClient from '../../museClient';
 import { Table } from 'antd';
 import { useNavigate, Link } from 'react-router-dom';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
-import { useMuseData } from '../../hooks/useMuse';
+import { useMuseData } from '../../hooks';
 
 export default function AppList() {
   //

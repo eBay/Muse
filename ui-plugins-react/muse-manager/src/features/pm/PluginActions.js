@@ -103,7 +103,7 @@ function PluginActions({ plugin, app }) {
       //   onClick: handleDeletePlugin,
       // },
     ].filter(Boolean);
-  }, []);
+  }, [app, plugin]);
   return <DropdownMenu extPoint="pluginManager.plugin.processActions" items={items} />;
 }
 export default PluginActions;

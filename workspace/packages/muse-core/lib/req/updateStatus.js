@@ -11,7 +11,7 @@ const schema = require('../schemas/req/updateStatus.json');
  */
 
 /**
- * @description Merge a request.
+ * @description Update a request status.
  * @param {object} params Args to merge a request.
  * @param {string} params.requestId The request Id.
  * @param {string} params.status the request status.
@@ -19,7 +19,6 @@ const schema = require('../schemas/req/updateStatus.json');
  * @param {string} [params.msg] Action message.
  * @returns {request} Request object.
  */
-
 module.exports = async params => {
   validate(schema, params);
   const { requestId, status, author = osUsername, msg } = params;

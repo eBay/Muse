@@ -1,9 +1,10 @@
 import { useEffect } from 'react';
-import { Table, Button, Tag } from 'antd';
+import { Table, Button, Tag, Tooltip } from 'antd';
 import plugin from 'js-plugin';
 import semver from 'semver';
+import TimeAgo from 'react-time-ago';
 import { RequestStatus, TableBar } from '@ebay/muse-lib-antd/src/features/common';
-import { useMuseData } from '../../hooks/useMuse';
+import { usePollingMuseData } from '../../hooks';
 import PluginActions from './PluginActions';
 import PluginStatus from './PluginStatus';
 import _ from 'lodash';
@@ -12,9 +13,9 @@ const NA = () => <span style={{ color: 'gray', fontSize: '13px' }}>N/A</span>;
 
 export default function PluginList({ app }) {
   //
-  const { data, pending, error } = useMuseData('muse.plugins');
-  const { data: latestReleases } = useMuseData('muse.plugins.latest-releases');
-  const { data: npmVersions } = useMuseData('muse.npm.versions');
+  const { data, pending, error } = usePollingMuseData('muse.plugins');
+  const { data: latestReleases } = usePollingMuseData('muse.plugins.latest-releases');
+  const { data: npmVersions } = usePollingMuseData('muse.npm.versions', { interval: 30000 });
   const columns = [
     {
       dataIndex: 'name',
@@ -27,7 +28,11 @@ export default function PluginList({ app }) {
         if (npmVersion && latestVersion) {
           const color = semver.lt(npmVersion, latestVersion) ? 'orange' : 'green';
           tags.push(
-            <Tag color={color} style={{ marginLeft: '0px', transform: 'scale(0.8)' }}>
+            <Tag
+              key={'npm-' + npmVersion}
+              color={color}
+              style={{ marginLeft: '0px', transform: 'scale(0.8)' }}
+            >
               npm v{npmVersion}
             </Tag>,
           );
@@ -69,8 +74,23 @@ export default function PluginList({ app }) {
       title: 'Latest',
       width: '120px',
       render: pluginName => {
-        const version = latestReleases?.[pluginName]?.version;
-        return version ? <a href="#">v{version}</a> : <NA />;
+        const latest = latestReleases?.[pluginName];
+        return latest ? (
+          <Tooltip
+            title={
+              <>
+                <TimeAgo date={new Date(latest.createdAt || 0)} /> from {latest.branch || 'unknown'}{' '}
+                branch.
+              </>
+            }
+          >
+            <Button type="link" onClick={() => null} style={{ textAlign: 'left', padding: 0 }}>
+              {latest.version}
+            </Button>
+          </Tooltip>
+        ) : (
+          <NA />
+        );
       },
     },
     {
@@ -83,6 +103,7 @@ export default function PluginList({ app }) {
     {
       dataIndex: 'actions',
       title: 'Actions',
+      width: '120px',
       render: (a, item) => {
         return <PluginActions plugin={item} app={app} />;
       },
