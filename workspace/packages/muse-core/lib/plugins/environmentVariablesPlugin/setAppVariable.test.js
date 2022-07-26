@@ -25,6 +25,7 @@ describe('Upsert application variables', () => {
     expect(Object.keys(app.variables)).toContain('var2');
     expect(app.variables['var1']).toBe('value1');
     expect(app.variables['var2']).toBe('value2');
+    console.log(muse.am);
 
     // update default variables
     await muse.am.setVariable({
