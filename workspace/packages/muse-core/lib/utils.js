@@ -241,6 +241,7 @@ const validate = (schema, data) => {
 module.exports = {
   getPluginId,
   getPluginName,
+  syncInvoke: (...args) => plugin.invoke(...args),
   asyncInvoke,
   asyncInvokeFirst,
   wrappedAsyncInvoke,
