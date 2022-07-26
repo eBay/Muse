@@ -1,6 +1,6 @@
 {
   "name": "@ebay/muse-dev-utils",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "main": "lib/index.js",
   "license": "MIT",
   "publishConfig": {
