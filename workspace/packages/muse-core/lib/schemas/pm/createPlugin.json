@@ -5,7 +5,7 @@
   "properties": {
     "pluginName": {
       "type": "string",
-      "pattern": "^(@|[a-zA-Z])[a-z0-9A-Z\\-_/]+)"
+      "pattern": "^(@|[a-zA-Z])[a-z0-9A-Z\\-_/]+"
     },
     "type": {
       "type": "string",
