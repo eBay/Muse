@@ -1,6 +1,6 @@
 const { vol } = require('memfs');
 const { MuseLruCache } = require('./');
-const delay = (t) => new Promise((resolve) => setTimeout(resolve, t));
+const delay = t => new Promise(resolve => setTimeout(resolve, t));
 
 describe('MuseLruCache basic tests.', () => {
   beforeEach(() => {
@@ -14,7 +14,7 @@ describe('MuseLruCache basic tests.', () => {
       diskTtl: 200,
       diskLocation: '/tmp/lru-disk-cache',
       diskSaveTimestampsInterval: 50,
-      getData: (k) => {
+      getData: k => {
         return {
           foo1: 'bar1',
           foo2: 'bar2',
@@ -43,5 +43,21 @@ describe('MuseLruCache basic tests.', () => {
     await museCache.get('foo2');
     await museCache.get('foo3');
     expect(await museCache.memoryCache.get('foo1')).toBeUndefined();
+  });
+
+  it('throw error when getData callback is null', async () => {
+    try {
+      new MuseLruCache({
+        maxMemorySize: 10,
+        memoryTtl: 100,
+        diskTtl: 200,
+        diskLocation: '/tmp/lru-disk-cache',
+        diskSaveTimestampsInterval: 50,
+        getData: null,
+      });
+      expect(true).toBe(false);
+    } catch (err) {
+      expect(err?.message).toMatch('MuseLruCache needs getData callback to get data.');
+    }
   });
 });
