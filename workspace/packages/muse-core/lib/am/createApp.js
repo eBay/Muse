@@ -1,8 +1,9 @@
-const { asyncInvoke, osUsername, validate } = require('../utils');
+const { syncInvoke, asyncInvoke, osUsername, validate } = require('../utils');
 const { registry } = require('../storage');
 const getApp = require('./getApp');
 const schema = require('../schemas/am/createApp.json');
 const logger = require('../logger').createLogger('muse.am.createApp');
+syncInvoke('museCore.am.processCreateAppSchema', schema);
 
 /**
  * @module muse-core/am/createApp
