@@ -56,9 +56,7 @@
     "react-use": "^17.4.0",
     "redux": "^4.2.0",
     "redux-logger": "^3.0.6",
-    "typescript": "^4.7.4"
-  },
-  "devDependencies": {
+    "typescript": "^4.7.4",
     "@craco/craco": "6.4.4",
     "@ebay/muse-craco-plugin": "1.0.14",
     "@ebay/muse-ebay-dev-config": "^1.0.5",
