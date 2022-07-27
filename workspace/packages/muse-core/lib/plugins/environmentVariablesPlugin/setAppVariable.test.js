@@ -83,4 +83,19 @@ describe('Upsert application variables', () => {
     expect(app.envs.test.variables['var1']).toBe('new-value');
     expect(app.envs.test.variables['var2']).toBe('value2');
   });
+  it('It throws exception if app does not exist.', async () => {
+    const appName = 'app1';
+
+    try {
+      await muse.am.setVariable({
+        appName,
+        variables: [
+          { name: 'var1', value: 'value1' },
+          { name: 'var2', value: 'value2' },
+        ],
+      });
+    } catch (err) {
+      expect(err?.message).toMatch(`doesn't exist`);
+    }
+  });
 });
