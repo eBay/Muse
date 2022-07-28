@@ -62,12 +62,12 @@ async function wrappedAsyncInvoke(extPath, methodName, ...args) {
 }
 
 function getPluginId(name) {
-  if (name.startsWith('@')) return name.replace('/', '.');
+  if (name?.startsWith('@')) return name?.replace('/', '.');
   return name;
 }
 
 function getPluginName(pluginId) {
-  if (pluginId.startsWith('@')) return pluginId.replace('.', '/');
+  if (pluginId?.startsWith('@')) return pluginId?.replace('.', '/');
   return pluginId;
 }
 function jsonByYamlBuff(b) {
