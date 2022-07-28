@@ -72,7 +72,6 @@ class GitStorage {
    * @returns Buffer
    */
   async get(keyPath) {
-    console.log('keyPath: ', keyPath);
     logger.verbose(`Get value: ${keyPath}`);
     try {
       const data = await this.gitClient.getRepoContent({
@@ -82,9 +81,8 @@ class GitStorage {
       });
       return Buffer.from(data?.content, 'base64').toString();
     } catch (err) {
-      console.log('err: ', err.response.data);
       if (err?.response?.status === 404) {
-        logger.info('Content Not Found.');
+        logger.debug('Content Not Found.');
       } else if (
         err?.response?.status === 403 &&
         err?.response?.data?.errors?.find(e => e.code === 'too_large')

@@ -45,8 +45,8 @@
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
     "@craco/craco": "6.4.4",
-    "@ebay/muse-craco-plugin": "1.0.15",
-    "@ebay/muse-ebay-dev-config": "^1.0.5",
+    "@ebay/muse-craco-plugin": "1.0.18",
+    "@ebay/muse-ebay-dev-config": "1.0.6",
     "@ebay/muse-lib-antd": "^1.0.8",
     "@ebay/muse-lib-react": "^1.0.12",
     "@ebay/muse-scripts-react": "^1.0.10",

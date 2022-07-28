@@ -29,6 +29,12 @@ async function start() {
     waitFor: asyncFuncOrPromise => {
       waitForLoaders.push(asyncFuncOrPromise);
     },
+    getPluginName: () => {
+      if (!document.currentScript) {
+        throw new Error(`You should only call MUSE_GLOBAL.getPluginName() during plugin load.`);
+      }
+      return document.currentScript.dataset.musePluginName;
+    },
     // Muse shared modules global methods
     __shared__: {
       modules: {},

@@ -20,7 +20,7 @@ const BuildPluginModal = NiceModal.create(({ plugin }) => {
     pending: createRequestPending,
   } = useMuseApi('req.createRequest');
 
-  const { data: branches, error: fetchBranchesError, pending: fetchBranchesPending } = useMuse(
+  const { data: branches, error: fetchBranchesError } = useMuse(
     'ebay.git.getBranches',
     plugin.repo
       ?.split('/')
@@ -55,7 +55,7 @@ const BuildPluginModal = NiceModal.create(({ plugin }) => {
           baseVersion: latestVersion || '1.0.0',
         },
         tooltip: `The version number is automatically generated according to the Semantic Versioning,
-            if it already exists, it can only be customized`,
+            if it already exists, it can only be customized. Also nsure the version not exists yet.`,
         rules: [
           () => ({
             validator(rule, value) {

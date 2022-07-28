@@ -1,9 +1,7 @@
 // This is the plugin index, register plugin and load styles or other resources here.
 
 import React from 'react';
-// import ReactDOM from 'react-dom';
 import { createRoot } from 'react-dom/client';
-
 import Root from './Root';
 import plugin from 'js-plugin';
 import Loadable from 'react-loadable';
@@ -26,14 +24,13 @@ const renderApp = () => {
   const root = createRoot(rootNode);
   // Plugin can do some initialization before app render.
   plugin.invoke('onReady');
-  window.__MUSE_LOADED_PLUGINS = plugin.getPlugins();
-  window.__js_plugin = plugin;
+  window.__js_plugin = plugin; // Mainly for debugging
   root.render(<Root />);
 };
 
 window.MUSE_GLOBAL.appEntries.push({
   name: 'muse-react',
   func: renderApp,
-}); //['muse-react'] = renderApp;
+});
 
 export default { Loadable, _, reactUse };

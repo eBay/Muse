@@ -39,10 +39,10 @@ if (_.isFunction(config)) {
   config = config();
 }
 
-if (config.extend) {
-  let baseConfig = require(config.extend);
+if (config.extends) {
+  let baseConfig = require(config.extends);
   if (_.isFunction(baseConfig)) baseConfig = baseConfig();
-  Object.assign(baseConfig, _.omit(config, ['extend', 'plugins', 'presets']));
+  Object.assign(baseConfig, _.omit(config, ['extends', 'plugins', 'presets']));
   if (!baseConfig.plugins) baseConfig.plugins = [];
   if (!baseConfig.presets) baseConfig.presets = [];
   baseConfig.plugins.push(...(config.plugins || []));

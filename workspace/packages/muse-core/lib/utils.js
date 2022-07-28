@@ -62,12 +62,12 @@ async function wrappedAsyncInvoke(extPath, methodName, ...args) {
 }
 
 function getPluginId(name) {
-  if (name.startsWith('@')) return name.replace('/', '.');
+  if (name?.startsWith('@')) return name?.replace('/', '.');
   return name;
 }
 
 function getPluginName(pluginId) {
-  if (pluginId.startsWith('@')) return pluginId.replace('.', '/');
+  if (pluginId?.startsWith('@')) return pluginId?.replace('.', '/');
   return pluginId;
 }
 function jsonByYamlBuff(b) {
@@ -241,6 +241,7 @@ const validate = (schema, data) => {
 module.exports = {
   getPluginId,
   getPluginName,
+  syncInvoke: (...args) => plugin.invoke(...args),
   asyncInvoke,
   asyncInvokeFirst,
   wrappedAsyncInvoke,
