@@ -29,6 +29,8 @@ const confirmAnswer = answer => {
   return answer.length === 0 || answer.toLowerCase() === 'yes' || answer.toLowerCase() === 'y';
 };
 
+const parseArgs = args => (args ? _.fromPairs(args.map(kv => kv.split('='))) : {});
+
 const program = new Command();
 program
   .name('muse')
@@ -129,16 +131,7 @@ program
   .argument('<appName>', 'application name')
   .option('--args <args...>', 'space separated list of argument names')
   .action(async (appName, options) => {
-    const mappedArgs = options.args?.reduce((mappedArgs, option, index, args) => {
-      const argObj = option.split('=');
-      if (argObj[0] in mappedArgs) {
-        mappedArgs[[argObj[0]]] = [..._.castArray(mappedArgs[argObj[0]]), argObj[1]];
-      } else {
-        mappedArgs[argObj[0]] = argObj[1];
-      }
-      return mappedArgs;
-    }, {});
-    await muse.am.createApp({ appName, ...mappedArgs });
+    await muse.am.createApp({ appName, ...parseArgs(options.args) });
   });
 
 program
@@ -238,20 +231,11 @@ program
 
 program
   .command('create-plugin')
-  .description('Create a new MUSE plugin')
-  .argument('<pluginName>', 'plugin name')
-  .option('--args <args...>', 'space separated list of argument names')
+  .description('Create a new MUSE plugin.')
+  .argument('<pluginName>', 'The plugin name.')
+  .option('--args <args...>', 'Space separated list of more args, for example: --args foo=bar x=y.')
   .action(async (pluginName, options) => {
-    const mappedArgs = options.args?.reduce((mappedArgs, option, index, args) => {
-      const argObj = option.split('=');
-      if (argObj[0] in mappedArgs) {
-        mappedArgs[[argObj[0]]] = [..._.castArray(mappedArgs[argObj[0]]), argObj[1]];
-      } else {
-        mappedArgs[argObj[0]] = argObj[1];
-      }
-      return mappedArgs;
-    }, {});
-    await muse.pm.createPlugin({ pluginName, ...mappedArgs });
+    await muse.pm.createPlugin({ pluginName, ...parseArgs(options.args) });
   });
 
 program

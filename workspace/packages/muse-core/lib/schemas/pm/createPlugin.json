@@ -4,11 +4,13 @@
   "type": "object",
   "properties": {
     "pluginName": {
-      "type": "string"
+      "type": "string",
+      "pattern": "^(@|[a-zA-Z])[a-z0-9A-Z\\-_/]+"
     },
     "type": {
       "type": "string",
-      "default": "normal"
+      "default": "normal",
+      "enum": ["normal", "lib", "init", "boot"]
     },
     "author": {
       "type": "string"

@@ -4,11 +4,13 @@
  */
 
 const yaml = require('js-yaml');
-const { asyncInvoke, getPluginId, osUsername, validate } = require('../utils');
+const { syncInvoke, asyncInvoke, getPluginId, osUsername, validate } = require('../utils');
 const { registry } = require('../storage');
 const getPlugin = require('./getPlugin');
 const schema = require('../schemas/pm/createPlugin.json');
 const logger = require('../logger').createLogger('muse.pm.createPlugin');
+
+syncInvoke('museCore.pm.processCreatePluginSchema', schema);
 
 /**
  * @module muse-core/pm/createPlugin
@@ -33,7 +35,7 @@ module.exports = async params => {
 
   const { pluginName, type = 'normal', author = osUsername, options, msg } = params;
 
-  // Check if plugin name exist
+  // Check if plugin name exists
   if (await getPlugin(pluginName)) {
     logger.warn(`Plugin ${pluginName} already exists.`);
     throw new Error(`Plugin ${pluginName} already exists.`);

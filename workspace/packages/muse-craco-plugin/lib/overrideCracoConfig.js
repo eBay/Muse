@@ -41,7 +41,7 @@ module.exports = async ({ cracoConfig }) => {
       // deps-manifest.json : shows which delegated dependencies are coming from which library plugins.
       cracoConfig.webpack.plugins.add.push([
         new MuseReferencePlugin({
-          isDevBuild,
+          isDev: isDev || isDevBuild,
           museLibs,
           museConfig,
         }),

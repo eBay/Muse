@@ -6,14 +6,14 @@ async function getAdminMembers(params = {}) {
   return [];
 }
 
-async function getAppMembers({ appName } = {}) {
+async function getAppMembers({ appName = '' } = {}) {
   const keyPath = `/apps/${appName}/${appName}.yaml`;
   const yamlBuffer = await museCore.storage.registry.get(keyPath);
   const content = await museCore.utils.jsonByYamlBuff(yamlBuffer);
   return content?.owners || [];
 }
 
-async function getPluginMembers({ pluginName } = {}) {
+async function getPluginMembers({ pluginName = '' } = {}) {
   const pluginId = museCore.utils.getPluginId(pluginName);
   const keyPath = `/plugins/${pluginId}.yaml`;
   const yamlBuffer = await museCore.storage.registry.get(keyPath);
@@ -26,7 +26,7 @@ async function getPluginMembers({ pluginName } = {}) {
   return uniq(concat(content?.owners || [], ownedAppOwners));
 }
 
-function isMember(user, list) {
+function isMember(user = museCore.utils.osUsername, list) {
   return list?.includes?.(user);
 }
 
