@@ -3,6 +3,7 @@ import { Table, Button, Tag, Tooltip } from 'antd';
 import plugin from 'js-plugin';
 import semver from 'semver';
 import TimeAgo from 'react-time-ago';
+import NiceModal from '@ebay/nice-modal-react';
 import { RequestStatus, TableBar } from '@ebay/muse-lib-antd/src/features/common';
 import { usePollingMuseData } from '../../hooks';
 import PluginActions from './PluginActions';
@@ -118,7 +119,14 @@ export default function PluginList({ app }) {
       <RequestStatus loading={!error && (pending || !data)} error={error} loadingMode="skeleton" />
       {data && (
         <div>
-          <TableBar></TableBar>
+          <TableBar>
+            <Button
+              type="primary"
+              onClick={() => NiceModal.show('muse-manager.create-plugin-modal')}
+            >
+              Create Plugin
+            </Button>
+          </TableBar>
           <Table
             pagination={false}
             rowKey="name"

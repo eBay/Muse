@@ -1,0 +1,89 @@
+import { useCallback } from 'react';
+import NiceModal, { useModal, antdModal } from '@ebay/nice-modal-react';
+import { Modal, message, Form } from 'antd';
+import FormBuilder from 'antd-form-builder';
+import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
+import { useSyncStatus, useMuseApi, useMuse, usePollingMuseData } from '../../hooks';
+import { getPluginId } from '../../utils';
+import VersionSelect from './VersionSelect';
+import semver from 'semver';
+
+const CreatePluginModal = NiceModal.create(({}) => {
+  const modal = useModal();
+  const [form] = Form.useForm();
+  const syncStatus = useSyncStatus('muse.requests');
+
+  const {
+    action: createPlugin,
+    error: createPluginError,
+    pending: createPluginPending,
+  } = useMuseApi('pm.createPlugin');
+
+  const meta = {
+    columns: 1,
+    fields: [
+      {
+        key: 'pluginName',
+        label: 'Plugin name',
+        required: true,
+      },
+      {
+        key: 'pluginType',
+        label: 'Plugin Type',
+        widget: 'radio-group',
+        options: [
+          ['normal', 'Normal'],
+          ['lib', 'Library'],
+          ['init', 'Init'],
+          ['boot', 'Boot'],
+        ],
+        requried: true,
+        initialValue: 'normal',
+      },
+      {
+        key: 'repo',
+        label: 'Plugin Repo',
+        requried: true,
+      },
+      {
+        key: 'description',
+        label: 'Description',
+        widget: 'textarea',
+        widgetProps: { rows: 5 },
+      },
+    ],
+  };
+
+  const handleFinish = useCallback(() => {
+    const values = form.getFieldsValue();
+    createPlugin(values)
+      .then(async () => {
+        modal.hide();
+        message.success('Trigger build success.');
+        await syncStatus();
+      })
+      .catch(err => {
+        console.log('failed to deploy', err);
+      });
+  }, [createPlugin, syncStatus, modal, form]);
+
+  return (
+    <Modal
+      {...antdModal(modal)}
+      title={`Build Plugin`}
+      width="600px"
+      okText="Create"
+      maskClosable={false}
+      onOk={() => {
+        form.validateFields().then(() => form.submit());
+      }}
+    >
+      <RequestStatus loading={createPluginPending} error={createPluginError} />
+      <Form layout="horizontal" form={form} onFinish={handleFinish}>
+        <FormBuilder form={form} meta={meta} />
+      </Form>
+    </Modal>
+  );
+});
+
+export default CreatePluginModal;
