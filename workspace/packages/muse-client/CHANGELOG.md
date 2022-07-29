@@ -1,5 +1,11 @@
 # @ebay/muse-client
 
+## 1.0.6
+
+### Patch Changes
+
+- Dev test.
+
 ## 1.0.5
 
 ### Patch Changes

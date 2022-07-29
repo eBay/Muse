@@ -14,8 +14,8 @@
     "express": "^4.18.1"
   },
   "dependencies": {
-    "@ebay/muse-core": "workspace:^1.0.14",
-    "@ebay/muse-express-middleware": "workspace:^1.0.16",
+    "@ebay/muse-core": "workspace:^1.0.15",
+    "@ebay/muse-express-middleware": "workspace:^1.0.17",
     "dotenv": "^16.0.1",
     "lodash": "^4.17.21",
     "resolve-cwd": "^3.0.0"

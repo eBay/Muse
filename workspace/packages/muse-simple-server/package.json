@@ -1,6 +1,6 @@
 {
   "name": "@ebay/muse-simple-server",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "main": "index.js",
   "license": "MIT",
   "publishConfig": {
@@ -14,8 +14,8 @@
     "start": "node lib/start.js"
   },
   "dependencies": {
-    "@ebay/muse-core": "workspace:^1.0.14",
-    "@ebay/muse-express-middleware": "workspace:^1.0.16",
+    "@ebay/muse-core": "workspace:^1.0.15",
+    "@ebay/muse-express-middleware": "workspace:^1.0.17",
     "express": "^4.18.1"
   },
   "devDependencies": {
