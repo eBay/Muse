@@ -2,6 +2,7 @@ const { assets } = require('../storage');
 const { getPluginId } = require('../utils');
 const getDeployedPlugins = require('./getDeployedPlugins');
 const checkReleaseVersion = require('./checkReleaseVersion');
+const logger = require('../logger').createLogger('muse.pm.checkDependencies');
 
 const generateMissingDeps = async (ctx, appName, envName, depsManifest, buildEnv) => {
   // not all the plugins will have a deps-manifest.json, only the ones using shared lib plugins
@@ -14,7 +15,7 @@ const generateMissingDeps = async (ctx, appName, envName, depsManifest, buildEnv
       // get each lib's lib-manifest.json
       const libPluginId = getPluginId(libPlugin.name);
       const libManifest = await assets.getJson(
-        decodeURIComponent(`p/${libPluginId}/v${libPlugin.version}/${buildEnv}/lib-manifest.json`),
+        `/p/${libPluginId}/v${libPlugin.version}/${buildEnv}/lib-manifest.json`,
       );
 
       if (libManifest) {
@@ -55,6 +56,8 @@ module.exports = async params => {
 
   // check dependencies only if plugin type is NOT init / boot
   if (!['boot', 'init'].includes(params.pluginType)) {
+    logger.verbose(`Checking plugin dependencies...`);
+
     // Check if release version exists (throws exception if no version/release found)
     // Or try getting the latest one automatically if none specified
     let version = await checkReleaseVersion({
@@ -63,10 +66,10 @@ module.exports = async params => {
     });
 
     const depsDistManifest = await assets.getJson(
-      decodeURIComponent(`p/${params.pluginName}/v${version}/dist/deps-manifest.json`),
+      `/p/${params.pluginName}/v${version}/dist/deps-manifest.json`,
     );
     const depsDevManifest = await assets.getJson(
-      decodeURIComponent(`p/${params.pluginName}/v${version}/dev/deps-manifest.json`),
+      `/p/${params.pluginName}/v${version}/dev/deps-manifest.json`,
     );
 
     if (depsDistManifest) {
@@ -76,5 +79,6 @@ module.exports = async params => {
       await generateMissingDeps(ctx, params.appName, params.envName, depsDevManifest, 'dev');
     }
   }
+  logger.verbose(`Plugin dependencies check finished.`);
   return ctx.missingDeps;
 };
