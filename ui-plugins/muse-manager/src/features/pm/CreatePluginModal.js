@@ -4,14 +4,11 @@ import { Modal, message, Form } from 'antd';
 import FormBuilder from 'antd-form-builder';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import { useSyncStatus, useMuseApi, useMuse, usePollingMuseData } from '../../hooks';
-import { getPluginId } from '../../utils';
-import VersionSelect from './VersionSelect';
-import semver from 'semver';
 
 const CreatePluginModal = NiceModal.create(({}) => {
   const modal = useModal();
   const [form] = Form.useForm();
-  const syncStatus = useSyncStatus('muse.requests');
+  const syncStatus = useSyncStatus('muse.plugins');
 
   const {
     action: createPlugin,
@@ -28,7 +25,7 @@ const CreatePluginModal = NiceModal.create(({}) => {
         required: true,
       },
       {
-        key: 'pluginType',
+        key: 'type',
         label: 'Plugin Type',
         widget: 'radio-group',
         options: [
@@ -43,7 +40,7 @@ const CreatePluginModal = NiceModal.create(({}) => {
       {
         key: 'repo',
         label: 'Plugin Repo',
-        requried: true,
+        required: true,
       },
       {
         key: 'description',
@@ -59,7 +56,7 @@ const CreatePluginModal = NiceModal.create(({}) => {
     createPlugin(values)
       .then(async () => {
         modal.hide();
-        message.success('Trigger build success.');
+        message.success('Create plugin success.');
         await syncStatus();
       })
       .catch(err => {
