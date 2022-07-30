@@ -2,7 +2,7 @@ import plugin from 'js-plugin';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Tabs, Alert } from 'antd';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
-import { useMuseData } from '../../hooks';
+import { usePollingMuseData } from '../../hooks';
 import PluginList from '../pm/PluginList';
 const { TabPane } = Tabs;
 
@@ -10,7 +10,7 @@ export default function AppPage() {
   //
   const navigate = useNavigate();
   const { appName, tabKey = 'overview' } = useParams();
-  const { data, pending, error } = useMuseData(`muse.app.${appName}`);
+  const { data: app, error } = usePollingMuseData(`muse.app.${appName}`);
   const tabs = [
     {
       key: 'overview',
@@ -38,13 +38,13 @@ export default function AppPage() {
   return (
     <div>
       <h1>Muse App: {appName}</h1>
-      <RequestStatus loading={!error && (pending || !data)} error={error} loadingMode="skeleton" />
+      <RequestStatus loading={!app} error={!app && error} loadingMode="skeleton" />
 
-      {data && (
+      {app && (
         <Tabs activeKey={tabKey} onChange={k => navigate(`/app/${appName}/${k}`)}>
           {tabs.map(tab => (
             <TabPane tab={tab.name} key={tab.key}>
-              <tab.component app={data}></tab.component>
+              <tab.component app={app}></tab.component>
             </TabPane>
           ))}
         </Tabs>

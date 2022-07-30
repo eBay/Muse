@@ -1,8 +1,13 @@
 import { useMemo } from 'react';
 import { DropdownMenu } from '@ebay/muse-lib-antd/src/features/common';
 import NiceModal from '@ebay/nice-modal-react';
+import { message, Modal } from 'antd';
+import museClient from '../../museClient';
+import { useMuseApi, useSyncStatus } from '../../hooks';
 
 function PluginActions({ plugin, app }) {
+  const { action: deletePlugin } = useMuseApi('pm.deletePlugin');
+  const syncStatus = useSyncStatus('muse.plugins');
   const items = useMemo(() => {
     return [
       {
@@ -88,22 +93,40 @@ function PluginActions({ plugin, app }) {
       //     });
       //   },
       // },
-      // {
-      //   key: 'delete',
-      //   label: canDelete ? 'Delete' : 'Delete (Plugin owners only)',
-      //   disabled: !canDelete,
-      //   order: 70,
-      //   icon: 'delete',
-      //   menuItemProps: canDelete ? {
-      //     style: {
-      //       color: '#ff4d4f',
-      //     },
-      //   } : {},
-      //   highlight: false,
-      //   onClick: handleDeletePlugin,
-      // },
+      {
+        key: 'delete',
+        label: 'Delete Plugin',
+        // disabled: !canDelete,
+        order: 70,
+        icon: 'delete',
+        menuItemProps: {
+          style: {
+            color: '#ff4d4f',
+          },
+        },
+        highlight: false,
+        onClick: async () => {
+          Modal.confirm({
+            title: 'Confirm Delete',
+            content: (
+              <>
+                Are you sure to delete the plugin <b>{plugin.name}</b>?
+              </>
+            ),
+            onOk: () => {
+              (async () => {
+                const hide = message.loading(`Deleting plugin ${plugin.name}...`);
+                await museClient.pm.deletePlugin({ pluginName: plugin.name });
+                hide();
+                message.success('Delete plugin success.');
+                await syncStatus();
+              })();
+            },
+          });
+        },
+      },
     ].filter(Boolean);
-  }, [app, plugin]);
+  }, [syncStatus, app, plugin]);
   return <DropdownMenu extPoint="pluginManager.plugin.processActions" items={items} />;
 }
 export default PluginActions;

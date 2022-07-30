@@ -104,7 +104,7 @@ export default function PluginList({ app }) {
     {
       dataIndex: 'actions',
       title: 'Actions',
-      width: '120px',
+      width: '160px',
       render: (a, item) => {
         return <PluginActions plugin={item} app={app} />;
       },

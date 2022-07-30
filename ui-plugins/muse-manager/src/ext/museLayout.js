@@ -1,3 +1,4 @@
+import NiceModal from '@ebay/nice-modal-react';
 const museLayout = {
   header: {
     getConfig() {
@@ -7,6 +8,19 @@ const museLayout = {
         title: 'Muse Manager',
         subTitle: 'Muse app and plugin manager.',
       };
+    },
+    getItems() {
+      return [
+        {
+          key: 'createApp',
+          icon: 'PlusOutlined',
+          position: 'right',
+          onClick: () => {
+            NiceModal.show('muse-manager.create-app-modal');
+          },
+          label: 'Create App',
+        },
+      ];
     },
   },
 
