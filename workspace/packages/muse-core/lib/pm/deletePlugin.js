@@ -25,7 +25,7 @@ module.exports = async params => {
 
   try {
     await asyncInvoke('museCore.pm.deletePlugin', ctx, params);
-    await registry.del(pluginKeyPath, msg || `Delete plugin ${pluginName} by ${author}`);
+    await registry.del(pluginKeyPath, msg || `Deleted plugin ${pluginName} by ${author}`);
   } catch (err) {
     ctx.error = err;
     await asyncInvoke('museCore.pm.failedDeletePlugin', ctx, params);

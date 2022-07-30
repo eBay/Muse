@@ -129,7 +129,7 @@ program
   .command('create-app')
   .description('Create a new MUSE application')
   .argument('<appName>', 'application name')
-  .option('--args <args...>', 'space separated list of argument names')
+  .option('--args <args...>', 'Space separated list of more args, for example: --args foo=bar x=y.')
   .action(async (appName, options) => {
     await muse.am.createApp({ appName, ...parseArgs(options.args) });
   });

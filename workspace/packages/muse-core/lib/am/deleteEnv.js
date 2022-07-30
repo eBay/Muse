@@ -44,7 +44,7 @@ module.exports = async params => {
     });
     const keyPath = `/apps/${appName}/${envName}`;
     // delete the envName itself, using underlying Storage implementation
-    ctx.result = await registry.delDir(keyPath, `Delete env ${appName}/${envName} by ${author}.`);
+    ctx.result = await registry.delDir(keyPath, `Deleted env ${appName}/${envName} by ${author}.`);
   } catch (err) {
     ctx.error = err;
     await asyncInvoke('museCore.am.failedDeleteEnv', ctx, params);

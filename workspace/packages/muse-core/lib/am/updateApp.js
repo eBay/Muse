@@ -36,7 +36,7 @@ module.exports = async params => {
     updateJson(ctx.app, changes);
     const keyPath = `/apps/${appName}/${appName}.yaml`;
     await asyncInvoke('museCore.am.updateApp', ctx, params);
-    await registry.setYaml(keyPath, ctx.app, msg || `Update app ${appName} by ${author}`);
+    await registry.setYaml(keyPath, ctx.app, msg || `Updated app ${appName} by ${author}`);
   } catch (err) {
     ctx.error = err;
     await asyncInvoke('museCore.am.failedUpdateApp', ctx, params);

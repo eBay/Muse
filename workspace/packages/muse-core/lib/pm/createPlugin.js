@@ -58,7 +58,7 @@ module.exports = async params => {
     await registry.set(
       pluginKeyPath,
       Buffer.from(yaml.dump(ctx.plugin)),
-      msg || `Create plugin ${pluginName} by ${author}`,
+      msg || `Created plugin ${pluginName} by ${author}`,
     );
     logger.verbose(`Set registry storage ${pluginKeyPath} finished.`);
   } catch (err) {

@@ -60,7 +60,7 @@ module.exports = ({ basePath = '/api/v2' } = {}) => {
     if (!req.path.startsWith(basePath)) {
       return next();
     }
-    // console.log(req);
+
     // e.g: /api/v2/create-app
     const apiPath = req.path.replace(basePath, '');
 
@@ -106,6 +106,13 @@ module.exports = ({ basePath = '/api/v2' } = {}) => {
         : req.query.singleArg
         ? [req.body]
         : req.body.args || [];
+
+      // All muse APIs have author property if the first argument is object
+      if (_.isObject(args[0])) {
+        args[0].__req = req;
+        const author = req.muse?.username;
+        if (author) args[0].author = author;
+      }
       // TODO: inject author info
       const result = { data: await _.invoke(muse, apiKey, ...args) };
       await muse.utils.asyncInvoke('museExpressMiddleware.api.after', {

@@ -117,8 +117,8 @@ module.exports = async params => {
     await registry.batchSet(
       flattenItems,
       msg || isBatchDeploy
-        ? `Deploy multiple plugins to ${appName} by ${author}`
-        : `Deploy plugin ${pluginName}@${version} to ${appName}/${envName} by ${author}`,
+        ? `Deployed multiple plugins to ${appName} by ${author}`
+        : `Deployed plugin ${pluginName}@${version} to ${appName}/${envName} by ${author}`,
     );
   } catch (err) {
     ctx.error = err;

@@ -24,7 +24,7 @@ module.exports = async (params = {}) => {
 
   try {
     await asyncInvoke('museCore.am.deleteApp', ctx, params);
-    await registry.delDir(appFolder, `Delete App ${appName} by ${author}`);
+    await registry.delDir(appFolder, `Deleted App ${appName} by ${author}`);
   } catch (err) {
     ctx.error = err;
     await asyncInvoke('museCore.am.failedDeleteApp', ctx, params);

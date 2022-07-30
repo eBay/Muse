@@ -87,7 +87,7 @@ module.exports = async params => {
       appName,
       changes: ctx.changes,
       author,
-      msg: `Create env ${appName}/${envName} by ${author}.`,
+      msg: `Created env ${appName}/${envName} by ${author}.`,
     });
   } catch (err) {
     ctx.error = err;

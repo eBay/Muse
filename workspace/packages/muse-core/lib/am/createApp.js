@@ -38,7 +38,7 @@ module.exports = async (params = {}) => {
 
   try {
     await asyncInvoke('museCore.am.createApp', ctx, params);
-    await registry.setYaml(appKeyPath, ctx.app, `Create ${appName} by ${author}`);
+    await registry.setYaml(appKeyPath, ctx.app, `Created app ${appName} by ${author}`);
   } catch (err) {
     ctx.error = err;
     await asyncInvoke('museCore.am.failedCreateApp', ctx, params);

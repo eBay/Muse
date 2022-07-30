@@ -14,5 +14,5 @@
     }
   },
   "required": ["pluginName"],
-  "additionalProperties": false
+  "additionalProperties": true
 }
