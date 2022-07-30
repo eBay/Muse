@@ -43,6 +43,14 @@ describe('Merge request basic tests.', () => {
     // After merge, the request should have been deleted
     expect(await muse.req.getRequest(req.id)).toBeNull();
 
+    await muse.pm.deployPlugin({
+      appName: 'app1',
+      envName: 'staging',
+      pluginName: 'plugin1',
+      version: '1.0.0',
+      options: { prop1: 'prop1' },
+    });
+
     // The plugin should have been deployed
     expect(await muse.pm.getDeployedPlugin('app1', 'staging', 'plugin1')).toMatchObject({
       name: 'plugin1',

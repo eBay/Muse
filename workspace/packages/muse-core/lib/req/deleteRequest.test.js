@@ -39,4 +39,40 @@ describe('Delete request basic tests.', () => {
     expect(testJsPlugin.museCore.req.beforeDeleteRequest).toBeCalledTimes(1);
     expect(testJsPlugin.museCore.req.afterDeleteRequest).toBeCalledTimes(1);
   });
+  it('Fail to Delete request should throw the error', async () => {
+    const testJsPluginFails = {
+      name: 'testFail',
+      museCore: {
+        req: {
+          deleteRequest: jest.fn().mockRejectedValue(new Error('Async error')),
+          beforeDeleteRequest: jest.fn(),
+          afterDeleteRequest: jest.fn(),
+          failedDeleteRequest: jest.fn(),
+        },
+      },
+    };
+    plugin.register(testJsPluginFails);
+    const type = 'deploy-plugin';
+    const id = 'testid';
+    const payload = {
+      appName: 'app1',
+      envName: 'staging',
+      pluginName: 'test-plugin',
+      version: '1.0.0',
+    };
+
+    const req = await muse.req.createRequest({ id, type, author: 'nate', payload });
+    await muse.req.getRequests();
+
+    try {
+      await muse.req.deleteRequest({ requestId: req.id });
+    } catch (e) {
+      expect(e.message).toEqual('Async error');
+    }
+
+    expect(testJsPluginFails.museCore.req.deleteRequest).toBeCalledTimes(1);
+    expect(testJsPluginFails.museCore.req.beforeDeleteRequest).toBeCalledTimes(1);
+    expect(testJsPluginFails.museCore.req.failedDeleteRequest).toBeCalledTimes(1);
+    expect(testJsPluginFails.museCore.req.afterDeleteRequest).toBeCalledTimes(0);
+  });
 });

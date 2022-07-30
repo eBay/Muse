@@ -233,9 +233,13 @@ program
   .command('create-plugin')
   .description('Create a new MUSE plugin.')
   .argument('<pluginName>', 'The plugin name.')
+  .option(
+    '--type, <pluginType>',
+    'Plugin type. Default is "normal". Other available types are ["lib", "boot", "init"]',
+  )
   .option('--args <args...>', 'Space separated list of more args, for example: --args foo=bar x=y.')
   .action(async (pluginName, options) => {
-    await muse.pm.createPlugin({ pluginName, ...parseArgs(options.args) });
+    await muse.pm.createPlugin({ pluginName, type: options.type, ...parseArgs(options.args) });
   });
 
 program

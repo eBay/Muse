@@ -42,4 +42,31 @@ describe('Create app basic tests.', () => {
       expect(err?.message).toMatch('already exists');
     }
   });
+
+  it('Fail to create App should throw the error', async () => {
+    const testJsPluginFails = {
+      name: 'testFail',
+      museCore: {
+        am: {
+          createApp: jest.fn().mockRejectedValue(new Error('Async error')),
+          beforeCreateApp: jest.fn(),
+          afterCreateApp: jest.fn(),
+          failedCreateApp: jest.fn(),
+        },
+      },
+    };
+    plugin.register(testJsPluginFails);
+    const appName = 'testapp';
+
+    try {
+      await muse.am.createApp({ appName, author: 'nate' });
+      expect(true).toBe(false); // above statement should throw error
+    } catch (e) {
+      expect(e.message).toEqual('Async error');
+    }
+    expect(testJsPluginFails.museCore.am.createApp).toBeCalledTimes(1);
+    expect(testJsPluginFails.museCore.am.beforeCreateApp).toBeCalledTimes(1);
+    expect(testJsPluginFails.museCore.am.afterCreateApp).toBeCalledTimes(0);
+    expect(testJsPluginFails.museCore.am.failedCreateApp).toBeCalledTimes(1);
+  });
 });

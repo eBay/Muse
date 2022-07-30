@@ -67,4 +67,44 @@ describe('Get released plugin assets tests.', () => {
     expect(testJsPlugin.museCore.pm.beforeGetReleaseAssets).toBeCalledTimes(1);
     expect(testJsPlugin.museCore.pm.afterGetReleaseAssets).toBeCalledTimes(1);
   });
+  it('Fail to Get released assets should throw the error.', async () => {
+    const testJsPluginFails = {
+      name: 'testFails',
+      museCore: {
+        pm: {
+          getReleaseAssets: jest.fn().mockRejectedValue(new Error('Async error')),
+          beforeGetReleaseAssets: jest.fn(),
+          afterGetReleaseAssets: jest.fn(),
+          failedGetReleaseAssets: jest.fn(),
+        },
+      },
+    };
+    plugin.register(testJsPluginFails);
+    vol.fromJSON(fsJson, process.cwd());
+    const pluginName = 'test-plugin';
+    const version = '1.2.0';
+    await muse.pm.createPlugin({ pluginName });
+    await muse.pm.releasePlugin({
+      pluginName,
+      version,
+      buildDir: path.join(process.cwd(), 'build'),
+      author: 'gling',
+    });
+
+    const pid = getPluginId(pluginName);
+
+    try {
+      await muse.pm.getReleaseAssets({
+        pluginName: pid,
+        version: '1.2.0',
+      });
+    } catch (e) {
+      expect(e.message).toEqual('Async error');
+    }
+
+    expect(testJsPluginFails.museCore.pm.getReleaseAssets).toBeCalledTimes(1);
+    expect(testJsPluginFails.museCore.pm.beforeGetReleaseAssets).toBeCalledTimes(1);
+    expect(testJsPluginFails.museCore.pm.failedGetReleaseAssets).toBeCalledTimes(1);
+    expect(testJsPluginFails.museCore.pm.afterGetReleaseAssets).toBeCalledTimes(0);
+  });
 });

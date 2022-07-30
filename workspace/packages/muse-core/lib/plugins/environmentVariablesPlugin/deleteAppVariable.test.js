@@ -72,4 +72,18 @@ describe('Delete application variables', () => {
     expect(app.envs.test.variables).toBeTruthy();
     expect(Object.keys(app.envs.test.variables).length).toBe(0);
   });
+  it('It throws exception if app does not exist.', async () => {
+    const appName = 'app1';
+    const envName = 'test';
+
+    try {
+      await muse.am.deleteVariable({
+        appName,
+        variables: ['var1', 'var2'],
+        envNames: [envName],
+      });
+    } catch (err) {
+      expect(err?.message).toMatch(`doesn't exist`);
+    }
+  });
 });

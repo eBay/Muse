@@ -134,7 +134,7 @@ async function start() {
   }
 
   // Start the application
-  const entryApp = appEntries.find(e => e.name === entry);
+  const entryApp = appEntries.find(e => e.name === (app?.entry || 'muse-react'));
   if (entryApp) {
     console.log(`Starting the app from ${entry}...`);
     loading.showMessage(`Starting the app...`);

@@ -27,7 +27,13 @@ describe('Undeploy plugin basic tests.', () => {
     await muse.am.createEnv({ appName, envName });
     await muse.pm.createPlugin({ pluginName, type: 'init' });
     await muse.pm.releasePlugin({ pluginName });
-    await muse.pm.deployPlugin({ appName, envName, pluginName, version: '1.0.0', options: { prop1: 'prop1' } });
+    await muse.pm.deployPlugin({
+      appName,
+      envName,
+      pluginName,
+      version: '1.0.0',
+      options: { prop1: 'prop1' },
+    });
     let p = await muse.pm.getDeployedPlugin(appName, envName, pluginName);
     expect(p).toMatchObject({ name: pluginName, version: '1.0.0', prop1: 'prop1', type: 'init' });
 
@@ -67,5 +73,45 @@ describe('Undeploy plugin basic tests.', () => {
     } catch (err) {
       expect(err?.message).toMatch(`Env ${appName}/${envName} doesn't exist`);
     }
+  });
+
+  it('It throws exception if failed Undeploy Plugin .', async () => {
+    const testJsPluginFails = {
+      name: 'testFails',
+      museCore: {
+        pm: {
+          undeployPlugin: jest.fn().mockRejectedValue(new Error('Async error')),
+          beforeUndeployPlugin: jest.fn(),
+          afterUndeployPlugin: jest.fn(),
+          failedUndeployPlugin: jest.fn(),
+        },
+      },
+    };
+    plugin.register(testJsPluginFails);
+    const appName = 'testapp';
+    const envName = 'staging';
+    const pluginName = 'test-plugin';
+    await muse.am.createApp({ appName });
+    await muse.am.createEnv({ appName, envName });
+    await muse.pm.createPlugin({ pluginName, type: 'init' });
+    await muse.pm.releasePlugin({ pluginName });
+    await muse.pm.deployPlugin({
+      appName,
+      envName,
+      pluginName,
+      version: '1.0.0',
+      options: { prop1: 'prop1' },
+    });
+
+    try {
+      await muse.pm.undeployPlugin({ appName, envName, pluginName });
+      expect(true).toBe(false); // above statement should throw error
+    } catch (err) {
+      expect(err?.message).toMatch('Async error');
+    }
+    expect(testJsPluginFails.museCore.pm.undeployPlugin).toBeCalledTimes(1);
+    expect(testJsPluginFails.museCore.pm.beforeUndeployPlugin).toBeCalledTimes(1);
+    expect(testJsPluginFails.museCore.pm.failedUndeployPlugin).toBeCalledTimes(1);
+    expect(testJsPluginFails.museCore.pm.afterUndeployPlugin).toBeCalledTimes(0);
   });
 });

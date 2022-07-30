@@ -1,6 +1,6 @@
 {
   "name": "@ebay/muse-core",
-  "version": "1.0.14",
+  "version": "1.0.16",
   "main": "lib/index.js",
   "license": "MIT",
   "scripts": {

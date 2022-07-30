@@ -85,4 +85,23 @@ describe('Upsert plugin variables', () => {
     expect(plugin.variables['var1']).toBe('new-value');
     expect(plugin.variables['var2']).toBe('value2');
   });
+  it('It throws exception if plugin does not exist.', async () => {
+    const appName = 'app1';
+    const envName = 'test';
+    const pluginName = 'plugin1';
+
+    try {
+      await muse.pm.setVariable({
+        pluginName,
+        variables: [
+          { name: 'var1', value: 'value1' },
+          { name: 'var2', value: 'value2' },
+        ],
+        appName,
+        envNames: [envName],
+      });
+    } catch (err) {
+      expect(err?.message).toMatch(`doesn't exist`);
+    }
+  });
 });
