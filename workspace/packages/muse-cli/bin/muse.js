@@ -201,8 +201,9 @@ program
   .description('Create a MUSE application environment')
   .argument('<appName>', 'application name')
   .argument('<envName>', 'environment name')
-  .action(async (appName, envName) => {
-    await muse.am.createEnv({ appName, envName });
+  .argument('[baseEnv]', 'base environment name')
+  .action(async (appName, envName, baseEnv) => {
+    await muse.am.createEnv({ appName, envName, baseEnv });
   });
 
 program
