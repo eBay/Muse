@@ -75,8 +75,28 @@ describe('release plugin basic tests.', () => {
     expect(releases[0]).toMatchObject({ version: '1.0.2', createdBy: 'nate' });
 
     const pid = muse.utils.getPluginId(pluginName);
-    expect(fs.readFileSync(path.join(defaultAssetStorageLocation, `/p/${pid}/v${version}/file99.js`)).toString()).toBe(
-      '99',
-    );
+    expect(
+      fs
+        .readFileSync(path.join(defaultAssetStorageLocation, `/p/${pid}/v${version}/file99.js`))
+        .toString(),
+    ).toBe('99');
+  });
+
+  it('It throws the error if plugin does not exist', async () => {
+    const muse = require('../');
+    const pluginName = 'test-plugin';
+    const version = '1.0.2';
+    // await muse.pm.createPlugin({ pluginName });
+    try {
+      await muse.pm.releasePlugin({
+        pluginName,
+        version,
+        buildDir: path.join(process.cwd(), 'build'),
+        author: 'nate',
+      });
+      expect(true).toBe(false); // above statement should throw error
+    } catch (err) {
+      expect(err?.message).toMatch(`Plugin ${pluginName} doesn't exist`);
+    }
   });
 });

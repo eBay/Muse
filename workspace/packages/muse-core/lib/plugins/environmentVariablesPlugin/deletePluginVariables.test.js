@@ -77,4 +77,21 @@ describe('Delete plugin variables', () => {
     expect(plugin.variables).toBeTruthy();
     expect(Object.keys(plugin.variables).length).toBe(0);
   });
+
+  it('It throws exception if plugin does not exist.', async () => {
+    const pluginName = 'pluginName-not-exist';
+    const appName = 'app1';
+    const envName = 'test';
+
+    try {
+      await muse.pm.deleteVariable({
+        pluginName,
+        variables: ['var1', 'var2'],
+        appName,
+        envNames: [envName],
+      });
+    } catch (err) {
+      expect(err?.message).toMatch(`doesn't exist`);
+    }
+  });
 });

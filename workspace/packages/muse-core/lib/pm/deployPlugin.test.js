@@ -137,4 +137,43 @@ describe('Deploy plugin basic tests.', () => {
     expect(testJsPlugin.museCore.pm.beforeDeployPlugin).toBeCalledTimes(2);
     expect(testJsPlugin.museCore.pm.afterDeployPlugin).toBeCalledTimes(2);
   });
+
+  it('Fail to Deploy Plugin should throw the error', async () => {
+    const testJsPluginFails = {
+      name: 'testFails',
+      museCore: {
+        pm: {
+          deployPlugin: jest.fn().mockRejectedValue(new Error('Async error')),
+          beforeDeployPlugin: jest.fn(),
+          afterDeployPlugin: jest.fn(),
+          failedDeployPlugin: jest.fn(),
+        },
+      },
+    };
+    plugin.register(testJsPluginFails);
+    const appName = 'testapp';
+    const envName = 'staging';
+    const pluginName = 'test-plugin';
+
+    await muse.am.createApp({ appName });
+    await muse.am.createEnv({ appName, envName });
+    await muse.pm.createPlugin({ pluginName, type: 'init' });
+    await muse.pm.releasePlugin({ pluginName });
+    try {
+      await muse.pm.deployPlugin({
+        appName,
+        envName,
+        pluginName,
+        version: '1.0.0',
+        options: { prop1: 'prop1' },
+      });
+    } catch (e) {
+      expect(e.message).toEqual('Async error');
+    }
+
+    expect(testJsPluginFails.museCore.pm.deployPlugin).toBeCalledTimes(1);
+    expect(testJsPluginFails.museCore.pm.beforeDeployPlugin).toBeCalledTimes(1);
+    expect(testJsPluginFails.museCore.pm.failedDeployPlugin).toBeCalledTimes(1);
+    expect(testJsPluginFails.museCore.pm.afterDeployPlugin).toBeCalledTimes(0);
+  });
 });

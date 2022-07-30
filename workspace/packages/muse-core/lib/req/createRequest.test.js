@@ -49,4 +49,37 @@ describe('Create request basic tests.', () => {
   //     expect(err?.message).toMatch('already exists');
   //   }
   // });
+  it('Fail to Create request  should throw the error', async () => {
+    const testJsPluginFails = {
+      name: 'testFail',
+      museCore: {
+        req: {
+          createRequest: jest.fn().mockRejectedValue(new Error('Async error')),
+          beforeCreateRequest: jest.fn(),
+          afterCreateRequest: jest.fn(),
+          failedCreateRequest: jest.fn(),
+        },
+      },
+    };
+    plugin.register(testJsPluginFails);
+    const type = 'deploy-plugin';
+    const id = 'testid';
+    const payload = {
+      appName: 'app1',
+      envName: 'staging',
+      pluginName: 'test-plugin',
+      version: '1.0.0',
+    };
+
+    try {
+      await muse.req.createRequest({ id, type, author: 'nate', payload });
+    } catch (e) {
+      expect(e.message).toEqual('Async error');
+    }
+
+    expect(testJsPluginFails.museCore.req.createRequest).toBeCalledTimes(1);
+    expect(testJsPluginFails.museCore.req.beforeCreateRequest).toBeCalledTimes(1);
+    expect(testJsPluginFails.museCore.req.failedCreateRequest).toBeCalledTimes(1);
+    expect(testJsPluginFails.museCore.req.afterCreateRequest).toBeCalledTimes(0);
+  });
 });
