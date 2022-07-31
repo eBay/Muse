@@ -51,7 +51,7 @@ export default function PluginList({ app }) {
       title: 'Created By',
       width: '120px',
     },
-    ...Object.values(app?.envs, {}).map(env => {
+    ...Object.values(app?.envs || {}).map(env => {
       return {
         dataIndex: 'name',
         title: env.name,
