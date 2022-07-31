@@ -1,13 +1,11 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@ebay/muse-core': workspace:^1.0.14
   eslint: ^8.18.0
   lodash: ^4.17.21
   mime-types: ^2.1.35
 
 dependencies:
-  '@ebay/muse-core': link:../muse-core
   lodash: 4.17.21
   mime-types: 2.1.35
 
