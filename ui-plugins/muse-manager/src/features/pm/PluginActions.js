@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { DropdownMenu } from '@ebay/muse-lib-antd/src/features/common';
 import NiceModal from '@ebay/nice-modal-react';
 import { message, Modal } from 'antd';
-import museClient from '../../museClient';
+
 import { useMuseApi, useSyncStatus } from '../../hooks';
 
 function PluginActions({ plugin, app }) {
@@ -115,8 +115,8 @@ function PluginActions({ plugin, app }) {
             ),
             onOk: () => {
               (async () => {
-                const hide = message.loading(`Deleting plugin ${plugin.name}...`);
-                await museClient.pm.deletePlugin({ pluginName: plugin.name });
+                const hide = message.loading(`Deleting plugin ${plugin.name}...`, 0);
+                await deletePlugin({ pluginName: plugin.name });
                 hide();
                 message.success('Delete plugin success.');
                 await syncStatus();
@@ -127,6 +127,6 @@ function PluginActions({ plugin, app }) {
       },
     ].filter(Boolean);
   }, [syncStatus, app, plugin]);
-  return <DropdownMenu extPoint="pluginManager.plugin.processActions" items={items} />;
+  return <DropdownMenu extPoint="museManager.plugin.processActions" items={items} />;
 }
 export default PluginActions;

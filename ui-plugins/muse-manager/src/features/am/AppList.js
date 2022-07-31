@@ -4,6 +4,7 @@ import { Table } from 'antd';
 import { useNavigate, Link } from 'react-router-dom';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import { usePollingMuseData } from '../../hooks';
+import AppActions from './AppActions';
 
 export default function AppList() {
   //
@@ -28,6 +29,14 @@ export default function AppList() {
     {
       dataIndex: 'actions',
       title: 'Actions',
+    },
+    {
+      dataIndex: 'actions',
+      title: 'Actions',
+      width: '160px',
+      render: (a, app) => {
+        return <AppActions app={app} />;
+      },
     },
   ];
 
