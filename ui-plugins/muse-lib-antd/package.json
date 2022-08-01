@@ -18,10 +18,10 @@
   ],
   "devDependencies": {
     "@craco/craco": "6.4.4",
+    "@ebay/muse-core": "^1.0.16",
     "@ebay/muse-craco-plugin": "1.0.15",
-    "@ebay/muse-ebay-dev-config": "^1.0.5",
+    "@ebay/muse-ebay-dev": "^1.0.1",
     "@ebay/muse-scripts-react": "^1.0.10",
-    "@ebay/muse-webpack-plugin": "1.0.13",
     "craco-less": "^2.0.0",
     "cross-env": "^7.0.3"
   },
