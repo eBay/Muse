@@ -135,7 +135,7 @@ module.exports = middlewares => {
   const localLibMiddlewares = getMuseLibs().map(libName => {
     const id = muse.utils.getPluginId(libName);
     const pkgJsonPath = require.resolve(libName + '/package.json');
-    const pkgDir = pkgJsonPath.replace(/\/package\.json$/, '');
+    const pkgDir = pkgJsonPath.replace(/package\.json$/, '');
     return {
       name: `muse-local-static-${libName}`,
       path: `/muse-assets/local/p/${id}`,
