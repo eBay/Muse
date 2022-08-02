@@ -1,6 +1,6 @@
 {
   "name": "@ebay/muse-cli",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "main": "index.js",
   "bin": {
     "muse": "./bin/muse.js"
@@ -14,8 +14,8 @@
     "lib"
   ],
   "dependencies": {
-    "@ebay/muse-core": "workspace:^1.0.15",
-    "@ebay/muse-simple-server": "workspace:^1.0.15",
+    "@ebay/muse-core": "workspace:^1.0.17",
+    "@ebay/muse-simple-server": "workspace:^1.0.17",
     "chalk": "4.1.2",
     "commander": "9.3.0",
     "fs-extra": "^10.1.0",

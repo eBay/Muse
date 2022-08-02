@@ -1,6 +1,6 @@
 {
   "name": "@ebay/muse-dev-utils",
-  "version": "1.0.20",
+  "version": "1.0.21",
   "main": "lib/index.js",
   "license": "MIT",
   "publishConfig": {
@@ -20,7 +20,7 @@
     "express": "^4.18.1"
   },
   "peerDependencies": {
-    "@ebay/muse-core": "workspace:^1.0.16",
+    "@ebay/muse-core": "workspace:^1.0.17",
     "express": "^4.18.1"
   }
 }
