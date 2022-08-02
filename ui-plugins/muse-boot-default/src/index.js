@@ -134,11 +134,14 @@ async function start() {
   }
 
   // Start the application
-  const entryApp = appEntries.find(e => e.name === (app?.entry || 'muse-react'));
+  const entryName = app?.entry || '@ebay/muse-lib-react';
+  const entryApp = appEntries.find(e => e.name === entryName);
   if (entryApp) {
     console.log(`Starting the app from ${entry}...`);
     loading.showMessage(`Starting the app...`);
     await entryApp.func();
+  } else {
+    error.show(`No app entry found: ${entryName}.`);
   }
   loading.hide();
 }

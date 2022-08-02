@@ -32,7 +32,7 @@ const getPluginByUrl = s => {
 };
 
 muse.plugin.register({
-  name: 'muse-webpack-dev-server',
+  name: 'muse-plugin-webpack-dev-server',
   museMiddleware: {
     app: {
       getAppInfo: () => {
@@ -45,11 +45,15 @@ muse.plugin.register({
         const { app: appName, env: envName = 'staging' } = museConfig.devConfig;
         return { appName, envName };
       },
-      processMuseGlobal: museGlobal => {
-        museGlobal.isLocal = true;
-      },
-      processPlugins: plugins => {
-        // Modify plugins array to be loaded by Muse app middleware
+      processAppInfo: ({ app, env }) => {
+        const {
+          appOverride, // override app config from registry
+          envOverride, // override env config from registry
+        } = getPkgJson().muse.devConfig;
+
+        Object.assign(app, appOverride);
+        Object.assign(env, envOverride);
+        const plugins = env.plugins;
         const pkgJson = getPkgJson();
 
         const museConfig = pkgJson.muse;
@@ -125,6 +129,9 @@ muse.plugin.register({
         }
         plugins.length = 0;
         plugins.push(...realPluginsToLoad);
+      },
+      processMuseGlobal: museGlobal => {
+        museGlobal.isLocal = true;
       },
     },
   },

@@ -107,12 +107,15 @@ module.exports = ({
       res.send('No env found: ' + envName);
       return;
     }
+    // Have the oppourtunity to modify app, env and plugins
+    museCore.plugin.invoke('museMiddleware.app.processAppInfo', { app, env });
+
     const plugins = env.plugins;
-    museCore.plugin.invoke('museMiddleware.app.processPlugins', plugins, {
-      app,
-      appName,
-      envName,
-    });
+    // museCore.plugin.invoke('museMiddleware.app.processPlugins', plugins, {
+    //   app,
+    //   appName,
+    //   envName,
+    // });
 
     const bootPlugins = plugins.filter(p => p.type === 'boot');
 
