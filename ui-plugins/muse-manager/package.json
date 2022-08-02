@@ -11,9 +11,9 @@
   },
   "dependencies": {
     "@craco/craco": "6.4.4",
-    "@ebay/muse-client": "1.0.7",
-    "@ebay/muse-core": "^1.0.16",
-    "@ebay/muse-craco-plugin": "1.0.21",
+    "@ebay/muse-client": "1.0.8",
+    "@ebay/muse-core": "1.0.17",
+    "@ebay/muse-craco-plugin": "1.0.22",
     "@ebay/muse-ebay-dev": "^1.0.1",
     "@ebay/muse-lib-antd": "^1.0.8",
     "@ebay/muse-lib-react": "1.0.14",
