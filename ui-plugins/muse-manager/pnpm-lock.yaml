@@ -2,7 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@craco/craco': 6.4.4
-  '@ebay/muse-client': 1.0.8
+  '@ebay/muse-client': 1.0.9
   '@ebay/muse-core': 1.0.17
   '@ebay/muse-craco-plugin': 1.0.22
   '@ebay/muse-ebay-dev': ^1.0.1
@@ -25,7 +25,7 @@ specifiers:
 
 dependencies:
   '@craco/craco': 6.4.4_react-scripts@5.0.1
-  '@ebay/muse-client': 1.0.8
+  '@ebay/muse-client': 1.0.9
   '@ebay/muse-core': 1.0.17
   '@ebay/muse-craco-plugin': 1.0.22_5fuhfvtv3jvwdqvh3py2nftcdq
   '@ebay/muse-ebay-dev': 1.0.1_@ebay+muse-core@1.0.17
@@ -1536,8 +1536,8 @@ packages:
       kuler: 2.0.0
     dev: false
 
-  /@ebay/muse-client/1.0.8:
-    resolution: {integrity: sha1-FnzIjFMhhJh7WUSNQjEW+f7MQLs=, tarball: '@ebay/muse-client/-/@ebay/muse-client-1.0.8.tgz'}
+  /@ebay/muse-client/1.0.9:
+    resolution: {integrity: sha1-EuEk+9wueZ/EUJWysLyJCrGOHjk=, tarball: '@ebay/muse-client/-/@ebay/muse-client-1.0.9.tgz'}
     dependencies:
       axios: 0.27.2
       lodash: 4.17.21

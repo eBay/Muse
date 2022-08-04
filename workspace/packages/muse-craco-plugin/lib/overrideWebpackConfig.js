@@ -3,7 +3,11 @@ const { getLoaders, loaderByName } = require('@craco/craco');
 const { pkgJson, isDev } = require('@ebay/muse-dev-utils').museContext;
 const handleMuseLocalPlugins = require('./handleMuseLocalPlugins');
 
-const hashed = crypto.createHash('md5').update(pkgJson.name).digest('hex').substring(0, 6);
+const hashed = crypto
+  .createHash('md5')
+  .update(pkgJson.name)
+  .digest('hex')
+  .substring(0, 6);
 let styleBase = parseInt(hashed, 16);
 
 module.exports = ({ webpackConfig }) => {
@@ -14,12 +18,11 @@ module.exports = ({ webpackConfig }) => {
 
   // Disable MiniCssExtractPlugin and use style-loader
   // This is only for production build
-
   // This setting is for production since only prod config has MiniCssExtractPlugin
-  webpackConfig.module?.rules?.forEach((rule) => {
-    rule?.oneOf?.forEach((item) => {
-      if (item?.use?.some((u) => u?.loader?.includes('mini-css-extract-plugin'))) {
-        item.use = item.use?.filter((u) => !u?.loader?.includes('mini-css-extract-plugin'));
+  webpackConfig.module?.rules?.forEach(rule => {
+    rule?.oneOf?.forEach(item => {
+      if (item?.use?.some(u => u?.loader?.includes('mini-css-extract-plugin'))) {
+        item.use = item.use?.filter(u => !u?.loader?.includes('mini-css-extract-plugin'));
         item.use.unshift({
           loader: 'style-loader',
           options: { base: styleBase++ },
@@ -33,7 +36,7 @@ module.exports = ({ webpackConfig }) => {
   const { hasFoundAny, matches } = getLoaders(webpackConfig, loaderByName('style-loader'));
 
   if (hasFoundAny) {
-    matches.forEach((match) => {
+    matches.forEach(match => {
       if (typeof match.loader === 'string') {
         match.parent[match.index] = {
           loader: 'style-loader',
@@ -44,5 +47,6 @@ module.exports = ({ webpackConfig }) => {
       }
     });
   }
+
   return webpackConfig;
 };

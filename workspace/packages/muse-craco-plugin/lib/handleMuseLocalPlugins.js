@@ -33,7 +33,8 @@ function handleMuseLocalPlugins(webpackConfig) {
       webpackConfig.entry.unshift(path.join(p, 'src/index.js'));
 
       if (museConfig.type === 'lib') {
-        // For lib project, define the package alias
+        // For lib projects, define the package alias
+        // So that the modules in lib plugin could be resolved correctly
         webpackConfig.resolve.alias[localPluginPkgJson.name] = p;
       }
       // Ensure one instance for one package, for example: js-plugin, antd-form-builder

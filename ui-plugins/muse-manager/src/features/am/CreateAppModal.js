@@ -4,6 +4,7 @@ import { Modal, message, Form } from 'antd';
 import FormBuilder from 'antd-form-builder';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import { useSyncStatus, useMuseApi, useMuse, usePollingMuseData } from '../../hooks';
+import plugin from 'js-plugin';
 
 const CreateAppModal = NiceModal.create(({}) => {
   const modal = useModal();
@@ -19,18 +20,24 @@ const CreateAppModal = NiceModal.create(({}) => {
     fields: [
       {
         key: 'appName',
+        order: 10,
         label: 'App name',
         required: true,
       },
 
       {
         key: 'description',
+        order: 100,
         label: 'Description',
         widget: 'textarea',
         widgetProps: { rows: 5 },
       },
     ],
   };
+
+  plugin.invoke('museManager.createAppForm.processMeta', { meta, form });
+
+  plugin.sort(meta.fields);
 
   const handleFinish = useCallback(() => {
     const values = form.getFieldsValue();
