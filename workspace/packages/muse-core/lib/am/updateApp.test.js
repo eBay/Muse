@@ -21,7 +21,7 @@ describe('Update app basic tests.', () => {
   });
   it('Update app should work', async () => {
     const appName = 'testapp';
-    await muse.am.createApp({ appName, author: 'nate' });
+    await muse.am.createApp({ appName, author: 'nate', envName: null });
 
     await muse.am.updateApp({
       appName: 'testapp',

@@ -25,6 +25,7 @@ describe('Create app basic tests.', () => {
     await muse.am.createApp({ appName, author: 'nate' });
     const result = jsonByYamlBuff(await registry.get(`/apps/${appName}/${appName}.yaml`));
     expect(result).toMatchObject({ name: appName, createdBy: 'nate', owners: ['nate'] });
+    expect(result.envs.staging).toMatchObject({ name: 'staging', createdBy: 'nate' });
 
     expect(testJsPlugin.museCore.am.createApp).toBeCalledTimes(1);
     expect(testJsPlugin.museCore.am.beforeCreateApp).toBeCalledTimes(1);

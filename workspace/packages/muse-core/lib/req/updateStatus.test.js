@@ -78,7 +78,6 @@ describe('Update request status basic tests.', () => {
 
   it('It should auto merge the request after all statuses state is set to success.', async () => {
     await muse.am.createApp({ appName: 'app1' });
-    await muse.am.createEnv({ appName: 'app1', envName: 'staging' });
     await muse.pm.createPlugin({ pluginName: 'plugin1' });
     await muse.pm.releasePlugin({ pluginName: 'plugin1', version: '1.0.0' });
     const type = 'deploy-plugin';

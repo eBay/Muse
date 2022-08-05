@@ -8,7 +8,6 @@ describe('Muse app builder tests.', () => {
 
   it('muse.app.:appName should return correct app', async () => {
     await muse.am.createApp({ appName: 'app1' });
-    await muse.am.createEnv({ appName: 'app1', envName: 'staging' });
     await muse.pm.createPlugin({ pluginName: 'p1' });
     await muse.pm.createPlugin({ pluginName: 'p2', type: 'boot' });
     await muse.pm.releasePlugin({ pluginName: 'p1', version: '1.0.0' });

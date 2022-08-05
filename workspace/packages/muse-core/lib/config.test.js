@@ -53,7 +53,7 @@ describe('Config basic tests.', () => {
     fs.writeFileSync(
       path.join(os.homedir(), '.muserc.json'),
       JSON.stringify({
-        extend: 'test-config-provider',
+        extends: 'test-config-provider',
       }),
     );
     const muse = require('./');

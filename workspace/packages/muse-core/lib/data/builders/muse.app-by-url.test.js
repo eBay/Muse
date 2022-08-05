@@ -10,12 +10,12 @@ describe('Muse app builder tests.', () => {
     await muse.am.createApp({ appName: 'app1' });
     await muse.am.createEnv({
       appName: 'app1',
-      envName: 'staging',
+      envName: 'feature',
       options: { url: 'some.host.com' },
     });
     const appByUrl = await muse.data.get('muse.app-by-url');
     expect(appByUrl).toEqual({
-      'some.host.com': { appName: 'app1', envName: 'staging' },
+      'some.host.com': { appName: 'app1', envName: 'feature' },
     });
   });
 });

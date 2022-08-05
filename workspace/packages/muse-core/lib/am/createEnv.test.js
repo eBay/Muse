@@ -21,20 +21,20 @@ describe('Create env basic tests.', () => {
   });
   it('Create env should work', async () => {
     const appName = 'testapp';
-    const envName = 'staging';
+    const envName = 'feature';
     await muse.am.createApp({ appName, author: 'nate' });
     await muse.am.createEnv({ appName, envName, author: 'nate' });
 
     const app = await muse.am.getApp(appName);
-    expect(app.envs.staging).toMatchObject({ name: envName, createdBy: 'nate' });
-    expect(testJsPlugin.museCore.am.createEnv).toBeCalledTimes(1);
-    expect(testJsPlugin.museCore.am.beforeCreateEnv).toBeCalledTimes(1);
-    expect(testJsPlugin.museCore.am.afterCreateEnv).toBeCalledTimes(1);
+    expect(app.envs[envName]).toMatchObject({ name: envName, createdBy: 'nate' });
+    expect(testJsPlugin.museCore.am.createEnv).toBeCalledTimes(2);
+    expect(testJsPlugin.museCore.am.beforeCreateEnv).toBeCalledTimes(2);
+    expect(testJsPlugin.museCore.am.afterCreateEnv).toBeCalledTimes(2);
   });
 
   it('It throws exception if env name already exists.', async () => {
     const appName = 'testapp';
-    const envName = 'staging';
+    const envName = 'feature';
     await muse.am.createApp({ appName, author: 'nate' });
     await muse.am.createEnv({ appName, envName, author: 'nate' });
 

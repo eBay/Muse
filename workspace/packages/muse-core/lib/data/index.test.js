@@ -26,7 +26,6 @@ describe('Muse data general test cases.', () => {
     muse.plugin.register(testJsPlugin);
 
     await muse.am.createApp({ appName: 'app1' });
-    await muse.am.createEnv({ appName: 'app1', envName: 'staging' });
     await muse.pm.createPlugin({ pluginName: 'p1' });
     await muse.pm.releasePlugin({ pluginName: 'p1', version: '1.0.0' });
     await muse.pm.deployPlugin({

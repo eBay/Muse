@@ -22,7 +22,7 @@ describe('Export basic tests.', () => {
   });
   it('Export should work', async () => {
     const appName = 'testapp';
-    const envName = 'staging';
+    const envName = 'feature';
     const pluginName = 'test-plugin';
     await muse.am.createApp({ appName, author: 'nate' });
     await muse.am.createEnv({ appName, envName, author: 'nate' });
@@ -53,7 +53,7 @@ describe('Export basic tests.', () => {
     await muse.am.export({ appName, envName, output: 'exportutonly' });
 
     // const app = await muse.am.getApp(appName);
-    // expect(app.envs.staging).toMatchObject({ name: envName, createdBy: 'nate' });
+    // expect(app.envs.feature).toMatchObject({ name: envName, createdBy: 'nate' });
     expect(unzipper.Open.buffer).toBeCalledTimes(1);
     expect(muse.storage.assets.get).toBeCalledTimes(1);
     expect(testJsPlugin.museCore.am.beforeExport).toBeCalledTimes(1);
@@ -62,7 +62,7 @@ describe('Export basic tests.', () => {
 
   it('It throws exception if app not exists.', async () => {
     const appName = 'testapp';
-    const envName = 'staging';
+    const envName = 'feature';
 
     try {
       await muse.am.export({ appName, envName, output: 'exportutonly' });
@@ -74,7 +74,7 @@ describe('Export basic tests.', () => {
 
   it('It throws exception if env not exists.', async () => {
     const appName = 'testapp';
-    const envName = 'staging';
+    const envName = 'feature';
     await muse.am.createApp({ appName, author: 'nate' });
 
     try {

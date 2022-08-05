@@ -8,7 +8,6 @@ describe('muse.plugins.latest-releases builder tests.', () => {
 
   it('muse.plugins.latest-releases should return correct plugin', async () => {
     await muse.am.createApp({ appName: 'app1' });
-    await muse.am.createEnv({ appName: 'app1', envName: 'staging' });
 
     let plugins = await muse.pm.getPlugins();
     expect(plugins.length).toBe(0);

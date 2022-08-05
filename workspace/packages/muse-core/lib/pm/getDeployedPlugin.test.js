@@ -26,7 +26,6 @@ describe('Get deployed plugin basic tests.', () => {
     const pluginName = 'test-plugin';
 
     await muse.am.createApp({ appName });
-    await muse.am.createEnv({ appName, envName });
 
     const pid = getPluginId(pluginName);
     await registry.set(
@@ -51,7 +50,6 @@ version: 1.0.1
     const pluginName = 'test-plugin';
 
     await muse.am.createApp({ appName });
-    await muse.am.createEnv({ appName, envName });
 
     const p = await muse.pm.getDeployedPlugin(appName, envName, pluginName);
     expect(p).toBeNull();
@@ -72,7 +70,7 @@ version: 1.0.1
 
   it('It throws exception if app not exists.', async () => {
     const appName = 'testapp';
-    const envName = 'staging';
+    const envName = 'noexist';
     const pluginName = 'test-plugin';
     await muse.am.createApp({ appName });
 
@@ -102,7 +100,6 @@ version: 1.0.1
     const pluginName = 'test-plugin';
 
     await muse.am.createApp({ appName });
-    await muse.am.createEnv({ appName, envName });
 
     const pid = getPluginId(pluginName);
     await registry.set(

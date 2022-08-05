@@ -25,7 +25,6 @@ describe('Deploy plugin basic tests.', () => {
     const pluginName2 = 'test-plugin2';
 
     await muse.am.createApp({ appName });
-    await muse.am.createEnv({ appName, envName });
     await muse.pm.createPlugin({ pluginName });
     await muse.pm.createPlugin({ pluginName: pluginName2 });
 

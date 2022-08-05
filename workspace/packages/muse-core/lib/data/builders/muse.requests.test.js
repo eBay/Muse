@@ -8,7 +8,6 @@ describe('Muse requests builder tests.', () => {
 
   it('muse.requests should return correct requests', async () => {
     await muse.am.createApp({ appName: 'app1' });
-    await muse.am.createEnv({ appName: 'app1', envName: 'staging' });
     await muse.pm.createPlugin({ pluginName: 'p1', author: 'nate' });
 
     await muse.pm.releasePlugin({ pluginName: 'p1', version: '1.0.0' });

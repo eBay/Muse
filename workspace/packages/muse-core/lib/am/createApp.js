@@ -1,6 +1,7 @@
 const { syncInvoke, asyncInvoke, osUsername, validate } = require('../utils');
 const { registry } = require('../storage');
 const getApp = require('./getApp');
+const createEnv = require('./createEnv');
 const schema = require('../schemas/am/createApp.json');
 const logger = require('../logger').createLogger('muse.am.createApp');
 syncInvoke('museCore.am.processCreateAppSchema', schema);
@@ -19,7 +20,7 @@ syncInvoke('museCore.am.processCreateAppSchema', schema);
 module.exports = async (params = {}) => {
   validate(schema, params);
   const ctx = {};
-  const { appName, author = osUsername, options } = params;
+  const { appName, envName = 'staging', author = osUsername, options } = params;
   logger.info(`Creating app ${appName}...`);
   await asyncInvoke('museCore.am.beforeCreateApp', ctx, params);
 
@@ -47,6 +48,12 @@ module.exports = async (params = {}) => {
   }
   await asyncInvoke('museCore.am.afterCreateApp', ctx, params);
   logger.info(`Create app success: ${appName}.`);
+
+  if (envName) {
+    logger.verbose(`Creating env when app created: ${envName}.`);
+    await createEnv({ appName: ctx.app.name, envName, author });
+    ctx.app.envs = (await getApp(appName)).envs;
+  }
 
   return ctx.app;
 };

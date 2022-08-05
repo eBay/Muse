@@ -24,7 +24,6 @@ describe('Undeploy plugin basic tests.', () => {
     const pluginName = 'test-plugin';
 
     await muse.am.createApp({ appName });
-    await muse.am.createEnv({ appName, envName });
     await muse.pm.createPlugin({ pluginName, type: 'init' });
     await muse.pm.releasePlugin({ pluginName });
     await muse.pm.deployPlugin({
@@ -62,7 +61,7 @@ describe('Undeploy plugin basic tests.', () => {
 
   it('It throws exception if env not exists.', async () => {
     const appName = 'testapp';
-    const envName = 'staging';
+    const envName = 'noexist';
     const pluginName = 'test-plugin';
     await muse.am.createApp({ appName });
     await muse.pm.createPlugin({ pluginName });
@@ -92,7 +91,6 @@ describe('Undeploy plugin basic tests.', () => {
     const envName = 'staging';
     const pluginName = 'test-plugin';
     await muse.am.createApp({ appName });
-    await muse.am.createEnv({ appName, envName });
     await muse.pm.createPlugin({ pluginName, type: 'init' });
     await muse.pm.releasePlugin({ pluginName });
     await muse.pm.deployPlugin({

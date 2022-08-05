@@ -20,7 +20,7 @@ describe('Delete app basic tests.', () => {
 
   it('Delete app should delete the app folder', async () => {
     const appName = 'testapp';
-    const envName = 'staging';
+    const envName = 'feature';
     await muse.am.createApp({ appName, author: 'nate' });
     await muse.am.createEnv({ appName, envName, author: 'nate' });
     await muse.am.deleteApp({ appName, author: 'nate' });
@@ -45,7 +45,7 @@ describe('Delete app basic tests.', () => {
     };
     plugin.register(testJsPluginFails);
     const appName = 'testapp';
-    const envName = 'staging';
+    const envName = 'feature';
     await muse.am.createApp({ appName, author: 'nate' });
     await muse.am.createEnv({ appName, envName, author: 'nate' });
 

@@ -24,7 +24,6 @@ describe('Deploy plugin basic tests.', () => {
     const pluginName = 'test-plugin';
 
     await muse.am.createApp({ appName });
-    await muse.am.createEnv({ appName, envName });
     await muse.pm.createPlugin({ pluginName, type: 'init' });
     await muse.pm.releasePlugin({ pluginName });
     await muse.pm.deployPlugin({
@@ -43,13 +42,11 @@ describe('Deploy plugin basic tests.', () => {
 
   it('Batch deploy plugins should work', async () => {
     const appName = 'testapp';
-    const envName1 = 'staging';
     const envName2 = 'ppe';
     const pluginName1 = 'test-plugin1';
     const pluginName2 = 'test-plugin2';
 
     await muse.am.createApp({ appName });
-    await muse.am.createEnv({ appName, envName: envName1 });
     await muse.am.createEnv({ appName, envName: envName2 });
     await muse.pm.createPlugin({ pluginName: pluginName1, type: 'init' });
     await muse.pm.createPlugin({ pluginName: pluginName2, type: 'init' });
@@ -90,12 +87,10 @@ describe('Deploy plugin basic tests.', () => {
 
   it('Batch deployments including undeployment should work', async () => {
     const appName = 'testapp';
-    const envName = 'staging';
     const pluginName1 = 'test-plugin1';
     const pluginName2 = 'test-plugin2';
 
     await muse.am.createApp({ appName });
-    await muse.am.createEnv({ appName, envName });
 
     await muse.pm.createPlugin({ pluginName: pluginName1, type: 'init' });
     await muse.pm.releasePlugin({ pluginName: pluginName1 });
@@ -156,7 +151,6 @@ describe('Deploy plugin basic tests.', () => {
     const pluginName = 'test-plugin';
 
     await muse.am.createApp({ appName });
-    await muse.am.createEnv({ appName, envName });
     await muse.pm.createPlugin({ pluginName, type: 'init' });
     await muse.pm.releasePlugin({ pluginName });
     try {

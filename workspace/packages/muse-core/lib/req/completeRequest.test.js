@@ -20,7 +20,6 @@ describe('Merge request basic tests.', () => {
 
   it('Merge request should work', async () => {
     await muse.am.createApp({ appName: 'app1' });
-    await muse.am.createEnv({ appName: 'app1', envName: 'staging' });
     await muse.pm.createPlugin({ pluginName: 'plugin1' });
     await muse.pm.releasePlugin({ pluginName: 'plugin1', version: '1.0.0' });
     const type = 'deploy-plugin';
