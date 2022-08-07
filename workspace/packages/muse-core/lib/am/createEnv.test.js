@@ -51,7 +51,6 @@ describe('Create env basic tests.', () => {
     const app = await muse.am.getApp(appName);
     expect(app.envs[envName]).toMatchObject({ name: envName, createdBy: 'nate' });
     const deployPlugins = await getDeployedPlugins(appName, envName);
-    console.log(deployPlugins);
     expect(deployPlugins[0]).toMatchObject({
       name: 'p1',
       version: '1.0.0',
