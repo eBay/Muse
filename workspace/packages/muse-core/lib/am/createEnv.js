@@ -20,11 +20,10 @@ syncInvoke('museCore.am.processCreateEnvSchema', schema);
 
 module.exports = async params => {
   validate(schema, params);
+  const ctx = {};
+  await asyncInvoke('museCore.am.beforeCreateEnv', ctx, params);
   const { appName, envName, options, author = osUsername, baseEnv } = params;
   logger.info(`Creating env ${appName}/${envName}...`);
-  const ctx = {};
-
-  await asyncInvoke('museCore.am.beforeCreateEnv', ctx, params);
 
   try {
     ctx.app = await getApp(appName);
