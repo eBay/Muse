@@ -1,10 +1,10 @@
-const _ = require('lodash');
-const { asyncInvoke, osUsername, validate, jsonByYamlBuff } = require('../utils');
+const { asyncInvoke, syncInvoke, osUsername, validate, jsonByYamlBuff } = require('../utils');
 const { registry } = require('../storage');
 const getApp = require('./getApp');
 const updateApp = require('./updateApp');
 const schema = require('../schemas/am/createEnv.json');
 const logger = require('../logger').createLogger('muse.am.createEnv');
+syncInvoke('museCore.am.processCreateEnvSchema', schema);
 
 /**
  * @module muse-core/am/createEnv
@@ -35,51 +35,37 @@ module.exports = async params => {
     if (ctx.app.envs?.[envName]) {
       throw new Error(`Env ${appName}/${envName} already exists.`);
     }
-    const newEnvObject = {
+    let envObject = {
       name: envName,
       createdBy: author,
       createdAt: new Date().toJSON(),
       ...options,
     };
-    let baseEnvObject;
-    let copyFrom;
-    const setBaseEnvObjectFromEnvPath = async path => {
-      const [copyFromApp, copyFromEnv] = path.split('/');
-      if (!copyFromApp || !copyFromEnv) {
-        logger.info(`The format of copy from is wrong, should be like: appName/envName.`);
-        return;
-      }
-      baseEnvObject = jsonByYamlBuff(await registry.get(`/apps/${copyFromApp}/${copyFromApp}.yaml`))
-        .envs[copyFromEnv];
-      if (baseEnvObject) {
-        logger.info(`Retrieve configuration from base environment ${path} successfully.`);
-        copyFrom = path;
-      } else {
-        logger.info(`Failed to retrieve configuration from base environment ${path}.`);
-      }
-    };
     if (baseEnv) {
-      await setBaseEnvObjectFromEnvPath(baseEnv);
-    }
-    if (!baseEnvObject && ctx.defaultEnvTemplate) {
-      await setBaseEnvObjectFromEnvPath(ctx.defaultEnvTemplate);
-    }
-    if (baseEnvObject) {
-      const pluginsToBeCopied = (await registry.listWithContent(`/apps/${copyFrom}`)).map(
-        plugin => {
-          return { keyPath: `/apps/${appName}/${envName}/${plugin.name}`, value: plugin.content };
-        },
-      );
+      const [baseAppName, baseEnvName] = baseEnv.split('/');
+
+      const baseEnvObject = (await getApp(baseAppName))?.envs?.[baseEnvName];
+      if (!baseEnvObject) {
+        throw new Error(`Failed to find baseEnv: ${baseEnv}`);
+      }
+
+      const pluginsToBeCopied = (await registry.listWithContent(`/apps/${baseEnv}`)).map(plugin => {
+        return {
+          keyPath: `/apps/${appName}/${envName}/${plugin.name}.yaml`,
+          value: plugin.content,
+        };
+      });
 
       await registry.batchSet(
         pluginsToBeCopied,
-        `Copy multiple plugins from ${copyFrom} to ${appName}/${envName} by ${author}`,
+        `Creating env ${appName}/${envName} based on ${baseEnv} by ${author}.`,
       );
+      envObject = Object.assign({}, baseEnvObject, envObject);
     }
     ctx.changes = {
       set: {
         path: `envs.${envName}`,
-        value: _.merge(baseEnvObject, newEnvObject),
+        value: envObject,
       },
     };
     await asyncInvoke('museCore.am.createEnv', ctx, params);

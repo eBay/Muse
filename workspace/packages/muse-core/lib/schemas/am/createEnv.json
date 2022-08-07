@@ -13,7 +13,8 @@
       "type": "string"
     },
     "baseEnv": {
-      "type": "string"
+      "type": "string",
+      "pattern": ".+/.+"
     },
     "options": {
       "type": "object"
