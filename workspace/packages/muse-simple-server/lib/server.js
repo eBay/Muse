@@ -1,4 +1,5 @@
 const express = require('express');
+const plugin = require('js-plugin');
 const path = require('path');
 const museAssetsMiddleware = require('@ebay/muse-express-middleware/lib/assets');
 const museApiMiddleware = require('@ebay/muse-express-middleware/lib/api');
@@ -13,6 +14,7 @@ async function server({ appName, envName = 'staging', isDev, port = 6070 }) {
   );
   app.use(express.json());
   app.get('/*', express.static(path.join(__dirname, '../static')));
+  plugin.invoke('museServer.processApp', app);
   app.use(museApiMiddleware({}));
   app.use(museAssetsMiddleware({}));
   app.use(museAppMiddleware({ appName, envName, isDev, isLocal: true, byUrl: !appName }));
