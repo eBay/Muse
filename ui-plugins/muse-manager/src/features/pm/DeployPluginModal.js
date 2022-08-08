@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
 import NiceModal, { useModal, antdModal } from '@ebay/nice-modal-react';
-import { Modal, Button, Form } from 'antd';
+import { Modal, Button, Form, message } from 'antd';
 import FormBuilder from 'antd-form-builder';
-import { useMuseApi } from '../../hooks';
+import { useMuseApi, useSyncStatus } from '../../hooks';
 
 import PluginReleaseSelect from './PluginReleaseSelect';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
@@ -14,6 +14,7 @@ const DeployPluginModal = NiceModal.create(({ plugin, app }) => {
     error: deployPluginError,
     pending: deployPluginPending,
   } = useMuseApi('pm.deployPlugin');
+  const syncStatus = useSyncStatus(`muse.app.${app.name}`);
 
   const meta = {
     columns: 1,
@@ -51,23 +52,26 @@ const DeployPluginModal = NiceModal.create(({ plugin, app }) => {
     deployPlugin({
       appName: app.name,
       pluginName: plugin.name,
-      envName: 'staging',
+      envName: values.envs,
       version: values.version,
       author: window.MUSE_GLOBAL.getUser().username,
     })
-      .then(() => {
-        Modal.success({
-          title: 'Deploy Success!',
-          content: `Plugin ${plugin.name}@${values.version} was deployed to ${app.name} successfully. `,
-          onOk: () => {
-            modal.hide();
-          },
-        });
+      .then(async () => {
+        modal.hide();
+        message.success('Deploy plugin success.');
+        await syncStatus();
+        // Modal.success({
+        //   title: 'Deploy Success!',
+        //   content: `Plugin ${plugin.name}@${values.version} was deployed to ${app.name} successfully. `,
+        //   onOk: () => {
+        //     modal.hide();
+        //   },
+        // });
       })
       .catch(err => {
         console.log('failed to deploy', err);
       });
-  }, [app.name, plugin.name, modal, form, deployPlugin]);
+  }, [app.name, plugin.name, modal, form, syncStatus, deployPlugin]);
 
   const footer = [
     {

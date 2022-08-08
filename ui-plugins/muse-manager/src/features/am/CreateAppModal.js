@@ -6,6 +6,7 @@ import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import { useSyncStatus, useMuseApi, useMuse, usePollingMuseData } from '../../hooks';
 import plugin from 'js-plugin';
 
+const user = window.MUSE_GLOBAL.getUser();
 const CreateAppModal = NiceModal.create(({}) => {
   const modal = useModal();
   const [form] = Form.useForm();
@@ -41,7 +42,7 @@ const CreateAppModal = NiceModal.create(({}) => {
 
   const handleFinish = useCallback(() => {
     const values = form.getFieldsValue();
-    createApp(values)
+    createApp({ ...values, author: user.username })
       .then(async () => {
         modal.hide();
         message.success('Create app success.');

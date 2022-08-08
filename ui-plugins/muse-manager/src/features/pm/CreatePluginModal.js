@@ -4,6 +4,7 @@ import { Modal, message, Form } from 'antd';
 import FormBuilder from 'antd-form-builder';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import { useSyncStatus, useMuseApi, useMuse, usePollingMuseData } from '../../hooks';
+const user = window.MUSE_GLOBAL.getUser();
 
 const CreatePluginModal = NiceModal.create(({}) => {
   const modal = useModal();
@@ -53,7 +54,7 @@ const CreatePluginModal = NiceModal.create(({}) => {
 
   const handleFinish = useCallback(() => {
     const values = form.getFieldsValue();
-    createPlugin(values)
+    createPlugin({ ...values, author: user.username })
       .then(async () => {
         modal.hide();
         message.success('Create plugin success.');
