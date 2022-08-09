@@ -83,11 +83,34 @@ const DeployPluginModal = NiceModal.create(({ plugin, app }) => {
       type: 'primary',
       loading: deployPluginPending,
       disabled: deployPluginPending,
-      onClick: () => {
-        console.log(form.getFieldsValue());
-        form.validateFields().then(() => form.submit());
-      },
       children: deployPluginPending ? 'Deploying...' : 'Deploy',
+
+      onClick: () => {
+        form.validateFields().then(() => {
+          const values = form.getFieldsValue();
+          Modal.confirm({
+            title: 'Confirm Deployment',
+            width: 550,
+            content: (
+              <>
+                Are you sure to apply below changes to <b>{app.name}</b>?
+                <ul>
+                  <li>
+                    Deploy{' '}
+                    <b>
+                      {plugin.name}@{values.version}
+                    </b>{' '}
+                    to <b>{values.envs}</b>
+                  </li>
+                </ul>
+              </>
+            ),
+            onOk: () => {
+              form.submit();
+            },
+          });
+        });
+      },
     },
   ];
 
