@@ -1,24 +1,24 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "title": "Set Plugin variables",
-    "type": "object",
-    "properties": {
-      "pluginName": {
-        "type": "string"
-      },
-      "variables": {
-        "type": "array"
-      },
-      "appName": {
-        "type": "string"
-      },
-      "envNames": {
-        "type": "array"
-      },
-      "author": {
-        "type": "string"
-      }
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Set Plugin variables",
+  "type": "object",
+  "properties": {
+    "pluginName": {
+      "type": "string"
     },
-    "required": ["pluginName", "variables"],
-    "additionalProperties": false
-  }
+    "variables": {
+      "type": "array"
+    },
+    "appName": {
+      "type": "string"
+    },
+    "envNames": {
+      "type": "array"
+    },
+    "author": {
+      "type": "string"
+    }
+  },
+  "required": ["pluginName", "variables"],
+  "additionalProperties": true
+}

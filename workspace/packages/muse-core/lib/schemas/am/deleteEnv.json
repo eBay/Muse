@@ -14,5 +14,5 @@
     }
   },
   "required": ["appName", "envName"],
-  "additionalProperties": false
+  "additionalProperties": true
 }

@@ -20,5 +20,5 @@
     }
   },
   "required": ["appName", "envName", "pluginName"],
-  "additionalProperties": false
+  "additionalProperties": true
 }

@@ -20,5 +20,5 @@
     }
   },
   "required": ["appName", "envName", "changes"],
-  "additionalProperties": false
+  "additionalProperties": true
 }

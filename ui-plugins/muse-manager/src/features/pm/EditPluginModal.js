@@ -10,7 +10,7 @@ const EditPluginModal = NiceModal.create(({ plugin, app }) => {
   const modal = useModal();
   const [form] = Form.useForm();
   const syncStatus = useSyncStatus('muse.plugins');
-
+  console.log(plugin);
   const {
     action: updatePlugin,
     error: updatePluginError,
@@ -19,10 +19,10 @@ const EditPluginModal = NiceModal.create(({ plugin, app }) => {
 
   const meta = {
     columns: 1,
-    initialValues: plugin,
+    initialValues: { ...plugin, pluginName: plugin.name },
     fields: [
       {
-        key: 'name',
+        key: 'pluginName',
         label: 'Plugin name',
         required: true,
       },

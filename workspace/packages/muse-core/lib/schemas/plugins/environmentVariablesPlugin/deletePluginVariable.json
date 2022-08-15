@@ -20,5 +20,5 @@
     }
   },
   "required": ["pluginName", "variables"],
-  "additionalProperties": false
+  "additionalProperties": true
 }

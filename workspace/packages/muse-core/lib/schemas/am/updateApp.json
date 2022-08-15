@@ -17,5 +17,5 @@
     }
   },
   "required": ["appName"],
-  "additionalProperties": false
+  "additionalProperties": true
 }

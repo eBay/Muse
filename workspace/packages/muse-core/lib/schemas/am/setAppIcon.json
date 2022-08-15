@@ -14,5 +14,5 @@
     }
   },
   "required": ["appName", "icon"],
-  "additionalProperties": false
+  "additionalProperties": true
 }

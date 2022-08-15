@@ -3,5 +3,5 @@
   "title": "Get plugin params",
   "type": "string",
   "minLength": 1,
-  "additionalProperties": false
+  "additionalProperties": true
 }
