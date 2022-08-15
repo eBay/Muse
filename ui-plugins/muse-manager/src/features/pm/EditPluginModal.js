@@ -6,22 +6,23 @@ import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import { useSyncStatus, useMuseApi, useMuse, usePollingMuseData } from '../../hooks';
 const user = window.MUSE_GLOBAL.getUser();
 
-const CreatePluginModal = NiceModal.create(({}) => {
+const EditPluginModal = NiceModal.create(({ plugin, app }) => {
   const modal = useModal();
   const [form] = Form.useForm();
   const syncStatus = useSyncStatus('muse.plugins');
 
   const {
-    action: createPlugin,
-    error: createPluginError,
-    pending: createPluginPending,
-  } = useMuseApi('pm.createPlugin');
+    action: updatePlugin,
+    error: updatePluginError,
+    pending: updatePluginPending,
+  } = useMuseApi('pm.updatePlugin');
 
   const meta = {
     columns: 1,
+    initialValues: plugin,
     fields: [
       {
-        key: 'pluginName',
+        key: 'name',
         label: 'Plugin name',
         required: true,
       },
@@ -54,7 +55,7 @@ const CreatePluginModal = NiceModal.create(({}) => {
 
   const handleFinish = useCallback(() => {
     const values = form.getFieldsValue();
-    createPlugin({ ...values, author: user.username })
+    updatePlugin({ ...values, author: user.username })
       .then(async () => {
         modal.hide();
         message.success('Create plugin success.');
@@ -63,20 +64,20 @@ const CreatePluginModal = NiceModal.create(({}) => {
       .catch(err => {
         console.log('failed to deploy', err);
       });
-  }, [createPlugin, syncStatus, modal, form]);
+  }, [updatePlugin, syncStatus, modal, form]);
 
   return (
     <Modal
       {...antdModal(modal)}
-      title={`Create Plugin`}
+      title={`Edit Plugin`}
       width="600px"
-      okText="Create"
+      okText="Update"
       maskClosable={false}
       onOk={() => {
         form.validateFields().then(() => form.submit());
       }}
     >
-      <RequestStatus loading={createPluginPending} error={createPluginError} />
+      <RequestStatus loading={updatePluginPending} error={updatePluginError} />
       <Form layout="horizontal" form={form} onFinish={handleFinish}>
         <FormBuilder form={form} meta={meta} />
       </Form>
@@ -84,4 +85,4 @@ const CreatePluginModal = NiceModal.create(({}) => {
   );
 });
 
-export default CreatePluginModal;
+export default EditPluginModal;

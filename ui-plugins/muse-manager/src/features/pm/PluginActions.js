@@ -43,6 +43,8 @@ function PluginActions({ plugin, app }) {
         icon: 'edit',
         highlight: true,
         onClick: () => {
+          NiceModal.show('muse-manager.edit-plugin-modal', { plugin, app });
+
           // pluginInfoModal.show({
           //   app,
           //   plugin,
