@@ -153,10 +153,7 @@ module.exports = middlewares => {
       path: `/muse-assets/local/p/${id}`,
       middleware: express.static(path.join(pkgDir, 'build')),
     };
-    // devServer.app.use(`/muse-assets/local/p/${id}`, express.static(path.join(pkgDir, 'build')));
   });
-  console.log(middlewares);
-  // process.exit(1);
   try {
     // It doesn't need history fallback since Muse app middleware handles it.
     const i = _.findIndex(middlewares, m => m.name === 'connect-history-api-fallback');
