@@ -2,7 +2,7 @@ const axios = require('axios');
 const logger = require('@ebay/muse-core').logger.createLogger('git-storage-plugin.GitClient');
 const museCore = require('@ebay/muse-core');
 const yaml = require('js-yaml');
-
+const fs = require('fs');
 module.exports = class GitClient {
   constructor(options) {
     if (!options.endpoint) throw new Error('No github endpoint specified for GitStorage.');
