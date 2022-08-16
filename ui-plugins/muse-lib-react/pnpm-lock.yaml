@@ -52,14 +52,11 @@ dependencies:
   react-loadable: 5.5.0_react@18.2.0
   react-redux: 8.0.2_e42enmjmqb4imi3q3iaq2rrebm
   react-router-dom: 6.3.0_biqbaboplfbrettd7655fr4n2y
-  react-scripts: 5.0.1_qtbnez4q7bzoc4eqybg3efzzxe
   react-use: 17.4.0_biqbaboplfbrettd7655fr4n2y
   redux: 4.2.0
   redux-logger: 3.0.6
   redux-mock-store: 1.5.4
   redux-thunk: 2.4.1_redux@4.2.0
-  typescript: 4.7.4
-  webpack: 5.73.0
 
 devDependencies:
   '@craco/craco': 6.4.4_hsv26antxuqwg6pblgtk7klj5y
@@ -67,6 +64,9 @@ devDependencies:
   '@ebay/muse-craco-plugin': 1.0.21_33kcopawpj3juf5bkeaemc66ra
   '@ebay/muse-ebay-dev': 1.0.1_@ebay+muse-core@1.0.16
   '@ebay/muse-scripts-react': 1.0.12
+  react-scripts: 5.0.1_qtbnez4q7bzoc4eqybg3efzzxe
+  typescript: 4.7.4
+  webpack: 5.73.0
 
 packages:
 
