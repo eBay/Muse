@@ -145,10 +145,10 @@ async function start() {
 
   window.MUSE_GLOBAL.getPluginVariables = (pluginId) => {
     // TODO: merge default vars with deployment vars (unless it's done on muse-express-middleware before)
-    const pluginDefaultVars =
+    const pluginDeployedVars =
       window.MUSE_GLOBAL.plugins.find((p) => p.name === pluginId)?.variables || {};
 
-    return pluginDefaultVars;
+    return pluginDeployedVars;
   };
 
   // Start the application
