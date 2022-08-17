@@ -47,7 +47,7 @@ class S3Storage {
       if (!s) return null;
       return await streamToBuffer(s);
     } catch (err) {
-      logger.error(`Failed to get tiem: ${key}: ${err.message || 's3 storage error.'}`);
+      logger.error(`Failed to get item: ${key}: ${err.message || 's3 storage error.'}`);
       console.log(err);
       if (err && err.code === 'NoSuchKey') return null;
       throw err;
