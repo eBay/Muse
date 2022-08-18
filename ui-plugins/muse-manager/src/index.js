@@ -13,4 +13,4 @@ plugin.register({
   route,
   reducer,
 });
-console.log('public url: ', __webpack_public_path__); // eslint-disable-line
+const a = (p) => p;
