@@ -26,7 +26,7 @@ async function start() {
     initEntries: [], // entries from init plugins
     pluginEntries: [], // entries from lib or normal plugins
     // Allow to register some func to wait for before starting the app
-    waitFor: (asyncFuncOrPromise) => {
+    waitFor: asyncFuncOrPromise => {
       waitForLoaders.push(asyncFuncOrPromise);
     },
     getPluginName: () => {
@@ -59,25 +59,28 @@ async function start() {
   registerSw();
 
   // Print app plugins in dev console
-  const bootPlugin = plugins.find((p) => p.type === 'boot');
+  const bootPlugin = plugins.find(p => p.type === 'boot');
   if (bootPlugin) {
     console.log(
       `Loading Muse app by ${bootPlugin.name}@${bootPlugin.version || bootPlugin.url}...`,
     );
   }
   console.log(`Plugins(${plugins.length}):`);
-  plugins.forEach((p) => console.log(`  * ${p.name}@${p.version || p.url}`));
+  plugins.forEach(p => console.log(`  * ${p.name}@${p.version || p.url}`));
 
   // Load init plugins
   // Init plugins should be small and not depends on each other
   const initPluginUrls = plugins
-    .filter((p) => p.type === 'init')
-    .map((p) => p.url || `${cdn}/p/${getPluginId(p.name)}/v${p.version}/dist/main.js`);
+    .filter(p => p.type === 'init')
+    .map(p =>
+      p.noUrl ? false : p.url || `${cdn}/p/${getPluginId(p.name)}/v${p.version}/dist/main.js`,
+    )
+    .filter(Boolean);
 
   // Load init plugins
   if (initPluginUrls.length > 0) {
     loading.showMessage(`Loading init plugins 1/${initPluginUrls.length}...`);
-    await loadInParallel(initPluginUrls, (loadedCount) =>
+    await loadInParallel(initPluginUrls, loadedCount =>
       loading.showMessage(
         `Loading init plugins ${Math.min(loadedCount + 1, initPluginUrls.length)}/${
           initPluginUrls.length
@@ -97,15 +100,18 @@ async function start() {
 
   // Load normal and lib plugins
   const pluginUrls = plugins
-    .filter((p) => p.type !== 'boot' && p.type !== 'init')
-    .map(
-      (p) =>
-        p.url || `${cdn}/p/${getPluginId(p.name)}/v${p.version}/${isDev ? 'dev' : 'dist'}/main.js`,
-    );
+    .filter(p => p.type !== 'boot' && p.type !== 'init')
+    .map(p =>
+      p.noUrl
+        ? false
+        : p.url ||
+          `${cdn}/p/${getPluginId(p.name)}/v${p.version}/${isDev ? 'dev' : 'dist'}/main.js`,
+    )
+    .filter(Boolean);
 
   // Load plugin bundles
   loading.showMessage(`Loading plugins 1/${pluginUrls.length}...`);
-  await loadInParallel(pluginUrls, (loadedCount) =>
+  await loadInParallel(pluginUrls, loadedCount =>
     loading.showMessage(
       `Loading plugins ${Math.min(loadedCount + 1, pluginUrls.length)}/${pluginUrls.length}...`,
     ),
@@ -114,7 +120,7 @@ async function start() {
   // Exec plugin entries
   if (pluginEntries.length > 0) {
     loading.showMessage(`Executing plugin entries...`);
-    pluginEntries.forEach((entry) => entry.func());
+    pluginEntries.forEach(entry => entry.func());
   }
 
   // Wait for loader
@@ -122,7 +128,7 @@ async function start() {
     loading.showMessage(`Executing custom loaders ...`);
     // let loaderLoadedCount = 0;
     const arr = await Promise.all(
-      waitForLoaders.map(async (loader) => {
+      waitForLoaders.map(async loader => {
         // Usually a plugin waitFor a promise so that it doesn't need to wait for all plugins loaded before executing
         if (loader.then) return await loader;
         // If pass an async function, it executes while all plugins are loaded.
@@ -130,7 +136,7 @@ async function start() {
       }),
     );
     // If a loader returns false, then don't continue starting
-    if (arr.some((s) => s === false)) return;
+    if (arr.some(s => s === false)) return;
   }
 
   window.MUSE_GLOBAL.getAppVariables = () => {
@@ -143,17 +149,17 @@ async function start() {
     return mergedAppVariables;
   };
 
-  window.MUSE_GLOBAL.getPluginVariables = (pluginId) => {
+  window.MUSE_GLOBAL.getPluginVariables = pluginId => {
     // TODO: merge default vars with deployment vars (unless it's done on muse-express-middleware before)
     const pluginDeployedVars =
-      window.MUSE_GLOBAL.plugins.find((p) => p.name === pluginId)?.variables || {};
+      window.MUSE_GLOBAL.plugins.find(p => p.name === pluginId)?.variables || {};
 
     return pluginDeployedVars;
   };
 
   // Start the application
   const entryName = app?.entry || '@ebay/muse-lib-react';
-  const entryApp = appEntries.find((e) => e.name === entryName);
+  const entryApp = appEntries.find(e => e.name === entryName);
   if (entryApp) {
     console.log(`Starting the app from ${entry}...`);
     loading.showMessage(`Starting the app...`);
@@ -169,7 +175,7 @@ start()
     const timeEnd = Date.now();
     console.log(`Muse app started in ${(timeEnd - timeStart) / 1000} seconds.`);
   })
-  .catch((err) => {
+  .catch(err => {
     console.log('Failed to start app.');
     err && console.error(err);
     loading.hide();
