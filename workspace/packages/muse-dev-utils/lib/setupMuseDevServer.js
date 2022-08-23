@@ -113,19 +113,25 @@ muse.plugin.register({
         if (isBoot) {
           // For a boot plugin project, it doesn't use the deployed boot plugin
           // realPluginsToLoad = realPluginsToLoad.filter(p => p.type !== 'boot');
-          realPluginsToLoad.unshift({
-            name: pkgJson.name,
-            dev: true,
-            type: 'boot',
-            url: '/boot.js',
-          });
+          const deployedBoot = realPluginsToLoad.find(p => p.name === pkgJson.name);
+          if (deployedBoot) {
+            deployedBoot.dev = true;
+            deployedBoot.url = '/boot.js';
+          } else {
+            realPluginsToLoad.unshift({
+              name: pkgJson.name,
+              dev: true,
+              type: 'boot',
+              url: '/boot.js',
+            });
+          }
         } else {
           // boot plugin is loaded directly by Muse app middleware
           // here define the dev bundle as a plugin loaded by url
           // This support also support init plugins
           realPluginsToLoad.push({
             // Show plugin name in browser console
-            name: localNames.join(','),
+            name: 'local:' + localNames.join(','),
             type: museConfig.type || 'normal',
             url: '/main.js',
             dev: true,
