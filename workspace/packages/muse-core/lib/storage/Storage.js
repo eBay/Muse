@@ -126,7 +126,7 @@ class Storage extends EventEmitter {
       files.map(f => async () => {
         const buff = await fs.readFile(f);
         await makeRetryAble(async (...args) => this.set(...args))(
-          toPath + f.replace(fromDir, '').replace(/\\/g, '/'),
+          toPath + f.replace(fromDir, '').replace(/[\\\/]+/g, '/'),
           buff,
         );
       }),
