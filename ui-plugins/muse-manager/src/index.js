@@ -13,3 +13,4 @@ plugin.register({
   route,
   reducer,
 });
+const a = (p) => p;

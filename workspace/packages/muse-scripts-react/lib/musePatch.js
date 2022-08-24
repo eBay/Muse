@@ -1,9 +1,25 @@
 // Patch react-scripts and craco to support development build
 const fs = require('fs');
 const resolveCwd = require('resolve-cwd');
-// Patch react-scripts/scripts/build.js
+
 const markPatched = `// muse_scripts_react_patched\r\n`;
 let p, content;
+// Patch react-scripts/scripts/start.js
+
+p = resolveCwd('react-scripts/scripts/start.js');
+content = fs.readFileSync(p).toString('utf-8');
+
+if (!content.startsWith(markPatched)) {
+  content = content.replace(
+    'if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {',
+    'if (false) {',
+  );
+
+  content = `${markPatched}${content}`;
+  fs.writeFileSync(p, content);
+}
+
+// Patch react-scripts/scripts/build.js
 
 p = resolveCwd('react-scripts/scripts/build.js');
 content = fs.readFileSync(p).toString('utf-8');

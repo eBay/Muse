@@ -11,13 +11,14 @@
   },
   "dependencies": {
     "@craco/craco": "6.4.4",
-    "@ebay/muse-client": "1.0.10",
-    "@ebay/muse-core": "1.0.18",
-    "@ebay/muse-craco-plugin": "1.0.23",
+    "@ebay/muse-client": "1.0.11",
+    "@ebay/muse-core": "1.0.19",
+    "@ebay/muse-craco-plugin": "1.0.24",
     "@ebay/muse-ebay-dev": "^1.0.1",
+    "@ebay/muse-express-middleware": "1.0.21",
     "@ebay/muse-lib-antd": "^1.0.8",
-    "@ebay/muse-lib-react": "1.0.14",
-    "@ebay/muse-scripts-react": "^1.0.13",
+    "@ebay/muse-lib-react": "1.0.18",
+    "@ebay/muse-scripts-react": "^1.0.19",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
@@ -30,6 +31,11 @@
     "react-time-ago": "^7.2.1",
     "semver": "^7.3.7",
     "web-vitals": "^2.1.4"
+  },
+  "pnpm2": {
+    "overrides": {
+      "@ebay/muse-dev-utils": "link:../../workspace/packages/muse-dev-utils"
+    }
   },
   "scripts": {
     "start": "cross-env PORT=3061 muse-scripts-react start",

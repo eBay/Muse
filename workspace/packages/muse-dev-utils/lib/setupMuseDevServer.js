@@ -115,16 +115,21 @@ muse.plugin.register({
             dev: true,
           });
 
-          // Exclude plugins that are installed locally
+          // If plugins are installed locally, use the local version and url
           // NOTE: Boot plugin should not depends on libs
           getMuseLibs().forEach(libName => {
             // Exclude remote lib plugin if it's installed locally
-            realPluginsToLoad = realPluginsToLoad.filter(p => p.name !== libName);
-            realPluginsToLoad.push({
+            const localP = {
               name: libName,
               version: require(libName + '/package.json').version,
               url: `/muse-assets/local/p/${muse.utils.getPluginId(libName)}/dev/main.js`,
-            });
+            };
+            const p = realPluginsToLoad.find(p => p.name === libName);
+            if (p) {
+              Object.assign(p, localP);
+            } else {
+              realPluginsToLoad.push(localP);
+            }
           });
         }
         plugins.length = 0;
@@ -148,17 +153,17 @@ module.exports = middlewares => {
       path: `/muse-assets/local/p/${id}`,
       middleware: express.static(path.join(pkgDir, 'build')),
     };
-    // devServer.app.use(`/muse-assets/local/p/${id}`, express.static(path.join(pkgDir, 'build')));
   });
   try {
-    const i = _.findIndex(middlewares, m => m.name === 'webpack-dev-middleware');
+    // It doesn't need history fallback since Muse app middleware handles it.
+    const i = _.findIndex(middlewares, m => m.name === 'connect-history-api-fallback');
 
     if (i < 0) {
-      throw new Error('Can not find webpack-dev-middleware.');
+      throw new Error('Can not find connect-history-api-fallback.');
     }
     middlewares.splice(
-      i + 1,
-      0,
+      i,
+      1,
       ...localLibMiddlewares,
       // Local Muse assets server to improve local dev performance
       // Because Muse assets middleware caches resource in local cache folder.
