@@ -60,7 +60,7 @@ muse.plugin.register({
         // Handle remote plugins defined in package.json or .env
         const remotePlugins = _.castArray(museConfig?.devConfig?.remotePlugins || []);
         if (process.env.MUSE_REMOTE_PLUGINS) {
-          remotePlugins.push(...process.env.MUSE_REMOTE_PLUGINS.split(';'));
+          remotePlugins.push(...process.env.MUSE_REMOTE_PLUGINS.split(';').map(s => _.trim(s)));
         }
 
         // if a plugin is defined by url like plugin-name#type:http://localhost:3030/main.js then it's loaded as a plugin
@@ -68,6 +68,10 @@ muse.plugin.register({
         const urlPlugins = remotePlugins
           .filter(s => /:https?:/.test(s)) // for remote plugin loaded by url, should not compile it
           .map(getPluginByUrl);
+
+        const localNames = [pkgJson.name];
+        const localPlugins = getLocalPlugins();
+        localNames.push(...localPlugins.map(p => p.name));
 
         let realPluginsToLoad = [
           ...plugins.filter(
@@ -77,39 +81,57 @@ muse.plugin.register({
               p.type === 'boot' ||
               p.type === 'init' ||
               remotePlugins.includes('*') ||
-              remotePlugins.includes(p.name),
+              remotePlugins.includes(p.name) ||
+              localNames.includes(p.name) ||
+              urlPlugins.map(up => up.name).includes(p.name),
           ),
         ];
 
-        // if a plugin is defined by url, then it has higher priority than deployed ones
-        // so filter out deployed plugins
-        realPluginsToLoad = realPluginsToLoad.filter(
-          p => !urlPlugins.some(up => up.name === p.name),
-        );
-        realPluginsToLoad.push(...urlPlugins);
+        const pluginByName = _.keyBy(plugins, 'name');
+        localNames.forEach(name => {
+          // For a local included plugin, the bundle is from local bundle
+          // Keep original plugin meta for configurations data
+          if (pluginByName[name]) pluginByName[name].noUrl = true;
+        });
 
-        const localNames = [pkgJson.name];
-        const localPlugins = getLocalPlugins();
-        localNames.push(...localPlugins.map(p => p.name));
-        // Exclude local plugins from deployed plugins
-        realPluginsToLoad = realPluginsToLoad.filter(p => !localNames.includes(p.name));
+        // For a plugin included by url, keep the original meta too
+        urlPlugins.forEach(up => {
+          if (pluginByName[up.name]) pluginByName[up.name].url = up.url;
+          else plugins.push(up);
+        });
+
+        // // if a plugin is defined by url, then it has higher priority than deployed ones
+        // // so filter out deployed plugins
+        // realPluginsToLoad = realPluginsToLoad.filter(
+        //   p => !urlPlugins.some(up => up.name === p.name),
+        // );
+        // realPluginsToLoad.push(...urlPlugins);
+
+        // // Exclude local plugins from deployed plugins
+        // realPluginsToLoad = realPluginsToLoad.filter(p => !localNames.includes(p.name));
         const isBoot = museConfig.type === 'boot';
         if (isBoot) {
           // For a boot plugin project, it doesn't use the deployed boot plugin
           // realPluginsToLoad = realPluginsToLoad.filter(p => p.type !== 'boot');
-          realPluginsToLoad.unshift({
-            name: pkgJson.name,
-            dev: true,
-            type: 'boot',
-            url: '/boot.js',
-          });
+          const deployedBoot = realPluginsToLoad.find(p => p.name === pkgJson.name);
+          if (deployedBoot) {
+            deployedBoot.dev = true;
+            deployedBoot.url = '/boot.js';
+          } else {
+            realPluginsToLoad.unshift({
+              name: pkgJson.name,
+              dev: true,
+              type: 'boot',
+              url: '/boot.js',
+            });
+          }
         } else {
           // boot plugin is loaded directly by Muse app middleware
           // here define the dev bundle as a plugin loaded by url
           // This support also support init plugins
           realPluginsToLoad.push({
             // Show plugin name in browser console
-            name: localNames.join(','),
+            name: 'local:' + localNames.join(','),
             type: museConfig.type || 'normal',
             url: '/main.js',
             dev: true,

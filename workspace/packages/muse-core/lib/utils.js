@@ -113,7 +113,7 @@ const getFilesRecursively = async dir => {
   const dirents = await fs.readdir(dir, { withFileTypes: true });
   const files = await Promise.all(
     dirents.map(dirent => {
-      const res = path.resolve(dir, dirent.name);
+      const res = path.resolve(dir, dirent.name).replace(/\\/g, '/');
       return dirent.isDirectory() ? getFilesRecursively(res) : res;
     }),
   );

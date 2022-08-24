@@ -16,7 +16,8 @@
   "dependencies": {
     "@ebay/muse-core": "workspace:^1.0.19",
     "@ebay/muse-express-middleware": "workspace:^1.0.21",
-    "express": "^4.18.1"
+    "express": "^4.18.1",
+    "js-plugin": "^1.1.0"
   },
   "devDependencies": {
     "eslint": "^8.18.0"
