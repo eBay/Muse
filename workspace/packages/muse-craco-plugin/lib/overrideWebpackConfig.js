@@ -1,7 +1,9 @@
 const crypto = require('crypto');
 const { getLoaders, loaderByName } = require('@craco/craco');
-const { pkgJson, isDev } = require('@ebay/muse-dev-utils').museContext;
+const { pkgJson, isDev, isTestBuild } = require('@ebay/muse-dev-utils').museContext;
 const handleMuseLocalPlugins = require('./handleMuseLocalPlugins');
+const _ = require('lodash');
+const path = require('path');
 
 const hashed = crypto
   .createHash('md5')
@@ -10,7 +12,23 @@ const hashed = crypto
   .substring(0, 6);
 let styleBase = parseInt(hashed, 16);
 
+function configIstanbul(config) {
+  const oneOfRules = _.find(config.module.rules, r => !!r.oneOf);
+  const babelLoader = _.find(oneOfRules.oneOf, item => item?.loader?.includes('babel-loader'));
+  babelLoader.options.plugins.push([
+    require.resolve('babel-plugin-istanbul'),
+    {
+      cwd: path.join(process.cwd(), '..'),
+      ...(pkgJson.nyc || {}),
+    },
+  ]);
+}
+
 module.exports = ({ webpackConfig }) => {
+  // For development and build:test, need to set "babel-plugin-istanbul" webpack plugin to enable generate test report.
+  if(isDev || isTestBuild) {
+    configIstanbul(webpackConfig);
+  }
   // For development, need to load all configured local plugin projects
   if (isDev) {
     handleMuseLocalPlugins(webpackConfig);

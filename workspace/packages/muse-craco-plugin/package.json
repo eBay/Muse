@@ -16,6 +16,7 @@
   },
   "devDependencies": {
     "@craco/craco": "6.4.4",
+    "babel-plugin-istanbul": "^6.1.1",
     "eslint": "^8.14.0"
   },
   "peerDependencies": {
