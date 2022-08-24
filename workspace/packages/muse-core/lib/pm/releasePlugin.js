@@ -17,6 +17,35 @@ const logger = require('../logger').createLogger('muse.pm.releasePlugin');
 /**
  * @module muse-core/pm/releasePlugin
  */
+
+async function archiveAssets() {
+  const assets = [
+    {
+      sourceDir: 'build',
+      targetFile: 'assets.zip',
+    },
+    {
+      sourceDir: 'e2e-tests',
+      targetFile: 'e2e-tests.zip',
+    },
+  ];
+  fs.ensureDirSync('./tmp');
+
+  for (let i = 0; i < assets.length; i++) {
+    const sourceDir = path.join(process.cwd(), assets[i].sourceDir);
+    if (!fs.existsSync(sourceDir)) {
+      // TODO: throw error if source not exist??
+      // throw new Error(`Asset folder ${assets[i].sourceDir} doesn't exist, failed to release.`);
+      continue;
+    }
+    const zipFile = path.join(process.cwd(), 'tmp', assets[i].targetFile);
+    await doZip(sourceDir, zipFile);
+    await fs.moveSync(zipFile, path.join(process.cwd(), `build/${assets[i].targetFile}`), {
+      overwrite: true,
+    });
+  }
+}
+
 /**
  * @description Release a new version of a plugin.
  * if the buildDir is not empty, will upload the build directory to assets storag
@@ -90,17 +119,8 @@ module.exports = async params => {
   );
 
   // If build dir exists, compress into a zip file and upload it and the unzip files to assets storage
-  if (buildDir) {
-    const zipFile = path.join(process.cwd(), 'tmp', 'assets.zip');
-    fs.ensureDirSync('./tmp');
-    await doZip(buildDir, zipFile);
-    // Move files to build folder first and then upload assets to nuobject for the migration
-    await fs.moveSync(
-      path.join(process.cwd(), 'tmp/assets.zip'),
-      path.join(process.cwd(), 'build/assets.zip'),
-      { overwrite: true },
-    );
-
+  if (fs.existsSync(buildDir)) {
+    await archiveAssets();
     await assets.uploadDir(
       buildDir,
       `/p/${pid}/v${ctx.release.version}`,

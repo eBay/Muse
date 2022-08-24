@@ -350,19 +350,19 @@ program
     }
   });
 
-program
-  .command('request-deploy')
-  .description('Request to deploy a plugin version on a MUSE application environment')
-  .argument('<appName>', 'application name')
-  .argument('<envName>', 'environment name')
-  .argument('<pluginName>', 'plugin name')
-  .argument('<version>', 'plugin version')
-  .action(async (appName, envName, pluginName, version) => {
-    await muse.req.createRequest({
-      type: 'deploy-plugin',
-      payload: { appName, envName, pluginName, version },
-    });
-  });
+// program
+//   .command('request-deploy')
+//   .description('Request to deploy a plugin version on a MUSE application environment')
+//   .argument('<appName>', 'application name')
+//   .argument('<envName>', 'environment name')
+//   .argument('<pluginName>', 'plugin name')
+//   .argument('<version>', 'plugin version')
+//   .action(async (appName, envName, pluginName, version) => {
+//     await muse.req.createRequest({
+//       type: 'deploy-plugin',
+//       payload: { appName, envName, pluginName, version },
+//     });
+//   });
 
 program
   .command('undeploy')

@@ -5,11 +5,16 @@ const spawn = require('cross-spawn');
 const resolveCwd = require('resolve-cwd');
 
 const args = process.argv.slice(2);
-const scriptIndex = args.findIndex((x) => x === 'build' || x === 'start' || x === 'test');
+const scriptIndex = args.findIndex(x => x === 'build' || x === 'start' || x === 'test');
 const script = scriptIndex === -1 ? args[0] : args[scriptIndex];
 
 if (script === 'build' && args.includes('--dev')) {
   process.env.MUSE_DEV_BUILD = true;
+  process.env.FAST_REFRESH = false;
+}
+
+if (script === 'build' && args.includes('--test')) {
+  process.env.MUSE_TEST_BUILD = true;
   process.env.FAST_REFRESH = false;
 }
 require('../lib/musePatch');
@@ -44,7 +49,6 @@ switch (script) {
     }
 
     process.exit(child.status);
-    break;
   }
   default:
     console.log(`Unknown script "${script}".`);

@@ -15,6 +15,9 @@ module.exports = class GitClient {
   }
 
   initGitClient() {
+    const httpsAgent = new (require('https').Agent)({
+      rejectUnauthorized: false,
+    });
     return axios.create({
       baseURL: this.endpoint, //`${this.endpoint}/api/v3`,
       timeout: 60000,
@@ -24,6 +27,7 @@ module.exports = class GitClient {
         Authorization: `token ${this.token}`,
         Accept: 'application/vnd.github.v3+json',
       },
+      httpsAgent,
     });
   }
 
@@ -190,7 +194,7 @@ module.exports = class GitClient {
           ref: branch,
         },
       })
-    ).data;
+    )?.data;
   }
 
   // Read a file content up to 1 megabyte in size
