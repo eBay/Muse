@@ -6,7 +6,7 @@ overrides:
 specifiers:
   '@craco/craco': 6.4.4
   '@ebay/muse-client': 1.0.11
-  '@ebay/muse-core': 1.0.19
+  '@ebay/muse-core': 1.0.20
   '@ebay/muse-craco-plugin': 1.0.24
   '@ebay/muse-ebay-dev': ^1.0.1
   '@ebay/muse-express-middleware': 1.0.21
@@ -30,10 +30,10 @@ specifiers:
 dependencies:
   '@craco/craco': 6.4.4_react-scripts@5.0.1
   '@ebay/muse-client': 1.0.11
-  '@ebay/muse-core': 1.0.19
+  '@ebay/muse-core': 1.0.20
   '@ebay/muse-craco-plugin': 1.0.24_@craco+craco@6.4.4
-  '@ebay/muse-ebay-dev': 1.0.1_@ebay+muse-core@1.0.19
-  '@ebay/muse-express-middleware': 1.0.21_@ebay+muse-core@1.0.19
+  '@ebay/muse-ebay-dev': 1.0.1_@ebay+muse-core@1.0.20
+  '@ebay/muse-express-middleware': 1.0.21_@ebay+muse-core@1.0.20
   '@ebay/muse-lib-antd': 1.0.8
   '@ebay/muse-lib-react': 1.0.18_5etiqhkfjdttz5dcmi2hz5fcv4
   '@ebay/muse-scripts-react': 1.0.19
@@ -1538,8 +1538,8 @@ packages:
       - debug
     dev: false
 
-  /@ebay/muse-core/1.0.19:
-    resolution: {integrity: sha1-j0TT1WBq4KiD4tctNq3kiiPKHqY=, tarball: '@ebay/muse-core/-/@ebay/muse-core-1.0.19.tgz'}
+  /@ebay/muse-core/1.0.20:
+    resolution: {integrity: sha1-4cTM+V/wsF5tVP7GmMNAEmfU/vs=, tarball: '@ebay/muse-core/-/@ebay/muse-core-1.0.20.tgz'}
     dependencies:
       ajv: 8.11.0
       archiver: 5.3.1
@@ -1574,13 +1574,13 @@ packages:
       resolve-cwd: 3.0.0
     dev: false
 
-  /@ebay/muse-ebay-dev/1.0.1_@ebay+muse-core@1.0.19:
+  /@ebay/muse-ebay-dev/1.0.1_@ebay+muse-core@1.0.20:
     resolution: {integrity: sha1-mSI5jOu/jZ+dFhWaseK9VzLe4+8=, tarball: '@ebay/muse-ebay-dev/-/@ebay/muse-ebay-dev-1.0.1.tgz'}
     hasBin: true
     peerDependencies:
       '@ebay/muse-core': ^1.0.6
     dependencies:
-      '@ebay/muse-core': 1.0.19
+      '@ebay/muse-core': 1.0.20
       axios: 0.27.2
       chalk: 4.1.2
       cross-spawn: 7.0.3
@@ -1590,12 +1590,12 @@ packages:
       - debug
     dev: false
 
-  /@ebay/muse-express-middleware/1.0.21_@ebay+muse-core@1.0.19:
+  /@ebay/muse-express-middleware/1.0.21_@ebay+muse-core@1.0.20:
     resolution: {integrity: sha1-7+MuMItNniUrB3Nt82IJb8lLE3M=, tarball: '@ebay/muse-express-middleware/-/@ebay/muse-express-middleware-1.0.21.tgz'}
     peerDependencies:
       '@ebay/muse-core': ^1.0.19
     dependencies:
-      '@ebay/muse-core': 1.0.19
+      '@ebay/muse-core': 1.0.20
       lodash: 4.17.21
       mime-types: 2.1.35
     dev: false

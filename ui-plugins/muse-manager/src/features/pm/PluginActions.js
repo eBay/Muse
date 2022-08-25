@@ -1,14 +1,16 @@
 import { useMemo } from 'react';
 import { DropdownMenu } from '@ebay/muse-lib-antd/src/features/common';
 import NiceModal from '@ebay/nice-modal-react';
+import jsPlugin from 'js-plugin';
 import { message, Modal } from 'antd';
 
 import { useMuseApi, useSyncStatus } from '../../hooks';
+import _ from 'lodash';
 
 function PluginActions({ plugin, app }) {
   const { action: deletePlugin } = useMuseApi('pm.deletePlugin');
   const syncStatus = useSyncStatus('muse.plugins');
-  const items = useMemo(() => {
+  let items = useMemo(() => {
     return [
       {
         key: 'build',
@@ -128,7 +130,11 @@ function PluginActions({ plugin, app }) {
         },
       },
     ].filter(Boolean);
-  }, [syncStatus, app, plugin]);
+  }, [syncStatus, app, plugin, deletePlugin]);
+  items.push(..._.flatten(jsPlugin.invoke('museManager.getPluginActions', { app, plugin })));
+  jsPlugin.invoke('museManager.processPluginActions', { items, app, plugin });
+  items = items.filter(Boolean);
+  jsPlugin.sort(items);
   return <DropdownMenu extPoint="museManager.plugin.processActions" items={items} />;
 }
 export default PluginActions;
