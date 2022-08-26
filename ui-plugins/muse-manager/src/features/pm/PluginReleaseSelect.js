@@ -1,12 +1,12 @@
 import React from 'react';
 import { Select, Tooltip, Tag } from 'antd';
 import TimeAgo from 'react-time-ago';
-import { useMuseData } from '../../hooks';
+import { usePollingMuseData } from '../../hooks';
 
 const { Option } = Select;
 
 export default function PluginReleaseSelect({ value, onChange, plugin, app, filter, ...rest }) {
-  let { data: releases, error } = useMuseData(`muse.plugin-releases.${plugin.name}`);
+  let { data: releases, error } = usePollingMuseData(`muse.plugin-releases.${plugin.name}`);
   if (error) return 'Failed, please refresh to retry.';
   if (filter && releases) releases = releases.filter(filter);
 
