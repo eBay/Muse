@@ -1,15 +1,17 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@ebay/muse-core': workspace:^1.0.18
-  '@ebay/muse-express-middleware': workspace:^1.0.20
+  '@ebay/muse-core': workspace:^1.0.19
+  '@ebay/muse-express-middleware': workspace:^1.0.21
   eslint: ^8.18.0
   express: ^4.18.1
+  js-plugin: ^1.1.0
 
 dependencies:
   '@ebay/muse-core': link:../muse-core
   '@ebay/muse-express-middleware': link:../muse-express-middleware
   express: 4.18.1
+  js-plugin: 1.1.0
 
 devDependencies:
   eslint: 8.19.0
@@ -595,6 +597,10 @@ packages:
   /isexe/2.0.0:
     resolution: {integrity: sha1-6PvzdNxVb/iUehDcsFctYz8s+hA=}
     dev: true
+
+  /js-plugin/1.1.0:
+    resolution: {integrity: sha1-3mpYTItmgifYErthWKGOhYh+g9s=}
+    dev: false
 
   /js-yaml/4.1.0:
     resolution: {integrity: sha1-wftl+PUBeQHN0slRhkuhhFihBgI=}
