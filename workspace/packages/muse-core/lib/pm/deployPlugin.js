@@ -56,7 +56,7 @@ const getAllFilesByEnv = async ({ appName, envName, deployments = [] }) => {
  * @param {string} params.envMap.[].pluginName the plugin name
  * @param {string} params.envMap.[].type the plugin name
  * @param {string} [params.envMap.[].version] the plugin name
- * @param {object} [params.envMap.[].options] the plugin name
+ * @param {object} [params.envMap.[].options]
  * @param {string} [author] default to the current os logged in user
  * @param {string} [msg] action message
  * @returns {object}
@@ -99,13 +99,13 @@ module.exports = async params => {
     envs.map(async envName => {
       const deployedPlugins = (await getDeployedPlugins(appName, envName)) || [];
       const deployedPluginIds = deployedPlugins.map(dp => dp.name);
-      const validatedDeployments = envMap[envName].filter(
+      const validDeployments = envMap[envName].filter(
         d => d.type === 'add' || (d.type === 'remove' && deployedPluginIds.includes(d.pluginName)),
       );
       return {
         appName,
         envName,
-        deployments: validatedDeployments,
+        deployments: validDeployments,
       };
     }),
   );
