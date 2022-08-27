@@ -11,7 +11,7 @@ specifiers:
   '@ebay/muse-ebay-dev': ^1.0.1
   '@ebay/muse-express-middleware': 1.0.21
   '@ebay/muse-lib-antd': ^1.0.8
-  '@ebay/muse-lib-react': 1.0.18
+  '@ebay/muse-lib-react': 1.0.19
   '@ebay/muse-scripts-react': ^1.0.19
   '@testing-library/jest-dom': ^5.16.4
   '@testing-library/react': ^13.3.0
@@ -35,7 +35,7 @@ dependencies:
   '@ebay/muse-ebay-dev': 1.0.1_@ebay+muse-core@1.0.20
   '@ebay/muse-express-middleware': 1.0.21_@ebay+muse-core@1.0.20
   '@ebay/muse-lib-antd': 1.0.8
-  '@ebay/muse-lib-react': 1.0.18_5etiqhkfjdttz5dcmi2hz5fcv4
+  '@ebay/muse-lib-react': 1.0.19_5etiqhkfjdttz5dcmi2hz5fcv4
   '@ebay/muse-scripts-react': 1.0.19
   '@testing-library/jest-dom': 5.16.5
   '@testing-library/react': 13.3.0_biqbaboplfbrettd7655fr4n2y
@@ -1721,8 +1721,8 @@ packages:
       - webpack-plugin-serve
     dev: false
 
-  /@ebay/muse-lib-react/1.0.18_5etiqhkfjdttz5dcmi2hz5fcv4:
-    resolution: {integrity: sha1-iqc138C937HsVTdkEJhS3FFSvPU=, tarball: '@ebay/muse-lib-react/-/@ebay/muse-lib-react-1.0.18.tgz'}
+  /@ebay/muse-lib-react/1.0.19_5etiqhkfjdttz5dcmi2hz5fcv4:
+    resolution: {integrity: sha1-AtxpqSPZ92+mqoMZ2tolNjqTK0o=, tarball: '@ebay/muse-lib-react/-/@ebay/muse-lib-react-1.0.19.tgz'}
     dependencies:
       '@babel/core': 7.18.10
       '@ebay/nice-modal-react': 1.2.6_biqbaboplfbrettd7655fr4n2y

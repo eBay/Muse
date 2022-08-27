@@ -39,6 +39,7 @@ if (process.env.MUSE_DEV_BUILD) {
 }
     `,
     )
+    .replace('if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {', 'if (false) {')
     .replace(
       "configFactory('production')",
       `configFactory(process.env.MUSE_DEV_BUILD ? 'development' : 'production')`,
