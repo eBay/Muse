@@ -2,7 +2,7 @@
 const fs = require('fs');
 const resolveCwd = require('resolve-cwd');
 
-const markPatched = `// muse_scripts_react_patched\r\n`;
+const markPatched = `// _muse_scripts_react_patched_\r\n`;
 let p, content;
 // Patch react-scripts/scripts/start.js
 
