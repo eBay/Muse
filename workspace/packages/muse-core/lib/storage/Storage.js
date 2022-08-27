@@ -118,24 +118,38 @@ class Storage extends EventEmitter {
 
   // a helper method to upload a local folder to the storage
   async uploadDir(fromDir, toPath, msg) {
+    const unixifiedfromDir = fromDir.replace(/\\/g, '/');
     const ctx = {};
-    await asyncInvoke(getExtPoint(this.extPath, 'beforeUploadDir'), ctx, fromDir, toPath, msg);
-    const files = await getFilesRecursively(fromDir);
+    await asyncInvoke(
+      getExtPoint(this.extPath, 'beforeUploadDir'),
+      ctx,
+      unixifiedfromDir,
+      toPath,
+      msg,
+    );
+    const files = await getFilesRecursively(unixifiedfromDir);
+
     ctx.files = files;
     await batchAsync(
       files.map(f => async () => {
         const buff = await fs.readFile(f);
         await makeRetryAble(async (...args) => this.set(...args))(
-          toPath + f.replace(fromDir, '').replace(/[\\\/]+/g, '/'),
+          toPath + f.replace(unixifiedfromDir, '').replace(/\\/g, '/'),
           buff,
         );
       }),
       {
         size: 100, // TODO: make it configurable
-        msg: `Batch upload files from ${fromDir}`,
+        msg: `Batch upload files from ${unixifiedfromDir}`,
       },
     );
-    await asyncInvoke(getExtPoint(this.extPath, 'afterUploadDir'), ctx, toPath, fromDir, msg);
+    await asyncInvoke(
+      getExtPoint(this.extPath, 'afterUploadDir'),
+      ctx,
+      toPath,
+      unixifiedfromDir,
+      msg,
+    );
   }
 }
 
