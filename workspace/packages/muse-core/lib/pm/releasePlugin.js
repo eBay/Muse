@@ -62,13 +62,14 @@ async function archiveAssets() {
 module.exports = async params => {
   validate(schema, params);
   const ctx = {};
+  if (!params.author) params.author = osUsername;
   const {
     pluginName,
     buildDir,
     branch = '',
     sha = '',
     version = 'patch',
-    author = osUsername,
+    author,
     options,
   } = params;
 

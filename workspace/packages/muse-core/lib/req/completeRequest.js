@@ -16,7 +16,8 @@ const schema = require('../schemas/req/completeRequest.json');
  */
 module.exports = async params => {
   validate(schema, params);
-  const { requestId, author = osUsername, msg } = params;
+  if (!params.author) params.author = osUsername;
+  const { requestId, author, msg } = params;
   const ctx = {};
   await asyncInvoke('museCore.req.beforeCompleteRequest', ctx, requestId);
 

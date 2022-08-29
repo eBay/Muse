@@ -17,7 +17,8 @@ const schema = require('../schemas/pm/getReleaseAssets.json');
 
 module.exports = async params => {
   validate(schema, params);
-  const { pluginName, version, author = osUsername, msg } = params;
+  if (!params.author) params.author = osUsername;
+  const { pluginName, version, author, msg } = params;
   const ctx = {};
   await asyncInvoke('museCore.pm.beforeGetReleaseAssets', ctx, pluginName);
 

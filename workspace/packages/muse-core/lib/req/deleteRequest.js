@@ -17,7 +17,8 @@ const schema = require('../schemas/req/deleteRequest.json');
 module.exports = async params => {
   validate(schema, params);
   const ctx = {};
-  const { requestId, author = osUsername, msg } = params;
+  if (!params.author) params.author = osUsername;
+  const { requestId, author, msg } = params;
   if (!requestId) throw new Error(`requestId is required.`);
   const keyPath = `/requests/${requestId}.yaml`;
 

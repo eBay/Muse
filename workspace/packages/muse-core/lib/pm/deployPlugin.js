@@ -62,7 +62,8 @@ const getAllFilesByEnv = async ({ appName, envName, deployments = [] }) => {
  * @returns {object}
  */
 module.exports = async params => {
-  const { appName, envName, pluginName, author = osUsername, options, msg } = params;
+  if (!params.author) params.author = osUsername;
+  const { appName, envName, pluginName, author, options, msg } = params;
   let isBatchDeploy;
   let version;
   let envMap = params.envMap;

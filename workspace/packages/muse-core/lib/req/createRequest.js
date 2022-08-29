@@ -28,7 +28,8 @@ module.exports = async (params = {}) => {
   const ctx = {};
   await asyncInvoke('museCore.req.beforeCreateRequest', ctx, params);
 
-  const { id, type, payload, author = osUsername, autoComplete = true, options, msg } = params;
+  if (!params.author) params.author = osUsername;
+  const { id, type, payload, author, autoComplete = true, options, msg } = params;
   if (!id) throw new Error(`id is required to create request.`);
   const keyPath = `/requests/${id}.yaml`;
   ctx.request = {

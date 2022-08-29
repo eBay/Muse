@@ -16,7 +16,8 @@ const logger = require('../logger').createLogger('muse.pm.deletePlugin');
 module.exports = async params => {
   validate(schema, params);
   const ctx = {};
-  const { pluginName, author = osUsername, msg } = params;
+  if (!params.author) params.author = osUsername;
+  const { pluginName, author, msg } = params;
   logger.info(`Deleting plugin ${pluginName}...`);
   await asyncInvoke('museCore.pm.beforeDeletePlugin', ctx, params);
 

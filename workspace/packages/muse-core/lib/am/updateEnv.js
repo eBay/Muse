@@ -24,7 +24,8 @@ syncInvoke('museCore.am.processUpdateEnvSchema', schema);
  */
 module.exports = async params => {
   validate(schema, params);
-  const { appName, envName, changes, author = osUsername, msg } = params;
+  if (!params.author) params.author = osUsername;
+  const { appName, envName, changes, author, msg } = params;
   logger.info(`Updating env ${appName}/${envName}...`);
   const ctx = { changes };
 

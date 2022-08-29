@@ -18,7 +18,8 @@ module.exports = async (params = {}) => {
   const ctx = {};
   logger.info(`Deleting app ${params.appName}...`);
   await asyncInvoke('museCore.am.beforeDeleteApp', ctx, params);
-  const { appName, author = osUsername } = params;
+  if (!params.author) params.author = osUsername;
+  const { appName, author } = params;
 
   const appFolder = `/apps/${appName}`;
 

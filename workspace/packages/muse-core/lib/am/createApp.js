@@ -20,7 +20,8 @@ syncInvoke('museCore.am.processCreateAppSchema', schema);
 module.exports = async (params = {}) => {
   validate(schema, params);
   const ctx = {};
-  const { appName, envName = 'staging', author = osUsername, options } = params;
+  if (!params.author) params.author = osUsername;
+  const { appName, envName = 'staging', author, options } = params;
   logger.info(`Creating app ${appName}...`);
   await asyncInvoke('museCore.am.beforeCreateApp', ctx, params);
 
