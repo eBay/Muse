@@ -1,9 +1,9 @@
-import { AbilityBuilder, Ability } from '@casl/ability';
-import jsPlugin from 'js-plugin';
+const { AbilityBuilder, Ability } = require('@casl/ability');
+const jsPlugin = require('js-plugin');
 
-export default function defineAbilityFor({ user }) {
+module.exports = function defineAbilityFor(user) {
   const { can: allow, cannot: forbid, build } = new AbilityBuilder(Ability);
-
+  user = user || {};
   jsPlugin.invoke('museAcl.beforeDefineAbility', { user, allow, forbid });
 
   // Muse admin could manage all
@@ -35,4 +35,4 @@ export default function defineAbilityFor({ user }) {
   jsPlugin.invoke('museAcl.afterDefineAbility', { user, allow, forbid });
 
   return build();
-}
+};

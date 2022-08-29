@@ -82,6 +82,7 @@ module.exports = async params => {
       ? `Batch deployment for ${appName}.`
       : `Deploying plugin ${pluginName}@${params.version || 'latest'} to ${appName}/${envName}...`,
   );
+  console.log('params: ', params);
   await asyncInvoke('museCore.pm.beforeDeployPlugin', ctx, params);
 
   const app = await getApp(appName);
