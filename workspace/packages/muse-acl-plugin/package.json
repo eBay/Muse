@@ -17,5 +17,8 @@
     "@ebay/muse-core": "workspace:^1.0.6",
     "js-plugin": "^1.1.0",
     "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "eslint": "^8.23.0"
   }
 }

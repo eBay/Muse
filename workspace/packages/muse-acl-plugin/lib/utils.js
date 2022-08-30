@@ -53,10 +53,20 @@ function errorUnlessCan(allowed, authorizedRoles, object, operation, args = {}) 
   throw err;
 }
 
+const getUser = async username => {
+  if (!username) return null;
+  const admins = await museCore.data.get('muse.admins');
+  return {
+    username,
+    isMuseAdmin: admins?.includes(username),
+  };
+};
+
 module.exports = {
   getAdminMembers,
   getAppMembers,
   getPluginMembers,
   isMember,
   errorUnlessCan,
+  getUser,
 };
