@@ -93,7 +93,7 @@ module.exports = async params => {
   await registry.set(
     releasesKeyPath,
     Buffer.from(yaml.dump(releases)),
-    `Create release ${pluginName}@${ctx.release.version} by ${author}`,
+    `Created release ${pluginName}@${ctx.release.version} by ${author}`,
   );
 
   await asyncInvoke('museCore.pm.afterReleasePlugin', ctx, params);
