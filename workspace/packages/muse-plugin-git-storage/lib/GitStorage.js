@@ -1,5 +1,4 @@
 const path = require('path');
-const os = require('os');
 const logger = require('@ebay/muse-core').logger.createLogger('git-storage-plugin.GitStorage');
 const GitClient = require('./GitClient');
 
@@ -17,8 +16,6 @@ class GitStorage {
     this.organizationName = arr[0];
     this.projectName = arr[1];
     if (!this.projectName) throw new Error(`Invalid repo: ${options.repo}.`);
-
-    this.author = os.userInfo().username;
 
     this.gitClient = new GitClient({
       endpoint: this.endpoint,
@@ -52,7 +49,6 @@ class GitStorage {
       organizationName: this.organizationName,
       projectName: this.projectName,
       message: msg,
-      author: this.author,
     });
   }
 
@@ -62,7 +58,6 @@ class GitStorage {
       projectName: this.projectName,
       items,
       message: msg,
-      author: this.author,
     });
   }
 
