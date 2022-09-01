@@ -4,7 +4,7 @@ import plugin from 'js-plugin';
 import semver from 'semver';
 import TimeAgo from 'react-time-ago';
 import NiceModal from '@ebay/nice-modal-react';
-import { RequestStatus, TableBar } from '@ebay/muse-lib-antd/src/features/common';
+import { RequestStatus, TableBar, DropdownMenu } from '@ebay/muse-lib-antd/src/features/common';
 import { usePollingMuseData } from '../../hooks';
 import PluginActions from './PluginActions';
 import PluginStatus from './PluginStatus';
@@ -71,7 +71,7 @@ export default function PluginList({ app }) {
       };
     }),
     {
-      dataIndex: 'name',
+      dataIndex: 'latestVersion',
       title: 'Latest',
       width: '120px',
       render: pluginName => {
@@ -95,7 +95,7 @@ export default function PluginList({ app }) {
       },
     },
     {
-      dataIndex: 'name',
+      dataIndex: 'status',
       title: 'Status',
       render: (a, plugin) => {
         return <PluginStatus plugin={plugin} />;
@@ -114,18 +114,38 @@ export default function PluginList({ app }) {
   plugin.invoke('museManager.pm.pluginList.processColumns', columns, { plugins: data });
   plugin.invoke('museManager.pm.pluginList.postProcessColumns', columns, { plugins: data });
 
+  const tableBarActions = [
+    {
+      key: 'createPlugin',
+      highlight: true,
+      render: () => {
+        return (
+          <Button type="primary" onClick={() => NiceModal.show('muse-manager.create-plugin-modal')}>
+            Create Plugin
+          </Button>
+        );
+      },
+    },
+  ].filter(Boolean);
+
+  plugin.invoke('museManager.pm.tableBar.processTableBarAction', tableBarActions, {
+    plugins: data,
+    app,
+  });
+
   return (
     <div>
       <RequestStatus loading={!error && (pending || !data)} error={error} loadingMode="skeleton" />
       {data && (
         <div>
           <TableBar>
-            <Button
+            {/* <Button
               type="primary"
               onClick={() => NiceModal.show('muse-manager.create-plugin-modal')}
             >
               Create Plugin
-            </Button>
+            </Button> */}
+            <DropdownMenu items={tableBarActions} size="default" />
           </TableBar>
           <Table
             pagination={false}
