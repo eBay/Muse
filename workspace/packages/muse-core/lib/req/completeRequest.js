@@ -27,7 +27,7 @@ module.exports = async params => {
   try {
     // You can extend merge request based on type by creating plugins
     await asyncInvoke('museCore.req.completeRequest', ctx);
-    await deleteRequest({ requestId, msg: msg || `Complete request ${requestId} by ${author}.` });
+    await deleteRequest({ requestId, msg: msg || `Completed request ${requestId} by ${author}.` });
   } catch (err) {
     ctx.error = err;
     await asyncInvoke('museCore.req.failedCompleteRequest', ctx);

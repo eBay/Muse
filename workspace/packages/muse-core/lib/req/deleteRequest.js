@@ -26,7 +26,7 @@ module.exports = async params => {
 
   try {
     await asyncInvoke('museCore.req.deleteRequest', ctx, params);
-    await registry.del(keyPath, msg || `Delete request ${requestId} by ${author}.`);
+    await registry.del(keyPath, msg || `Deleted request ${requestId} by ${author}.`);
   } catch (err) {
     ctx.error = err;
     await asyncInvoke('museCore.req.failedDeleteRequest', ctx, params);

@@ -43,7 +43,7 @@ module.exports = async params => {
     await registry.set(
       keyPath,
       Buffer.from(yaml.dump(ctx.request)),
-      msg || `Delete request ${requestId} status ${toDelete} by ${author}`,
+      msg || `Deleted request ${requestId} status ${toDelete} by ${author}`,
     );
   } catch (err) {
     ctx.error = err;

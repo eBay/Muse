@@ -39,7 +39,7 @@ module.exports = async params => {
     await registry.set(
       keyPath,
       Buffer.from(yaml.dump(ctx.request)),
-      msg || `Update request ${requestId} by ${author}`,
+      msg || `Updated request ${requestId} by ${author}`,
     );
   } catch (err) {
     ctx.error = err;
