@@ -75,14 +75,16 @@ function PluginActions({ plugin, app }) {
       //     window.open(`https://github.corp.ebay.com/${plugin.meta.repo}`);
       //   },
       // },
-      // {
-      //   key: 'releaseList',
-      //   label: 'Show releases',
-      //   order: 55,
-      //   icon: 'bars',
-      //   highlight: false,
-      //   onClick: () => showReleaseList(plugin),
-      // },
+      {
+        key: 'releaseList',
+        label: 'Show releases',
+        order: 55,
+        icon: 'bars',
+        highlight: false,
+        onClick: () => {
+          NiceModal.show('muse-manager.releases-drawer', { plugin, app });
+        },
+      },
       // {
       //   key: 'undepoly',
       //   label: canUndeploy ? 'Undeploy' : 'Undeploy (Owners only)',

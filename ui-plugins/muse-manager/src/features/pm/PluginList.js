@@ -56,16 +56,20 @@ export default function PluginList({ app }) {
         dataIndex: 'name',
         title: env.name,
         width: '120px',
-        render: pluginName => {
+        render: (pluginName, plugin) => {
           const version = _.find(env?.plugins, { name: pluginName })?.version;
           if (!version) return <NA />;
           const latestVersion = latestReleases?.[pluginName]?.version;
           if (!latestVersion) return version;
           const color = semver.lt(version, latestVersion) ? 'orange' : '#8bc34a';
           return (
-            <a href="#" style={{ color }}>
+            <Button
+              type="link"
+              onClick={() => NiceModal.show('muse-manager.releases-drawer', { plugin, app })}
+              style={{ textAlign: 'left', padding: 0, color }}
+            >
               v{version}
-            </a>
+            </Button>
           );
         },
       };
@@ -74,7 +78,7 @@ export default function PluginList({ app }) {
       dataIndex: 'name',
       title: 'Latest',
       width: '120px',
-      render: pluginName => {
+      render: (pluginName, plugin) => {
         const latest = latestReleases?.[pluginName];
         return latest ? (
           <Tooltip
@@ -85,7 +89,11 @@ export default function PluginList({ app }) {
               </>
             }
           >
-            <Button type="link" onClick={() => null} style={{ textAlign: 'left', padding: 0 }}>
+            <Button
+              type="link"
+              onClick={() => NiceModal.show('muse-manager.releases-drawer', { plugin, app })}
+              style={{ textAlign: 'left', padding: 0 }}
+            >
               {latest.version}
             </Button>
           </Tooltip>
