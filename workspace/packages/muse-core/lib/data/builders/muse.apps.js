@@ -1,4 +1,4 @@
-const { getApps } = require('../../am');
+const getApps = require('../../am/getApps');
 const logger = require('../../logger').createLogger('muse.data.builder.muse-apps');
 
 module.exports = {

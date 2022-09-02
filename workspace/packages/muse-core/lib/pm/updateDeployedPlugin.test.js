@@ -24,6 +24,7 @@ describe('Update deployed plugin basic tests.', () => {
     const pluginName = 'plugin1';
     await muse.am.createApp({ appName });
     await muse.pm.createPlugin({ pluginName, author: 'nate' });
+    await muse.pm.createPlugin({ pluginName: 'plugin2', author: 'nate' });
     await muse.pm.releasePlugin({ pluginName, version: '1.0.0' });
     await muse.pm.deployPlugin({
       appName,
@@ -34,9 +35,9 @@ describe('Update deployed plugin basic tests.', () => {
     try {
       await muse.pm.updateDeployedPlugin({
         appName,
-        pluginName,
+        pluginName: 'plugin2',
         changesByEnv: {
-          staging1: {
+          staging: {
             set: {
               path: 'foo',
               value: 'bar',
@@ -94,16 +95,5 @@ describe('Update deployed plugin basic tests.', () => {
         },
       },
     });
-  });
-
-  it('It throws exception if app does not exist.', async () => {
-    const pluginName = 'testplugin-dont-exist';
-
-    try {
-      await muse.pm.updatePlugin({ pluginName });
-      expect(true).toBe(false); // above statement should throw error
-    } catch (err) {
-      expect(err?.message).toMatch(`doesn't exist`);
-    }
   });
 });

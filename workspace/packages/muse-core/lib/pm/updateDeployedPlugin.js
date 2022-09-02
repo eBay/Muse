@@ -1,5 +1,6 @@
 const { asyncInvoke, getPluginId, updateJson, osUsername, validate } = require('../utils');
 const getPlugin = require('./getPlugin');
+const getDeployedPlugin = require('./getDeployedPlugin');
 const { registry } = require('../storage');
 const schema = require('../schemas/pm/updateDeployedPlugin.json');
 const museData = require('../data');
@@ -38,23 +39,25 @@ module.exports = async params => {
   }
   const pid = getPluginId(pluginName);
 
-  const fullApp = await museData.get(`muse.app.${appName}`, { noCache: true });
-  if (!fullApp) {
-    throw new Error(`App ${appName} doesn't exist.`);
-  }
+  // const fullApp = await museData.get(`muse.app.${appName}`, { noCache: true });
+  // if (!fullApp) {
+  //   throw new Error(`App ${appName} doesn't exist.`);
+  // }
 
   try {
-    const items = Object.entries(changesByEnv).map(([envName, changes]) => {
-      const deployedPlugin = fullApp.envs[envName]?.plugins?.find(p => (p.name = pluginName));
-      if (!deployedPlugin) {
-        throw new Error(`Plugin ${pluginName} was not found on ${appName}@${envName}.`);
-      }
-      const updatedDeployedPlugin = updateJson(deployedPlugin, changes);
-      return {
-        keyPath: `/apps/${appName}/${envName}/${pid}.yaml`,
-        value: Buffer.from(yaml.dump(updatedDeployedPlugin)),
-      };
-    });
+    const items = await Promise.all(
+      Object.entries(changesByEnv).map(async ([envName, changes]) => {
+        const deployedPlugin = await getDeployedPlugin(appName, envName, pluginName); // fullApp.envs[envName]?.plugins?.find(p => (p.name = pluginName));
+        if (!deployedPlugin) {
+          throw new Error(`Plugin ${pluginName} was not found on ${appName}@${envName}.`);
+        }
+        const updatedDeployedPlugin = updateJson(deployedPlugin, changes);
+        return {
+          keyPath: `/apps/${appName}/${envName}/${pid}.yaml`,
+          value: Buffer.from(yaml.dump(updatedDeployedPlugin)),
+        };
+      }),
+    );
     ctx.items = items;
     await asyncInvoke('museCore.pm.updateDeployedPlugin', ctx, params);
     await registry.batchSet(

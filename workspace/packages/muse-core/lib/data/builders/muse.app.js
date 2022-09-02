@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const { getApp } = require('../../am');
+const getApp = require('../../am/getApp');
 const getDeployedPlugins = require('../../pm/getDeployedPlugins');
 const logger = require('../../logger').createLogger('muse.data.builder.muse-app');
 
