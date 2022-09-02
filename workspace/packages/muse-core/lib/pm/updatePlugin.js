@@ -56,7 +56,7 @@ module.exports = async params => {
       const keyPath = `/plugins/${pid}.yaml`;
       await updateRegistryKey({ ctx, keyPath, params });
     } else {
-      for (envi of envNames) {
+      for (const envi of envNames) {
         const keyPath = `/apps/${appName}/${envi}/${pid}.yaml`;
         await updateRegistryKey({ ctx, keyPath, params });
       }
