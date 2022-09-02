@@ -5,11 +5,11 @@ import { Drawer, Table } from 'antd';
 import jsPlugin from 'js-plugin';
 import _ from 'lodash';
 import { RequestStatus, DropdownMenu } from '@ebay/muse-lib-antd/src/features/common';
-import { usePollingMuseData } from '../../hooks';
+import { useMuseData } from '../../hooks';
 
 const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
   const modal = useModal();
-  const { data: releases, error } = usePollingMuseData(`muse.plugin-releases.${plugin.name}`);
+  const { data: releases, error } = useMuseData(`muse.plugin-releases.${plugin.name}`);
 
   const columns = [
     {

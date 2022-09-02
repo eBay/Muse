@@ -112,6 +112,10 @@ export function usePollingMuseData(dataKey, args = { interval: 10000 }) {
 
   return {
     data,
+    // TODO: set polling error
+    // if the last polling failed, there's error.
+    // The usage side should decide how to handle polling error if data already exists or not.
+    error: null,
     stopPolling: () => {
       poller.stop();
       delete pollers[pollerKey];
