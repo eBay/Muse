@@ -44,6 +44,7 @@ module.exports = async params => {
     author,
     options,
   } = params;
+  await asyncInvoke('museCore.pm.beforeReleasePlugin', ctx, params);
 
   // Check if plugin exists
   const plugin = await getPlugin(pluginName);
@@ -57,7 +58,6 @@ module.exports = async params => {
   }
 
   const pid = getPluginId(pluginName);
-  await asyncInvoke('museCore.pm.beforeReleasePlugin', ctx, params);
   const newVersion = genNewVersion(releases?.[0]?.version, version);
   logger.info(`Creating release ${pluginName}@${newVersion}...`);
 
