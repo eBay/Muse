@@ -37,7 +37,7 @@ const getFileObj = async ({ appName, envName, type, pluginName, version, options
         });
   const obj = {
     keyPath,
-    value: Buffer.from(yaml.dump(jsonContent)),
+    value: (jsonContent && Buffer.from(yaml.dump(jsonContent))) || null,
   };
   return obj;
 };
