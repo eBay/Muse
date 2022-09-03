@@ -1,5 +1,5 @@
 {
-  "name": "muse-acl-plugin",
+  "name": "@ebay/muse-plugin-acl",
   "version": "1.0.3",
   "description": "",
   "main": "./lib/index.js",
