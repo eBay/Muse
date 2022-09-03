@@ -2,7 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@casl/ability': ^5.4.4
-  '@ebay/muse-core': workspace:^1.0.6
+  '@ebay/muse-core': workspace:^1.0.21
   eslint: ^8.23.0
   js-plugin: ^1.1.0
   lodash: ^4.17.21

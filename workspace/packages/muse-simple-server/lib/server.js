@@ -13,18 +13,14 @@ async function server({ appName, envName = 'staging', isDev, port = 6070 }) {
       allowedApps: ['musemanager'],
     }),
   );
-
-  app.use(
-    require('@ebay/muse-plugin-acl')({
-      allowedApps: ['musemanager'],
-    }),
-  );
+  plugin.invoke('museServer.preProcessApp', app);
   app.use(express.json());
   app.get('/*', express.static(path.join(__dirname, '../static')));
   plugin.invoke('museServer.processApp', app);
   app.use(museApiMiddleware({}));
   app.use(museAssetsMiddleware({}));
   app.use(museAppMiddleware({ appName, envName, isDev, isLocal: true, byUrl: !appName }));
+  plugin.invoke('museServer.postProcessApp', app);
 
   app.listen(port, () => {
     console.log(
