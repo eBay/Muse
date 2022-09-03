@@ -3,7 +3,7 @@ const beforeExts = require('./beforeExts');
 
 module.exports = () => {
   const obj = {
-    name: '@ebay/muse-acl-plugin',
+    name: '@ebay/muse-plugin-acl',
     museCore: {
       ...beforeExts,
       data: {
