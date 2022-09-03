@@ -19,6 +19,12 @@ module.exports = () => {
             },
           };
         },
+        getMuseDataKeysByRawKeys: (rawDataType, keys) => {
+          if (rawDataType !== 'registry') return null;
+          if (keys.includes('/admins.yaml')) {
+            return 'muse.admins';
+          }
+        },
       },
     },
     exports: {
