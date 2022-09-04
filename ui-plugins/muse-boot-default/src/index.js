@@ -66,7 +66,9 @@ async function start() {
     );
   }
   console.log(`Plugins(${plugins.length}):`);
-  plugins.forEach(p => console.log(`  * ${p.name}@${p.version || p.url}`));
+  plugins.forEach(p =>
+    console.log(`  * ${p.name}@${p.version || p.url}${p.noUrl ? ' (No Url)' : ''}`),
+  );
 
   // Load init plugins
   // Init plugins should be small and not depends on each other

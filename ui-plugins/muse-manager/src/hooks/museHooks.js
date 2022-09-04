@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { message } from 'antd';
-import _, { last } from 'lodash';
+import _ from 'lodash';
 import polling from '@ebay/muse-lib-react/src/features/common/polling';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 

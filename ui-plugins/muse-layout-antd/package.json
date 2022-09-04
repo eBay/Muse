@@ -11,8 +11,9 @@
   "devDependencies": {
     "@babel/preset-react": "^7.18.6",
     "@craco/craco": "6.4.4",
+    "@ebay/muse-core": "^1.0.23",
     "@ebay/muse-craco-plugin": "1.0.14",
-    "@ebay/muse-ebay-dev-config": "^1.0.5",
+    "@ebay/muse-ebay-dev": "^1.0.1",
     "@ebay/muse-scripts-react": "^1.0.12",
     "@zarconontol/enzyme-adapter-react-18": "^0.7.3",
     "craco-less": "^2.0.0",
@@ -20,9 +21,9 @@
     "enzyme": "^3.11.0"
   },
   "scripts": {
-    "start": "cross-env PORT=3032 muse-scripts-react start",
-    "prestart": "muse-ebay check-updates",
-    "prebuild": "muse-ebay check-updates",
+    "start": "cross-env NODE_PATH=./node_modules PORT=3032 muse-scripts-react start",
+    "prestart": "muse-ebay-dev check-updates",
+    "prebuild": "muse-ebay-dev check-updates",
     "build": "cross-env NODE_PATH=./node_modules muse-scripts-react build",
     "build:dev": "cross-env NODE_PATH=./node_modules muse-scripts-react build --dev",
     "deploy": "pnpm build && pnpm build:dev && muse release && muse deploy nateapp staging",
@@ -45,11 +46,10 @@
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
     "@craco/craco": "6.4.4",
-    "@ebay/muse-craco-plugin": "1.0.18",
-    "@ebay/muse-ebay-dev-config": "1.0.6",
+    "@ebay/muse-craco-plugin": "1.0.25",
     "@ebay/muse-lib-antd": "^1.0.8",
-    "@ebay/muse-lib-react": "^1.0.12",
-    "@ebay/muse-scripts-react": "^1.0.10",
+    "@ebay/muse-lib-react": "1.0.20",
+    "@ebay/muse-scripts-react": "1.0.22",
     "antd": "4.20.7",
     "js-plugin": "^1.1.0",
     "lodash": "^4.17.21",

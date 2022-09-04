@@ -25,14 +25,14 @@ const renderMenuItem = ({ key, label, icon, disabled = false, menuItemProps = {}
   );
 };
 
-const renderOuterItem = ({ icon, label, ...rest }, size) => {
+const renderOuterItem = ({ icon, label, disabled, disabledText, ...rest }, size) => {
   delete rest.highlight;
   delete rest.size;
   const iconNode = icon ? getIconNode({ icon }) : getIconNode({ icon: 'file' });
   rest.icon = iconNode;
 
   return (
-    <Tooltip title={label} key={rest.key}>
+    <Tooltip title={disabled ? disabledText || label : label} key={rest.key}>
       <Button size={size} {...rest} />
     </Tooltip>
   );

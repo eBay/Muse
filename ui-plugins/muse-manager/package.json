@@ -18,6 +18,7 @@
     "@ebay/muse-express-middleware": "1.0.22",
     "@ebay/muse-lib-antd": "^1.0.8",
     "@ebay/muse-lib-react": "1.0.20",
+    "@ebay/muse-plugin-acl": "^1.0.3",
     "@ebay/muse-scripts-react": "1.0.22",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",

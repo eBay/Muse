@@ -4,17 +4,21 @@ import NiceModal from '@ebay/nice-modal-react';
 import jsPlugin from 'js-plugin';
 import { message, Modal } from 'antd';
 
-import { useMuseApi, useSyncStatus } from '../../hooks';
+import { useMuseApi, useSyncStatus, useAbility } from '../../hooks';
 import _ from 'lodash';
 
 function PluginActions({ plugin, app }) {
   const { action: deletePlugin } = useMuseApi('pm.deletePlugin');
   const syncStatus = useSyncStatus('muse.plugins');
+  const ability = useAbility('Plugin');
+
   let items = useMemo(() => {
     return [
       {
         key: 'build',
         label: 'Trigger a build',
+        disabled: ability.cannot('build', plugin),
+        disabledText: 'Only owners can build.',
         icon: 'tool',
         order: 20,
         highlight: true,
