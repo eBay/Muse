@@ -1,6 +1,6 @@
 {
   "name": "@ebay/muse-modules",
-  "version": "1.0.19",
+  "version": "1.0.20",
   "main": "index.js",
   "scripts": {
     "test": "node test.js"
