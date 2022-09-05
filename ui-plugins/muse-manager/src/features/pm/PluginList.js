@@ -47,9 +47,10 @@ export default function PluginList({ app }) {
       },
     },
     {
-      dataIndex: 'createdBy',
-      title: 'Created By',
+      dataIndex: 'owners',
+      title: 'Owners',
       width: '120px',
+      render: o => o.join(', '),
     },
     ...Object.values(app?.envs || {}).map(env => {
       return {
