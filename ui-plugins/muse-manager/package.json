@@ -20,6 +20,7 @@
     "@ebay/muse-lib-react": "1.0.20",
     "@ebay/muse-plugin-acl": "^1.0.3",
     "@ebay/muse-scripts-react": "1.0.22",
+    "@ebay/muse-webpack-plugin": "^1.0.22",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
@@ -35,7 +36,8 @@
   },
   "pnpm": {
     "overrides": {
-      "@ebay/muse-dev-utils": "link:../../workspace/packages/muse-dev-utils"
+      "@ebay/muse-webpack-plugin": "link:../../workspace/packages/muse-webpack-plugin",
+      "@ebay/muse-craco-plugin": "link:../../workspace/packages/muse-craco-plugin"
     }
   },
   "scripts": {

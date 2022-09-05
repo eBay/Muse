@@ -33,7 +33,7 @@ const renderOuterItem = ({ icon, label, disabled, disabledText, ...rest }, size)
 
   return (
     <Tooltip title={disabled ? disabledText || label : label} key={rest.key}>
-      <Button size={size} {...rest} />
+      <Button size={size} disabled={disabled} {...rest} />
     </Tooltip>
   );
 };
