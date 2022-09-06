@@ -21,7 +21,7 @@ const getPluginByUrl = s => {
   }
   // TODO: validate string pattern
   const arr = s.split(':');
-  const nameArr = arr[0].split('#');
+  const nameArr = arr[0].split(/[#!]/g);
   const url = arr.slice(1).join(':');
 
   return {
@@ -37,7 +37,7 @@ muse.plugin.register({
     app: {
       getAppInfo: () => {
         // Refresh .env value
-        require('dotenv').config();
+        require('dotenv').config({ override: true });
         const museConfig = getPkgJson()?.muse;
         if (!museConfig?.devConfig) {
           throw new Error(`muse.devConfig section is not found in package.json.`);
@@ -92,12 +92,6 @@ muse.plugin.register({
           // For a local included plugin, the bundle is from local bundle
           // Keep original plugin meta for configurations data
           if (pluginByName[name]) pluginByName[name].noUrl = true;
-        });
-
-        // For a plugin included by url, keep the original meta too
-        urlPlugins.forEach(up => {
-          if (pluginByName[up.name]) pluginByName[up.name].url = up.url;
-          else plugins.push(up);
         });
 
         // // if a plugin is defined by url, then it has higher priority than deployed ones
@@ -156,6 +150,12 @@ muse.plugin.register({
         }
         plugins.length = 0;
         plugins.push(...realPluginsToLoad);
+
+        // For a plugin included by url, keep the original meta too
+        urlPlugins.forEach(up => {
+          if (pluginByName[up.name]) pluginByName[up.name].url = up.url;
+          else plugins.push(up);
+        });
       },
       processMuseGlobal: museGlobal => {
         museGlobal.isLocal = true;
