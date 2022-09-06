@@ -15,6 +15,7 @@ export default function({
   converter,
   retries = 30,
   stopIf,
+  onError = () => {},
 }) {
   const poller = {
     remaining: retries > 0 ? retries : 1,
@@ -45,7 +46,7 @@ export default function({
         })
         .catch(err => {
           if (this.startTime !== timestamp) return;
-
+          onError && onError(err);
           this.error = err;
           this.errorTimestamp = Date.now();
           if (expires > 0 && this.timestamp && Date.now() - this.timestamp > expires) {

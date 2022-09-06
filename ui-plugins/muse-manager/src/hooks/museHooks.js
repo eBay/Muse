@@ -103,19 +103,17 @@ export function usePollingMuseData(dataKey, args = { interval: 10000 }) {
     poller = pollers[pollerKey] = polling({
       retries: 5,
       task: async () => {
-        try {
-          const newData = await museClient.data.get(dataKey);
-          const oldData = lastData[dataKey];
-          if (!_.isEqual(oldData, newData)) {
-            dispatch(setMuseData(dataKey, newData));
-          }
-          if (lastDataError[errorKey]) {
-            dispatch(setMuseData(errorKey, null));
-          }
-        } catch (err) {
-          dispatch(setMuseData(errorKey, err.message || errorKey));
-          throw err;
+        const newData = await museClient.data.get(dataKey);
+        const oldData = lastData[dataKey];
+        if (!_.isEqual(oldData, newData)) {
+          dispatch(setMuseData(dataKey, newData));
         }
+        if (lastDataError[errorKey]) {
+          dispatch(setMuseData(errorKey, null));
+        }
+      },
+      onError: err => {
+        dispatch(setMuseData(errorKey, err.message || errorKey));
       },
       interval: args.interval || 10000,
     });
