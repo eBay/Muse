@@ -178,15 +178,14 @@ module.exports = middlewares => {
   });
   try {
     // It doesn't need history fallback since Muse app middleware handles it.
-    let i = _.findIndex(middlewares, m => m.name === 'connect-history-api-fallback');
+    const i = _.findIndex(middlewares, m => m.name === 'webpack-dev-middleware');
 
     if (i < 0) {
-      console.warn('Can not find connect-history-api-fallback.');
-      i = 0;
+      throw new Error('Can not find webpack-dev-middleware.');
     }
     middlewares.splice(
-      i,
-      1,
+      i + 1,
+      0,
       ...localLibMiddlewares,
       // Local Muse assets server to improve local dev performance
       // Because Muse assets middleware caches resource in local cache folder.
