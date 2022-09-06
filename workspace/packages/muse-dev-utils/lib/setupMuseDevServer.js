@@ -178,10 +178,11 @@ module.exports = middlewares => {
   });
   try {
     // It doesn't need history fallback since Muse app middleware handles it.
-    const i = _.findIndex(middlewares, m => m.name === 'connect-history-api-fallback');
+    let i = _.findIndex(middlewares, m => m.name === 'connect-history-api-fallback');
 
     if (i < 0) {
-      throw new Error('Can not find connect-history-api-fallback.');
+      console.warn('Can not find connect-history-api-fallback.');
+      i = 0;
     }
     middlewares.splice(
       i,

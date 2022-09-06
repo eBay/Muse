@@ -14,6 +14,7 @@
     "@ebay/muse-client": "1.0.14",
     "@ebay/muse-core": "1.0.24",
     "@ebay/muse-craco-plugin": "1.0.26",
+    "@ebay/muse-dev-utils": "^1.0.26",
     "@ebay/muse-ebay-dev": "^1.0.1",
     "@ebay/muse-express-middleware": "1.0.23",
     "@ebay/muse-lib-antd": "1.0.9",
@@ -34,9 +35,10 @@
     "semver": "^7.3.7",
     "web-vitals": "^2.1.4"
   },
-  "pnpm2": {
+  "pnpm": {
     "overrides": {
       "@ebay/muse-webpack-plugin": "link:../../workspace/packages/muse-webpack-plugin",
+      "@ebay/muse-dev-utils": "link:../../workspace/packages/muse-dev-utils",
       "@ebay/muse-craco-plugin": "link:../../workspace/packages/muse-craco-plugin"
     }
   },
