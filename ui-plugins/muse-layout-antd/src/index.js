@@ -5,7 +5,7 @@ import route from './common/routeConfig';
 import reducer from './common/rootReducer';
 import updateMuseLayout from './features/home/updateMuseLayout';
 import './styles/index.less';
-
+import './authFailed';
 plugin.register({
   ...ext,
   route,

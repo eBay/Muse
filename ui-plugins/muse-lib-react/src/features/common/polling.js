@@ -27,6 +27,7 @@ export default function({
           // If re-started, discard previous response
           if (this.startTime !== timestamp) return;
           this.value = converter ? converter(res) : res;
+          // Reset remaining count
           this.remaining = retries > 0 ? retries : 1;
           this.timestamp = Date.now();
           delete this.error;

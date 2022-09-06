@@ -38,7 +38,7 @@ export default function AppPage() {
   return (
     <div>
       <h1>Muse App: {appName}</h1>
-      <RequestStatus loading={!app} error={!app && error} loadingMode="skeleton" />
+      <RequestStatus loading={!error && !app} error={!app && error} loadingMode="skeleton" />
 
       {app && (
         <Tabs activeKey={tabKey} onChange={k => navigate(`/app/${appName}/${k}`)}>
