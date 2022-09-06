@@ -146,6 +146,7 @@ const updateJson = (obj, changes) => {
     if (item.value) _.pull(arr, item.value);
     if (item.predicate) _.remove(arr, item.predicate);
   });
+  return obj;
 };
 
 const genNewVersion = (oldVersion, verionType = 'patch') => {

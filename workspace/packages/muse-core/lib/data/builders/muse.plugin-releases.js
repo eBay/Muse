@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const { getReleases } = require('../../pm');
+const getReleases = require('../../pm/getReleases');
 const { getPluginName } = require('../../utils');
 const logger = require('../../logger').createLogger('muse.data.builder.muse.plugin-releases');
 

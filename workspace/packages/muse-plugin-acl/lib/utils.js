@@ -62,6 +62,15 @@ const getUser = async username => {
   };
 };
 
+const assetPermission = (allowed, msg = 'No permission.') => {
+  if (!allowed) {
+    const err = new Error(msg);
+    err.code = 403;
+    throw err;
+  }
+  return true;
+};
+
 module.exports = {
   getAdminMembers,
   getAppMembers,
@@ -69,4 +78,5 @@ module.exports = {
   isMember,
   errorUnlessCan,
   getUser,
+  assetPermission,
 };

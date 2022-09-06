@@ -6,7 +6,7 @@ import { useMuseApi, useSyncStatus } from '../../hooks';
 
 import PluginReleaseSelect from './PluginReleaseSelect';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
-const DeployPluginModal = NiceModal.create(({ plugin, app }) => {
+const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
   const [form] = Form.useForm();
   const modal = useModal();
   const {
@@ -37,6 +37,7 @@ const DeployPluginModal = NiceModal.create(({ plugin, app }) => {
         required: true,
         widget: PluginReleaseSelect,
         widgetProps: { plugin, app },
+        initialValue: version || undefined,
       },
       {
         key: 'envs',

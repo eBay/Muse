@@ -1,4 +1,4 @@
-const { getRequests } = require('../../req');
+const getRequests = require('../../req/getRequests');
 const logger = require('../../logger').createLogger('muse.data.builder.muse-requests');
 
 module.exports = {

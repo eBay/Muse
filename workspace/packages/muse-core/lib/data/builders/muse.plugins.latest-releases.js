@@ -1,5 +1,5 @@
-const _ = require('lodash');
-const { getPlugins, getReleases } = require('../../pm');
+const getPlugins = require('../../pm/getPlugins');
+const getReleases = require('../../pm/getReleases');
 const { batchAsync } = require('../../utils');
 const logger = require('../../logger').createLogger(
   'muse.data.builder.muse.plugins.latest-releases',

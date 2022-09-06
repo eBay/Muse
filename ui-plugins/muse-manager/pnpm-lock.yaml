@@ -1,8 +1,5 @@
 lockfileVersion: 5.4
 
-overrides:
-  '@ebay/muse-dev-utils': link:../../workspace/packages/muse-dev-utils
-
 specifiers:
   '@craco/craco': 6.4.4
   '@ebay/muse-client': 1.0.14
@@ -12,7 +9,9 @@ specifiers:
   '@ebay/muse-express-middleware': 1.0.23
   '@ebay/muse-lib-antd': 1.0.9
   '@ebay/muse-lib-react': 1.0.20
+  '@ebay/muse-plugin-acl': 1.0.4
   '@ebay/muse-scripts-react': 1.0.23
+  '@ebay/muse-webpack-plugin': ^1.0.22
   '@testing-library/jest-dom': ^5.16.4
   '@testing-library/react': ^13.3.0
   '@testing-library/user-event': ^13.5.0
@@ -31,12 +30,14 @@ dependencies:
   '@craco/craco': 6.4.4_react-scripts@5.0.1
   '@ebay/muse-client': 1.0.14
   '@ebay/muse-core': 1.0.24
-  '@ebay/muse-craco-plugin': 1.0.26_@craco+craco@6.4.4
+  '@ebay/muse-craco-plugin': 1.0.26_4bhg4mbc3ycz7prgs5pgq4f5am
   '@ebay/muse-ebay-dev': 1.0.1_@ebay+muse-core@1.0.24
   '@ebay/muse-express-middleware': 1.0.23_@ebay+muse-core@1.0.24
   '@ebay/muse-lib-antd': 1.0.9_@craco+craco@6.4.4
   '@ebay/muse-lib-react': 1.0.20_5etiqhkfjdttz5dcmi2hz5fcv4
+  '@ebay/muse-plugin-acl': 1.0.4
   '@ebay/muse-scripts-react': 1.0.23
+  '@ebay/muse-webpack-plugin': 1.0.23
   '@testing-library/jest-dom': 5.16.5
   '@testing-library/react': 13.3.0_biqbaboplfbrettd7655fr4n2y
   '@testing-library/user-event': 13.5.0
@@ -1360,6 +1361,12 @@ packages:
   /@bcoe/v8-coverage/0.2.3:
     resolution: {integrity: sha1-daLotRy3WKdVPWgEpZMteqznXDk=}
 
+  /@casl/ability/5.4.4:
+    resolution: {integrity: sha1-++VDQMFWJI5zgElC7tNQkDsnufM=}
+    dependencies:
+      '@ucast/mongo2js': 1.3.3
+    dev: false
+
   /@colors/colors/1.5.0:
     resolution: {integrity: sha1-u1BFecHK6SPmV2pPXaQ9Jfl729k=}
     engines: {node: '>=0.1.90'}
@@ -1563,14 +1570,30 @@ packages:
       winston-transport: 4.5.0
     dev: false
 
-  /@ebay/muse-craco-plugin/1.0.26_@craco+craco@6.4.4:
+  /@ebay/muse-craco-plugin/1.0.26_4bhg4mbc3ycz7prgs5pgq4f5am:
     resolution: {integrity: sha1-WhlqT6FLy5ppYauArtlTA/BG2fA=, tarball: '@ebay/muse-craco-plugin/-/@ebay/muse-craco-plugin-1.0.26.tgz'}
     peerDependencies:
       '@craco/craco': 6.4.4
     dependencies:
       '@craco/craco': 6.4.4_react-scripts@5.0.1
-      '@ebay/muse-dev-utils': link:../../workspace/packages/muse-dev-utils
+      '@ebay/muse-dev-utils': 1.0.26_@ebay+muse-core@1.0.24
       '@ebay/muse-webpack-plugin': 1.0.23
+      resolve-cwd: 3.0.0
+    transitivePeerDependencies:
+      - '@ebay/muse-core'
+      - express
+    dev: false
+
+  /@ebay/muse-dev-utils/1.0.26_@ebay+muse-core@1.0.24:
+    resolution: {integrity: sha1-5yV3Buu4bQzfMUCx5SXUazVSWOw=, tarball: '@ebay/muse-dev-utils/-/@ebay/muse-dev-utils-1.0.26.tgz'}
+    peerDependencies:
+      '@ebay/muse-core': ^1.0.24
+      express: ^4.18.1
+    dependencies:
+      '@ebay/muse-core': 1.0.24
+      '@ebay/muse-express-middleware': 1.0.23_@ebay+muse-core@1.0.24
+      dotenv: 16.0.1
+      lodash: 4.17.21
       resolve-cwd: 3.0.0
     dev: false
 
@@ -1711,6 +1734,15 @@ packages:
 
   /@ebay/muse-modules/1.0.20:
     resolution: {integrity: sha1-Bm+UFr8EvvZYjPN4y7dpllCe4Bk=, tarball: '@ebay/muse-modules/-/@ebay/muse-modules-1.0.20.tgz'}
+    dev: false
+
+  /@ebay/muse-plugin-acl/1.0.4:
+    resolution: {integrity: sha1-kLv1Tt7+JNDa1Ays7iONKUf06Aw=, tarball: '@ebay/muse-plugin-acl/-/@ebay/muse-plugin-acl-1.0.4.tgz'}
+    dependencies:
+      '@casl/ability': 5.4.4
+      '@ebay/muse-core': 1.0.24
+      js-plugin: 1.1.0
+      lodash: 4.17.21
     dev: false
 
   /@ebay/muse-scripts-react/1.0.23:
@@ -2731,6 +2763,30 @@ packages:
     dependencies:
       '@typescript-eslint/types': 5.33.1
       eslint-visitor-keys: 3.3.0
+
+  /@ucast/core/1.10.1:
+    resolution: {integrity: sha1-A6d6eAS8tQAqXK02gehs0Yl+Lh8=}
+    dev: false
+
+  /@ucast/js/3.0.2:
+    resolution: {integrity: sha1-hig47mgRLGwmLU9Gk8xZK6gxV+A=}
+    dependencies:
+      '@ucast/core': 1.10.1
+    dev: false
+
+  /@ucast/mongo/2.4.2:
+    resolution: {integrity: sha1-qKHDLmXMq2I74CPmztsR0TbVDxk=}
+    dependencies:
+      '@ucast/core': 1.10.1
+    dev: false
+
+  /@ucast/mongo2js/1.3.3:
+    resolution: {integrity: sha1-poOlnOoiiHpy5DAvOCbkHM9R274=}
+    dependencies:
+      '@ucast/core': 1.10.1
+      '@ucast/js': 3.0.2
+      '@ucast/mongo': 2.4.2
+    dev: false
 
   /@webassemblyjs/ast/1.11.1:
     resolution: {integrity: sha1-K/12fq4aaZb0Mv9+jX/HVnnAtqc=}

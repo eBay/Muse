@@ -37,7 +37,7 @@ const getFileObj = async ({ appName, envName, type, pluginName, version, options
         });
   const obj = {
     keyPath,
-    value: Buffer.from(yaml.dump(jsonContent)),
+    value: (jsonContent && Buffer.from(yaml.dump(jsonContent))) || null,
   };
   return obj;
 };
@@ -83,7 +83,7 @@ module.exports = async params => {
       ? `Batch deployment for ${appName}.`
       : `Deploying plugin ${pluginName}@${params.version || 'latest'} to ${appName}/${envName}...`,
   );
-  console.log('params: ', params);
+
   await asyncInvoke('museCore.pm.beforeDeployPlugin', ctx, params);
 
   const app = await getApp(appName);

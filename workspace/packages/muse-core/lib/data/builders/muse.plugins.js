@@ -1,4 +1,4 @@
-const { getPlugins } = require('../../pm');
+const getPlugins = require('../../pm/getPlugins');
 const logger = require('../../logger').createLogger('muse.data.builder.muse-plugins');
 
 module.exports = {

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { message } from 'antd';
-import _, { last } from 'lodash';
+import _ from 'lodash';
 import polling from '@ebay/muse-lib-react/src/features/common/polling';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 
@@ -112,6 +112,10 @@ export function usePollingMuseData(dataKey, args = { interval: 10000 }) {
 
   return {
     data,
+    // TODO: set polling error
+    // if the last polling failed, there's error.
+    // The usage side should decide how to handle polling error if data already exists or not.
+    error: null,
     stopPolling: () => {
       poller.stop();
       delete pollers[pollerKey];

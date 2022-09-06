@@ -1,13 +1,16 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "Unregister Release pluginName",
+  "title": "Update Deployed Plugin params",
   "type": "object",
   "properties": {
     "pluginName": {
       "type": "string"
     },
-    "version": {
+    "appName": {
       "type": "string"
+    },
+    "changesByEnv": {
+      "type": "object"
     },
     "author": {
       "type": "string"
@@ -16,6 +19,6 @@
       "type": "string"
     }
   },
-  "required": ["pluginName", "version"],
+  "required": ["pluginName", "appName", "changesByEnv"],
   "additionalProperties": true
 }

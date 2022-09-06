@@ -8,6 +8,8 @@ module.exports = {
   getPlugin: require('./getPlugin'),
   /** @member {function} updatePlugin */
   updatePlugin: require('./updatePlugin'),
+  /** @member {function} updateDeployedPlugin */
+  updateDeployedPlugin: require('./updateDeployedPlugin'),
   /** @member {function} getPlugins */
   getPlugins: require('./getPlugins'),
   /** @member {function} buildPlugin */

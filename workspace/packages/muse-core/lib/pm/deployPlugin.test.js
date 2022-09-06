@@ -127,6 +127,8 @@ describe('Deploy plugin basic tests.', () => {
       },
     });
     const plugins2 = await muse.pm.getDeployedPlugins(appName, 'staging');
+    console.log('plugins2: ', plugins2);
+
     expect(plugins2).toEqual([{ name: 'test-plugin2', version: '1.0.0', type: 'init' }]);
     expect(testJsPlugin.museCore.pm.deployPlugin).toBeCalledTimes(2);
     expect(testJsPlugin.museCore.pm.beforeDeployPlugin).toBeCalledTimes(2);

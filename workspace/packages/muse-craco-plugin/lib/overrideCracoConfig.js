@@ -29,6 +29,7 @@ module.exports = async ({ cracoConfig }) => {
     cracoConfig.webpack.plugins.add.push([
       new MusePlugin({
         isDevBuild,
+        isDev,
         type: museConfig.type,
         museConfig,
       }),

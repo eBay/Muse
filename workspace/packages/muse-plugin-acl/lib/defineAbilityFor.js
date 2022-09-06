@@ -28,6 +28,8 @@ module.exports = function defineAbilityFor(user) {
   // manage means: 'edit-config', 'set-variables', ...
   allow('manage', 'DeployedPlugin', {
     'app.owners': user.username,
+  });
+  allow('manage', 'DeployedPlugin', {
     'plugin.owners': user.username,
   });
 
