@@ -21,7 +21,8 @@ const schema = require('../schemas/am/setAppIcon.json');
  */
 module.exports = async (params = {}) => {
   validate(schema, params);
-  const { appName, icon, author = osUsername } = params;
+  if (!params.author) params.author = osUsername;
+  const { appName, icon, author } = params;
   const ctx = {};
   logger.info(`Setting app icon ${appName}...`);
   await asyncInvoke('museCore.am.beforeSetAppIcon', ctx, params);

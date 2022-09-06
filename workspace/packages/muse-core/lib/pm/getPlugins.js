@@ -22,6 +22,7 @@ module.exports = async params => {
       .map(item => jsonByYamlBuff(item.content));
     await asyncInvoke('museCore.pm.getPlugins', ctx, params);
   } catch (err) {
+    ctx.error = err;
     await asyncInvoke('museCore.pm.failedGetPlugins', ctx, params);
     throw err;
   }

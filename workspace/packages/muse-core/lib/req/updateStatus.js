@@ -21,7 +21,8 @@ const schema = require('../schemas/req/updateStatus.json');
  */
 module.exports = async params => {
   validate(schema, params);
-  const { requestId, status, author = osUsername, msg } = params;
+  if (!params.author) params.author = osUsername;
+  const { requestId, status, author, msg } = params;
   const ctx = {};
 
   /**
@@ -53,13 +54,13 @@ module.exports = async params => {
     await registry.set(
       keyPath,
       Buffer.from(yaml.dump(ctx.request)),
-      msg || `Update request ${requestId} status by ${author}`,
+      msg || `Updated request status of ${requestId} by ${author}.`,
     );
 
     // When ever a status is updated, we need to check if all status is succes
     // If so, merge the request.
     if (ctx.request.autoComplete && ctx.request.statuses.every(s => s.state === 'success')) {
-      await completeRequest({ requestId });
+      await completeRequest({ requestId, author });
     }
   } catch (err) {
     ctx.error = err;

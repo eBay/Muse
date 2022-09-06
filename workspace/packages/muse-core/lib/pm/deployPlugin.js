@@ -62,7 +62,8 @@ const getAllFilesByEnv = async ({ appName, envName, deployments = [] }) => {
  * @returns {object}
  */
 module.exports = async params => {
-  const { appName, envName, pluginName, author = osUsername, options, msg } = params;
+  if (!params.author) params.author = osUsername;
+  const { appName, envName, pluginName, author, options, msg } = params;
   let isBatchDeploy;
   let version;
   let envMap = params.envMap;
@@ -82,6 +83,7 @@ module.exports = async params => {
       ? `Batch deployment for ${appName}.`
       : `Deploying plugin ${pluginName}@${params.version || 'latest'} to ${appName}/${envName}...`,
   );
+  console.log('params: ', params);
   await asyncInvoke('museCore.pm.beforeDeployPlugin', ctx, params);
 
   const app = await getApp(appName);

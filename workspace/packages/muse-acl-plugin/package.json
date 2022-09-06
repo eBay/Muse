@@ -1,18 +1,24 @@
 {
   "name": "muse-acl-plugin",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "",
   "main": "./lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "publishConfig": {
+    "registry": "https://artifactory.corp.ebay.com/artifactory/api/npm/npm-muse"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@casl/ability": "^5.4.4",
-    "@ebay/muse-core": "workspace:^1.0.6",
+    "@ebay/muse-core": "workspace:^1.0.21",
     "js-plugin": "^1.1.0",
     "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "eslint": "^8.23.0"
   }
 }

@@ -17,7 +17,8 @@ const logger = require('../logger').createLogger('muse.pm.deleteRelease');
 
 module.exports = async params => {
   validate(schema, params);
-  const { pluginName, version, author = osUsername, msg } = params;
+  if (!params.author) params.author = osUsername;
+  const { pluginName, version, author, msg } = params;
   const ctx = {};
   await asyncInvoke('museCore.pm.beforeDeleteRelease', ctx, params);
   logger.verbose(`Call ext point museCore.pm.beforeDeleteRelease completed`);

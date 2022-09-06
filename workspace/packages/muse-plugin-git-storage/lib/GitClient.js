@@ -1,8 +1,6 @@
 const axios = require('axios');
 const logger = require('@ebay/muse-core').logger.createLogger('git-storage-plugin.GitClient');
-const museCore = require('@ebay/muse-core');
-const yaml = require('js-yaml');
-const fs = require('fs');
+
 module.exports = class GitClient {
   constructor(options) {
     if (!options.endpoint) throw new Error('No github endpoint specified for GitStorage.');
@@ -44,19 +42,11 @@ module.exports = class GitClient {
     logger.silly(`Committing file: ${params.keyPath}`);
     const { branch = this.branch, message, keyPath, value, organizationName, projectName } = params;
     const repo = `${organizationName}/${projectName}`;
-    const authorId = params.author;
 
     const committerId = await this.getCommitterId();
-
     const committer = {
       name: committerId,
       email: `${committerId}@ebay.com`,
-      date: new Date().toISOString(),
-    };
-
-    const author = {
-      name: authorId,
-      email: `${authorId}@ebay.com`,
       date: new Date().toISOString(),
     };
 
@@ -75,21 +65,13 @@ module.exports = class GitClient {
       content: (value && Buffer.from(value).toString('base64')) || undefined,
       branch,
       committer,
-      author,
       sha,
     };
     await this.axiosGit.put(`/repos/${repo}/contents${keyPath}`, payload);
   }
 
   async batchCommit(params) {
-    const {
-      organizationName,
-      projectName,
-      items = [],
-      branch = this.branch,
-      message,
-      author: authorId,
-    } = params;
+    const { organizationName, projectName, items = [], branch = this.branch, message } = params;
 
     const repo = `${organizationName}/${projectName}`;
 
@@ -107,23 +89,16 @@ module.exports = class GitClient {
       date: new Date().toISOString(),
     };
 
-    const author = {
-      name: authorId,
-      email: `${authorId}@ebay.com`,
-      date: new Date().toISOString(),
-    };
-
     // If multiple files are changed, need to create a commit to apply changes.
     // Otherwise use file API for creation, update or deletion for better performance.
     if (items.length > 1) {
       logger.info('Getting commits tree data...');
       const tree = items.map(({ keyPath, value }) => {
         const obj = { path: keyPath.startsWith('/') ? keyPath.slice(1) : keyPath, mode: '100644' };
-        const content = museCore.utils.jsonByYamlBuff(value);
-        if (content === null) {
+        if (value === null) {
           obj.sha = null;
         } else {
-          obj.content = yaml.dump(content);
+          obj.content = value;
         }
         return obj;
       });
@@ -137,11 +112,10 @@ module.exports = class GitClient {
 
       const newTreeSha = response.data.sha;
       const params = {
-        message,
+        message: message || 'Batch commit.',
         tree: newTreeSha,
         parents: [latestCommitSha],
         committer,
-        author,
       };
 
       logger.info('Creating commit...');
@@ -154,29 +128,20 @@ module.exports = class GitClient {
       });
     } else if (items.length === 1) {
       const { keyPath, value } = items[0];
-      const [, , appName, envName, pluginYaml] = keyPath.split('/');
-      const content = museCore.utils.jsonByYamlBuff(value);
-
-      if (content === null) {
+      if (value === null) {
         await this.deleteFile({
           organizationName,
           projectName,
           keyPath,
           branch,
-          message: `Undeploy plugin ${pluginYaml.replace(
-            '.yaml',
-            '',
-          )} from ${appName}/${envName} by ${authorId}`,
+          message,
         });
       } else {
         await this.commitFile({
           ...params,
           keyPath: keyPath,
           value,
-          message: `Deploy plugin ${pluginYaml.replace(
-            '.yaml',
-            '',
-          )} to ${appName}/${envName} by ${authorId}`,
+          message,
         });
       }
     }

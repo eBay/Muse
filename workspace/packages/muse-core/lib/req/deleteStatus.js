@@ -22,7 +22,8 @@ const schema = require('../schemas/req/deleteStatus.json');
 module.exports = async params => {
   validate(schema, params);
 
-  const { requestId, status, author = osUsername, msg } = params;
+  if (!params.author) params.author = osUsername;
+  const { requestId, status, author, msg } = params;
   const ctx = {};
 
   const toDelete = _.castArray(status);
@@ -42,7 +43,7 @@ module.exports = async params => {
     await registry.set(
       keyPath,
       Buffer.from(yaml.dump(ctx.request)),
-      msg || `Delete request ${requestId} status ${toDelete} by ${author}`,
+      msg || `Deleted request ${requestId} status ${toDelete} by ${author}`,
     );
   } catch (err) {
     ctx.error = err;

@@ -33,7 +33,8 @@ module.exports = async params => {
   await asyncInvoke('museCore.pm.beforeCreatePlugin', ctx, params);
   logger.verbose(`Call ext point museCore.pm.beforeCreatePlugin completed`);
 
-  const { pluginName, type = 'normal', author = osUsername, options, msg } = params;
+  if (!params.author) params.author = osUsername;
+  const { pluginName, type = 'normal', author, options, msg } = params;
 
   // Check if plugin name exists
   if (await getPlugin(pluginName)) {

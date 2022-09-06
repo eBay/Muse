@@ -18,7 +18,8 @@ const logger = require('../../logger').createLogger('muse.am.setAppVariable');
  */
 module.exports = async params => {
   validate(schema, params);
-  const { appName, variables, envNames = [], author = osUsername } = params;
+  if (!params.author) params.author = osUsername;
+  const { appName, variables, envNames = [], author } = params;
 
   const ctx = {};
   try {

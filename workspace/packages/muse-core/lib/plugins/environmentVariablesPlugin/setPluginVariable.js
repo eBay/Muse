@@ -18,7 +18,8 @@ const logger = require('../../logger').createLogger('muse.pm.setPluginVariable')
  */
 module.exports = async params => {
   validate(schema, params);
-  const { pluginName, variables, appName, envNames = [], author = osUsername } = params;
+  if (!params.author) params.author = osUsername;
+  const { pluginName, variables, appName, envNames = [], author } = params;
 
   const ctx = {};
   try {

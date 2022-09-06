@@ -104,7 +104,7 @@ export function usePollingMuseData(dataKey, args = { interval: 10000 }) {
           dispatch(setMuseData(dataKey, newData));
         }
       },
-      interval: 10000000 || args.interval || 10000,
+      interval: args.interval || 10000,
     });
   } else if (poller.stopped) {
     poller.start();

@@ -26,9 +26,9 @@ const schema = require('../schemas/req/createRequest.json');
 module.exports = async (params = {}) => {
   // validate(schema, params);
   const ctx = {};
+  if (!params.author) params.author = osUsername;
   await asyncInvoke('museCore.req.beforeCreateRequest', ctx, params);
-
-  const { id, type, payload, author = osUsername, autoComplete = true, options, msg } = params;
+  const { id, type, payload, author, autoComplete = true, options, msg } = params;
   if (!id) throw new Error(`id is required to create request.`);
   const keyPath = `/requests/${id}.yaml`;
   ctx.request = {

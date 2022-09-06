@@ -1,5 +1,13 @@
 # @ebay/muse-webpack-plugin
 
+## 1.0.22
+
+### Patch Changes
+
+- dev
+- Updated dependencies
+  - @ebay/muse-modules@1.0.19
+
 ## 1.0.21
 
 ### Patch Changes

@@ -1,8 +1,8 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@ebay/muse-core': ^1.0.19
-  '@ebay/muse-simple-server': ^1.0.19
+  '@ebay/muse-core': ^1.0.21
+  '@ebay/muse-simple-server': ^1.0.20
   chalk: 4.1.2
   commander: 9.3.0
   eslint: ^8.18.0
@@ -13,7 +13,7 @@ specifiers:
   lodash: ^4.17.21
 
 dependencies:
-  '@ebay/muse-core': 1.0.20
+  '@ebay/muse-core': 1.0.23
   '@ebay/muse-simple-server': link:../muse-simple-server
   chalk: 4.1.2
   commander: 9.3.0
@@ -62,8 +62,8 @@ packages:
       kuler: 2.0.0
     dev: false
 
-  /@ebay/muse-core/1.0.20:
-    resolution: {integrity: sha1-4cTM+V/wsF5tVP7GmMNAEmfU/vs=, tarball: '@ebay/muse-core/-/@ebay/muse-core-1.0.20.tgz'}
+  /@ebay/muse-core/1.0.23:
+    resolution: {integrity: sha1-BRjMh2c7ITRY6gzQvj+96G8r+R8=, tarball: '@ebay/muse-core/-/@ebay/muse-core-1.0.23.tgz'}
     dependencies:
       ajv: 8.11.0
       archiver: 5.3.1

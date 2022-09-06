@@ -20,7 +20,8 @@ const schema = require('../schemas/req/updateRequest.json');
  */
 module.exports = async params => {
   validate(schema, params);
-  const { requestId, changes, author = osUsername, msg } = params;
+  if (!params.author) params.author = osUsername;
+  const { requestId, changes, author, msg } = params;
   const ctx = {};
 
   await asyncInvoke('museCore.req.beforeUpdateRequest', ctx, params);
@@ -38,7 +39,7 @@ module.exports = async params => {
     await registry.set(
       keyPath,
       Buffer.from(yaml.dump(ctx.request)),
-      msg || `Update request ${requestId} by ${author}`,
+      msg || `Updated request ${requestId} by ${author}`,
     );
   } catch (err) {
     ctx.error = err;

@@ -24,7 +24,8 @@ const logger = require('../logger').createLogger('muse.pm.undeployPlugin');
 module.exports = async params => {
   validate(schema, params);
   const ctx = {};
-  const { appName, envName, pluginName, author = osUsername, msg } = params;
+  if (!params.author) params.author = osUsername;
+  const { appName, envName, pluginName, author, msg } = params;
   logger.verbose(`Undeploying plugin ${pluginName}@${appName}/${envName}...`);
   await asyncInvoke('museCore.pm.beforeUndeployPlugin', ctx, params);
 
