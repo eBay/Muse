@@ -4,17 +4,17 @@ import PropTypes from 'prop-types';
 import { Alert, Button } from 'antd';
 
 export default class ErrorBox extends Component {
-  static propTypes = {
-    title: PropTypes.node,
-    content: PropTypes.node,
-    description: PropTypes.any,
-    preDescription: PropTypes.any,
-    onRetry: PropTypes.func,
-    retryText: PropTypes.string,
-    error: PropTypes.object,
-    btnSize: PropTypes.string,
-    showStack: PropTypes.bool,
-  };
+  // static propTypes = {
+  //   title: PropTypes.node,
+  //   content: PropTypes.node,
+  //   description: PropTypes.any,
+  //   preDescription: PropTypes.any,
+  //   onRetry: PropTypes.func,
+  //   retryText: PropTypes.string,
+  //   error: PropTypes.object,
+  //   btnSize: PropTypes.string,
+  //   showStack: PropTypes.bool,
+  // };
 
   static defaultProps = {
     title: 'Request Failed',
@@ -44,7 +44,11 @@ export default class ErrorBox extends Component {
         </div>
       ));
     } else if (error) {
-      errorInfo = error.message || error.stack || error.exceptionMessage || error.exceptionTrace ||
+      errorInfo =
+        error.message ||
+        error.stack ||
+        error.exceptionMessage ||
+        error.exceptionTrace ||
         (error === Object(error) ? JSON.stringify(error) : error);
     }
     return (

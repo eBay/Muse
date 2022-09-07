@@ -18,10 +18,10 @@
   ],
   "devDependencies": {
     "@craco/craco": "6.4.4",
-    "@ebay/muse-core": "1.0.23",
-    "@ebay/muse-craco-plugin": "1.0.25",
+    "@ebay/muse-core": "1.0.24",
+    "@ebay/muse-craco-plugin": "1.0.26",
     "@ebay/muse-ebay-dev": "^1.0.1",
-    "@ebay/muse-scripts-react": "1.0.22",
+    "@ebay/muse-scripts-react": "1.0.23",
     "craco-less": "^2.0.0",
     "cross-env": "^7.0.3"
   },
@@ -50,7 +50,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
-    "@ebay/muse-lib-react": "1.0.20",
+    "@ebay/muse-lib-react": "1.0.21",
     "antd": "4.20.7",
     "antd-form-builder": "2.1.4",
     "history": "^5.3.0",

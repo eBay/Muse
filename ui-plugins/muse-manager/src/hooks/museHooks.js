@@ -83,26 +83,37 @@ export function useMuseApi(apiPath) {
 
 const pollers = {}; // persist global uniq poller for one data key
 const lastData = {}; // cache last data so that we can update redux only if data is changed
+const lastDataError = {};
 export function usePollingMuseData(dataKey, args = { interval: 10000 }) {
-  const { data } = useSelector(
+  const errorKey = dataKey + '.error';
+  const { data, dataError } = useSelector(
     state => ({
       data: state.pluginEbayMuseManager.museData[dataKey],
+      dataError: state.pluginEbayMuseManager.museData[errorKey],
     }),
     shallowEqual,
   );
   lastData[dataKey] = data;
+  lastDataError[errorKey] = dataError;
   const dispatch = useDispatch();
 
   const pollerKey = dataKey;
   let poller = pollers[pollerKey];
   if (!poller) {
     poller = pollers[pollerKey] = polling({
+      retries: 5,
       task: async () => {
         const newData = await museClient.data.get(dataKey);
         const oldData = lastData[dataKey];
         if (!_.isEqual(oldData, newData)) {
           dispatch(setMuseData(dataKey, newData));
         }
+        if (lastDataError[errorKey]) {
+          dispatch(setMuseData(errorKey, null));
+        }
+      },
+      onError: err => {
+        dispatch(setMuseData(errorKey, err.message || errorKey));
       },
       interval: args.interval || 10000,
     });
@@ -112,10 +123,10 @@ export function usePollingMuseData(dataKey, args = { interval: 10000 }) {
 
   return {
     data,
-    // TODO: set polling error
     // if the last polling failed, there's error.
     // The usage side should decide how to handle polling error if data already exists or not.
-    error: null,
+    pollingError: dataError,
+    error: !data && dataError,
     stopPolling: () => {
       poller.stop();
       delete pollers[pollerKey];

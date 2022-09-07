@@ -65,7 +65,7 @@ export default function Header() {
     // eslint-disable-line
     ...headerItems,
     ..._.flatten(plugin.invoke('museLayout.header.getItems')),
-  ].map((item) => (item.order ? item : { ...item, order: 1 }));
+  ].map(item => (item.order ? item : { ...item, order: 1 }));
 
   if (
     !headerConfig.noUserMenu &&
@@ -102,7 +102,7 @@ export default function Header() {
     const left = [];
     const center = [];
     const right = [];
-    realHeaderItems.forEach((item) => {
+    realHeaderItems.forEach(item => {
       if (item.position === 'center') center.push(item);
       else if (item.position === 'right') right.unshift(item);
       else left.push(item);
@@ -127,8 +127,8 @@ export default function Header() {
   const headerStyle = {};
   if (headerConfig.backgroundColor) headerStyle.backgroundColor = headerConfig.backgroundColor;
 
-  const renderItems = (items) => {
-    return items.map((item) => <HeaderItem meta={item} key={item.key} />);
+  const renderItems = items => {
+    return items.map(item => <HeaderItem meta={item} key={item.key} />);
   };
 
   const centerContainerStyle = {};
