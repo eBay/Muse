@@ -7,8 +7,8 @@ specifiers:
   '@ebay/muse-craco-plugin': 1.0.26
   '@ebay/muse-ebay-dev': ^1.0.1
   '@ebay/muse-express-middleware': 1.0.23
-  '@ebay/muse-lib-antd': 1.0.9
-  '@ebay/muse-lib-react': 1.0.20
+  '@ebay/muse-lib-antd': 1.0.10
+  '@ebay/muse-lib-react': 1.0.21
   '@ebay/muse-plugin-acl': 1.0.4
   '@ebay/muse-scripts-react': 1.0.23
   '@ebay/muse-webpack-plugin': ^1.0.22
@@ -33,8 +33,8 @@ dependencies:
   '@ebay/muse-craco-plugin': 1.0.26_4bhg4mbc3ycz7prgs5pgq4f5am
   '@ebay/muse-ebay-dev': 1.0.1_@ebay+muse-core@1.0.24
   '@ebay/muse-express-middleware': 1.0.23_@ebay+muse-core@1.0.24
-  '@ebay/muse-lib-antd': 1.0.9_@craco+craco@6.4.4
-  '@ebay/muse-lib-react': 1.0.20_5etiqhkfjdttz5dcmi2hz5fcv4
+  '@ebay/muse-lib-antd': 1.0.10_@craco+craco@6.4.4
+  '@ebay/muse-lib-react': 1.0.21_5etiqhkfjdttz5dcmi2hz5fcv4
   '@ebay/muse-plugin-acl': 1.0.4
   '@ebay/muse-scripts-react': 1.0.23
   '@ebay/muse-webpack-plugin': 1.0.23
@@ -1623,11 +1623,11 @@ packages:
       mime-types: 2.1.35
     dev: false
 
-  /@ebay/muse-lib-antd/1.0.9_@craco+craco@6.4.4:
-    resolution: {integrity: sha1-YjFFnxiEhK6LxfjlmqbLx9v6Kbw=, tarball: '@ebay/muse-lib-antd/-/@ebay/muse-lib-antd-1.0.9.tgz'}
+  /@ebay/muse-lib-antd/1.0.10_@craco+craco@6.4.4:
+    resolution: {integrity: sha1-WxsYtcQuvgiAXMWXbYUJpqH8KpA=, tarball: '@ebay/muse-lib-antd/-/@ebay/muse-lib-antd-1.0.10.tgz'}
     dependencies:
       '@ant-design/icons': 4.7.0_biqbaboplfbrettd7655fr4n2y
-      '@ebay/muse-lib-react': 1.0.20_5etiqhkfjdttz5dcmi2hz5fcv4
+      '@ebay/muse-lib-react': 1.0.21_5etiqhkfjdttz5dcmi2hz5fcv4
       antd: 4.20.7_biqbaboplfbrettd7655fr4n2y
       antd-form-builder: 2.1.4_avqzthnwxfrzxtlyigsueimkbq
       history: 5.3.0
@@ -1689,8 +1689,8 @@ packages:
       - webpack-plugin-serve
     dev: false
 
-  /@ebay/muse-lib-react/1.0.20_5etiqhkfjdttz5dcmi2hz5fcv4:
-    resolution: {integrity: sha1-Kw5zVEKUenAnEUeY1wv2abHArKA=, tarball: '@ebay/muse-lib-react/-/@ebay/muse-lib-react-1.0.20.tgz'}
+  /@ebay/muse-lib-react/1.0.21_5etiqhkfjdttz5dcmi2hz5fcv4:
+    resolution: {integrity: sha1-shZ9lTlgYJsyu7PIyq2Jn5lcWZU=, tarball: '@ebay/muse-lib-react/-/@ebay/muse-lib-react-1.0.21.tgz'}
     dependencies:
       '@babel/core': 7.18.10
       '@ebay/nice-modal-react': 1.2.6_biqbaboplfbrettd7655fr4n2y

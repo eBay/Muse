@@ -60,7 +60,6 @@ module.exports = ({
   serviceWorker = '/sw.js', // If not use service worker, set it to false
   serviceWorkerCacheName = 'muse_assets',
 }) => {
-  console.log('link local---------------------');
   let swContent = fs.readFileSync(path.join(__dirname, './sw.js')).toString();
   if (serviceWorkerCacheName) {
     // Simply replace cacheName if necessary
@@ -132,54 +131,55 @@ module.exports = ({
 
     const bootPlugin = bootPlugins[0];
 
-    // Handle forcePlugins query param
-    if (req.query && req.query.forcePlugins) {
-      const forcePluginById = req.query.forcePlugins
-        .split(';')
-        .filter(Boolean)
-        .reduce((p, c) => {
-          const separator = '@';
-          const limit = 2;
-          let prefix = '';
-          if (c.startsWith('@') && c[0] === separator) {
-            // Starts with @, means it's a scoped plugin
-            c = c.substring(1);
-            prefix = '@';
-          }
-          const arr = c.split(separator, limit);
-          if (arr.length === limit) {
-            p[`${prefix}${arr[0]}`] = {
-              version: arr[1],
-            };
-          }
-          return p;
-        }, {});
-      plugins.forEach((p, index) => {
-        if (forcePluginById[p.name]) {
-          if (forcePluginById[p.name].version === 'null') {
-            // Remove the plugin
-            plugins.splice(index, 1);
-          } else {
-            // Update the plugin version
-            p.version = forcePluginById[p.name].version;
-          }
-        }
-        delete forcePluginById[p.name];
-      });
+    // /* Handle forcePlugins query param */
+    // if (req.query && req.query.forcePlugins) {
+    //   const forcePluginById = req.query.forcePlugins
+    //     .split(';')
+    //     .filter(Boolean)
+    //     .reduce((p, c) => {
+    //       const separator = '@';
+    //       const limit = 2;
+    //       let prefix = '';
+    //       if (c.startsWith('@') && c[0] === separator) {
+    //         // Starts with @, means it's a scoped plugin
+    //         c = c.substring(1);
+    //         prefix = '@';
+    //       }
+    //       const arr = c.split(separator, limit);
+    //       if (arr.length === limit) {
+    //         p[`${prefix}${arr[0]}`] = {
+    //           version: arr[1],
+    //         };
+    //       }
+    //       return p;
+    //     }, {});
+    //   plugins.forEach((p, index) => {
+    //     if (forcePluginById[p.name]) {
+    //       if (forcePluginById[p.name].version === 'null') {
+    //         // Remove the plugin
+    //         plugins.splice(index, 1);
+    //       } else {
+    //         // Update the plugin version
+    //         p.version = forcePluginById[p.name].version;
+    //       }
+    //     }
+    //     delete forcePluginById[p.name];
+    //   });
 
-      // Add the plugins that are not in the deployed plugins
-      // Need to get the type of plugin from muse registry directly.
-      for (const p in forcePluginById) {
-        const pluginMeta = await museCore.data.get(`muse.plugin.${p}`);
-        if (pluginMeta && forcePluginById[p].version !== 'null') {
-          plugins.push({
-            name: p,
-            type: pluginMeta.type,
-            version: forcePluginById[p].version,
-          });
-        }
-      }
-    }
+    //   // Add the plugins that are not in the deployed plugins
+    //   // Need to get the type of plugin from muse registry directly.
+    //   for (const p in forcePluginById) {
+    //     const pluginMeta = await museCore.data.get(`muse.plugin.${p}`);
+    //     if (pluginMeta && forcePluginById[p].version !== 'null') {
+    //       plugins.push({
+    //         name: p,
+    //         type: pluginMeta.type,
+    //         version: forcePluginById[p].version,
+    //       });
+    //     }
+    //   }
+    // }
+    // /** end */
 
     const museGlobal = {
       app: _.omit(app, ['envs']),

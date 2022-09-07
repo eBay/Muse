@@ -148,12 +148,6 @@ export default function PluginList({ app }) {
       {data && (
         <div>
           <TableBar>
-            {/* <Button
-              type="primary"
-              onClick={() => NiceModal.show('muse-manager.create-plugin-modal')}
-            >
-              Create Plugin
-            </Button> */}
             <DropdownMenu items={tableBarActions} size="default" />
           </TableBar>
           <Table

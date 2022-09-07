@@ -76,3 +76,11 @@ export function getPluginId(name) {
   if (name.startsWith('@')) return name.replace('/', '.');
   return name;
 }
+
+export function getSearchParams(querys) {
+  const searchParams = new URLSearchParams(window.location.search);
+  if (Array.isArray(querys)) {
+    return querys.map(query => searchParams.get(query));
+  }
+  return searchParams.get(querys);
+}

@@ -1,9 +1,10 @@
 // boot plugin is used to load other plugins based on the app config
 import museModules from '@ebay/muse-modules';
+import museClient from './museClient';
 import loading from './loading';
 import error from './error';
 import registerSw from './registerSw';
-import { loadInParallel, getPluginId } from './utils';
+import { loadInParallel, getPluginId, getSearchParams } from './utils';
 import msgEngine from './msgEngine';
 
 import './style.css';
@@ -47,17 +48,16 @@ async function start() {
   const {
     app,
     cdn = '',
-    plugins = [],
     entry = 'muse-react',
     initEntries,
     pluginEntries,
     appEntries,
     isDev = false,
+    isCI = window.navigator.userAgent.includes('MuseE2eTest'),
   } = window.MUSE_GLOBAL;
-  window.MUSE_CONFIG = window.MUSE_GLOBAL;
+  let plugins = window.MUSE_GLOBAL.plugins || [];
   // TODO: remove below two lines after migrate old Muse plugins inside eBay
   registerSw();
-
   // Print app plugins in dev console
   const bootPlugin = plugins.find(p => p.type === 'boot');
   if (bootPlugin) {
@@ -65,10 +65,6 @@ async function start() {
       `Loading Muse app by ${bootPlugin.name}@${bootPlugin.version || bootPlugin.url}...`,
     );
   }
-  console.log(`Plugins(${plugins.length}):`);
-  plugins.forEach(p =>
-    console.log(`  * ${p.name}@${p.version || p.url}${p.noUrl ? ' (No Url)' : ''}`),
-  );
 
   // Load init plugins
   // Init plugins should be small and not depends on each other
@@ -100,14 +96,70 @@ async function start() {
     }
   }
 
+  /* Handle forcePlugins query param */
+  const [forcePluginStr, previewer] = getSearchParams(['forcePlugins', 'previewer']);
+  const loginUser = window.MUSE_GLOBAL.getUser()?.username;
+
+  let specialPlugins = plugins;
+  if (forcePluginStr && (isCI || loginUser === previewer)) {
+    const forcePluginById = forcePluginStr
+      .split(';')
+      .filter(Boolean)
+      .reduce((p, c) => {
+        const separator = '@';
+        const limit = 2;
+        let prefix = '';
+        if (c.startsWith('@') && c[0] === separator) {
+          // Starts with @, means it's a scoped plugin
+          c = c.substring(1);
+          prefix = '@';
+        }
+        const arr = c.split(separator, limit);
+        if (arr.length === limit) {
+          p[`${prefix}${arr[0]}`] = {
+            version: arr[1],
+          };
+        }
+        return p;
+      }, {});
+    // Update or remove plugins from the list based on forcePlugins
+    specialPlugins = plugins
+      .map(p => {
+        if (!forcePluginById[p.name]) return p;
+        const newPlugin = { ...p, version: forcePluginById[p.name].version };
+        delete forcePluginById[p.name];
+        return newPlugin;
+      })
+      .filter(p => p.version !== 'null');
+
+    // Need to get the type of plugin from muse registry directly.
+    for (const p in forcePluginById) {
+      const pluginMeta = await museClient.pm.getPlugin(`${p}`);
+      if (pluginMeta && forcePluginById[p].version !== 'null') {
+        specialPlugins.push({
+          name: p,
+          type: pluginMeta.type,
+          version: forcePluginById[p].version,
+        });
+      }
+    }
+  }
+
+  window.MUSE_CONFIG.plugins = window.MUSE_GLOBAL.plugins = plugins = specialPlugins;
+  console.log(`Plugins(${plugins.length}):`);
+  plugins.forEach(p =>
+    console.log(`  * ${p.name}@${p.version || p.url}${p.noUrl ? ' (No Url)' : ''}`),
+  );
+
   // Load normal and lib plugins
+  const distDir = isCI ? 'test' : 'dist';
   const pluginUrls = plugins
     .filter(p => p.type !== 'boot' && p.type !== 'init')
     .map(p =>
       p.noUrl
         ? false
         : p.url ||
-          `${cdn}/p/${getPluginId(p.name)}/v${p.version}/${isDev ? 'dev' : 'dist'}/main.js`,
+          `${cdn}/p/${getPluginId(p.name)}/v${p.version}/${isDev ? 'dev' : distDir}/main.js`,
     )
     .filter(Boolean);
 
