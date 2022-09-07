@@ -100,7 +100,7 @@ async function start() {
   const [forcePluginStr, previewer] = getSearchParams(['forcePlugins', 'previewer']);
   const loginUser = window.MUSE_GLOBAL.getUser()?.username;
 
-  let specialPlugins = plugins;
+  let specifiedPlugins = plugins;
   if (forcePluginStr && (isCI || loginUser === previewer)) {
     const forcePluginById = forcePluginStr
       .split(';')
@@ -123,7 +123,7 @@ async function start() {
         return p;
       }, {});
     // Update or remove plugins from the list based on forcePlugins
-    specialPlugins = plugins
+    specifiedPlugins = plugins
       .map(p => {
         if (!forcePluginById[p.name]) return p;
         const newPlugin = { ...p, version: forcePluginById[p.name].version };
@@ -136,7 +136,7 @@ async function start() {
     for (const p in forcePluginById) {
       const pluginMeta = await museClient.pm.getPlugin(`${p}`);
       if (pluginMeta && forcePluginById[p].version !== 'null') {
-        specialPlugins.push({
+        specifiedPlugins.push({
           name: p,
           type: pluginMeta.type,
           version: forcePluginById[p].version,
@@ -145,7 +145,7 @@ async function start() {
     }
   }
 
-  window.MUSE_CONFIG.plugins = window.MUSE_GLOBAL.plugins = plugins = specialPlugins;
+  window.MUSE_CONFIG.plugins = window.MUSE_GLOBAL.plugins = plugins = specifiedPlugins;
   console.log(`Plugins(${plugins.length}):`);
   plugins.forEach(p =>
     console.log(`  * ${p.name}@${p.version || p.url}${p.noUrl ? ' (No Url)' : ''}`),
