@@ -17,7 +17,7 @@
     "@ebay/muse-dev-utils": "^1.0.26",
     "@ebay/muse-ebay-dev": "^1.0.1",
     "@ebay/muse-express-middleware": "1.0.23",
-    "@ebay/muse-lib-antd": "1.0.9",
+    "@ebay/muse-lib-antd": "1.0.10",
     "@ebay/muse-lib-react": "1.0.21",
     "@ebay/muse-plugin-acl": "1.0.4",
     "@ebay/muse-scripts-react": "1.0.23",
