@@ -4,6 +4,7 @@ import { Tabs, Alert } from 'antd';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import { usePollingMuseData } from '../../hooks';
 import PluginList from '../pm/PluginList';
+import Overview from './Overview';
 const { TabPane } = Tabs;
 
 export default function AppPage() {
@@ -15,7 +16,7 @@ export default function AppPage() {
     {
       key: 'overview',
       name: 'Overview',
-      component: () => 'Overview',
+      component: Overview,
     },
     {
       key: 'plugins',
