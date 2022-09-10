@@ -163,7 +163,7 @@ module.exports = ({
           `${cdn}/p/${museCore.utils.getPluginId(bootPlugin.name)}/v${
             bootPlugin.version
           }/dist/boot.js`,
-        museGlobal: JSON.stringify(museGlobal),
+        museGlobal: JSON.stringify(museGlobal, null, 2),
       }),
     };
     museCore.plugin.invoke('museMiddleware.app.processIndexHtml', ctx);
