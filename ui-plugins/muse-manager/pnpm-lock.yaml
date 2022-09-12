@@ -12,24 +12,29 @@ specifiers:
   '@ebay/muse-craco-plugin': link:../../workspace/packages/muse-craco-plugin
   '@ebay/muse-dev-utils': link:../../workspace/packages/muse-dev-utils
   '@ebay/muse-ebay-dev': ^1.0.1
-  '@ebay/muse-express-middleware': 1.0.23
+  '@ebay/muse-express-middleware': 1.0.24
   '@ebay/muse-lib-antd': 1.0.10
   '@ebay/muse-lib-react': 1.0.21
   '@ebay/muse-plugin-acl': 1.0.4
   '@ebay/muse-scripts-react': 1.0.23
   '@ebay/muse-webpack-plugin': link:../../workspace/packages/muse-webpack-plugin
+  '@headlessui/react': ^1.7.0
+  '@heroicons/react': ^2.0.10
   '@testing-library/jest-dom': ^5.16.4
   '@testing-library/react': ^13.3.0
   '@testing-library/user-event': ^13.5.0
+  autoprefixer: ^10.4.8
   craco-less: ^2.0.0
   cross-env: ^7.0.3
   lodash: ^4.17.21
+  postcss: ^8.4.16
   pretty-ms: 7.0.1
   react: ^18.2.0
   react-dom: ^18.2.0
   react-scripts: 5.0.1
   react-time-ago: ^7.2.1
   semver: ^7.3.7
+  tailwindcss: ^3.1.8
   web-vitals: ^2.1.4
 
 dependencies:
@@ -39,12 +44,14 @@ dependencies:
   '@ebay/muse-craco-plugin': link:../../workspace/packages/muse-craco-plugin
   '@ebay/muse-dev-utils': link:../../workspace/packages/muse-dev-utils
   '@ebay/muse-ebay-dev': 1.0.1_@ebay+muse-core@1.0.24
-  '@ebay/muse-express-middleware': 1.0.23_@ebay+muse-core@1.0.24
+  '@ebay/muse-express-middleware': 1.0.24_@ebay+muse-core@1.0.24
   '@ebay/muse-lib-antd': 1.0.10_@craco+craco@6.4.4
   '@ebay/muse-lib-react': 1.0.21_5etiqhkfjdttz5dcmi2hz5fcv4
   '@ebay/muse-plugin-acl': 1.0.4
   '@ebay/muse-scripts-react': 1.0.23
   '@ebay/muse-webpack-plugin': link:../../workspace/packages/muse-webpack-plugin
+  '@headlessui/react': 1.7.0_biqbaboplfbrettd7655fr4n2y
+  '@heroicons/react': 2.0.10_react@18.2.0
   '@testing-library/jest-dom': 5.16.5
   '@testing-library/react': 13.3.0_biqbaboplfbrettd7655fr4n2y
   '@testing-library/user-event': 13.5.0
@@ -56,10 +63,13 @@ dependencies:
   react-scripts: 5.0.1_react@18.2.0
   react-time-ago: 7.2.1_biqbaboplfbrettd7655fr4n2y
   semver: 7.3.7
+  tailwindcss: 3.1.8
   web-vitals: 2.1.4
 
 devDependencies:
+  autoprefixer: 10.4.8_postcss@8.4.16
   craco-less: 2.0.0_5etiqhkfjdttz5dcmi2hz5fcv4
+  postcss: 8.4.16
 
 packages:
 
@@ -1593,8 +1603,8 @@ packages:
       - debug
     dev: false
 
-  /@ebay/muse-express-middleware/1.0.23_@ebay+muse-core@1.0.24:
-    resolution: {integrity: sha1-Bg5JmbE1zSTnuyD+m5doREAMUec=, tarball: '@ebay/muse-express-middleware/-/@ebay/muse-express-middleware-1.0.23.tgz'}
+  /@ebay/muse-express-middleware/1.0.24_@ebay+muse-core@1.0.24:
+    resolution: {integrity: sha1-HyYjaMCUjzTDm3ImyyeJgPINSno=, tarball: '@ebay/muse-express-middleware/-/@ebay/muse-express-middleware-1.0.24.tgz'}
     peerDependencies:
       '@ebay/muse-core': ^1.0.24
     dependencies:
@@ -1754,6 +1764,25 @@ packages:
       strip-json-comments: 3.1.1
     transitivePeerDependencies:
       - supports-color
+
+  /@headlessui/react/1.7.0_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha1-fjbmu8JaJLAgEVJ64VegAN2oi4U=}
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: ^16 || ^17 || ^18
+      react-dom: ^16 || ^17 || ^18
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
+
+  /@heroicons/react/2.0.10_react@18.2.0:
+    resolution: {integrity: sha1-GRowWqLcInGQPwJ8n0cAyj36nns=}
+    peerDependencies:
+      react: '>= 16'
+    dependencies:
+      react: 18.2.0
+    dev: false
 
   /@humanwhocodes/config-array/0.10.4:
     resolution: {integrity: sha1-Aec2blfSrRBP7qY+ciSPIgFcUgw=}

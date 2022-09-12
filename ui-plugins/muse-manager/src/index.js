@@ -8,6 +8,7 @@ import * as pm from './features/pm';
 import JavascriptTimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
 import './modals';
+import './style.less';
 
 // Initialize the desired locales.
 JavascriptTimeAgo.locale(en);
@@ -18,4 +19,3 @@ plugin.register({
   reducer,
   exports: { hooks, utils, pm },
 });
-const a = p => p;

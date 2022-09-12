@@ -1,30 +1,17 @@
-import FormBuilder from 'antd-form-builder';
-
+import BasicInfo from './BasicInfo';
 import Environments from './Environments';
 
-export default function Overview({ app }) {
-  const meta = {
-    viewMode: true,
-    initialValues: app,
-    columns: 2,
-    fields: [
-      {
-        key: 'name',
-        label: 'Name',
-      },
-      {
-        key: 'createdBy',
-        label: 'Created by',
-      },
-    ],
-  };
+export default function AppOverview({ app }) {
   return (
     <div>
-      <h3>Basic Information</h3>
-      <FormBuilder meta={meta}></FormBuilder>
-
-      <h3>Environments:</h3>
-      <Environments app={app} />
+      <h3 className="bg-gray-100 p-2 px-3">Basic Information</h3>
+      <div className="p-3">
+        <BasicInfo app={app} />
+      </div>
+      <h3 className="bg-gray-100 p-2 px-3">Environments:</h3>
+      <div className="p-3">
+        <Environments app={app} />
+      </div>
     </div>
   );
 }
