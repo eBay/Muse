@@ -1,6 +1,6 @@
 import FormBuilder from 'antd-form-builder';
 
-export default function BasicInfo({ app }) {
+export default function AppBasicInfo({ app }) {
   const meta = {
     viewMode: true,
     initialValues: app,
@@ -34,6 +34,11 @@ export default function BasicInfo({ app }) {
       {
         key: 'owners',
         label: 'Owners',
+        order: 60,
+      },
+      {
+        key: 'description',
+        label: 'Description',
         order: 60,
       },
       {
