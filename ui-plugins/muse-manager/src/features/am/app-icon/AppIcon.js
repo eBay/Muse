@@ -8,15 +8,16 @@ import { useSyncStatus } from '../../../hooks';
 // import pmApi from '../../pmApi';
 
 function beforeUpload(file) {
-  const is = file.type === 'image/png';
-  if (!is) {
+  if (file.type !== 'image/png') {
     message.error('You can only upload PNG image.');
+    return false;
   }
-  const isLt2M = file.size < 50000;
-  if (!isLt2M) {
+
+  if (file.size > 50000) {
     message.error('Image must smaller than 50KB.');
+    return false;
   }
-  return is && isLt2M;
+  return true;
 }
 
 export default function AppIcon({ app, form }) {
@@ -58,11 +59,11 @@ export default function AppIcon({ app, form }) {
     <div className="grid grid-cols-6 gap-4 max-w-[200px] min-w-[100px]">
       <div className="col-span-5 row-span-2">
         <div className="hidden">
-          <span className="font-loader-f1">a</span>
-          <span className="font-loader-f2">a</span>
-          <span className="font-loader-f3">a</span>
-          <span className="font-loader-f4">a</span>
-          <span className="font-loader-f5">a</span>
+          <span className="font-['Leckerli_One']">a</span>
+          <span className="font-['Aclonica']">a</span>
+          <span className="font-['Asap']">a</span>
+          <span className="font-['Lemonada']">a</span>
+          <span className="font-['Niconne']">a</span>
         </div>
         {uploading ? (
           <Loading3QuartersOutlined spin className="spinner" />
@@ -73,6 +74,11 @@ export default function AppIcon({ app, form }) {
       <div className="self-end">
         <Upload
           name="icon"
+          action={`http://localhost:6070/api/v2/am/set-app-icon`}
+          headers={{
+            authorization: window.MUSE_GLOBAL.getUser().museSession,
+          }}
+          data={{ appName: app.name }}
           className="logo-uploader"
           showUploadList={false}
           beforeUpload={beforeUpload}
