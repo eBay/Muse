@@ -1,4 +1,5 @@
 import FormBuilder from 'antd-form-builder';
+import AppIcon from './app-icon/AppIcon';
 
 export default function AppBasicInfo({ app }) {
   const meta = {
@@ -42,9 +43,13 @@ export default function AppBasicInfo({ app }) {
         order: 60,
       },
       {
+        clear: 'left',
         key: 'iconId',
         label: 'App icon',
         order: 70,
+        renderView: () => {
+          return <AppIcon app={app} />;
+        },
       },
     ],
   };
