@@ -32,6 +32,7 @@ module.exports = {
     const handler = {
       get(target, prop, receiver) {
         if (['_api_path_', 'apply', 'call'].includes(prop)) return target[prop] || '';
+        if (prop === '_url') return `${endpoint}${receiver._api_path_ || ''}`;
         const apiPath = (receiver._api_path_ || '') + '/' + kebabCase(prop);
         const func = async (...args) => {
           return await post(apiPath, args);
