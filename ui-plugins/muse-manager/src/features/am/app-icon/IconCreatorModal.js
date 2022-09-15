@@ -1,11 +1,12 @@
 import React, { useCallback, useRef } from 'react';
-import { Form, Modal } from 'antd';
-import _, { reject } from 'lodash';
+import { Form, Modal, message } from 'antd';
+import _ from 'lodash';
 
 import NiceModal, { useModal, antdModal } from '@ebay/nice-modal-react';
-import { useMuseApi } from '../../../hooks';
+import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
+import { useMuseApi, useSyncStatus } from '../../../hooks';
 import FormBuilder from 'antd-form-builder';
-import museClient from '../../../museClient';
+
 import IconCanvas from './IconCanvas';
 import ColorPicker from './ColorPicker';
 
@@ -19,6 +20,8 @@ export default NiceModal.create(({ app }) => {
   const { action: setAppIcon, error: setAppIconError, pending: setAppIconPending } = useMuseApi(
     'am.setAppIcon',
   );
+  const syncStatus = useSyncStatus(`muse.app.${app.name}`);
+
   const [form] = Form.useForm();
   const forceUpdate = FormBuilder.useForceUpdate();
 
@@ -26,7 +29,7 @@ export default NiceModal.create(({ app }) => {
     text: initials,
     shape: 'Circle',
     fontFamily: 'Leckerli One',
-    fontSize: 70,
+    fontSize: 60,
     fontColor: '#ffffff',
     backgroundColor: '#00B4D8',
   };
@@ -94,21 +97,6 @@ export default NiceModal.create(({ app }) => {
   }, []);
 
   const handleSaveGeneratedLogo = useCallback(async () => {
-    // form.validateFields().then(values => {
-    //   setEditMode(false);
-    //   const canvas = canvasRef.current;
-    //   const imgUrl = canvas.toDataURL();
-    //   uploadGenerateLogo({ imgUrl, appName }).then(() => {
-    //     if (uploadGenerateLogoError) {
-    //       message.error('App logo uploading failed!');
-    //     } else {
-    //       message.success('App logo was uploaded successfully.');
-    //       setIconHash(Date.now());
-    //       setGenerateLogoModalVisible(false);
-    //     }
-    //   });
-    // });
-    // museClient.am.setAppIcon({appName, icon: ''})
     const fd = new FormData();
     const iconBlob = await new Promise((resolve, reject) => {
       canvasRef.current.toBlob(b => {
@@ -119,13 +107,10 @@ export default NiceModal.create(({ app }) => {
     fd.append('appName', app.name);
     fd.append('icon', iconBlob);
     await setAppIcon(fd);
-    // await axios.post(museClient.am.setAppIcon._url, fd, {
-    //   headers: {
-    //     authorization: window.MUSE_GLOBAL.getUser()?.museSession,
-    //     'Content-Type': 'multipart/form-data',
-    //   },
-    // });
-  }, [app, setAppIcon]);
+    modal.hide();
+    message.success('Update app icon success.');
+    await syncStatus();
+  }, [app, setAppIcon, syncStatus, modal]);
 
   const iconOptions = Object.assign({}, initialValues, form.getFieldsValue());
 
@@ -136,9 +121,11 @@ export default NiceModal.create(({ app }) => {
       width="800px"
       destroyOnClose
       maskClosable={false}
-      okText="Update"
+      okText={setAppIconPending ? 'Updating' : 'Update'}
       onOk={handleSaveGeneratedLogo}
     >
+      <RequestStatus loading={setAppIconPending} error={setAppIconError} />
+
       <div className="flex">
         <div className="flex-none translate-x-5">
           <IconCanvas options={iconOptions} onLoad={handleOnLoad} />

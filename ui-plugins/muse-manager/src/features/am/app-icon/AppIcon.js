@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Button, Modal, Upload, message, Tooltip, Spin } from 'antd';
 import { UploadOutlined, EditOutlined } from '@ant-design/icons';
 import _ from 'lodash';
@@ -27,10 +27,6 @@ export default function AppIcon({ app, form }) {
   const syncApp = useSyncStatus(`muse.app.${app.name}`);
 
   const [uploading, setUploading] = useState(false);
-
-  useEffect(() => {
-    NiceModal.show(IconCreatorModal, { app });
-  }, [app]);
 
   const handleUploadChange = useCallback(
     info => {
