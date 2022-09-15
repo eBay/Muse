@@ -1,10 +1,13 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Button, Modal, Upload, message, Tooltip, Spin } from 'antd';
 import { UploadOutlined, EditOutlined } from '@ant-design/icons';
 import _ from 'lodash';
+import NiceModal from '@ebay/nice-modal-react';
+import IconCreatorModal from './IconCreatorModal';
 import './style.less';
 import defaultIcon from './defaultIcon.png';
 import { useSyncStatus } from '../../../hooks';
+import museClient from '../../../museClient';
 // import pmApi from '../../pmApi';
 
 function beforeUpload(file) {
@@ -13,8 +16,8 @@ function beforeUpload(file) {
     return false;
   }
 
-  if (file.size > 50000) {
-    message.error('Image must smaller than 50KB.');
+  if (file.size > 100000) {
+    message.error('The icon should be smaller than 100KB.');
     return false;
   }
   return true;
@@ -23,12 +26,11 @@ function beforeUpload(file) {
 export default function AppIcon({ app, form }) {
   const syncApp = useSyncStatus(`muse.app.${app.name}`);
 
-  const initials = _.words(app.title || app.name)
-    .slice(0, 2)
-    .map(s => s[0])
-    .join('');
-
   const [uploading, setUploading] = useState(false);
+
+  useEffect(() => {
+    NiceModal.show(IconCreatorModal, { app });
+  }, [app]);
 
   const handleUploadChange = useCallback(
     info => {
@@ -57,7 +59,7 @@ export default function AppIcon({ app, form }) {
     : defaultIcon;
   return (
     <>
-      <div className="hidden">
+      <div className="fixed -left-full">
         <span className="font-['Leckerli_One']">a</span>
         <span className="font-['Aclonica']">a</span>
         <span className="font-['Asap']">a</span>
@@ -72,15 +74,17 @@ export default function AppIcon({ app, form }) {
               <Spin tip="Uploading..." />
             </div>
           ) : (
-            <img src={imgUrl} alt="App icon" className="w-full" />
+            <div className="grid h-full w-full content-center">
+              <img src={imgUrl} alt="App icon" className="w-full" />
+            </div>
           )}
         </div>
         <div className="self-end">
           <Upload
             name="icon"
-            action={`http://localhost:6070/api/v2/am/set-app-icon`}
+            action={museClient.am.setAppIcon._url}
             headers={{
-              authorization: window.MUSE_GLOBAL.getUser().museSession,
+              authorization: window.MUSE_GLOBAL.getUser()?.museSession,
             }}
             data={{ appName: app.name }}
             className="logo-uploader"
@@ -99,7 +103,7 @@ export default function AppIcon({ app, form }) {
           <Tooltip title="Generate a new icon online.">
             <Button
               onClick={() => {
-                // setGenerateLogoModalVisible(true);
+                NiceModal.show(IconCreatorModal, { app });
               }}
               shape="circle"
             >

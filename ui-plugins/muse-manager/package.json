@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@craco/craco": "6.4.4",
-    "@ebay/muse-client": "1.0.14",
+    "@ebay/muse-client": "1.0.15",
     "@ebay/muse-core": "1.0.24",
     "@ebay/muse-craco-plugin": "1.0.26",
     "@ebay/muse-dev-utils": "^1.0.26",
@@ -31,6 +31,7 @@
     "lodash": "^4.17.21",
     "pretty-ms": "7.0.1",
     "react": "^18.2.0",
+    "react-color": "^2.19.3",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
     "react-time-ago": "^7.2.1",

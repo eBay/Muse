@@ -17,7 +17,15 @@ module.exports = {
     });
     const post = async (apiPath, args) => {
       try {
-        const res = await client.post(apiPath, { args });
+        let res;
+        if (typeof FormData !== 'undefined' && args instanceof FormData) {
+          // For form data format
+          res = await client.post(apiPath, args, {
+            'Content-Type': 'multipart/form-data',
+          });
+        } else {
+          res = await client.post(apiPath, { args });
+        }
         return res.data?.data;
       } catch (err) {
         //

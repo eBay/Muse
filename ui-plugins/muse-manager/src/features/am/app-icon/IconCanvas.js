@@ -149,21 +149,8 @@ function center(options) {
   }
 }
 
-export default function LogoCanvas({ meta, values, onLoad }) {
-  const initialText = meta.fields.find(({ key }) => key === 'text').initialValue;
-  const initialBackground = meta.fields.find(({ key }) => key === 'background').initialValue;
-  const initialFontFamily = meta.fields.find(({ key }) => key === 'fontFamily').initialValue;
-  const initialFontColor = meta.fields.find(({ key }) => key === 'fontColor').initialValue;
-  const initialBackgroundColor = meta.fields.find(({ key }) => key === 'backgroundColor')
-    .initialValue;
-  const initialFontSize = meta.fields.find(({ key }) => key === 'fontSize').initialValue;
-
-  const text = values.text ? values.text : initialText;
-  const background = values.background ? values.background : initialBackground;
-  const fontFamily = values.fontFamily ? values.fontFamily : initialFontFamily;
-  const fontColor = values.fontColor ? values.fontColor : initialFontColor;
-  const backgroundColor = values.backgroundColor ? values.backgroundColor : initialBackgroundColor;
-  const fontSize = values.fontSize ? values.fontSize : initialFontSize;
+export default function IconCanvas({ options, onLoad }) {
+  const { text, shape, fontFamily, fontColor, backgroundColor, fontSize } = options;
 
   const canvasRef = useRef(null);
 
@@ -177,18 +164,18 @@ export default function LogoCanvas({ meta, values, onLoad }) {
       canvas: canvas,
       width: 100,
       height: 100,
-      shape: background.toLowerCase(),
+      shape: shape.toLowerCase(),
       fontColor: fontColor,
       backgroundColor: backgroundColor,
       text: text,
       fontFamily: fontFamily,
       fontSize: fontSize,
     });
-  }, [backgroundColor, background, fontSize, text, fontColor, fontFamily]);
+  }, [backgroundColor, shape, fontSize, text, fontColor, fontFamily]);
 
   return (
     <div>
-      <canvas ref={canvasRef} id="logo-canvas" />
+      <canvas ref={canvasRef} />
     </div>
   );
 }

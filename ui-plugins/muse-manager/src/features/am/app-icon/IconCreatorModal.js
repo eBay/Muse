@@ -1,74 +1,69 @@
-import React, { useEffect, useCallback, useState, useRef } from 'react';
-import { RequestStatus } from 'muse-antd/features/common';
-import { Form, Modal, message, Button } from 'antd';
+import React, { useCallback, useRef } from 'react';
+import { Form, Modal } from 'antd';
+import _, { reject } from 'lodash';
+import axios from 'axios';
+import NiceModal, { useModal, antdModal } from '@ebay/nice-modal-react';
 import FormBuilder from 'antd-form-builder';
-import {
-  useSetGenerateLogoModalVisible,
-  useUploadGenerateLogo,
-  useSetIconHash,
-} from './redux/hooks';
-import { LogoCanvas, ColorPicker } from './';
+import museClient from '../../../museClient';
+import IconCanvas from './IconCanvas';
+import ColorPicker from './ColorPicker';
 
-export default function LogoGenerateModal({ initials, appName }) {
+export default NiceModal.create(({ app }) => {
+  const modal = useModal();
+  const initials = _.words(app.title || app.name)
+    .slice(0, 2)
+    .map(s => s[0])
+    .join('');
+
   const [form] = Form.useForm();
   const forceUpdate = FormBuilder.useForceUpdate();
-  const { setGenerateLogoModalVisible } = useSetGenerateLogoModalVisible();
-  const { setIconHash } = useSetIconHash();
-  const {
-    uploadGenerateLogo,
-    uploadGenerateLogoError,
-    uploadGenerateLogoPending,
-    dismissUploadGenerateLogoError,
-  } = useUploadGenerateLogo();
 
-  useEffect(() => {
-    return dismissUploadGenerateLogoError;
-  }, [dismissUploadGenerateLogoError]);
+  const initialValues = {
+    text: initials,
+    shape: 'Circle',
+    fontFamily: 'Leckerli One',
+    fontSize: 70,
+    fontColor: '#ffffff',
+    backgroundColor: '#00B4D8',
+  };
 
-  const [editMode, setEditMode] = useState(true);
-
-  const backgroundOptions = ['Circle', 'Square', 'Rounded'];
-  const fontFamilyOptions = [
-    'Aclonica',
-    'Asap',
-    'Leckerli One',
-    'Lemonada',
-    'Niconne',
-    'Arial',
-    'Times New Roman',
-    'Verdana',
-    'Courier New',
-  ];
   const meta = {
     formItemLayout: [14, 10],
     columns: 2,
+    initialValues,
     fields: [
       {
         key: 'text',
         label: 'Text',
-        initialValue: initials,
         required: true,
       },
       {
-        key: 'background',
-        label: 'Background',
+        key: 'shape',
+        label: 'Shape',
         widget: 'select',
-        options: backgroundOptions,
+        options: ['Circle', 'Square', 'Rounded'],
         required: true,
-        initialValue: 'Circle',
       },
       {
         key: 'fontFamily',
         label: 'Font Family',
         widget: 'select',
-        options: fontFamilyOptions,
+        options: [
+          'Aclonica',
+          'Asap',
+          'Leckerli One',
+          'Lemonada',
+          'Niconne',
+          'Arial',
+          'Times New Roman',
+          'Verdana',
+          'Courier New',
+        ],
         required: true,
-        initialValue: 'Leckerli One',
       },
       {
         key: 'fontSize',
         label: 'Font Size',
-        initialValue: '70',
         required: true,
         widgetProps: { type: 'number' },
       },
@@ -78,7 +73,6 @@ export default function LogoGenerateModal({ initials, appName }) {
         label: 'Font Color',
         widget: ColorPicker,
         forwardRef: true,
-        initialValue: '#FFFFFF',
         required: true,
       },
       {
@@ -86,7 +80,6 @@ export default function LogoGenerateModal({ initials, appName }) {
         label: 'Background Color',
         widget: ColorPicker,
         forwardRef: true,
-        initialValue: '#00B4D8',
         required: true,
       },
     ],
@@ -95,83 +88,67 @@ export default function LogoGenerateModal({ initials, appName }) {
   const handleOnLoad = useCallback(c => {
     canvasRef.current = c;
   }, []);
-  const [visible, setVisible] = useState(true);
-  const hideModal = useCallback(() => setVisible(false), []);
-  const closeModal = useCallback(() => {
-    setGenerateLogoModalVisible(false);
-  }, [setGenerateLogoModalVisible]);
 
-  const handleSaveGeneratedLogo = useCallback(() => {
-    form.validateFields().then(values => {
-      setEditMode(false);
-      const canvas = canvasRef.current;
-      const imgUrl = canvas.toDataURL();
-      uploadGenerateLogo({ imgUrl, appName }).then(() => {
-        if (uploadGenerateLogoError) {
-          message.error('App logo uploading failed!');
-        } else {
-          message.success('App logo was uploaded successfully.');
-          setIconHash(Date.now());
-          setGenerateLogoModalVisible(false);
-        }
+  const handleSaveGeneratedLogo = useCallback(async () => {
+    // form.validateFields().then(values => {
+    //   setEditMode(false);
+    //   const canvas = canvasRef.current;
+    //   const imgUrl = canvas.toDataURL();
+    //   uploadGenerateLogo({ imgUrl, appName }).then(() => {
+    //     if (uploadGenerateLogoError) {
+    //       message.error('App logo uploading failed!');
+    //     } else {
+    //       message.success('App logo was uploaded successfully.');
+    //       setIconHash(Date.now());
+    //       setGenerateLogoModalVisible(false);
+    //     }
+    //   });
+    // });
+    // museClient.am.setAppIcon({appName, icon: ''})
+    const fd = new FormData();
+    const iconBlob = await new Promise((resolve, reject) => {
+      canvasRef.current.toBlob(b => {
+        if (b) resolve(b);
+        reject();
       });
     });
-  }, [
-    form,
-    setGenerateLogoModalVisible,
-    setIconHash,
-    uploadGenerateLogo,
-    appName,
-    uploadGenerateLogoError,
-  ]);
+    fd.append('appName', app.name);
+    fd.append('icon', iconBlob);
+    await axios.post(museClient.am.setAppIcon._url, fd, {
+      headers: {
+        authorization: window.MUSE_GLOBAL.getUser()?.museSession,
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+  }, [app]);
 
-  const footer = (
-    <>
-      {!uploadGenerateLogoPending && <Button onClick={hideModal}>Cancel</Button>}
-      {!uploadGenerateLogoPending && (
-        <Button type="primary" onClick={handleSaveGeneratedLogo}>
-          Save
-        </Button>
-      )}
-      {uploadGenerateLogoPending && <Button disabled={!editMode}>Cancel</Button>}
-      {uploadGenerateLogoPending && <Button disabled={!editMode}>Saving...</Button>}
-    </>
-  );
+  const iconOptions = Object.assign({}, initialValues, form.getFieldsValue());
 
   return (
     <Modal
-      className={`muse-app-manager_home-logo-generate-modal ${editMode ? 'logo-edit-mode' : ''}`}
-      visible={visible}
-      title="Generate Logo From Text"
+      {...antdModal(modal)}
+      title="Create App Icon"
       width="800px"
       destroyOnClose
       maskClosable={false}
-      footer={footer}
-      closable={!uploadGenerateLogoPending}
-      afterClose={closeModal}
-      onCancel={hideModal}
+      okText="Update"
+      onOk={handleSaveGeneratedLogo}
     >
-      <RequestStatus
-        loading={uploadGenerateLogoPending}
-        loadingMode={'container'}
-        error={uploadGenerateLogoError}
-        errorMode={'inline'}
-        dismissError={dismissUploadGenerateLogoError}
-        errorProps={{ title: 'Failed to upload logo.' }}
-      />
-      <div className="input-wrapper">
-        <div className="logo-thumbnail">
-          <LogoCanvas meta={meta} values={form.getFieldsValue()} onLoad={handleOnLoad} />
+      <div className="flex">
+        <div className="flex-none translate-x-5">
+          <IconCanvas options={iconOptions} onLoad={handleOnLoad} />
         </div>
 
-        <Form
-          form={form}
-          style={{ marginLeft: '-20px', width: '100%' }}
-          onValuesChange={forceUpdate}
-        >
-          <FormBuilder meta={meta} form={form} />
-        </Form>
+        <div className="grow">
+          <Form
+            form={form}
+            style={{ marginLeft: '-20px', width: '100%' }}
+            onValuesChange={forceUpdate}
+          >
+            <FormBuilder meta={meta} form={form} />
+          </Form>
+        </div>
       </div>
     </Modal>
   );
-}
+});
