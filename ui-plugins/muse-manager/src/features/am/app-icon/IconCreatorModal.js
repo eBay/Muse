@@ -1,8 +1,9 @@
 import React, { useCallback, useRef } from 'react';
 import { Form, Modal } from 'antd';
 import _, { reject } from 'lodash';
-import axios from 'axios';
+
 import NiceModal, { useModal, antdModal } from '@ebay/nice-modal-react';
+import { useMuseApi } from '../../../hooks';
 import FormBuilder from 'antd-form-builder';
 import museClient from '../../../museClient';
 import IconCanvas from './IconCanvas';
@@ -15,6 +16,9 @@ export default NiceModal.create(({ app }) => {
     .map(s => s[0])
     .join('');
 
+  const { action: setAppIcon, error: setAppIconError, pending: setAppIconPending } = useMuseApi(
+    'am.setAppIcon',
+  );
   const [form] = Form.useForm();
   const forceUpdate = FormBuilder.useForceUpdate();
 
@@ -114,13 +118,14 @@ export default NiceModal.create(({ app }) => {
     });
     fd.append('appName', app.name);
     fd.append('icon', iconBlob);
-    await axios.post(museClient.am.setAppIcon._url, fd, {
-      headers: {
-        authorization: window.MUSE_GLOBAL.getUser()?.museSession,
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-  }, [app]);
+    await setAppIcon(fd);
+    // await axios.post(museClient.am.setAppIcon._url, fd, {
+    //   headers: {
+    //     authorization: window.MUSE_GLOBAL.getUser()?.museSession,
+    //     'Content-Type': 'multipart/form-data',
+    //   },
+    // });
+  }, [app, setAppIcon]);
 
   const iconOptions = Object.assign({}, initialValues, form.getFieldsValue());
 

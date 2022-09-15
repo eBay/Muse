@@ -18,9 +18,9 @@ module.exports = {
     const post = async (apiPath, args) => {
       try {
         let res;
-        if (typeof FormData !== 'undefined' && args instanceof FormData) {
+        if (typeof FormData !== 'undefined' && args[0] instanceof FormData) {
           // For form data format
-          res = await client.post(apiPath, args, {
+          res = await client.post(apiPath, args[0], {
             'Content-Type': 'multipart/form-data',
           });
         } else {
