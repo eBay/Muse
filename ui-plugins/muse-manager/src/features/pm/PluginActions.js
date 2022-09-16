@@ -27,7 +27,7 @@ function PluginActions({ plugin, app }) {
           // setTriggerBuildModalVisible(true, { plugin, app });
         },
       },
-      {
+      app && {
         key: 'deploy',
         label: 'Deploy',
         order: 30,
