@@ -13,10 +13,7 @@ function PluginStatus({ plugin, app }) {
   };
   const defaulTags =
     requests?.map(req => {
-      if (
-        req?.payload?.pluginName === plugin.name
-        // req?.payload?.deployments?.find(d => d.pluginName === plugin.name)
-      ) {
+      if (req?.payload?.pluginName === plugin.name) {
         return req.statuses?.map(s => {
           const color = {
             failure: 'error',
