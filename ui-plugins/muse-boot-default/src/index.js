@@ -1,10 +1,9 @@
 // boot plugin is used to load other plugins based on the app config
 import museModules from '@ebay/muse-modules';
-import museClient from './museClient';
 import loading from './loading';
 import error from './error';
 import registerSw from './registerSw';
-import { loadInParallel, getPluginId, getSearchParams } from './utils';
+import { loadInParallel, getPluginId } from './utils';
 import msgEngine from './msgEngine';
 
 import './style.css';
@@ -53,7 +52,7 @@ async function start() {
     pluginEntries,
     appEntries,
     isDev = false,
-    isCI = window.navigator.userAgent.includes('MuseE2eTest'),
+    isE2eTest = false,
   } = window.MUSE_GLOBAL;
   let plugins = window.MUSE_GLOBAL.plugins || [];
   // TODO: remove below two lines after migrate old Muse plugins inside eBay
@@ -97,11 +96,13 @@ async function start() {
   }
 
   /* Handle forcePlugins query param */
-  const [forcePluginStr, previewer] = getSearchParams(['forcePlugins', 'previewer']);
+  const searchParams = new URLSearchParams(window.location.search);
+  const forcePluginStr = searchParams.get('forcePlugins');
+  const previewer = searchParams.get('previewer');
   const loginUser = window.MUSE_GLOBAL.getUser()?.username;
 
   let specifiedPlugins = plugins;
-  if (forcePluginStr && (isCI || loginUser === previewer)) {
+  if (forcePluginStr && (isE2eTest || loginUser === previewer)) {
     const forcePluginById = forcePluginStr
       .split(';')
       .filter(Boolean)
@@ -116,8 +117,10 @@ async function start() {
         }
         const arr = c.split(separator, limit);
         if (arr.length === limit) {
-          p[`${prefix}${arr[0]}`] = {
+          const [name, type] = arr[0].split('!');
+          p[`${prefix}${name}`] = {
             version: arr[1],
+            type: type,
           };
         }
         return p;
@@ -134,11 +137,10 @@ async function start() {
 
     // Need to get the type of plugin from muse registry directly.
     for (const p in forcePluginById) {
-      const pluginMeta = await museClient.pm.getPlugin(`${p}`);
-      if (pluginMeta && forcePluginById[p].version !== 'null') {
+      if (forcePluginById[p].version !== 'null') {
         specifiedPlugins.push({
           name: p,
-          type: pluginMeta.type,
+          type: forcePluginById[p].type,
           version: forcePluginById[p].version,
         });
       }
@@ -152,7 +154,7 @@ async function start() {
   );
 
   // Load normal and lib plugins
-  const distDir = isCI ? 'test' : 'dist';
+  const distDir = isE2eTest ? 'test' : 'dist';
   const pluginUrls = plugins
     .filter(p => p.type !== 'boot' && p.type !== 'init')
     .map(p =>
