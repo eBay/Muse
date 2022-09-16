@@ -3,27 +3,29 @@ import NiceModal, { useModal, antdModal } from '@ebay/nice-modal-react';
 import { Modal, message, Form } from 'antd';
 import FormBuilder from 'antd-form-builder';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
-import { useSyncStatus, useMuseApi, useMuse, usePollingMuseData } from '../../hooks';
+import { useSyncStatus, useMuseApi } from '../../hooks';
 import plugin from 'js-plugin';
 
 const user = window.MUSE_GLOBAL.getUser();
-const CreateAppModal = NiceModal.create(() => {
+const EditAppModal = NiceModal.create(({ app }) => {
   const modal = useModal();
   const [form] = Form.useForm();
-  const syncStatus = useSyncStatus('muse.apps');
+  const syncStatus = useSyncStatus(`muse.app.${app.name}`);
 
-  const { action: createApp, error: createAppError, pending: createAppPending } = useMuseApi(
-    'am.createApp',
+  const { action: updateApp, error: updateAppError, pending: updateAppPending } = useMuseApi(
+    'am.updateApp',
   );
 
   const meta = {
     columns: 1,
+    initialValues: app,
     fields: [
       {
-        key: 'appName',
+        key: 'name',
         order: 10,
         label: 'App name',
         required: true,
+        readOnly: true,
       },
 
       {
@@ -36,35 +38,46 @@ const CreateAppModal = NiceModal.create(() => {
     ],
   };
 
-  plugin.invoke('museManager.createAppForm.processMeta', { meta, form });
+  plugin.invoke('museManager.updateAppForm.processMeta', { meta, form });
 
   plugin.sort(meta.fields);
 
   const handleFinish = useCallback(() => {
     const values = form.getFieldsValue();
-    createApp({ ...values, author: user.username })
+    updateApp({
+      appName: app.name,
+      changes: {
+        set: Object.entries(values).map(([k, v]) => {
+          return {
+            path: k,
+            value: v,
+          };
+        }),
+      },
+      author: user.username,
+    })
       .then(async () => {
         modal.hide();
-        message.success('Create app success.');
+        message.success('Update app success.');
         await syncStatus();
       })
       .catch(err => {
-        console.log('failed to create', err);
+        console.log('failed to update', err);
       });
-  }, [createApp, syncStatus, modal, form]);
+  }, [updateApp, syncStatus, modal, form, app.name]);
 
   return (
     <Modal
       {...antdModal(modal)}
-      title={createAppPending ? 'Creating...' : `Create App`}
+      title="Edit App"
       width="600px"
-      okText="Create"
+      okText={updateAppPending ? 'Updating...' : 'Update'}
       maskClosable={false}
       onOk={() => {
         form.validateFields().then(() => form.submit());
       }}
     >
-      <RequestStatus loading={createAppPending} error={createAppError} />
+      <RequestStatus loading={updateAppPending} error={updateAppError} />
       <Form layout="horizontal" form={form} onFinish={handleFinish}>
         <FormBuilder form={form} meta={meta} />
       </Form>
@@ -72,4 +85,4 @@ const CreateAppModal = NiceModal.create(() => {
   );
 });
 
-export default CreateAppModal;
+export default EditAppModal;

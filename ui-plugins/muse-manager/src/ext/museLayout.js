@@ -20,6 +20,16 @@ const museLayout = {
           },
           label: 'Create App',
         },
+        {
+          parent: 'createApp',
+          key: 'createPlugin',
+          icon: 'PlusOutlined',
+          position: 'right',
+          onClick: () => {
+            NiceModal.show('muse-manager.create-plugin-modal');
+          },
+          label: 'Create Plugin',
+        },
       ];
     },
   },

@@ -1,10 +1,5 @@
 lockfileVersion: 5.4
 
-overrides:
-  '@ebay/muse-webpack-plugin': link:../../workspace/packages/muse-webpack-plugin
-  '@ebay/muse-dev-utils': link:../../workspace/packages/muse-dev-utils
-  '@ebay/muse-craco-plugin': link:../../workspace/packages/muse-craco-plugin
-
 specifiers:
   '@craco/craco': 6.4.4
   '@ebay/muse-client': 1.0.17
@@ -18,25 +13,31 @@ specifiers:
   '@ebay/muse-plugin-acl': 1.0.5
   '@ebay/muse-scripts-react': 1.0.23
   '@ebay/muse-webpack-plugin': 1.0.24
+  '@headlessui/react': ^1.7.0
+  '@heroicons/react': ^2.0.10
   '@testing-library/jest-dom': ^5.16.4
   '@testing-library/react': ^13.3.0
   '@testing-library/user-event': ^13.5.0
+  autoprefixer: ^10.4.8
   craco-less: ^2.0.0
   cross-env: ^7.0.3
   lodash: ^4.17.21
+  postcss: ^8.4.16
   pretty-ms: 7.0.1
   react: ^18.2.0
+  react-color: ^2.19.3
   react-dom: ^18.2.0
   react-scripts: 5.0.1
   react-time-ago: ^7.2.1
   semver: ^7.3.7
+  tailwindcss: ^3.1.8
   web-vitals: ^2.1.4
 
 dependencies:
   '@craco/craco': 6.4.4_react-scripts@5.0.1
   '@ebay/muse-client': 1.0.17
   '@ebay/muse-core': 1.0.25
-  '@ebay/muse-craco-plugin': 1.0.27_@craco+craco@6.4.4
+  '@ebay/muse-craco-plugin': 1.0.27_ujazp7qzzllwjpspnxvl3lo3w4
   '@ebay/muse-dev-utils': 1.0.28_@ebay+muse-core@1.0.25
   '@ebay/muse-ebay-dev': 1.0.1_@ebay+muse-core@1.0.25
   '@ebay/muse-express-middleware': 1.0.25_@ebay+muse-core@1.0.25
@@ -45,6 +46,8 @@ dependencies:
   '@ebay/muse-plugin-acl': 1.0.5
   '@ebay/muse-scripts-react': 1.0.23
   '@ebay/muse-webpack-plugin': 1.0.24
+  '@headlessui/react': 1.7.2_biqbaboplfbrettd7655fr4n2y
+  '@heroicons/react': 2.0.11_react@18.2.0
   '@testing-library/jest-dom': 5.16.5
   '@testing-library/react': 13.3.0_biqbaboplfbrettd7655fr4n2y
   '@testing-library/user-event': 13.5.0
@@ -52,14 +55,18 @@ dependencies:
   lodash: 4.17.21
   pretty-ms: 7.0.1
   react: 18.2.0
+  react-color: 2.19.3_react@18.2.0
   react-dom: 18.2.0_react@18.2.0
   react-scripts: 5.0.1_react@18.2.0
   react-time-ago: 7.2.1_biqbaboplfbrettd7655fr4n2y
   semver: 7.3.7
+  tailwindcss: 3.1.8
   web-vitals: 2.1.4
 
 devDependencies:
+  autoprefixer: 10.4.8_postcss@8.4.16
   craco-less: 2.0.0_5etiqhkfjdttz5dcmi2hz5fcv4
+  postcss: 8.4.16
 
 packages:
 
@@ -1577,15 +1584,18 @@ packages:
       winston-transport: 4.5.0
     dev: false
 
-  /@ebay/muse-craco-plugin/1.0.27_@craco+craco@6.4.4:
+  /@ebay/muse-craco-plugin/1.0.27_ujazp7qzzllwjpspnxvl3lo3w4:
     resolution: {integrity: sha1-+7VFN9n/qpO6xG9mujZrbQE4SdQ=, tarball: '@ebay/muse-craco-plugin/-/@ebay/muse-craco-plugin-1.0.27.tgz'}
     peerDependencies:
       '@craco/craco': 6.4.4
     dependencies:
       '@craco/craco': 6.4.4_react-scripts@5.0.1
-      '@ebay/muse-dev-utils': link:../../workspace/packages/muse-dev-utils
-      '@ebay/muse-webpack-plugin': link:../../workspace/packages/muse-webpack-plugin
+      '@ebay/muse-dev-utils': 1.0.28_@ebay+muse-core@1.0.25
+      '@ebay/muse-webpack-plugin': 1.0.24
       resolve-cwd: 3.0.0
+    transitivePeerDependencies:
+      - '@ebay/muse-core'
+      - express
     dev: false
 
   /@ebay/muse-dev-utils/1.0.28_@ebay+muse-core@1.0.25:
@@ -1792,6 +1802,25 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
+  /@headlessui/react/1.7.2_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha1-5qao04NCBkpTGC8esr9tnB5Tumo=}
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: ^16 || ^17 || ^18
+      react-dom: ^16 || ^17 || ^18
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
+
+  /@heroicons/react/2.0.11_react@18.2.0:
+    resolution: {integrity: sha1-LGz0xm2BFC7IfBAlAkB9jDU1WLs=}
+    peerDependencies:
+      react: '>= 16'
+    dependencies:
+      react: 18.2.0
+    dev: false
+
   /@humanwhocodes/config-array/0.10.4:
     resolution: {integrity: sha1-Aec2blfSrRBP7qY+ciSPIgFcUgw=}
     engines: {node: '>=10.10.0'}
@@ -1807,6 +1836,14 @@ packages:
 
   /@humanwhocodes/object-schema/1.2.1:
     resolution: {integrity: sha1-tSBSnsIdjllFoYUd/Rwy6U45/0U=}
+
+  /@icons/material/0.2.4_react@18.2.0:
+    resolution: {integrity: sha1-6QyfcXaLNzbnbX3WeD/Gwq+oi8g=}
+    peerDependencies:
+      react: '*'
+    dependencies:
+      react: 18.2.0
+    dev: false
 
   /@istanbuljs/load-nyc-config/1.1.0:
     resolution: {integrity: sha1-/T2x1Z7PfPEh6AZQu4ZxL5tV7O0=}
@@ -6888,6 +6925,10 @@ packages:
     dependencies:
       p-locate: 5.0.0
 
+  /lodash-es/4.17.21:
+    resolution: {integrity: sha1-Q+YmxG5lkbd1C+srUBFzkMYJ4+4=}
+    dev: false
+
   /lodash.debounce/4.0.8:
     resolution: {integrity: sha1-gteb/zCmfEAF/9XiUVMArZyk168=}
 
@@ -6992,6 +7033,10 @@ packages:
     resolution: {integrity: sha1-Pl3SB5qC6BLpg8xmEMSiyw6qgBo=}
     dependencies:
       tmpl: 1.0.5
+
+  /material-colors/1.2.6:
+    resolution: {integrity: sha1-bRlYhxEmmSzuzHL0vMTY8BCGX0Y=}
+    dev: false
 
   /mdn-data/2.0.14:
     resolution: {integrity: sha1-cRP8QoGRfWPOKbQ0RvcB5owlulA=}
@@ -8895,6 +8940,21 @@ packages:
       regenerator-runtime: 0.13.9
       whatwg-fetch: 3.6.2
 
+  /react-color/2.19.3_react@18.2.0:
+    resolution: {integrity: sha1-7GxrRWgxKjxqGEIKsEcuFGqlaD0=}
+    peerDependencies:
+      react: '*'
+    dependencies:
+      '@icons/material': 0.2.4_react@18.2.0
+      lodash: 4.17.21
+      lodash-es: 4.17.21
+      material-colors: 1.2.6
+      prop-types: 15.8.1
+      react: 18.2.0
+      reactcss: 1.2.3_react@18.2.0
+      tinycolor2: 1.4.2
+    dev: false
+
   /react-copy-to-clipboard/5.1.0_react@18.2.0:
     resolution: {integrity: sha1-Carl7ExidQzLLmQhpYcl6rxBJVw=}
     peerDependencies:
@@ -9199,6 +9259,15 @@ packages:
     engines: {node: '>=0.10.0'}
     dependencies:
       loose-envify: 1.4.0
+
+  /reactcss/1.2.3_react@18.2.0:
+    resolution: {integrity: sha1-wAATh15Vexzw39mjaKHD2rO1SN0=}
+    peerDependencies:
+      react: '*'
+    dependencies:
+      lodash: 4.17.21
+      react: 18.2.0
+    dev: false
 
   /read-cache/1.0.0:
     resolution: {integrity: sha1-5mTvMRYRZsl1HNvo28+GtftY93Q=}
@@ -10176,6 +10245,10 @@ packages:
 
   /thunky/1.1.0:
     resolution: {integrity: sha1-Wrr3FKlAXbBQRzK7zNLO3Z75U30=}
+
+  /tinycolor2/1.4.2:
+    resolution: {integrity: sha1-P2pNEHGtB2dtf6Ry4frECnGdiAM=}
+    dev: false
 
   /tmpl/1.0.5:
     resolution: {integrity: sha1-hoPguQK7nCDE9ybjwLafNlGMB8w=}

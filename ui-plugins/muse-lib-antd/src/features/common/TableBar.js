@@ -5,7 +5,7 @@ import { Input } from 'antd';
 
 const { Search } = Input;
 
-export default function TableBar({ children, className, onSearch, placeholder }) {
+export default function TableBar({ children, className, onSearch, search, placeholder }) {
   // eslint-disable-next-line
   const doSearch = useCallback(
     _.debounce(v => {
@@ -15,11 +15,11 @@ export default function TableBar({ children, className, onSearch, placeholder })
   );
   const handleChange = useCallback(
     evt => {
-      doSearch(evt.target.value);
+      onSearch(evt.target.value);
     },
-    [doSearch],
+    [onSearch],
   );
-
+  console.log('received search: ', search);
   const handleSearch = useCallback(
     value => {
       doSearch(value);
@@ -30,8 +30,9 @@ export default function TableBar({ children, className, onSearch, placeholder })
     <div className={`muse-antd_common-table-bar ${className}`}>
       <Search
         placeholder={placeholder || 'Type to search...'}
-        onSearch={handleSearch}
+        onSearch2={handleSearch}
         onChange={handleChange}
+        value={search}
         allowClear
       />
       <span className="muse-antd_common-table-bar-children-wrapper">{children}</span>

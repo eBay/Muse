@@ -1,0 +1,33 @@
+import NiceModal from '@ebay/nice-modal-react';
+import { Button } from 'antd';
+import AppBasicInfo from './AppBasicInfo';
+import Environments from './Environments';
+import { useAbility } from '../../hooks';
+
+export default function AppOverview({ app }) {
+  const ability = useAbility('App');
+  return (
+    <div>
+      <h3 className="bg-gray-100 p-2 px-3">
+        Basic Information
+        {ability.can('update', app) && (
+          <Button
+            type="link"
+            onClick={() => NiceModal.show('muse-manager.edit-app-modal', { app })}
+            size="small"
+            className="float-right"
+          >
+            Edit
+          </Button>
+        )}
+      </h3>
+      <div className="p-3">
+        <AppBasicInfo app={app} />
+      </div>
+      <h3 className="bg-gray-100 p-2 px-3">Environments:</h3>
+      <div className="p-3">
+        <Environments app={app} />
+      </div>
+    </div>
+  );
+}
