@@ -1,21 +1,16 @@
 import { useMemo } from 'react';
-import { Table, Button, Tag, Tooltip, Radio } from 'antd';
+import { Table, Button, Tag, Tooltip } from 'antd';
 import plugin from 'js-plugin';
 import semver from 'semver';
 import TimeAgo from 'react-time-ago';
 import NiceModal from '@ebay/nice-modal-react';
-import {
-  RequestStatus,
-  Highlighter,
-  TableBar,
-  DropdownMenu,
-} from '@ebay/muse-lib-antd/src/features/common';
-import { usePollingMuseData, useSearchState } from '../../hooks';
+import { RequestStatus, Highlighter } from '@ebay/muse-lib-antd/src/features/common';
+import { usePollingMuseData } from '../../hooks';
 import PluginActions from './PluginActions';
 import PluginStatus from './PluginStatus';
 import _ from 'lodash';
 import { useSearchParam } from 'react-use';
-import SearchBox from '../common/SearchBox';
+import PluginListBar from './PluginListBar';
 
 const NA = () => <span style={{ color: 'gray', fontSize: '13px' }}>N/A</span>;
 const user = window.MUSE_GLOBAL.getUser();
@@ -25,19 +20,21 @@ export default function PluginList({ app }) {
   const { data: latestReleases } = usePollingMuseData('muse.plugins.latest-releases');
   const { data: npmVersions } = usePollingMuseData('muse.npm.versions', { interval: 30000 });
   const searchValue = useSearchParam('search')?.toLowerCase() || '';
-  const [scope = 'deployed', setScope] = useSearchState('scope');
-  // const { scope = 'deployed' } = useParams();
-  // console.log('scope', scope);
+  const scope = useSearchParam('scope') || 'my';
   const deploymentInfoByPlugin = useMemo(() => {
-    return _(app.envs)
-      .entries()
-      .reduce((obj, [envName, { plugins }]) => {
-        plugins.forEach(({ name, version }) => {
-          if (!obj[name]) obj[name] = {};
-          obj[name][envName] = version;
-        });
-        return obj;
-      }, {});
+    return (
+      (app &&
+        _(app.envs)
+          .entries()
+          .reduce((obj, [envName, { plugins }]) => {
+            plugins.forEach(({ name, version }) => {
+              if (!obj[name]) obj[name] = {};
+              obj[name][envName] = version;
+            });
+            return obj;
+          }, {})) ||
+      {}
+    );
   }, [app]);
 
   const columns = [
@@ -146,6 +143,7 @@ export default function PluginList({ app }) {
   ].filter(Boolean);
 
   let pluginList = data;
+
   if (scope && pluginList) {
     switch (scope) {
       case 'my':
@@ -173,56 +171,13 @@ export default function PluginList({ app }) {
   plugin.invoke('museManager.pm.pluginList.processColumns', columns, { plugins: pluginList });
   plugin.invoke('museManager.pm.pluginList.postProcessColumns', columns, { plugins: pluginList });
 
-  const tableBarActions = [
-    {
-      key: 'scope',
-      highlight: true,
-      render: () => {
-        return (
-          <Radio.Group
-            onChange={evt => setScope(evt.target.value)}
-            value={scope}
-            style={{ marginRight: 8 }}
-          >
-            <Radio.Button value="my" key="my">
-              My Plugins
-            </Radio.Button>
-            <Radio.Button value="deployed" key="deployed">
-              Deployed Plugins
-            </Radio.Button>
-            <Radio.Button value="all" key="all">
-              All Plugins
-            </Radio.Button>
-          </Radio.Group>
-        );
-      },
-    },
-    {
-      key: 'createPlugin',
-      highlight: true,
-      render: () => {
-        return (
-          <Button type="primary" onClick={() => NiceModal.show('muse-manager.create-plugin-modal')}>
-            Create Plugin
-          </Button>
-        );
-      },
-    },
-  ].filter(Boolean);
-
-  plugin.invoke('museManager.pm.tableBar.processTableBarAction', tableBarActions, {
-    plugins: data,
-    app,
-  });
-
   return (
     <div>
+      {!app && <h1>Plugins</h1>}
       <RequestStatus loading={!error && (pending || !data)} error={error} loadingMode="skeleton" />
       {data && (
         <div>
-          <TableBar>
-            <DropdownMenu items={tableBarActions} size="default" />
-          </TableBar>
+          <PluginListBar app={app} />
           <Table
             pagination={false}
             rowKey="name"

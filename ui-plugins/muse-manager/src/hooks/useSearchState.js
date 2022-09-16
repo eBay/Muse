@@ -1,9 +1,9 @@
 import { useCallback } from 'react';
 import { useLocation, useSearchParam } from 'react-use';
 
-export default function useSearchState(key) {
+export default function useSearchState(key, defaultValue) {
   const location = useLocation();
-  const state = useSearchParam(key);
+  const state = useSearchParam(key) || defaultValue;
 
   const setState = useCallback(
     v => {
