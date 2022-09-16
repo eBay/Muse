@@ -107,7 +107,7 @@ export default function PluginList({ app }) {
       dataIndex: 'status',
       title: 'Status',
       render: (a, plugin) => {
-        return <PluginStatus plugin={plugin} />;
+        return <PluginStatus plugin={plugin} app={app} />;
       },
     },
     {
