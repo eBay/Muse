@@ -1,21 +1,15 @@
 import { useCallback } from 'react';
 import { Input } from 'antd';
-
-import { useLocation, useSearchParam } from 'react-use';
+import { useSearchState } from '../../hooks';
 const { Search } = Input;
 
 export default function SearchBox({ searchKey = 'search', onSearch, onChange, ...rest }) {
-  const location = useLocation();
-  const searchValue = useSearchParam(searchKey);
-
+  const [searchValue, setSearchValue] = useSearchState(searchKey);
   const doSearch = useCallback(
     v => {
-      const { pathname, hash, search } = location;
-      const searchParams = new URLSearchParams(search);
-      searchParams.set(searchKey, v);
-      window.history.pushState({}, '', `${pathname}?${searchParams.toString()}${hash}`);
+      setSearchValue(v);
     },
-    [location, searchKey],
+    [setSearchValue],
   );
 
   const handleChange = evt => {

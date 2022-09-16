@@ -1,12 +1,11 @@
-import { useMemo, useState } from 'react';
-import { Table, Button, Tag, Tooltip, Input } from 'antd';
+import { useMemo } from 'react';
+import { Table, Button, Tag, Tooltip, Radio } from 'antd';
 import plugin from 'js-plugin';
 import semver from 'semver';
 import TimeAgo from 'react-time-ago';
 import NiceModal from '@ebay/nice-modal-react';
-import { useSearchParams, useNavigate } from 'react-router-dom';
 import { RequestStatus, Highlighter } from '@ebay/muse-lib-antd/src/features/common';
-import { usePollingMuseData } from '../../hooks';
+import { usePollingMuseData, useSearchState } from '../../hooks';
 import PluginActions from './PluginActions';
 import PluginStatus from './PluginStatus';
 import _ from 'lodash';
@@ -14,14 +13,16 @@ import { useSearchParam } from 'react-use';
 import SearchBox from '../common/SearchBox';
 
 const NA = () => <span style={{ color: 'gray', fontSize: '13px' }}>N/A</span>;
-
+const user = window.MUSE_GLOBAL.getUser();
 export default function PluginList({ app }) {
   //
   const { data, pending, error } = usePollingMuseData('muse.plugins');
   const { data: latestReleases } = usePollingMuseData('muse.plugins.latest-releases');
   const { data: npmVersions } = usePollingMuseData('muse.npm.versions', { interval: 30000 });
-  const searchValue = useSearchParam('search')?.toLocaleLowerCase() || '';
-
+  const searchValue = useSearchParam('search')?.toLowerCase() || '';
+  const [scope = 'deployed', setScope] = useSearchState('scope');
+  // const { scope = 'deployed' } = useParams();
+  // console.log('scope', scope);
   const deploymentInfoByPlugin = useMemo(() => {
     return _(app.envs)
       .entries()
@@ -139,10 +140,29 @@ export default function PluginList({ app }) {
     },
   ].filter(Boolean);
 
-  const pluginList = data?.filter(
+  let pluginList = data;
+  if (scope && pluginList) {
+    switch (scope) {
+      case 'my':
+        pluginList = pluginList.filter(p =>
+          p?.owners?.map(s => s.toLowerCase())?.includes(user?.username?.toLowerCase()),
+        );
+        break;
+      case 'deployed':
+        pluginList = pluginList.filter(p => deploymentInfoByPlugin[p.name]);
+        break;
+      case 'all':
+        // no filter
+        break;
+      default:
+        console.warn('Unknown scope: ', scope);
+        break;
+    }
+  }
+  pluginList = pluginList?.filter(
     p =>
-      p.name.toLocaleLowerCase().includes(searchValue) ||
-      p.owners?.some(o => o.toLocaleLowerCase().includes(searchValue)),
+      p.name.toLowerCase().includes(searchValue) ||
+      p.owners?.some(o => o.toLowerCase().includes(searchValue)),
   );
 
   plugin.invoke('museManager.pm.pluginList.processColumns', columns, { plugins: pluginList });
@@ -159,6 +179,17 @@ export default function PluginList({ app }) {
               className="flex-none min-w-[100px] max-w-[400px]"
             />
             <div className="grow flex justify-end gap-2">
+              <Radio.Group onChange={evt => setScope(evt.target.value)} value={scope}>
+                <Radio.Button value="my" key="my">
+                  My Plugins
+                </Radio.Button>
+                <Radio.Button value="deployed" key="deployed">
+                  Deployed Plugins
+                </Radio.Button>
+                <Radio.Button value="all" key="all">
+                  All Plugins
+                </Radio.Button>
+              </Radio.Group>
               <Button
                 className="float-right"
                 type="primary"
