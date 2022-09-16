@@ -17,7 +17,7 @@
     "@ebay/muse-dev-utils": "^1.0.26",
     "@ebay/muse-ebay-dev": "^1.0.1",
     "@ebay/muse-express-middleware": "1.0.25",
-    "@ebay/muse-lib-antd": "1.0.10",
+    "@ebay/muse-lib-antd": "1.0.11",
     "@ebay/muse-lib-react": "1.0.21",
     "@ebay/muse-plugin-acl": "1.0.5",
     "@ebay/muse-scripts-react": "1.0.23",
@@ -39,7 +39,7 @@
     "tailwindcss": "^3.1.8",
     "web-vitals": "^2.1.4"
   },
-  "pnpm": {
+  "pnpm2": {
     "overrides": {
       "@ebay/muse-webpack-plugin": "link:../../workspace/packages/muse-webpack-plugin",
       "@ebay/muse-dev-utils": "link:../../workspace/packages/muse-dev-utils",
