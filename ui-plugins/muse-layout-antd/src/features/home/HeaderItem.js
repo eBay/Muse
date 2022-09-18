@@ -6,7 +6,7 @@ import { MetaMenu } from '@ebay/muse-lib-antd/src/features/common';
 export default function HeaderItem({ meta }) {
   const { label, link, linkTarget, onClick, icon, className = '' } = meta;
   const handleClick = useCallback(
-    (evt) => {
+    evt => {
       onClick && onClick(evt);
       if (link) {
         if (linkTarget === '_blank') {
@@ -36,8 +36,8 @@ export default function HeaderItem({ meta }) {
     const menuMeta = {
       ...meta.menuMeta,
       trigger: {
-        ...meta.menuMeta.trigger,
-        className: `${meta.menuMeta.trigger.className || ''} ${classnames.join(' ')}`,
+        ...meta.menuMeta?.trigger,
+        className: `${meta.menuMeta?.trigger?.className || ''} ${classnames.join(' ')}`,
       },
     };
     return (
