@@ -37,7 +37,7 @@ dependencies:
   '@craco/craco': 6.4.4_react-scripts@5.0.1
   '@ebay/muse-client': 1.0.17
   '@ebay/muse-core': 1.0.25
-  '@ebay/muse-craco-plugin': 1.0.27_a24197fe19cad764be4f6deabdaddbb7
+  '@ebay/muse-craco-plugin': 1.0.27_ujazp7qzzllwjpspnxvl3lo3w4
   '@ebay/muse-dev-utils': 1.0.28_@ebay+muse-core@1.0.25
   '@ebay/muse-ebay-dev': 1.0.1_@ebay+muse-core@1.0.25
   '@ebay/muse-express-middleware': 1.0.25_@ebay+muse-core@1.0.25
@@ -1723,7 +1723,7 @@ packages:
       winston-transport: 4.5.0
     dev: false
 
-  /@ebay/muse-craco-plugin/1.0.27_a24197fe19cad764be4f6deabdaddbb7:
+  /@ebay/muse-craco-plugin/1.0.27_ujazp7qzzllwjpspnxvl3lo3w4:
     resolution: {integrity: sha1-+7VFN9n/qpO6xG9mujZrbQE4SdQ=, tarball: '@ebay/muse-craco-plugin/-/@ebay/muse-craco-plugin-1.0.27.tgz'}
     peerDependencies:
       '@craco/craco': 6.4.4
