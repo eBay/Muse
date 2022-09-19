@@ -48,7 +48,7 @@ function EnvActions({ env, app }) {
                   .then(res => {
                     hide();
                     message.success(`The ${env.name} environment was successfully deleted`);
-                    syncStatus(app.name);
+                    syncStatus();
                   })
                   .catch(err => {
                     hide();
