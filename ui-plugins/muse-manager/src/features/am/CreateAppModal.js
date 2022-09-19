@@ -7,7 +7,7 @@ import { useSyncStatus, useMuseApi, useMuse, usePollingMuseData } from '../../ho
 import plugin from 'js-plugin';
 
 const user = window.MUSE_GLOBAL.getUser();
-const CreateAppModal = NiceModal.create(({}) => {
+const CreateAppModal = NiceModal.create(() => {
   const modal = useModal();
   const [form] = Form.useForm();
   const syncStatus = useSyncStatus('muse.apps');

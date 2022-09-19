@@ -33,7 +33,7 @@ const renderOuterItem = ({ icon, label, disabled, disabledText, ...rest }, size)
 
   return (
     <Tooltip title={disabled ? disabledText || label : label} key={rest.key}>
-      <Button size={size} {...rest} />
+      <Button size={size} disabled={disabled} {...rest} />
     </Tooltip>
   );
 };
@@ -95,27 +95,27 @@ export default function DropdownMenu({
   );
 }
 
-DropdownMenu.propTypes = {
-  triggerNode: PropTypes.node,
-  menuProps: PropTypes.object,
-  nodeProps: PropTypes.object,
-  size: PropTypes.string,
-  items: PropTypes.arrayOf(
-    PropTypes.shape({
-      key: PropTypes.string,
-      label: PropTypes.string,
-      icon: PropTypes.any,
-      disabled: PropTypes.boolean,
-      highlight: PropTypes.boolean,
-      link: PropTypes.string,
-      onClick: PropTypes.func,
-      menuItemProps: PropTypes.object,
-    }),
-  ),
-  extPoint: PropTypes.string,
-  extPointParams: PropTypes.array,
-  render: PropTypes.func,
-};
+// DropdownMenu.propTypes = {
+//   triggerNode: PropTypes.node,
+//   menuProps: PropTypes.object,
+//   nodeProps: PropTypes.object,
+//   size: PropTypes.string,
+//   items: PropTypes.arrayOf(
+//     PropTypes.shape({
+//       key: PropTypes.string,
+//       label: PropTypes.string,
+//       icon: PropTypes.any,
+//       disabled: PropTypes.boolean,
+//       highlight: PropTypes.boolean,
+//       link: PropTypes.string,
+//       onClick: PropTypes.func,
+//       menuItemProps: PropTypes.object,
+//     }),
+//   ),
+//   extPoint: PropTypes.string,
+//   extPointParams: PropTypes.array,
+//   render: PropTypes.func,
+// };
 DropdownMenu.defaultProps = {
   labelNode: '',
   size: 'small',

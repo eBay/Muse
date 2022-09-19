@@ -1,22 +1,42 @@
-import { useEffect } from 'react';
-import { Table, Button, Tag, Tooltip } from 'antd';
+import { useMemo } from 'react';
+import { Table, Button, Tag, Tooltip, Radio } from 'antd';
 import plugin from 'js-plugin';
 import semver from 'semver';
 import TimeAgo from 'react-time-ago';
 import NiceModal from '@ebay/nice-modal-react';
-import { RequestStatus, TableBar } from '@ebay/muse-lib-antd/src/features/common';
+import { RequestStatus, Highlighter } from '@ebay/muse-lib-antd/src/features/common';
 import { usePollingMuseData } from '../../hooks';
 import PluginActions from './PluginActions';
 import PluginStatus from './PluginStatus';
 import _ from 'lodash';
+import { useSearchParam } from 'react-use';
+import PluginListBar from './PluginListBar';
 
 const NA = () => <span style={{ color: 'gray', fontSize: '13px' }}>N/A</span>;
-
+const user = window.MUSE_GLOBAL.getUser();
 export default function PluginList({ app }) {
   //
   const { data, pending, error } = usePollingMuseData('muse.plugins');
   const { data: latestReleases } = usePollingMuseData('muse.plugins.latest-releases');
   const { data: npmVersions } = usePollingMuseData('muse.npm.versions', { interval: 30000 });
+  const searchValue = useSearchParam('search')?.toLowerCase() || '';
+  const scope = useSearchParam('scope') || 'my';
+  const deploymentInfoByPlugin = useMemo(() => {
+    return (
+      (app &&
+        _(app.envs)
+          .entries()
+          .reduce((obj, [envName, { plugins }]) => {
+            plugins.forEach(({ name, version }) => {
+              if (!obj[name]) obj[name] = {};
+              obj[name][envName] = version;
+            });
+            return obj;
+          }, {})) ||
+      {}
+    );
+  }, [app]);
+
   const columns = [
     {
       dataIndex: 'name',
@@ -40,16 +60,19 @@ export default function PluginList({ app }) {
         }
         return (
           <>
-            <a href="#">{pluginName}</a>
+            <a href="#">
+              <Highlighter search={searchValue} text={pluginName} />
+            </a>
             {tags}
           </>
         );
       },
     },
     {
-      dataIndex: 'createdBy',
-      title: 'Created By',
+      dataIndex: 'owners',
+      title: 'Owners',
       width: '120px',
+      render: o => <Highlighter search={searchValue} text={o.join(', ')} />,
     },
     ...Object.values(app?.envs || {}).map(env => {
       return {
@@ -57,7 +80,7 @@ export default function PluginList({ app }) {
         title: env.name,
         width: '120px',
         render: (pluginName, plugin) => {
-          const version = _.find(env?.plugins, { name: pluginName })?.version;
+          const version = deploymentInfoByPlugin?.[pluginName]?.[env.name]; // _.find(env?.plugins, { name: pluginName })?.version;
           if (!version) return <NA />;
           const latestVersion = latestReleases?.[pluginName]?.version;
           if (!latestVersion) return version;
@@ -94,7 +117,7 @@ export default function PluginList({ app }) {
               onClick={() => NiceModal.show('muse-manager.releases-drawer', { plugin, app })}
               style={{ textAlign: 'left', padding: 0 }}
             >
-              {latest.version}
+              v{latest.version}
             </Button>
           </Tooltip>
         ) : (
@@ -119,28 +142,48 @@ export default function PluginList({ app }) {
     },
   ].filter(Boolean);
 
-  plugin.invoke('museManager.pm.pluginList.processColumns', columns, { plugins: data });
-  plugin.invoke('museManager.pm.pluginList.postProcessColumns', columns, { plugins: data });
+  let pluginList = data;
+
+  if (scope && pluginList) {
+    switch (scope) {
+      case 'my':
+        pluginList = pluginList.filter(p =>
+          p?.owners?.map(s => s.toLowerCase())?.includes(user?.username?.toLowerCase()),
+        );
+        break;
+      case 'deployed':
+        pluginList = pluginList.filter(p => deploymentInfoByPlugin[p.name]);
+        break;
+      case 'all':
+        // no filter
+        break;
+      default:
+        console.warn('Unknown scope: ', scope);
+        break;
+    }
+  }
+  pluginList = pluginList?.filter(
+    p =>
+      p.name.toLowerCase().includes(searchValue) ||
+      p.owners?.some(o => o.toLowerCase().includes(searchValue)),
+  );
+
+  plugin.invoke('museManager.pm.pluginList.processColumns', columns, { plugins: pluginList });
+  plugin.invoke('museManager.pm.pluginList.postProcessColumns', columns, { plugins: pluginList });
 
   return (
     <div>
+      {!app && <h1>Plugins</h1>}
       <RequestStatus loading={!error && (pending || !data)} error={error} loadingMode="skeleton" />
       {data && (
         <div>
-          <TableBar>
-            <Button
-              type="primary"
-              onClick={() => NiceModal.show('muse-manager.create-plugin-modal')}
-            >
-              Create Plugin
-            </Button>
-          </TableBar>
+          <PluginListBar app={app} />
           <Table
             pagination={false}
             rowKey="name"
             size="middle"
             columns={columns}
-            dataSource={data}
+            dataSource={pluginList}
             loading={pending || !data}
           />
         </div>

@@ -17,7 +17,15 @@ module.exports = {
     });
     const post = async (apiPath, args) => {
       try {
-        const res = await client.post(apiPath, { args });
+        let res;
+        if (typeof FormData !== 'undefined' && args[0] instanceof FormData) {
+          // For form data format
+          res = await client.post(apiPath, args[0], {
+            'Content-Type': 'multipart/form-data',
+          });
+        } else {
+          res = await client.post(apiPath, { args });
+        }
         return res.data?.data;
       } catch (err) {
         //
@@ -32,6 +40,7 @@ module.exports = {
     const handler = {
       get(target, prop, receiver) {
         if (['_api_path_', 'apply', 'call'].includes(prop)) return target[prop] || '';
+        if (prop === '_url') return `${endpoint}${receiver._api_path_ || ''}`;
         const apiPath = (receiver._api_path_ || '') + '/' + kebabCase(prop);
         const func = async (...args) => {
           return await post(apiPath, args);

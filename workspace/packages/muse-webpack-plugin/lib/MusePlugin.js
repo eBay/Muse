@@ -28,6 +28,8 @@ class MusePlugin {
         for (const name of Object.keys(entry)) {
           const options = {
             name,
+            // Need to detect plugin type based on entry file position?
+            isDev: this.options.isDev,
             type: this.options.type || 'normal',
             filename: entry.filename,
           };
@@ -38,14 +40,14 @@ class MusePlugin {
       }
       return true;
     });
-    
+
     new MuseModuleInfoPlugin().apply(compiler);
     new MuseModuleIdPlugin().apply(compiler);
 
     if (this.options.type === 'lib') {
       new MuseManifestPlugin({ entryOnly: false, format: true, ...this.options }).apply(compiler);
     }
-    
+
     new FlagAllModulesAsUsedPlugin('MusePlugin').apply(compiler);
   }
 }

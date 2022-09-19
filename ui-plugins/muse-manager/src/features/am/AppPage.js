@@ -1,10 +1,11 @@
-import plugin from 'js-plugin';
+import _ from 'lodash';
+import jsPlugin from 'js-plugin';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Tabs, Alert } from 'antd';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import { usePollingMuseData } from '../../hooks';
 import PluginList from '../pm/PluginList';
-import Overview from './Overview';
+import AppOverview from './AppOverview';
 const { TabPane } = Tabs;
 
 export default function AppPage() {
@@ -16,22 +17,27 @@ export default function AppPage() {
     {
       key: 'overview',
       name: 'Overview',
-      component: Overview,
+      order: 10,
+      component: AppOverview,
     },
     {
       key: 'plugins',
       name: 'Plugins',
+      order: 20,
       component: PluginList,
     },
     {
       key: 'activities',
       name: 'Activities',
+      order: 30,
       component: () => 'Activites',
     },
   ];
 
-  plugin.invoke('museManager.appPage.processTabs', tabs);
-  plugin.invoke('museManager.appPage.postProcessTabs', tabs);
+  tabs.push(..._.flatten(jsPlugin.invoke('museManager.appPage.getTabs', tabs)));
+  jsPlugin.invoke('museManager.appPage.processTabs', tabs);
+  jsPlugin.invoke('museManager.appPage.postProcessTabs', tabs);
+  jsPlugin.sort(tabs);
 
   if (!tabs.map(t => t.key).includes(tabKey)) {
     return <Alert type="error" message={`Unknown tab: ${tabKey}`} showIcon />;
@@ -39,7 +45,7 @@ export default function AppPage() {
   return (
     <div>
       <h1>Muse App: {appName}</h1>
-      <RequestStatus loading={!app} error={!app && error} loadingMode="skeleton" />
+      <RequestStatus loading={!error && !app} error={!app && error} loadingMode="skeleton" />
 
       {app && (
         <Tabs activeKey={tabKey} onChange={k => navigate(`/app/${appName}/${k}`)}>

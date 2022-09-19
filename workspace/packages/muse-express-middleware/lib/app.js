@@ -57,7 +57,7 @@ module.exports = ({
   isLocal = false,
   template = defaultTemplate,
   byUrl = false,
-  serviceWorker = '/sw.js', // If not use service worker, set it to false
+  serviceWorker = '/muse-sw.js', // If not use service worker, set it to false
   serviceWorkerCacheName = 'muse_assets',
 }) => {
   let swContent = fs.readFileSync(path.join(__dirname, './sw.js')).toString();
@@ -163,7 +163,7 @@ module.exports = ({
           `${cdn}/p/${museCore.utils.getPluginId(bootPlugin.name)}/v${
             bootPlugin.version
           }/dist/boot.js`,
-        museGlobal: JSON.stringify(museGlobal),
+        museGlobal: JSON.stringify(museGlobal, null, 2),
       }),
     };
     museCore.plugin.invoke('museMiddleware.app.processIndexHtml', ctx);

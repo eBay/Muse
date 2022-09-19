@@ -17,7 +17,6 @@ class MuseEntryPlugin {
   }
 
   apply(compiler) {
-
     compiler.hooks.compilation.tap('MuseEntryPlugin', (compilation, { normalModuleFactory }) => {
       const museModuleFactory = new MuseModuleFactory();
       compilation.dependencyFactories.set(MuseEntryDependency, museModuleFactory);
@@ -43,20 +42,24 @@ class MuseEntryPlugin {
       );
     });
 
-    compiler.hooks.thisCompilation.tap('MuseEntryPlugin', (compilation) => {
+    compiler.hooks.thisCompilation.tap('MuseEntryPlugin', compilation => {
       const hooks = JavascriptModulesPlugin.getCompilationHooks(compilation);
-      hooks.renderStartup.tap('MuseEntryPlugin', (source) => {
-        const entryModules = Array.from(compilation.modules).filter((m) => this.entries.includes(m.rawRequest));
+      hooks.renderStartup.tap('MuseEntryPlugin', source => {
+        const entryModules = Array.from(compilation.modules).filter(m =>
+          this.entries.includes(m.rawRequest),
+        );
         const result = new ConcatSource(source.source());
-
-        if (this.options.type === 'lib') {
+        // Make all modules shared during dev or it's lib plugin
+        if (this.options.type === 'lib' || this.options.isDev) {
           result.add('// For lib plugins, share all modules by MUSE_GLOBAL.\n');
-          result.add(`MUSE_GLOBAL.__shared__.register(__webpack_modules__, __webpack_require__);\n`);
+          result.add(
+            `MUSE_GLOBAL.__shared__.register(__webpack_modules__, __webpack_require__);\n`,
+          );
         }
         const entryProperty = this.options.type === 'init' ? 'initEntries' : 'pluginEntries';
         entryModules
-          .map((m) => m.buildInfo.museData.id)
-          .forEach((mid) => {
+          .map(m => m.buildInfo.museData.id)
+          .forEach(mid => {
             result.add(
               `MUSE_GLOBAL.${entryProperty}.push({ id: "${mid}", func: () => __webpack_require__("${mid}") });\n`,
             );

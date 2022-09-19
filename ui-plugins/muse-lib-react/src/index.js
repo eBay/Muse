@@ -7,6 +7,7 @@ import plugin from 'js-plugin';
 import Loadable from 'react-loadable';
 import _ from 'lodash';
 import * as reactUse from 'react-use';
+import axios from 'axios';
 import './styles/index.less';
 
 plugin.register({
@@ -33,4 +34,4 @@ window.MUSE_GLOBAL.appEntries.push({
   func: renderApp,
 });
 
-export default { Loadable, _, reactUse };
+export default { Loadable, _, reactUse, axios };

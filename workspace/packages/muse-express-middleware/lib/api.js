@@ -1,8 +1,9 @@
 // Expose Muse APIs via express
 const muse = require('@ebay/muse-core');
 const _ = require('lodash');
+const multer = require('multer');
 const logger = muse.logger.createLogger('@ebay/muse-express-middleware.api');
-
+const upload = multer({ storage: multer.memoryStorage() });
 // All exposed APIs are predefined and they are able to convert to API path from museCore
 const exposedApis = [
   'am.createApp',
@@ -14,6 +15,7 @@ const exposedApis = [
   'am.getApp',
   'am.getApps',
   'am.setVariable',
+  'am.setAppIcon',
   'am.updateApp',
   'am.updateEnv',
   'pm.buildPlugin',
@@ -50,11 +52,19 @@ const exposedApis = [
   'req.updateStatus',
 ];
 
+const fileFields = {
+  'am.setAppIcon': { name: 'icon', maxCount: 1 },
+};
+
 module.exports = ({ basePath = '/api/v2' } = {}) => {
   // Allow a plugin to provide api from RESTful service
   const apis = _.flatten(muse.plugin.invoke('museMiddleware.api.getApis'));
+  _.flatten(muse.plugin.invoke('museMiddleware.api.getFileFields')).forEach(obj => {
+    fileFields[obj.apiKey] = obj.fields;
+  });
   exposedApis.push(...apis);
-  muse.plugin.invoke('museMiddleware.api.processApis');
+  muse.plugin.invoke('museMiddleware.api.processApis', apis);
+  muse.plugin.invoke('museMiddleware.api.processFileFields', fileFields);
 
   return async (req, res, next) => {
     if (!req.path.startsWith(basePath)) {
@@ -94,6 +104,22 @@ module.exports = ({ basePath = '/api/v2' } = {}) => {
       if (!req.body) {
         throw new Error('No request.body found, did you config the express.json() middleware?');
       }
+      // If some property is a buffer, it can accept upload as buffer
+      if (fileFields[apiKey]) {
+        await new Promise((resolve, reject) => {
+          upload.fields(_.castArray(fileFields[apiKey]))(req, res, err => {
+            if (err) reject(err);
+            resolve();
+          });
+        });
+        const params = {};
+        Object.keys(req.body).forEach(k => (params[k] = req.body[k]));
+        _.keys(req.files).forEach(f => {
+          params[f] = req.files[f][0].buffer;
+        });
+        req.body.args = [params];
+      }
+
       await muse.utils.asyncInvoke('museExpressMiddleware.api.before', {
         apiKey,
         basePath,
@@ -114,6 +140,7 @@ module.exports = ({ basePath = '/api/v2' } = {}) => {
         if (author) args[0].author = author;
       }
       // TODO: inject author info
+
       const result = { data: await _.invoke(muse, apiKey, ...args) };
       await muse.utils.asyncInvoke('museExpressMiddleware.api.after', {
         result,

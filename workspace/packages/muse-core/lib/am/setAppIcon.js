@@ -29,12 +29,6 @@ module.exports = async (params = {}) => {
   const app = await getApp(appName);
   ctx.newIconId = 1;
   if (app.iconId) {
-    try {
-      // Delete old icon
-      await assetsStorage.delDir(`/p/app-icon.${appName}/v0.0.${app.iconId}`);
-    } catch (err) {
-      logger.error(`Failed to delete app icon@${app.iconId}: ${appName}`);
-    }
     ctx.newIconId = parseInt(app.iconId || '0', 10) + 1;
   }
 
@@ -49,6 +43,7 @@ module.exports = async (params = {}) => {
           value: ctx.newIconId,
         },
       },
+      author,
       msg: `Set app icon@${ctx.newIconId} for ${appName} by ${author}.`,
     });
   } catch (err) {
