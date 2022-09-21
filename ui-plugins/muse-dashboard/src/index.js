@@ -3,6 +3,7 @@ import * as ext from './ext';
 import route from './route';
 import reducer from './reducer';
 import './style.less';
+import './modals';
 
 plugin.register({
   ...ext,

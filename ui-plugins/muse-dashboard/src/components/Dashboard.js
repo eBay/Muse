@@ -29,7 +29,7 @@ export default function Dashboard({ dashboardKey, noToolbar, defaultDashboard = 
     [],
   );
 
-  const { editing, setEditing } = useState(true);
+  const [dashArgs, setDashArgs] = useState({ editing: false });
   const currentDashboardName = useSearchParam('current') || 'default';
 
   let { data, pending, error } = useStorage('dashboard', currentDashboardName);
@@ -72,15 +72,14 @@ export default function Dashboard({ dashboardKey, noToolbar, defaultDashboard = 
   const handleLayoutChange = newLayout => {
     console.log('newlayout: ', newLayout);
   };
-
   if (loading) return 'Loading...';
   return (
     <div className="h-96">
-      <DashboardToolbar />
+      <DashboardToolbar setDashArgs={setDashArgs} />
       <ResponsiveGridLayout
         className="muse-dashboard_dashboard"
-        isDraggable={editing}
-        isResizable={editing}
+        isDraggable={dashArgs.editing}
+        isResizable={dashArgs.editing}
         cols={12}
         rowHeight={30}
         margin={[20, 20]}
@@ -91,7 +90,7 @@ export default function Dashboard({ dashboardKey, noToolbar, defaultDashboard = 
         {widgets.map(widget => {
           return (
             <div key={widget.id}>
-              <Widget editing={editing} {...widget} />
+              <Widget editing={dashArgs.editing} {...widget} />
             </div>
           );
         })}
