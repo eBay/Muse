@@ -1,26 +1,45 @@
 import { Button } from 'antd';
 import NiceModal from '@ebay/nice-modal-react';
 import AddWidgetModal from './AddWidgetModal';
+import './DashboardToolbar.less';
 
-export default function DashboardToolbar({ setDashArgs }) {
+export default function DashboardToolbar({ setDashboardState, dashboardState }) {
+  console.log(dashboardState);
   return (
-    <div>
-      <Button
-        type="primary"
-        onClick={() => {
-          setDashArgs(s => ({ ...s, editing: !s.editing }));
-        }}
-      >
-        Edit
-      </Button>
-      <Button
-        type="primary"
-        onClick={() => {
-          NiceModal.show(AddWidgetModal);
-        }}
-      >
-        Add Widget
-      </Button>
+    <div className="muse-dashboard_toolbar">
+      {dashboardState.editing && (
+        <Button
+          onClick={() => {
+            setDashboardState(s => ({ ...s, editing: false }));
+          }}
+        >
+          Cancel
+        </Button>
+      )}
+      {!dashboardState.editing && (
+        <Button
+          type="primary"
+          onClick={() => {
+            setDashboardState(s => ({ ...s, editing: true }));
+          }}
+        >
+          Edit
+        </Button>
+      )}
+      {dashboardState.editing && (
+        <Button
+          type="primary"
+          onClick={async () => {
+            const addedWidget = await NiceModal.show(AddWidgetModal);
+            console.log(addedWidget);
+            setDashboardState(s => {
+              return { ...s, addedWidget };
+            });
+          }}
+        >
+          Add Widget
+        </Button>
+      )}
     </div>
   );
 }

@@ -3,6 +3,7 @@ import { Form, Modal } from 'antd';
 import NiceModal, { antdModal, useModal } from '@ebay/nice-modal-react';
 import WidgetExplorer from './WidgetExplorer';
 import WidgetDetail from './WidgetDetail';
+import './AddWidgetModal.less';
 
 export default NiceModal.create(function AddWidgetModal({ appId, onAdd = () => {} }) {
   const modal = useModal();
@@ -12,13 +13,13 @@ export default NiceModal.create(function AddWidgetModal({ appId, onAdd = () => {
   }, []);
 
   const handleAdd = useCallback(() => {
-    onAdd(Date.now().toString(36), widget);
+    modal.resolve(widget);
     modal.hide();
-  }, [widget, onAdd, modal]);
+  }, [widget, modal]);
   return (
     <Modal
       {...antdModal(modal)}
-      className="muse-dashboard_-add-widget-modal"
+      className="muse-dashboard_add-widget-modal"
       maskClosable={false}
       title="Add a Widget"
       width="800px"

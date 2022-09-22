@@ -13,7 +13,7 @@ const dashboard = {
     getWidgets: () => {
       return [
         {
-          key: 'dashboard_note',
+          key: 'dashboardNote',
           name: 'Note Widget',
           category: 'common',
           description:

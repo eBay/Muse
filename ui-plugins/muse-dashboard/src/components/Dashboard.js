@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import GridLayout, { WidthProvider } from 'react-grid-layout';
 import { useSearchParam } from 'react-use';
 import _ from 'lodash';
@@ -29,7 +29,7 @@ export default function Dashboard({ dashboardKey, noToolbar, defaultDashboard = 
     [],
   );
 
-  const [dashArgs, setDashArgs] = useState({ editing: false });
+  const [dashboardState, setDashboardState] = useState({ editing: false });
   const currentDashboardName = useSearchParam('current') || 'default';
 
   let { data, pending, error } = useStorage('dashboard', currentDashboardName);
@@ -75,11 +75,11 @@ export default function Dashboard({ dashboardKey, noToolbar, defaultDashboard = 
   if (loading) return 'Loading...';
   return (
     <div className="h-96">
-      <DashboardToolbar setDashArgs={setDashArgs} />
+      <DashboardToolbar dashboardState={dashboardState} setDashboardState={setDashboardState} />
       <ResponsiveGridLayout
         className="muse-dashboard_dashboard"
-        isDraggable={dashArgs.editing}
-        isResizable={dashArgs.editing}
+        isDraggable={dashboardState.editing}
+        isResizable={dashboardState.editing}
         cols={12}
         rowHeight={30}
         margin={[20, 20]}
@@ -90,7 +90,7 @@ export default function Dashboard({ dashboardKey, noToolbar, defaultDashboard = 
         {widgets.map(widget => {
           return (
             <div key={widget.id}>
-              <Widget editing={dashArgs.editing} {...widget} />
+              <Widget editing={dashboardState.editing} {...widget} />
             </div>
           );
         })}

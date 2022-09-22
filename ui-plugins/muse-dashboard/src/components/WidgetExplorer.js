@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { Tree } from 'antd';
 import _ from 'lodash';
 import plugin from 'js-plugin';
+import './WidgetExplorer.less';
 
 const { TreeNode, DirectoryTree } = Tree;
 
