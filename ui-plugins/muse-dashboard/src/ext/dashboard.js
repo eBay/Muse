@@ -29,8 +29,8 @@ const dashboard = {
               },
             ],
           }, // form builder meta
-          widget: NoteWidget,
-          widgetProps: {},
+          component: NoteWidget,
+          componentProps: {},
           width: 4, // Same as: [4, 1, 12]
           height: 3, // Same as: [3, 1, Inifity]
         },

@@ -25,10 +25,10 @@ const defaultDashboard = [
 
 export default function Dashboard({ dashboardKey, noToolbar, defaultDashboard = [], context }) {
   const widgetMetaByKey = useMemo(
-    () => _.keyBy(_.flatten(jsPlugin.invoke('museDashboard.widget.getWidgets'))),
+    () => _.keyBy(_.flatten(jsPlugin.invoke('museDashboard.widget.getWidgets')), 'key'),
     [],
   );
-
+  console.log(widgetMetaByKey);
   const [dashboardState, setDashboardState] = useState({ editing: false });
   const currentDashboardName = useSearchParam('current') || 'default';
 
