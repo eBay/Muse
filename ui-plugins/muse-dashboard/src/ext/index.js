@@ -1,1 +1,1 @@
-export { default as museDashboard } from './dashboard';
+export { default as museDashboard } from './museDashboard';

@@ -7,8 +7,11 @@ import './WidgetExplorer.less';
 const { TreeNode, DirectoryTree } = Tree;
 
 export default function WidgetExplorer({ onChange }) {
-  const categories = _.uniqBy(_.flatten(plugin.invoke('dashboard.widget.getCategories')), 'key');
-  const items = _.flatten(plugin.invoke('dashboard.widget.getWidgets'));
+  const categories = _.uniqBy(
+    _.flatten(plugin.invoke('museDashboard.widget.getCategories')),
+    'key',
+  );
+  const items = _.flatten(plugin.invoke('museDashboard.widget.getWidgets'));
   const itemByKey = _.keyBy(items, 'key');
   const itemsByCategory = _.groupBy(items, 'category');
 
