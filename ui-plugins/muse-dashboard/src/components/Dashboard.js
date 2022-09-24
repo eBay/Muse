@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import GridLayout, { WidthProvider } from 'react-grid-layout';
 import { useSearchParam } from 'react-use';
 import _ from 'lodash';
@@ -28,22 +28,32 @@ export default function Dashboard({ dashboardKey, noToolbar, defaultDashboard = 
     () => _.keyBy(_.flatten(jsPlugin.invoke('museDashboard.widget.getWidgets')), 'key'),
     [],
   );
-  console.log(widgetMetaByKey);
-  const [dashboardState, setDashboardState] = useState({ editing: false });
+
+  const [dashboardState, setDashboardState] = useState({ editing: false, dataToRender: [] });
   const currentDashboardName = useSearchParam('current') || 'default';
 
   let { data, pending, error } = useStorage('dashboard', currentDashboardName);
   if (data === null) data = defaultDashboard;
 
+  // Clone data  allows to be updated
+  // const [dataToRender, setDataToRender] = useState([]);
+  useEffect(() => {
+    setDashboardState(s => ({
+      ...s,
+      rawData: data,
+      dataToRender: _.clone(data),
+    }));
+  }, [data]);
+
   const loading = !data && !error;
+  // Original layout
   const layout = useMemo(() => {
-    return data.map(item => {
+    return dashboardState.dataToRender.map(item => {
       const g = {
         ...item.grid,
         i: item.id,
       };
       const widgetMeta = widgetMetaByKey[item.widget]?.meta || {};
-      item.widgetMeta = widgetMeta;
       const width = _.castArray(widgetMeta.width);
       const height = _.castArray(widgetMeta.height);
       // width[0], height[0] means the default value
@@ -54,20 +64,22 @@ export default function Dashboard({ dashboardKey, noToolbar, defaultDashboard = 
 
       return g;
     });
-  }, [data, widgetMetaByKey]);
+  }, [dashboardState.dataToRender, widgetMetaByKey]);
 
+  // Original widgets
   const widgets = useMemo(() => {
-    return data.map(item => {
+    return dashboardState.dataToRender.map(item => {
       const w = widgetMetaByKey[item.widget];
-      const widgetMeta = w?.meta || {};
+      const widgetMeta = w || {};
       return {
         id: item.id,
         component: w?.component || WidgetNotFound,
         meta: widgetMeta,
         name: item.widget,
+        settings: item.settings,
       };
     });
-  }, [data, widgetMetaByKey]);
+  }, [dashboardState.dataToRender, widgetMetaByKey]);
 
   const handleLayoutChange = newLayout => {
     console.log('newlayout: ', newLayout);
@@ -90,7 +102,11 @@ export default function Dashboard({ dashboardKey, noToolbar, defaultDashboard = 
         {widgets.map(widget => {
           return (
             <div key={widget.id}>
-              <Widget editing={dashboardState.editing} {...widget} />
+              <Widget
+                setDashboardState={setDashboardState}
+                editing={dashboardState.editing}
+                {...widget}
+              />
             </div>
           );
         })}

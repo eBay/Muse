@@ -1,5 +1,6 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useMemo } from 'react';
 import { Form, Modal } from 'antd';
+
 import NiceModal, { antdModal, useModal } from '@ebay/nice-modal-react';
 import WidgetExplorer from './WidgetExplorer';
 import WidgetDetail from './WidgetDetail';

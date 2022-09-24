@@ -24,13 +24,14 @@ const dashboard = {
               {
                 key: 'content',
                 label: 'Content',
-                required: true,
+                widgetProps: {
+                  rows: 5,
+                },
                 widget: 'textarea',
               },
             ],
           }, // form builder meta
           component: NoteWidget,
-          componentProps: {},
           width: 4, // Same as: [4, 1, 12]
           height: 3, // Same as: [3, 1, Inifity]
         },
