@@ -1,6 +1,7 @@
 import { useMemo, useState, useEffect } from 'react';
 import GridLayout, { WidthProvider } from 'react-grid-layout';
 import { useSearchParam } from 'react-use';
+import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import _ from 'lodash';
 import jsPlugin from 'js-plugin';
 import Widget from './Widget';
@@ -15,37 +16,39 @@ const ResponsiveGridLayout = WidthProvider(props => {
 });
 
 // defaultLayout is used if no layouts provided
-
-/*
-const defaultDashboard = [
-  { id: 'uid1', widget: 'myWidget', settings: {}, w: 1, x: 0, y: 0, h: 1 },
-  { id: 'uid1', widget: 'myWidget2', settings: {}, w: 1, x: 0, y: 0, h: 1 },
-]
-*/
-
-export default function Dashboard({ dashboardKey, noToolbar, defaultDashboard = [], context }) {
+const defaultLayout = [
+  { id: 'uid3', widget: 'favoritePools', settings: null, grid: { w: 6, x: 6, y: 6, h: 6 } },
+];
+export default function Dashboard({
+  dashboardKey = 'muse-default-dashboard',
+  noToolbar,
+  defaultDashboard = defaultLayout,
+  context,
+}) {
   const widgetMetaByKey = useMemo(
     () => _.keyBy(_.flatten(jsPlugin.invoke('museDashboard.widget.getWidgets')), 'key'),
     [],
   );
 
   const [dashboardState, setDashboardState] = useState({ editing: false, dataToRender: [] });
-  const currentDashboardName = useSearchParam('current') || 'default';
+  const dashboardName = useSearchParam('current') || 'default';
 
-  let { data, pending, error } = useStorage('dashboard', currentDashboardName);
+  let { data, pending, error } = useStorage('getDashboard', [dashboardKey, dashboardName]);
   if (data === null) data = defaultDashboard;
+  console.log('data: ', data);
 
   // Clone data  allows to be updated
   // const [dataToRender, setDataToRender] = useState([]);
   useEffect(() => {
+    if (!data) return;
     setDashboardState(s => ({
       ...s,
       rawData: data,
       dataToRender: _.clone(data),
     }));
   }, [data]);
+  console.log('dashboardState: ', dashboardState);
 
-  const loading = !data && !error;
   // Original layout
   const layout = useMemo(() => {
     return dashboardState.dataToRender.map(item => {
@@ -84,10 +87,16 @@ export default function Dashboard({ dashboardKey, noToolbar, defaultDashboard = 
   const handleLayoutChange = newLayout => {
     console.log('newlayout: ', newLayout);
   };
-  if (loading) return 'Loading...';
+
   return (
     <div className="h-96">
-      <DashboardToolbar dashboardState={dashboardState} setDashboardState={setDashboardState} />
+      <RequestStatus pending={pending} error={error} />
+      <DashboardToolbar
+        dashboardKey={dashboardKey}
+        dashboardName={dashboardName}
+        dashboardState={dashboardState}
+        setDashboardState={setDashboardState}
+      />
       <ResponsiveGridLayout
         className="muse-dashboard_dashboard"
         isDraggable={dashboardState.editing}

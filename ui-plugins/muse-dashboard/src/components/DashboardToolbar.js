@@ -6,8 +6,14 @@ import NiceModal from '@ebay/nice-modal-react';
 import AddWidgetModal from './AddWidgetModal';
 import './DashboardToolbar.less';
 import WidgetSettingsModal from './WidgetSettingsModal';
+import useStorage from '../hooks/useStorage';
 
-export default function DashboardToolbar({ setDashboardState, dashboardState }) {
+export default function DashboardToolbar({
+  setDashboardState,
+  dashboardKey,
+  dashboardName,
+  dashboardState,
+}) {
   const widgetMetaByKey = useMemo(
     () => _.keyBy(_.flatten(jsPlugin.invoke('museDashboard.widget.getWidgets')), 'key'),
     [],
@@ -54,6 +60,15 @@ export default function DashboardToolbar({ setDashboardState, dashboardState }) 
       };
     });
   }, [setDashboardState, widgetMetaByKey]);
+
+  const {
+    action: saveDashboard,
+    pending: saveDashboardPeding,
+    error: saveDashboardError,
+  } = useStorage('saveDashboard');
+  const handleSave = () => {
+    saveDashboard(dashboardKey, dashboardName, dashboardState.dataToRender);
+  };
   return (
     <div className="muse-dashboard_toolbar">
       {dashboardState.editing && (
@@ -63,6 +78,11 @@ export default function DashboardToolbar({ setDashboardState, dashboardState }) 
           }}
         >
           Cancel
+        </Button>
+      )}
+      {dashboardState.editing && (
+        <Button type="primary" onClick={handleSave}>
+          Save
         </Button>
       )}
       {!dashboardState.editing && (
