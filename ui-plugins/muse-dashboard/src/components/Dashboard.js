@@ -35,19 +35,16 @@ export default function Dashboard({
 
   let { data, pending, error } = useStorage('getDashboard', [dashboardKey, dashboardName]);
   if (data === null) data = defaultDashboard;
-  console.log('data: ', data);
 
   // Clone data  allows to be updated
-  // const [dataToRender, setDataToRender] = useState([]);
   useEffect(() => {
     if (!data) return;
     setDashboardState(s => ({
       ...s,
       rawData: data,
-      dataToRender: _.clone(data),
+      dataToRender: _.cloneDeep(data),
     }));
   }, [data]);
-  console.log('dashboardState: ', dashboardState);
 
   // Original layout
   const layout = useMemo(() => {
@@ -85,8 +82,20 @@ export default function Dashboard({
   }, [dashboardState.dataToRender, widgetMetaByKey]);
 
   const handleLayoutChange = newLayout => {
-    console.log('newlayout: ', newLayout);
+    const dataToRender = _.cloneDeep(dashboardState.dataToRender);
+    const byId = _.keyBy(dataToRender, 'id');
+    newLayout.forEach(item => {
+      Object.assign(byId[item.i].grid, {
+        w: item.w,
+        h: item.h,
+        x: item.x,
+        y: item.y,
+      });
+    });
+    setDashboardState(s => ({ ...s, dataToRender }));
   };
+  console.log('rawdata', dashboardState.rawData?.[0]?.grid);
+  console.log('datatorender', dashboardState.dataToRender?.[0]?.grid);
 
   return (
     <div className="h-96">

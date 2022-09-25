@@ -1,6 +1,7 @@
 import { useCallback, useMemo } from 'react';
-import { Button } from 'antd';
+import { Button, message } from 'antd';
 import _ from 'lodash';
+import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import jsPlugin from 'js-plugin';
 import NiceModal from '@ebay/nice-modal-react';
 import AddWidgetModal from './AddWidgetModal';
@@ -52,7 +53,6 @@ export default function DashboardToolbar({
         },
         settings,
       });
-      // setDashboardState(s => ({ ...s, dataToRender }));
 
       return {
         ...s,
@@ -63,26 +63,40 @@ export default function DashboardToolbar({
 
   const {
     action: saveDashboard,
-    pending: saveDashboardPeding,
+    pending: saveDashboardPending,
     error: saveDashboardError,
   } = useStorage('saveDashboard');
+
   const handleSave = () => {
-    saveDashboard(dashboardKey, dashboardName, dashboardState.dataToRender);
+    saveDashboard(dashboardKey, dashboardName, dashboardState.dataToRender).then(() => {
+      message.success({ content: 'Dashboard saved!', duration: 2 });
+      setDashboardState(s => ({ ...s, editing: false }));
+    });
   };
   return (
     <div className="muse-dashboard_toolbar">
+      <RequestStatus pending={saveDashboardPending} error={saveDashboardError} />
       {dashboardState.editing && (
         <Button
           onClick={() => {
-            setDashboardState(s => ({ ...s, editing: false, dataToRender: _.clone(s.rawData) }));
+            setDashboardState(s => ({
+              ...s,
+              editing: false,
+              dataToRender: _.cloneDeep(s.rawData),
+            }));
           }}
         >
           Cancel
         </Button>
       )}
       {dashboardState.editing && (
-        <Button type="primary" onClick={handleSave}>
-          Save
+        <Button
+          type="primary"
+          loading={saveDashboardPending}
+          disabled={saveDashboardPending}
+          onClick={handleSave}
+        >
+          {saveDashboardPending ? 'Saving...' : 'Save'}
         </Button>
       )}
       {!dashboardState.editing && (

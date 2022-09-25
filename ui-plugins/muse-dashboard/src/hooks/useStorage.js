@@ -14,9 +14,8 @@ export default function useStorage(apiKey, args) {
   const action = useCallback(
     (...args) => {
       setPending(true);
-      storageApi[apiKey](...args)
+      return storageApi[apiKey](...args)
         .then(d => {
-          console.log('get', apiKey, d, args);
           setPending(false);
           setData(d);
         })
