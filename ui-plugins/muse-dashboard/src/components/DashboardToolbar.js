@@ -85,11 +85,12 @@ export default function DashboardToolbar({
     error: getDashboardListError,
   } = useStorage('getDashboardList', [dashboardKey]);
   const [dashboardName, setDashboardName] = useSearchState(nameQuery);
-  const menuItems = dashboardList?.map(d => ({ key: d.key || d.name, label: d.name })) || [];
+  const menuItems = dashboardList?.map(d => ({ key: _.kebabCase(d.name), label: d.name })) || [];
   menuItems.push({
     key: '__new_dashboard',
     label: <Button type="link">+ New Dashboard</Button>,
   });
+
   const menu = dashboardList ? (
     <Menu
       onClick={async ({ key }) => {
@@ -100,7 +101,7 @@ export default function DashboardToolbar({
             dashboardList,
             defaultLayout,
           });
-          getDashboardList(dashboardKey);
+          await getDashboardList(dashboardKey);
           setDashboardName(_.kebabCase(name));
           return;
         }
