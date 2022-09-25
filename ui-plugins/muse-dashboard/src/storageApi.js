@@ -33,6 +33,7 @@ const saveDashboard = async (dashboardKey, dashboardName, value) => {
     ls.setItem(`museDashboardList.${sKey}`, JSON.stringify(list));
   }
 };
+
 const deleteDashboard = async (dashboardKey, dashboardName) => {
   await delay(1000);
   const sKey = _.kebabCase(dashboardKey);

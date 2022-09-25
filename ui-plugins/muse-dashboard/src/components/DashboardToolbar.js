@@ -1,5 +1,6 @@
 import { useCallback, useMemo } from 'react';
-import { Button, message } from 'antd';
+import { Button, message, Menu, Dropdown } from 'antd';
+import { DownOutlined } from '@ant-design/icons';
 import _ from 'lodash';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import jsPlugin from 'js-plugin';
@@ -8,11 +9,14 @@ import AddWidgetModal from './AddWidgetModal';
 import './DashboardToolbar.less';
 import WidgetSettingsModal from './WidgetSettingsModal';
 import useStorage from '../hooks/useStorage';
+import useSearchState from '../hooks/useSearchState';
+import NewDashboardModal from './NewDashboardModal';
 
 export default function DashboardToolbar({
+  defaultLayout,
   setDashboardState,
   dashboardKey,
-  dashboardName,
+  nameQuery,
   dashboardState,
 }) {
   const widgetMetaByKey = useMemo(
@@ -37,7 +41,7 @@ export default function DashboardToolbar({
       const height = _.castArray(widgetMeta.height || 8);
 
       dataToRender.push({
-        id: _.uniqueId('new-widget'),
+        id: `w-${Date.now()}`,
         widget: addedWidget.key,
         grid: {
           x: 0,
@@ -73,9 +77,53 @@ export default function DashboardToolbar({
       setDashboardState(s => ({ ...s, editing: false }));
     });
   };
+
+  const {
+    data: dashboardList,
+    action: getDashboardList,
+    pending: getDashboardListPending,
+    error: getDashboardListError,
+  } = useStorage('getDashboardList', [dashboardKey]);
+  const [dashboardName, setDashboardName] = useSearchState(nameQuery);
+  const menuItems = dashboardList?.map(d => ({ key: d.key || d.name, label: d.name })) || [];
+  menuItems.push({
+    key: '__new_dashboard',
+    label: <Button type="link">+ New Dashboard</Button>,
+  });
+  const menu = dashboardList ? (
+    <Menu
+      onClick={async ({ key }) => {
+        if (key === '__new_dashboard') {
+          const { name } = await NiceModal.show(NewDashboardModal, {
+            currentLayout: dashboardState.dataToRender,
+            dashboardKey,
+            dashboardList,
+            defaultLayout,
+          });
+          getDashboardList(dashboardKey);
+          setDashboardName(_.kebabCase(name));
+          return;
+        }
+        setDashboardName(key);
+      }}
+      items={menuItems}
+    />
+  ) : null;
+
+  const currentDashboardName =
+    dashboardList?.find(d => _.kebabCase(d.name) === dashboardName)?.name || 'Unknown Dashboard';
   return (
     <div className="muse-dashboard_toolbar">
+      {dashboardList ? (
+        <Dropdown overlay={menu}>
+          <h3 style={{ marginRight: 'auto' }}>
+            <label style={{ marginRight: '10px' }}>{currentDashboardName}</label>
+            <DownOutlined />
+          </h3>
+        </Dropdown>
+      ) : null}
       <RequestStatus pending={saveDashboardPending} error={saveDashboardError} />
+
       {dashboardState.editing && (
         <Button
           onClick={() => {

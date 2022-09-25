@@ -29,7 +29,7 @@ export default function useStorage(apiKey, args) {
 
   useEffect(() => {
     if (args && data === undefined) action(...args);
-  }, []);
+  }, [...(args || [])]);
   return {
     error,
     pending,

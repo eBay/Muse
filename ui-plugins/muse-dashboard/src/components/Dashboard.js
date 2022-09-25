@@ -21,6 +21,7 @@ const defaultLayout = [
 ];
 export default function Dashboard({
   dashboardKey = 'muse-default-dashboard',
+  nameQuery = 'name',
   noToolbar,
   defaultDashboard = defaultLayout,
   context,
@@ -31,9 +32,15 @@ export default function Dashboard({
   );
 
   const [dashboardState, setDashboardState] = useState({ editing: false, dataToRender: [] });
-  const dashboardName = useSearchParam('current') || 'default';
+  const dashboardName = useSearchParam(nameQuery) || 'default';
 
-  let { data, pending, error } = useStorage('getDashboard', [dashboardKey, dashboardName]);
+  let { action: getDashboard, data, pending, error } = useStorage('getDashboard', [
+    dashboardKey,
+    dashboardName,
+  ]);
+  useEffect(() => {
+    getDashboard(dashboardKey, dashboardName);
+  }, [dashboardKey, dashboardName, getDashboard]);
   if (data === null) data = defaultDashboard;
 
   // Clone data  allows to be updated
@@ -94,15 +101,14 @@ export default function Dashboard({
     });
     setDashboardState(s => ({ ...s, dataToRender }));
   };
-  console.log('rawdata', dashboardState.rawData?.[0]?.grid);
-  console.log('datatorender', dashboardState.dataToRender?.[0]?.grid);
 
   return (
     <div className="h-96">
       <RequestStatus pending={pending} error={error} />
       <DashboardToolbar
+        defaultLayout={defaultLayout}
+        nameQuery={nameQuery}
         dashboardKey={dashboardKey}
-        dashboardName={dashboardName}
         dashboardState={dashboardState}
         setDashboardState={setDashboardState}
       />
