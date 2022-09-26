@@ -1,6 +1,3 @@
-import { useMemo } from 'react';
-import jsPlugin from 'js-plugin';
-import { Button } from 'antd';
 import _ from 'lodash';
 import { Modal } from 'antd';
 import NiceModal from '@ebay/nice-modal-react';
@@ -13,6 +10,7 @@ const Widget = ({
   meta,
   setDashboardState,
   component: WidgetComp,
+  dashboardContext,
   settings,
 }) => {
   const handleRemove = () => {
@@ -59,7 +57,7 @@ const Widget = ({
       )}
       {editing && <div className="dragging-overlay" />}
 
-      <WidgetComp name={name} {...settings} />
+      <WidgetComp name={name} dashboardContext={dashboardContext} {...settings} />
     </div>
   );
 };

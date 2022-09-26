@@ -8,5 +8,9 @@ export default function NoteWidget({ content }) {
     );
   }
 
-  return <div className="muse-dashboard_note-widget">{content}</div>;
+  return (
+    <div className="muse-dashboard_note-widget" style={{ padding: '15px' }}>
+      {content}
+    </div>
+  );
 }

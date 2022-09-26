@@ -84,7 +84,7 @@ export default function DashboardToolbar({
     pending: getDashboardListPending,
     error: getDashboardListError,
   } = useStorage('getDashboardList', [dashboardKey]);
-  const [dashboardName, setDashboardName] = useSearchState(nameQuery);
+  const [dashboardName, setDashboardName] = useSearchState(nameQuery, 'default');
   const menuItems = dashboardList?.map(d => ({ key: _.kebabCase(d.name), label: d.name })) || [];
   menuItems.push({
     key: '__new_dashboard',

@@ -22,9 +22,10 @@ const defaultLayout = [
 export default function Dashboard({
   dashboardKey = 'muse-default-dashboard',
   nameQuery = 'name',
+  name = '',
   noToolbar,
   defaultDashboard = defaultLayout,
-  context,
+  dashboardContext,
 }) {
   const widgetMetaByKey = useMemo(
     () => _.keyBy(_.flatten(jsPlugin.invoke('museDashboard.widget.getWidgets')), 'key'),
@@ -129,6 +130,7 @@ export default function Dashboard({
               <Widget
                 setDashboardState={setDashboardState}
                 editing={dashboardState.editing}
+                dashboardContext={dashboardContext}
                 {...widget}
               />
             </div>
