@@ -7,7 +7,7 @@ specifiers:
   '@ebay/muse-craco-plugin': 1.0.27
   '@ebay/muse-ebay-dev': ^1.0.1
   '@ebay/muse-scripts-react': 1.0.23
-  '@ebay/nice-modal-react': 1.2.6
+  '@ebay/nice-modal-react': 1.2.7
   '@types/node': ^17.0.45
   axios: ^0.27.2
   craco-less: ^2.0.0
@@ -35,7 +35,7 @@ specifiers:
 
 dependencies:
   '@babel/core': 7.18.9
-  '@ebay/nice-modal-react': 1.2.6_biqbaboplfbrettd7655fr4n2y
+  '@ebay/nice-modal-react': 1.2.7_biqbaboplfbrettd7655fr4n2y
   '@types/node': 17.0.45
   axios: 0.27.2
   craco-less: 2.0.0_nfkdexkcxprs5zrtkktmc2t5lm
@@ -1592,8 +1592,8 @@ packages:
       resolve-cwd: 3.0.0
     dev: true
 
-  /@ebay/nice-modal-react/1.2.6_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha1-G2VtHoI6Zo8/dYB8CTsrGXKNOYw=}
+  /@ebay/nice-modal-react/1.2.7_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha1-+WQSxBNPakcgnDk/7zEMAuBrYfw=}
     peerDependencies:
       react: '>16.8.0'
       react-dom: '>16.8.0'
