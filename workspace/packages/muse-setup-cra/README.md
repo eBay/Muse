@@ -3,9 +3,9 @@
 Config an empty create-react-app application to be a Muse plugin project.
 
 1. Install Muse dependencies
+  - @craco/craco
   - @ebay/muse-core
   - @ebay/muse-scripts-react
-  - @ebay/@craco/craco
   - @ebay/muse-craco-plugin
   - @ebay/muse-lib-react
 
