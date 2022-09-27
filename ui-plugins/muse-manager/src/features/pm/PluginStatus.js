@@ -7,7 +7,6 @@ import jsPlugin from 'js-plugin';
 
 function PluginStatus({ plugin, app }) {
   const { data: requests } = usePollingMuseData('muse.requests', { interval: 10000 });
-
   const onTagClick = (request, status) => {
     NiceModal.show('muse-manager.request-detail-modal', { request, status });
   };
@@ -39,8 +38,10 @@ function PluginStatus({ plugin, app }) {
     }) || [];
 
   const customizedTags =
-    jsPlugin.invoke('museManager.pm.statusTags', { requests, plugin, app }) || [];
+    jsPlugin.invoke('museManager.pluginStatus.getStatusTags', { requests, plugin, app }) || [];
 
-  return _.flatten([...defaulTags, customizedTags]).filter(Boolean);
+  const allTags = _.flatten([...defaulTags, ...customizedTags]).filter(Boolean);
+  jsPlugin.invoke('museManager.pluginStatus.processStatusTags', { allTags, requests, plugin, app });
+  return allTags;
 }
 export default PluginStatus;

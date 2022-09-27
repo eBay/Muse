@@ -2,16 +2,26 @@ import NiceModal from '@ebay/nice-modal-react';
 import { Radio, Button } from 'antd';
 import SearchBox from '../common/SearchBox';
 import { useSearchState } from '../../hooks';
-import plugin from 'js-plugin';
+import jsPlugin from 'js-plugin';
+import _ from 'lodash';
 import { DropdownMenu } from '@ebay/muse-lib-antd/src/features/common';
 
 export default function PluginListBar({ app }) {
   const [scope, setScope] = useSearchState('scope', 'my');
-  const tableBarActions = [];
+  const dropdownItems = [
+    {
+      key: 'preview',
+      label: 'Preview',
+      onClick: () => {
+        NiceModal.show('muse-manager.preview-modal', { app });
+      },
+    },
+  ];
 
-  plugin.invoke('museManager.pm.tableBar.processTableBarAction', tableBarActions, {
-    app,
-  });
+  dropdownItems.push(
+    ..._.flatten(jsPlugin.invoke('museManager.pluginListBar.getDropdownItems', { app })),
+  );
+  jsPlugin.invoke('museManager.pluginListBar.processDropdownItems', { dropdownItems, app });
 
   return (
     <div className="flex mb-2">
@@ -40,7 +50,7 @@ export default function PluginListBar({ app }) {
         >
           Create Plugin
         </Button>
-        <DropdownMenu items={tableBarActions} size="default" />
+        <DropdownMenu items={dropdownItems} size="default" />
       </div>
     </div>
   );
