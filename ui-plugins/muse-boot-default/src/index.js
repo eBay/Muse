@@ -64,45 +64,15 @@ async function start() {
       `Loading Muse app by ${bootPlugin.name}@${bootPlugin.version || bootPlugin.url}...`,
     );
   }
+  console.log('local boot......');
 
-  // Load init plugins
-  // Init plugins should be small and not depends on each other
-  const initPluginUrls = plugins
-    .filter(p => p.type === 'init')
-    .map(p =>
-      p.noUrl ? false : p.url || `${cdn}/p/${getPluginId(p.name)}/v${p.version}/dist/main.js`,
-    )
-    .filter(Boolean);
-
-  // Load init plugins
-  if (initPluginUrls.length > 0) {
-    loading.showMessage(`Loading init plugins 1/${initPluginUrls.length}...`);
-    await loadInParallel(initPluginUrls, loadedCount =>
-      loading.showMessage(
-        `Loading init plugins ${Math.min(loadedCount + 1, initPluginUrls.length)}/${
-          initPluginUrls.length
-        }...`,
-      ),
-    );
-  }
-
-  // Exec init entries
-  if (initEntries.length > 0) {
-    loading.showMessage(`Executing init entries...`);
-    for (const initEntry of initEntries) {
-      // Allow an init entry to break the start of the app
-      if ((await initEntry.func()) === false) return;
-    }
-  }
-
-  /* Handle forcePlugins query param */
+  /* Handle forcePlugins query parameter */
   const searchParams = new URLSearchParams(window.location.search);
   const forcePluginStr = searchParams.get('forcePlugins');
-  const previewer = searchParams.get('previewer');
-  const loginUser = window.MUSE_GLOBAL.getUser()?.username;
-
+  const previewClientCode = searchParams.get('clientCode');
+  const localClientCode = window.MUSE_GLOBAL.museClientCode;
   let specifiedPlugins = plugins;
-  if (forcePluginStr && (isE2eTest || loginUser === previewer)) {
+  if (forcePluginStr && (isE2eTest || previewClientCode === localClientCode)) {
     const forcePluginById = forcePluginStr
       .split(';')
       .filter(Boolean)
@@ -147,21 +117,50 @@ async function start() {
     }
   }
 
-  window.MUSE_CONFIG.plugins = window.MUSE_GLOBAL.plugins = plugins = specifiedPlugins;
+  window.MUSE_GLOBAL.plugins = plugins = specifiedPlugins;
   console.log(`Plugins(${plugins.length}):`);
   plugins.forEach(p =>
     console.log(`  * ${p.name}@${p.version || p.url}${p.noUrl ? ' (No Url)' : ''}`),
   );
 
+  // Load init plugins
+  // Init plugins should be small and not depends on each other
+  const initPluginUrls = plugins
+    .filter(p => p.type === 'init')
+    .map(p =>
+      p.noUrl ? false : p.url || `${cdn}/p/${getPluginId(p.name)}/v${p.version}/dist/main.js`,
+    )
+    .filter(Boolean);
+
+  // Load init plugins
+  if (initPluginUrls.length > 0) {
+    loading.showMessage(`Loading init plugins 1/${initPluginUrls.length}...`);
+    await loadInParallel(initPluginUrls, loadedCount =>
+      loading.showMessage(
+        `Loading init plugins ${Math.min(loadedCount + 1, initPluginUrls.length)}/${
+          initPluginUrls.length
+        }...`,
+      ),
+    );
+  }
+
+  // Exec init entries
+  if (initEntries.length > 0) {
+    loading.showMessage(`Executing init entries...`);
+    for (const initEntry of initEntries) {
+      // Allow an init entry to break the start of the app
+      if ((await initEntry.func()) === false) return;
+    }
+  }
+
   // Load normal and lib plugins
-  const distDir = isE2eTest ? 'test' : 'dist';
+  const bundleDir = isDev ? 'dev' : isE2eTest ? 'test' : 'dist';
   const pluginUrls = plugins
     .filter(p => p.type !== 'boot' && p.type !== 'init')
     .map(p =>
       p.noUrl
         ? false
-        : p.url ||
-          `${cdn}/p/${getPluginId(p.name)}/v${p.version}/${isDev ? 'dev' : distDir}/main.js`,
+        : p.url || `${cdn}/p/${getPluginId(p.name)}/v${p.version}/${bundleDir}/main.js`,
     )
     .filter(Boolean);
 
