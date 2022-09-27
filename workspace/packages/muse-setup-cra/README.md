@@ -58,3 +58,7 @@ plugin.register({
   reducer,
 });
 ```
+
+6. Delete `public/index.html`
+
+## Manual Config without craco
