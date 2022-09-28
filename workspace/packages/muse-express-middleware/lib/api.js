@@ -132,7 +132,6 @@ module.exports = ({ basePath = '/api/v2' } = {}) => {
         : req.query.singleArg
         ? [req.body]
         : req.body.args || [];
-
       // All muse APIs have author property if the first argument is object
       if (_.isObject(args[0])) {
         args[0].__req = req;
@@ -141,17 +140,27 @@ module.exports = ({ basePath = '/api/v2' } = {}) => {
       }
       // TODO: inject author info
 
-      const result = { data: await _.invoke(muse, apiKey, ...args) };
-      await muse.utils.asyncInvoke('museExpressMiddleware.api.after', {
-        result,
-        apiKey,
-        args,
-        req,
-        res,
-        basePath,
-      });
-      res.send(JSON.stringify(result));
-      return;
+      if (req.query.type === 'raw') {
+        _.invoke(muse, apiKey, ...args).then(result => {
+          res.setHeader(
+            'content-type',
+            result.headers['content-type'] || result.headers['Content-Type'],
+          );
+          result.data.pipe(res);
+        });
+      } else {
+        const result = { data: await _.invoke(muse, apiKey, ...args) };
+        await muse.utils.asyncInvoke('museExpressMiddleware.api.after', {
+          result,
+          apiKey,
+          args,
+          req,
+          res,
+          basePath,
+        });
+        res.send(JSON.stringify(result));
+        return;
+      }
     } catch (err) {
       const errorResult = { error: err.message, stack: err.stack || null };
       await muse.utils.asyncInvoke('museExpressMiddleware.api.failed', {
