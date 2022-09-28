@@ -111,12 +111,6 @@ module.exports = ({
     museCore.plugin.invoke('museMiddleware.app.processAppInfo', { app, env });
 
     const plugins = env.plugins;
-    // museCore.plugin.invoke('museMiddleware.app.processPlugins', plugins, {
-    //   app,
-    //   appName,
-    //   envName,
-    // });
-
     const bootPlugins = plugins.filter(p => p.type === 'boot');
 
     if (bootPlugins.length === 0) {
@@ -155,6 +149,9 @@ module.exports = ({
       ? `${cdn}/p/app-icon.${app.name}/v0.0.${app.iconId}/dist/icon.png`
       : path.join(req.baseUrl || '/', 'favicon.png');
     const ctx = {
+      app,
+      env,
+      bootPlugin,
       indexHtml: _.template(template)({
         title: app.title || 'Muse App',
         favicon,
