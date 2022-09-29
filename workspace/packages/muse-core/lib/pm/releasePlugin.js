@@ -1,13 +1,6 @@
 const yaml = require('js-yaml');
 const fs = require('fs-extra');
-const {
-  asyncInvoke,
-  getPluginId,
-  osUsername,
-  genNewVersion,
-
-  validate,
-} = require('../utils');
+const { asyncInvoke, getPluginId, osUsername, genNewVersion, validate } = require('../utils');
 const { registry } = require('../storage');
 const getReleases = require('./getReleases');
 const getPlugin = require('./getPlugin');

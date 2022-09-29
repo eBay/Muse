@@ -244,6 +244,20 @@ program
   });
 
 program
+  .command('install-plugin')
+  .alias('install')
+  .description('Copy a Muse plugin from npm to the registry.')
+  .argument('<pluginName>', 'The plugin name.')
+  .argument('[version]', 'The version to install name.', 'latest')
+  .option(
+    '--registry, [registry]',
+    'The npm registry to install the plugin. Defaults to https://registry.npmjs.org .',
+  )
+  .action(async (pluginName, version, options) => {
+    await muse.pm.installPlugin({ pluginName, version, registry: options.registry });
+  });
+
+program
   .command('view-plugin')
   .description('View meta of a MUSE plugin')
   .argument('<pluginName>', 'plugin name')

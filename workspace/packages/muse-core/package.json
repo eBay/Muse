@@ -20,6 +20,7 @@
     "colors": "^1.4.0",
     "cosmiconfig": "^7.0.1",
     "dotenv": "^16.0.1",
+    "download": "^8.0.0",
     "fs-extra": "^10.1.0",
     "globby": "^13.1.2",
     "import-from": "^4.0.0",

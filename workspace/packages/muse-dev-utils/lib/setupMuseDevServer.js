@@ -42,7 +42,7 @@ muse.plugin.register({
         if (!museConfig?.devConfig) {
           throw new Error(`muse.devConfig section is not found in package.json.`);
         }
-        const { app: appName, env: envName = 'staging' } = museConfig.devConfig;
+        const { app: appName = undefined, env: envName = 'staging' } = museConfig.devConfig;
         return { appName, envName };
       },
       processAppInfo: ({ app, env }) => {
