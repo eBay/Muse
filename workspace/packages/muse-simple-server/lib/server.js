@@ -1,6 +1,7 @@
 const express = require('express');
 const plugin = require('js-plugin');
 const path = require('path');
+const cors = require('cors');
 const museAssetsMiddleware = require('@ebay/muse-express-middleware/lib/assets');
 const museApiMiddleware = require('@ebay/muse-express-middleware/lib/api');
 const museAppMiddleware = require('@ebay/muse-express-middleware/lib/app');
@@ -8,6 +9,7 @@ const museAppMiddleware = require('@ebay/muse-express-middleware/lib/app');
 async function server({ appName, envName = 'staging', isDev, port = 6070 }) {
   const app = express();
   // TODO: This auth middleware is only for testing, need to be removed
+  app.use(cors());
   app.use(
     require('@ebay/muse-auth-middleware')({
       allowedApps: ['musemanager'],

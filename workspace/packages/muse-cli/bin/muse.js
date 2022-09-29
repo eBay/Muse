@@ -58,6 +58,29 @@ program
   });
 
 program
+  .command('init')
+  .description('Initialize Muse registry for basic plugins and Muse manager app.')
+  .option(
+    '--registry, [registry]',
+    'The npm registry to install the plugin. Defaults to https://registry.npmjs.org .',
+    'https://registry.npmjs.org',
+  )
+  .action(async options => {
+    // install plugins
+    await Promise.all(
+      [
+        '@ebay/muse-boot-default',
+        '@ebay/muse-lib-react',
+        '@ebay/muse-lib-antd',
+        '@ebay/muse-layout-antd',
+        '@ebay/muse-manager',
+      ].map(async pluginName => {
+        await muse.pm.installPlugin({ pluginName, registry: options.registry });
+      }),
+    );
+    await muse.am.createApp({ appName: 'musemanager' });
+  });
+program
   .command('list-apps')
   .description('List existing applications')
   .action(async () => {
@@ -363,20 +386,6 @@ program
       );
     }
   });
-
-// program
-//   .command('request-deploy')
-//   .description('Request to deploy a plugin version on a MUSE application environment')
-//   .argument('<appName>', 'application name')
-//   .argument('<envName>', 'environment name')
-//   .argument('<pluginName>', 'plugin name')
-//   .argument('<version>', 'plugin version')
-//   .action(async (appName, envName, pluginName, version) => {
-//     await muse.req.createRequest({
-//       type: 'deploy-plugin',
-//       payload: { appName, envName, pluginName, version },
-//     });
-//   });
 
 program
   .command('undeploy')

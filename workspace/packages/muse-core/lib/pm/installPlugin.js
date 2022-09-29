@@ -1,4 +1,3 @@
-// This module installs a plugin from npm registry
 const download = require('download');
 const _ = require('lodash');
 const {
@@ -22,8 +21,7 @@ syncInvoke('museCore.pm.processInstallPluginSchema', schema);
  * @module muse-core/pm/installPlugin
  */
 /**
- * @description Release a new version of a plugin.
- * if the buildDir is not empty, will upload the build directory to assets storag
+ * @description Install a plugin from the specified npm registry.
  * @param {object}  params Args to release a plugin.
  * @param {string} params.pluginName The plugin name.
  * @param {string} [params.version="latest"] Semver version number type.
@@ -88,6 +86,7 @@ const installPlugin = async params => {
     await asyncInvoke('museCore.pm.installPlugin', ctx, params);
   } catch (err) {
     ctx.error = err;
+    err.message = `Failed to install plugin ${pluginName}`;
     await asyncInvoke('museCore.pm.failedInstallPlugin', ctx, params);
     throw err;
   }

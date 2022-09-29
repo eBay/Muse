@@ -136,8 +136,8 @@ function PluginActions({ plugin, app }) {
         },
       },
     ].filter(Boolean);
-  }, [syncStatus, app, plugin, deletePlugin]);
-  items.push(..._.flatten(jsPlugin.invoke('museManager.getPluginActions', { app, plugin })));
+  }, [syncStatus, app, plugin, deletePlugin, ability]);
+  items.push(..._.flatten(jsPlugin.invoke('museManager.pm.getPluginActions', { app, plugin })));
   jsPlugin.invoke('museManager.processPluginActions', { items, app, plugin });
   items = items.filter(Boolean);
   jsPlugin.sort(items);

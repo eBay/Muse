@@ -48,7 +48,7 @@
     "@craco/craco": "6.4.4",
     "@ebay/muse-craco-plugin": "1.0.27",
     "@ebay/muse-lib-antd": "1.0.11",
-    "@ebay/muse-lib-react": "1.0.21",
+    "@ebay/muse-lib-react": "1.0.23",
     "@ebay/muse-scripts-react": "1.0.23",
     "antd": "4.20.7",
     "js-plugin": "^1.1.0",
