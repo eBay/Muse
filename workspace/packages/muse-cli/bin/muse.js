@@ -68,20 +68,35 @@ program
   .action(async options => {
     // install plugins
     console.log(chalk.cyan(`Initializing Muse...`));
+    const pluginsToInstall = [
+      '@ebay/muse-boot-default',
+      '@ebay/muse-lib-react',
+      '@ebay/muse-lib-antd',
+      '@ebay/muse-layout-antd',
+      '@ebay/muse-manager',
+    ];
+    const pkgs = {};
     await Promise.all(
-      [
-        '@ebay/muse-boot-default',
-        '@ebay/muse-lib-react',
-        '@ebay/muse-lib-antd',
-        '@ebay/muse-layout-antd',
-        '@ebay/muse-manager',
-      ].map(async pluginName => {
-        await muse.pm.installPlugin({ pluginName, registry: options.registry });
+      pluginsToInstall.map(async pluginName => {
+        const pkgJson = await muse.pm.installPlugin({ pluginName, registry: options.registry });
+        pkgs[pluginName] = pkgJson;
       }),
     );
+    const app = await muse.am.getApp('musemanager');
+    console.log(app);
     if (!(await muse.am.getApp('musemanager'))) {
       await muse.am.createApp({ appName: 'musemanager' });
     }
+    await muse.pm.deployPlugin({
+      appName: 'musemanager',
+      envMap: {
+        staging: pluginsToInstall.map(name => ({
+          pluginName: name,
+          type: 'add',
+          version: pkgs[name].version,
+        })),
+      },
+    });
   });
 program
   .command('list-apps')

@@ -8,7 +8,7 @@ const { getApp } = require('../am');
 const getDeployedPlugin = require('./getDeployedPlugin');
 const getDeployedPlugins = require('./getDeployedPlugins');
 const checkReleaseVersion = require('./checkReleaseVersion');
-const logger = require('../logger').createLogger('muse.pm.batchDeployPlugins');
+const logger = require('../logger').createLogger('muse.pm.deployPlugin');
 
 /**
  * @module muse-core/pm/deployPlugin

@@ -16,6 +16,9 @@
   "publishConfig": {
     "registry": "https://artifactory.corp.ebay.com/artifactory/api/npm/npm-muse"
   },
+  "files": [
+    "build"
+  ],
   "scripts": {
     "start": "cross-env NODE_PATH=./node_modules muse-scripts-react start",
     "build": "cross-env NODE_PATH=./node_modules muse-scripts-react build",

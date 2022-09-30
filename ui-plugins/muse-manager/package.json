@@ -12,6 +12,9 @@
   "publishConfig": {
     "registry": "https://artifactory.corp.ebay.com/artifactory/api/npm/npm-muse"
   },
+  "files": [
+    "build"
+  ],
   "dependencies": {
     "@craco/craco": "6.4.4",
     "@ebay/muse-client": "1.0.17",
