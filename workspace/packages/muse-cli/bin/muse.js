@@ -67,6 +67,7 @@ program
   )
   .action(async options => {
     // install plugins
+    console.log(chalk.cyan(`Initializing Muse...`));
     await Promise.all(
       [
         '@ebay/muse-boot-default',
@@ -78,7 +79,9 @@ program
         await muse.pm.installPlugin({ pluginName, registry: options.registry });
       }),
     );
-    await muse.am.createApp({ appName: 'musemanager' });
+    if (!(await muse.am.getApp('musemanager'))) {
+      await muse.am.createApp({ appName: 'musemanager' });
+    }
   });
 program
   .command('list-apps')
