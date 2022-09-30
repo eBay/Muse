@@ -5,33 +5,31 @@ import { useSearchState } from '../../hooks';
 export default function PluginListBar({ app }) {
   const [scope, setScope] = useSearchState('scope', 'my');
   return (
-    <div className="flex mb-2">
+    <div className="flex mb-2 justify-end gap-2 whitespace-nowrap">
       <SearchBox
         placeholder="Search by plugin name or owners..."
-        className="flex-none min-w-[100px] max-w-[400px]"
+        className="min-w-[100px] max-w-[400px] mr-auto"
       />
-      <div className="grow flex justify-end gap-2">
-        <Radio.Group onChange={evt => setScope(evt.target.value)} value={scope}>
-          <Radio.Button value="my" key="my">
-            My Plugins
+      <Radio.Group onChange={evt => setScope(evt.target.value)} value={scope}>
+        <Radio.Button value="my" key="my" className="">
+          My Plugins
+        </Radio.Button>
+        {app && (
+          <Radio.Button value="deployed" key="deployed">
+            Deployed Plugins
           </Radio.Button>
-          {app && (
-            <Radio.Button value="deployed" key="deployed">
-              Deployed Plugins
-            </Radio.Button>
-          )}
-          <Radio.Button value="all" key="all">
-            All Plugins
-          </Radio.Button>
-        </Radio.Group>
-        <Button
-          className="float-right"
-          type="primary"
-          onClick={() => NiceModal.show('muse-manager.create-plugin-modal')}
-        >
-          Create Plugin
-        </Button>
-      </div>
+        )}
+        <Radio.Button value="all" key="all">
+          All Plugins
+        </Radio.Button>
+      </Radio.Group>
+      <Button
+        className="float-right"
+        type="primary"
+        onClick={() => NiceModal.show('muse-manager.create-plugin-modal')}
+      >
+        Create Plugin
+      </Button>
     </div>
   );
 }
