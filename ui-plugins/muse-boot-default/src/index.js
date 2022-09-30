@@ -48,7 +48,6 @@ async function start() {
     app,
     cdn = '',
     plugins = [],
-    entry = 'muse-react',
     initEntries,
     pluginEntries,
     appEntries,
@@ -160,14 +159,29 @@ async function start() {
   };
 
   // Start the application
-  const entryName = app?.entry || '@ebay/muse-lib-react';
+  let entryName = app.entry; // || '@ebay/muse-lib-react';
+  if (!entryName) {
+    if (appEntries.length === 1) {
+      entryName = appEntries[0].name;
+    } else if (appEntries.length === 0) {
+      throw new Error(
+        'No app entry found. You need a plugin deployed to the app to provide an app entry.',
+      );
+    } else {
+      throw new Error(
+        `Multiple entries found: ${appEntries
+          .map(e => e.name)
+          .join(', ')}. You need to specify one entry in app config.`,
+      );
+    }
+  }
   const entryApp = appEntries.find(e => e.name === entryName);
   if (entryApp) {
-    console.log(`Starting the app from ${entry}...`);
+    console.log(`Starting the app from ${entryName}...`);
     loading.showMessage(`Starting the app...`);
     await entryApp.func();
   } else {
-    error.show(`No app entry found: ${entryName}.`);
+    throw new Error(`The specified app entry was not found: ${entryName}.`);
   }
   loading.hide();
 }
