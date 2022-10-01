@@ -159,7 +159,7 @@ async function start() {
   };
 
   // Start the application
-  let entryName = app.entry; // || '@ebay/muse-lib-react';
+  let entryName = app.entry;
   if (!entryName) {
     if (appEntries.length === 1) {
       entryName = appEntries[0].name;

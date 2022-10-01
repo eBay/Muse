@@ -83,7 +83,6 @@ program
       }),
     );
     const app = await muse.am.getApp('musemanager');
-    console.log(app);
     if (!(await muse.am.getApp('musemanager'))) {
       await muse.am.createApp({ appName: 'musemanager' });
     }

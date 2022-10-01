@@ -30,7 +30,7 @@ const renderApp = () => {
 };
 
 window.MUSE_GLOBAL.appEntries.push({
-  name: 'muse-react',
+  name: '@ebay/muse-lib-react',
   func: renderApp,
 });
 

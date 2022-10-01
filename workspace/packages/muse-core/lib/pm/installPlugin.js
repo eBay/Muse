@@ -82,7 +82,6 @@ const installPlugin = async params => {
         files
           .filter(f => f.path.startsWith('package/build/'))
           .map(file => async () => {
-            console.log(file.path);
             await assets.set(
               `/p/${pid}/v${pkgJson.version}/${file.path.replace('package/build/', '')}`,
               file.data,
