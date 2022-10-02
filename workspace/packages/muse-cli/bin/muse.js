@@ -614,6 +614,13 @@ program
     await muse.pm.deployPlugin({ appName, envMap });
   });
 
+program
+  .command('setup-cra')
+  .description('Convert a create-react-app app to a Muse plugin project.')
+  .action(async () => {
+    // TODO://
+  });
+
 // let other plugins add their own cli program commands
 muse.plugin.invoke('museCli.processProgram', program, { commander, chalk, timeAgo });
 
