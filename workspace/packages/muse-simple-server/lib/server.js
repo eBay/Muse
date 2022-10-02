@@ -10,11 +10,6 @@ async function server({ appName, envName = 'staging', isDev, port = 6070 }) {
   const app = express();
   // TODO: This auth middleware is only for testing, need to be removed
   app.use(cors());
-  app.use(
-    require('@ebay/muse-auth-middleware')({
-      allowedApps: ['musemanager'],
-    }),
-  );
   plugin.invoke('museServer.preProcessApp', app);
   app.use(express.json());
   app.get('/*', express.static(path.join(__dirname, '../static')));
