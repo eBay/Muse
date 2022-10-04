@@ -87,9 +87,15 @@ const mapFile = p => path.join(__dirname, '..', p);
     const pkgMgr = getPkgMgr();
     log.info(`Package manager: ${pkgMgr}.`);
     log.info('Installing Muse dependencies...');
-    execSync(
-      'pnpm add js-plugin @ebay/muse-core @ebay/muse-scripts-react @craco/craco@6.4.4 @ebay/muse-craco-plugin @ebay/muse-lib-react',
-    );
+    const deps = [
+      'js-plugin',
+      '@craco/craco@6.4.4',
+      '@ebay/muse-core',
+      '@ebay/muse-scripts-react',
+      '@ebay/muse-craco-plugin',
+      '@ebay/muse-lib-react',
+    ];
+    execSync(`${pkgMgr} add ${deps.join(' ')}  --legacy-peer-deps`);
 
     // Update package.json
     const pkgJson = fs.readJsonSync('./package.json');
