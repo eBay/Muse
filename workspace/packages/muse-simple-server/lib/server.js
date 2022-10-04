@@ -6,25 +6,37 @@ const museAssetsMiddleware = require('@ebay/muse-express-middleware/lib/assets')
 const museApiMiddleware = require('@ebay/muse-express-middleware/lib/api');
 const museAppMiddleware = require('@ebay/muse-express-middleware/lib/app');
 
-async function server({ appName, envName = 'staging', isDev, port = 6070 }) {
+async function server(args) {
+  const {
+    appName,
+    envName = 'staging',
+    serveApi = false,
+    serveStatic = true,
+    isDev,
+    byUrl = false,
+    port = 6070,
+  } = args;
   const app = express();
-  // TODO: This auth middleware is only for testing, need to be removed
+  // cors is used for easy testing
   app.use(cors());
-  plugin.invoke('museServer.preProcessApp', app);
+  plugin.invoke('museSimpleServer.preProcessApp', { app, args });
   app.use(express.json());
   app.get('/*', express.static(path.join(__dirname, '../static')));
-  plugin.invoke('museServer.processApp', app);
-  app.use(museApiMiddleware({}));
-  app.use(museAssetsMiddleware({}));
-  app.use(museAppMiddleware({ appName, envName, isDev, isLocal: true, byUrl: !appName }));
-  plugin.invoke('museServer.postProcessApp', app);
+  plugin.invoke('museSimpleServer.processApp', { app, args });
+  if (serveApi) app.use(museApiMiddleware({}));
+  if (serveStatic) app.use(museAssetsMiddleware({}));
+  if (appName) {
+    app.use(museAppMiddleware({ appName, envName, isDev, isLocal: true, byUrl }));
+  }
+  plugin.invoke('museSimpleServer.postProcessApp', { app, args });
 
   app.listen(port, () => {
-    console.log(
-      `Simple Muse server for ${
-        appName ? appName + '/' + envName : 'by-url'
-      } listening on port ${port}`,
-    );
+    console.log('Muse simple server started:');
+    if (appName) console.log(`  - Serving app ${appName}@${envName} at http://localhost:${port}`);
+    if (serveApi) console.log(`  - Serving Muse API service at http://localhost:${port}/api/v2`);
+    if (serveStatic)
+      console.log(`  - Serving Muse static assets at http://localhost:${port}/muse-assets`);
+    if (byUrl) console.log(`  - Serving Muse apps by url.`);
     console.log(`* Note this is a simple server for local dev and testing, not for production.`);
   });
 }

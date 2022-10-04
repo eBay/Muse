@@ -82,14 +82,14 @@ program
         pkgs[pluginName] = pkgJson;
       }),
     );
-    const app = await muse.am.getApp('musemanager');
+
     if (!(await muse.am.getApp('musemanager'))) {
-      await muse.am.createApp({ appName: 'musemanager' });
+      await muse.am.createApp({ appName: 'musemanager', envName: 'production' });
     }
     await muse.pm.deployPlugin({
       appName: 'musemanager',
       envMap: {
-        staging: pluginsToInstall.map(name => ({
+        production: pluginsToInstall.map(name => ({
           pluginName: name,
           type: 'add',
           version: pkgs[name].version,
@@ -148,13 +148,29 @@ program
 program
   .command('serve')
   .description('Serve a MUSE application environment')
-  .argument('[appName]', 'application name')
-  .argument('[envName]', 'environment name', 'staging')
-  .argument('[port]', 'port', 6070)
-  .option('--is-dev', 'Start the server to load dev bundles.')
-  .option('--by-url', 'Detect app by url.')
-  .action((appName, envName, port, options) => {
-    require('@ebay/muse-simple-server/lib/server')({ appName, envName, port, ...options });
+  .argument('[appName]', 'Muse app name.')
+  .argument('[envName]', 'Muse environment name', 'staging')
+  .option('-p, --port', 'port', 6070)
+  .option('-d, --is-dev', 'isDev', 'Start the server to load dev bundles.')
+  .option('-u, --by-url', 'byUrl', 'Detect app by url.')
+  .option('-a, --serve-api', 'serveApi', 'Detect app by url.')
+  .option('-s, --serve-static', 'serveStatic', 'Serve static content.')
+  .action((appName, envName, options) => {
+    require('@ebay/muse-simple-server/lib/server')({ appName, envName, ...options });
+  });
+
+program
+  .command('manager')
+  .option('-p, --port', 'port', 6080)
+  .description('Starts the Muse manager UI console.')
+  .action(({ port }) => {
+    require('@ebay/muse-simple-server/lib/server')({
+      appName: 'musemanager',
+      serveApi: true,
+      envName: 'production',
+      serveStatic: true,
+      port,
+    });
   });
 
 program
