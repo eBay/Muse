@@ -15,6 +15,7 @@ async function server(args) {
     isDev,
     byUrl = false,
     port = 6070,
+    variables = {},
   } = args;
   const app = express();
   // cors is used for easy testing
@@ -26,7 +27,7 @@ async function server(args) {
   if (serveApi) app.use(museApiMiddleware({}));
   if (serveStatic) app.use(museAssetsMiddleware({}));
   if (appName) {
-    app.use(museAppMiddleware({ appName, envName, isDev, isLocal: true, byUrl }));
+    app.use(museAppMiddleware({ appName, envName, isDev, isLocal: true, byUrl, variables }));
   }
   plugin.invoke('museSimpleServer.postProcessApp', { app, args });
 

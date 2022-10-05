@@ -118,7 +118,11 @@ const mapFile = p => path.join(__dirname, '..', p);
     fs.copyFileSync(mapFile('./templates/craco.config.js'), './craco.config.js');
 
     // Create muse-lib-react based files.
-    fs.copyFileSync(mapFile('./templates/index.js'), './src/index.js');
+    const indexJs = fs
+      .readFileSync(mapFile('./templates/index.js'))
+      .toString()
+      .replace('<mypluginname>', pkgJson.name);
+    fs.writeFileSync('./src/index.js', indexJs);
     fs.copyFileSync(mapFile('./templates/route.js'), './src/route.js');
     fs.copyFileSync(mapFile('./templates/reducer.js'), './src/reducer.js');
 

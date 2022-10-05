@@ -162,14 +162,20 @@ program
 program
   .command('manager')
   .option('-p, --port', 'port', 6080)
+  .option('-e, --api-endpoint', 'Muse API service endpoint.', '/api/v2')
   .description('Starts the Muse manager UI console.')
-  .action(({ port }) => {
+  .action(({ port, apiEndpoint }) => {
     require('@ebay/muse-simple-server/lib/server')({
       appName: 'musemanager',
       serveApi: true,
       envName: 'production',
       serveStatic: true,
       port,
+      variables: {
+        musemanager: {
+          museApiEndpoint: apiEndpoint,
+        },
+      },
     });
   });
 

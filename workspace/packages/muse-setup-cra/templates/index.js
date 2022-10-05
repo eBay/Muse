@@ -3,7 +3,7 @@ import route from './route';
 import reducer from './reducer';
 
 plugin.register({
-  name: 'myplugin',
+  name: '<mypluginname>',
   route,
   reducer,
 });

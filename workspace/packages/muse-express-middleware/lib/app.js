@@ -59,6 +59,7 @@ module.exports = ({
   byUrl = false,
   serviceWorker = '/muse-sw.js', // If not use service worker, set it to false
   serviceWorkerCacheName = 'muse_assets',
+  variables = {},
 }) => {
   let swContent = fs.readFileSync(path.join(__dirname, './sw.js')).toString();
   if (serviceWorkerCacheName) {
@@ -124,8 +125,13 @@ module.exports = ({
     }
 
     const bootPlugin = bootPlugins[0];
+    const appConfig = _.omit(app, ['envs']);
+    if (appName && variables[appName]) {
+      if (!appConfig.variables) appConfig.variables = {};
+      Object.assign(appConfig.variables, variables[appName]);
+    }
     const museGlobal = {
-      app: _.omit(app, ['envs']),
+      app: appConfig,
       env: _.omit(env, ['plugins']),
       appName: appName,
       envName: envName,
