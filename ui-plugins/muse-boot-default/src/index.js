@@ -35,6 +35,22 @@ async function start() {
       }
       return document.currentScript.dataset.musePluginName;
     },
+    getAppVariables: () => {
+      const appDefaultVars = window.MUSE_GLOBAL.app?.variables || {};
+      const appCurrentEnvVars = window.MUSE_GLOBAL.env?.variables || {};
+      const mergedAppVariables = {
+        ...appDefaultVars,
+        ...appCurrentEnvVars,
+      };
+      return mergedAppVariables;
+    },
+    getPluginVariables: pluginId => {
+      // TODO: merge default vars with deployment vars (unless it's done on muse-express-middleware before)
+      const pluginDeployedVars =
+        window.MUSE_GLOBAL.plugins.find(p => p.name === pluginId)?.variables || {};
+
+      return pluginDeployedVars;
+    },
     // Muse shared modules global methods
     __shared__: {
       modules: {},
@@ -139,24 +155,6 @@ async function start() {
     // If a loader returns false, then don't continue starting
     if (arr.some(s => s === false)) return;
   }
-
-  window.MUSE_GLOBAL.getAppVariables = () => {
-    const appDefaultVars = window.MUSE_GLOBAL.app?.variables || {};
-    const appCurrentEnvVars = window.MUSE_GLOBAL.env?.variables || {};
-    const mergedAppVariables = {
-      ...appDefaultVars,
-      ...appCurrentEnvVars,
-    };
-    return mergedAppVariables;
-  };
-
-  window.MUSE_GLOBAL.getPluginVariables = pluginId => {
-    // TODO: merge default vars with deployment vars (unless it's done on muse-express-middleware before)
-    const pluginDeployedVars =
-      window.MUSE_GLOBAL.plugins.find(p => p.name === pluginId)?.variables || {};
-
-    return pluginDeployedVars;
-  };
 
   // Start the application
   let entryName = app.entry;
