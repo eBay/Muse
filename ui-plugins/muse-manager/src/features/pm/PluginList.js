@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { Table, Button, Tag, Tooltip, Radio } from 'antd';
-import plugin from 'js-plugin';
+import jsPlugin from 'js-plugin';
 import semver from 'semver';
 import TimeAgo from 'react-time-ago';
 import NiceModal from '@ebay/nice-modal-react';
@@ -11,6 +11,7 @@ import PluginStatus from './PluginStatus';
 import _ from 'lodash';
 import { useSearchParam } from 'react-use';
 import PluginListBar from './PluginListBar';
+import config from '../../config';
 
 const NA = () => <span style={{ color: 'gray', fontSize: '13px' }}>N/A</span>;
 const user = window.MUSE_GLOBAL.getUser();
@@ -20,7 +21,7 @@ export default function PluginList({ app }) {
   const { data: latestReleases } = usePollingMuseData('muse.plugins.latest-releases');
   const { data: npmVersions } = usePollingMuseData('muse.npm.versions', { interval: 30000 });
   const searchValue = useSearchParam('search')?.toLowerCase() || '';
-  const scope = useSearchParam('scope') || 'my';
+  const scope = useSearchParam('scope') || config.get('pluginListDefaultScope');
   const deploymentInfoByPlugin = useMemo(() => {
     return (
       (app &&
@@ -146,11 +147,11 @@ export default function PluginList({ app }) {
 
   if (scope && pluginList) {
     switch (scope) {
-      case 'my':
-        pluginList = pluginList.filter(p =>
-          p?.owners?.map(s => s.toLowerCase())?.includes(user?.username?.toLowerCase()),
-        );
-        break;
+      // case 'my':
+      //   pluginList = pluginList.filter(p =>
+      //     p?.owners?.map(s => s.toLowerCase())?.includes(user?.username?.toLowerCase()),
+      //   );
+      //   break;
       case 'deployed':
         pluginList = pluginList.filter(p => deploymentInfoByPlugin[p.name]);
         break;
@@ -162,14 +163,18 @@ export default function PluginList({ app }) {
         break;
     }
   }
+  const ctx = { pluginList };
+  jsPlugin.invoke('museManager.pm.pluginList.processPluginList', ctx);
+  pluginList = ctx.pluginList;
+
   pluginList = pluginList?.filter(
     p =>
       p.name.toLowerCase().includes(searchValue) ||
       p.owners?.some(o => o.toLowerCase().includes(searchValue)),
   );
 
-  plugin.invoke('museManager.pm.pluginList.processColumns', columns, { plugins: pluginList });
-  plugin.invoke('museManager.pm.pluginList.postProcessColumns', columns, { plugins: pluginList });
+  jsPlugin.invoke('museManager.pm.pluginList.processColumns', columns, { plugins: pluginList });
+  jsPlugin.invoke('museManager.pm.pluginList.postProcessColumns', columns, { plugins: pluginList });
 
   return (
     <div>

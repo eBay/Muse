@@ -9,7 +9,10 @@
       "appOverride": {
         "noSSO": true
       },
-      "remotePlugins": "*"
+      "remotePlugins": [
+        "@ebay/muse-lib-antd",
+        "@ebay/muse-layout-antd"
+      ]
     }
   },
   "publishConfig": {

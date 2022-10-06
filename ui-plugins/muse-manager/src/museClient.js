@@ -1,17 +1,12 @@
 import mClient from '@ebay/muse-client';
 
-const endpoint =
-  window.MUSE_GLOBAL.getPluginVariables('@ebay/muse-manager')?.museApiEndpoint ||
-  window.MUSE_GLOBAL.getAppVariables()?.museApiEndpoint ||
-  (window.MUSE_GLOBAL.isLocal
-    ? 'http://localhost:6070/api/v2'
-    : 'https://musenextsvc.vip.qa.ebay.com/api/v2');
+const g = window.MUSE_GLOBAL;
+
 const museClient = mClient.create({
-  // endpoint: 'https://musenextsvc.vip.qa.ebay.com/api/v2',
-  // endpoint: 'http://localhost:6070/api/v2',
-  // endpoint: 'http://localhost:8080/api/v2',
-  endpoint,
-  token: window.MUSE_GLOBAL.getUser()?.museSession,
+  endpoint:
+    g.getPluginVariables('@ebay/muse-manager')?.museApiEndpoint ||
+    g.getAppVariables()?.museApiEndpoint,
+  token: g.getUser()?.museSession,
   axiosConfig: {
     timeout: 120000,
   },
