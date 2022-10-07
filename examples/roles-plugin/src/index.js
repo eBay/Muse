@@ -4,7 +4,7 @@ import reducer from './reducer';
 import * as ext from './ext';
 
 plugin.register({
-  name: '<mypluginname>',
+  name: 'roles-plugin',
   route,
   reducer,
   ...ext,

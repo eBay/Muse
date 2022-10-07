@@ -19,7 +19,7 @@ const getPkgMgr = () => {
     .filter(Boolean);
 
   if (pmStatus.length === 0) {
-    throw new Error(`No lock files found for npm, yarn or pnpm.`);
+    return 'npm';
   } else if (pmStatus.length > 1) {
     throw new Error(
       `Multiple lock files found: ${pmStatus.join(
@@ -83,9 +83,18 @@ const execSync = cmd => {
 const mapFile = p => path.join(__dirname, '..', p);
 (async () => {
   try {
-    // Install deps
     const pkgMgr = getPkgMgr();
     log.info(`Package manager: ${pkgMgr}.`);
+
+    if (pkgMgr === 'pnpm') {
+      log.info(`Init pnpm...`);
+      // Config npmrc for pnpm
+      fs.copyFileSync(mapFile('./templates/.npmrc'), './.npmrc');
+      // Ensure "shamefully-hoist=true" in .npmrc takes effect.
+      execSync('pnpm install');
+    }
+
+    // Install deps
     log.info('Installing Muse dependencies...');
     const deps = [
       'js-plugin',
@@ -95,7 +104,7 @@ const mapFile = p => path.join(__dirname, '..', p);
       '@ebay/muse-craco-plugin',
       '@ebay/muse-lib-react',
     ];
-    execSync(`${pkgMgr} add ${deps.join(' ')}  --legacy-peer-deps`);
+    execSync(`${pkgMgr} add ${deps.join(' ')}${pkgMgr === 'npm' ? '  --legacy-peer-deps' : ''}`);
 
     // Update package.json
     const pkgJson = fs.readJsonSync('./package.json');
@@ -109,7 +118,8 @@ const mapFile = p => path.join(__dirname, '..', p);
     log.info('Updating scripts in package.json...');
     Object.assign(pkgJson.scripts, {
       start: 'muse-scripts-react start',
-      build: 'muse-scripts-react build',
+      build: 'muse-scripts-react build && muse-scripts-react build --dev',
+      'build:dist': 'muse-scripts-react build',
       'build:dev': 'muse-scripts-react build --dev',
     });
     fs.writeJsonSync('./package.json', pkgJson, { spaces: 2 });
@@ -125,6 +135,8 @@ const mapFile = p => path.join(__dirname, '..', p);
     fs.writeFileSync('./src/index.js', indexJs);
     fs.copyFileSync(mapFile('./templates/route.js'), './src/route.js');
     fs.copyFileSync(mapFile('./templates/reducer.js'), './src/reducer.js');
+    fs.mkdir('./ext');
+    fs.writeFileSync('./ext/index.js', '\n');
 
     // Delete public/index.html
     fs.removeSync('./public/index.html');

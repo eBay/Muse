@@ -151,10 +151,10 @@ program
   .argument('[appName]', 'Muse app name.')
   .argument('[envName]', 'Muse environment name', 'staging')
   .option('-p, --port <port>', 'port', 6070)
-  .option('-d, --is-dev <isDev>', 'Start the server to load dev bundles.')
-  .option('-u, --by-url <byUrl>', 'Detect app by url.')
-  .option('-a, --api <serveApi>', 'Detect app by url.')
-  .option('-s, --static <serveStatic>', 'Serve static content.')
+  .option('-d, --is-dev', 'Start the server to load dev bundles.')
+  .option('-u, --by-url', 'Detect app by url.')
+  .option('-a, --serve-api', 'Detect app by url.')
+  .option('-s, --serve-static', 'Serve static content.')
   .action((appName, envName, options) => {
     require('@ebay/muse-simple-server/lib/server')({ appName, envName, ...options });
   });
