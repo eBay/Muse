@@ -43,6 +43,7 @@ export default function PluginList({ app }) {
       dataIndex: 'name',
       title: 'Name',
       width: '320px',
+      order: 10,
       render: pluginName => {
         const tags = [];
         const npmVersion = npmVersions?.[pluginName];
@@ -69,16 +70,17 @@ export default function PluginList({ app }) {
         );
       },
     },
-    {
-      dataIndex: 'owners',
-      title: 'Owners',
-      width: '120px',
-      render: o => <Highlighter search={searchValue} text={o.join(', ')} />,
-    },
-    ...Object.values(app?.envs || {}).map(env => {
+    // {
+    //   dataIndex: 'owners',
+    //   title: 'Owners',
+    //   width: '120px',
+    //   render: o => <Highlighter search={searchValue} text={o.join(', ')} />,
+    // },
+    ...Object.values(app?.envs || {}).map((env, i) => {
       return {
         dataIndex: 'name',
         title: env.name,
+        order: i + 20,
         width: '120px',
         render: (pluginName, plugin) => {
           const version = deploymentInfoByPlugin?.[pluginName]?.[env.name]; // _.find(env?.plugins, { name: pluginName })?.version;
@@ -102,6 +104,7 @@ export default function PluginList({ app }) {
       dataIndex: 'name',
       title: 'Latest',
       width: '120px',
+      order: 50,
       render: (pluginName, plugin) => {
         const latest = latestReleases?.[pluginName];
         return latest ? (
@@ -129,6 +132,7 @@ export default function PluginList({ app }) {
     {
       dataIndex: 'name',
       title: 'Status',
+      order: 60,
       render: (a, plugin) => {
         return <PluginStatus plugin={plugin} />;
       },
@@ -136,6 +140,7 @@ export default function PluginList({ app }) {
     {
       dataIndex: 'actions',
       title: 'Actions',
+      order: 100,
       width: '160px',
       render: (a, item) => {
         return <PluginActions plugin={item} app={app} />;
@@ -175,6 +180,7 @@ export default function PluginList({ app }) {
 
   jsPlugin.invoke('museManager.pm.pluginList.processColumns', columns, { plugins: pluginList });
   jsPlugin.invoke('museManager.pm.pluginList.postProcessColumns', columns, { plugins: pluginList });
+  jsPlugin.sort(columns);
 
   return (
     <div>

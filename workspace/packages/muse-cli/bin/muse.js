@@ -150,19 +150,19 @@ program
   .description('Serve a MUSE application environment')
   .argument('[appName]', 'Muse app name.')
   .argument('[envName]', 'Muse environment name', 'staging')
-  .option('-p, --port', 'port', 6070)
-  .option('-d, --is-dev', 'isDev', 'Start the server to load dev bundles.')
-  .option('-u, --by-url', 'byUrl', 'Detect app by url.')
-  .option('-a, --serve-api', 'serveApi', 'Detect app by url.')
-  .option('-s, --serve-static', 'serveStatic', 'Serve static content.')
+  .option('-p, --port <port>', 'port', 6070)
+  .option('-d, --is-dev <isDev>', 'Start the server to load dev bundles.')
+  .option('-u, --by-url <byUrl>', 'Detect app by url.')
+  .option('-a, --api <serveApi>', 'Detect app by url.')
+  .option('-s, --static <serveStatic>', 'Serve static content.')
   .action((appName, envName, options) => {
     require('@ebay/muse-simple-server/lib/server')({ appName, envName, ...options });
   });
 
 program
   .command('manager')
-  .option('-p, --port', 'port', 6080)
-  .option('-e, --api-endpoint', 'Muse API service endpoint.', '/api/v2')
+  .option('-p, --port <port>', 'port', 6080)
+  .option('-e, --api-endpoint <apiEndpoint>', 'Muse API service endpoint.', '/api/v2')
   .description('Starts the Muse manager UI console.')
   .action(({ port, apiEndpoint }) => {
     require('@ebay/muse-simple-server/lib/server')({
@@ -312,7 +312,7 @@ program
   .argument('<pluginName>', 'The plugin name.')
   .argument('[version]', 'The version to install name.', 'latest')
   .option(
-    '--registry, [registry]',
+    '--registry [registry]',
     'The npm registry to install the plugin. Defaults to https://registry.npmjs.org .',
   )
   .action(async (pluginName, version, options) => {
@@ -381,6 +381,7 @@ program
     }
 
     const pluginType = pkgJson?.muse?.type;
+    console.log(chalk.cyan('Checking dependencies...'));
     const dependencyCheckResult = await muse.pm.checkDependencies({
       appName,
       envName,
