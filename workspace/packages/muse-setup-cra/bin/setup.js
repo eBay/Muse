@@ -135,12 +135,12 @@ const mapFile = p => path.join(__dirname, '..', p);
     fs.writeFileSync('./src/index.js', indexJs);
     fs.copyFileSync(mapFile('./templates/route.js'), './src/route.js');
     fs.copyFileSync(mapFile('./templates/reducer.js'), './src/reducer.js');
-    fs.mkdir('./ext');
-    fs.writeFileSync('./ext/index.js', '\n');
+    fs.ensureDirSync('./src/ext');
+    fs.createFileSync('./src/ext/index.js');
 
     // Delete public/index.html
     fs.removeSync('./public/index.html');
-    log.success('Succeeded to setup Muse.');
+    log.success('✨ Succeeded to setup Muse.');
   } catch (err) {
     log.error('Failed to setup Muse.');
     throw err;

@@ -21,7 +21,7 @@ async function start() {
     msgEngine,
     loading,
     error,
-    getUser: () => ({}),
+    getUser: () => null,
     appEntries: [], // entries to start the app
     initEntries: [], // entries from init plugins
     pluginEntries: [], // entries from lib or normal plugins
@@ -70,7 +70,9 @@ async function start() {
     isDev = false,
     isE2eTest = false,
   } = window.MUSE_GLOBAL;
-  // TODO: remove below two lines after migrate old Muse plugins inside eBay
+
+  // MUSE_CONFIG is for backward compatability
+  window.MUSE_CONFIG = window.MUSE_GLOBAL;
   registerSw();
   // Print app plugins in dev console
   const bootPlugin = plugins.find(p => p.type === 'boot');
@@ -135,12 +137,14 @@ async function start() {
 
   window.MUSE_GLOBAL.plugins = specifiedPlugins;
   console.log(`Plugins(${plugins.length}):`);
+  // If a plugin has noUrl, it means its bundle is loaded somewhere else.
+  // The registered plugin item is used to provide configurations. e.g plugin variables.
   plugins.forEach(p =>
     console.log(`  * ${p.name}@${p.version || p.url}${p.noUrl ? ' (No Url)' : ''}`),
   );
 
   // Load init plugins
-  // Init plugins should be small and not depends on each other
+  // Init plugins should be small and not depend on each other
   const initPluginUrls = plugins
     .filter(p => p.type === 'init')
     .map(p =>
@@ -169,6 +173,9 @@ async function start() {
     }
   }
 
+  // NOTE: init plugins have the opportunity to modify plugins list.
+  // It's an expected behavior for some permission control.
+
   // Load normal and lib plugins
   const bundleDir = isDev ? 'dev' : isE2eTest ? 'test' : 'dist';
   const pluginUrls = plugins
@@ -189,6 +196,7 @@ async function start() {
   );
 
   // Exec plugin entries
+  // This ensures a fixed order for plugins to initialize
   if (pluginEntries.length > 0) {
     loading.showMessage(`Executing plugin entries...`);
     pluginEntries.forEach(entry => entry.func());
@@ -207,12 +215,15 @@ async function start() {
       }),
     );
     // If a loader returns false, then don't continue starting
+    // NOTE: if a loader needs to show an error message, just throw an error.
     if (arr.some(s => s === false)) return;
   }
 
   // Start the application
   let entryName = app.entry;
   if (!entryName) {
+    // If there isn't entry defined and there's only one app entry from the plugins list.
+    // Then just use the only one.
     if (appEntries.length === 1) {
       entryName = appEntries[0].name;
     } else if (appEntries.length === 0) {
