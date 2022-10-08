@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
-import { Table, Button, Tag, Tooltip } from 'antd';
-import plugin from 'js-plugin';
+import { Table, Button, Tag, Tooltip, Radio } from 'antd';
+import jsPlugin from 'js-plugin';
 import semver from 'semver';
 import TimeAgo from 'react-time-ago';
 import NiceModal from '@ebay/nice-modal-react';
@@ -11,6 +11,7 @@ import PluginStatus from './PluginStatus';
 import _ from 'lodash';
 import { useSearchParam } from 'react-use';
 import PluginListBar from './PluginListBar';
+import config from '../../config';
 
 const NA = () => <span style={{ color: 'gray', fontSize: '13px' }}>N/A</span>;
 const user = window.MUSE_GLOBAL.getUser();
@@ -20,7 +21,7 @@ export default function PluginList({ app }) {
   const { data: latestReleases } = usePollingMuseData('muse.plugins.latest-releases');
   const { data: npmVersions } = usePollingMuseData('muse.npm.versions', { interval: 30000 });
   const searchValue = useSearchParam('search')?.toLowerCase() || '';
-  const scope = useSearchParam('scope') || 'my';
+  const scope = useSearchParam('scope') || config.get('pluginListDefaultScope');
   const deploymentInfoByPlugin = useMemo(() => {
     return (
       (app &&
@@ -42,6 +43,7 @@ export default function PluginList({ app }) {
       dataIndex: 'name',
       title: 'Name',
       width: '320px',
+      order: 10,
       render: pluginName => {
         const tags = [];
         const npmVersion = npmVersions?.[pluginName];
@@ -68,16 +70,17 @@ export default function PluginList({ app }) {
         );
       },
     },
-    {
-      dataIndex: 'owners',
-      title: 'Owners',
-      width: '120px',
-      render: o => <Highlighter search={searchValue} text={o.join(', ')} />,
-    },
-    ...Object.values(app?.envs || {}).map(env => {
+    // {
+    //   dataIndex: 'owners',
+    //   title: 'Owners',
+    //   width: '120px',
+    //   render: o => <Highlighter search={searchValue} text={o.join(', ')} />,
+    // },
+    ...Object.values(app?.envs || {}).map((env, i) => {
       return {
         dataIndex: 'name',
         title: env.name,
+        order: i + 20,
         width: '120px',
         render: (pluginName, plugin) => {
           const version = deploymentInfoByPlugin?.[pluginName]?.[env.name]; // _.find(env?.plugins, { name: pluginName })?.version;
@@ -101,6 +104,7 @@ export default function PluginList({ app }) {
       dataIndex: 'latestVersion',
       title: 'Latest',
       width: '120px',
+      order: 50,
       render: (pluginName, plugin) => {
         const latest = latestReleases?.[pluginName];
         return latest ? (
@@ -128,6 +132,7 @@ export default function PluginList({ app }) {
     {
       dataIndex: 'status',
       title: 'Status',
+      order: 60,
       render: (a, plugin) => {
         return <PluginStatus plugin={plugin} app={app} />;
       },
@@ -135,6 +140,7 @@ export default function PluginList({ app }) {
     {
       dataIndex: 'actions',
       title: 'Actions',
+      order: 100,
       width: '160px',
       render: (a, item) => {
         return <PluginActions plugin={item} app={app} />;
@@ -146,11 +152,11 @@ export default function PluginList({ app }) {
 
   if (scope && pluginList) {
     switch (scope) {
-      case 'my':
-        pluginList = pluginList.filter(p =>
-          p?.owners?.map(s => s.toLowerCase())?.includes(user?.username?.toLowerCase()),
-        );
-        break;
+      // case 'my':
+      //   pluginList = pluginList.filter(p =>
+      //     p?.owners?.map(s => s.toLowerCase())?.includes(user?.username?.toLowerCase()),
+      //   );
+      //   break;
       case 'deployed':
         pluginList = pluginList.filter(p => deploymentInfoByPlugin[p.name]);
         break;
@@ -162,14 +168,19 @@ export default function PluginList({ app }) {
         break;
     }
   }
+  const ctx = { pluginList };
+  jsPlugin.invoke('museManager.pm.pluginList.processPluginList', ctx);
+  pluginList = ctx.pluginList;
+
   pluginList = pluginList?.filter(
     p =>
       p.name.toLowerCase().includes(searchValue) ||
       p.owners?.some(o => o.toLowerCase().includes(searchValue)),
   );
 
-  plugin.invoke('museManager.pm.pluginList.processColumns', columns, { plugins: pluginList });
-  plugin.invoke('museManager.pm.pluginList.postProcessColumns', columns, { plugins: pluginList });
+  jsPlugin.invoke('museManager.pm.pluginList.processColumns', columns, { plugins: pluginList });
+  jsPlugin.invoke('museManager.pm.pluginList.postProcessColumns', columns, { plugins: pluginList });
+  jsPlugin.sort(columns);
 
   return (
     <div>

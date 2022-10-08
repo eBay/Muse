@@ -4,6 +4,8 @@
 module.exports = {
   /** @member {function} createPlugin */
   createPlugin: require('./createPlugin'),
+  /** @member {function} installPlugin */
+  installPlugin: require('./installPlugin'),
   /** @member {function} getPlugin */
   getPlugin: require('./getPlugin'),
   /** @member {function} updatePlugin */

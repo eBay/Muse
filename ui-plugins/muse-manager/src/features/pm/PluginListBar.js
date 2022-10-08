@@ -1,13 +1,28 @@
 import NiceModal from '@ebay/nice-modal-react';
 import { Radio, Button } from 'antd';
+import _ from 'lodash';
+import jsPlugin from 'js-plugin';
 import SearchBox from '../common/SearchBox';
 import { useSearchState } from '../../hooks';
-import jsPlugin from 'js-plugin';
-import _ from 'lodash';
 import { DropdownMenu } from '@ebay/muse-lib-antd/src/features/common';
+import config from '../../config';
 
 export default function PluginListBar({ app }) {
-  const [scope, setScope] = useSearchState('scope', 'my');
+  const [scope, setScope] = useSearchState('scope', config.get('pluginListDefaultScope'));
+  const scopes = [{ key: 'all', label: 'All Plugins', onClick: () => setScope('all'), order: 100 }];
+  if (app) {
+    scopes.push({
+      key: 'deployed',
+      label: 'Deployed Plugins',
+      order: 50,
+      onClick: () => setScope('deployed'),
+    });
+  }
+  scopes.push(
+    ..._.flatten(jsPlugin.invoke('museManager.pluginListBar.getScopes', { setScope, scope })),
+  );
+  jsPlugin.sort(scopes);
+
   const dropdownItems = [
     {
       key: 'preview',
@@ -24,34 +39,30 @@ export default function PluginListBar({ app }) {
   jsPlugin.invoke('museManager.pluginListBar.processDropdownItems', { dropdownItems, app });
 
   return (
-    <div className="flex mb-2">
+    <div className="flex mb-2 justify-end gap-2 whitespace-nowrap">
       <SearchBox
         placeholder="Search by plugin name or owners..."
-        className="flex-none min-w-[100px] max-w-[400px]"
+        className="min-w-[100px] max-w-[400px] mr-auto"
       />
-      <div className="grow flex justify-end gap-2">
-        <Radio.Group onChange={evt => setScope(evt.target.value)} value={scope}>
-          <Radio.Button value="my" key="my">
-            My Plugins
-          </Radio.Button>
-          {app && (
-            <Radio.Button value="deployed" key="deployed">
-              Deployed Plugins
-            </Radio.Button>
-          )}
-          <Radio.Button value="all" key="all">
-            All Plugins
-          </Radio.Button>
+      {scopes.length > 1 ? (
+        <Radio.Group value={scope}>
+          {scopes.map(s => {
+            return (
+              <Radio.Button value={s.key} key={s.key} onClick={() => s.onClick()}>
+                {s.label}
+              </Radio.Button>
+            );
+          })}
         </Radio.Group>
-        <Button
-          className="float-right"
-          type="primary"
-          onClick={() => NiceModal.show('muse-manager.create-plugin-modal')}
-        >
-          Create Plugin
-        </Button>
-        <DropdownMenu items={dropdownItems} size="default" />
-      </div>
+      ) : null}
+      <Button
+        className="float-right"
+        type="primary"
+        onClick={() => NiceModal.show('muse-manager.create-plugin-modal')}
+      >
+        Create Plugin
+      </Button>
+      <DropdownMenu items={dropdownItems} size="default" />
     </div>
   );
 }

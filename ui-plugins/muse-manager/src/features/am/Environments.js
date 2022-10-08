@@ -1,34 +1,33 @@
 import { Table } from 'antd';
 import EnvActions from '../am/EnvActions';
+import jsPlugin from 'js-plugin';
+import _ from 'lodash';
 
 export default function Environments({ app }) {
-  const columns = [
+  let columns = [
     {
       dataIndex: 'name',
       title: 'Env name',
-      width: '320px',
+      width: '150px',
+      order: 10,
       render: env => {
         return <>{env}</>;
-      },
-    },
-    {
-      dataIndex: 'url',
-      title: 'Url',
-      width: '320px',
-      render: url => {
-        return <>{url}</>;
       },
     },
     {
       dataIndex: 'actions',
       title: 'Actions',
       width: '160px',
+      order: 100,
       render: (a, item) => {
         return <EnvActions env={item} app={app} />;
       },
     },
   ].filter(Boolean);
-
+  columns.push(..._.flatten(jsPlugin.invoke('museManager.getEnvironmentsColumns', { app })));
+  jsPlugin.invoke('museManager.processEnvironmentsColumns', { columns, app });
+  columns = columns.filter(Boolean);
+  jsPlugin.sort(columns);
   return (
     <div>
       <div>

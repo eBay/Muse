@@ -35,6 +35,22 @@ async function start() {
       }
       return document.currentScript.dataset.musePluginName;
     },
+    getAppVariables: () => {
+      const appDefaultVars = window.MUSE_GLOBAL.app?.variables || {};
+      const appCurrentEnvVars = window.MUSE_GLOBAL.env?.variables || {};
+      const mergedAppVariables = {
+        ...appDefaultVars,
+        ...appCurrentEnvVars,
+      };
+      return mergedAppVariables;
+    },
+    getPluginVariables: pluginId => {
+      // TODO: merge default vars with deployment vars (unless it's done on muse-express-middleware before)
+      const pluginDeployedVars =
+        window.MUSE_GLOBAL.plugins.find(p => p.name === pluginId)?.variables || {};
+
+      return pluginDeployedVars;
+    },
     // Muse shared modules global methods
     __shared__: {
       modules: {},
@@ -47,14 +63,13 @@ async function start() {
   const {
     app,
     cdn = '',
-    entry = 'muse-react',
+    plugins = [],
     initEntries,
     pluginEntries,
     appEntries,
     isDev = false,
     isE2eTest = false,
   } = window.MUSE_GLOBAL;
-  let plugins = window.MUSE_GLOBAL.plugins || [];
   // TODO: remove below two lines after migrate old Muse plugins inside eBay
   registerSw();
   // Print app plugins in dev console
@@ -64,7 +79,6 @@ async function start() {
       `Loading Muse app by ${bootPlugin.name}@${bootPlugin.version || bootPlugin.url}...`,
     );
   }
-  console.log('local boot......');
 
   /* Handle forcePlugins query parameter */
   const searchParams = new URLSearchParams(window.location.search);
@@ -115,9 +129,11 @@ async function start() {
         });
       }
     }
+  } else {
+    console.warn(`ClientCode is invalid.`);
   }
 
-  window.MUSE_GLOBAL.plugins = plugins = specifiedPlugins;
+  window.MUSE_GLOBAL.plugins = specifiedPlugins;
   console.log(`Plugins(${plugins.length}):`);
   plugins.forEach(p =>
     console.log(`  * ${p.name}@${p.version || p.url}${p.noUrl ? ' (No Url)' : ''}`),
@@ -194,33 +210,30 @@ async function start() {
     if (arr.some(s => s === false)) return;
   }
 
-  window.MUSE_GLOBAL.getAppVariables = () => {
-    const appDefaultVars = window.MUSE_GLOBAL.app?.variables || {};
-    const appCurrentEnvVars = window.MUSE_GLOBAL.env?.variables || {};
-    const mergedAppVariables = {
-      ...appDefaultVars,
-      ...appCurrentEnvVars,
-    };
-    return mergedAppVariables;
-  };
-
-  window.MUSE_GLOBAL.getPluginVariables = pluginId => {
-    // TODO: merge default vars with deployment vars (unless it's done on muse-express-middleware before)
-    const pluginDeployedVars =
-      window.MUSE_GLOBAL.plugins.find(p => p.name === pluginId)?.variables || {};
-
-    return pluginDeployedVars;
-  };
-
   // Start the application
-  const entryName = app?.entry || '@ebay/muse-lib-react';
+  let entryName = app.entry;
+  if (!entryName) {
+    if (appEntries.length === 1) {
+      entryName = appEntries[0].name;
+    } else if (appEntries.length === 0) {
+      throw new Error(
+        'No app entry found. You need a plugin deployed to the app to provide an app entry.',
+      );
+    } else {
+      throw new Error(
+        `Multiple entries found: ${appEntries
+          .map(e => e.name)
+          .join(', ')}. You need to specify one entry in app config.`,
+      );
+    }
+  }
   const entryApp = appEntries.find(e => e.name === entryName);
   if (entryApp) {
-    console.log(`Starting the app from ${entry}...`);
+    console.log(`Starting the app from ${entryName}...`);
     loading.showMessage(`Starting the app...`);
     await entryApp.func();
   } else {
-    error.show(`No app entry found: ${entryName}.`);
+    throw new Error(`The specified app entry was not found: ${entryName}.`);
   }
   loading.hide();
 }

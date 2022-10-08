@@ -58,6 +58,46 @@ program
   });
 
 program
+  .command('init')
+  .description('Initialize Muse registry for basic plugins and Muse manager app.')
+  .option(
+    '--registry, [registry]',
+    'The npm registry to install the plugin. Defaults to https://registry.npmjs.org .',
+    'https://registry.npmjs.org',
+  )
+  .action(async options => {
+    // install plugins
+    console.log(chalk.cyan(`Initializing Muse...`));
+    const pluginsToInstall = [
+      '@ebay/muse-boot-default',
+      '@ebay/muse-lib-react',
+      '@ebay/muse-lib-antd',
+      '@ebay/muse-layout-antd',
+      '@ebay/muse-manager',
+    ];
+    const pkgs = {};
+    await Promise.all(
+      pluginsToInstall.map(async pluginName => {
+        const pkgJson = await muse.pm.installPlugin({ pluginName, registry: options.registry });
+        pkgs[pluginName] = pkgJson;
+      }),
+    );
+
+    if (!(await muse.am.getApp('musemanager'))) {
+      await muse.am.createApp({ appName: 'musemanager', envName: 'production' });
+    }
+    await muse.pm.deployPlugin({
+      appName: 'musemanager',
+      envMap: {
+        production: pluginsToInstall.map(name => ({
+          pluginName: name,
+          type: 'add',
+          version: pkgs[name].version,
+        })),
+      },
+    });
+  });
+program
   .command('list-apps')
   .description('List existing applications')
   .action(async () => {
@@ -108,13 +148,35 @@ program
 program
   .command('serve')
   .description('Serve a MUSE application environment')
-  .argument('[appName]', 'application name')
-  .argument('[envName]', 'environment name', 'staging')
-  .argument('[port]', 'port', 6070)
-  .option('--is-dev', 'Start the server to load dev bundles.')
-  .option('--by-url', 'Detect app by url.')
-  .action((appName, envName, port, options) => {
-    require('@ebay/muse-simple-server/lib/server')({ appName, envName, port, ...options });
+  .argument('[appName]', 'Muse app name.')
+  .argument('[envName]', 'Muse environment name', 'staging')
+  .option('-p, --port <port>', 'port', 6070)
+  .option('-d, --is-dev', 'Start the server to load dev bundles.')
+  .option('-u, --by-url', 'Detect app by url.')
+  .option('-a, --serve-api', 'Detect app by url.')
+  .option('-s, --serve-static', 'Serve static content.')
+  .action((appName, envName, options) => {
+    require('@ebay/muse-simple-server/lib/server')({ appName, envName, ...options });
+  });
+
+program
+  .command('manager')
+  .option('-p, --port <port>', 'port', 6080)
+  .option('-e, --api-endpoint <apiEndpoint>', 'Muse API service endpoint.', '/api/v2')
+  .description('Starts the Muse manager UI console.')
+  .action(({ port, apiEndpoint }) => {
+    require('@ebay/muse-simple-server/lib/server')({
+      appName: 'musemanager',
+      serveApi: true,
+      envName: 'production',
+      serveStatic: true,
+      port,
+      variables: {
+        musemanager: {
+          museApiEndpoint: apiEndpoint,
+        },
+      },
+    });
   });
 
 program
@@ -244,6 +306,20 @@ program
   });
 
 program
+  .command('install-plugin')
+  .alias('install')
+  .description('Copy a Muse plugin from npm to the registry.')
+  .argument('<pluginName>', 'The plugin name.')
+  .argument('[version]', 'The version to install name.', 'latest')
+  .option(
+    '--registry [registry]',
+    'The npm registry to install the plugin. Defaults to https://registry.npmjs.org .',
+  )
+  .action(async (pluginName, version, options) => {
+    await muse.pm.installPlugin({ pluginName, version, registry: options.registry });
+  });
+
+program
   .command('view-plugin')
   .description('View meta of a MUSE plugin')
   .argument('<pluginName>', 'plugin name')
@@ -305,6 +381,7 @@ program
     }
 
     const pluginType = pkgJson?.muse?.type;
+    console.log(chalk.cyan('Checking dependencies...'));
     const dependencyCheckResult = await muse.pm.checkDependencies({
       appName,
       envName,
@@ -349,20 +426,6 @@ program
       );
     }
   });
-
-// program
-//   .command('request-deploy')
-//   .description('Request to deploy a plugin version on a MUSE application environment')
-//   .argument('<appName>', 'application name')
-//   .argument('<envName>', 'environment name')
-//   .argument('<pluginName>', 'plugin name')
-//   .argument('<version>', 'plugin version')
-//   .action(async (appName, envName, pluginName, version) => {
-//     await muse.req.createRequest({
-//       type: 'deploy-plugin',
-//       payload: { appName, envName, pluginName, version },
-//     });
-//   });
 
 program
   .command('undeploy')
@@ -572,6 +635,13 @@ program
     const unescapAnswer = answer.envMap?.replace(/\\/g, '');
     const envMap = JSON.parse(unescapAnswer);
     await muse.pm.deployPlugin({ appName, envMap });
+  });
+
+program
+  .command('setup-cra')
+  .description('Convert a create-react-app app to a Muse plugin project.')
+  .action(async () => {
+    // TODO://
   });
 
 // let other plugins add their own cli program commands

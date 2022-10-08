@@ -12,23 +12,31 @@ const museLayout = {
     getItems() {
       return [
         {
-          key: 'createApp',
+          key: 'createMenu',
           icon: 'PlusOutlined',
           position: 'right',
-          onClick: () => {
-            NiceModal.show('muse-manager.create-app-modal');
+          type: 'menu',
+          menuMeta: {
+            trigger: {
+              label: '+ Create',
+            },
+            items: [
+              {
+                key: 'createApp',
+                label: 'Create App',
+                onClick: () => {
+                  NiceModal.show('muse-manager.create-app-modal');
+                },
+              },
+              {
+                key: 'createPlugin',
+                onClick: () => {
+                  NiceModal.show('muse-manager.create-plugin-modal');
+                },
+                label: 'Create Plugin',
+              },
+            ],
           },
-          label: 'Create App',
-        },
-        {
-          parent: 'createApp',
-          key: 'createPlugin',
-          icon: 'PlusOutlined',
-          position: 'right',
-          onClick: () => {
-            NiceModal.show('muse-manager.create-plugin-modal');
-          },
-          label: 'Create Plugin',
         },
       ];
     },

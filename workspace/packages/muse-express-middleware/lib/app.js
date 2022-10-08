@@ -4,7 +4,7 @@ const fs = require('fs');
 const logger = museCore.logger.createLogger('muse-express-middleware.app');
 const path = require('path');
 const IP = require('ip');
-var md5 = require('md5');
+const crypto = require('crypto');
 
 const defaultTemplate = `
 <!doctype html>
@@ -61,6 +61,7 @@ module.exports = ({
   byUrl = false,
   serviceWorker = '/muse-sw.js', // If not use service worker, set it to false
   serviceWorkerCacheName = 'muse_assets',
+  variables = {},
 }) => {
   let swContent = fs.readFileSync(path.join(__dirname, './sw.js')).toString();
   if (serviceWorkerCacheName) {
@@ -113,12 +114,6 @@ module.exports = ({
     museCore.plugin.invoke('museMiddleware.app.processAppInfo', { app, env });
 
     const plugins = env.plugins;
-    // museCore.plugin.invoke('museMiddleware.app.processPlugins', plugins, {
-    //   app,
-    //   appName,
-    //   envName,
-    // });
-
     const bootPlugins = plugins.filter(p => p.type === 'boot');
 
     if (bootPlugins.length === 0) {
@@ -134,8 +129,13 @@ module.exports = ({
     const bootPlugin = bootPlugins[0];
     const ipAddress = IP.address();
 
+    const appConfig = _.omit(app, ['envs']);
+    if (appName && variables[appName]) {
+      if (!appConfig.variables) appConfig.variables = {};
+      Object.assign(appConfig.variables, variables[appName]);
+    }
     const museGlobal = {
-      app: _.omit(app, ['envs']),
+      app: appConfig,
       env: _.omit(env, ['plugins']),
       appName: appName,
       envName: envName,
@@ -150,7 +150,10 @@ module.exports = ({
         !app.noServiceWorker && serviceWorker
           ? path.join(req.baseUrl || '/', serviceWorker)
           : false,
-      museClientCode: md5(ipAddress),
+      museClientCode: crypto
+        .createHash('md5')
+        .update(ipAddress)
+        .digest('hex'),
     };
 
     logger.info(`Muse global: ${JSON.stringify(museGlobal)}`);
@@ -161,6 +164,9 @@ module.exports = ({
       ? `${cdn}/p/app-icon.${app.name}/v0.0.${app.iconId}/dist/icon.png`
       : path.join(req.baseUrl || '/', 'favicon.png');
     const ctx = {
+      app,
+      env,
+      bootPlugin,
       indexHtml: _.template(template)({
         title: app.title || 'Muse App',
         favicon,

@@ -4,14 +4,12 @@ specifiers:
   eslint: ^8.18.0
   ip: ^1.1.8
   lodash: ^4.17.21
-  md5: ^2.3.0
   mime-types: ^2.1.35
   multer: 1.4.5-lts.1
 
 dependencies:
   ip: 1.1.8
   lodash: 4.17.21
-  md5: 2.3.0
   mime-types: 2.1.35
   multer: 1.4.5-lts.1
 
@@ -130,10 +128,6 @@ packages:
       supports-color: 7.2.0
     dev: true
 
-  /charenc/0.0.2:
-    resolution: {integrity: sha1-wKHS86cJLgN3S/qD8UwPxXkKhmc=}
-    dev: false
-
   /color-convert/2.0.1:
     resolution: {integrity: sha1-ctOmjVmMm9s68q0ehPIdiWq9TeM=}
     engines: {node: '>=7.0.0'}
@@ -171,10 +165,6 @@ packages:
       shebang-command: 2.0.0
       which: 2.0.2
     dev: true
-
-  /crypt/0.0.2:
-    resolution: {integrity: sha1-iNf/fsDfuG9xPch7u0LQRNPmxBs=}
-    dev: false
 
   /debug/4.3.4:
     resolution: {integrity: sha1-Exn2V5NX8jONMzfSzdSRS7XcyGU=}
@@ -410,10 +400,6 @@ packages:
     resolution: {integrity: sha1-rgWUj2sHVDXtMweszgRinajNv0g=}
     dev: false
 
-  /is-buffer/1.1.6:
-    resolution: {integrity: sha1-76ouqdqg16suoTqXsritUf776L4=}
-    dev: false
-
   /is-extglob/2.1.1:
     resolution: {integrity: sha1-qIwCU1eR8C7TfHahueqXc8gz+MI=}
     engines: {node: '>=0.10.0'}
@@ -463,14 +449,6 @@ packages:
 
   /lodash/4.17.21:
     resolution: {integrity: sha1-Z5WRxWTDv/quhFTPCz3zcMPWkRw=}
-    dev: false
-
-  /md5/2.3.0:
-    resolution: {integrity: sha1-w9qaaq46MLRreww0m4exENw72k8=}
-    dependencies:
-      charenc: 0.0.2
-      crypt: 0.0.2
-      is-buffer: 1.1.6
     dev: false
 
   /media-typer/0.3.0:

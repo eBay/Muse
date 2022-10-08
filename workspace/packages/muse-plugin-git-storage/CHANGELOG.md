@@ -1,5 +1,13 @@
 # @ebay/muse-git-storage
 
+## 1.0.22
+
+### Patch Changes
+
+- test
+- Updated dependencies
+  - @ebay/muse-core@1.0.26
+
 ## 1.0.21
 
 ### Patch Changes

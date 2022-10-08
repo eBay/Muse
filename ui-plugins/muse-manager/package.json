@@ -1,31 +1,43 @@
 {
   "name": "@ebay/muse-manager",
   "version": "1.0.0",
-  "private": true,
+  "private": false,
   "muse": {
     "devConfig": {
       "app": "musemanager",
       "env": "staging",
+      "appOverride": {
+        "noSSO": true,
+        "variables": {
+          "museApiEndpoint": "https://musenextsvc.vip.qa.ebay.com/api/v2"
+        }
+      },
       "remotePlugins": [
         "*",
-        "muse-manager-ebay#normal:http://localhost:3031/main.js",
-        "@ebay/muse-boot-default#boot:http://localhost:3000/boot.js"
+        "@ebay/muse-lib-antd",
+        "@ebay/muse-layout-antd"
       ]
     }
   },
+  "publishConfig": {
+    "registry": "https://artifactory.corp.ebay.com/artifactory/api/npm/npm-muse"
+  },
+  "files": [
+    "build"
+  ],
   "dependencies": {
     "@craco/craco": "6.4.4",
-    "@ebay/muse-client": "1.0.17",
-    "@ebay/muse-core": "1.0.25",
-    "@ebay/muse-craco-plugin": "1.0.27",
-    "@ebay/muse-dev-utils": "1.0.28",
+    "@ebay/muse-client": "1.0.18",
+    "@ebay/muse-core": "1.0.26",
+    "@ebay/muse-craco-plugin": "1.0.28",
+    "@ebay/muse-dev-utils": "1.0.29",
     "@ebay/muse-ebay-dev": "^1.0.1",
-    "@ebay/muse-express-middleware": "1.0.25",
-    "@ebay/muse-lib-antd": "1.0.11",
-    "@ebay/muse-lib-react": "1.0.21",
-    "@ebay/muse-plugin-acl": "1.0.5",
-    "@ebay/muse-scripts-react": "1.0.23",
-    "@ebay/muse-webpack-plugin": "1.0.24",
+    "@ebay/muse-express-middleware": "1.0.26",
+    "@ebay/muse-lib-antd": "1.0.12",
+    "@ebay/muse-lib-react": "1.0.23",
+    "@ebay/muse-plugin-acl": "1.0.6",
+    "@ebay/muse-scripts-react": "1.0.24",
+    "@ebay/muse-webpack-plugin": "1.0.25",
     "@headlessui/react": "^1.7.0",
     "@heroicons/react": "^2.0.10",
     "@testing-library/jest-dom": "^5.16.4",
@@ -55,7 +67,7 @@
     "build": "cross-env NODE_PATH=./node_modules muse-scripts-react build",
     "build:dev": "cross-env NODE_PATH=./node_modules muse-scripts-react build --dev",
     "deploy": "pnpm build && pnpm build:dev && muse release && muse deploy musemanager staging",
-    "prestart": "muse-ebay-dev check-updates",
+    "prestart2": "muse-ebay-dev check-updates",
     "prebuild": "muse-ebay-dev check-updates",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

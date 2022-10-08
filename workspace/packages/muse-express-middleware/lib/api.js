@@ -22,6 +22,7 @@ const exposedApis = [
   'pm.checkDependencies',
   'pm.checkReleaseVersion',
   'pm.createPlugin',
+  'pm.installPlugin',
   'pm.deletePlugin',
   'pm.deleteRelease',
   'pm.deleteVariable',

@@ -24,7 +24,7 @@ const generateMissingDeps = async (ctx, appName, envName, depsManifest, buildEnv
         // we strip the version here, because the version we have on deps-manifest.json comes from package.json,
         // while the version from deployed plugins has nothing to do with the one in package.json
         const currentDepsLibKey = depsLibsKeys.find(lib => lib.startsWith(libPlugin.name)); // e.g @ebay/muse-lib-react
-        const currentDepsLibModules = depsManifest.content[currentDepsLibKey];
+        const currentDepsLibModules = depsManifest.content[currentDepsLibKey] || [];
         for (const exportedModule of currentDepsLibModules) {
           if (!libExportedDeps.includes(exportedModule)) {
             ctx.missingDeps[buildEnv][`${libPlugin.name}@${libPlugin.version}`]

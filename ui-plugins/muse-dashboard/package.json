@@ -1,0 +1,63 @@
+{
+  "name": "@ebay/muse-dashboard",
+  "version": "1.0.0",
+  "muse": {
+    "devConfig": {
+      "app": "musemanager",
+      "env": "staging",
+      "remotePlugins": "*"
+    },
+    "type": "normal"
+  },
+  "publishConfig": {
+    "registry": "https://artifactory.corp.ebay.com/artifactory/api/npm/npm-muse"
+  },
+  "files": [
+    "build"
+  ],
+  "devDependencies": {
+    "@craco/craco": "6.4.4",
+    "@ebay/muse-core": "^1.0.16",
+    "@ebay/muse-craco-plugin": "1.0.27",
+    "@ebay/muse-ebay-dev": "^1.0.1",
+    "@ebay/muse-lib-antd": "^1.0.11",
+    "@ebay/muse-lib-react": "1.0.23",
+    "@ebay/muse-scripts-react": "^1.0.10",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.3.0",
+    "@testing-library/user-event": "^13.5.0",
+    "craco-less": "^2.0.0",
+    "cross-env": "^7.0.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-grid-layout": "^1.3.4",
+    "react-scripts": "^5.0.1",
+    "tailwindcss": "^3.1.8"
+  },
+  "scripts": {
+    "start": "cross-env PORT=3033 muse-scripts-react start",
+    "build": "muse-scripts-react build",
+    "build:dev": "muse-scripts-react build --dev",
+    "prestart": "muse-ebay-dev check-updates",
+    "prebuild": "muse-ebay-dev check-updates",
+    "test": "react-scripts test"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

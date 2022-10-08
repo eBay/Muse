@@ -4,11 +4,11 @@ specifiers:
   '@ant-design/icons': ^4.7.0
   '@babel/preset-react': ^7.18.6
   '@craco/craco': 6.4.4
-  '@ebay/muse-core': 1.0.24
-  '@ebay/muse-craco-plugin': 1.0.26
+  '@ebay/muse-core': 1.0.25
+  '@ebay/muse-craco-plugin': 1.0.27
   '@ebay/muse-ebay-dev': ^1.0.1
-  '@ebay/muse-lib-antd': 1.0.10
-  '@ebay/muse-lib-react': 1.0.21
+  '@ebay/muse-lib-antd': 1.0.11
+  '@ebay/muse-lib-react': 1.0.23
   '@ebay/muse-scripts-react': 1.0.23
   '@zarconontol/enzyme-adapter-react-18': ^0.7.3
   antd: 4.20.7
@@ -28,9 +28,9 @@ specifiers:
 dependencies:
   '@ant-design/icons': 4.7.0_biqbaboplfbrettd7655fr4n2y
   '@craco/craco': 6.4.4_react-scripts@5.0.1
-  '@ebay/muse-craco-plugin': 1.0.26_4bhg4mbc3ycz7prgs5pgq4f5am
-  '@ebay/muse-lib-antd': 1.0.10_@craco+craco@6.4.4
-  '@ebay/muse-lib-react': 1.0.21_5etiqhkfjdttz5dcmi2hz5fcv4
+  '@ebay/muse-craco-plugin': 1.0.27_ujazp7qzzllwjpspnxvl3lo3w4
+  '@ebay/muse-lib-antd': 1.0.11_@craco+craco@6.4.4
+  '@ebay/muse-lib-react': 1.0.23_5etiqhkfjdttz5dcmi2hz5fcv4
   '@ebay/muse-scripts-react': 1.0.23
   antd: 4.20.7_biqbaboplfbrettd7655fr4n2y
   js-plugin: 1.1.0
@@ -45,8 +45,8 @@ dependencies:
 
 devDependencies:
   '@babel/preset-react': 7.18.6
-  '@ebay/muse-core': 1.0.24
-  '@ebay/muse-ebay-dev': 1.0.1_@ebay+muse-core@1.0.24
+  '@ebay/muse-core': 1.0.25
+  '@ebay/muse-ebay-dev': 1.0.1_@ebay+muse-core@1.0.25
   '@zarconontol/enzyme-adapter-react-18': 0.7.3_todk22eekuihjg65rlnudp4qdi
   craco-less: 2.0.0_5etiqhkfjdttz5dcmi2hz5fcv4
   cross-env: 7.0.3
@@ -1583,8 +1583,8 @@ packages:
       enabled: 2.0.0
       kuler: 2.0.0
 
-  /@ebay/muse-core/1.0.24:
-    resolution: {integrity: sha1-0ZCXQK/XRuoL6byhFoOG5/h6pYo=, tarball: '@ebay/muse-core/-/@ebay/muse-core-1.0.24.tgz'}
+  /@ebay/muse-core/1.0.25:
+    resolution: {integrity: sha1-nPyMkIok8GjK6vl8FZevBaH01Io=, tarball: '@ebay/muse-core/-/@ebay/muse-core-1.0.25.tgz'}
     dependencies:
       ajv: 8.11.0
       archiver: 5.3.1
@@ -1607,40 +1607,40 @@ packages:
       winston: 3.8.1
       winston-transport: 4.5.0
 
-  /@ebay/muse-craco-plugin/1.0.26_4bhg4mbc3ycz7prgs5pgq4f5am:
-    resolution: {integrity: sha1-WhlqT6FLy5ppYauArtlTA/BG2fA=, tarball: '@ebay/muse-craco-plugin/-/@ebay/muse-craco-plugin-1.0.26.tgz'}
+  /@ebay/muse-craco-plugin/1.0.27_ujazp7qzzllwjpspnxvl3lo3w4:
+    resolution: {integrity: sha1-+7VFN9n/qpO6xG9mujZrbQE4SdQ=, tarball: '@ebay/muse-craco-plugin/-/@ebay/muse-craco-plugin-1.0.27.tgz'}
     peerDependencies:
       '@craco/craco': 6.4.4
     dependencies:
       '@craco/craco': 6.4.4_react-scripts@5.0.1
-      '@ebay/muse-dev-utils': 1.0.26_@ebay+muse-core@1.0.24
-      '@ebay/muse-webpack-plugin': 1.0.23
+      '@ebay/muse-dev-utils': 1.0.28_@ebay+muse-core@1.0.25
+      '@ebay/muse-webpack-plugin': 1.0.24
       resolve-cwd: 3.0.0
     transitivePeerDependencies:
       - '@ebay/muse-core'
       - express
     dev: false
 
-  /@ebay/muse-dev-utils/1.0.26_@ebay+muse-core@1.0.24:
-    resolution: {integrity: sha1-5yV3Buu4bQzfMUCx5SXUazVSWOw=, tarball: '@ebay/muse-dev-utils/-/@ebay/muse-dev-utils-1.0.26.tgz'}
+  /@ebay/muse-dev-utils/1.0.28_@ebay+muse-core@1.0.25:
+    resolution: {integrity: sha1-V6wkFw0ehpNFN9OkWXpvc1eRvKk=, tarball: '@ebay/muse-dev-utils/-/@ebay/muse-dev-utils-1.0.28.tgz'}
     peerDependencies:
-      '@ebay/muse-core': ^1.0.24
+      '@ebay/muse-core': ^1.0.25
       express: ^4.18.1
     dependencies:
-      '@ebay/muse-core': 1.0.24
-      '@ebay/muse-express-middleware': 1.0.23_@ebay+muse-core@1.0.24
+      '@ebay/muse-core': 1.0.25
+      '@ebay/muse-express-middleware': 1.0.25_@ebay+muse-core@1.0.25
       dotenv: 16.0.2
       lodash: 4.17.21
       resolve-cwd: 3.0.0
     dev: false
 
-  /@ebay/muse-ebay-dev/1.0.1_@ebay+muse-core@1.0.24:
+  /@ebay/muse-ebay-dev/1.0.1_@ebay+muse-core@1.0.25:
     resolution: {integrity: sha1-mSI5jOu/jZ+dFhWaseK9VzLe4+8=, tarball: '@ebay/muse-ebay-dev/-/@ebay/muse-ebay-dev-1.0.1.tgz'}
     hasBin: true
     peerDependencies:
       '@ebay/muse-core': ^1.0.6
     dependencies:
-      '@ebay/muse-core': 1.0.24
+      '@ebay/muse-core': 1.0.25
       axios: 0.27.2
       chalk: 4.1.2
       cross-spawn: 7.0.3
@@ -1650,18 +1650,19 @@ packages:
       - debug
     dev: true
 
-  /@ebay/muse-express-middleware/1.0.23_@ebay+muse-core@1.0.24:
-    resolution: {integrity: sha1-Bg5JmbE1zSTnuyD+m5doREAMUec=, tarball: '@ebay/muse-express-middleware/-/@ebay/muse-express-middleware-1.0.23.tgz'}
+  /@ebay/muse-express-middleware/1.0.25_@ebay+muse-core@1.0.25:
+    resolution: {integrity: sha1-vl8tvJokDLT+8M1coqILl4nVGXU=, tarball: '@ebay/muse-express-middleware/-/@ebay/muse-express-middleware-1.0.25.tgz'}
     peerDependencies:
-      '@ebay/muse-core': ^1.0.24
+      '@ebay/muse-core': ^1.0.25
     dependencies:
-      '@ebay/muse-core': 1.0.24
+      '@ebay/muse-core': 1.0.25
       lodash: 4.17.21
       mime-types: 2.1.35
+      multer: 1.4.5-lts.1
     dev: false
 
-  /@ebay/muse-lib-antd/1.0.10_@craco+craco@6.4.4:
-    resolution: {integrity: sha1-WxsYtcQuvgiAXMWXbYUJpqH8KpA=, tarball: '@ebay/muse-lib-antd/-/@ebay/muse-lib-antd-1.0.10.tgz'}
+  /@ebay/muse-lib-antd/1.0.11_@craco+craco@6.4.4:
+    resolution: {integrity: sha1-Fv8aHpDBUGnaUkOcSCpc1XwHPGI=, tarball: '@ebay/muse-lib-antd/-/@ebay/muse-lib-antd-1.0.11.tgz'}
     dependencies:
       '@ant-design/icons': 4.7.0_biqbaboplfbrettd7655fr4n2y
       '@ebay/muse-lib-react': 1.0.21_5etiqhkfjdttz5dcmi2hz5fcv4
@@ -1769,6 +1770,49 @@ packages:
       - webpack
     dev: false
 
+  /@ebay/muse-lib-react/1.0.23_5etiqhkfjdttz5dcmi2hz5fcv4:
+    resolution: {integrity: sha1-W2L1EwBz3gsOXnrL4ljvGA5WQsQ=, tarball: '@ebay/muse-lib-react/-/@ebay/muse-lib-react-1.0.23.tgz'}
+    dependencies:
+      '@babel/core': 7.18.6
+      '@ebay/nice-modal-react': 1.2.7_biqbaboplfbrettd7655fr4n2y
+      '@types/node': 17.0.45
+      axios: 0.27.2
+      craco-less: 2.0.0_5etiqhkfjdttz5dcmi2hz5fcv4
+      cross-env: 7.0.3
+      eslint: 8.20.0
+      eslint-config-react-app: 7.0.1_eslint@8.20.0
+      eslint-plugin-react-hooks: 4.6.0_eslint@8.20.0
+      history: 5.3.0
+      js-plugin: 1.1.0
+      lodash: 4.17.21
+      path-to-regexp: 6.2.1
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      react-loadable: 5.5.0_react@18.2.0
+      react-redux: 8.0.2_e42enmjmqb4imi3q3iaq2rrebm
+      react-router-dom: 6.3.0_biqbaboplfbrettd7655fr4n2y
+      react-use: 17.4.0_biqbaboplfbrettd7655fr4n2y
+      redux: 4.2.0
+      redux-logger: 3.0.6
+      redux-mock-store: 1.5.4
+      redux-thunk: 2.4.1_redux@4.2.0
+    transitivePeerDependencies:
+      - '@babel/plugin-syntax-flow'
+      - '@babel/plugin-transform-react-jsx'
+      - '@craco/craco'
+      - '@types/react'
+      - '@types/react-dom'
+      - debug
+      - eslint-import-resolver-typescript
+      - eslint-import-resolver-webpack
+      - jest
+      - react-native
+      - react-scripts
+      - supports-color
+      - typescript
+      - webpack
+    dev: false
+
   /@ebay/muse-modules/1.0.20:
     resolution: {integrity: sha1-Bm+UFr8EvvZYjPN4y7dpllCe4Bk=, tarball: '@ebay/muse-modules/-/@ebay/muse-modules-1.0.20.tgz'}
     dev: false
@@ -1781,8 +1825,8 @@ packages:
       resolve-cwd: 3.0.0
     dev: false
 
-  /@ebay/muse-webpack-plugin/1.0.23:
-    resolution: {integrity: sha1-psZ1JTS2xo0Yr0d0HbFdtS8/4B0=, tarball: '@ebay/muse-webpack-plugin/-/@ebay/muse-webpack-plugin-1.0.23.tgz'}
+  /@ebay/muse-webpack-plugin/1.0.24:
+    resolution: {integrity: sha1-ylhj2Ph97Ezb92HHZ+NutbmOjNw=, tarball: '@ebay/muse-webpack-plugin/-/@ebay/muse-webpack-plugin-1.0.24.tgz'}
     dependencies:
       '@ebay/muse-modules': 1.0.20
       json-parse-better-errors: 1.0.2
@@ -1791,6 +1835,16 @@ packages:
 
   /@ebay/nice-modal-react/1.2.6_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha1-G2VtHoI6Zo8/dYB8CTsrGXKNOYw=}
+    peerDependencies:
+      react: '>16.8.0'
+      react-dom: '>16.8.0'
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
+
+  /@ebay/nice-modal-react/1.2.7_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha1-+WQSxBNPakcgnDk/7zEMAuBrYfw=}
     peerDependencies:
       react: '>16.8.0'
       react-dom: '>16.8.0'
@@ -3071,6 +3125,10 @@ packages:
       normalize-path: 3.0.0
       picomatch: 2.3.1
 
+  /append-field/1.0.0:
+    resolution: {integrity: sha1-HjRA6RXwsSA9I3SOeO3XubW0PlY=}
+    dev: false
+
   /archiver-utils/2.1.0:
     resolution: {integrity: sha1-6KRg6UtpPD49oYKgmMpihbqSSeI=}
     engines: {node: '>= 6'}
@@ -3530,6 +3588,13 @@ packages:
     resolution: {integrity: sha1-yuYoEriYAellYzbkYiPgMDhr57Y=}
     engines: {node: '>=6'}
 
+  /busboy/1.6.0:
+    resolution: {integrity: sha1-lm6japUC5DzbkUaWJSO5L1MfaJM=}
+    engines: {node: '>=10.16.0'}
+    dependencies:
+      streamsearch: 1.1.0
+    dev: false
+
   /bytes/3.0.0:
     resolution: {integrity: sha1-0ygVQE1olpn4Wk6k+odV3ROpYEg=}
     engines: {node: '>= 0.8'}
@@ -3815,6 +3880,16 @@ packages:
 
   /concat-map/0.0.1:
     resolution: {integrity: sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=}
+
+  /concat-stream/1.6.2:
+    resolution: {integrity: sha1-kEvfGUzTEi/Gdcd/xKw9T/D9GjQ=}
+    engines: {'0': node >= 0.8}
+    dependencies:
+      buffer-from: 1.1.2
+      inherits: 2.0.4
+      readable-stream: 2.3.7
+      typedarray: 0.0.6
+    dev: false
 
   /confusing-browser-globals/1.0.11:
     resolution: {integrity: sha1-rkDptXzdORVAiigF69OlWFYI3IE=}
@@ -7063,6 +7138,19 @@ packages:
   /ms/2.1.3:
     resolution: {integrity: sha1-V0yBOM4dK1hh8LRFedut1gxmFbI=}
 
+  /multer/1.4.5-lts.1:
+    resolution: {integrity: sha1-gD4krRmE9Y7f+8efVuMFrsXP0aw=}
+    engines: {node: '>= 6.0.0'}
+    dependencies:
+      append-field: 1.0.0
+      busboy: 1.6.0
+      concat-stream: 1.6.2
+      mkdirp: 0.5.6
+      object-assign: 4.1.1
+      type-is: 1.6.18
+      xtend: 4.0.2
+    dev: false
+
   /multicast-dns/7.2.5:
     resolution: {integrity: sha1-d+tGBX9NetvRbZKQ+nKZ9vpkzO0=}
     hasBin: true
@@ -9827,6 +9915,11 @@ packages:
     resolution: {integrity: sha1-VcsADM8dSHKL0jxoWgY5mM8aG2M=}
     engines: {node: '>= 0.8'}
 
+  /streamsearch/1.1.0:
+    resolution: {integrity: sha1-QE3R4iR8qUr1VOhBqO8OqiONp2Q=}
+    engines: {node: '>=10.0.0'}
+    dev: false
+
   /string-convert/0.2.1:
     resolution: {integrity: sha1-aYLMMEn7tM2F+LJFaLnZvznu/5c=}
     dev: false
@@ -10299,6 +10392,10 @@ packages:
     resolution: {integrity: sha1-qX7nqf9CaRufeD/xvFES/j/KkIA=}
     dependencies:
       is-typedarray: 1.0.0
+
+  /typedarray/0.0.6:
+    resolution: {integrity: sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=}
+    dev: false
 
   /unbox-primitive/1.0.2:
     resolution: {integrity: sha1-KQMgIQV9Xmzb0IxRKcIm3/jtb54=}

@@ -1,0 +1,110 @@
+.react-grid-item {
+  .react-resizable-handle {
+    z-index: 21;
+  }
+}
+.muse-dashboard_widget {
+  background-color: #fff;
+  position: relative;
+  height: 100%;
+  .dragging-overlay {
+    background-color: rgba(255, 255, 255, 0.2);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 20;
+    cursor: move;
+  }
+}
+
+.muse-dashboard_widget-toolbar {
+  position: absolute;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  transform: translate(11px, -11px);
+  z-index: 30;
+
+  .widget-toolbar-btn {
+    background-color: #ccc;
+    cursor: pointer;
+    width: 22px;
+    height: 22px;
+    border-radius: 11px;
+    display: grid;
+    place-items: center;
+    &:hover {
+      background-color: #aaa;
+    }
+    margin-right: 8px;
+    &:last-child {
+      margin-right: 0;
+    }
+
+    > i {
+      transform: scale(0.8);
+    }
+  }
+
+  .gg-close {
+    box-sizing: border-box;
+    position: relative;
+    display: block;
+    transform: scale(var(--ggs, 1));
+    width: 22px;
+    height: 22px;
+    border: 2px solid transparent;
+    border-radius: 40px;
+  }
+  .gg-close::after,
+  .gg-close::before {
+    content: '';
+    display: block;
+    box-sizing: border-box;
+    position: absolute;
+    width: 16px;
+    height: 2px;
+    background: #fff;
+    transform: rotate(45deg);
+    border-radius: 5px;
+    top: 8px;
+    left: 1px;
+  }
+  .gg-close::after {
+    transform: rotate(-45deg);
+  }
+
+  .gg-more-vertical-alt {
+    transform: scale(var(--ggs, 1));
+  }
+
+  .gg-more-vertical-alt,
+  .gg-more-vertical-alt::after,
+  .gg-more-vertical-alt::before {
+    box-sizing: border-box;
+    position: relative;
+    display: block;
+    width: 4px;
+    height: 4px;
+    background: #fff;
+    border-radius: 100%;
+  }
+
+  .gg-more-vertical-alt::after,
+  .gg-more-vertical-alt::before {
+    content: '';
+    position: absolute;
+  }
+
+  .gg-more-vertical-alt::after {
+    left: 0;
+    top: 6px;
+  }
+
+  .gg-more-vertical-alt::before {
+    top: -6px;
+    right: 0;
+  }
+}
