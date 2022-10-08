@@ -82,7 +82,7 @@ export default function UserList() {
   jsPlugin.sort(columns);
 
   return (
-    <div className="users-list">
+    <div className="user-list">
       <h1>Users List</h1>
       <p style={{ color: 'gray' }}>
         This is the user list component provides extension points for other plugins to customizing.

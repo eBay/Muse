@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useModal } from '@ebay/nice-modal-react';
 import RoleInfoModal from './RoleInfoModal';
+import './RoleList.less';
 
 export default function RoleList() {
   const roleModal = useModal(RoleInfoModal);
