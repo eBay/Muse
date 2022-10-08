@@ -1,3 +1,5 @@
+import { PluginsSelector } from './components/DemoController';
+
 /**
  * A route items is in shape of:
  * {
@@ -6,6 +8,6 @@
  * }
  */
 const route = {
-  childRoutes: [],
+  childRoutes: [{ path: '/demo-controller', component: PluginsSelector }],
 };
 export default route;

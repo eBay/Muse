@@ -10,6 +10,7 @@ specifiers:
   '@testing-library/jest-dom': ^5.16.5
   '@testing-library/react': ^13.4.0
   '@testing-library/user-event': ^13.5.0
+  craco-less: ^2.0.0
   js-plugin: ^1.1.0
   react: ^18.2.0
   react-dom: ^18.2.0
@@ -26,6 +27,7 @@ dependencies:
   '@testing-library/jest-dom': 5.16.5
   '@testing-library/react': 13.4.0_biqbaboplfbrettd7655fr4n2y
   '@testing-library/user-event': 13.5.0
+  craco-less: 2.0.0_5etiqhkfjdttz5dcmi2hz5fcv4
   js-plugin: 1.1.0
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
