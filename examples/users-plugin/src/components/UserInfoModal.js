@@ -1,28 +1,35 @@
 import { useCallback } from 'react';
 import { Form, Modal } from 'antd';
 import FormBuilder from 'antd-form-builder';
+import jsPlugin from 'js-plugin';
+import { useDispatch } from 'react-redux';
+import _ from 'lodash';
 import NiceModal, { useModal, antdModal } from '@ebay/nice-modal-react';
 
 export default NiceModal.create(({ user }) => {
   const modal = useModal();
+  const dispatch = useDispatch();
   const [form] = Form.useForm();
+
+  const formFields = [
+    { key: 'name', label: 'Name', order: 10, required: true },
+    { key: 'job', label: 'Job Title', order: 20, required: true },
+  ];
+  formFields.push(..._.flatten(jsPlugin.invoke('userInfo.fields.getFields', { formFields })));
+  jsPlugin.sort(formFields);
   const meta = {
     initialValues: user,
-    fields: [
-      { key: 'name', label: 'Name', required: true },
-      { key: 'job', label: 'Job Title', required: true },
-    ],
+    fields: formFields,
   };
 
   const handleSubmit = useCallback(() => {
     form.validateFields().then(() => {
       const newUser = { ...form.getFieldsValue() };
-      // In real case, you may call API to create user or update user
-      if (!user) {
-        newUser.id = String(Date.now());
-      } else {
-        newUser.id = user.id;
-      }
+      newUser.id = user.id;
+      dispatch({
+        type: 'update-user',
+        payload: newUser,
+      });
       modal.resolve(newUser);
       modal.hide();
     });

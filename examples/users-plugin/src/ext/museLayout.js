@@ -16,6 +16,8 @@ const museLayout = {
     getItems: () => {
       return {
         key: 'users-list',
+        order: 20,
+        label: 'Users List',
         link: '/users',
         icon: 'team',
       };

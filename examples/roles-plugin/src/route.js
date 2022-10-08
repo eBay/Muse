@@ -1,3 +1,5 @@
+import RoleList from './components/RoleList';
+
 /**
  * A route items is in shape of:
  * {
@@ -6,6 +8,11 @@
  * }
  */
 const route = {
-  childRoutes: [],
+  childRoutes: [
+    {
+      path: '/roles',
+      component: RoleList,
+    },
+  ],
 };
 export default route;
