@@ -43,10 +43,12 @@ export default function RoleList() {
         },
       },
     ],
-    [],
+    [roleModal],
   );
 
-  columns.push(..._.flatten(jsPlugin.invoke('RoleList.columns.getColumns', { columns })));
+  columns.push(
+    ..._.flatten(jsPlugin.invoke('RoleList.columns.getColumns', { columns })).filter(Boolean),
+  );
   jsPlugin.sort(columns);
 
   return (

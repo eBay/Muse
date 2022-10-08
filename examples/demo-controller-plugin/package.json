@@ -1,5 +1,5 @@
 {
-  "name": "users-plugin",
+  "name": "demo-controller-plugin",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -12,7 +12,6 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
-    "craco-less": "^2.0.0",
     "js-plugin": "^1.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -24,6 +23,7 @@
     "build": "muse-scripts-react build && muse-scripts-react build --dev",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "build:dist": "muse-scripts-react build",
     "build:dev": "muse-scripts-react build --dev"
   },
   "eslintConfig": {

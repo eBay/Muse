@@ -295,13 +295,27 @@ program
 program
   .command('create-plugin')
   .description('Create a new MUSE plugin.')
-  .argument('<pluginName>', 'The plugin name.')
+  .argument(
+    '[pluginName]',
+    'The plugin name, if not provided, it reads the name in the current package.json.',
+  )
   .option(
     '--type, <pluginType>',
     'Plugin type. Default is "normal". Other available types are ["lib", "boot", "init"]',
   )
   .option('--args <args...>', 'Space separated list of more args, for example: --args foo=bar x=y.')
   .action(async (pluginName, options) => {
+    if (!pluginName) {
+      const pkgJson = fs.readJSONSync(path.join(process.cwd(), 'package.json'), {
+        throws: false,
+      });
+      if (pkgJson?.muse) {
+        pluginName = pkgJson?.name;
+        options.type = pkgJson.muse.type || 'normal';
+      } else {
+        throw new Error(`Plugin name is required.`);
+      }
+    }
     await muse.pm.createPlugin({ pluginName, type: options.type, ...parseArgs(options.args) });
   });
 

@@ -21,7 +21,7 @@ async function start() {
     msgEngine,
     loading,
     error,
-    getUser: () => ({}),
+    getUser: () => null,
     appEntries: [], // entries to start the app
     initEntries: [], // entries from init plugins
     pluginEntries: [], // entries from lib or normal plugins

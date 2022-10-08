@@ -125,7 +125,7 @@ muse.plugin.register({
           // This support also support init plugins
           realPluginsToLoad.push({
             // Show plugin name in browser console
-            name: 'local:' + localNames.join(','),
+            name: 'LOCAL: ' + localNames.join(','),
             type: museConfig.type || 'normal',
             url: '/main.js',
             dev: true,
