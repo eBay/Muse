@@ -1,4 +1,3 @@
-import { useCallback } from 'react';
 import { Button, Popover, Switch } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import { useSessionStorage } from 'react-use';
