@@ -9,6 +9,8 @@ const Docs = () => {
         This is a quick guide for you to understand some core concepts of Muse and learn how to
         build an app in the Muse way.
       </p>
+      <h2>Structure</h2>
+      <p>Below is the overall </p>
       <h2>About User Manager App</h2>
       <p>
         The sample user manager app consists of two features: user info managment and roles
@@ -40,52 +42,100 @@ const Docs = () => {
         features of this app.
       </p>
       <h3>Reused plugins:</h3>
-      <ul>
-        <li>
-          <b>@ebay/muse-boot-default</b>: it's a boot plugin which is firstly loaded to the page.
-          The this plugin loads other plugins to the page.
-        </li>
-        <li>
-          <b>@ebay/muse-lib-react</b>: it's a library plugin which provides typical shared modules
-          for other plugins. Also, it renders the root component of the whole app. Other plugins can
-          contribute pages (used by react router), reducers (used by redux), etc to the app via
-          extension points provided by this plugin.
-        </li>
-        <li>
-          <b>@ebay/muse-lib-antd</b>: it's a library plugin which provides shared antd components
-          and other related components for other plugins to use.
-        </li>
-        <li>
-          <b>@ebay/muse-layout-antd</b>: it's a highly extensible layout plugin which allows other
-          plugins to customize headers, menus, etc.
-        </li>
-      </ul>
+      <table>
+        <tr>
+          <td>
+            <b>@ebay/muse-boot-default</b>
+          </td>
+          <td>
+            It's a boot plugin which is firstly loaded to the page. The this plugin loads other
+            plugins to the page.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <b>@ebay/muse-lib-react</b>
+          </td>
+          <td>
+            It's a library plugin which provides typical shared modules for other plugins. Also, it
+            renders the root component of the whole app. Other plugins can contribute pages (used by
+            react router), reducers (used by redux), etc to the app via extension points provided by
+            this plugin.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <b>@ebay/muse-lib-antd</b>
+          </td>
+          <td>
+            It's a library plugin which provides shared antd components and other related components
+            for other plugins to use.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <b>@ebay/muse-layout-antd</b>
+          </td>
+          <td>
+            It's a highly extensible layout plugin which allows other plugins to customize headers,
+            menus, etc.
+          </td>
+        </tr>
+      </table>
       <h3>Plugins for the demo:</h3>
-      <ul>
-        <li>
-          <b>users-plugin</b>: this is a normal plugin allowa to manager users in the system. It
-          provides some extension points allowing other plugins to enhance the user management
-          feature.
-        </li>
-        <li>
-          <b>roles-plugin</b>: this is a normal plugin allows to manager roles in the system. It
-          customize the user list table to add a column to show user's role. Also it extends user
-          info edit modal to add a form field to select the user role.
-        </li>
-        <li>
-          <b>demo-init-plugin</b>: this is a init plugin which reads the demo config session storage
-          and exclude some plugins to be loaded for demo purpose.
-        </li>
-        <li>
-          <b>demo-controller-plugin</b>: this is a normal plugin which adds a menu item in the
-          header for user to select which plugins are loaded. So that you can try the difference
-          when some plugins are not loaded.
-        </li>
-        <li>
-          <b>doc-plugin</b>: this is just the current doc page. It adds a menu item in the sider and
-          registered a routing rule "/docs" to render this page.
-        </li>
-      </ul>
+      <table>
+        <tr>
+          <td>
+            <b>users-plugin</b>
+          </td>
+          <td>
+            This is a normal plugin allowa to manager users in the system. It provides some
+            extension points allowing other plugins to enhance the user management feature.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <b>roles-plugin</b>
+          </td>
+          <td>
+            This is a normal plugin allows to manager roles in the system. It customize the user
+            list table to add a column to show user's role. Also it extends user info edit modal to
+            add a form field to select the user role.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <b>demo-init-plugin</b>
+          </td>
+          <td>
+            This is a init plugin which reads the demo config session storage and exclude some
+            plugins to be loaded for demo purpose.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <b>demo-controller-plugin</b>
+          </td>
+          <td>
+            This is a normal plugin which adds a menu item in the header for user to select which
+            plugins are loaded. So that you can try the difference when some plugins are not loaded.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <b>doc-plugin</b>
+          </td>
+          <td>
+            This is just the current doc page. It adds a menu item in the sider and registered a
+            routing rule "/docs" to render this page.
+          </td>
+        </tr>
+      </table>
+      <p />
+      <p />
+      <p>
+        From the top right dropdown pannel, you can select which plugins are loaded to the page.
+      </p>
     </div>
   );
 };

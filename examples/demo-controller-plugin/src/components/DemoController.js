@@ -3,6 +3,7 @@ import { DownOutlined } from '@ant-design/icons';
 import { useSessionStorage } from 'react-use';
 import _ from 'lodash';
 import './DemoController.less';
+import MovingEyes from './MovingEyes';
 const plugins = [
   {
     name: 'demo-init-plugin',
@@ -52,6 +53,7 @@ export const PluginsSelector = () => {
 
   return (
     <div className="plugins-selector">
+      <section className="move-area"></section>
       <ul>
         {plugins.map(p => (
           <li key={p.name}>
@@ -73,8 +75,10 @@ export const PluginsSelector = () => {
 };
 const DemoController = () => {
   return (
-    <Popover content={<PluginsSelector />} title="Select plugins:" trigger="hover">
-      Select Plugins <DownOutlined />
+    <Popover content={<PluginsSelector />} className="demo-controller" trigger="hover">
+      <MovingEyes />
+      <label>Select Plugins</label>
+      <DownOutlined />
     </Popover>
   );
 };
