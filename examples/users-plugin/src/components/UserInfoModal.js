@@ -15,7 +15,9 @@ export default NiceModal.create(({ user }) => {
     { key: 'name', label: 'Name', order: 10, required: true },
     { key: 'job', label: 'Job Title', order: 20, required: true },
   ];
-  formFields.push(..._.flatten(jsPlugin.invoke('userInfo.fields.getFields', { formFields })));
+  formFields.push(
+    ..._.flatten(jsPlugin.invoke('userInfo.fields.getFields', { formFields })).filter(Boolean),
+  );
   jsPlugin.sort(formFields);
   const meta = {
     initialValues: user,
@@ -33,7 +35,7 @@ export default NiceModal.create(({ user }) => {
       modal.resolve(newUser);
       modal.hide();
     });
-  }, [modal, user, form]);
+  }, [modal, user, form, dispatch]);
   return (
     <Modal
       {...antdModal(modal)}

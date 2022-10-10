@@ -1,0 +1,33 @@
+.plugins-selector {
+  width: 300px;
+  display: inline-block;
+  // border: 1px solid #eee;
+  > button {
+    float: right;
+  }
+  ul,
+  li {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+  li {
+    display: grid;
+    grid-template-columns: 1fr 80px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 10px;
+    label {
+      font-weight: bold;
+      color: rgb(63, 66, 84);
+    }
+    p {
+      color: gray;
+    }
+    button {
+      grid-row: 1 / 2;
+      grid-column: 2/2;
+      justify-self: right;
+      align-self: center;
+    }
+  }
+}

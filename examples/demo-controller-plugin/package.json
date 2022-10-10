@@ -1,5 +1,5 @@
 {
-  "name": "users-plugin",
+  "name": "demo-controller-plugin",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -24,6 +24,7 @@
     "build": "muse-scripts-react build && muse-scripts-react build --dev",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "build:dist": "muse-scripts-react build",
     "build:dev": "muse-scripts-react build --dev"
   },
   "eslintConfig": {

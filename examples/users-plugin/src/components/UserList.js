@@ -78,7 +78,9 @@ export default function UserList() {
     [handleEditUser],
   );
 
-  columns.push(..._.flatten(jsPlugin.invoke('userList.columns.getColumns', { columns })));
+  columns.push(
+    ..._.flatten(jsPlugin.invoke('userList.columns.getColumns', { columns })).filter(Boolean),
+  );
   jsPlugin.sort(columns);
 
   return (
