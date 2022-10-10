@@ -36,7 +36,7 @@ export default function Environments({ app }) {
           rowKey="name"
           size="middle"
           columns={columns}
-          dataSource={Object.values(app.envs)}
+          dataSource={_.toArray(app.envs)}
         />
       </div>
     </div>
