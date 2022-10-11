@@ -98,7 +98,7 @@ module.exports = class GitClient {
         if (value === null) {
           obj.sha = null;
         } else {
-          obj.content = value;
+          obj.content = (value && Buffer.from(value).toString('utf8')) || undefined;
         }
         return obj;
       });
