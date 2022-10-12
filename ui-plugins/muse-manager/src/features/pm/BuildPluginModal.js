@@ -7,10 +7,12 @@ import { useSyncStatus, useMuseApi, useMuse, usePollingMuseData } from '../../ho
 import { getPluginId } from '../../utils';
 import VersionSelect from './VersionSelect';
 import semver from 'semver';
+import jsPlugin from 'js-plugin';
 
-const BuildPluginModal = NiceModal.create(({ plugin }) => {
+const BuildPluginModal = NiceModal.create(({ plugin, app }) => {
   const modal = useModal();
   const [form] = Form.useForm();
+  const forceUpdate = FormBuilder.useForceUpdate();
   const syncStatus = useSyncStatus('muse.requests');
   const { data: latestReleases } = usePollingMuseData('muse.plugins.latest-releases');
 
@@ -22,10 +24,7 @@ const BuildPluginModal = NiceModal.create(({ plugin }) => {
 
   const { data: branches, error: fetchBranchesError } = useMuse(
     'ebay.git.getBranches',
-    plugin.repo
-      ?.split('/')
-      .slice(0, 2)
-      .join('/'),
+    plugin.repo?.split('/').slice(0, 2).join('/'),
   );
 
   const modalReady = branches && latestReleases;
@@ -84,17 +83,14 @@ const BuildPluginModal = NiceModal.create(({ plugin }) => {
         options: branches?.map(b => b.name).sort((a, b) => a.localeCompare(b)),
         initialValue: 'main',
       },
-      // {
-      //   key: 'autoDeploy',
-      //   label: 'Auto Deploy',
-      //   widget: 'checkbox',
-      // },
     ],
   };
 
+  jsPlugin.invoke('museManager.buildPluginForm.processMeta', { meta, form, app });
+
   const handleFinish = useCallback(() => {
     const values = form.getFieldsValue();
-    createRequest({
+    const request = {
       id: `build-plugin_${getPluginId(plugin.name)}`,
       type: 'build-plugin',
       msg: `Build plugin ${plugin.name}`,
@@ -103,7 +99,16 @@ const BuildPluginModal = NiceModal.create(({ plugin }) => {
         buildBranch: values.branch || 'main',
         newVersion: values.version,
       },
-    })
+    };
+    if (values.autoDeploy && values.envsToDeploy?.length) {
+      request.payload.envsToAutoDeploy = values.envsToDeploy.map(item => ({
+        pluginId: plugin.name,
+        appId: app.name,
+        env: item.env,
+        force: item.isForce,
+      }));
+    }
+    createRequest(request)
       .then(async () => {
         modal.hide();
         message.success('Trigger build success.');
@@ -112,7 +117,7 @@ const BuildPluginModal = NiceModal.create(({ plugin }) => {
       .catch(err => {
         console.log('failed to deploy', err);
       });
-  }, [createRequest, plugin.name, syncStatus, modal, form]);
+  }, [createRequest, plugin.name, syncStatus, modal, form, app.name]);
 
   return (
     <Modal
@@ -130,7 +135,7 @@ const BuildPluginModal = NiceModal.create(({ plugin }) => {
     >
       <RequestStatus error={fetchBranchesError} errorArgs={{ title: 'Failed to fetch branches' }} />
       <RequestStatus loading={createRequestPending} error={createRequestError} />
-      <Form layout="horizontal" form={form} onFinish={handleFinish}>
+      <Form layout="horizontal" form={form} onFinish={handleFinish} onValuesChange={forceUpdate}>
         <FormBuilder form={form} meta={meta} />
       </Form>
     </Modal>
