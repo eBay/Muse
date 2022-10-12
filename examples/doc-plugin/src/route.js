@@ -1,5 +1,5 @@
 import Docs from './components/Docs';
-
+import { Link } from 'react-router-dom';
 /**
  * A route items is in shape of:
  * {
@@ -7,7 +7,5 @@ import Docs from './components/Docs';
  *   component: SomeComponent,
  * }
  */
-const route = {
-  childRoutes: [{ path: '/docs', component: Docs }],
-};
+const route = [{ path: '/docs', component: () => <Link to="aa">link</Link> }];
 export default route;

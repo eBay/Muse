@@ -4,6 +4,7 @@ import _ from 'lodash';
 import jsPlugin from 'js-plugin';
 import SearchBox from '../common/SearchBox';
 import { useSearchState } from '../../hooks';
+import { DropdownMenu } from '@ebay/muse-lib-antd/src/features/common';
 import config from '../../config';
 
 export default function PluginListBar({ app }) {
@@ -21,6 +22,22 @@ export default function PluginListBar({ app }) {
     ..._.flatten(jsPlugin.invoke('museManager.pluginListBar.getScopes', { setScope, scope })),
   );
   jsPlugin.sort(scopes);
+
+  const dropdownItems = [
+    {
+      key: 'preview',
+      label: 'Preview',
+      onClick: () => {
+        NiceModal.show('muse-manager.preview-modal', { app });
+      },
+    },
+  ];
+
+  dropdownItems.push(
+    ..._.flatten(jsPlugin.invoke('museManager.pluginListBar.getDropdownItems', { app })),
+  );
+  jsPlugin.invoke('museManager.pluginListBar.processDropdownItems', { dropdownItems, app });
+
   return (
     <div className="flex mb-2 justify-end gap-2 whitespace-nowrap">
       <SearchBox
@@ -45,6 +62,7 @@ export default function PluginListBar({ app }) {
       >
         Create Plugin
       </Button>
+      <DropdownMenu items={dropdownItems} size="default" />
     </div>
   );
 }

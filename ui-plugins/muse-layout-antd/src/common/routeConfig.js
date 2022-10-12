@@ -8,7 +8,7 @@ const routes = [
   {
     path: '/plugin-muse-layout',
     childRoutes: [...childRoutes].filter(
-      r => r.component || (r.childRoutes && r.childRoutes.length > 0),
+      (r) => r.component || (r.childRoutes && r.childRoutes.length > 0),
     ),
   },
 ];

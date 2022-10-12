@@ -3,6 +3,8 @@ const museCore = require('@ebay/muse-core');
 const fs = require('fs');
 const logger = museCore.logger.createLogger('muse-express-middleware.app');
 const path = require('path');
+const IP = require('ip');
+const crypto = require('crypto');
 
 const defaultTemplate = `
 <!doctype html>
@@ -125,6 +127,8 @@ module.exports = ({
     }
 
     const bootPlugin = bootPlugins[0];
+    const ipAddress = IP.address();
+
     const appConfig = _.omit(app, ['envs']);
     if (appName && variables[appName]) {
       if (!appConfig.variables) appConfig.variables = {};
@@ -138,6 +142,7 @@ module.exports = ({
       plugins,
       isDev,
       isLocal,
+      isE2eTest: req.headers['user-agent'].includes('MuseE2eTest'),
       cdn,
       bootPlugin: bootPlugin.name,
       // If app disabled service worker, or it's not confiugred for the app
@@ -145,6 +150,10 @@ module.exports = ({
         !app.noServiceWorker && serviceWorker
           ? path.join(req.baseUrl || '/', serviceWorker)
           : false,
+      museClientCode: crypto
+        .createHash('md5')
+        .update(ipAddress)
+        .digest('hex'),
     };
 
     logger.info(`Muse global: ${JSON.stringify(museGlobal)}`);

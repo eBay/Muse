@@ -11,7 +11,7 @@ module.exports = ({
   extPoint,
 }) => {
   const obj = {
-    name: 'muse-plugin-s3-storage' || pluginName,
+    name: pluginName || 'muse-plugin-s3-storage',
   };
   _.set(obj, extPoint, new S3Storage({ accessKey, secretKey, endpoint, basePath, bucketName }));
   return obj;

@@ -2,11 +2,13 @@ lockfileVersion: 5.4
 
 specifiers:
   eslint: ^8.18.0
+  ip: ^1.1.8
   lodash: ^4.17.21
   mime-types: ^2.1.35
   multer: 1.4.5-lts.1
 
 dependencies:
+  ip: 1.1.8
   lodash: 4.17.21
   mime-types: 2.1.35
   multer: 1.4.5-lts.1
@@ -393,6 +395,10 @@ packages:
 
   /inherits/2.0.4:
     resolution: {integrity: sha1-D6LGT5MpF8NDOg3tVTY6rjdBa3w=}
+
+  /ip/1.1.8:
+    resolution: {integrity: sha1-rgWUj2sHVDXtMweszgRinajNv0g=}
+    dev: false
 
   /is-extglob/2.1.1:
     resolution: {integrity: sha1-qIwCU1eR8C7TfHahueqXc8gz+MI=}

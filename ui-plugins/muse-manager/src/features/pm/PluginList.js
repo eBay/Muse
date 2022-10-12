@@ -101,7 +101,7 @@ export default function PluginList({ app }) {
       };
     }),
     {
-      dataIndex: 'name',
+      dataIndex: 'latestVersion',
       title: 'Latest',
       width: '120px',
       order: 50,
@@ -130,11 +130,11 @@ export default function PluginList({ app }) {
       },
     },
     {
-      dataIndex: 'name',
+      dataIndex: 'status',
       title: 'Status',
       order: 60,
       render: (a, plugin) => {
-        return <PluginStatus plugin={plugin} />;
+        return <PluginStatus plugin={plugin} app={app} />;
       },
     },
     {

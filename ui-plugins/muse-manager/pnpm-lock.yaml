@@ -46,8 +46,8 @@ dependencies:
   '@ebay/muse-plugin-acl': 1.0.6
   '@ebay/muse-scripts-react': 1.0.24
   '@ebay/muse-webpack-plugin': 1.0.25
-  '@headlessui/react': 1.7.0_biqbaboplfbrettd7655fr4n2y
-  '@heroicons/react': 2.0.10_react@18.2.0
+  '@headlessui/react': 1.7.2_biqbaboplfbrettd7655fr4n2y
+  '@heroicons/react': 2.0.11_react@18.2.0
   '@testing-library/jest-dom': 5.16.5
   '@testing-library/react': 13.3.0_biqbaboplfbrettd7655fr4n2y
   '@testing-library/user-event': 13.5.0
@@ -1803,8 +1803,8 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
-  /@headlessui/react/1.7.0_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha1-fjbmu8JaJLAgEVJ64VegAN2oi4U=}
+  /@headlessui/react/1.7.2_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha1-5qao04NCBkpTGC8esr9tnB5Tumo=}
     engines: {node: '>=10'}
     peerDependencies:
       react: ^16 || ^17 || ^18
@@ -1814,8 +1814,8 @@ packages:
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
-  /@heroicons/react/2.0.10_react@18.2.0:
-    resolution: {integrity: sha1-GRowWqLcInGQPwJ8n0cAyj36nns=}
+  /@heroicons/react/2.0.11_react@18.2.0:
+    resolution: {integrity: sha1-LGz0xm2BFC7IfBAlAkB9jDU1WLs=}
     peerDependencies:
       react: '>= 16'
     dependencies:
