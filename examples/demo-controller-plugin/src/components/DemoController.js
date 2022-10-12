@@ -1,6 +1,7 @@
-import { Button, Popover, Switch } from 'antd';
+import { Button, Popover, Switch, Alert } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import { useSessionStorage } from 'react-use';
+import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import './DemoController.less';
 import MovingEyes from './MovingEyes';
@@ -73,9 +74,25 @@ export const PluginsSelector = () => {
     </div>
   );
 };
+
+const Title = () => {
+  const msg = (
+    <span>
+      This is the demo controller. You can select which plugins to load in the page, then see what's
+      the difference. To see more introduction, read docs <Link to="/docs">here</Link>.
+    </span>
+  );
+  return <Alert type="info" className="plugin-selector-header" message={msg} />;
+};
 const DemoController = () => {
   return (
-    <Popover content={<PluginsSelector />} className="demo-controller" trigger="hover">
+    <Popover
+      content={<PluginsSelector />}
+      title={<Title />}
+      placement="bottom"
+      className="demo-controller"
+      trigger="hover"
+    >
       <MovingEyes />
       <label>Select Plugins</label>
       <DownOutlined />

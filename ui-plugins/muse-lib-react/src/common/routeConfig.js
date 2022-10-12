@@ -12,16 +12,16 @@ import subAppRoute from '../features/sub-app/route';
 // This is used for Rekit cmds to register routes config for new features, and remove config when remove features, etc.
 const childRoutes = [homeRoute, commonRoute, userRoute, subAppRoute];
 
-const routes = [
-  {
-    path: '/',
-    component: App, // The root component should always be App
-    childRoutes: [
-      ...childRoutes,
-      { path: '*', name: 'Page not found', component: PageNotFound },
-    ].filter(r => r.component || (r.childRoutes && r.childRoutes.length > 0)),
-  },
-];
+// const routes = [
+//   {
+//     path: '/',
+//     component: App, // The root component should always be App
+//     childRoutes: [
+//       ...childRoutes,
+//       { path: '*', name: 'Page not found', component: PageNotFound },
+//     ].filter(r => r.component || (r.childRoutes && r.childRoutes.length > 0)),
+//   },
+// ];
 
 // Handle isIndex property of route config:
 //  Dupicate it and put it as the first route rule.
@@ -41,7 +41,7 @@ function handleIndexRoute(route) {
   route.childRoutes.forEach(handleIndexRoute);
 }
 
-routes.forEach(handleIndexRoute);
+// routes.forEach(handleIndexRoute);
 
 function handleParentRoutes(routes) {
   const byId = {};
@@ -50,6 +50,7 @@ function handleParentRoutes(routes) {
   // traverse routes recursively
   while (arr.length > 0) {
     const r = arr.shift();
+
     if (r?.id) {
       byId[r.id] = r;
     }
@@ -77,6 +78,58 @@ function handleParentRoutes(routes) {
   });
 }
 
+const normalizeRoutes = routes => {
+  const byId = {};
+  const arr = [...routes];
+  const hasParent = [];
+
+  // traverse routes recursively
+  while (arr.length > 0) {
+    const r = arr.shift();
+    // allow a route point to a parent
+    if (r?.id) {
+      byId[r.id] = r;
+    }
+    if (r.childRoutes) {
+      _.forEachRight([...r.childRoutes], (cr, i) => {
+        // Support path as an array by expanding it to multiple rules
+        if (_.isArray(cr?.path)) {
+          r.childRoutes.splice(
+            i,
+            1,
+            ...cr.path.map(p => {
+              return { ...r, path: p };
+            }),
+          );
+        }
+      });
+      arr.push(...r.childRoutes);
+      [...r.childRoutes].forEach(cr => {
+        // if a route has parent, move it to the correct parent
+        if (cr?.path?.startsWith('/')) {
+          // If it's an absolute path, move it to the top level
+          _.pull(r.childRoutes, cr);
+          routes.unshift(cr);
+        } else if (cr.parent) {
+          hasParent.push(cr);
+          _.pull(r.childRoutes, cr);
+        }
+      });
+    }
+  }
+
+  // for all routes which have parents, put them in the correct childRoutes
+  hasParent.forEach(r => {
+    const parentId = r.parent;
+    if (byId[parentId]) {
+      if (!byId[parentId].childRoutes) byId[parentId].childRoutes = [];
+      byId[parentId].childRoutes.unshift(r);
+    } else {
+      console.warn(`Warning: no parent route found with id ${parentId}.`, r);
+    }
+  });
+};
+
 const routeConfig = () => {
   const newChildRoutes = [...childRoutes];
   // Get routes from plugins
@@ -85,7 +138,7 @@ const routeConfig = () => {
   });
 
   // Generate the root route '/'
-  const museConfig = window.MUSE_CONFIG || {};
+  const museGlobal = window.MUSE_GLOBAL || {};
 
   // Find the homepage
   let homepage = Homepage;
@@ -93,7 +146,7 @@ const routeConfig = () => {
   if (homepagePlugins.length === 1) {
     homepage = homepagePlugins[0].home.homepage;
   } else if (homepagePlugins.length > 1) {
-    const definedHomepagePlugin = _.find(homepagePlugins, { name: museConfig.homepage });
+    const definedHomepagePlugin = _.find(homepagePlugins, { name: museGlobal.homepage });
     if (definedHomepagePlugin) homepage = definedHomepagePlugin.home.homepage;
     else {
       homepage = () => (
@@ -124,7 +177,8 @@ const routeConfig = () => {
   routes.forEach(handleIndexRoute);
 
   // Handle parent routes
-  handleParentRoutes(routes);
+  normalizeRoutes(routes[0].childRoutes);
+  console.log(routes);
   return routes;
 };
 export default routeConfig;

@@ -1,9 +1,10 @@
-import { Alert } from 'antd';
+import { Link } from 'react-router-dom';
 import './Docs.less';
 
 const Docs = () => {
   return (
     <div className="user-manager-demo-docs">
+      <Link to="/ab">ab</Link>
       <h1>Understand this Demo App</h1>
       <p className="doc-tip">
         This is a quick guide for you to understand some core concepts of Muse and learn how to

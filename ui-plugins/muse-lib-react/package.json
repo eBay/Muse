@@ -12,10 +12,7 @@
     "devConfig": {
       "app": "nateapp",
       "env": "staging",
-      "remotePlugins": [
-        "@ebay/muse-lib-antd",
-        "muse-layout-antd"
-      ]
+      "remotePlugins": []
     }
   },
   "publishConfig": {
@@ -65,10 +62,10 @@
   },
   "devDependencies": {
     "@craco/craco": "6.4.4",
-    "@ebay/muse-core": "1.0.25",
-    "@ebay/muse-craco-plugin": "1.0.27",
+    "@ebay/muse-core": "1.0.26",
+    "@ebay/muse-craco-plugin": "1.0.28",
     "@ebay/muse-ebay-dev": "^1.0.1",
-    "@ebay/muse-scripts-react": "1.0.23",
+    "@ebay/muse-scripts-react": "1.0.24",
     "react-scripts": "^5.0.1",
     "typescript": "^4.7.4",
     "webpack": "^5.73.0"

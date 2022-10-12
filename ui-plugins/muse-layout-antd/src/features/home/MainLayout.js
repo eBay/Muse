@@ -1,6 +1,7 @@
 import React from 'react';
 import { Header, Sider } from './';
 import plugin from 'js-plugin';
+import { Outlet } from 'react-router-dom';
 import { useSetSiderCollapsed, useUpdateMuseLayout } from './redux/hooks';
 
 export default function MainLayout({ children }) {

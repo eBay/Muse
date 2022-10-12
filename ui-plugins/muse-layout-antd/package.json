@@ -4,7 +4,7 @@
   "repository": "",
   "muse": {
     "devConfig": {
-      "app": "app1",
+      "app": "nateapp",
       "env": "staging"
     }
   },
@@ -17,7 +17,7 @@
   "devDependencies": {
     "@babel/preset-react": "^7.18.6",
     "@craco/craco": "6.4.4",
-    "@ebay/muse-core": "1.0.25",
+    "@ebay/muse-core": "1.0.26",
     "@ebay/muse-craco-plugin": "1.0.14",
     "@ebay/muse-ebay-dev": "^1.0.1",
     "@ebay/muse-scripts-react": "^1.0.12",
@@ -52,10 +52,10 @@
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
     "@craco/craco": "6.4.4",
-    "@ebay/muse-craco-plugin": "1.0.27",
-    "@ebay/muse-lib-antd": "1.0.11",
+    "@ebay/muse-craco-plugin": "1.0.28",
+    "@ebay/muse-lib-antd": "1.0.12",
     "@ebay/muse-lib-react": "1.0.23",
-    "@ebay/muse-scripts-react": "1.0.23",
+    "@ebay/muse-scripts-react": "1.0.24",
     "antd": "4.20.7",
     "js-plugin": "^1.1.0",
     "lodash": "^4.17.21",
