@@ -68,12 +68,12 @@ async function start() {
     pluginEntries,
     appEntries,
     isDev = false,
+    isE2eTest = false,
   } = window.MUSE_GLOBAL;
 
   // MUSE_CONFIG is for backward compatability
   window.MUSE_CONFIG = window.MUSE_GLOBAL;
   registerSw();
-
   // Print app plugins in dev console
   const bootPlugin = plugins.find(p => p.type === 'boot');
   if (bootPlugin) {
@@ -81,6 +81,61 @@ async function start() {
       `Loading Muse app by ${bootPlugin.name}@${bootPlugin.version || bootPlugin.url}...`,
     );
   }
+
+  /* Handle forcePlugins query parameter */
+  const searchParams = new URLSearchParams(window.location.search);
+  const forcePluginStr = searchParams.get('forcePlugins');
+  const previewClientCode = searchParams.get('clientCode');
+  const localClientCode = window.MUSE_GLOBAL.museClientCode;
+  let specifiedPlugins = plugins;
+  if (forcePluginStr && (isE2eTest || previewClientCode === localClientCode)) {
+    const forcePluginById = forcePluginStr
+      .split(';')
+      .filter(Boolean)
+      .reduce((p, c) => {
+        const separator = '@';
+        const limit = 2;
+        let prefix = '';
+        if (c.startsWith('@') && c[0] === separator) {
+          // Starts with @, means it's a scoped plugin
+          c = c.substring(1);
+          prefix = '@';
+        }
+        const arr = c.split(separator, limit);
+        if (arr.length === limit) {
+          const [name, type] = arr[0].split('!');
+          p[`${prefix}${name}`] = {
+            version: arr[1],
+            type: type,
+          };
+        }
+        return p;
+      }, {});
+    // Update or remove plugins from the list based on forcePlugins
+    specifiedPlugins = plugins
+      .map(p => {
+        if (!forcePluginById[p.name]) return p;
+        const newPlugin = { ...p, version: forcePluginById[p.name].version };
+        delete forcePluginById[p.name];
+        return newPlugin;
+      })
+      .filter(p => p.version !== 'null');
+
+    // Need to get the type of plugin from muse registry directly.
+    for (const p in forcePluginById) {
+      if (forcePluginById[p].version !== 'null') {
+        specifiedPlugins.push({
+          name: p,
+          type: forcePluginById[p].type,
+          version: forcePluginById[p].version,
+        });
+      }
+    }
+  } else {
+    console.warn(`ClientCode is invalid.`);
+  }
+
+  window.MUSE_GLOBAL.plugins = specifiedPlugins;
   console.log(`Plugins(${plugins.length}):`);
   // If a plugin has noUrl, it means its bundle is loaded somewhere else.
   // The registered plugin item is used to provide configurations. e.g plugin variables.
@@ -122,13 +177,13 @@ async function start() {
   // It's an expected behavior for some permission control.
 
   // Load normal and lib plugins
+  const bundleDir = isDev ? 'dev' : isE2eTest ? 'test' : 'dist';
   const pluginUrls = plugins
     .filter(p => p.type !== 'boot' && p.type !== 'init')
     .map(p =>
       p.noUrl
         ? false
-        : p.url ||
-          `${cdn}/p/${getPluginId(p.name)}/v${p.version}/${isDev ? 'dev' : 'dist'}/main.js`,
+        : p.url || `${cdn}/p/${getPluginId(p.name)}/v${p.version}/${bundleDir}/main.js`,
     )
     .filter(Boolean);
 

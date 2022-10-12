@@ -5,6 +5,7 @@ import reducer from './rootReducer';
 import * as hooks from './hooks';
 import * as utils from './utils';
 import * as pm from './features/pm';
+import * as common from './features/common';
 import JavascriptTimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
 import './modals';
@@ -17,5 +18,5 @@ plugin.register({
   name: '@ebay/muse-manager',
   route,
   reducer,
-  exports: { hooks, utils, pm },
+  exports: { hooks, utils, pm, common },
 });

@@ -5,14 +5,15 @@
   "muse": {
     "devConfig": {
       "app": "musemanager",
-      "env": "production",
+      "env": "staging",
       "appOverride": {
         "noSSO": true,
         "variables": {
-          "museApiEndpoint": "http://localhost:6070/api/v2"
+          "museApiEndpoint": "https://musenextsvc.vip.qa.ebay.com/api/v2"
         }
       },
       "remotePlugins": [
+        "*",
         "@ebay/muse-lib-antd",
         "@ebay/muse-layout-antd"
       ]
