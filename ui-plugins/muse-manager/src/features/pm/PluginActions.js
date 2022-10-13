@@ -138,7 +138,7 @@ function PluginActions({ plugin, app }) {
     ].filter(Boolean);
   }, [syncStatus, app, plugin, deletePlugin, ability]);
   items.push(..._.flatten(jsPlugin.invoke('museManager.pm.getPluginActions', { app, plugin })));
-  jsPlugin.invoke('museManager.processPluginActions', { items, app, plugin });
+  jsPlugin.invoke('museManager.pm.processPluginActions', { items, app, plugin });
   items = items.filter(Boolean);
   jsPlugin.sort(items);
   return <DropdownMenu extPoint="museManager.plugin.processActions" items={items} />;

@@ -101,7 +101,7 @@ export default function PluginList({ app }) {
       };
     }),
     {
-      dataIndex: 'latestVersion',
+      dataIndex: 'name',
       title: 'Latest',
       width: '120px',
       order: 50,
