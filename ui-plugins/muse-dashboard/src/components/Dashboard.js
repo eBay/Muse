@@ -10,7 +10,7 @@ import useStorage from '../hooks/useStorage';
 import WidgetNotFound from './WidgetNotFound';
 import DashboardToolbar from './DashboardToolbar';
 
-const ResponsiveGridLayout = WidthProvider(props => {
+const ResponsiveGridLayout = WidthProvider((props) => {
   const minWidth = 800;
   return <GridLayout {...props} width={Math.max(minWidth, props.width)} />;
 });
@@ -19,14 +19,15 @@ const ResponsiveGridLayout = WidthProvider(props => {
 const defaultLayout = [
   { id: 'uid3', widget: 'favoritePools', settings: null, grid: { w: 6, x: 6, y: 6, h: 6 } },
 ];
-export default function Dashboard({
+const Dashboard = ({
   dashboardKey = 'muse-default-dashboard',
   nameQuery = 'name',
+  title = null,
   name = '',
   noToolbar,
   defaultDashboard = defaultLayout,
   dashboardContext,
-}) {
+}) => {
   const widgetMetaByKey = useMemo(
     () => _.keyBy(_.flatten(jsPlugin.invoke('museDashboard.widget.getWidgets')), 'key'),
     [],
@@ -35,10 +36,12 @@ export default function Dashboard({
   const [dashboardState, setDashboardState] = useState({ editing: false, dataToRender: [] });
   const dashboardName = useSearchParam(nameQuery) || 'default';
 
-  let { action: getDashboard, data, pending, error } = useStorage('getDashboard', [
-    dashboardKey,
-    dashboardName,
-  ]);
+  let {
+    action: getDashboard,
+    data,
+    pending,
+    error,
+  } = useStorage('getDashboard', [dashboardKey, dashboardName]);
   useEffect(() => {
     getDashboard(dashboardKey, dashboardName);
   }, [dashboardKey, dashboardName, getDashboard]);
@@ -47,7 +50,7 @@ export default function Dashboard({
   // Clone data  allows to be updated
   useEffect(() => {
     if (!data) return;
-    setDashboardState(s => ({
+    setDashboardState((s) => ({
       ...s,
       rawData: data,
       dataToRender: _.cloneDeep(data),
@@ -56,7 +59,7 @@ export default function Dashboard({
 
   // Original layout
   const layout = useMemo(() => {
-    return dashboardState.dataToRender.map(item => {
+    return dashboardState.dataToRender.map((item) => {
       const g = {
         ...item.grid,
         i: item.id,
@@ -76,7 +79,7 @@ export default function Dashboard({
 
   // Original widgets
   const widgets = useMemo(() => {
-    return dashboardState.dataToRender.map(item => {
+    return dashboardState.dataToRender.map((item) => {
       const w = widgetMetaByKey[item.widget];
       const widgetMeta = w || {};
       return {
@@ -89,10 +92,10 @@ export default function Dashboard({
     });
   }, [dashboardState.dataToRender, widgetMetaByKey]);
 
-  const handleLayoutChange = newLayout => {
+  const handleLayoutChange = (newLayout) => {
     const dataToRender = _.cloneDeep(dashboardState.dataToRender);
     const byId = _.keyBy(dataToRender, 'id');
-    newLayout.forEach(item => {
+    newLayout.forEach((item) => {
       Object.assign(byId[item.i].grid, {
         w: item.w,
         h: item.h,
@@ -100,13 +103,14 @@ export default function Dashboard({
         y: item.y,
       });
     });
-    setDashboardState(s => ({ ...s, dataToRender }));
+    setDashboardState((s) => ({ ...s, dataToRender }));
   };
 
   return (
     <div className="h-96">
       <RequestStatus pending={pending} error={error} />
       <DashboardToolbar
+        title={title}
         defaultLayout={defaultLayout}
         nameQuery={nameQuery}
         dashboardKey={dashboardKey}
@@ -124,7 +128,7 @@ export default function Dashboard({
         layout={layout}
         width={1200}
       >
-        {widgets.map(widget => {
+        {widgets.map((widget) => {
           return (
             <div key={widget.id}>
               <Widget
@@ -139,4 +143,5 @@ export default function Dashboard({
       </ResponsiveGridLayout>
     </div>
   );
-}
+};
+export default Dashboard;

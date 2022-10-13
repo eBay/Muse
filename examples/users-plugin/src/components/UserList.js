@@ -4,34 +4,18 @@ import { EditOutlined } from '@ant-design/icons';
 import jsPlugin from 'js-plugin';
 import _ from 'lodash';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { useModal } from '@ebay/nice-modal-react';
 import UserInfoModal from './UserInfoModal';
-import mockData from '../mock';
+import { UserOutlined } from '@ant-design/icons';
 import './UserList.less';
 
 export default function UserList() {
   const userModal = useModal(UserInfoModal);
   const users = useSelector(s => s.pluginUsersPlugin.users);
 
-  const handleNewUser = useCallback(() => {
-    userModal.show().then(newUser => {
-      // setUsers([newUser, ...users]);
-    });
-  }, [userModal, users]);
-
   const handleEditUser = useCallback(
     user => {
-      userModal.show({ user }).then(newUser => {
-        // setUsers(users => {
-        //   // Modify users immutablly
-        //   const i = users.findIndex(u => u.id === newUser.id);
-        //   const updated = { ...users[i], ...newUser };
-        //   const arr = [...users];
-        //   arr.splice(i, 1, updated);
-        //   return arr;
-        // });
-      });
+      userModal.show({ user });
     },
     [userModal],
   );
@@ -46,7 +30,13 @@ export default function UserList() {
         render: (name, user) => {
           return (
             <div className="user-name-cell">
-              <img src={user.avatar} alt="user-avatar" />
+              {user.avatar ? (
+                <img src={user.avatar} alt="user-avatar" className="avatar" />
+              ) : (
+                <div className="avatar">
+                  <UserOutlined />
+                </div>
+              )}
               <label>{name}</label>
               <p>{user.job}</p>
             </div>
@@ -86,8 +76,11 @@ export default function UserList() {
   return (
     <div className="user-list">
       <h1>Users List</h1>
+      <Button type="primary" onClick={() => userModal.show()} style={{ float: 'right' }}>
+        + New User
+      </Button>
       <p style={{ color: 'gray' }}>
-        This is the user list component provides extension points for other plugins to customizing.
+        This is the user list component allowing other plugins to customize the columns.
       </p>
       <Table
         size="small"

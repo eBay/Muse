@@ -10,7 +10,7 @@ const museLayout = {
         backgroundColor: '#37474F',
         icon: logo,
         title: 'User Manager',
-        subTitle: 'A sample Muse application.',
+        subTitle: 'A Muse demo application.',
       };
     },
   },

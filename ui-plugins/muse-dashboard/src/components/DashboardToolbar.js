@@ -13,6 +13,7 @@ import useSearchState from '../hooks/useSearchState';
 import NewDashboardModal from './NewDashboardModal';
 
 export default function DashboardToolbar({
+  title,
   defaultLayout,
   setDashboardState,
   dashboardKey,
@@ -34,7 +35,7 @@ export default function DashboardToolbar({
       });
     }
 
-    setDashboardState(s => {
+    setDashboardState((s) => {
       const dataToRender = [...s.dataToRender];
 
       const width = _.castArray(widgetMeta.width || 4);
@@ -46,7 +47,7 @@ export default function DashboardToolbar({
         grid: {
           x: 0,
           y: dataToRender.length
-            ? Math.max(...dataToRender.map(item => item.grid.y + item.grid.h)) || 0
+            ? Math.max(...dataToRender.map((item) => item.grid.y + item.grid.h)) || 0
             : 0,
           w: width[0],
           h: height[0],
@@ -74,7 +75,7 @@ export default function DashboardToolbar({
   const handleSave = () => {
     saveDashboard(dashboardKey, dashboardName, dashboardState.dataToRender).then(() => {
       message.success({ content: 'Dashboard saved!', duration: 2 });
-      setDashboardState(s => ({ ...s, editing: false }));
+      setDashboardState((s) => ({ ...s, editing: false }));
     });
   };
 
@@ -85,7 +86,7 @@ export default function DashboardToolbar({
     error: getDashboardListError,
   } = useStorage('getDashboardList', [dashboardKey]);
   const [dashboardName, setDashboardName] = useSearchState(nameQuery, 'default');
-  const menuItems = dashboardList?.map(d => ({ key: _.kebabCase(d.name), label: d.name })) || [];
+  const menuItems = dashboardList?.map((d) => ({ key: _.kebabCase(d.name), label: d.name })) || [];
   menuItems.push({
     key: '__new_dashboard',
     label: <Button type="link">+ New Dashboard</Button>,
@@ -112,10 +113,10 @@ export default function DashboardToolbar({
   ) : null;
 
   const currentDashboardName =
-    dashboardList?.find(d => _.kebabCase(d.name) === dashboardName)?.name || 'Unknown Dashboard';
+    dashboardList?.find((d) => _.kebabCase(d.name) === dashboardName)?.name || 'Unknown Dashboard';
   return (
     <div className="muse-dashboard_toolbar">
-      {dashboardList ? (
+      {dashboardList && !title ? (
         <Dropdown overlay={menu}>
           <h3 style={{ marginRight: 'auto' }}>
             <label style={{ marginRight: '10px' }}>{currentDashboardName}</label>
@@ -123,12 +124,13 @@ export default function DashboardToolbar({
           </h3>
         </Dropdown>
       ) : null}
+      {(title && <h3 style={{ marginRight: 'auto' }}>{title}</h3>) || null}
       <RequestStatus pending={saveDashboardPending} error={saveDashboardError} />
 
       {dashboardState.editing && (
         <Button
           onClick={() => {
-            setDashboardState(s => ({
+            setDashboardState((s) => ({
               ...s,
               editing: false,
               dataToRender: _.cloneDeep(s.rawData),
@@ -150,12 +152,11 @@ export default function DashboardToolbar({
       )}
       {!dashboardState.editing && (
         <Button
-          type="primary"
           onClick={() => {
-            setDashboardState(s => ({ ...s, editing: true }));
+            setDashboardState((s) => ({ ...s, editing: true }));
           }}
         >
-          Edit
+          Edit Dashboard
         </Button>
       )}
       {dashboardState.editing && (

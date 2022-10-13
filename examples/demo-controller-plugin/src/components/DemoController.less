@@ -1,7 +1,10 @@
 .plugins-selector {
-  width: 300px;
-  display: inline-block;
   // border: 1px solid #eee;
+  display: inline-block;
+  width: 100%;
+  .ant-alert {
+    margin-bottom: 10px;
+  }
   > button {
     float: right;
   }
@@ -10,6 +13,10 @@
     padding: 0;
     margin: 0;
     list-style: none;
+  }
+  ul {
+    padding-top: 15px;
+    border-top: 1px solid #eee;
   }
   li {
     display: grid;
@@ -33,7 +40,6 @@
 }
 
 .plugin-selector-header {
-  width: 300px;
 }
 .demo-controller {
   display: flex;

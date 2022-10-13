@@ -1,0 +1,35 @@
+.users-count-widget {
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  height: 100%;
+  padding: 20px;
+  &:hover {
+    background-color: #1e88e5;
+    color: #fff;
+    .anticon,
+    .users-count,
+    .users-label {
+      color: #fff;
+    }
+  }
+  .anticon {
+    font-size: 36px;
+    grid-row: 1 / span 2;
+    justify-self: start;
+    color: #1e88e5;
+  }
+  .users-count {
+    font-size: 48px;
+    color: #1e88e5;
+    justify-self: end;
+    align-self: start;
+    line-height: 40px;
+  }
+
+  .users-label {
+    font-size: 18px;
+    color: gray;
+    justify-self: end;
+    align-self: end;
+  }
+}

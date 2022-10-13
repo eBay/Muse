@@ -18,8 +18,7 @@ const userInfo = {
       return {
         key: 'role',
         label: 'Role',
-        order: 30,
-        requried: true,
+        order: 50,
         widget: RoleSelect,
       };
     },

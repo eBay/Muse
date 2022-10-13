@@ -6,7 +6,7 @@ import user5 from './images/user-05.jpg';
 
 const data = [
   {
-    id: '1',
+    id: 1,
     name: 'Kennedy Smith',
     job: 'Chief Mobility Orchestrator',
     city: 'North Alec',
@@ -16,7 +16,7 @@ const data = [
     role: 1,
   },
   {
-    id: '2',
+    id: 2,
     name: 'Lucius Bean',
     job: 'Internal Research Manager',
     lastLogin: 'Just now',
@@ -26,7 +26,7 @@ const data = [
     role: 2,
   },
   {
-    id: '3',
+    id: 3,
     name: 'Carlos Cox',
     job: 'Lead Configuration Analyst',
     lastLogin: '2 months ago',
@@ -36,7 +36,7 @@ const data = [
     role: 3,
   },
   {
-    id: '4',
+    id: 4,
     name: 'Urban Wilson',
     job: 'Chief Operations Agent',
     lastLogin: '3 hours ago',
@@ -46,7 +46,7 @@ const data = [
     role: 2,
   },
   {
-    id: '5',
+    id: 5,
     name: 'Katrine Owen',
     job: 'Legacy Solutions Orchestrator',
     lastLogin: 'Yesterday',

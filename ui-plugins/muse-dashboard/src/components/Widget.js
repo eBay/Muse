@@ -18,7 +18,7 @@ const Widget = ({
       title: 'Confirm to Remove',
       content: `Are you sure to remove the widget "${name}"?`,
       onOk: () => {
-        setDashboardState(s => {
+        setDashboardState((s) => {
           const dataToRender = [...s.dataToRender];
           _.remove(dataToRender, { id });
           return {
@@ -31,7 +31,7 @@ const Widget = ({
   };
   const handleSettings = async () => {
     const values = await NiceModal.show(WidgetSettingsModal, { settings, widgetMeta: meta });
-    setDashboardState(s => {
+    setDashboardState((s) => {
       const dataToRender = [...s.dataToRender];
       const i = _.findIndex(dataToRender, { id });
       dataToRender[i] = { ...dataToRender[i], settings: values };
@@ -56,8 +56,9 @@ const Widget = ({
         </div>
       )}
       {editing && <div className="dragging-overlay" />}
-
-      <WidgetComp name={name} dashboardContext={dashboardContext} {...settings} />
+      <div className="muse-dashboard_widget-content">
+        <WidgetComp name={name} dashboardContext={dashboardContext} {...settings} />
+      </div>
     </div>
   );
 };

@@ -20,7 +20,7 @@ export default function WidgetExplorer({ onChange }) {
 
   const [selected, setSelected] = useState([]);
   const onSelect = useCallback(
-    keys => {
+    (keys) => {
       if (keys && keys[0] && keys[0].startsWith('category_')) return; // don't allow to select category
       const key = keys[0];
       setSelected([key]);
@@ -31,13 +31,13 @@ export default function WidgetExplorer({ onChange }) {
   return (
     <div className="muse-dashboard_widget-explorer">
       <DirectoryTree selectedKeys={selected} onSelect={onSelect}>
-        {categories.map(c => (
+        {categories.map((c) => (
           <TreeNode
             title={`${c.name} (${itemsByCategory[c.key] ? itemsByCategory[c.key].length : 0})`}
             key={`category_${c.key}`}
           >
             {itemsByCategory[c.key]
-              ? itemsByCategory[c.key].map(w => <TreeNode title={w.name} key={w.key} />)
+              ? itemsByCategory[c.key].map((w) => <TreeNode title={w.name} key={w.key} />)
               : null}
           </TreeNode>
         ))}
