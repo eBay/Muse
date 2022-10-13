@@ -1,8 +1,34 @@
+import React from 'react';
 import _ from 'lodash';
 import { Modal } from 'antd';
 import NiceModal from '@ebay/nice-modal-react';
+// import { ErrorBoundary } from '@ebay/muse-lib-react/src/features/common';
 import WidgetSettingsModal from './WidgetSettingsModal';
 import './Widget.less';
+
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error) {
+    // Update state so the next render will show the fallback UI.
+    return { hasError: true };
+  }
+
+  render() {
+    if (this.state.hasError) {
+      // You can render any custom fallback UI
+      return (
+        <p className="failed-render-widget">{this.props.message || 'Something went wrong.'}</p>
+      );
+    }
+
+    return this.props.children;
+  }
+}
+
 const Widget = ({
   name,
   id,
@@ -57,7 +83,9 @@ const Widget = ({
       )}
       {editing && <div className="dragging-overlay" />}
       <div className="muse-dashboard_widget-content">
-        <WidgetComp name={name} dashboardContext={dashboardContext} {...settings} />
+        <ErrorBoundary message={`Failed to render the widget: ${name}.`}>
+          <WidgetComp name={name} dashboardContext={dashboardContext} {...settings} />
+        </ErrorBoundary>
       </div>
     </div>
   );
