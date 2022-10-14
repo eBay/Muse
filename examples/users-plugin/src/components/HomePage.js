@@ -5,6 +5,45 @@
 import jsPlugin from 'js-plugin';
 import { Alert } from 'antd';
 
+const defaultDashboard = [
+  {
+    id: 'w-1665717912358',
+    widget: 'roles.rolesCount',
+    grid: { x: 6, y: 0, w: 3, h: 3, minW: 1, maxW: 12, minH: 1, maxH: 100000 },
+    settings: null,
+  },
+  {
+    id: 'w-1665717917477',
+    widget: 'roles.createRole',
+    grid: { x: 9, y: 0, w: 3, h: 3, minW: 1, maxW: 12, minH: 1, maxH: 100000 },
+    settings: null,
+  },
+  {
+    id: 'w-1665717928185',
+    widget: 'docs.welcome',
+    grid: { x: 0, y: 3, w: 6, h: 12, minW: 1, maxW: 12, minH: 1, maxH: 100000 },
+    settings: null,
+  },
+  {
+    id: 'w-1665717949906',
+    widget: 'demoController.controller',
+    grid: { x: 6, y: 3, w: 6, h: 12, minW: 1, maxW: 12, minH: 1, maxH: 100000 },
+    settings: null,
+  },
+  {
+    id: 'w-1665717963893',
+    widget: 'users.usersCount',
+    grid: { x: 0, y: 0, w: 3, h: 3, minW: 1, maxW: 12, minH: 1, maxH: 100000 },
+    settings: null,
+  },
+  {
+    id: 'w-1665717972690',
+    widget: 'users.createUser',
+    grid: { x: 3, y: 0, w: 3, h: 3, minW: 1, maxW: 12, minH: 1, maxH: 100000 },
+    settings: null,
+  },
+];
+
 const HomePage = () => {
   // Here we get the desired assets from another plugin.
   // It's a loose coupled dependency since we have the opportunity to handle the case if assets don't exist.
@@ -21,6 +60,6 @@ const HomePage = () => {
         description="This component intends to use plugin @ebay/muse-dashboard, but not found. Have you deployed the plugin to the app?"
       />
     );
-  return <Dashboard title="Dashboard" />;
+  return <Dashboard defaultDashboard={defaultDashboard} title="Dashboard" />;
 };
 export default HomePage;

@@ -10,7 +10,7 @@ export default function NoteWidget({ content }) {
 
   return (
     <div className="muse-dashboard_note-widget" style={{ padding: '15px' }}>
-      {content}
+      <pre>{content}</pre>
     </div>
   );
 }

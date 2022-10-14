@@ -17,7 +17,15 @@ const ResponsiveGridLayout = WidthProvider((props) => {
 
 // defaultLayout is used if no layouts provided
 const defaultLayout = [
-  { id: 'uid3', widget: 'favoritePools', settings: null, grid: { w: 6, x: 6, y: 6, h: 6 } },
+  {
+    id: 'someid1',
+    widget: 'dashboardNoteWidget',
+    settings: {
+      content:
+        'This is the default dashboard. \nUsually you should define your own default dashboard.',
+    },
+    grid: { w: 6, x: 0, y: 6, h: 6 },
+  },
 ];
 const Dashboard = ({
   dashboardKey = 'muse-default-dashboard',
