@@ -22,7 +22,7 @@ const reducer = (state = initialState, action) => {
     case 'update-role': {
       // Update role
       const newRoles = [...state.roles];
-      const roleIndex = newRoles.findIndex(u => (u.id = action.payload.id));
+      const roleIndex = newRoles.findIndex(u => u.id === action.payload.id);
       newRoles[roleIndex] = {
         ...newRoles[roleIndex],
         ...action.payload,

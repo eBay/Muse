@@ -1,7 +1,6 @@
-import { TeamOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import museLogo from '../images/muse.png';
-import museDemo from '../images/muse-demo.png';
+import museDemo from '../images/demo.png';
 import './WelcomeWidget.less';
 
 const WelcomeWidget = () => {

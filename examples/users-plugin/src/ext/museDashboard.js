@@ -1,5 +1,8 @@
 import UsersCountWidget from '../components/UsersCountWidget';
 import CreateUserWidget from '../components/CreateUserWidget';
+import widgetPreviewUsersCount from '../images/widgetPreviewUsersCount.png';
+import widgetPreviewCreateUser from '../images/widgetPreviewCreateUser.png';
+
 const museDashboard = {
   widget: {
     getCategories: () => {
@@ -15,6 +18,7 @@ const museDashboard = {
           name: 'Users Count',
           category: 'users.dashboardCategory',
           description: 'A simple block to show how many users in system.',
+          previewImage: widgetPreviewUsersCount,
           component: UsersCountWidget,
           width: 3,
           height: 3,
@@ -24,6 +28,7 @@ const museDashboard = {
           name: 'Create User',
           category: 'users.dashboardCategory',
           description: 'A simple block allow to create a user.',
+          previewImage: widgetPreviewCreateUser,
           component: CreateUserWidget,
           width: 3,
           height: 3,

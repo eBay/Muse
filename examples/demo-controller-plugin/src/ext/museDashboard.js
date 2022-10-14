@@ -1,5 +1,5 @@
 import ControllerWidget from '../components/ControllerWidget';
-
+import widgetPreviewPluginsSelector from '../images/widgetPreviewPluginsSelector.png';
 const museDashboard = {
   widget: {
     getWidgets: () => {
@@ -9,8 +9,7 @@ const museDashboard = {
           name: 'Demo Controller',
           category: 'common',
           description: 'Control which plugins to load.',
-          // previewImage: markdownPreview,
-
+          previewImage: widgetPreviewPluginsSelector,
           component: ControllerWidget,
           width: 6,
           height: 8,

@@ -27,6 +27,7 @@ const RoleInfoModal = NiceModal.create(({ role }) => {
         });
       } else {
         // Update a role
+        newRole.id = role.id;
         dispatch({
           type: 'update-role',
           payload: newRole,

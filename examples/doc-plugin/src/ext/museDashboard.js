@@ -1,4 +1,5 @@
 import WelcomeWidget from '../components/WelcomeWidget';
+import widgetPreviewWelcome from '../images/widgetPreviewWelcome.png';
 
 const museDashboard = {
   widget: {
@@ -9,8 +10,7 @@ const museDashboard = {
           name: 'Welcome Widget',
           category: 'common',
           description: 'Show the welcome message in a widget.',
-          // previewImage: markdownPreview,
-
+          previewImage: widgetPreviewWelcome,
           component: WelcomeWidget,
           width: 6,
           height: 5,
