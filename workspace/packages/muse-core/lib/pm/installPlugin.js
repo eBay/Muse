@@ -1,4 +1,7 @@
 const download = require('download');
+const os = require('os');
+const path = require('path');
+const fs = require('fs-extra');
 const _ = require('lodash');
 const {
   asyncInvoke,
@@ -37,15 +40,20 @@ const installPlugin = async params => {
     registry = 'https://registry.npmjs.org',
     author,
   } = params;
-  logger.verbose(`Installing plugin ${pluginName} from registry ${registry}...`);
+  let tmpDir;
+  logger.info(`Installing plugin ${pluginName} from registry ${registry}...`);
   await asyncInvoke('museCore.pm.beforeInstallPlugin', ctx, params);
   try {
     const meta = JSON.parse(
       String(await download(_.trimEnd(registry, '/') + `/${pluginName}/${version}`)),
     );
 
-    const files = await download(meta.dist.tarball, { extract: true });
-    const pkgJson = JSON.parse(String(_.find(files, { path: 'package/package.json' }).data));
+    tmpDir = path.join(os.homedir(), 'muse-storage/.tmp/', getPluginId(pluginName), meta.version);
+    fs.ensureDirSync(tmpDir);
+    logger.info('Extracting the package...');
+    const files = await download(meta.dist.tarball, tmpDir, { extract: true });
+
+    const pkgJson = fs.readJsonSync(path.join(tmpDir, 'package/package.json')); // JSON.parse(String(_.find(files, { path: 'package/package.json' }).data));
     ctx.pkgJson = pkgJson;
     if (!pkgJson.muse)
       throw new Error(
@@ -64,31 +72,20 @@ const installPlugin = async params => {
     }
     const releases = await getReleases(pluginName);
     if (releases.find(r => r.version === pkgJson.version)) {
-      logger.info(
+      logger.warn(
         `Skipped install ${pkgJson.name}${pkgJson.version}: it's already exists in Muse registry.`,
       );
     } else {
+      logger.info(`Creating the release in Muse...`);
       await releasePlugin({
         pluginName,
         version: pkgJson.version,
         options: { source: 'npm' },
+        projectRoot: path.join(tmpDir, 'package'),
         author,
+        cwd: path.join(tmpDir, 'package'),
         msg: `Installed release ${pluginName}@${pkgJson.version} by ${author}.`,
       });
-      const pid = getPluginId(pluginName);
-      logger.verbose(`Uploading plugin assets ${pluginName}@${pkgJson.version}...`);
-
-      await batchAsync(
-        files
-          .filter(f => f.path.startsWith('package/build/'))
-          .map(file => async () => {
-            await assets.set(
-              `/p/${pid}/v${pkgJson.version}/${file.path.replace('package/build/', '')}`,
-              file.data,
-            );
-          }),
-        { size: 50, msg: 'Uploading plugin asset from npm package.' },
-      );
     }
     await asyncInvoke('museCore.pm.installPlugin', ctx, params);
   } catch (err) {
@@ -96,6 +93,8 @@ const installPlugin = async params => {
     err.message = `Failed to install plugin ${pluginName}. ${err.message}`;
     await asyncInvoke('museCore.pm.failedInstallPlugin', ctx, params);
     throw err;
+  } finally {
+    // if (tmpDir) fs.removeSync(tmpDir);
   }
 
   await asyncInvoke('museCore.pm.afterInstallPlugin', ctx, params);

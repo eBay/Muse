@@ -13,11 +13,12 @@ const unzipper = require('unzipper');
  * @param {string} params.appName The app name.
  * @param {string} params.envName The env name.
  * @param {string} params.output The output path. It could be a absolute path or relative path. If it's relative path, it will be put under current working directory.
+ * @param {string} params.museGlobalProps Allows to override the MUSE_GLOBAL object.
  */
 module.exports = async (params = {}) => {
   validate(schema, params);
   const ctx = {};
-  const { appName, envName, output } = params;
+  const { appName, envName, output, museGlobalProps } = params;
   logger.info(`Export app ${appName}...`);
   await asyncInvoke('museCore.am.beforeExport', ctx, params);
 
@@ -35,14 +36,33 @@ module.exports = async (params = {}) => {
   if (!bootPlugin) {
     throw new Error('No boot plugin found.');
   }
+  // const museGlobal = {
+  //   appName: appName,
+  //   envName: envName,
+  //   plugins,
+  //   isDev: false,
+  //   cdn: '/muse-assets',
+  //   bootPlugin: bootPlugin.name,
+  // };
+
+  const appConfig = _.omit(app, ['envs']);
+
   const museGlobal = {
+    app: appConfig,
+    env: _.omit(env, ['plugins']),
     appName: appName,
     envName: envName,
     plugins,
     isDev: false,
     cdn: '/muse-assets',
     bootPlugin: bootPlugin.name,
+    // If app disabled service worker, or it's not confiugred for the app
+    serviceWorker: '/muse-sw.js',
   };
+
+  Object.entries(museGlobalProps).forEach(([key, value]) => {
+    _.set(museGlobal, key, value);
+  });
 
   const exportIndexHtml = `
     <!doctype html>
@@ -63,8 +83,10 @@ module.exports = async (params = {}) => {
 
   const outputPath = path.isAbsolute(output) ? output : path.join(process.cwd(), `./${output}`);
   fse.ensureDirSync(outputPath);
+  fse.emptyDirSync(outputPath);
   logger.info('Creating index.html');
   fse.writeFileSync(path.join(outputPath, 'index.html'), exportIndexHtml);
+  fse.copySync(path.join(__dirname, 'sw.js'), path.join(outputPath, 'muse-sw.js'));
 
   await Promise.all(
     plugins.map(async plugin => {
@@ -73,11 +95,11 @@ module.exports = async (params = {}) => {
       // Download zip file
       const assetsZipKey = `/p/${pluginId}/v${plugin.version}/assets.zip`;
 
-      logger.info(`Downloading assets.zip... `);
+      logger.info(`Exporting plugin ${plugin.name}@${plugin.version}... `);
       const buff = await muse.storage.assets.get(assetsZipKey);
 
       if (!buff) {
-        throw new Error(`Asset ${assetsZipKey} download failed.`);
+        throw new Error(`Failed to download plugin ${plugin.name} assets...`);
       }
 
       const zip = await unzipper.Open.buffer(buff);
@@ -88,4 +110,5 @@ module.exports = async (params = {}) => {
   );
 
   await asyncInvoke('museCore.am.afterExport', ctx, params);
+  logger.info(`Succeeded to export app ${appName}/${envName}.`);
 };

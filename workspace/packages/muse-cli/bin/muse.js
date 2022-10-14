@@ -219,12 +219,15 @@ program
 
 program
   .command('export-app')
+  .alias('export')
   .description('Export a MUSE application')
   .argument('<appName>', 'application name')
   .argument('<envName>', 'env name')
   .argument('<output>', 'output folder name')
-  .action(async (appName, envName, output) => {
-    await muse.am.export({ appName, envName, output });
+  .option('--args <args...>', 'Space separated list of more args, for example: --args foo=bar x=y.')
+
+  .action(async (appName, envName, output, options) => {
+    await muse.am.export({ appName, envName, output, museGlobalProps: parseArgs(options.args) });
   });
 
 program
@@ -487,13 +490,13 @@ program
     }
     const buildDir = path.join(process.cwd(), 'build');
     if (!buildDir) {
-      throw new Error(`No "build" folder found. Please build before release.`);
+      throw new Error(`No "build" folder found. Please build the plugin before release.`);
     }
     console.log('version: ', version);
     const r = await muse.pm.releasePlugin({
       pluginName: pkgJson.name,
       version: version,
-      buildDir: buildDir,
+      projectRoot: process.cwd(),
     });
     console.log(chalk.cyan(`Plugin released ${r.pluginName}@${r.version}`));
   });

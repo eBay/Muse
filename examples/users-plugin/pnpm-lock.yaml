@@ -17,6 +17,7 @@ specifiers:
   react-router-dom: 6.3.0
   react-scripts: 5.0.1
   web-vitals: ^2.1.4
+  webpack-bundle-analyzer: ^4.6.1
 
 dependencies:
   '@craco/craco': 6.4.4_react-scripts@5.0.1
@@ -35,6 +36,7 @@ dependencies:
   react-router-dom: 6.3.0_biqbaboplfbrettd7655fr4n2y
   react-scripts: 5.0.1_react@18.2.0
   web-vitals: 2.1.4
+  webpack-bundle-analyzer: 4.6.1
 
 packages:
 
@@ -2311,6 +2313,10 @@ packages:
       source-map: 0.7.4
       webpack: 5.74.0
       webpack-dev-server: 4.11.1_webpack@5.74.0
+    dev: false
+
+  /@polka/url/1.0.0-next.21:
+    resolution: {integrity: sha1-XeWiOFo1MJQn9gEZkrVEUU1VmqE=}
     dev: false
 
   /@remix-run/router/1.0.2:
@@ -8200,6 +8206,11 @@ packages:
     resolution: {integrity: sha1-Pb4FKIn+fBsu2Wb8s6dzKJZO8Qg=}
     dev: false
 
+  /mrmime/1.0.1:
+    resolution: {integrity: sha1-X5DIJfrUvdQdyRTv9dGoz9ryTyc=}
+    engines: {node: '>=10'}
+    dev: false
+
   /ms/2.0.0:
     resolution: {integrity: sha1-VgiurfwAvmwpAd9fmGF4jeDVl8g=}
     dev: false
@@ -8466,6 +8477,11 @@ packages:
       define-lazy-prop: 2.0.0
       is-docker: 2.2.1
       is-wsl: 2.2.0
+    dev: false
+
+  /opener/1.5.2:
+    resolution: {integrity: sha1-XTfh81B3udysQwE3InGv3rKhNZg=}
+    hasBin: true
     dev: false
 
   /optionator/0.8.3:
@@ -11137,6 +11153,15 @@ packages:
       is-arrayish: 0.3.2
     dev: false
 
+  /sirv/1.0.19:
+    resolution: {integrity: sha1-HXOXmzjH/pH8uknIUoDaqcI2O0k=}
+    engines: {node: '>= 10'}
+    dependencies:
+      '@polka/url': 1.0.0-next.21
+      mrmime: 1.0.1
+      totalist: 1.1.0
+    dev: false
+
   /sisteransi/1.0.5:
     resolution: {integrity: sha1-E01oEpd1ZDfMBcoBNw06elcQde0=}
     dev: false
@@ -11763,6 +11788,11 @@ packages:
     engines: {node: '>=0.6'}
     dev: false
 
+  /totalist/1.1.0:
+    resolution: {integrity: sha1-pNZaPlRlF3AePlw3pHpwrJf+Vt8=}
+    engines: {node: '>=6'}
+    dev: false
+
   /tough-cookie/4.1.2:
     resolution: {integrity: sha1-5T6EuF8k4LZd1Sb0ZijbbIX2uHQ=}
     engines: {node: '>=6'}
@@ -12139,6 +12169,25 @@ packages:
   /webidl-conversions/6.1.0:
     resolution: {integrity: sha1-kRG01+qArNQPUnDWZmIa+ni2lRQ=}
     engines: {node: '>=10.4'}
+    dev: false
+
+  /webpack-bundle-analyzer/4.6.1:
+    resolution: {integrity: sha1-vuLuBfS6TtQw5IMaMZEmu07Z9aY=}
+    engines: {node: '>= 10.13.0'}
+    hasBin: true
+    dependencies:
+      acorn: 8.8.0
+      acorn-walk: 8.2.0
+      chalk: 4.1.2
+      commander: 7.2.0
+      gzip-size: 6.0.0
+      lodash: 4.17.21
+      opener: 1.5.2
+      sirv: 1.0.19
+      ws: 7.5.9
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
     dev: false
 
   /webpack-dev-middleware/5.3.3_webpack@5.74.0:

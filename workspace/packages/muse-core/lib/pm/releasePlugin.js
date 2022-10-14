@@ -1,5 +1,6 @@
 const yaml = require('js-yaml');
 const fs = require('fs-extra');
+const path = require('path');
 const { asyncInvoke, getPluginId, osUsername, genNewVersion, validate } = require('../utils');
 const { registry } = require('../storage');
 const getReleases = require('./getReleases');
@@ -30,7 +31,7 @@ module.exports = async params => {
   if (!params.author) params.author = osUsername;
   const {
     pluginName,
-    buildDir,
+    projectRoot,
     branch = '',
     sha = '',
     version = 'patch',
@@ -77,8 +78,8 @@ module.exports = async params => {
   }
 
   // If build dir exists, compress into a zip file and upload it and the unzip files to assets storage
-  if (fs.existsSync(buildDir)) {
-    await releasePluginAssets({ pluginName, version: newVersion, buildDir, author });
+  if (projectRoot && fs.existsSync(path.join(projectRoot, 'build'))) {
+    await releasePluginAssets({ pluginName, version: newVersion, projectRoot, author });
   }
 
   // Save releases to registry

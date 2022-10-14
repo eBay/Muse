@@ -8,7 +8,7 @@ const logger = require('../logger').createLogger('muse.pm.releasePluginAssets');
  * @module muse-core/pm/releasePlugin
  */
 
-async function archiveAssets() {
+async function archiveAssets(projectRoot) {
   const assets = [
     {
       sourceDir: 'build',
@@ -19,18 +19,17 @@ async function archiveAssets() {
       targetFile: 'e2e-tests.zip',
     },
   ];
-  fs.ensureDirSync('./tmp');
-
+  fs.ensureDirSync(path.join(projectRoot, 'tmp'));
   for (let i = 0; i < assets.length; i++) {
-    const sourceDir = path.join(process.cwd(), assets[i].sourceDir);
+    const sourceDir = path.join(projectRoot, assets[i].sourceDir);
     if (!fs.existsSync(sourceDir)) {
       // TODO: throw error if source not exist??
       // throw new Error(`Asset folder ${assets[i].sourceDir} doesn't exist, failed to release.`);
       continue;
     }
-    const zipFile = path.join(process.cwd(), 'tmp', assets[i].targetFile);
+    const zipFile = path.join(projectRoot, 'tmp', assets[i].targetFile);
     await doZip(sourceDir, zipFile);
-    await fs.moveSync(zipFile, path.join(process.cwd(), `build/${assets[i].targetFile}`), {
+    await fs.moveSync(zipFile, path.join(projectRoot, `build/${assets[i].targetFile}`), {
       overwrite: true,
     });
   }
@@ -50,17 +49,17 @@ module.exports = async params => {
   validate(schema, params);
   const ctx = {};
   if (!params.author) params.author = osUsername;
-  const { pluginName, buildDir, version, author } = params;
+  const { pluginName, version, author, projectRoot } = params;
   await asyncInvoke('museCore.pm.beforeReleasePluginAssets', ctx, params);
 
   const pid = getPluginId(pluginName);
 
   // If build dir exists, compress into a zip file and upload it and the unzip files to assets storage
   try {
-    await archiveAssets();
+    await archiveAssets(projectRoot);
     await asyncInvoke('museCore.pm.releasePluginAssets', ctx, params);
     await assets.uploadDir(
-      buildDir,
+      path.join(projectRoot, 'build'),
       `/p/${pid}/v${version}`,
       `Release plugin assets of ${pluginName}@${version} by ${author}.`,
     );

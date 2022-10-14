@@ -12,10 +12,10 @@
     "author": {
       "type": "string"
     },
-    "buildDir": {
+    "projectRoot": {
       "type": "string"
     }
   },
-  "required": ["pluginName", "buildDir", "version"],
+  "required": ["pluginName", "projectRoot", "version"],
   "additionalProperties": true
 }
