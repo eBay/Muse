@@ -1,7 +1,7 @@
 import React from 'react';
 import { Header, Sider } from './';
 import plugin from 'js-plugin';
-import { Outlet } from 'react-router-dom';
+import { ErrorBoundary } from '@ebay/muse-lib-react/src/features/common';
 import { useSetSiderCollapsed, useUpdateMuseLayout } from './redux/hooks';
 
 export default function MainLayout({ children }) {
@@ -38,7 +38,7 @@ export default function MainLayout({ children }) {
       {!noHeader && <Header />}
       <Sider />
       <div className="muse-layout_home-main-layout-page-container" style={pageContainerStyle}>
-        {children}
+        <ErrorBoundary>{children}</ErrorBoundary>
       </div>
     </div>
   );

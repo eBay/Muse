@@ -38,6 +38,7 @@ function handleMuseLocalPlugins(webpackConfig) {
         webpackConfig.resolve.alias[localPluginPkgJson.name] = p;
       }
       // Ensure one instance for one package, for example: js-plugin, antd-form-builder
+      webpackConfig.resolve.modules[0] = path.join(process.cwd(), 'node_modules');
       webpackConfig.resolve.modules.splice(1, 0, path.join(p, 'node_modules'));
     });
 
