@@ -53,7 +53,7 @@
       "remotePlugins": "*",
       "appOverride": {
         "variables": {
-          "basePath2": "/testdemo"
+          "basePath": "/testdemo"
         }
       }
     }

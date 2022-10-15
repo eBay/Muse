@@ -2,8 +2,8 @@ import React, { useCallback, useMemo } from 'react';
 import { Menu, Dropdown } from 'antd';
 import { CaretDownOutlined } from '@ant-design/icons';
 import _ from 'lodash';
-import { Link } from 'react-router-dom';
-import { useLocation } from 'react-use';
+import { Link, useLocation } from 'react-router-dom';
+// import { useLocation } from 'react-use';
 import plugin from 'js-plugin';
 import getIconNode from './getIconNode';
 
@@ -27,10 +27,10 @@ export default function MetaMenu({ meta = {}, onClick, baseExtPoint, autoSort = 
 
   const rawItems = [...(meta.items || []), ...(extItems || [])];
   const itemsByParent = _.groupBy(
-    rawItems.filter((item) => !!item.parent),
+    rawItems.filter(item => !!item.parent),
     'parent',
   );
-  const newItems = rawItems.filter((item) => !item.parent).map((item) => ({ ...item })); // do not modify the raw meta;
+  const newItems = rawItems.filter(item => !item.parent).map(item => ({ ...item })); // do not modify the raw meta;
 
   // For items that have parent prop, move them to correct children
   const arr = [...newItems];
@@ -45,7 +45,7 @@ export default function MetaMenu({ meta = {}, onClick, baseExtPoint, autoSort = 
     if (childItems) {
       if (!item.children) item.children = [];
       else item.children = [...item.children]; // do not modify the raw meta
-      item.children.push(...childItems.map((item) => _.omit(item, 'parent')));
+      item.children.push(...childItems.map(item => _.omit(item, 'parent')));
     }
     if (item.children) {
       arr.push(...item.children);
@@ -60,7 +60,7 @@ export default function MetaMenu({ meta = {}, onClick, baseExtPoint, autoSort = 
   }
 
   const metaOnClick = meta.onClick;
-  const handleMenuClick = (args) => {
+  const handleMenuClick = args => {
     const item = itemByKey[args.key];
     item && item.onClick && item.onClick(args);
     metaOnClick && metaOnClick(args);
@@ -70,7 +70,7 @@ export default function MetaMenu({ meta = {}, onClick, baseExtPoint, autoSort = 
   const activeKeys = meta.activeKeys || [];
   const loc = useLocation();
 
-  Object.values(itemByKey).forEach((item) => {
+  Object.values(itemByKey).forEach(item => {
     let labelContent = item.label;
     if (item.link) {
       if (
