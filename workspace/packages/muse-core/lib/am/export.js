@@ -36,17 +36,10 @@ module.exports = async (params = {}) => {
   if (!bootPlugin) {
     throw new Error('No boot plugin found.');
   }
-  // const museGlobal = {
-  //   appName: appName,
-  //   envName: envName,
-  //   plugins,
-  //   isDev: false,
-  //   cdn: '/muse-assets',
-  //   bootPlugin: bootPlugin.name,
-  // };
 
   const appConfig = _.omit(app, ['envs']);
 
+  const cdn = museGlobalProps.cdn || '/muse-assets';
   const museGlobal = {
     app: appConfig,
     env: _.omit(env, ['plugins']),
@@ -54,7 +47,7 @@ module.exports = async (params = {}) => {
     envName: envName,
     plugins,
     isDev: false,
-    cdn: '/muse-assets',
+    cdn,
     bootPlugin: bootPlugin.name,
     // If app disabled service worker, or it's not confiugred for the app
     serviceWorker: '/muse-sw.js',
@@ -63,29 +56,41 @@ module.exports = async (params = {}) => {
   Object.entries(museGlobalProps).forEach(([key, value]) => {
     _.set(museGlobal, key, value);
   });
-
-  const exportIndexHtml = `
-    <!doctype html>
-    <html lang="en">
-    <head>
-      <title>${app.title || 'Muse App'}</title>
-      <link rel="shortcut icon" href="/favicon.png" />
-      <script>
-        window.MUSE_GLOBAL = ${JSON.stringify(museGlobal, null, 2)};
-      </script> 
-    </head>
-    <body></body>
-    <script src="/muse-assets/p/${muse.utils.getPluginId(bootPlugin.name)}/v${
-    bootPlugin.version
-  }/dist/boot.js"></script>
-    </html>
-  `;
-
   const outputPath = path.isAbsolute(output) ? output : path.join(process.cwd(), `./${output}`);
   fse.ensureDirSync(outputPath);
   fse.emptyDirSync(outputPath);
+  logger.info('Creating app icon...');
+  const iconPath = `/p/app-icon.${appName}/v0.0.${app.iconId || 1}/dist/icon.png`;
+  let iconBuff;
+  if (!app.iconId) {
+    app.iconId = 1;
+    iconBuff = fse.readFileSync(path.join(__dirname, '../../muse.png'));
+  } else {
+    iconBuff = await muse.storage.assets.get(iconPath);
+  }
+  const targetIconFile = path.join(outputPath, `muse-assets${iconPath}`);
+  fse.outputFileSync(targetIconFile, iconBuff);
+
+  const exportIndexHtml = `
+<!doctype html>
+<html lang="en">
+<head>
+  <title>${app.title || 'Muse App'}</title>
+  <link rel="shortcut icon" href="${cdn}${iconPath}" />
+  <script>
+    window.MUSE_GLOBAL = ${JSON.stringify(museGlobal)};
+  </script> 
+</head>
+<body></body>
+<script src="${cdn}/p/${muse.utils.getPluginId(bootPlugin.name)}/v${
+    bootPlugin.version
+  }/dist/boot.js"></script>
+</html>
+  `;
+
   logger.info('Creating index.html');
   fse.writeFileSync(path.join(outputPath, 'index.html'), exportIndexHtml);
+  logger.info('Creating service worker...');
   fse.copySync(path.join(__dirname, 'sw.js'), path.join(outputPath, 'muse-sw.js'));
 
   await Promise.all(

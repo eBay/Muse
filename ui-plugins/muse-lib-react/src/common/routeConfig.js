@@ -12,17 +12,6 @@ import subAppRoute from '../features/sub-app/route';
 // This is used for Rekit cmds to register routes config for new features, and remove config when remove features, etc.
 const childRoutes = [homeRoute, commonRoute, userRoute, subAppRoute];
 
-// const routes = [
-//   {
-//     path: '/',
-//     component: App, // The root component should always be App
-//     childRoutes: [
-//       ...childRoutes,
-//       { path: '*', name: 'Page not found', component: PageNotFound },
-//     ].filter(r => r.component || (r.childRoutes && r.childRoutes.length > 0)),
-//   },
-// ];
-
 // Handle isIndex property of route config:
 //  Dupicate it and put it as the first route rule.
 function handleIndexRoute(route) {
@@ -169,7 +158,7 @@ const routeConfig = () => {
       path: '/',
       component: App,
       childRoutes: [
-        ...newChildRoutes,
+        ..._.cloneDeep(newChildRoutes),
         { path: '*', name: 'Page not found', component: PageNotFound },
       ].filter(r => r.component || r.render || (r.childRoutes && r.childRoutes.length > 0)),
     },
@@ -178,7 +167,7 @@ const routeConfig = () => {
 
   // Handle parent routes
   normalizeRoutes(routes[0].childRoutes);
-  console.log(routes);
+
   return routes;
 };
 export default routeConfig;
