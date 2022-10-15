@@ -78,7 +78,7 @@ const WrappedInRedux = () => {
   const children = renderRouteConfigV3(routeConfig(), '/');
   const dispatch = useDispatch();
   const modals = useSelector(s => s.modals);
-  const basename = window.MUSE_GLOBAL.getAppVariables()?.baseName || '/';
+  const basename = window.MUSE_GLOBAL.getAppVariables()?.basePath || '/';
   return (
     <NiceModal.Provider dispatch={dispatch} modals={modals}>
       <BrowserRouter basename={basename}>

@@ -50,7 +50,12 @@
     "type": "normal",
     "devConfig": {
       "app": "myapp",
-      "remotePlugins": "*"
+      "remotePlugins": "*",
+      "appOverride": {
+        "variables": {
+          "basePath": "/testdemo"
+        }
+      }
     }
   }
 }
