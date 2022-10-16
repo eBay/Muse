@@ -266,6 +266,9 @@ const Docs = () => {
         From the top right dropdown pannel, you can select which plugins are loaded to the page.
       </p>
       <h2>FAQ</h2>
+      <h3>Can I use layzy load?</h3>
+      <h3>How to define the homepage?</h3>
+      <h3>Does Muse support Nextjs?</h3>
     </div>
   );
 };
