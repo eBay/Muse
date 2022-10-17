@@ -1,84 +1,145 @@
-import { Timeline, Tag } from 'antd';
+import { Timeline, Tag, Collapse } from 'antd';
+import SyntaxHighlighter from 'react-syntax-highlighter';
+import { tomorrowNight } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+import { InfoCircleOutlined, BulbOutlined } from '@ant-design/icons';
 import './Docs.less';
+import museDemo from '../images/demo.png';
 
+const CodeViewer = ({ code }) => {
+  // const codeString = '(num) => num + 1';
+  return (
+    <SyntaxHighlighter language="javascript" style={tomorrowNight}>
+      {code}
+    </SyntaxHighlighter>
+  );
+};
+const { Panel } = Collapse;
+
+const Recap = ({ children }) => {
+  return (
+    <div className="doc-tip">
+      <BulbOutlined />
+      <p>Recap: {children}</p>
+    </div>
+  );
+};
 const Docs = () => {
   return (
     <div className="user-manager-demo-docs">
       <h1>Understand this Demo App</h1>
-      <p className="doc-tip">
-        This is a quick guide for you to understand some core concepts of Muse and learn how to
-        build an app in the Muse way.
-      </p>
-      <h2>About This Demo App</h2>
-      <p>
-        The sample user manager app consists of two features: user info managment and roles
-        management. Also, there are some other demo purpose features which are also implemented as
-        plugins, for example: controlling which plugins should be loaded, documentation, etc. The
-        demo app shows the basic thought about how to create an app with Muse.
-      </p>
-
-      <h2>Thinking in Muse</h2>
+      <div className="doc-tip">
+        <InfoCircleOutlined />
+        <p>
+          This is a quick guide for you to understand basic Muse concepts and learn how to build an
+          app in the Muse way.
+        </p>
+      </div>
       <p>
         Muse is a micro-frontends solution that allows to break a large application into small parts
         in a loose-coupled architecture. In Muse, these small parts are plugins, they can be
-        developed, tested, built and deployed independently. For example, below is how we think and
-        create this demo application.
+        developed, tested, built and deployed independently.
+      </p>
+      <h2>About This Demo App</h2>
+      <p>
+        This simple demo app mainly consists of two features as plugins: user info managment and
+        roles management. Below images shows the seamless interaction between the two plugins:{' '}
+        <b>users-plugin</b> renders a list to show all users, and <b>roles-plugin</b> contributes a{' '}
+        <b>Role</b> column to it besides its own pages.
+      </p>
+      <img src={museDemo} alt="muse-demo" width="700px" className="doc-img" />
+      <p>
+        Also, there are some other demo purpose features which are also implemented as plugins, for
+        example: <b>demo-controller-plugin</b> to control which plugins should be loaded,{' '}
+        <b>doc-plugin</b> for documentation, etc. The demo app shows the basic thought about how to
+        create an app with Muse. You can see the full list of plugins in the bottom of this page.
+      </p>
+      <h2>Thinking in Muse</h2>
+      <p>
+        To help you understand how Mues works, we created this demo app. Below is the story about
+        how we created this demo app in the Muse way:
       </p>
       <Timeline>
         <Timeline.Item>
-          We decided to create user managment UI console: create a Muse app and deployed{' '}
+          Finally we got to the last step of open sourcing Muse: creating a demo application! We
+          decided to create a user managment application, so we created a new Muse app and deployed{' '}
           <b>@ebay/muse-boot-default</b> plugin to it as the boot plugin.
         </Timeline.Item>
         <Timeline.Item>
-          We decided to use React UI framework and ant.design as the UI library: so we deployed{' '}
-          <b>@ebay/muse-lib-react</b>, <b>@ebay/muse-lib-antd</b> to the app. The provided shared
-          modules at run time.
+          We decided to use React UI framework and ant.design as the UI library: so we deployed two
+          library plugins <b>@ebay/muse-lib-react</b> and <b>@ebay/muse-lib-antd</b> to the app. The
+          provided shared modules at run time.
         </Timeline.Item>
         <Timeline.Item>
-          We need a layout for header and sider menus: instead of creating a new one from scratch,
-          we decided to use @ebay/muse-layout-antd plugin and deployed it to the app.
+          We needed a global layout with header and sider, instead of creating a new one from
+          scratch, we decided to use <b>@ebay/muse-layout-antd</b> plugin. So we also deployed it to
+          the app.
+          <Recap>
+            Recap: rather than creating an app from scratch, you can use existing Muse plugins to
+            initialize a Muse app. The reusable plugins could be a boot plugin to load other
+            plugins, a lib plugin to provide shared modules (like React, Redux, Components Library,
+            etc), or a normal plugin to provide some functionality.
+          </Recap>
         </Timeline.Item>
+
         <Timeline.Item>
-          Then we start to create the user profile manager: create a React app by create-react-app
-          and config it to be a Muse plugin by muse-setup-cra command. Also, we installed
-          @ebay/muse-lib-react and @ebay/muse-lib-antd as dependencies so that we can use the shared
-          modules at dev time.
-        </Timeline.Item>
-        <Timeline.Item>
-          Consider the users manager features, it needs:
+          Then we started to create a new feature to the app: user manager. To implement the
+          feature, we uses the template from create-react-app:
           <ul>
-            <li>A page to show the users list</li>
+            <li>Create a standard React app by create-react-app</li>
+            <li>
+              Run <i>npx muse-setup-cra</i> command to make it a Muse plugin project. It uses{' '}
+              <b>craco</b> to modify the webpack config without ejecting it.
+            </li>
+            <li>
+              Install <b>@ebay/muse-lib-react</b> and <b>@ebay/muse-lib-antd</b> as dependencies so
+              that we can use the shared modules at dev time.
+            </li>
+          </ul>
+        </Timeline.Item>
+        <Timeline.Item>
+          Now we got a Muse plugin project, then started to implement user manager features, it
+          needs:
+          <ul>
+            <li>A list page to show/manage users.</li>
             <li>A menu item in the sider for navigation.</li>
           </ul>
           In Muse, all code related with one feature is maintained in one project. So we will
-          neither add a global routing rule for "/users" nor change layout plugin to add a new menu
-          item. Instead, we take use of extension points provided by muse-lib-react and
-          muse-layout-antd plugins to contribute these items. So we actually done it by below
-          extension points:
+          neither add a global routing rule for "/users" somewhere nor change layout plugin to add a
+          new menu item. Instead, we take use of extension points provided by{' '}
+          <b>@ebay/muse-lib-react</b> and <b>@ebay/muse-layout-antd</b> plugins to contribute these
+          items. So we actually did it by below extension points:
           <ul>
-            <li>A page to show the users list: route</li>
-            <li>A menu item in the sider for navigation: museLayout.sider.getItems</li>
+            <li>
+              <Tag>route</Tag>: define a page to show the users list:
+            </li>
+            <li>
+              <Tag>museLayout.sider.getItems</Tag>: a menu item in the sider for navigation.
+            </li>
           </ul>
         </Timeline.Item>
         <Timeline.Item>
-          After we finished the basic users profile management feature. Our product manager asks to
+          After we finished the basic users profile management feature, our product manager asks to
           add a new feature: roles management. That is allow to assign a user some role for backend
           permissions check.
         </Timeline.Item>
         <Timeline.Item>
-          Thinking in Muse, instead of change users plugin's code, we created a new plugin named
-          roles-plugin for roles management. For demo purpose, it simply provided a page to list all
-          roles and a menu item in the sider:
+          Thinking in Muse, instead of change users plugin's code, we created a new plugin named{' '}
+          <b>roles-plugin</b> for roles management. Similar with <b>users-plugin</b> it also use
+          below extension points to define a page and a menu item:
           <ul>
-            <li>A page to show the users list: route</li>
-            <li>A menu item in the sider for navigation: museLayout.sider.getItems</li>
+            <li>
+              <Tag>route</Tag>: define a page to show the roles list:
+            </li>
+            <li>
+              <Tag>museLayout.sider.getItems</Tag>: a menu item in the sider for navigation.
+            </li>
           </ul>
-          Again, we use extension points to register a new routing rule and a sider menu item.
         </Timeline.Item>
         <Timeline.Item>
-          Now we have roles management too in the application, however, we need to show roles in the
-          users list page and also in the user edit modal we need to allow to select a role. So, we
-          defined two extension points in users plugin:
+          Now we have roles management in the app, however, we need to show roles in the users list
+          page and also in the user edit modal we need to allow to select a role. So, we need to
+          make <b>users-plugin</b> extensible first. That is, define two extension points in users
+          plugin:
           <ul>
             <li>
               <Tag>userList.columns.getColumns</Tag>: allow other plugins to provide additional
@@ -91,29 +152,34 @@ const Docs = () => {
           </ul>
         </Timeline.Item>
         <Timeline.Item>
-          After users plugin have provided extension points, we update roles-plugin to contribute to
-          those extension points:
+          After users plugin have provided extension points, we updated roles-plugin to contribute
+          to those two extension points:
           <ul>
             <li>
               <Tag>userList.columns.getColumns</Tag>: add a new role column to show the users'
               roles.
             </li>
             <li>
-              userInfo.fields.getFields: add a new select widget in the user edit form to allow to
-              select a role for the user.
+              <Tag>userInfo.fields.getFields</Tag>: add a new select widget in the user edit form to
+              allow to select a role for the user.
             </li>
           </ul>
-          The we finished roles management feature and enhanced user's management to support role
+          Then we finished roles management feature and enhanced user's management to support role
           property in user's profile.
         </Timeline.Item>
         <Timeline.Item>
-          Again, our product manager thinks there should be a dashboard as homepage to show the
-          insight of the current system. So we decided to use Muse's dashboard plugin:
-          @ebay/muse-dashboard. It provides extension points for other plugins to contribute widgets
-          to the dashboard. And users could customize the dashboard for both widgets and layout.
+          Again, our product manager thougt there should be a dashboard as homepage to show the
+          insight of the current system. Then the question is: where should we implement the
+          dashboard? In the past, when we add more and more features to an application, the code
+          repos becomes more and more complicated. But now with Muse, we can use a plugin again.
+          Muse already provides a resuable dashboard pluin <b>@ebay/muse-dashboard</b>, since it's
+          also built on top of <b>@ebay/muse-lib-react</b> and <b>@ebay/muse-lib-antd</b>, we can
+          deploy it to our app directly. The dashboard plugin not only provides a dashboard
+          component for other plugins to use but also provide extension points for other plugins to
+          contribute widgets.
         </Timeline.Item>
         <Timeline.Item>
-          After we deployed @ebay/muse-dashboard plugin to the app, then we start to use below
+          So, after we deployed @ebay/muse-dashboard plugin to the app, then we start to use below
           extension point in both users-plugin and roles-plugin:
           <ul>
             <li>
@@ -144,7 +210,11 @@ const Docs = () => {
         </Timeline.Item>
         <Timeline.Item></Timeline.Item>
       </Timeline>
-
+      <h2>Code Example</h2>
+      <CodeViewer
+        code={`import React from 'react';
+const ele = <div>abc</div>`}
+      />
       <h2>Understanding App and Plugin</h2>
       <ul>
         <li>
@@ -265,9 +335,24 @@ const Docs = () => {
       <p>
         From the top right dropdown pannel, you can select which plugins are loaded to the page.
       </p>
+      <h2>What's Next?</h2>
       <h2>FAQ</h2>
+      <Collapse ghost>
+        <Panel header={<h3>How is the root component rendered?</h3>}>
+          <p>Some answers.</p>
+        </Panel>
+        <Panel header={<h3>Can I use Muse with other frameworks rather than React?</h3>}>
+          <p>Some answers.</p>
+        </Panel>
+        <Panel header={<h3>How can I created a reusable plugin?</h3>}>
+          <p>Some answers.</p>
+        </Panel>
+      </Collapse>
+      <h3>How is the root component rendered?</h3>
+      <h3>Can I use Muse with other frameworks rather than React?</h3>
+      <h3>How can I created a reusable plugin?</h3>
+      <h3>Why some plugins' names are scoped (@ebay)?</h3>
       <h3>Can I use layzy load?</h3>
-      <h3>How to define the homepage?</h3>
       <h3>Does Muse support Nextjs?</h3>
     </div>
   );
