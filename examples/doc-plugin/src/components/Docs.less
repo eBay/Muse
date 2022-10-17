@@ -74,6 +74,33 @@
     }
   }
 
+  .ant-tabs-nav {
+    background-color: #333;
+    margin-bottom: 0 !important;
+    border-bottom: none;
+    &:before {
+      display: none;
+    }
+    .ant-tabs-tab {
+      border: none !important;
+      background-color: #222 !important;
+      color: #bbb;
+      transition: none !important;
+    }
+    .ant-tabs-tab-btn {
+      transition: none !important;
+      &:active {
+        color: #1890ff !important;
+      }
+    }
+  }
+
+  .ant-tabs-tabpane {
+    background-color: rgb(29, 31, 33);
+    padding: 20px 20px 0 20px;
+    height: 650px;
+  }
+
   .ant-collapse-item {
     h3 {
       margin: 0;
