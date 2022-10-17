@@ -1,9 +1,11 @@
+import { useCallback } from 'react';
 import NiceModal, { useModal, antdDrawer } from '@ebay/nice-modal-react';
 import TimeAgo from 'react-time-ago';
 import prettyMs from 'pretty-ms';
 import { Drawer, Table } from 'antd';
 import jsPlugin from 'js-plugin';
 import _ from 'lodash';
+import ReactMarkdown from 'react-markdown';
 import { RequestStatus, DropdownMenu } from '@ebay/muse-lib-antd/src/features/common';
 import { useMuseData } from '../../hooks';
 
@@ -83,6 +85,15 @@ const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
     },
   ];
 
+  const renderBody = useCallback(
+    item => (
+      <div className="markdown-wrapper">
+        <ReactMarkdown children={item.body} />
+      </div>
+    ),
+    [],
+  );
+
   columns.push(
     ..._.flatten(jsPlugin.invoke('museManager.releases.getColumns', { plugin, app, releases })),
   );
@@ -93,7 +104,15 @@ const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
   return (
     <Drawer {...antdDrawer(modal)} title={`Releases of ${plugin.name}`} width="1200px">
       <RequestStatus loading={loading} error={error} loadingMode="skeleton" />
-      {!loading && <Table dataSource={releases} pagination={false} columns={columns} />}
+      {!loading && (
+        <Table
+          rowKey={'version'}
+          dataSource={releases}
+          pagination={false}
+          columns={columns}
+          expandedRowRender={renderBody}
+        />
+      )}
     </Drawer>
   );
 });

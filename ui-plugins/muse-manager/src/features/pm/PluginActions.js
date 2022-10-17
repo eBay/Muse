@@ -14,19 +14,19 @@ function PluginActions({ plugin, app }) {
 
   let items = useMemo(() => {
     return [
-      {
-        key: 'build',
-        label: 'Trigger a build',
-        disabled: ability.cannot('build', plugin),
-        disabledText: 'Only owners can build.',
-        icon: 'tool',
-        order: 20,
-        highlight: true,
-        onClick: () => {
-          NiceModal.show('muse-manager.build-plugin-modal', { plugin });
-          // setTriggerBuildModalVisible(true, { plugin, app });
-        },
-      },
+      // {
+      //   key: 'build',
+      //   label: 'Trigger a build',
+      //   disabled: ability.cannot('build', plugin),
+      //   disabledText: 'Only owners can build.',
+      //   icon: 'tool',
+      //   order: 20,
+      //   highlight: true,
+      //   onClick: () => {
+      //     NiceModal.show('muse-manager.build-plugin-modal', { plugin, app });
+      //     // setTriggerBuildModalVisible(true, { plugin, app });
+      //   },
+      // },
       app && {
         key: 'deploy',
         label: 'Deploy',
@@ -138,7 +138,7 @@ function PluginActions({ plugin, app }) {
     ].filter(Boolean);
   }, [syncStatus, app, plugin, deletePlugin, ability]);
   items.push(..._.flatten(jsPlugin.invoke('museManager.pm.getPluginActions', { app, plugin })));
-  jsPlugin.invoke('museManager.processPluginActions', { items, app, plugin });
+  jsPlugin.invoke('museManager.pm.processPluginActions', { items, app, plugin });
   items = items.filter(Boolean);
   jsPlugin.sort(items);
   return <DropdownMenu extPoint="museManager.plugin.processActions" items={items} />;
