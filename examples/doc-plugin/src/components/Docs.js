@@ -4,6 +4,7 @@ import { tomorrowNight } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import { InfoCircleOutlined, BulbOutlined } from '@ant-design/icons';
 import './Docs.less';
 import museDemo from '../images/demo.png';
+import pluginListImg from '../images/pluginList.png';
 
 const CodeViewer = ({ code }) => {
   // const codeString = '(num) => num + 1';
@@ -28,8 +29,8 @@ const Docs = () => {
     <div className="user-manager-demo-docs">
       <h1>Understand this Demo App</h1>
       <DocTip type="info">
-        This is a quick guide for you to understand basic Muse concepts and learn how to build an
-        app in the Muse way.
+        This is a quick guide for you to understand main Muse concepts and learn how to build an app
+        in the Muse way.
       </DocTip>
       <p>
         Muse is a micro-frontends solution that allows to break a large application into small parts
@@ -231,14 +232,15 @@ const Docs = () => {
         <DocTip>
           Recap: the dashboard plugin is a highly extensible plugin, it shows the capability to
           export assets from a plugin at run time (providing a <b>Dashboard</b> plugin) and
-          extension points for other plugins to contribute widgets to the dashboard.
+          extension points for other plugins to contribute widgets to the dashboard. It uses local
+          storage for data persistent by default but you can also define your own storage provider.
         </DocTip>
       </div>
       <h2>Code Sample</h2>
       <p>
-        You may have been curious how <b>users-plugin</b> and <b>roles-plugin</b> work together
-        based on the extension point mechanism. Below is the core logic from the two plugins. In{' '}
-        <b>users-plugin</b>, we defined an extension point named{' '}
+        You may have been curious about how <b>users-plugin</b> and <b>roles-plugin</b> work
+        together based on the extension point mechanism. Below is the core logic from the two
+        plugins. In <b>users-plugin</b>, we defined an extension point named{' '}
         <Tag>userList.columns.getColumns</Tag> to allow other plugins to contribute columns, and in{' '}
         <b>roles-plugin</b> we construct the plugin object to contribute to the extension point.
       </p>
@@ -337,11 +339,52 @@ jsPlugin.register({
           plugin object. In this example we used create-react-app.
         </li>
       </ul>
+      <h2>Play with Plugins Selector</h2>
+      <p>
+        To help explain how plugins work in the demo app, we created a plugins selector plugin on
+        the app. It allows to select which plugins are loaded to the page. You can try to disable
+        some plugins to see the difference. For example:
+        <ul>
+          <li>
+            Disable <b>users-plugin</b> : there will be not users menu in the left, the users
+            related wigets on the dashboard will not be rendered. The <b>roles-plugin</b> can still
+            work itself although it contributes content to <b>users-plugins</b> because it doesn't
+            hardly depends on <b>users-plugin</b>.
+          </li>
+          <li>
+            Disable <b>@ebay/muse-dashboard</b>: the homepage will show the error. It's because the
+            homepage is actually provided by <b>users-plugin</b> which uses Dashboard comomponent
+            from dashboard plugin, there's logic in <b>users-plugin</b> to check if dashboard plugin
+            exists, if not then shows an error.
+          </li>
+          <li>
+            Disable <b>@ebay/muse-layout</b>: then there's no header nor sider on the page but only
+            the main area.
+          </li>
+        </ul>
+        You can freely try to disable a combination of plugins by yourself and see the difference.
+        This may help to understand how Muse plugins are loaded and work together.
+      </p>
+      <DocTip type="info">
+        Note: some core plugins (e.g: boot plugin, lib plugin) can not be disabled from the plugins
+        selector to avoid page crash.
+      </DocTip>
+      <DocTip type="info">
+        Tip: the plugins selector uses session storage to persist data. So, if you want to reset the
+        status you can close and reopen the page, or clear the session storage.
+      </DocTip>
       <h2>Plugins on the Demo App</h2>
       <p>
-        If you open the dev tool console, you can see 10 plugins are loaded in the page. Of them
-        there're 4 reusable plugins provided by Muse team and the other 5 plugins contributes all
-        features of this app.
+        From chrome dev console, you can also see 10 plugins are loaded in the page. Below is the
+        list of plugins on the demo app. Of which there're 5 reusable plugins provided by Muse team
+        and the other 5 plugins contributes all features of this app.
+        <img
+          src={pluginListImg}
+          alt="plugin-list"
+          width="400px"
+          style={{ marginTop: 20, marginBottom: 20 }}
+          className="doc-img"
+        />
       </p>
       <h3>Reused plugins:</h3>
       <table>
@@ -350,8 +393,8 @@ jsPlugin.register({
             <b>@ebay/muse-boot-default</b>
           </td>
           <td>
-            It's a boot plugin which is firstly loaded on the page. A boot plugin is used to load
-            other plugins to the page.
+            It's a boot plugin firstly loaded on the page, then it loads all other plugins to the
+            page. If you get familiar with Muse enough you can also create your own boot plugin.
           </td>
         </tr>
         <tr>
@@ -359,10 +402,11 @@ jsPlugin.register({
             <b>@ebay/muse-lib-react</b>
           </td>
           <td>
-            It's a library plugin which provides typical shared modules for other plugins. Also, it
-            renders the root component of the whole app. Other plugins can contribute pages (used by
-            react router), reducers (used by redux), etc to the app via extension points provided by
-            this plugin.
+            It's a library plugin which provides shared modules (React related) for other plugins.
+            Also, it renders the root component of the whole app. Other plugins can contribute pages
+            (used by react router), reducers (used by redux), etc to the app via extension points
+            provided by this plugin. Note: it's not neccessary to render the root component in a lib
+            plugin. You can do it in any plugin.
           </td>
         </tr>
         <tr>
@@ -379,15 +423,18 @@ jsPlugin.register({
             <b>@ebay/muse-layout-antd</b>
           </td>
           <td>
-            It's a highly extensible layout plugin which allows other plugins to customize headers,
-            menus, etc.
+            It's a highly extensible layout plugin which allows other plugins to define layout,
+            customize headers, menus, etc.
           </td>
         </tr>
         <tr>
           <td>
             <b>@ebay/muse-dashboard</b>
           </td>
-          <td>It allows to create dashboard pages easily.</td>
+          <td>
+            It allows to create dashboard pages easily from other plugins, also it provides
+            extension points for other plugins to contribute widgets.
+          </td>
         </tr>
       </table>
       <h3>Plugins for the demo:</h3>
@@ -397,8 +444,8 @@ jsPlugin.register({
             <b>users-plugin</b>
           </td>
           <td>
-            This is a normal plugin allowa to manager users in the system. It provides some
-            extension points allowing other plugins to enhance the user management feature.
+            This is a normal plugin allow to manage users in the system. It provides some extension
+            points allowing other plugins to enhance the user management feature.
           </td>
         </tr>
         <tr>
@@ -406,9 +453,9 @@ jsPlugin.register({
             <b>roles-plugin</b>
           </td>
           <td>
-            This is a normal plugin allows to manager roles in the system. It customize the user
-            list table to add a column to show user's role. Also it extends user info edit modal to
-            add a form field to select the user role.
+            This is a normal plugin allows to manage roles in the system. Besides its own
+            functionality, it customize the user list table to add a column to show user's role.
+            Also it extends user info edit modal to add a form field to select the user role.
           </td>
         </tr>
         <tr>
@@ -434,35 +481,82 @@ jsPlugin.register({
             <b>doc-plugin</b>
           </td>
           <td>
-            This is just the current doc page. It adds a menu item in the sider and registered a
-            routing rule "/docs" to render this page.
+            This is just the current doc page. It adds a menu item in the sider, a welcome widget on
+            dashboard and registers a routing rule "/docs" to render this page.
           </td>
         </tr>
       </table>
       <p />
       <p />
-      <p>
-        From the top right dropdown pannel, you can select which plugins are loaded to the page.
-      </p>
+
       <h2>What's Next?</h2>
+      <p>
+        From this demo app you should be able to have an overall understanding of Muse. Next you may
+        want to try Muse yourself by creating some hello world application. You can just follow the
+        get started guide{' '}
+        <a href="https://docs.musejs.org" target="_blank" rel="noreferrer">
+          here
+        </a>
+        . It will provide a step by step tutorial to create your first Muse application.
+      </p>
+      <p>
+        However, there are also many other topics for you to further learning Muse. For example, how
+        to build, test, release, deploy a plugin, how to use a remote Muse registry or assets
+        storaget, etc. To learn all these topics, you can read detailed documentation{' '}
+        <a href="https://docs.musejs.org" target="_blank" rel="noreferrer">
+          here
+        </a>
+        .
+      </p>
+      <p>
+        Muse not only provides packages, tools for creating one single application but also provides
+        ability to build an enterprise level infrastructure for SPA web applications. You can read
+        advanced guide{' '}
+        <a href="https://docs.musejs.org" target="_blank" rel="noreferrer">
+          here
+        </a>
+        .
+      </p>
       <h2>FAQ</h2>
       <Collapse ghost>
         <Panel header={<h3>How is the root component rendered?</h3>}>
-          <p>Some answers.</p>
+          <p>
+            Same as a normal SPA project, there should be an entry to render the whole application.
+            In Muse, you can define an entry function in any plugin (e.g: @ebay/muse-lib-react
+            provides the entry function where ReactDOM.render is called). If only one of plugins
+            provides the entry function then it will be used by default. But if multiple plugins
+            provides entry functions then you need to specify it in app configuration.
+          </p>
         </Panel>
         <Panel header={<h3>Can I use Muse with other frameworks rather than React?</h3>}>
-          <p>Some answers.</p>
+          <p>
+            Yes, Muse is not bound to any UI framework. It's based on shared modules and plugin
+            mechanism. You can use Muse with any UI framework (or no framework).
+          </p>
         </Panel>
         <Panel header={<h3>How can I created a reusable plugin?</h3>}>
-          <p>Some answers.</p>
+          <p>
+            From technical perspective, any plugin could be deployed to any application. That is,
+            it's super easy to move one feature from one app to another app. However, to create a
+            plugin publiclly available, you can publish the plugin to the npm registry so that
+            others could install and deploy them to their applications.
+          </p>
+        </Panel>
+        <Panel header={<h3>Why some plugins' names are scoped (@ebay)?</h3>}>
+          <p>
+            Only if you create a library plugin, or want to publish a Muse plugin in npm registry to
+            be used by others, then the Muse plugin name should be the same as npm package name, so
+            though not necessarily, they can use npm scopes For most of normal plugins, they don't
+            need to be published into npm, so any name is fine (with scope is also fine).
+          </p>
+        </Panel>
+        <Panel header={<h3>Does Muse support server side rendering like Nextjs?</h3>}>
+          <p>
+            No. We've not investigated how much value Muse could bring to server side rendering
+            since Muse is only for single page application for now.
+          </p>
         </Panel>
       </Collapse>
-      <h3>How is the root component rendered?</h3>
-      <h3>Can I use Muse with other frameworks rather than React?</h3>
-      <h3>How can I created a reusable plugin?</h3>
-      <h3>Why some plugins' names are scoped (@ebay)?</h3>
-      <h3>Can I use layzy load?</h3>
-      <h3>Does Muse support Nextjs?</h3>
     </div>
   );
 };
