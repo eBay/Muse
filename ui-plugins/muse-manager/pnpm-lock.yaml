@@ -4,12 +4,12 @@ specifiers:
   '@craco/craco': 6.4.4
   '@ebay/muse-client': 1.0.18
   '@ebay/muse-core': 1.0.26
-  '@ebay/muse-craco-plugin': 1.0.28
+  '@ebay/muse-craco-plugin': 2.0.0
   '@ebay/muse-dev-utils': 1.0.29
-  '@ebay/muse-ebay-dev': ^1.0.1
+  '@ebay/muse-ebay-dev': 1.0.2
   '@ebay/muse-express-middleware': 1.0.26
-  '@ebay/muse-lib-antd': 1.0.12
-  '@ebay/muse-lib-react': 1.0.23
+  '@ebay/muse-lib-antd': 1.0.13
+  '@ebay/muse-lib-react': 1.0.28
   '@ebay/muse-plugin-acl': 1.0.6
   '@ebay/muse-scripts-react': 1.0.24
   '@ebay/muse-webpack-plugin': 1.0.25
@@ -38,12 +38,12 @@ dependencies:
   '@craco/craco': 6.4.4_react-scripts@5.0.1
   '@ebay/muse-client': 1.0.18
   '@ebay/muse-core': 1.0.26
-  '@ebay/muse-craco-plugin': 1.0.28_rptx3xqogbmxbyr5ohiedtyhva
+  '@ebay/muse-craco-plugin': 2.0.0_rptx3xqogbmxbyr5ohiedtyhva
   '@ebay/muse-dev-utils': 1.0.29_@ebay+muse-core@1.0.26
-  '@ebay/muse-ebay-dev': 1.0.1_@ebay+muse-core@1.0.26
+  '@ebay/muse-ebay-dev': 1.0.2_@ebay+muse-core@1.0.26
   '@ebay/muse-express-middleware': 1.0.26_@ebay+muse-core@1.0.26
-  '@ebay/muse-lib-antd': 1.0.12_@craco+craco@6.4.4
-  '@ebay/muse-lib-react': 1.0.23_5etiqhkfjdttz5dcmi2hz5fcv4
+  '@ebay/muse-lib-antd': 1.0.13_@craco+craco@6.4.4
+  '@ebay/muse-lib-react': 1.0.28_5etiqhkfjdttz5dcmi2hz5fcv4
   '@ebay/muse-plugin-acl': 1.0.6
   '@ebay/muse-scripts-react': 1.0.24
   '@ebay/muse-webpack-plugin': 1.0.25
@@ -1587,8 +1587,8 @@ packages:
       winston-transport: 4.5.0
     dev: false
 
-  /@ebay/muse-craco-plugin/1.0.28_rptx3xqogbmxbyr5ohiedtyhva:
-    resolution: {integrity: sha1-CQui3s+nC7wM6/LvrZtG8nN2WUw=, tarball: '@ebay/muse-craco-plugin/-/@ebay/muse-craco-plugin-1.0.28.tgz'}
+  /@ebay/muse-craco-plugin/2.0.0_rptx3xqogbmxbyr5ohiedtyhva:
+    resolution: {integrity: sha1-q5rLjLGNGt4t3jUXryAiypRDAVQ=, tarball: '@ebay/muse-craco-plugin/-/@ebay/muse-craco-plugin-2.0.0.tgz'}
     peerDependencies:
       '@craco/craco': 6.4.4
     dependencies:
@@ -1614,8 +1614,8 @@ packages:
       resolve-cwd: 3.0.0
     dev: false
 
-  /@ebay/muse-ebay-dev/1.0.1_@ebay+muse-core@1.0.26:
-    resolution: {integrity: sha1-mSI5jOu/jZ+dFhWaseK9VzLe4+8=, tarball: '@ebay/muse-ebay-dev/-/@ebay/muse-ebay-dev-1.0.1.tgz'}
+  /@ebay/muse-ebay-dev/1.0.2_@ebay+muse-core@1.0.26:
+    resolution: {integrity: sha1-mdSIePAGH0isjf/zWMQpND5ksLo=, tarball: '@ebay/muse-ebay-dev/-/@ebay/muse-ebay-dev-1.0.2.tgz'}
     hasBin: true
     peerDependencies:
       '@ebay/muse-core': ^1.0.6
@@ -1641,8 +1641,8 @@ packages:
       multer: 1.4.5-lts.1
     dev: false
 
-  /@ebay/muse-lib-antd/1.0.12_@craco+craco@6.4.4:
-    resolution: {integrity: sha1-HQJtVgyfLNLLdkn+4t1wbvcEN9c=, tarball: '@ebay/muse-lib-antd/-/@ebay/muse-lib-antd-1.0.12.tgz'}
+  /@ebay/muse-lib-antd/1.0.13_@craco+craco@6.4.4:
+    resolution: {integrity: sha1-Jtkzl7eHE21WI/F3dhWzcvDkRpE=, tarball: '@ebay/muse-lib-antd/-/@ebay/muse-lib-antd-1.0.13.tgz'}
     dependencies:
       '@ant-design/icons': 4.7.0_biqbaboplfbrettd7655fr4n2y
       '@ebay/muse-lib-react': 1.0.23_5etiqhkfjdttz5dcmi2hz5fcv4
@@ -1709,6 +1709,49 @@ packages:
 
   /@ebay/muse-lib-react/1.0.23_5etiqhkfjdttz5dcmi2hz5fcv4:
     resolution: {integrity: sha1-W2L1EwBz3gsOXnrL4ljvGA5WQsQ=, tarball: '@ebay/muse-lib-react/-/@ebay/muse-lib-react-1.0.23.tgz'}
+    dependencies:
+      '@babel/core': 7.18.10
+      '@ebay/nice-modal-react': 1.2.7_biqbaboplfbrettd7655fr4n2y
+      '@types/node': 17.0.45
+      axios: 0.27.2
+      craco-less: 2.0.0_5etiqhkfjdttz5dcmi2hz5fcv4
+      cross-env: 7.0.3
+      eslint: 8.22.0
+      eslint-config-react-app: 7.0.1_eslint@8.22.0
+      eslint-plugin-react-hooks: 4.6.0_eslint@8.22.0
+      history: 5.3.0
+      js-plugin: 1.1.0
+      lodash: 4.17.21
+      path-to-regexp: 6.2.1
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      react-loadable: 5.5.0_react@18.2.0
+      react-redux: 8.0.2_e42enmjmqb4imi3q3iaq2rrebm
+      react-router-dom: 6.3.0_biqbaboplfbrettd7655fr4n2y
+      react-use: 17.4.0_biqbaboplfbrettd7655fr4n2y
+      redux: 4.2.0
+      redux-logger: 3.0.6
+      redux-mock-store: 1.5.4
+      redux-thunk: 2.4.1_redux@4.2.0
+    transitivePeerDependencies:
+      - '@babel/plugin-syntax-flow'
+      - '@babel/plugin-transform-react-jsx'
+      - '@craco/craco'
+      - '@types/react'
+      - '@types/react-dom'
+      - debug
+      - eslint-import-resolver-typescript
+      - eslint-import-resolver-webpack
+      - jest
+      - react-native
+      - react-scripts
+      - supports-color
+      - typescript
+      - webpack
+    dev: false
+
+  /@ebay/muse-lib-react/1.0.28_5etiqhkfjdttz5dcmi2hz5fcv4:
+    resolution: {integrity: sha1-YRfIMwjiQAiCLZocOx+VdDIsw/I=, tarball: '@ebay/muse-lib-react/-/@ebay/muse-lib-react-1.0.28.tgz'}
     dependencies:
       '@babel/core': 7.18.10
       '@ebay/nice-modal-react': 1.2.7_biqbaboplfbrettd7655fr4n2y
