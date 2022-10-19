@@ -3,7 +3,6 @@ const museCore = require('@ebay/muse-core');
 const fs = require('fs');
 const logger = museCore.logger.createLogger('muse-express-middleware.app');
 const path = require('path');
-const IP = require('ip');
 const crypto = require('crypto');
 
 const defaultTemplate = `
@@ -127,7 +126,6 @@ module.exports = ({
     }
 
     const bootPlugin = bootPlugins[0];
-    const ipAddress = IP.address();
 
     const appConfig = _.omit(app, ['envs']);
     if (appName && variables[appName]) {
@@ -152,7 +150,7 @@ module.exports = ({
           : false,
       museClientCode: crypto
         .createHash('md5')
-        .update(ipAddress)
+        .update(req.ip)
         .digest('hex'),
     };
 
