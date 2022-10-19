@@ -537,23 +537,32 @@ jsPlugin.register({
         <Panel header={<h3>How can I created a reusable plugin?</h3>}>
           <p>
             From technical perspective, any plugin could be deployed to any application. That is,
-            it's super easy to move one feature from one app to another app. However, to create a
-            plugin publiclly available, you can publish the plugin to the npm registry so that
-            others could install and deploy them to their applications.
+            every plugin is reusable. However, to create a plugin publiclly available, you can
+            publish the plugin to the npm registry so that others could install and deploy them to
+            their applications.
           </p>
         </Panel>
         <Panel header={<h3>Why some plugins' names are scoped (@ebay)?</h3>}>
           <p>
-            Only if you create a library plugin, or want to publish a Muse plugin in npm registry to
-            be used by others, then the Muse plugin name should be the same as npm package name, so
-            though not necessarily, they can use npm scopes For most of normal plugins, they don't
-            need to be published into npm, so any name is fine (with scope is also fine).
+            Muse plugin's name follows the same pattern as npm. So, you can put scope in the name.
+            There are two cases you need to publish a plugin to npm registry:
+            <ul>
+              <li>
+                It's a library plugin: since it needs to be installed as dependencies of other
+                plugins to provide shared modules at dev time.
+              </li>
+              <li>
+                You want the plugin to be used by others out of your company/organization. So you
+                can distribute it via npm.
+              </li>
+            </ul>
           </p>
         </Panel>
         <Panel header={<h3>Does Muse support server side rendering like Nextjs?</h3>}>
           <p>
             No. We've not investigated how much value Muse could bring to server side rendering
-            since Muse is only for single page application for now.
+            since Muse is only for single page application for now. However, it's something we will
+            look at in the future.
           </p>
         </Panel>
       </Collapse>

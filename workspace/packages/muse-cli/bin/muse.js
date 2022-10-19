@@ -224,10 +224,20 @@ program
   .argument('<appName>', 'application name')
   .argument('<envName>', 'env name')
   .argument('<output>', 'output folder name')
+  .option('-s, --source-map', 'Whether to include source map.')
+  .option('-e, --exported-folders <exportedFolders>', 'Which folders with be included.', 'dist')
   .option('--args <args...>', 'Space separated list of more args, for example: --args foo=bar x=y.')
 
   .action(async (appName, envName, output, options) => {
-    await muse.am.export({ appName, envName, output, museGlobalProps: parseArgs(options.args) });
+    console.log(options);
+    await muse.am.export({
+      appName,
+      envName,
+      sourceMap: options.sourceMap,
+      exportedFolders: options.exportedFolders.split(','),
+      output,
+      museGlobalProps: parseArgs(options.args),
+    });
   });
 
 program

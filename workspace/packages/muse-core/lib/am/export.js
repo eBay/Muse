@@ -13,12 +13,21 @@ const unzipper = require('unzipper');
  * @param {string} params.appName The app name.
  * @param {string} params.envName The env name.
  * @param {string} params.output The output path. It could be a absolute path or relative path. If it's relative path, it will be put under current working directory.
+ * @param {string} params.exportedFolders Only specifiled folders under build folder will be exported..
+ * @param {string} params.sourceMap Whether to include source map.
  * @param {string} params.museGlobalProps Allows to override the MUSE_GLOBAL object.
  */
 module.exports = async (params = {}) => {
   validate(schema, params);
   const ctx = {};
-  const { appName, envName, output, museGlobalProps } = params;
+  const {
+    appName,
+    envName,
+    output,
+    exportedFolders = ['dist'],
+    sourceMap = false,
+    museGlobalProps,
+  } = params;
   logger.info(`Export app ${appName}...`);
   await asyncInvoke('museCore.am.beforeExport', ctx, params);
 
@@ -108,9 +117,17 @@ module.exports = async (params = {}) => {
       }
 
       const zip = await unzipper.Open.buffer(buff);
-      await zip.extract({
-        path: `${outputPath}/muse-assets/p/${pluginId}/v${plugin.version}`,
-      });
+      const targetPath = `${outputPath}/muse-assets/p/${pluginId}/v${plugin.version}`;
+
+      for (const entry of zip.files) {
+        if (
+          entry.type === 'File' &&
+          exportedFolders.includes(entry.path.split('/')[0]) &&
+          (sourceMap || !entry.path.endsWith('.js.map'))
+        ) {
+          fse.outputFileSync(path.join(targetPath, entry.path), await entry.buffer());
+        }
+      }
     }),
   );
 
