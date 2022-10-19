@@ -104,6 +104,7 @@ module.exports = async (params = {}) => {
 
   await Promise.all(
     plugins.map(async plugin => {
+      if (plugin.url) return; // For url based plugin, no need to download asset.
       const pluginId = muse.utils.getPluginId(plugin.name);
 
       // Download zip file
