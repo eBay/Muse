@@ -63,14 +63,13 @@ async function start() {
   const {
     app,
     cdn = '',
-    plugins = [],
     initEntries,
     pluginEntries,
     appEntries,
     isDev = false,
     isE2eTest = false,
   } = window.MUSE_GLOBAL;
-
+  let { plugins = [] } = window.MUSE_GLOBAL;
   // MUSE_CONFIG is for backward compatability
   window.MUSE_CONFIG = window.MUSE_GLOBAL;
   registerSw();
@@ -87,7 +86,6 @@ async function start() {
   const forcePluginStr = searchParams.get('forcePlugins');
   const previewClientCode = searchParams.get('clientCode');
   const localClientCode = window.MUSE_GLOBAL.museClientCode;
-  let specifiedPlugins = plugins;
   if (forcePluginStr && (isE2eTest || previewClientCode === localClientCode)) {
     const forcePluginById = forcePluginStr
       .split(';')
@@ -112,7 +110,7 @@ async function start() {
         return p;
       }, {});
     // Update or remove plugins from the list based on forcePlugins
-    specifiedPlugins = plugins
+    plugins = plugins
       .map(p => {
         if (!forcePluginById[p.name]) return p;
         const newPlugin = { ...p, version: forcePluginById[p.name].version };
@@ -124,7 +122,7 @@ async function start() {
     // Need to get the type of plugin from muse registry directly.
     for (const p in forcePluginById) {
       if (forcePluginById[p].version !== 'null') {
-        specifiedPlugins.push({
+        plugins.push({
           name: p,
           type: forcePluginById[p].type,
           version: forcePluginById[p].version,
@@ -134,8 +132,6 @@ async function start() {
   } else {
     console.warn(`ClientCode is invalid.`);
   }
-
-  window.MUSE_GLOBAL.plugins = specifiedPlugins;
   console.log(`Plugins(${plugins.length}):`);
   // If a plugin has noUrl, it means its bundle is loaded somewhere else.
   // The registered plugin item is used to provide configurations. e.g plugin variables.
