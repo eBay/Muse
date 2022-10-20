@@ -229,7 +229,6 @@ program
   .option('--args <args...>', 'Space separated list of more args, for example: --args foo=bar x=y.')
 
   .action(async (appName, envName, output, options) => {
-    console.log(options);
     await muse.am.export({
       appName,
       envName,
