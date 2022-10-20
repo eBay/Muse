@@ -4,6 +4,7 @@ const fs = require('fs');
 const logger = museCore.logger.createLogger('muse-express-middleware.app');
 const path = require('path');
 const crypto = require('crypto');
+const requestIp = require('request-ip');
 
 const defaultTemplate = `
 <!doctype html>
@@ -132,6 +133,8 @@ module.exports = ({
       if (!appConfig.variables) appConfig.variables = {};
       Object.assign(appConfig.variables, variables[appName]);
     }
+    const clientIp = requestIp.getClientIp(req);
+
     const museGlobal = {
       app: appConfig,
       env: _.omit(env, ['plugins']),
@@ -150,7 +153,7 @@ module.exports = ({
           : false,
       museClientCode: crypto
         .createHash('md5')
-        .update(req.ip)
+        .update(clientIp)
         .digest('hex'),
     };
 
