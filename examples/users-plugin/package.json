@@ -52,8 +52,9 @@
       "app": "myapp",
       "remotePlugins": "*",
       "appOverride": {
-        "variables2": {
-          "basePath": "/testdemo"
+        "variables": {
+          "basePat2h": "/testdemo",
+          "routerType": "memory"
         }
       }
     }

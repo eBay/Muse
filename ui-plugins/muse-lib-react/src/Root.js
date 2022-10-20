@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { Provider, useDispatch, useSelector } from 'react-redux';
-import { Routes, Route, BrowserRouter, Outlet } from 'react-router-dom';
+import { Routes, Route, BrowserRouter, HashRouter, MemoryRouter, Outlet } from 'react-router-dom';
 import _ from 'lodash';
 import NiceModal from '@ebay/nice-modal-react';
 import plugin from 'js-plugin';
@@ -74,16 +74,24 @@ const renderChildren = children => {
   return children;
 };
 
+const routerMap = {
+  browser: BrowserRouter,
+  hash: HashRouter,
+  memory: MemoryRouter,
+};
+
 const WrappedInRedux = () => {
   const children = renderRouteConfigV3(routeConfig(), '/');
   const dispatch = useDispatch();
   const modals = useSelector(s => s.modals);
-  const basename = window.MUSE_GLOBAL.getAppVariables()?.basePath || '/';
+  const { routerType = 'browser', basePath } = window.MUSE_GLOBAL.getAppVariables() || {};
+  const Router = routerMap[routerType];
+  const routerProps = plugin.invoke('!routerProps')[0] || {};
   return (
     <NiceModal.Provider dispatch={dispatch} modals={modals}>
-      <BrowserRouter basename={basename}>
+      <Router basename={basePath} {...routerProps}>
         {renderChildren(<Routes>{children}</Routes>)}
-      </BrowserRouter>
+      </Router>
     </NiceModal.Provider>
   );
 };
