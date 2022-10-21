@@ -230,10 +230,11 @@ const Docs = () => {
       </Timeline>
       <div style={{ marginLeft: 52, marginTop: -25 }}>
         <DocTip>
-          Recap: the dashboard plugin is a highly extensible plugin, it shows the capability to
-          export assets from a plugin at run time (providing a <b>Dashboard</b> plugin) and
-          extension points for other plugins to contribute widgets to the dashboard. It uses local
-          storage for data persistent by default but you can also define your own storage provider.
+          Recap: the dashboard plugin is a highly extensible plugin, the usage here shows the
+          capability to export assets from a plugin at run time (providing a <b>Dashboard</b>{' '}
+          plugin) and extension points for other plugins to contribute widgets to the dashboard. It
+          uses local storage for data persistent by default but you can also define your own storage
+          provider.
         </DocTip>
       </div>
       <h2>Code Sample</h2>

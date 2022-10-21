@@ -80,6 +80,9 @@ module.exports = async params => {
   // If build dir exists, compress into a zip file and upload it and the unzip files to assets storage
   if (projectRoot && fs.existsSync(path.join(projectRoot, 'build'))) {
     await releasePluginAssets({ pluginName, version: newVersion, projectRoot, author });
+    ctx.release.bundles = fs
+      .readdirSync(path.join(projectRoot, 'build'))
+      .filter(name => fs.statSync(path.join(projectRoot, 'build', name)).isDirectory());
   }
 
   // Save releases to registry
