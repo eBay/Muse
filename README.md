@@ -103,7 +103,7 @@ Muse global command line interface to manage Muse apps/plugins. Implemented by `
 ### Plugin management
 
 - ✅ `muse create-plugin [plugin-name]` Create a Muse plugin.
-- ✅ `muse release/release-plugin [plugin-name] [version?]` Release a plugin from the current `build` folder. Should run `yarn build && yarn build:dev` first. `version` is optional, if not provided, will increase the patch version.
+- ✅ `muse release/release-plugin [plugin-name?] [version?]` Release a plugin from the current `build` folder. Should run `yarn build && yarn build:dev` first. `version` is optional, if not provided, will increase the patch version.
 - ✅ `muse deploy/deploy-plugin [app-name] [env-name] [plugin-name] [version?]` Deploy a plugin to the app/env. `version` is optional. if not provided, it will deploy the latest release.
 - ✅ `muse undeploy/undeploy-plugin [app-name] [env-name] [plugin-name]` Undeploy a plugin.
 - ✅ `muse delete-plugin [plugin-name]`
