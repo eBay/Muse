@@ -23,13 +23,13 @@ TimeAgo.addDefaultLocale(en);
 
 const timeAgo = new TimeAgo('en-US');
 
-console.error = message => console.log(chalk.red(message));
+console.error = (message) => console.log(chalk.red(message));
 
-const confirmAnswer = answer => {
+const confirmAnswer = (answer) => {
   return answer.length === 0 || answer.toLowerCase() === 'yes' || answer.toLowerCase() === 'y';
 };
 
-const parseArgs = args => (args ? _.fromPairs(args.map(kv => kv.split('='))) : {});
+const parseArgs = (args) => (args ? _.fromPairs(args.map((kv) => kv.split('='))) : {});
 
 const program = new Command();
 program
@@ -52,7 +52,7 @@ program
     muse.config.filepath && console.log(chalk.cyan(`Muse config file: ${muse.config.filepath}.`));
     const plugins = muse.plugin.getPlugins();
     console.log(chalk.cyan(`Plugins (${plugins.length}):`));
-    plugins.forEach(p => {
+    plugins.forEach((p) => {
       console.log(chalk.cyan(`  - ${p.name}`));
     });
   });
@@ -65,7 +65,7 @@ program
     'The npm registry to install the plugin. Defaults to https://registry.npmjs.org .',
     'https://registry.npmjs.org',
   )
-  .action(async options => {
+  .action(async (options) => {
     // install plugins
     console.log(chalk.cyan(`Initializing Muse...`));
     const pluginsToInstall = [
@@ -77,7 +77,7 @@ program
     ];
     const pkgs = {};
     await Promise.all(
-      pluginsToInstall.map(async pluginName => {
+      pluginsToInstall.map(async (pluginName) => {
         const pkgJson = await muse.pm.installPlugin({ pluginName, registry: options.registry });
         pkgs[pluginName] = pkgJson;
       }),
@@ -89,7 +89,7 @@ program
     await muse.pm.deployPlugin({
       appName: 'musemanager',
       envMap: {
-        production: pluginsToInstall.map(name => ({
+        production: pluginsToInstall.map((name) => ({
           pluginName: name,
           type: 'add',
           version: pkgs[name].version,
@@ -103,7 +103,7 @@ program
   .action(async () => {
     const apps = await muse.am.getApps();
     console.log(chalk.cyan(`Apps (${apps.length}):`));
-    apps.forEach(app => {
+    apps.forEach((app) => {
       console.log(chalk.cyan(` - ${app.name}`));
     });
   });
@@ -114,7 +114,7 @@ program
   .action(async () => {
     const plugins = await muse.pm.getPlugins();
     console.log(chalk.cyan(`Plugins (${plugins.length}):`));
-    plugins.forEach(p => {
+    plugins.forEach((p) => {
       console.log(chalk.cyan(` - ${p.name}`));
     });
   });
@@ -136,7 +136,7 @@ program
   .command('view-data')
   .description('Show cached data from a cache key')
   .argument('<key>', 'data key')
-  .action(async key => {
+  .action(async (key) => {
     const data = await muse.data.get(key);
     if (data) {
       console.log(chalk.cyan(`${key}:\r\n${JSON.stringify(data, null, 2)}`));
@@ -183,7 +183,7 @@ program
   .command('refresh-data-cache')
   .description('Refresh a cache key')
   .argument('<key>', 'cache key')
-  .action(async key => {
+  .action(async (key) => {
     await muse.data.refreshCache(key);
   });
 
@@ -200,9 +200,9 @@ program
   .command('delete-app')
   .description('Delete a MUSE application')
   .argument('<appName>', 'application name')
-  .action(async appName => {
+  .action(async (appName) => {
     const rl = readline.createInterface({ input, output });
-    const answer = await new Promise(resolve =>
+    const answer = await new Promise((resolve) =>
       rl.question(
         'ATTENTION !! This operation cannot be undone. Confirm application deletion (yes/no) [Y] ? ',
         resolve,
@@ -256,7 +256,7 @@ program
   .command('view-app')
   .description('Display basic details of a MUSE application')
   .argument('<appName>', 'application name')
-  .action(async appName => {
+  .action(async (appName) => {
     const app = await muse.am.getApp(appName);
     console.log(chalk.cyan(JSON.stringify(app, null, 2)));
   });
@@ -265,7 +265,7 @@ program
   .command('view-full-app')
   .description('Display full details of a MUSE application')
   .argument('<appName>', 'application name')
-  .action(async appName => {
+  .action(async (appName) => {
     const fullApp = await muse.data.get(`muse.app.${appName}`);
     console.log(chalk.cyan(JSON.stringify(fullApp, null, 2)));
   });
@@ -289,7 +289,7 @@ program
   .action(async (appName, envName) => {
     // should we prompt user to confirm before deleting ?
     const rl = readline.createInterface({ input, output });
-    const answer = await new Promise(resolve =>
+    const answer = await new Promise((resolve) =>
       rl.question(
         'ATTENTION !! This operation cannot be undone. Confirm environment deletion (yes/no) [Y] ? ',
         resolve,
@@ -349,7 +349,7 @@ program
   .command('view-plugin')
   .description('View meta of a MUSE plugin')
   .argument('<pluginName>', 'plugin name')
-  .action(async pluginName => {
+  .action(async (pluginName) => {
     console.log(chalk.cyan(JSON.stringify(await muse.pm.getPlugin(pluginName), null, 2)));
   });
 
@@ -358,9 +358,9 @@ program
   .alias('delete-plugin')
   .description('Delete a MUSE plugin')
   .argument('<pluginName>', 'plugin name')
-  .action(async pluginName => {
+  .action(async (pluginName) => {
     const rl = readline.createInterface({ input, output });
-    const answer = await new Promise(resolve =>
+    const answer = await new Promise((resolve) =>
       rl.question(
         'ATTENTION !! This operation cannot be undone. Confirm plugin deletion (yes/no) [Y] ? ',
         resolve,
@@ -383,7 +383,7 @@ program
   .action(async (appName, envName) => {
     const plugins = await muse.pm.getDeployedPlugins(appName, envName);
     console.log(chalk.cyan(`Deployed plugins on ${appName}/${envName} (${plugins.length}):`));
-    plugins.forEach(p => {
+    plugins.forEach((p) => {
       console.log(chalk.cyan(` - ${p.name}@${p.version}`));
     });
   });
@@ -391,65 +391,87 @@ program
 program
   .command('deploy')
   .alias('deploy-plugin')
-  .description('Deploy a plugin version on a MUSE application environment')
-  .argument('<appName>', 'application name')
-  .argument('[envName]', 'environment name', 'staging')
-  .argument('[pluginName]', 'plugin name', null)
-  .argument('[version]', 'plugin version')
-  .action(async (appName, envName, pluginName, version) => {
+  .description('Deploy a plugin version on a Muse application environment.')
+  .argument('<appName>', 'The application name.')
+  .argument('[envName]', 'The environment name.', 'staging')
+  .argument(
+    '[plugins...]',
+    "Plugins and versions to be deployed, e.g: myplugin@2.0.1. If version ommited it will use the latest version. If no plugins specified and it is under a Muse plugin project then it will deploy the current plugin's latest version.",
+  )
+  // .argument('[version]', 'plugin version')
+  .action(async (appName, envName, plugins) => {
     const pkgJson = fs.readJSONSync(path.join(process.cwd(), 'package.json'), {
       throws: false,
     });
-    if (!pluginName && pkgJson?.muse) {
-      pluginName = pkgJson?.name;
-    } else if (!pluginName) {
-      throw new Error(`Plugin name is required.`);
+    if (!plugins && pkgJson?.muse) {
+      // pluginName = pkgJson?.name;
+      plugins = [pkgJson.name];
+    } else if (!plugins) {
+      throw new Error(`Please specify which plugin(s) to be deployed.`);
     }
 
-    const pluginType = pkgJson?.muse?.type;
-    console.log(chalk.cyan('Checking dependencies...'));
-    const dependencyCheckResult = await muse.pm.checkDependencies({
-      appName,
-      envName,
-      pluginName,
-      pluginType,
-      version,
-    });
+    // const pluginType = pkgJson?.muse?.type;
+    // console.log(chalk.cyan('Checking dependencies...'));
+    // const dependencyCheckResult = await muse.pm.checkDependencies({
+    //   appName,
+    //   envName,
+    //   pluginName,
+    //   pluginType,
+    //   version,
+    // });
 
     let confirmDeployment = true;
 
-    if (
-      dependencyCheckResult &&
-      (Object.keys(dependencyCheckResult['dev']).length > 0 ||
-        Object.keys(dependencyCheckResult['dist']).length > 0)
-    ) {
-      // missing dependencies detected on either dev/dist, confirm with user to continue
-      const rl = readline.createInterface({ input, output });
-      console.log(
-        'WARNING: Detected non-satisfied module dependencies from the following library plugins:',
-      );
-      for (const library of Object.keys(dependencyCheckResult['dev'])) {
-        console.log(`(dev) ${library} => [${dependencyCheckResult['dev'][library]}] not found`);
-      }
-      for (const library of Object.keys(dependencyCheckResult['dist'])) {
-        console.log(`(dist) ${library} => [${dependencyCheckResult['dist'][library]}] not found`);
-      }
-      console.log(os.EOL);
-      const answer = await new Promise(resolve =>
-        rl.question('Do you want to continue (yes/no) [Y] ? ', resolve),
-      );
-      rl.close();
-      if (!confirmAnswer(answer)) {
-        console.log(chalk.cyan(`Command ABORTED.`));
-        confirmDeployment = false;
-      }
-    }
+    // if (
+    //   dependencyCheckResult &&
+    //   (Object.keys(dependencyCheckResult['dev']).length > 0 ||
+    //     Object.keys(dependencyCheckResult['dist']).length > 0)
+    // ) {
+    //   // missing dependencies detected on either dev/dist, confirm with user to continue
+    //   const rl = readline.createInterface({ input, output });
+    //   console.log(
+    //     'WARNING: Detected non-satisfied module dependencies from the following library plugins:',
+    //   );
+    //   for (const library of Object.keys(dependencyCheckResult['dev'])) {
+    //     console.log(`(dev) ${library} => [${dependencyCheckResult['dev'][library]}] not found`);
+    //   }
+    //   for (const library of Object.keys(dependencyCheckResult['dist'])) {
+    //     console.log(`(dist) ${library} => [${dependencyCheckResult['dist'][library]}] not found`);
+    //   }
+    //   console.log(os.EOL);
+    //   const answer = await new Promise((resolve) =>
+    //     rl.question('Do you want to continue (yes/no) [Y] ? ', resolve),
+    //   );
+    //   rl.close();
+    //   if (!confirmAnswer(answer)) {
+    //     console.log(chalk.cyan(`Command ABORTED.`));
+    //     confirmDeployment = false;
+    //   }
+    // }
     // no missing dependencies or confirm deploy, deploy right away
     if (confirmDeployment) {
-      const res = await muse.pm.deployPlugin({ appName, envName, pluginName, version });
-      console.log(
-        chalk.cyan(`Deploy success: ${pluginName}@${res.version} to ${appName}/${envName}.`),
-      );
+      // const res = await muse.pm.deployPlugin({ appName, envName, pluginName, version });
+      await muse.pm.deployPlugin({
+        appName,
+        envMap: {
+          [envName]: plugins.map((p) => {
+            const i = p.lastIndexOf('@');
+            let pluginName, version;
+            if (i <= 0) {
+              pluginName = p;
+            } else {
+              pluginName = p.slice(0, i);
+              version = p.slice(i + 1);
+            }
+            return {
+              pluginName,
+              version,
+              type: 'add',
+            };
+          }),
+        },
+      });
+      console.log(chalk.cyan(`Deploy success: ${plugins.join(', ')}to ${appName}/${envName}.`));
     }
   });
 
@@ -462,7 +484,7 @@ program
   .argument('<pluginName>', 'plugin name')
   .action(async (appName, envName, pluginName) => {
     const rl = readline.createInterface({ input, output });
-    const answer = await new Promise(resolve =>
+    const answer = await new Promise((resolve) =>
       rl.question(
         'ATTENTION !! This operation cannot be undone. Confirm plugin undeployment (yes/no) [Y] ? ',
         resolve,
@@ -489,7 +511,7 @@ program
     'The version of the release, can be patch, minor, major or a specified version like 1.0.8.',
     'patch',
   )
-  .action(async version => {
+  .action(async (version) => {
     const pkgJson = fs.readJSONSync(path.join(process.cwd(), 'package.json'), {
       throws: false,
     });
@@ -529,7 +551,7 @@ program
   .summary('Show releases of a plugin')
   .description('Show releases of a plugin.')
   .argument('<pluginName>', 'The plugin name in the registry.')
-  .action(async pluginName => {
+  .action(async (pluginName) => {
     const releases = await muse.pm.getReleases(pluginName);
     console.log(chalk.cyan(JSON.stringify(releases, null, 2)));
   });
@@ -543,7 +565,7 @@ program
   .argument('<version>', 'plugin version')
   .action(async (pluginName, version) => {
     const rl = readline.createInterface({ input, output });
-    const answer = await new Promise(resolve =>
+    const answer = await new Promise((resolve) =>
       rl.question(
         'ATTENTION !! This operation cannot be undone. Confirm delete plugin release (yes/no) [Y] ? ',
         resolve,
@@ -573,7 +595,7 @@ program
   .argument('<version>', 'plugin version')
   .action(async (pluginName, version) => {
     const rl = readline.createInterface({ input, output });
-    const answer = await new Promise(resolve =>
+    const answer = await new Promise((resolve) =>
       rl.question(
         'ATTENTION !! This operation cannot be undone. Confirm unregister plugin release (yes/no) [Y] ? ',
         resolve,
@@ -599,11 +621,11 @@ program
   .command('list-requests')
   .description('List open requests.')
   .argument('[state]', 'plugin version', null)
-  .action(async state => {
+  .action(async (state) => {
     let requests = await muse.req.getRequests();
-    if (state) requests = requests.filter(r => r.state === state);
+    if (state) requests = requests.filter((r) => r.state === state);
     console.log(chalk.cyan(`Requests (${requests.length}): `));
-    requests.forEach(r => {
+    requests.forEach((r) => {
       console.log(
         chalk.cyan(
           ` - ${r.id} by ${r.createdBy} ${chalk.yellow(
@@ -619,7 +641,7 @@ program
   .alias('del-request')
   .description('Delete a request by id.')
   .argument('<requestId>', 'The request id')
-  .action(async requestId => {
+  .action(async (requestId) => {
     await muse.req.deleteRequest({ requestId });
     console.log(chalk.cyan(`Request deleted.`));
   });
@@ -634,7 +656,7 @@ program
       pluginName,
       version,
     });
-    objectList.forEach(o => {
+    objectList.forEach((o) => {
       console.log(
         chalk.cyan(
           ` - ${o.name}        ${o.size} bytes        ${new Date(o.mtime).toLocaleString()}`,
@@ -649,7 +671,7 @@ program
     'Undeploy/Deploy multiple plugins on single/mulitple MUSE application environment(s)',
   )
   .arguments('<appName>', 'app name')
-  .action(async appName => {
+  .action(async (appName) => {
     const answer = await inquirer.prompt([
       {
         name: 'envMap',
@@ -685,7 +707,7 @@ program
     const timeSpan = (timeEnd - timeStart) / 1000;
     console.log(chalk.green(`✨ Done in ${timeSpan}s.`));
   })
-  .catch(err => {
+  .catch((err) => {
     const timeEnd = Date.now();
     const timeSpan = (timeEnd - timeStart) / 1000;
     // console.log(err);

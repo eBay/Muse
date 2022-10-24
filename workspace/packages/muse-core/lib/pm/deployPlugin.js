@@ -43,7 +43,7 @@ const getFileObj = async ({ appName, envName, type, pluginName, version, options
 };
 
 const getAllFilesByEnv = async ({ appName, envName, deployments = [] }) => {
-  const newDeployments = deployments?.map(d => ({ ...d, appName, envName }));
+  const newDeployments = deployments?.map((d) => ({ ...d, appName, envName }));
   return await Promise.all(newDeployments.map(getFileObj));
 };
 
@@ -61,26 +61,26 @@ const getAllFilesByEnv = async ({ appName, envName, deployments = [] }) => {
  * @param {string} [msg] action message
  * @returns {object}
  */
-module.exports = async params => {
+module.exports = async (params) => {
   if (!params.author) params.author = osUsername;
   const { appName, envName, pluginName, author, options, msg } = params;
-  let isBatchDeploy;
+  let isGroupDeploy;
   let version;
   let envMap = params.envMap;
   if (envName && pluginName) {
-    isBatchDeploy = false;
+    isGroupDeploy = false;
     version = await checkReleaseVersion({ pluginName, version: params.version });
     envMap = { ...envMap, [envName]: [{ pluginName, type: 'add', version, options }] };
     params.envMap = envMap;
   } else {
-    isBatchDeploy = true;
+    isGroupDeploy = true;
   }
   validate(schema, params);
   const ctx = {};
 
   logger.info(
-    isBatchDeploy
-      ? `Batch deployment for ${appName}.`
+    isGroupDeploy
+      ? `Group deployment for ${appName}.`
       : `Deploying plugin ${pluginName}@${params.version || 'latest'} to ${appName}/${envName}...`,
   );
 
@@ -92,17 +92,18 @@ module.exports = async params => {
   }
 
   const envs = Object.keys(envMap);
-  const notExistedEnvNames = envs.filter(envName => !app.envs[envName]);
+  const notExistedEnvNames = envs.filter((envName) => !app.envs[envName]);
   if (notExistedEnvNames.length) {
     throw new Error(`Env ${notExistedEnvNames.join(', ')} not exist. Please create it first.`);
   }
 
-  const batchDeployments = await Promise.all(
-    envs.map(async envName => {
+  const groupDeployments = await Promise.all(
+    envs.map(async (envName) => {
       const deployedPlugins = (await getDeployedPlugins(appName, envName)) || [];
-      const deployedPluginIds = deployedPlugins.map(dp => dp.name);
+      const deployedPluginIds = deployedPlugins.map((dp) => dp.name);
       const validDeployments = envMap[envName].filter(
-        d => d.type === 'add' || (d.type === 'remove' && deployedPluginIds.includes(d.pluginName)),
+        (d) =>
+          d.type === 'add' || (d.type === 'remove' && deployedPluginIds.includes(d.pluginName)),
       );
       return {
         appName,
@@ -112,13 +113,13 @@ module.exports = async params => {
     }),
   );
   try {
-    const items = await Promise.all(batchDeployments.map(getAllFilesByEnv));
+    const items = await Promise.all(groupDeployments.map(getAllFilesByEnv));
     ctx.items = items;
     const flattenItems = flatten(items);
     await asyncInvoke('museCore.pm.deployPlugin', ctx, params);
     await registry.batchSet(
       flattenItems,
-      msg || isBatchDeploy
+      msg || isGroupDeploy
         ? `Deployed multiple plugins to ${appName} by ${author}`
         : `Deployed plugin ${pluginName}@${version} to ${appName}/${envName} by ${author}`,
     );
@@ -131,8 +132,8 @@ module.exports = async params => {
   await asyncInvoke('museCore.pm.afterDeployPlugin', ctx, params);
 
   logger.info(
-    isBatchDeploy
-      ? `Batch deployment success: ${appName}.`
+    isGroupDeploy
+      ? `Group deployment success: ${appName}.`
       : `Deploy plugin success: ${pluginName}@${version} to ${appName}/${envName}...`,
   );
   return {
