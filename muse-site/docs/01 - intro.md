@@ -10,13 +10,15 @@ Muse is a highly customizable, extensible and scalable micro-frontends solution 
 Muse could be a small/simple tool to build a single application, but also could be a complicated system to construct enterprise web application infrastructure, depending on your requirements and how you extend the Muse system by yourself.
 
 
-## See the Live Demo
-To have a quick glance at Muse, you can play with our live demo app: [User Manager](https://demo.musejs.org). It helps to understand core Muse concepts and learn to build an app in the Muse way.
+## Try the Live Demo
+To have a quick glance at Muse, you can play with our live demo app: [User Manager](https://demo.musejs.org). It helps to understand Muse main concepts and learn to build an app in the Muse way.
 
 
 ![Demo Screenshot](/img/demo.png)
 
-[See the demo here 👉🏻👉👉🏾](#)
+
+<a href="#" className="highlighted-link-btn">Visit the Demo</a>
+
 
 :::tip
 You can see the detailed explaination of the demo in the built-in [docs page](https://demo.musejs.org/docs).
@@ -105,7 +107,7 @@ jsPlugin.register({
   name: 'plugin-2',
   // Contribute to the extension point "plugin1.route"
   plugin1: {
-    route: [{ path: 'pluing-2/hello', element: () => <h1>Hello plugin2.</h2>}],
+    route: [{ path: 'pluing-2/hello', element: () => <h1>Hello plugin2.</h1>}],
   },
   // ...
 })
@@ -122,7 +124,7 @@ jsPlugin.register({
   // Contribute to the extension point "plugin1.route"
   plugin1: {
     // if it's a function then the return value is consumed
-    route: () => ({ path: 'pluing-3/hello', element: () => <h1>Hello plugin3.</h2>}),
+    route: () => ({ path: 'pluing-3/hello', element: () => <h1>Hello plugin3.</h1>}),
   }
   // ...
 })
