@@ -18,7 +18,7 @@ syncInvoke('museCore.am.processCreateEnvSchema', schema);
  * @param {string} [params.baseEnv] The environment where new environment will copy from. Format: app/env .
  */
 
-module.exports = async params => {
+module.exports = async (params) => {
   validate(schema, params);
   const ctx = {};
   await asyncInvoke('museCore.am.beforeCreateEnv', ctx, params);
@@ -49,10 +49,10 @@ module.exports = async params => {
         throw new Error(`Failed to find baseEnv: ${baseEnv}`);
       }
 
-      const pluginsToBeCopied = (await registry.listWithContent(`/apps/${baseEnv}`)).map(plugin => {
+      const pluginsToBeCopied = (await registry.listWithContent(`/apps/${baseEnv}`)).map((file) => {
         return {
-          keyPath: `/apps/${appName}/${envName}/${plugin.name}.yaml`,
-          value: plugin.content,
+          keyPath: `/apps/${appName}/${envName}/${file.name}`,
+          value: file.content,
         };
       });
 
