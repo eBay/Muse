@@ -88,7 +88,7 @@ const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
   const renderBody = useCallback(
     item => (
       <div className="markdown-wrapper">
-        <ReactMarkdown children={item.body} />
+        <ReactMarkdown children={item.description} />
       </div>
     ),
     [],
