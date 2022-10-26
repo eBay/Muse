@@ -9,16 +9,14 @@ Muse is a highly customizable, extensible and scalable micro-frontends solution 
 
 Muse could be a small/simple tool to build a single application, but also could be a complicated system to construct enterprise web application infrastructure, depending on your requirements and how you extend the Muse system by yourself.
 
+You don't need to read through all the topics of the documentation before creating your first real-case Muse application. Only after you read "Introduction" and "Get started", you will get 80%+ of knowlege about Muse development.
 
 ## Try the Live Demo
 To have a quick glance at Muse, you can play with our live demo app: [User Manager](https://demo.musejs.org). It helps to understand Muse main concepts and learn to build an app in the Muse way.
 
-
 ![Demo Screenshot](/img/demo.png)
 
-
 <a href="#" className="highlighted-link-btn">Visit the Demo</a>
-
 
 :::tip
 You can see the detailed explaination of the demo in the built-in [docs page](https://demo.musejs.org/docs).
@@ -36,7 +34,9 @@ Simply say, there’s a shared modules container at runtime. A plugin can be con
 
 <img src={require("/img/muse-shared-modules.png").default} width="360" />
 
-Muse lib plugins are also distributed via npm, so a Muse project installs lib plugins for dev and build. At compile time (both dev and prod), if a required module is found in some installed lib plugin, then it will be compiled as a delegated module to be loaded from Muse shared modules container at runtime. This is automatically handled by the Muse webpack plugin, you don't need to write special code to use a shared module but just normal import like `import React from 'react';`.
+Muse lib plugins are also distributed via npm, so a Muse project installs lib plugins for dev and build. At compile time (both dev and prod), if a required module is found in some installed lib plugin, then it will be compiled as a delegated module to be loaded from Muse shared modules container at runtime.
+
+This is automatically handled by the Muse webpack plugin, you don't need to write special code to use a shared module but just normal import like `import React from 'react';`.
 
 :::note
 For now we only provide the webpack implementation of Muse shared modules. In the future we may support more build tools.
@@ -133,7 +133,7 @@ jsPlugin.register({
 </TabItem>
 </Tabs>
 
-An extension point just represents the property path in a pure js project. The `jsPlugin.invoke` method collects all values from contributing plugins to an array. In the code sample, we declared route `/plugin-2/hello` from plugin `plugin-2` and route `plugin-3/hello` from plugin `plugin-3`.
+An extension point just represents the property path in a pure JS object. The `jsPlugin.invoke` method collects all values from contributing plugins to an array. In the code sample, we declared route `/plugin-2/hello` from plugin `plugin-2` and route `plugin-3/hello` from plugin `plugin-3`.
 
 :::tip
 
@@ -141,35 +141,63 @@ A plugin object can include any type of properties, e.g: components, functions, 
 
 :::
 
-
 ### How is a Muse app started?
-Everything in Muse is plugins, there is no `main plugin`, `hosting app` concept in a Muse app. Every plugin has equal position. You can define layout, render root component from any plugin. The only special one is boot plugin, every app should only have one boot plugin which is loaded first and it then loads other plugins to the page.
+Everything in Muse is plugins, there is no `main plugin` nor `hosting app` concept in a Muse app. Every plugin has equal position. You can define layout, render root component from any plugin. The only special one is boot plugin, every app should only have one boot plugin which is loaded first and it then loads other plugins to the page.
 
 <img src={require("/img/boot-flow.png").default} width="600" />
 
 Like a Java application may start from one of the main functions, a Muse application also starts from an entry function where you call `ReactDOM.render` to render the root component. Every Muse plugin can provide entry functions, then based on some config variable the boot logic calls the specified entry function to start the app.
 
+## Muse App and Plugin
+From the sample code above, we get understand of the app and plugin concepts in Muse:
 
-
+  - **Muse App**: a Muse app mainly is a group of plugins. Also, you can provide configurations at app level to be consumed by some plugins. When load a Muse app, it means load the plugins into the page. Everything in Muse is plugins, there’s no code corresponding to a Muse app.
+  - **Muse plugin**: a Muse plugin is just a normal javascript object which is registered to the plugin engine js-plugin. You can configure any kind of frontend project to build a bundle which registers a plugin object.
 ## Why Muse?
-Muse has been used inside eBay for years and is serving hundreds of internal UI consoles. It has been approved to be stable and scalable. The idea of Muse was generated based on our experiences on building large web applications. Below is the list of advantages Muse brings to us.
+Muse not only provides a webpack plugin allowing to build different parts of a large app separately (micro-frontends), but also proposed a plugin based approach to organize plugins in a scalable way. At the same time, Muse provides tools and SDKs to support the full lifecycle of a web app: dev, build, test and deploy.
 
-### Reduced complexity
-First, what is complexity? Instead of defining complexity by how easy to add a new feature, we think it should be how easy to remove an existing feature. In Muse, every feature could be an independent plugin. At the same time, all features/plugins of an application can work together seamlessly, which means it’s just like you write all code in a single project. In Muse, every feature could be a plugin which could be easily added, removed or moved from one app to another. By this approach, your applications will always keep simple to be understood and maintained.
+### Micro-frontends
+There have been many micro-frontends frameworks. Muse is a new one but also an old one, since it's already been used for 4+ years. Unlike some of others, one Muse app only allows to use one core tech stack for all plugins deployed on it, like React + Redux + Material UI. Except that, Muse has all adavantages of a micro-frontends solution like:
+
+  - Allow different dev time technologies for different plugins, eg: javascript or typescript, less or sass or css modules, etc..
+  - Scalable: easy to add or remove a feature.
+  - Maintainable: when a project is small, it's always easy to understand and maintain, even you name variables with a, b, c.
+  - Better team work: different teams can work on different features easily.
+  - ...
+
+### Plugin based architecture
+Muse uses a very flexible plugin engine, all plugins can work together seamlessly just like you are still working on a monolith app. It's super easy to add and use an extension point with just several lines of code. So whenever you need some plugin to provide extensibility (like need to add a new button somewhere), the plugin owner can always add the ext point on demand.
 
 ### Great dev experience
-There is no difference between developing a Muse plugin and a normal frontend project. With micro frontends, you usually work on multiple projects at the same time, it’s then a challenge to debug between projects. For example, you added an extension point in one plugin,then want to use it in another plugin. Muse provides very convenient mechanisms for you working on multiple projects at the same time:
-Allows to load remote plugins when you develop a local plugin
-Allows to compile multiple plugins’ source code together in one webpack dev server. So you feel like you are working on a single project.
-Every plugin could have a dev build bundle, so all dev time mechanisms like React props validation, redux-logger are kept for all plugins at dev time even some are loaded remotely.
-Fast compilation
-Many tools like esbuild, rollup, vite, etc were invented to improve the build performance. But in Muse’s philosophy, a huge project is the root cause of the slow build time, not due to a tool. Muse can significantly reduce the build time because:
-Muse plugins are usually very small (several KBs after gzip). It’s super fast to compile for both dev and build time.
-Shared modules don’t need to be compiled again. After you create some library plugins, other plugins never need to re-compile modules from those plugins again.
+Micro-frontends brings some challenges for then development. For example, when you added an extension point in one plugin, then how to use it in another plugin before publish? Muse cares dev experience very much. It provides all flexibility for dev, debug and build. For example:
+  - Allows to load remote plugins when you develop a local plugin
+  - Allows to compile multiple plugins’ source code together in one webpack dev server. So you feel like you are working on a single project.
+  - Every plugin release has a dev build bundle, so all dev time mechanisms like React props validation, redux-logger are kept for all plugins at dev time even some are loaded remotely.
 
-### “Good” code and “bad” code works together well
+By this approach, there is no difference between developing Muse plugins and a normal frontend project.
 
-There are always senior and junior members in a team. Even you and yourself six months ago, are different members. They write different levels/styles of code, which looks “good” or “bad” by different people, even the same people at different times. The collaboration of constructing an understandable large project is difficult. But when a project is small enough, everything is not a problem, even if you name variables with a, b, c. In Muse, different people own different features, they choose different patterns, tools and styles they are used to. Muse allows every feature to be a small project.
+### Fast compilation
+Many tools were invented to improve the compile performance. But in Muse’s philosophy, a huge project is the root cause of the slow build time. A super fast tool will be finally slow someday if you never control the size of your project. Muse can significantly reduce the compile time because:
+  - Shared modules don’t need to be compiled again. After you create some library plugins, other plugins never need to re-compile modules from those plugins again.
+  - Remote plugins have dev build bundle too, they can be loaded in dev server.
+  - Muse plugins are usually very small (several KBs after gzip). It’s always fast to compile for both dev and build time.
 
-### High load performance
-Muse manages releases by versions. Every version is immutable, it means we can permanently cache a plugin bundle in the browser side. Muse provides the service worker to cache the plugin bundle by default. Another benefit is, when a new plugin version is deployed, only the new version needs to be loaded again.
+### High performance for loading
+A Muse app is able to be loaded very fast because:
+  - Muse manages releases by semantic versions. Every version is immutable, so we can permanently cache a plugin bundle in the browser side. Muse provides the service worker to cache the plugin bundle by default, it also auto cleans old versions from the cache.
+  - Whenever you update a plugin, only the new version needs to be loaded again.
+  - Plugins are loaded in parallel. It's much faster than loading a single big bundle. Especially if http2 is used.
+
+:::note
+
+For first time loading, a Muse app just has the same behavior as a normal web app.
+
+:::
+
+### Easy to move out of Muse
+With Muse you write code in the normal way you get used to. You can convert your plugin project to a normal project with just mainly configuration changes.
+
+## Summary
+Muse is a simple system that only consists of two core mechanisms of shared modules and plugin engine. It's crucial to fully understand how they work together. Then you can easily understand other advanced features of Muse for both development and production phase. We will introduce them in other parts of the document.
+
+Though all examples in the documentation is React based, Muse could be used with any UI frameworks. It's totally technology agnostic.
