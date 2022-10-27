@@ -84,12 +84,12 @@ program
     );
 
     if (!(await muse.am.getApp('musemanager'))) {
-      await muse.am.createApp({ appName: 'musemanager', envName: 'production' });
+      await muse.am.createApp({ appName: 'musemanager', envName: 'staging' });
     }
     await muse.pm.deployPlugin({
       appName: 'musemanager',
       envMap: {
-        production: pluginsToInstall.map((name) => ({
+        staging: pluginsToInstall.map((name) => ({
           pluginName: name,
           type: 'add',
           version: pkgs[name].version,
@@ -168,7 +168,7 @@ program
     require('@ebay/muse-simple-server/lib/server')({
       appName: 'musemanager',
       serveApi: true,
-      envName: 'production',
+      envName: 'staging',
       serveStatic: true,
       port,
       variables: {
@@ -471,7 +471,7 @@ program
           }),
         },
       });
-      console.log(chalk.cyan(`Deploy success: ${plugins.join(', ')}to ${appName}/${envName}.`));
+      console.log(chalk.cyan(`Deploy success: ${plugins.join(', ')} to ${appName}/${envName}.`));
     }
   });
 

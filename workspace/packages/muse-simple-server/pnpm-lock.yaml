@@ -3,6 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@ebay/muse-core': workspace:^1.0.26
   '@ebay/muse-express-middleware': workspace:^1.0.26
+  cors: ^2.8.5
   eslint: ^8.18.0
   express: ^4.18.1
   js-plugin: ^1.1.0
@@ -10,6 +11,7 @@ specifiers:
 dependencies:
   '@ebay/muse-core': link:../muse-core
   '@ebay/muse-express-middleware': link:../muse-express-middleware
+  cors: 2.8.5
   express: 4.18.1
   js-plugin: 1.1.0
 
@@ -191,6 +193,14 @@ packages:
   /cookie/0.5.0:
     resolution: {integrity: sha1-0fXXGt7GVYxY84mYfDZqpH6ZT4s=}
     engines: {node: '>= 0.6'}
+    dev: false
+
+  /cors/2.8.5:
+    resolution: {integrity: sha1-6sEdpRWS3Ya58G9uesKTs9+HXSk=}
+    engines: {node: '>= 0.10'}
+    dependencies:
+      object-assign: 4.1.1
+      vary: 1.1.2
     dev: false
 
   /cross-spawn/7.0.3:
@@ -686,6 +696,11 @@ packages:
   /negotiator/0.6.3:
     resolution: {integrity: sha1-WOMjpy/twNb5zU0x/kn1FHlZDM0=}
     engines: {node: '>= 0.6'}
+    dev: false
+
+  /object-assign/4.1.1:
+    resolution: {integrity: sha1-IQmtx5ZYh8/AXLvUQsrIv7s2CGM=}
+    engines: {node: '>=0.10.0'}
     dev: false
 
   /object-inspect/1.12.2:

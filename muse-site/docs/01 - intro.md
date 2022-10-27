@@ -188,6 +188,12 @@ A Muse app is able to be loaded very fast because:
   - Whenever you update a plugin, only the new version needs to be loaded again.
   - Plugins are loaded in parallel. It's much faster than loading a single big bundle. Especially if http2 is used.
 
+:::tip
+
+Visit https://demo.musejs.org to see how fast it is!
+
+:::
+
 :::note
 
 For first time loading, a Muse app just has the same behavior as a normal web app.
