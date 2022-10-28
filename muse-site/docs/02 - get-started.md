@@ -65,6 +65,16 @@ Now let's create a Muse application with some existing plugins. All the steps co
 ```bash
 $ muse create-app myapp
 ```
+
+It will create a Muse app named `myapp` with a default `staging` environment.
+
+
+:::note
+
+You can create multiple environments for an app for development, testing, production etc, with command `muse add-env <appName> <envName>`. 
+
+:::
+
 Then run below command to start the application:
 
 ```bash
@@ -103,18 +113,55 @@ $ npx muse-setup-cra
 This creates a create-react-app based Muse plugin project. The `muse-setup-cra` uses craco to modify webpack config to add Muse related configurations.
 
 ### 3. Add Muse dev config
-At dev time, every plugin needs to know the current working app so that it could gets app config or remote deployed plugins for development. So, add below config in package.json:
-muse: { devConfig: { app: ‘myapp”, env: ‘staging’, remotePlugins: ‘*’}}
+At dev time, the plugin project needs to know the current working app/environment for two purposes. 
+  - Get app level config, like which plugin to start the app, how to log in.
+  - Load remote plugins, the specified plugins on the app will be loaded for local development. It can be plugin names, URLs or `*` to load all.
+
+So, we need to add `devConfig` in `muse` section in `package.json`:
+
+```json
+{
+  "name": "myplugin",
+  "version": "1.0.0",
+  "muse": {
+    "devConfig": {
+      "app": "myapp",
+      "env": "staging",
+      "remotePlugins": ["*"]
+    }
+  },
+  //...
+}
+```
+
+By this config, when you start local dev server it will use app `myapp` and environment `staging` as the target Muse app for local plugin development. It loads all deployed plugins from remote.
+
+:::tip
+**Where is a remote plugin loaded from?**
+
+A Muse plugin project has a dependency `@ebay/muse-core` which reads app info from the Muse registry. So it knows what plugins are deployed and the storage paths of plugins' build bundles. Then get them and serve them by the default local path `/muse-assets`.
+
+:::
+
+### 4. Start the dev server
+As usual, run `npm start` command to start the dev server, then you can access it at http://localhost:3000. We can see it is the same with the page when we visit http://localhost:6070 started by `muse serve app`. It's because all plugins deployed to `myapp` are also loaded to the plugin project. From the dev console we can see the loaded plugin list:
+
+<img src={require("/img/local-plugin-list.png").default} width="400" style={{marginBottom: 20}} />
 
 
-### 4. Install muse-lib-antd
-Since we use ant.design as the UI library, it’s already included in Muse library plugin muse-lib-antd, so we need to install it in the project so that we can use shared modules from it at dev time and build time.
 
-### 5. Start plugin dev server
-Run “npm start” to start the muse dev server. We can see that it loads all plugins deployed on “myapp” including lib-antd, layout-antd, etc. Together with your local project as a plugin.
-NOTE: all remote plugins are loaded with “dev” bundle so that it can work with your local project at dev time with same shared modules from lib plugins’ dev bundles.
+Besides deployed plugins, there is a special plugin `local:myplugin@/main.js` is also loaded. It means the current plugin's development bundle.
 
-### 6. Define a new route
+:::info
+
+Remote plugins are loaded as “dev” bundles so that they can work with your local project at dev time with same shared dev modules from lib plugins.
+
+:::
+
+### 5. Create a hello world page
+Now, let's create a hello world page. For demo purpose, we will just use `@ebay/muse-lib-react` as the 
+
+
 ### 10. Define a menu item
 ### Build plugin project
 ### Release plugin project v1.0.0: “muse release”

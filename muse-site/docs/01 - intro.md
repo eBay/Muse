@@ -200,7 +200,7 @@ For first time loading, a Muse app just has the same behavior as a normal web ap
 
 :::
 
-### Easy to move out of Muse
+### Easy to move in or move out
 With Muse you write code in the normal way you get used to. You can convert your plugin project to a normal project with just mainly configuration changes.
 
 ## Summary
