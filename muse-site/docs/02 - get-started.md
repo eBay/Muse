@@ -102,7 +102,14 @@ It’s not mandatory to use these plugins but just for demo purposes. You can cr
 
 ### 2. Create a Muse plugin
 
-Next let’s create a Muse plugin (based on [create-react-app](https://create-react-app.dev)) to be deployed to the app.
+First, we need to register a plugin in Muse registry by:
+```bash
+$ muse create-plugin myplugin
+```
+
+It's just meta data saved in the Muse registry, you can see it at: `<homedir>/muse-storage/muse-registry/plugins/myplugin.yaml`.
+
+Then let’s create the Muse plugin project (based on [create-react-app](https://create-react-app.dev)) to be deployed to the app.
 
 ```bash
 $ npx create-react-app myplugin
@@ -110,7 +117,10 @@ $ cd myplugin
 $ npx muse-setup-cra
 ```
 
-This creates a create-react-app based Muse plugin project. The `muse-setup-cra` uses craco to modify webpack config to add Muse related configurations.
+Here the `muse-setup-cra` uses craco to modify webpack config to add Muse related configurations. Note that the name should be the same with which in Muse registry. You can use below commands to see all registered plugins:
+```bash
+$ muse list-plugins
+```
 
 ### 3. Add Muse dev config
 At dev time, the plugin project needs to know the current working app/environment for two purposes. 
@@ -154,13 +164,128 @@ Besides deployed plugins, there is a special plugin `local:myplugin@/main.js` is
 
 :::info
 
-Remote plugins are loaded as “dev” bundles so that they can work with your local project at dev time with same shared dev modules from lib plugins.
+Remote plugins are loaded as “dev” bundles so that they can work with your local project at dev time with same shared dev modules from lib plugins. As you can see in the package.json, a Muse plugin's build always generates both `dist` and `dev` build.
+
+```json
+  "scripts": {
+    "build": "muse-scripts-react build && muse-scripts-react build --dev"
+    //...
+  },
+```
 
 :::
 
 ### 5. Create a hello world page
-Now, let's create a hello world page. For demo purpose, we will just use `@ebay/muse-lib-react` as the 
+Now, let's create a hello world page. For demo purpose, we will create our app based on `@ebay/muse-lib-react`, it helps to:
+  - Provides shared modules like React, Redux, Router, etc.
+  - Renders the root component
+  - Configures Redux, React Router, etc
+  - Provides extension points for routing rules reducers, layout, homepage, etc.
 
+First, create a component `src/HelloMuse.js` with below content:
+
+```jsx title=src/HelloMuse.js
+const HelloMuse = () => <h1>Hello Muse!</h1>;
+export default HelloMuse;
+```
+
+Then modify `src/route.js` to add a path `/hello-muse` to point to the `HelloMuse` component:
+
+```jsx title=src/route.js
+import HelloMuse from './HelloMuse';
+
+const route = [
+  {
+    path: '/hello-muse',
+    component: HelloMuse,
+  },
+];
+export default route;
+
+```
+
+Now we can access http://localhost:3000/hello-muse to see below page as expected:
+
+<img src={require("/img/hello-muse.png").default} width="600" />
+
+Though we edited `src/route.js` to add the routing rule, it's actually imported in `src/index.js` to be the `route` property of the registered plugin object. So it's how we leverage the `route` extension point provided by `@ebay/muse-lib-react` plugin to define routing rules.
+
+
+### 6. Define a menu item
+To allow navigating to the `/hello-world` page, we can use the extension point `museLayout.sider.getItems` provided by `@ebay/muse-layout-antd` plugin to define a menu item:
+```jsx title=src/index.js
+import plugin from 'js-plugin';
+
+//...
+
+plugin.register({
+  name: 'myplugin',
+  museLayout: {
+    sider: {
+      getItems: () => {
+        // You can alsl return an array to define multiple items.
+        return {
+          key: 'helloMuse',
+          label: 'Hello Muse',
+          // an antd icon name or use a React element
+          icon: 'star',
+          link: '/hello-muse',
+          order: 10, // used to sort menu items
+        };
+      },
+    },
+  },
+  //...
+});
+```
+
+Now we refresh the page, we can see a new menu item in the sider bar:
+
+<img src={require("/img/hello-muse-2.png").default} width="600" />
+
+### 7. Build, release and deploy
+There's difference to release a Muse plugin comparing to a normal web app deployment. Since now we are just shipping a single plugin of the whole app.
+
+First, we need to build the plugin project, it will output to the `build` folder:
+```bash
+$ npm run build
+```
+
+If we inspect the `build` folder, we can see two sub folders:
+  - dist: it is a production build, used for production
+  - dev: it's a dev build, used for development loaded as a remote plugin.
+
+After build, we need to release it to the Muse registry:
+```bash
+$ muse release myplugin 1.0.0
+```
+
+The command does two things:
+  - 1. Registers a release in the Muse registry, you can see it in `<homedir>/muse-storage/plugins/releases/myplugin.yaml`.
+  - 2. Uploads build assets to Muse assets storage, you can see it at `<homedir>/muse-storage/assets/p/myplugin/v1.0.0`. 
+  :::info
+  It uploads assets only when the command runs under a Muse plugin project and there is a `build` folder.
+  :::
+
+We can verify the release by this command:
+```bash
+$ muse list-releases myplugin
+```
+
+<img src={require("/img/list-releases.png").default} width="500" />
+
+After a release is created, we can deploy it to our app `myapp`:
+
+```bash
+$ muse deploy myapp staging myplugin 1.0.0
+```
+
+It means we deploy plugin `myplugin` version `1.0.0` to the `staging` environment of `myapp`.
+
+Remember we used `muse serve myapp` run the Muse app locally at http://localhost:6070 ? Then we can access it again:
+
+
+### 8. Export the Muse app
 
 ### 10. Define a menu item
 ### Build plugin project
