@@ -244,23 +244,26 @@ Now we refresh the page, we can see a new menu item in the sider bar:
 <img src={require("/img/hello-muse-2.png").default} width="600" />
 
 ### 7. Build, release and deploy
-There's difference to release a Muse plugin comparing to a normal web app deployment. Since now we are just shipping a single plugin of the whole app.
+There's difference to release a Muse plugin comparing to a normal web app deployment. Since now we are just shipping one of plugins of the whole app.
 
+#### Build plugin
 First, we need to build the plugin project, it will output to the `build` folder:
 ```bash
 $ npm run build
 ```
 
 If we inspect the `build` folder, we can see two sub folders:
-  - dist: it is a production build, used for production
-  - dev: it's a dev build, used for development loaded as a remote plugin.
+  - **dist**: it is a production build, used for production
+  - **dev**: it's a dev build, used for development loaded as a remote plugin.
 
+
+#### Release plugin
 After build, we need to release it to the Muse registry:
 ```bash
 $ muse release myplugin 1.0.0
 ```
 
-The command does two things:
+The `muse release` command does two things:
   - 1. Registers a release in the Muse registry, you can see it in `<homedir>/muse-storage/plugins/releases/myplugin.yaml`.
   - 2. Uploads build assets to Muse assets storage, you can see it at `<homedir>/muse-storage/assets/p/myplugin/v1.0.0`. 
   :::info
@@ -274,6 +277,7 @@ $ muse list-releases myplugin
 
 <img src={require("/img/list-releases.png").default} width="500" />
 
+#### Deploy plugin
 After a release is created, we can deploy it to our app `myapp`:
 
 ```bash
@@ -282,19 +286,36 @@ $ muse deploy myapp staging myplugin 1.0.0
 
 It means we deploy plugin `myplugin` version `1.0.0` to the `staging` environment of `myapp`.
 
-Remember we used `muse serve myapp` run the Muse app locally at http://localhost:6070 ? Then we can access it again:
+Remember we used `muse serve myapp` run the Muse app locally at http://localhost:6070 ? Then we can access it again, we see the same UI as the local development. But in the dev console, we see our `myplugin` is already in the `myapp`.
 
+<img src={require("/img/myapp-plugin-list.png").default} width="400" style={{marginBottom: 30}} />
+
+:::tip
+
+While you run the `muse deploy` command under a Muse plugin project. It will use the current plugin name in the project's package.json. So we can just run `muse deploy myapp`. It will use the default `staging` environment, and deploy the latest version of `myplugin`.
+
+:::
 
 ### 8. Export the Muse app
+Although we got the plugin on the app it's can only run locally, so we need deploy it to the server, just like a normal React project. Muse provides the `export` command, we can export all necessary configuration and assets to a folder for uploading to some server:
 
-### 10. Define a menu item
-### Build plugin project
-### Release plugin project v1.0.0: “muse release”
-### Deploy plugin “muse deploy myapp myplugin 1.0.0”
-### Refresh page
-Install muse-lib-antd and muse-layout-antd
-…
-Create another plugin
-…
+```base
+$ muse export-app myapp staging ./myapp-dist
+```
 
+It means export `staging` environment of `myapp` to the `./myapp-dist` folder. You can use `npx serve ./myapp-dist` to verify it locally and then upload the folder to the server. Then you have all plugins of `myapp` serving from your server.
 
+If you inspect the `./myapp-dist` folder to view the content. You can see a folder  structure like below:
+
+<img src={require("/img/myapp-dist.png").default}  />
+
+You can edit `index.html` if you want to add other content to the page before deployment.
+
+:::note
+
+`muse export-app` is a traditional way for using Muse, you upload all static assets to the server. But if you have a Muse web server which reads registry and serve assets directly from Muse storage then the `muse deploy` is the last step to make your plugin online. We will introduce it in later topics.
+
+:::
+
+## Summary
+In this topic we introduced the traditional usage of Muse. Hope you've got the idea how Muse really works. We think it's already enough for you to start the development of a Muse app.
