@@ -1,11 +1,13 @@
-# Setup Local Development
+# Local Development Config
 
-- Using MUSE_GLOBAL
-- Understanding plugin types
-- Creating a library plugin
-- Creating a normal plugin
-- Creating an init plugin
-- Share assets between plugins
-- Creating a boot plugin
+Development experience is the first-class citizen in Muse. Especially for micro-frontends, it introduces additional challenge about working on multiple projects together. Muse provides complete solutions for varous scenarios.
 
-Muse cares dev experience a lot. In this topic we will see all possible necessary configurations for developing Muse apps locally.
+## Working on multiple projects
+Usually you work on a single plugin at one time, but it still needs to load other plugins for collabration.
+
+
+
+
+## Specify the current Muse app
+## Override app variables
+
