@@ -2,6 +2,7 @@
 
 - Using MUSE_GLOBAL
 - Using static assets
+- Using shared modules
 - Understanding plugin types
 - Creating a library plugin
 - Creating a normal plugin
