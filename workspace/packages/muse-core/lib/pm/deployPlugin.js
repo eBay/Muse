@@ -119,9 +119,10 @@ module.exports = async (params) => {
     await asyncInvoke('museCore.pm.deployPlugin', ctx, params);
     await registry.batchSet(
       flattenItems,
-      msg || isGroupDeploy
-        ? `Deployed multiple plugins to ${appName} by ${author}`
-        : `Deployed plugin ${pluginName}@${version} to ${appName}/${envName} by ${author}`,
+      msg ||
+        (isGroupDeploy
+          ? `Deployed multiple plugins to ${appName} by ${author}`
+          : `Deployed plugin ${pluginName}@${version} to ${appName}/${envName} by ${author}`),
     );
   } catch (err) {
     ctx.error = err;

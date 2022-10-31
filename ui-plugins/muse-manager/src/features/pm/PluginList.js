@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { Table, Button, Tag, Tooltip, Radio } from 'antd';
+import { Table, Button, Tag, Tooltip } from 'antd';
 import jsPlugin from 'js-plugin';
 import semver from 'semver';
 import TimeAgo from 'react-time-ago';
@@ -190,12 +190,17 @@ export default function PluginList({ app }) {
         <div>
           <PluginListBar app={app} />
           <Table
-            pagination={false}
             rowKey="name"
             size="middle"
             columns={columns}
             dataSource={pluginList}
             loading={pending || !data}
+            pagination={{
+              hideOnSinglePage: false,
+              size: 'small',
+              showTotal: total => `Total ${total} items`,
+              showQuickJumper: true,
+            }}
           />
         </div>
       )}
