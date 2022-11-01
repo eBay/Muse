@@ -54,3 +54,7 @@
   background-color:#43A047;
 }
 
+.docusaurus-mermaid-container > svg {
+  display: block;
+  margin: 30px auto;
+}

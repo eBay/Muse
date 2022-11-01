@@ -24,7 +24,7 @@ sequenceDiagram
         S -->> A: Logged in: /auth/redirect
         A -->> A: read Muse app's url from cookie
         A -->> M: Redirect to the Muse app with the url
-        M ->> A: *.ebay.com/api/user-info
+        M ->> A: *.ebay.com/api/some-api
     end
     end
 
@@ -37,12 +37,14 @@ sequenceDiagram
 
 ## Implementation
 - The backend needs to allow cross origin request from the domain of the Mues app (e.g: myapp.muse.vip.ebay.com). And it should allow the `localhost` for local development.
+:::danger
+ Don't use a wildcard *. But set specific domains.
+:::
 - To allow cookies to be sent from Muse app to backend, need to use [`withCredentials: true`](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/withCredentials) for XML http requests.
+- The backend header should have: `Access-Control-Allow-Credentials=true`.
 - The backend needs to intecept all API requests and respond 403 instead of redirecting to login if token is invalid.
 - The backend needs to implement below APIs:
     - **/auth/redirect-to-login**: start site sso flow.
     - **/auth/redirect-after-login**: callback URI after sso login sccuess. It redirects to the correct Muse app Url and path.
 
 
-## Challenge
-At local development, usually the backend app and Muse app use different port. But site sso token cookie has `SameSite` attribute which prevents the cookie to be sent from Muse app to backend. Need to disable it for local development. How?

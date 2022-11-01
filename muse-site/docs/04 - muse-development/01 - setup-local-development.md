@@ -3,7 +3,8 @@
 Developer experience is the first-class citizen in Muse. So Muse has provided complete solutions to address challenges and additional complexity introduced by Micro-frontends.
 
 ## Working on multiple plugins together
-There are varous scenarios those need to work on multiple projects together at same time. For example:
+
+There are various scenarios those need to work on multiple projects together at same time. For example:
 
   - Load remote plugins on a Muse app: when you are working on a feature (plugin) on the app, you need to load plugins to contribute to their exitension points.
   - You work on multiple plugins locally, while one project is changed (eg: added a new shared module, defined a new expoint, etc). Then you need to load dev time bundles as plugins locally.
@@ -43,19 +44,35 @@ A dev bundle means the build result with NODE_ENV=development. So that it can wo
   ```
   Format 2 is a shortcut of the format 1 since if Muse knows the project folder it can get the plugin name and type. So the second example is the same as `myplugin#normal:http://localhost:3000/main.js`.
 
-  While a plugin is loaded via URL from a local dev server, you can make changes to multiple projects and they are compiled by different webpack dev servers but can be loaded into the same for development.
+  While plugins are loaded via URLs from local dev servers, you can also make changes to the projects and they are compiled by different webpack dev servers but can be loaded into the same for development.
+
+  ```mermaid
+  flowchart LR
+  id1(plugin 1)
+  id11(plugin 1 dev server)
+  id2(plugin 2)
+  id22(plugin 2 dev server)
+  id3(plugin 3)
+  id33(plugin 3 dev server)
+  id4((Muse App <br/> in browser))
+  id1 --> id11 -->|localhost:3000/main.js| id4
+  id2 --> id22 -->|localhost:3001/main.js| id4
+  id3 --> id33 -->|localhost:3002/main.js| id4
+  ```
 
 #### Then where to define the remote plugins? There are two approaches:
 
   1. Use the environment variable `MUSE_REMOTE_PLUGINS`. Usually we also define it in `.env` file which is not commited to the repo. Seperate every plugin by `;`. For example:
-  ```
+  ```txt title=".env"
   MUSE_REMOTE_PLUGINS=users-plugin;../roles-plugin:3030;
   ```
   
-  If you don't want your setup to affect others, then you should use this approach since it's not commited to the repo.
+  :::tip
+  A `.env` is usually not commited to the repo, so we use it for developer specific local dev config. Different developers may have different config.
+  :::
 
-  2. Set it in `muse.devConfig.remotePlugins` in `package.json`:
-  ```json
+  2. Use `muse.devConfig.remotePlugins` in `package.json`:
+  ```json {8-15}
   {
     "name": "myplugin",
     "version": "1.0.0",
@@ -76,9 +93,9 @@ A dev bundle means the build result with NODE_ENV=development. So that it can wo
     //...
   }
   ```
-  Though this option also supports local plugins by URL, we usually should avoid it since other team members may not have same folder structure.
+  Though this option also supports local plugins by URL, we usually should avoid it since other team members may not have same folder structure. Usually we only set plugin names in `remotePlugins` since it usually means the plugins always needs those remote plugins to work together.
 
-:::caution IMPORTANT
+:::note
 While load by URL, you should ensure the webpack dev server is already started. That is, the URL serves the dev bundle.
 :::
 
@@ -86,9 +103,9 @@ While load by URL, you should ensure the webpack dev server is already started. 
 
 **Why do we need to know plugin name and type when loaded by URL?**
 
-A plugin not only has a js bundle but also some configurations, for example, plugin variables, allowlist, etc. These configurations are maintained in the Muse registry. So to use these configurations, it needs to know plugin names to get the information.
+A plugin not only has a js bundle but also some configurations, for example, plugin variables, allowlist, etc. These configurations are maintained in the Muse registry. So  it needs to know plugin names to get the information to use these configurations.
 
-Plugin type is used when loading the bundles, for example, init plugins are loaded before normal and lib plugins. So the boot logic needs the type info to load plugins in the correct order.
+Plugin type is used when loading the bundles, for example, `init` plugins are loaded before `normal` and `lib` plugins. So the boot logic needs the type info to load plugins in the correct order.
 
 :::
 
@@ -103,45 +120,53 @@ Plugin type is used when loading the bundles, for example, init plugins are load
 
 :::
 
-
-For most cases you can use remote plugins approach to work on multiple plugins. But there is one exception 
-
-
 ### Combine source code
-Besides load remote plugins, Muse also allows to combine source code from multiple local plugin projects to be run in a single webpack dev server. You can define them in `MUSE_LOCAL_PLUGINS` environment variable seperated by `;`. We usually specify it in the `.env` file under a plugin project, for example:
+Besides load remote plugins, Muse also allows to combine source code from multiple local plugin projects to be run in a single webpack dev server. You can define them in `MUSE_LOCAL_PLUGINS` environment variable seperated by `;`. 
+
+For example, say that the current working plugin is `users-plugin` but we want `roles-plugin` and `doc-plugins` are compiled together, So we can usually specify it in the `.env` file under `users-plugin` project:
 
 ```txt title=".env"
-MUSE_LOCAL_PLUGINS=../roles-plugin;../users-plugin;/Users/nate/doc-plugin;
+MUSE_LOCAL_PLUGINS=../roles-plugin;/Users/nate/doc-plugin;
 ```
 
-:::note
+It means `roles-plugin`, `doc-plugin` projects are also compiled together with the current plugin project. The folder path could be either relative path to the current working dir or absolute paths.
 
-A `.env` is usually not commited to the repo, so we use it since MUSE_LOCAL_PLUGINS is always related with the local environment. Different developers may have different config.
+Say that we start the dev server from `users-plugin` project which have above `.env` setting, then all source code is compiled in a single dev server:
+  ```mermaid
+  flowchart LR
+  id1(users-plugin)
+  id2(roles-plugin)
+  id3(doc-plugin)
+  id11((dev server <br/>from users-plugin))
 
-:::
+  id4((Muse App <br/> in browser))
+  id1 -->|src| id11 
+  id2 -->|src| id11 
+  id3 -->|src| id11 
+  id11 --> id4
+  ```
 
-It means `roles-plugin`, `users-plugin`, `doc-plugin` projects are also compiled together with the current plugin project. The folder path could be either relative path to the current working dir or absolute paths.
-
-
-Internally, while you run `npm start` Muse will then add all entries to the webpack config based on these folders path:
+Internally, while you run `npm start` Muse will add all entries to the webpack config based on these folders path:
 
 ```js
 entry: [
-  './current-plugin/src/index.js', // The current plugin project's entry
+  './users-plugin/src/index.js', // The current plugin project's entry
   '../roles-plugin/src/index.js',
-  '../users-plugin/src/index.js',
   '/Users/nate/doc-plugin/src/index.js',
 ]
 ```
 
-It's a convention that the entry file must be `src/index.js` for Muse plugins.
+
+By default it finds `src/index.js` as the entry but you can change it in `muse.devConfig.entry`.
 
 :::info
 **How dependencies are resolved?**
 
 Muse resolves dependenceis from `node_modules` folder from all projects in the declared order. For example:
-  - If `lodash` is used by all plugins, then the `lodash` under `current-plugin` is used for all.
-  - If `moment` is used by `roles-plugin` and `users-plugin`, then the `moment` under `roles-plugins` is used for both.
+  - If `lodash` is used by all plugins, then the `lodash` under `users-plugin` is used for all.
+  - If `moment` is only used by `roles-plugin` and `docs-plugin`, then the `moment` under `roles-plugins` is used for both.
+
+That is, a plugin project doesn't first resolve dependencies from its own `node_modules` folder, but in the declared order.
 :::
 
 :::caution IMPORTANT 1
@@ -150,11 +175,55 @@ Since it compiles all source code together, it needs the current plugin's webpac
 
 :::caution IMPORTANT 2
 
-You can only use this approach for `normal` and `lib` plugins but NOT `boot` or `init` plugins since the later are loaded at different points of the loading lifecycle.
+You can only use this approach for `normal` and `lib` plugins but NOT `boot` or `init` plugins since the later are loaded at different points of the loading lifecycle. Instead, you can use remote plugin by URL for `boot` and `init` plugins at dev time.
 
 :::
-### Comparison
-Below is the summary of different options for working on multiple projects.
+### How to choose?
+Since there're different options for working on multiple plugins together, then how do we choose the proper one? Below is the summary:
+
+
+
+Before comparison, you may want to understand:
+  - Usually you only need `muse.devConfig.remotePlugins` in `package.json` for most of cases. You load other plugins' dev bundles to the local dev environment.
+  - Plugin by URL or combine source code only when you need to make changes to multiple project at same time.
+
+<table style={{width: '100%', display: 'table'}}>
+  <tr>
+    <th style={{width: '200px'}}>Options</th>
+    <th>When to use?</th>
+  </tr>
+  <tr>
+    <td>Remote plugin by name</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Remote plugin by URL</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Compbine source code</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Use `.env`</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Use `package.json`</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Build performance</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Supported plugin types</td>
+    <td></td>
+  </tr>
+</table>
+
+## Installing library plugins locally
+
 
 ## Specify the current Muse app
 ## Override app variables
