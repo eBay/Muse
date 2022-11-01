@@ -2,25 +2,37 @@
 
 Developer experience is the first-class citizen in Muse. So Muse has provided complete solutions to address challenges and additional complexity introduced by Micro-frontends.
 
+## Specify the current Muse app/env
+Unlike a normal web application, all things about the application are all in the current project, a Muse plugin project is usually only a small part of the whole applicaiton. So you need to be able to run the Muse application for your plugin at dev time. It's used for:
+
+- Get app level configurations
+- Get plugin list deployed to the current app.
+
+You can specify the working app/env in the plugin project's `package.json`:
+
+```json
+{
+  "name": "myplugin",
+  "version": "1.0.0",
+  "muse": {
+    "devConfig": {
+      "app": "myapp",
+      "env": "staging",
+    }
+  },
+  //...
+}
+```
+
+By default, only core plugins configured on application and your current working plugin are loaded when start the app at dev time. But you can specify more if you need more plugins to be loaded as introduced below. 
+
 ## Working on multiple plugins together
 
 There are various scenarios those need to work on multiple projects together at same time. For example:
+- Your plugin contributes to extension points from other plugins.
+- You changed code in one plugin then want to see it in another plugin at dev time.
 
-  - Load remote plugins on a Muse app: when you are working on a feature (plugin) on the app, you need to load plugins to contribute to their exitension points.
-  - You work on multiple plugins locally, while one project is changed (eg: added a new shared module, defined a new expoint, etc). Then you need to load dev time bundles as plugins locally.
-
-It's useful if you only need other features besides your current plugin project, for example:
-
-  - Contribute to extension points of them
-  - Need to use shared modules or exported assets from them
-
-Muse provides two approaches:
-
-  - Combine source code
-  - Load remote plugins
-
-
-
+Muse has provided below mechanisms to address this common requirement.
 
 ### Load remote plugins
 While working on your local plugin project, you can load other remote plugins' dev bundles. They could be either from a static resource server or a local webpack dev server. You can declare remote plugins by two formats, by plugin name or by URL.
@@ -183,10 +195,6 @@ Since there're different options for working on multiple plugins together, then 
 
 
 
-Before comparison, you may want to understand:
-  - Usually you only need `muse.devConfig.remotePlugins` in `package.json` for most of cases. You load other plugins' dev bundles to the local dev environment.
-  - Plugin by URL or combine source code only when you need to make changes to multiple project at same time.
-
 <table style={{width: '100%', display: 'table'}}>
   <tr>
     <th style={{width: '200px'}}>Options</th>
@@ -194,38 +202,45 @@ Before comparison, you may want to understand:
   </tr>
   <tr>
     <td>Remote plugin by name</td>
-    <td></td>
+    <td>
+    This is the most frequently used config. All specified plugins which are deployed to the current working app/env will be loaded for local development. Use this approach when:
+    <ul><li>It's already deployed to the app and you just use it but no need to change code of it.</li></ul>
+     Note that if it's not deployed then it's ignored. 
+    </td>
   </tr>
   <tr>
     <td>Remote plugin by URL</td>
-    <td></td>
+    <td>It loads a plugin directly from another dev server by URL. Then any code change on that project will be applied to the current working app. Use this option when:
+    <ul>
+      <li>You need to test a <b>boot</b> or <b>init</b> plugin locally in another plugin project.</li>
+      <li>You need to test multiple plugins together at dev time but want higher build performance. For example: add an extension point in one plugin and use it in another plugin. It has higher performance because projects are compiled by their own dev server.</li>
+    </ul>
+    The disadvantage of this options is: you need to start multiple webpack dev server which is not that convenient. So, we sometimes can use combine souce code instead.</td>
   </tr>
   <tr>
     <td>Compbine source code</td>
-    <td></td>
+    <td>This option compiles source code from multiple projects together. Use this approach when:
+      <ul>
+        <li>You need to use a shared module from a lib plugin at dev time. For example, you created/updated an component in a lib plugin and want to use it in the current plugin project at dev time.</li>
+        <li>You work on multiple plugin projects at dev time but they are all small enough to ignore compilation time. This is an more convenient approach compared to remote plugin by URL.</li>
+      </ul>
+      Note that this option doesn't support boot or init plugins. And the current plugin project's webpack config should support other plugins.
+    </td>
   </tr>
   <tr>
     <td>Use `.env`</td>
-    <td></td>
+    <td>If the remote plugins or local plugins are only for yourself, then you should define it in a <b>.env</b> file so that it doesn't affect other developers.</td>
   </tr>
   <tr>
     <td>Use `package.json`</td>
-    <td></td>
-  </tr>
-  <tr>
-    <td>Build performance</td>
-    <td></td>
-  </tr>
-  <tr>
-    <td>Supported plugin types</td>
-    <td></td>
+    <td>It's usually for remote plugins by name with <b>muse.devConfig.remotePlugins</b>. Use it when the setting is necessary fo  all developers.</td>
   </tr>
 </table>
 
 ## Installing library plugins locally
 
 
-## Specify the current Muse app
+
 ## Override app variables
 
 ## Inherited app and plugin meta
