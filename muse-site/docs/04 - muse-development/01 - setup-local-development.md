@@ -31,13 +31,20 @@ The Muse dev server then reads the app info from Muse registry and serves the ap
 Core plugins is just a logical concept which means they must be loaded to run the application. Technically all plugins are same. At dev time, you usually don't need all plugins to be loaded to develop your plugin.
 :::
 
-## Working on multiple plugins together
+## No index.html
+There is a special part of a Muse plugin: there should be no `index.html` in public folder of the plugin project (if there is, please delete it). That is, the plugin doesn't serve the `index.html` itself but Muse dev server does it.
+
+The Muse dev server is a webpack plugin that reads Muse registry to construct the `index.html` to be loaded in the browser. To customize the `index.html` you can read the guide [here](#TODO).
+
+## Working with multiple plugins together
 
 There are various scenarios those need to work on multiple projects together at same time. For example:
 - Your plugin contributes to extension points from other plugins.
 - You changed code in one plugin then want to see it in another plugin at dev time.
 
 Muse has provided below mechanisms to address this common requirement.
+
+
 
 ### Load remote plugins
 While working on your local plugin project, you can load other remote plugins' dev bundles. They could be either from a static resource server or a local webpack dev server. You can declare remote plugins by two formats, by plugin name or by URL.
@@ -77,6 +84,8 @@ A dev bundle means the build result with NODE_ENV=development. So that it can wo
   id3 --> id33 -->|localhost:3002/main.js| id4
   ```
 
+ 
+
 #### Then where to define the remote plugins? There are two approaches:
 
   1. Use the environment variable `MUSE_REMOTE_PLUGINS`. Usually we also define it in `.env` file which is not commited to the repo. Seperate every plugin by `;`. For example:
@@ -113,7 +122,8 @@ A dev bundle means the build result with NODE_ENV=development. So that it can wo
   Though this option also supports local plugins by URL, we usually should avoid it since other team members may not have same folder structure. Usually we only set plugin names in `remotePlugins` since it usually means the plugins always needs those remote plugins to work together.
 
 :::note
-While load by URL, you should ensure the webpack dev server is already started. That is, the URL serves the dev bundle.
+- While load by URL, you should ensure the webpack dev server is already started.
+- The dev bundle from a remote plugin by URL should not have duplicated plugins from combine source code approach introduced below.
 :::
 
 :::info
@@ -130,8 +140,7 @@ Plugin type is used when loading the bundles, for example, `init` plugins are lo
 
   - Changing remote plugins config does NOT need to restart the webpack dev server. So, you can enable or disable a remote plugin very easily.
   - All deployed boot and init plugins are always loaded as remote plugins.
-  - All dependent plugins, which means they are dependents of some specified remote plugins, will be loaded.
-  - All deployed plugins which have `core: true` property will be also always loaded.
+  - All deployed plugins which specifed as `corePlugins` in the app config will be also always loaded.
   - If a remote plugin is defined both by name and URL, the the URL one has higher priority.
   - If a library plugin is already installed locally, it has higher priority than remote plugin by name but lower priority than remote plugin by URL.
 
@@ -195,6 +204,8 @@ Since it compiles all source code together, it needs the current plugin's webpac
 You can only use this approach for `normal` and `lib` plugins but NOT `boot` or `init` plugins since the later are loaded at different points of the loading lifecycle. Instead, you can use remote plugin by URL for `boot` and `init` plugins at dev time.
 
 :::
+
+
 ### How to choose?
 Since there're different options for working on multiple plugins together, then how do we choose the proper one? Below is the summary:
 
@@ -225,26 +236,36 @@ Since there're different options for working on multiple plugins together, then 
     <td>This option compiles source code from multiple projects together. Use this approach when:
       <ul>
         <li>You need to use a shared module from a lib plugin at dev time. For example, you created/updated an component in a lib plugin and want to use it in the current plugin project at dev time.</li>
-        <li>You work on multiple plugin projects at dev time but they are all small enough to ignore compilation time. This is an more convenient approach compared to remote plugin by URL.</li>
+        <li>You work on multiple plugin projects at dev time but the overhead build time could be ignored. This is an more convenient approach compared to remote plugin by URL.</li>
       </ul>
       Note that this option doesn't support boot or init plugins. And the current plugin project's webpack config should support other plugins.
     </td>
   </tr>
+  
   <tr>
     <td>Use `.env`</td>
     <td>If the remote plugins or local plugins are only for yourself, then you should define it in a <b>.env</b> file so that it doesn't affect other developers.</td>
   </tr>
   <tr>
     <td>Use `package.json`</td>
-    <td>It's usually for remote plugins by name with <b>muse.devConfig.remotePlugins</b>. Use it when the setting is necessary fo  all developers.</td>
+    <td>It's usually for remote plugins by name with <b>muse.devConfig.remotePlugins</b>. Use it when the setting is necessary fo  all developers on the project.</td>
   </tr>
 </table>
 
+### Install libaray plugins locally
+A library plugin is also published to the npm registry besides maintained in Muse registry. There are two cases for local development:
+
+1. You need to use shared modules from some library plugins for your plugin project. Then you need to install them as dependencies. It's because Muse webpack plugin needs to know if a required module should be delegated to a shared module.
+2. You don't use shared modules from a library plugin but it's necessary for a loaded remote plugin. Then you don't need to install it locally. Just define it as a remote plugin too.
+
+   For example: you are working on plugin A, it doesn't directly use shared modules from plugin C, but you load a remote plugin B which needs shared modules from C. Then you don't need to install C as a dependency. Just load C as a remote plugin. However, it's also fine to install C as a local dependency.
+
+Local installed library plugins have higher priority than remote plugins if defined at both places. It matters when the local installed version is different from the remote one. You can use this feature to test a library plugin before deploy to the app.
 
 ## Override app/env/plugins meta
 Muse allows to add artribary properties on different level of an application: app, env and plugin. They are maintained in Muse registry and could be consumed by plugins. For example, we use it allow configuring variables. You can see more introducton [here](#).
 
-At dev time, the dev server also loads the meta from Muse registry. However, sometimes you need to change the config for testing pupose as dev time only. Then we need to be able to override some meta. It's achieved by `appOverride`, `envOverride` and `pluginsOverride`:
+At dev time, the dev server also loads the meta from Muse registry so that they can be consumed by plugins. However, sometimes you need to change the config for testing pupose as dev time only. Then we need to be able to override some meta. It's achieved by `appOverride`, `envOverride` and `pluginsOverride`:
 
 ```
 "muse": {
@@ -258,6 +279,23 @@ At dev time, the dev server also loads the meta from Muse registry. However, som
 }
 ```
 
-## Summary
-Now we have learned all about the dev time config for Muse plugins, it enables you and your team to work on a large micro-frontends application smoothly.
+For example, you want to test a new API endpoint locally which has been defined at `env` level, then we can override it with below config:
 
+```
+"muse": {
+  "devConfig": {
+    "envOverride": {
+      "apiEndpoint": "<new endpoint>"
+    },
+  }
+}
+```
+
+Then the plugin can use the overriding value without changing code.
+
+## Summary
+Now we have learned all about the dev time config for Muse plugins, it enables you and your team to work on a large micro-frontends application smoothly. See below full picture about Muse app at dev time:
+
+<img src={require("/img/dev-arch.png").default}  />
+
+If you understand every part in the picture, then you get everything in this topic.
