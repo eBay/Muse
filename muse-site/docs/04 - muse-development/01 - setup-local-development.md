@@ -42,9 +42,7 @@ There are various scenarios those need to work on multiple projects together at 
 - Your plugin contributes to extension points from other plugins.
 - You changed code in one plugin then want to see it in another plugin at dev time.
 
-Muse has provided below mechanisms to address this common requirement.
-
-
+Muse has provided complete solutions to address these common requirements. See the introduction below.
 
 ### Load remote plugins
 While working on your local plugin project, you can load other remote plugins' dev bundles. They could be either from a static resource server or a local webpack dev server. You can declare remote plugins by two formats, by plugin name or by URL.
@@ -252,7 +250,7 @@ Since there're different options for working on multiple plugins together, then 
   </tr>
 </table>
 
-### Install libaray plugins locally
+## Install libaray plugins locally
 A library plugin is also published to the npm registry besides maintained in Muse registry. There are two cases for local development:
 
 1. You need to use shared modules from some library plugins for your plugin project. Then you need to install them as dependencies. It's because Muse webpack plugin needs to know if a required module should be delegated to a shared module.
