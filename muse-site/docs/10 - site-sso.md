@@ -18,7 +18,7 @@ sequenceDiagram
         Note right of A: Instead of redirecting to sso<br/>but tell Muse app to redirect
         A -->> M: 403: User not logged in.
         M -->> M: User confirmation.
-        M ->> A: redirect to /auth/redirect-login
+        M ->> A: redirect to /auth/sso-login
         A -->> A: save Muse app's current url in cookie
         A ->> S: Start SSO Login Flow
         S -->> A: Logged in: /auth/redirect

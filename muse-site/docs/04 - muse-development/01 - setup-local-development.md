@@ -5,8 +5,9 @@ Developer experience is the first-class citizen in Muse. So Muse has provided co
 ## Specify the current Muse app/env
 Unlike a normal web application, all things about the application are all in the current project, a Muse plugin project is usually only a small part of the whole applicaiton. So you need to be able to run the Muse application for your plugin at dev time. It's used for:
 
+- As the host of your plugin
 - Get app level configurations
-- Get plugin list deployed to the current app.
+- Get plugin list of the app.
 
 You can specify the working app/env in the plugin project's `package.json`:
 
@@ -24,7 +25,11 @@ You can specify the working app/env in the plugin project's `package.json`:
 }
 ```
 
-By default, only core plugins configured on application and your current working plugin are loaded when start the app at dev time. But you can specify more if you need more plugins to be loaded as introduced below. 
+The Muse dev server then reads the app info from Muse registry and serves the app locally in dev mode. By default, only core plugins configured on application and your current working plugin are loaded. But you can specify more if you need more plugins to be loaded as introduced below. 
+
+:::note
+Core plugins is just a logical concept which means they must be loaded to run the application. Technically all plugins are same. At dev time, you usually don't need all plugins to be loaded to develop your plugin.
+:::
 
 ## Working on multiple plugins together
 
@@ -193,8 +198,6 @@ You can only use this approach for `normal` and `lib` plugins but NOT `boot` or 
 ### How to choose?
 Since there're different options for working on multiple plugins together, then how do we choose the proper one? Below is the summary:
 
-
-
 <table style={{width: '100%', display: 'table'}}>
   <tr>
     <th style={{width: '200px'}}>Options</th>
@@ -237,11 +240,24 @@ Since there're different options for working on multiple plugins together, then 
   </tr>
 </table>
 
-## Installing library plugins locally
 
+## Override app/env/plugins meta
+Muse allows to add artribary properties on different level of an application: app, env and plugin. They are maintained in Muse registry and could be consumed by plugins. For example, we use it allow configuring variables. You can see more introducton [here](#).
 
+At dev time, the dev server also loads the meta from Muse registry. However, sometimes you need to change the config for testing pupose as dev time only. Then we need to be able to override some meta. It's achieved by `appOverride`, `envOverride` and `pluginsOverride`:
 
-## Override app variables
+```
+"muse": {
+  "devConfig": {
+    "appOverride": {},
+    "envOverride": {},
+    "pluginsOverride": {
+      "<pluginName>": {}
+    }
+  }
+}
+```
 
-## Inherited app and plugin meta
+## Summary
+Now we have learned all about the dev time config for Muse plugins, it enables you and your team to work on a large micro-frontends application smoothly.
 
