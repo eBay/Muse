@@ -137,8 +137,8 @@ Plugin type is used when loading the bundles, for example, `init` plugins are lo
 :::tip TIPS
 
   - Changing remote plugins config does NOT need to restart the webpack dev server. So, you can enable or disable a remote plugin very easily.
-  - All deployed boot and init plugins are always loaded as remote plugins.
-  - All deployed plugins which specifed as `corePlugins` in the app config will be also always loaded.
+  - All deployed plugins which are specifed in `corePlugins` in the app config will be also always loaded.
+  - `boot` and `init` plugins are also considered as core plugins, so they are also always loaded as remote plugins.
   - If a remote plugin is defined both by name and URL, the the URL one has higher priority.
   - If a library plugin is already installed locally, it has higher priority than remote plugin by name but lower priority than remote plugin by URL.
 
@@ -184,9 +184,9 @@ entry: [
 By default it finds `src/index.js` as the entry but you can change it in `muse.devConfig.entry`.
 
 :::info
-**How dependencies are resolved?**
+**How are dependencies resolved?**
 
-Muse resolves dependenceis from `node_modules` folder from all projects in the declared order. For example:
+When source code is compiled together, Muse resolves dependenceis from `node_modules` folder from all projects in the declared order. For example:
   - If `lodash` is used by all plugins, then the `lodash` under `users-plugin` is used for all.
   - If `moment` is only used by `roles-plugin` and `docs-plugin`, then the `moment` under `roles-plugins` is used for both.
 
@@ -260,6 +260,12 @@ A library plugin is also published to the npm registry besides maintained in Mus
 
 Local installed library plugins have higher priority than remote plugins if defined at both places. It matters when the local installed version is different from the remote one. You can use this feature to test a library plugin before deploy to the app.
 
+
+## Exclude shared modules
+Sometimes you don't want to use the shared modules for some reasons like the version doesn't match. Then you can config it with `muse.devConfig.customLibs` in `package.json`:
+
+> TODO
+
 ## Override app/env/plugins meta
 Muse allows to add artribary properties on different level of an application: app, env and plugin. They are maintained in Muse registry and could be consumed by plugins. For example, we use it allow configuring variables. You can see more introducton [here](#).
 
@@ -289,7 +295,7 @@ For example, you want to test a new API endpoint locally which has been defined 
 }
 ```
 
-Then the plugin can use the overriding value without changing code.
+Then the plugin can use the overriding value without changing code. Internally it performs deep merge from overriding meta to which in the Muse registry.
 
 ## Summary
 Now we have learned all about the dev time config for Muse plugins, it enables you and your team to work on a large micro-frontends application smoothly. See below full picture about Muse app at dev time:
