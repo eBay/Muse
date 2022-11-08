@@ -3,6 +3,7 @@ import jsPlugin from 'js-plugin';
 const config = {
   defaultValues: {
     pluginListDefaultScope: 'all',
+    appListDefaultScope: 'all',
   },
   __initialized: false,
   ensureInit() {

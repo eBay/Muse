@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
 import { DropdownMenu } from '@ebay/muse-lib-antd/src/features/common';
-import NiceModal from '@ebay/nice-modal-react';
 import { message, Modal } from 'antd';
 import { useMuseApi, useSyncStatus } from '../../hooks';
 
@@ -9,20 +8,6 @@ function PluginActions({ app }) {
   const syncStatus = useSyncStatus('muse.apps');
   const items = useMemo(() => {
     return [
-      {
-        key: 'edit',
-        label: 'Edit',
-        order: 40,
-        icon: 'edit',
-        highlight: true,
-        onClick: () => {
-          // pluginInfoModal.show({
-          //   app,
-          //   plugin,
-          //   forceEditMode: true,
-          // });
-        },
-      },
       {
         key: 'delete',
         label: 'Delete App',
