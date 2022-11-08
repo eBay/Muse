@@ -43,6 +43,7 @@ export default function PluginListBar({ app }) {
       <SearchBox
         placeholder="Search by plugin name or owners..."
         className="min-w-[100px] max-w-[400px] mr-auto"
+        allowClear={true}
       />
       {scopes.length > 1 ? (
         <Radio.Group value={scope}>
