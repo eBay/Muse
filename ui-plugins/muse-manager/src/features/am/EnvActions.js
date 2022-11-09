@@ -43,11 +43,20 @@ function EnvActions({ env, app }) {
             ),
             onOk: () => {
               (async () => {
-                const hide = message.loading(`Deleting environment ${env.name}...`, 0);
+                const hide = message.loading(
+                  <span>
+                    Deleting <strong>{env.name}</strong> environment ...
+                  </span>,
+                  0,
+                );
                 deleteEnv({ appName: app.name, envName: env.name })
                   .then(res => {
                     hide();
-                    message.success(`The ${env.name} environment was successfully deleted`);
+                    message.success(
+                      <span>
+                        The <strong>{env.name}</strong> environment was successfully deleted
+                      </span>,
+                    );
                     syncStatus();
                   })
                   .catch(err => {
