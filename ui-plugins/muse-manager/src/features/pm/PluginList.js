@@ -14,6 +14,7 @@ import _ from 'lodash';
 import { useSearchParam } from 'react-use';
 import PluginListBar from './PluginListBar';
 import EnvFilterMenu from './EnvFilterMenu';
+import OwnerList from './OwnerList';
 import config from '../../config';
 
 const NA = () => <span style={{ color: 'gray', fontSize: '13px' }}>N/A</span>;
@@ -153,9 +154,9 @@ export default function PluginList({ app }) {
     {
       dataIndex: 'owners',
       title: 'Owners',
-      width: 200,
+      width: 250,
       order: 15,
-      render: o => <Highlighter search={searchValue} text={o.join(', ')} />,
+      render: owners => <OwnerList owners={owners} searchKey={searchValue} />,
     },
     ...Object.values(app?.envs || {}).map((env, i) => {
       return {
