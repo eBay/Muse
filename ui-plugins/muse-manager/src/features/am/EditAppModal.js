@@ -12,34 +12,26 @@ const EditAppModal = NiceModal.create(({ app }) => {
   const [form] = Form.useForm();
   const syncStatus = useSyncStatus(`muse.app.${app.name}`);
 
-  const { action: updateApp, error: updateAppError, pending: updateAppPending } = useMuseApi(
-    'am.updateApp',
-  );
+  const {
+    action: updateApp,
+    error: updateAppError,
+    pending: updateAppPending,
+  } = useMuseApi('am.updateApp');
 
   const meta = {
     columns: 1,
     initialValues: app,
     fields: [
       {
-        key: 'name',
-        order: 10,
-        label: 'App name',
+        key: 'title',
+        order: 20,
+        label: 'Site Title',
         required: true,
-        readOnly: true,
-      },
-
-      {
-        key: 'description',
-        order: 100,
-        label: 'Description',
-        widget: 'textarea',
-        widgetProps: { rows: 5 },
       },
     ],
   };
 
-  plugin.invoke('museManager.updateAppForm.processMeta', { meta, form });
-
+  plugin.invoke('museManager.updateAppForm.processMeta', { meta, app, form });
   plugin.sort(meta.fields);
 
   const handleFinish = useCallback(() => {
@@ -69,7 +61,7 @@ const EditAppModal = NiceModal.create(({ app }) => {
   return (
     <Modal
       {...antdModal(modal)}
-      title="Edit App"
+      title={`Edit App: ${app.name}`}
       width="600px"
       okText={updateAppPending ? 'Updating...' : 'Update'}
       maskClosable={false}
