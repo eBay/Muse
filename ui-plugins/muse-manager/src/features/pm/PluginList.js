@@ -14,7 +14,6 @@ import _ from 'lodash';
 import { useSearchParam } from 'react-use';
 import PluginListBar from './PluginListBar';
 import EnvFilterMenu from './EnvFilterMenu';
-import OwnerList from './OwnerList';
 import config from '../../config';
 
 const NA = () => <span style={{ color: 'gray', fontSize: '13px' }}>N/A</span>;
@@ -151,13 +150,6 @@ export default function PluginList({ app }) {
         );
       },
     },
-    {
-      dataIndex: 'owners',
-      title: 'Owners',
-      width: 250,
-      order: 15,
-      render: owners => <OwnerList owners={owners} searchKey={searchValue} />,
-    },
     ...Object.values(app?.envs || {}).map((env, i) => {
       return {
         dataIndex: `${env.name}`,
@@ -236,8 +228,12 @@ export default function PluginList({ app }) {
     },
   ].filter(Boolean);
 
-  jsPlugin.invoke('museManager.pm.pluginList.processColumns', columns, { plugins: pluginList });
-  jsPlugin.invoke('museManager.pm.pluginList.postProcessColumns', columns, { plugins: pluginList });
+  jsPlugin.invoke('museManager.pm.pluginList.processColumns', {
+    columns,
+    plugins: pluginList,
+    searchValue,
+  });
+  jsPlugin.invoke('museManager.pm.pluginList.postProcessColumns', { columns, plugins: pluginList });
   jsPlugin.sort(columns);
   return (
     <div>

@@ -40,11 +40,6 @@ export default function AppBasicInfo({ app }) {
         order: 50,
       },
       {
-        key: 'owners',
-        label: 'Owners',
-        order: 60,
-      },
-      {
         key: 'description',
         label: 'Description',
         order: 1000,
@@ -61,7 +56,7 @@ export default function AppBasicInfo({ app }) {
     ],
   };
 
-  jsPlugin.invoke('museManager.viewAppInfoForm.processMeta', { meta, app });
+  jsPlugin.invoke('museManager.appBasicInfo.processMeta', { meta, app });
   jsPlugin.sort(meta.fields);
   return (
     <div>

@@ -81,7 +81,7 @@ export default NiceModal.create(function AddEnvModal({ app }) {
     fields: [
       {
         key: 'type',
-        label: 'Environment type',
+        label: 'Environment Type',
         widget: 'radio-group',
         required: true,
         tooltip: `Choose an environment to add (feature env is treated as staging for Muse). At most one production environment for one application. Go to go/muse for more details`,
@@ -107,7 +107,7 @@ export default NiceModal.create(function AddEnvModal({ app }) {
       },
       {
         key: 'envName',
-        label: 'Environment name',
+        label: 'Environment Name',
         widget: 'input',
         disabled: form.getFieldValue('type') === 'production',
         required: true,
@@ -130,7 +130,7 @@ export default NiceModal.create(function AddEnvModal({ app }) {
       },
       {
         key: 'baseEnv',
-        label: 'Copy from',
+        label: 'Copy From',
         widget: 'select',
         tooltip: `Copy plugin list from an existing environment. Muse template means a blank environment.`,
         options: Object.keys(app.envs),

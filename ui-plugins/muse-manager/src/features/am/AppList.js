@@ -36,10 +36,6 @@ export default function AppList() {
     {
       dataIndex: 'actions',
       title: 'Actions',
-    },
-    {
-      dataIndex: 'actions',
-      title: 'Actions',
       width: '160px',
       render: (a, app) => {
         return <AppActions app={app} />;
