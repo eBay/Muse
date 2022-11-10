@@ -19,7 +19,7 @@ const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
       order: 10,
       title: 'Version',
       render: v => {
-        return <a href="https://go/muse">{v}</a>;
+        return <a>{v}</a>;
       },
     },
     {
