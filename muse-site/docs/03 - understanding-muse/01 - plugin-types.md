@@ -7,3 +7,5 @@ There are 4 types of Muse plugins:
 - normal
 
 Below picture shows their usage:
+
+<img src={require("/img/plugin-types.png").default}  />
