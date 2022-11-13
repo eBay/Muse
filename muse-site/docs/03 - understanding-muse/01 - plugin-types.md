@@ -15,6 +15,10 @@ When you open a Muse app, the `boot` plugin is first loaded, then it loads init 
 
 At run time, `normal` and `lib` plugins can register plugin instance to the plugin engine (js-plugin). `lib` plugin provides shared modules.
 
+:::note
+`boot` and `init` plugins don't use shared modules, so they should usually have very few or no dependencies to be small.
+:::note
+
 ## Execution flow
 Different types of plugins have different execution mechanism:
 
