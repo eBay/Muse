@@ -188,6 +188,7 @@ For example, if you open the [Muse demo app](https://demo.musejs.org), you can i
     { "name": "roles-plugin", "version": "1.0.4", "type": "normal" },
     { "name": "users-plugin", "version": "1.0.2", "type": "normal" }
   ],
+  "isDev": false,
   "cdn": "/muse-assets",
   "bootPlugin": "@ebay/muse-boot-default",
   "serviceWorker": "/muse/muse-demo-app/muse-sw.js"
@@ -201,9 +202,12 @@ You can see information is from the registry, explained below:
 - **appName**: the current app name.
 - **envName**: the current env name.
 - **plugins**: the plugins to be loaded.
+- **isDev**: whether is under local dev environment.
 - **cdn**: the static server address to serve plugin bundles. By default it uses the same server which serves index.html under path `/muse-assets`. In a more robust approach is hosting static bundles with some cdn service. Note that cdn server should respect the Muse resource patern like `/muse-assets/p/@ebay.muse-lib-react/v1.2.1/dist/main.js`.
 - **bootPlugin**: the boot plugin name.
 - **serviceWorker**: if exists, register it. By default Muse app server middleware provides a service worker to cache and clean plugin bundles in the browser side. It ensures every plugin version is only downloaded once.
+
+Based on the value of `MUSE_GLOBAL` you can detect the current app and environment information. For example, you can use different API endpoints based on `isDev` or envionments information.
 
 ## Understanding `muse export`
 In the [get started](../02%20-%20get-started.md) topic we have used the `muse export` command. It exports all necessary registry metadata and assets for a Muse app and environment. The exported content includes two parts:
