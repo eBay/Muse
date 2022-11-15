@@ -1,4 +1,5 @@
-const updatePlugin = require('../../pm/updatePlugin');
+const getApp = require('../../am/getApp');
+const updateApp = require('../../am/updateApp');
 const getPlugin = require('../../pm/getPlugin');
 const { osUsername, validate } = require('../../utils');
 const schema = require('../../schemas/plugins/environmentVariablesPlugin/setPluginVariable.json');
@@ -16,13 +17,17 @@ const logger = require('../../logger').createLogger('muse.pm.setPluginVariable')
  * @param {string} [params.author=osUsername] Default to the current os logged in user.
  * @returns {object} Plugin object.
  */
-module.exports = async params => {
+module.exports = async (params) => {
   validate(schema, params);
   if (!params.author) params.author = osUsername;
   const { pluginName, variables, appName, envNames = [], author } = params;
 
   const ctx = {};
   try {
+    ctx.app = await getApp(appName);
+    if (!ctx.app) {
+      throw new Error(`App ${appName} doesn't exist.`);
+    }
     ctx.plugin = await getPlugin(pluginName);
     if (!ctx.plugin) {
       throw new Error(`Plugin ${pluginName} doesn't exist.`);
@@ -33,21 +38,32 @@ module.exports = async params => {
     };
 
     if (variables) {
-      for (const vari of variables) {
-        ctx.changes.set.push({
-          path: `variables.${vari.name}`,
-          value: vari.value,
-        });
+      if (envNames.length === 0) {
+        // if no environments specified, we update app configuration directly for the plugin
+        for (const vari of variables) {
+          ctx.changes.set.push({
+            path: `pluginVariables.${pluginName}.${vari.name}`,
+            value: vari.value,
+          });
+        }
+      } else {
+        // set variables for each environment specified
+        for (const vari of variables) {
+          for (const envi of envNames) {
+            ctx.changes.set.push({
+              path: `pluginVariables.${pluginName}.${envi}.${vari.name}`,
+              value: vari.value,
+            });
+          }
+        }
       }
 
-      ctx.plugin = await updatePlugin({
-        pluginName,
+      ctx.app = await updateApp({
         appName,
-        envNames,
         changes: ctx.changes,
         author,
-        msg: `Set environment variables for ${pluginName} ${
-          appName ? ` on ${appName}${envNames ? ` [${envNames.toString()}]` : ''}` : ''
+        msg: `Set environment variables on ${appName} for plugin ${pluginName} ${
+          envNames.length > 0 ? ` on [${envNames.toString()}]` : ''
         }  by ${author}.`,
       });
     }
