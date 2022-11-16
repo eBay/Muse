@@ -16,6 +16,7 @@ async function server(args) {
     byUrl = false,
     port = 6070,
     variables = {},
+    pluginVariables = {},
   } = args;
   const app = express();
   // cors is used for easy testing
@@ -27,7 +28,17 @@ async function server(args) {
   if (serveApi) app.use(museApiMiddleware({}));
   if (serveStatic) app.use(museAssetsMiddleware({}));
   if (appName) {
-    app.use(museAppMiddleware({ appName, envName, isDev, isLocal: true, byUrl, variables }));
+    app.use(
+      museAppMiddleware({
+        appName,
+        envName,
+        isDev,
+        isLocal: true,
+        byUrl,
+        variables,
+        pluginVariables,
+      }),
+    );
   }
   plugin.invoke('museSimpleServer.postProcessApp', { app, args });
 

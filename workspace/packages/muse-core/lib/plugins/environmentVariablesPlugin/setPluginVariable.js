@@ -51,7 +51,7 @@ module.exports = async (params) => {
         for (const vari of variables) {
           for (const envi of envNames) {
             ctx.changes.set.push({
-              path: `pluginVariables.${pluginName}.${envi}.${vari.name}`,
+              path: `envs.${envi}.pluginVariables.${pluginName}.${vari.name}`,
               value: vari.value,
             });
           }
@@ -73,5 +73,5 @@ module.exports = async (params) => {
   }
 
   logger.info(`Set plugin variables success: ${pluginName}.`);
-  return ctx.plugin;
+  return ctx;
 };

@@ -1,4 +1,5 @@
-const updatePlugin = require('../../pm/updatePlugin');
+const getApp = require('../../am/getApp');
+const updateApp = require('../../am/updateApp');
 const getPlugin = require('../../pm/getPlugin');
 const { osUsername, validate } = require('../../utils');
 const schema = require('../../schemas/plugins/environmentVariablesPlugin/deletePluginVariable.json');
@@ -16,13 +17,17 @@ const logger = require('../../logger').createLogger('muse.pm.deletePluginVariabl
  * @param {string} [params.author=osUsername] Default to the current os logged in user.
  * @returns {object} Plugin object.
  */
-module.exports = async params => {
+module.exports = async (params) => {
   validate(schema, params);
   if (!params.author) params.author = osUsername;
   const { pluginName, variables, appName, envNames = [], author } = params;
 
   const ctx = {};
   try {
+    ctx.app = await getApp(appName);
+    if (!ctx.app) {
+      throw new Error(`App ${appName} doesn't exist.`);
+    }
     ctx.plugin = await getPlugin(pluginName);
     if (!ctx.plugin) {
       throw new Error(`Plugin ${pluginName} doesn't exist.`);
@@ -33,19 +38,25 @@ module.exports = async params => {
     };
 
     if (variables) {
-      for (const vari of variables) {
-        ctx.changes.unset.push(`variables.${vari}`);
+      if (envNames.length === 0) {
+        // if no environments specified, we update app configuration directly ( defaults for any environment )
+        for (const vari of variables) {
+          ctx.changes.unset.push(`pluginVariables.${pluginName}.${vari}`);
+        }
+      } else {
+        // unset variables for each environment specified
+        for (const vari of variables) {
+          for (const envi of envNames) {
+            ctx.changes.unset.push(`envs.${envi}.pluginVariables.${pluginName}.${vari}`);
+          }
+        }
       }
 
-      ctx.plugin = await updatePlugin({
-        pluginName,
+      ctx.app = await updateApp({
         appName,
-        envNames,
         changes: ctx.changes,
         author,
-        msg: `Delete environment variables for ${pluginName} ${
-          appName ? ` on ${appName}${envNames ? ` [${envNames.toString()}]` : ''}` : ''
-        }  by ${author}.`,
+        msg: `Delete environment variables on ${appName} by ${author}.`,
       });
     }
   } catch (err) {
@@ -54,5 +65,5 @@ module.exports = async params => {
   }
 
   logger.info(`Delete plugin variables success: ${pluginName}.`);
-  return ctx.plugin;
+  return ctx;
 };
