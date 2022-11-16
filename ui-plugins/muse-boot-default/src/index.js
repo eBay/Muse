@@ -45,8 +45,6 @@ async function start() {
       return mergedAppVariables;
     },
     getPluginVariables: (pluginName) => {
-      // TODO: merge default vars with deployment vars (unless it's done on muse-express-middleware before)
-
       const pluginDefaultVars = window.MUSE_GLOBAL.app?.pluginVariables?.[pluginName] || {};
       const pluginCurrentEnvVars = window.MUSE_GLOBAL.env?.pluginVariables?.[pluginName] || {};
       const mergedPluginVariables = {
