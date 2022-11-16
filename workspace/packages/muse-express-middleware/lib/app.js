@@ -111,7 +111,7 @@ module.exports = ({
       res.send('No env found: ' + envName);
       return;
     }
-    // Have the oppourtunity to modify app, env and plugins
+    // Have the opportunity to modify app, env and plugins
     museCore.plugin.invoke('museMiddleware.app.processAppInfo', { app, env });
 
     const plugins = env.plugins;
