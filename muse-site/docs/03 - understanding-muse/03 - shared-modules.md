@@ -106,7 +106,15 @@ Then when build other plugins which has the lib plugin as a dependency, the Muse
 }),
 ```
 ## Check dependencies before deployment
-When build a lib or normal plugin, it will generate a file named `deps-manifest.json` which tells which shared modules should be provided at runtime. The format is like below:
+Whenever you deploy a plugin to an app, it assumes all necessary shared modules (dependencies) already there. For example, if your plugin depends on a lib plugin named `some-lib-plugin`. Then normally it should have been deployed to the app so that your plugin could find shared modules at runtime.
+
+:::note
+Muse doesn't auto download depending lib plugins, that is, there aren't async shared modules. You need to ensure they are there.
+:::
+
+However, if your app consists of dozens of plugins, the dependency will become a bit complicated, it's sometimes not obvious if necessary plugins already be deployed. So, we have the mechanism to check it before deploy a plugin.
+
+When build a lib or normal plugin, it will generate a file named `deps-manifest.json` which tells what shared modules should the plugin depends on and where they are from when build. The format is like below:
 
 ```js
 {
@@ -115,12 +123,6 @@ When build a lib or normal plugin, it will generate a file named `deps-manifest.
       "js-plugin@1.1.0/plugin.js",
       "react-router-dom@6.3.0/index.js",
       "react@18.2.0/jsx-dev-runtime.js",
-      "style-loader@3.3.1/dist/runtime/injectStylesIntoStyleTag.js",
-      "style-loader@3.3.1/dist/runtime/styleDomAPI.js",
-      "style-loader@3.3.1/dist/runtime/insertBySelector.js",
-      "style-loader@3.3.1/dist/runtime/setAttributesWithoutAttributes.js",
-      "style-loader@3.3.1/dist/runtime/insertStyleElement.js",
-      "style-loader@3.3.1/dist/runtime/styleTagTransform.js",
       "css-loader@6.7.1/dist/runtime/sourceMaps.js",
       "css-loader@6.7.1/dist/runtime/api.js"
     ],
@@ -134,7 +136,42 @@ When build a lib or normal plugin, it will generate a file named `deps-manifest.
 }
 ```
 
-It contains all shared modules it needs and the provider plugin.
+Then when deploy a plugin, there's enought information about if all shared modules already deployed to the app. You will receive an error if some shared modules are missing when you run `muse deploy` command.
+
+:::note
+
+We only need to guranteen the necessary shared modules are there but not plugins. Though in `deps-manifest.json` we have information which plugins the project depends on to do the build. It's actually just used to prompt user info like "You might forget to deploy plugin `some-lib-plugin` to the app?".
+
+That means, you can provide shared modules from a different lib plugin other than the lib plugin used to build.
+
+:::
+
+Similarly, when you deploy a new version of lib plugin, it may have removed some shared modules, the deploy flow can also detect it and warn user that some shared modules are missing before deploy the change to the app.
+
+## Exclude shared modules
+When build a lib plugin, it assumes all modules used in the lib plugin are shared modules. But sometimes you don't want some modules to be shared, you can exclude them by:
+
+```json
+"muse": {
+  "sharedLibs": {
+    "exclude": ["some-package"]
+  },
+}
+```
+
+All packages will not be shared in `exclude` property.
+
+## Ignore shared modules
+By default it always use shared modules if possible (even version doesn't match) when build a plugin. But if you don't want to use some shared modules from a lib plugin but just want to use the modules under your own plugin project, you can config the `muse.customLibs` section in `package.json`:
+
+```js
+"muse": {
+
+  "customLibs": ["some-package"]
+}
+```
+
+Every package in `customLibs` will not be from the shared modules. This usually happens when you want a different version of some modules.
 
 ## Summary
-
+Shared modules is a core mechanism for Muse. The biggest difference is there's no async shared modules. So it's important to plan which modules should be shared. And, be careful to remove shared modules from a lib plugin since maybe some plugin already use it.

@@ -1,5 +1,5 @@
 # Muse Registry and Assets
-Muse manages all apps and plugins information for both dev time and runtime. It includes two parts:
+Muse manages all apps and plugins information for both dev time and runtime. There are two parts:
 - **registry**: maintains all metadata of Muse apps and plugins
 - **assets**: all plugins releases assets with semantic version. 
 

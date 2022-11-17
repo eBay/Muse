@@ -62,5 +62,23 @@ At last, the app execute the app entry:
 - If not specified app entry and only one app entry registered, it's executed.
 - If specifed app entry exists then excute it otherwise throws error.
 
+For example, below is a typical case to start a React app:
+
+```js
+import { createRoot } from 'react-dom/client';
+import App from './App';
+
+const renderApp = () => {
+  const root = createRoot(document.getElementById('react-root'));
+  root.render(<App />);
+};
+
+// Register the app entry
+window.MUSE_GLOBAL.appEntries.push({
+  name: '@ebay/muse-lib-react', // name is usually same with the plugin name
+  func: renderApp,
+});
+```
+
 ## Summary
 This is a short topic for you to understand Muse plugins concept and how a Muse app is started. It's helpful for you to under other parts of the documentation.
