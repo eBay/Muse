@@ -114,29 +114,42 @@ The `deps` property means two things:
 | sort(values, propName='order') | This is just a frequently used helper method to sort an array of objects with order property (default to `order`). In many cases we need to sort array collected from plugins like in Menu or Form.  |
 | unregister(name) | Unregister a plugin by name. You may also need to ensure all UI re-renderred if necessary yourself. |
 
-## Enrich js-plugin APIs
-The js-plugin provides a low level APIs of the plugin engine. But sometimes you may need more common utility methods to use the plugin engine easily. For example, support async extension points. Below are some examples how we can enrich js-plugin APIs to meet some common requirements.
+## Enrich the js-plugin APIs
+The js-plugin provides very few low level APIs. But sometimes you may need more common helper methods. For example, support async extension points. Below are two simple implementations:
 
 ### Async in parallel
 Allows to collect data from async ext points. For example, we have a search plugin put a global search box on the page header. Then other plugins may contribute search result to it.
 
+```js
+import jsPlugin from 'js-plugin';
+import _ from 'lodash';
 
+const asyncInvoke = (extPoint, ...args) => {
+  const plugins = plugin.getPlugins(extPoint);
+  // Call them in parallel
+  const asyncFuncs = plugins.map(p => _.invoke(p, extPoint, ...args))
+  return Promise.all(asyncFuncs)
+}
+
+```
+### Async in series
+If you wann to execute ext point one by one asynchronously. Then you can use code like below:
 ```js
 import jsPlugin from 'js-plugin';
 import _ from 'lodash';
 
 const asyncInvoke = async (extPoint, ...args) => {
   const plugins = plugin.getPlugins(extPoint);
-  const asyncFuncs = plugins.map(p => _.invoke(p, extPoint, ...args))
-  return await Promise.all(asyncFuncs)
+  const res = [];
+  for (const p of plugins) {
+    const value = await _.invoke(p, extPoint, ...args);
+    res.push(value);
+  }
+  return res;
 }
-
 ```
-### Async in series
 
-- get first: use the first when get
-- handle
-- async in series
+Though above two examples are very simple without handling errors, they provide the idea about how we do more things with `getPlugins(extPoint)` API. For example, only get the first plugin's result, call ext points in waterfall flow, etc. It totally depends on what common functions you need in your application.
 
 ## Examples
 Here we want to give two near real world cases for you to understand the usage of `js-plugin`:
@@ -144,7 +157,7 @@ Here we want to give two near real world cases for you to understand the usage o
 ### Example 1: Menu
 Menu is used to navigate among functions of an application. Whenever you add a new feature, it may need a menu item in the menu. Say that we have a menu component like below (from Github settings page):
 
-<img src="./images/menu.png?raw=true" width="250" />
+<img src={require("/img/js-plugin-menu.png").default} width="250" />
 
 ```js
 import React from 'react';
@@ -231,12 +244,12 @@ Here `plugin1` is a plugin that contributes a menu item `Blocked users` to `Menu
 
 Here is the extended menu with `Blocked users`:
 
-<img src="./images/menu2.png" width="250" />
+<img src={require("/img/js-plugin-menu2.png").default} width="250" />
 
 ### Example 2: Form
 Form is used to display detail information of a business object. It may become much complicated when more and more features added. Take user profile example. A form may look like:
 
-<img src="./images/form.png" width="700" />
+<img src={require("/img/js-plugin-form.png").default} width="700" />
 
 We can build such a form easily with [antd-form-builder](https://github.com/rekit/antd-form-builder) with below code:
 
@@ -342,10 +355,11 @@ plugin.register({
 
 Then we got the UI as below:
 
-<img src="./images/form2.png" width="700" />
+<img src={require("/img/js-plugin-form2.png").default} width="700" />
 
 From above two examples, we see how we use `js-plugin` to keep all releated code in one place, whenever we add a new feature, we will not add complexity to either `Menu` or `UserProfile` component. That is we don't need to change `Menu` or `UserProfile` components.
 
-You can see the live example at:
+## Summary
+In this topic we learned all things about the plugin engine [js-plugin](https://github.com/rekit/js-plugin). It's a very simple but flexible library helping plugins to work together seamlessly. It's crucial to understand how it works then you know how Muse works and can use it to construct your application in a loose coupled way.
 
 
