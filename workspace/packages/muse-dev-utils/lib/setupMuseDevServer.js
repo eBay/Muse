@@ -52,11 +52,32 @@ muse.plugin.register({
           pluginsOverride,
         } = getPkgJson().muse.devConfig;
 
-        Object.assign(app, appOverride);
-        Object.assign(env, envOverride);
-        const plugins = env.plugins;
-        const pkgJson = getPkgJson();
+        Object.assign(app, appOverride); // could have a "variables" section for default app variables
+        Object.assign(env, envOverride); // could have a "variables" section for env. specific app variables (with higher priority)
 
+        // assign the pluginsOverride "variables" to the correct internal config inside env.
+        if (pluginsOverride) {
+          if (!env.pluginVariables) {
+            env.pluginVariables = {};
+          }
+          for (const pluginOverride of Object.keys(pluginsOverride)) {
+            env.pluginVariables[pluginOverride] = { ...pluginsOverride[pluginOverride].variables };
+          }
+        }
+
+        const plugins = env.plugins;
+
+        // for rest of pluginsOverride, we have to remove the "variables" section of each plugin, and then merge the stripped object with env.plugins
+        if (pluginsOverride) {
+          const strippedPluginsConfigWithoutVariables = {};
+          for (const pluginOverride of Object.keys(pluginsOverride)) {
+            const pluginStrippedConfig = _.omit(pluginsOverride[pluginOverride], ['variables']);
+            strippedPluginsConfigWithoutVariables[pluginOverride] = pluginStrippedConfig;
+          }
+          Object.assign(plugins, strippedPluginsConfigWithoutVariables);
+        }
+
+        const pkgJson = getPkgJson();
         const museConfig = pkgJson.muse;
         // Handle remote plugins defined in package.json or .env
         const remotePlugins = _.castArray(museConfig?.devConfig?.remotePlugins || []);
