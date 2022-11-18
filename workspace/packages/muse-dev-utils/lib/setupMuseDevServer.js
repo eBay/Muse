@@ -56,12 +56,25 @@ muse.plugin.register({
         Object.assign(env, envOverride); // could have a "variables" section for env. specific app variables (with higher priority)
 
         // assign the pluginsOverride "variables" to the correct internal config inside env.
+        // we have to do it var by var, to avoid removing non-overriden variables
         if (pluginsOverride) {
           if (!env.pluginVariables) {
             env.pluginVariables = {};
           }
           for (const pluginOverride of Object.keys(pluginsOverride)) {
-            env.pluginVariables[pluginOverride] = { ...pluginsOverride[pluginOverride].variables };
+            if (
+              !env.pluginVariables[pluginOverride] &&
+              pluginsOverride[pluginOverride]?.variables
+            ) {
+              // initialize pluginVariables only if it's not setup yet AND we have actual variables to override
+              env.pluginVariables[pluginOverride] = {};
+            }
+            if (pluginsOverride[pluginOverride]?.variables) {
+              for (const varOverride of Object.keys(pluginsOverride[pluginOverride].variables)) {
+                env.pluginVariables[pluginOverride][varOverride] =
+                  pluginsOverride[pluginOverride].variables[varOverride];
+              }
+            }
           }
         }
 
@@ -69,12 +82,13 @@ muse.plugin.register({
 
         // for rest of pluginsOverride, we have to remove the "variables" section of each plugin, and then merge the stripped object with env.plugins
         if (pluginsOverride) {
-          const strippedPluginsConfigWithoutVariables = {};
           for (const pluginOverride of Object.keys(pluginsOverride)) {
             const pluginStrippedConfig = _.omit(pluginsOverride[pluginOverride], ['variables']);
-            strippedPluginsConfigWithoutVariables[pluginOverride] = pluginStrippedConfig;
+            const pluginIndex = plugins.findIndex((pl) => pl.name === pluginOverride);
+            if (pluginIndex >= 0) {
+              plugins[pluginIndex] = { ...plugins[pluginIndex], ...pluginStrippedConfig };
+            }
           }
-          Object.assign(plugins, strippedPluginsConfigWithoutVariables);
         }
 
         const pkgJson = getPkgJson();
