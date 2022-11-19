@@ -2,6 +2,10 @@
 
 Muse uses a very simple plugin engine named [js-plugin](https://github.com/rekit/js-plugin) which has only ~150 lines of source code. But it's very flexible so that we can let different Muse plugins work together seamlessly. It's not only used for Muse frontend but also for the Muse backend(introduced later).
 
+:::tip
+We suggest you reading ~150 lines of source code [here](https://github.com/rekit/js-plugin/blob/master/plugin.js) to learn everything about it. Maybe much easier than the much longer guide here 😁
+:::
+
 ## Register a plugin
 A plugin instance is just a pure javascript object, you can use `jsPlugin.register` to register it to the plugin engine:
 
