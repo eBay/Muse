@@ -80,5 +80,8 @@ window.MUSE_GLOBAL.appEntries.push({
 });
 ```
 
+## When to publish a Muse plugin?
+TODO
+
 ## Summary
 This is a short topic for you to understand Muse plugins concept and how a Muse app is started. It's helpful for you to under other parts of the documentation.
