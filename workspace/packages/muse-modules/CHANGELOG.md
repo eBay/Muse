@@ -1,5 +1,11 @@
 # @ebay/muse-modules
 
+## 1.0.22
+
+### Patch Changes
+
+- app vars
+
 ## 1.0.21
 
 ### Patch Changes

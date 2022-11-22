@@ -1,5 +1,11 @@
 # @ebay/muse-scripts-react
 
+## 1.0.25
+
+### Patch Changes
+
+- app vars
+
 ## 1.0.24
 
 ### Patch Changes

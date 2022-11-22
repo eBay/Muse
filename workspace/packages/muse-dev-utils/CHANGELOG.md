@@ -1,5 +1,14 @@
 # @ebay/muse-dev-utils
 
+## 1.0.30
+
+### Patch Changes
+
+- app vars
+- Updated dependencies
+  - @ebay/muse-core@1.0.28
+  - @ebay/muse-express-middleware@1.0.30
+
 ## 1.0.29
 
 ### Patch Changes
