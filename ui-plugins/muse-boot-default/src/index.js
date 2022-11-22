@@ -45,11 +45,13 @@ async function start() {
       return mergedAppVariables;
     },
     getPluginVariables: (pluginName) => {
-      // TODO: merge default vars with deployment vars (unless it's done on muse-express-middleware before)
-      const pluginDeployedVars =
-        window.MUSE_GLOBAL.plugins.find((p) => p.name === pluginName)?.variables || {};
-
-      return pluginDeployedVars;
+      const pluginDefaultVars = window.MUSE_GLOBAL.app?.pluginVariables?.[pluginName] || {};
+      const pluginCurrentEnvVars = window.MUSE_GLOBAL.env?.pluginVariables?.[pluginName] || {};
+      const mergedPluginVariables = {
+        ...pluginDefaultVars,
+        ...pluginCurrentEnvVars,
+      };
+      return mergedPluginVariables;
     },
     // TODO: get plugin assets public paths (assets in public folder)
     getPublicPath: (pluginName, assetPath) => {},

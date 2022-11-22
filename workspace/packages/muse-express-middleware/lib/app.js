@@ -21,7 +21,7 @@ const defaultTemplate = `
 </html>
 `;
 
-const getAppInfoByUrl = async req => {
+const getAppInfoByUrl = async (req) => {
   const appByUrl = await museCore.data.get('muse.app-by-url');
   const host = req.get('host');
   const fullPath = path.join(req.baseUrl || '/', req.path);
@@ -31,7 +31,7 @@ const getAppInfoByUrl = async req => {
   if (appByUrl[host]) {
     matchedUrl = host;
   } else {
-    matchedUrl = Object.keys(appByUrl).find(u => {
+    matchedUrl = Object.keys(appByUrl).find((u) => {
       const uPath = u.endsWith('/') ? u : u + '/';
       return (
         // example.com equals example.com
@@ -62,6 +62,7 @@ module.exports = ({
   serviceWorker = '/muse-sw.js', // If not use service worker, set it to false
   serviceWorkerCacheName = 'muse_assets',
   variables = {},
+  pluginVariables = {},
 }) => {
   let swContent = fs.readFileSync(path.join(__dirname, './sw.js')).toString();
   if (serviceWorkerCacheName) {
@@ -110,18 +111,18 @@ module.exports = ({
       res.send('No env found: ' + envName);
       return;
     }
-    // Have the oppourtunity to modify app, env and plugins
+    // Have the opportunity to modify app, env and plugins
     museCore.plugin.invoke('museMiddleware.app.processAppInfo', { app, env });
 
     const plugins = env.plugins;
-    const bootPlugins = plugins.filter(p => p.type === 'boot');
+    const bootPlugins = plugins.filter((p) => p.type === 'boot');
 
     if (bootPlugins.length === 0) {
       return res.send('No boot plugin.');
     } else if (bootPlugins.length > 1) {
       return res.send(
         `There should be only one boot plugin, found ${bootPlugins.length}: ${bootPlugins.map(
-          p => p.name,
+          (p) => p.name,
         )}`,
       );
     }
@@ -132,6 +133,10 @@ module.exports = ({
     if (appName && variables[appName]) {
       if (!appConfig.variables) appConfig.variables = {};
       Object.assign(appConfig.variables, variables[appName]);
+    }
+    if (appName && pluginVariables[appName]) {
+      if (!appConfig.pluginVariables) appConfig.pluginVariables = {};
+      Object.assign(appConfig.pluginVariables, pluginVariables[appName]);
     }
     const clientIp = requestIp.getClientIp(req);
 

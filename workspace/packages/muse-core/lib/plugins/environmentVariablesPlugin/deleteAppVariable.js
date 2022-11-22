@@ -17,7 +17,7 @@ const logger = require('../../logger').createLogger('muse.am.deleteAppVariable')
  * @returns {object} App.
  */
 
-module.exports = async params => {
+module.exports = async (params) => {
   validate(schema, params);
   if (!params.author) params.author = osUsername;
   const { appName, variables, envNames = [], author } = params;
@@ -40,7 +40,7 @@ module.exports = async params => {
           ctx.changes.unset.push(`variables.${vari}`);
         }
       } else {
-        // set variables for each environment specified
+        // unset variables for each environment specified
         for (const vari of variables) {
           for (const envi of envNames) {
             ctx.changes.unset.push(`envs.${envi}.variables.${vari}`);

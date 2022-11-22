@@ -19,6 +19,6 @@
       "type": "string"
     }
   },
-  "required": ["pluginName", "variables"],
+  "required": ["appName", "pluginName", "variables"],
   "additionalProperties": true
 }
