@@ -88,8 +88,107 @@ You normally shouldn't depend on any heavy packages in an `init` plugin project.
 :::
 
 ## Creating a lib plugin
+A lib plugin is also a normal plugin where you implement your business logic, except that all modules used by a lib plugin are shared by default. That is, you can build other plugins on lib plugins then then bundle no longer contains those shared modules. You can create a lib plugin by below step (for create-react-app):
+
+```bash
+$ npx create-react-app myplugin
+$ cd myplugin
+$ npx muse-setup-cra
+```
+
+Then edit `package.json` to change `muse.type` to `lib`:
+
+```json
+"muse": {
+  "type": "lib",
+  ...
+}
+```
+
+In a normal plugin, you usually also register a plugin to the plugin engine.
+
+
+### Define shared modules
+Though all used modules are shared by default, but if you want to specify some modules to be shared, you can "force" use it by below code:
+
+```js title="src/index.js"
+import * as antd from 'antd';
+import * as icons from '@ant-design/icons';
+import FormBuilder from 'antd-form-builder';
+
+// ...
+
+// Use this trick to avoid tree-shared, force include all antd's modules into the library.
+export default { antd, icons, FormBuilder };
+```
+
+You can see an example [here](https://github.corp.ebay.com/muse/muse-next/blob/main/ui-plugins/muse-lib-antd/src/index.js).
+
+### Shared custom modules
+In a library plugin, all your modules under `src` folder are also shared modules. You can import them as using a normal package, for example:
+
+```js
+// Import RequestStatus and DropdownMenu components from a lib plugin
+import { RequestStatus, DropdownMenu } from '@ebay/muse-lib-antd/src/features/common';
+```
+
+Yes, you import from `src` folder directly. Actually, the source code file is just a placeholder (though it has content), it's not compiled at build time but using the shared modules, just like other shared modules from normal npm packages.
+
+This mechanism provides a new mechanism to distrubite reuseful assets in a Muse system besides normal npm packages.
+
+### Using lib plugins
+A lib plugin not only needs to be deployed to the application, you also needs to install them as your plugin project's dependency so that you can use shared modules from them. This is also a key difference from normal plugins. For example, `@ebay/muse-lib-antd` depends on `@ebay/muse-lib-react` to reuse shared modules from `react`, `redux`, etc:
+
+```js
+{
+  "name": "@ebay/muse-lib-antd",
+  "version": "1.0.8",
+  "muse": {
+    "type": "lib"
+  },
+  "dependencies": {
+    // depends on muse-lib-react
+    "@ebay/muse-lib-react": "1.0.23",
+  },
+  ...
+}
+
+```
+
+### Publish lib plugins
+As mentioned, all lib plugins must be published to npm registry so that they can be installed as dependencies to provide shared modules. Usually you follow below step:
+1. Build your plugin
+2. Release plugin to the Muse registry by `muse release-plugin myplugin 1.2.3`. Note the version here is used instead of the `version` in `package.json`.
+3. Update `version` in `package.json` to the correct one like `1.2.3`.
+4. Run `npm publish` to publish the Muse plugin. By default `src` and `build` folder will be included in the published package.
 
 ## Creating a normal plugin
+To create a normal plugin based on create-react-app, use blow command:
+```bash
+$ npx create-react-app myplugin
+$ cd myplugin
+$ npx muse-setup-cra
+```
+
+Then in the `src/index.js` you register a plugin instance which contributes extension points in a Muse app:
+```jsx title=src/index.js
+import plugin from 'js-plugin';
+
+//...
+
+plugin.register({
+  name: 'myplugin',
+  route: [
+    {
+      path: '/hello-muse',
+      component: HelloMuse,
+    },
+  ];
+  //...
+});
+```
+
+A plugin must contribute to some extension points to deliver features.
 
 ## Creating a boot plugin
 You normally never need to create a `boot` plugin since we've already provided [@ebay/muse-boot-default](https://github.corp.ebay.com/muse/muse-next/tree/main/ui-plugins/muse-boot-default) plugin which covers all features like:
@@ -126,5 +225,20 @@ If you want your boot plugin works with all existing plugins which assumes to be
 
 Also it needs to use `@ebay/muse-modules` package to register a shared modules container at `window.MUSE_GLOBAL.__shared__`.
 
+
+## Keep extensibility in mind
+## Install plugins
+In the above sections, we learned how to create plugins by yourself. But actually you re-use some third party plugins as parts of your applications. For example, when you run `muse init` command, you got `@ebay/muse-boot-default`, `@ebay/muse-lib-react` plugins in your local Muse registry. Actually this is done by installing remote plugins.
+
+Once a Muse plugin is published via npm, then you can install them to your own Muse registry and assets storage, for example:
+
+```bash
+$ muse install @ebay/muse-lib-react
+```
+
+This command will install the plugin `@ebay/muse-lib-react` latest version to your registry, and the assets will be downloaded to your assets storage. After that, you can deploy it to your Muse apps. See below picture about how it works:
+
+<img src={require("/img/muse-install.png").default} width="700" />
+
 ## Summary
-All Muse plugins are normal frontend projects, there's no additional learning effort except keeping `js-plugin` in mind for `normal` and `lib` plugin. We divide the javascript logic into `boot`, `init` and `normal` types of plugins by their lifecycles and purposes. All of the main business logic should go to `normal` plugins. 
+All Muse plugins are normal frontend projects, there's no additional learning effort to develop them. We divide the javascript logic into `boot`, `init` and `normal` types of plugins by their lifecycles and purposes. All of the main business logic should go to `normal` plugins. 
