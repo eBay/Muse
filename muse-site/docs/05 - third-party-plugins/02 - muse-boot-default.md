@@ -15,6 +15,8 @@ Muse boot is a special plugin that is used to bootstrap a Muse application in th
 It provides various APIs on `MUSE_GLOBAL` for other plugins to use.
 
 ### appEntries
+An app entry is used to start the whole application. For React, a typical entry is like below:
+
 ### error
 ### getAppVariable
 ### getAppVariables
