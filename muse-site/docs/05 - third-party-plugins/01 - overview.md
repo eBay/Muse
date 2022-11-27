@@ -1,8 +1,15 @@
 # Overview
 
-Muse is not only a micro-frontends solution, but also an ecosystem that users can share their reuseable plugins to others. A plugin can be an opininate frontend techstack like React + Redux + React Router, a feature like layout, dashboard, or service integration like oauth, analytics, etc.
+Muse is not only a micro-frontends solution, but also an ecosystem that users can share their reuseable plugins to others. A reuseful plugin can be an opininate frontend techstack like React + Redux + React Router, a feature like layout, dashboard, or service integration like oauth, analytics, etc.
 
-Compared to npm system, Muse plugins are usually larger and can be used directly without any code change. For example, if you deploy a google analytics Muse plugin to your app, then you have the analytics feature immediately.
+Compared to npm system, Muse plugins are usually larger blocks and can be used directly without any code change. For example, if you deploy a google analytics Muse plugin to your app with just some meta configuration, then you have the analytics feature immediately. For example:
+
+```yaml title="<muse-storage>/registry/apps/myapp/staging/@ebay.muse-google-analytics.yaml"
+name: @ebay/muse-google-analytics
+version: 1.0.2
+variables:
+  - endpoint: htts://google.com
+```
 
 ## Share a Muse plugin
 Everyone can share Muse plugins to others by publishing them to the npm registry. It's the same process as publish normal npm packages. Then others can install these Muse plugins to their own Muse registry.
@@ -55,5 +62,15 @@ For now, we've provided some reuseful plugins, which are widely used by hundreds
 - @ebay/muse-layout-antd: a layout plugin provides custmizable header and sider.
 - @ebay/muse-dashboard: a dashboard plugin allows other plugins to contribute widgets.
 
-In other topics of this category, we will introduce them one by one, mainly about the APIs and extension points they provide. So, if you build apps on these plugins you can read them. Otherwise you can choose to write your common plugins from scrach with your own prefered approaches.
+In other topics of this category, we will introduce them one by one. So, if you build apps on these plugins you can read them. Otherwise you can choose to write your common plugins from scrach with your own prefered approaches.
 
+The introduction of a third-party plugin may include below parts:
+- The main feature it provides.
+- Extension points
+- MUSE_GLOBAL APIs
+- Exported assets
+- Shared modules (if a lib plugin).
+
+
+## Summary
+Muse plugins provides a mechanism for re-using bigger blocks of the application development. Though for now there are reuseful plugins from us, hope there would be more plugins from the community. 

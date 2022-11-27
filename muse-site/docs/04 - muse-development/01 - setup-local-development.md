@@ -300,6 +300,6 @@ Then the plugin can use the overriding value without changing code. Internally i
 ## Summary
 Now we have learned all about the dev time config for Muse plugins, it enables you and your team to work on a large micro-frontends application smoothly. See below full picture about Muse app at dev time:
 
-<img src={require("/img/dev-arch.png").default}  />
+<img src={require("/img/dev-arch.png").default} width="750" />
 
 If you understand every part in the picture, then you get everything in this topic.
