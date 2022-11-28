@@ -12,11 +12,6 @@ export default {
     this.errors.push(...arr);
     this.update();
   },
-  show(msg) {
-    const arr = msg?.splice ? msg : [msg];
-    this.errors.push(...arr);
-    this.update();
-  },
   update() {
     if (!this.mountNode) this.init();
 

@@ -96,10 +96,10 @@ You can also throw an error by `throw new Error('IE browser is not supported.');
 :::
 
 :::tip
-You can call `showMessage` multiple times then all messages will be showed in a list.
+You can call `error.showMessage` multiple times then all messages will be showed in a list.
 :::
 
-### getAppVariable
+### getAppVariable(name)
 Every Muse app may have some configuration variables to be consumed by some plugins. It's defined in the app yaml file. For example:
 ```yaml title="<muse-storage>/registry/apps/myapp.yaml"
 name: myapp
@@ -137,25 +137,139 @@ That is, you can override default app variables configured on app level by re-de
 At local development, you can configure `muse.appOverride.variables` in `package.json` to provide variables for local development. They will override the configuration from app yaml.
 :::
 
-### getAppVariables
+### getAppVariables()
 Similar with `getAppVariable`, the `getAppVariables` API gets all variables as an key-value object. Also they are maybe different on different environments.
 
-### getPluginVariable
-Every Muse plugin may have some variables when deployed on a Muse app., divided by default value and environment related value. The default value is configured in `app
+### getPluginVariable(pluginName, varName)
+Similar with app variables, you can define variables at plugin level at two levels: app level and env level, the later has hight priority. They are all maintained in app yaml too with property `pluginVariables`. For example:
 
+```yaml {5-7,10-15} title="<muse-storage>/registry/apps/myapp.yaml"
+name: myapp
+envs:
+  staging:
+    name: staging
+    pluginVariables:
+      @ebay/muse-dashboard:
+        apiEndpoint: https://api.qa.example.com/v1
+  production:
+    name: production
+pluginVariables:
+  @ebay/muse-dashboard:
+    apiEndpoint: https://api.example.com/v1
+    dashboards:
+      - /homepage
+      - /insights
+```
 
-### getPluginVariables
-### getPublicPath
+Then you can use below API to get the variable:
+
+```js
+const apiEndpoint = MUSE_GLOBAL.getPluginVariable('@ebay/muse-dashboard', 'apiEndpoint');
+```
+
+Then the apiEndpoint on the staging env returns `https://api.qa.example.com/v1`, for production returns `https://api.example.com/v1`.
+
+### getPluginVariables(pluginName)
+Similar with `getPluginVariable`, the `getPluginVariables` API gets all variables as an key-value object. Also they can be different on different environments. For example, with above app yaml, we can get all variables by:
+```js
+MUSE_GLOBAL.getPluginVariables('@ebay/muse-dashboard');
+// => 
+// {
+//   apiEndpoint: 'https://api.example.com/v1',
+//   dashboards: ['/homepage', '/insights'],
+// }
+```
+
+### getPublicPath(pluginName, resPath)
+In Muse each plugin has different public path. Sometimes you want a link to your public resource. Then you can use the API to get the path at runtime. For example, you have an asset in `public` folder named `sample.pdf`. Then you can use below code to get the link:
+
+```js
+const pdfLink = MUSE_GLOBAL.getPublicPath('my-plugin', 'sample.pdf');
+```
+
+Then you will get the link like `https://static.museapp.com/muse-assets/p/my-plugin/v1.9.2/sample.pdf`.
+
 ### getUser
+Muse boot defines a unified approach to get user information. So that different plugins can use same way to get the current logged-in user info. The boot plugin itself only provides a placeholder for the API, by default it only returns null. But you can rewrite the API in some `init` plugin which does authentication logic. For example:
+
+```js
+MUSE_GLOBAL.getUser = () => {
+  return { username: 'nate' };
+}
+```
+
+The only mandatory property is `username`. But you can add any properties like `firstName`, `lastName`, etc to the user info object to be consumed by your own plugins. Then in all places we can use same `getUser` API to get the user info.
+
+### login, logout
+While provide `getUser` API, you plugin usually should also implement `MUSE_GLOBAL.login` and `MUSE_GLOBAL.logout` method for login and logout. For example, you may add below code in your plugin:
+
+```js
+MUSE_GLOBAL.login = () => {
+  window.location = 'https://auth.myapp.com/login';
+};
+
+MUSE_GLOBAL.logout = () => {
+  window.location = 'https://auth.myapp.com/logout';
+}
+```
+
 ### initEntries
-### loading
+If you want async init logic in your `init` plugins, then you need to registery `initEntries` to `MUSE_GLOBAL`, for example:
+
+```js
+MUSE_GLOBAL.initEntries.push({
+  func: async () => {
+    return await checkAuth();
+  },
+});
+```
+
+You can push multiple objects (with func method) to the `initEntries` array. They will be executed in parallel. The bootstrap flow will be terminated if any function returns false or throws an error.
+
+### loading.showMessage
+Similar with `error.showMessage` API, this API allows to show a loading message under the loading icon. You should only use this API in `init` plugins. For example:
+
+```js
+if (!isSessionValid()) {
+  MUSE_GLOBAL.loading.showMessage(`Redirecting to the login page...`);
+  window.location = loginUrl;
+}
+```
+Then you can see the loading page like below:
+
+<img src={require("/img/boot-loading-redirect.png").default} width="260" />
+
+
 ### msgEngine
+TODO: maybe in a different seciton.
+
 ### waitFor
+For `init` plugins we can use `initEntries` to do async logic during bootstrap. Similarly, `watiFor` is used for `lib` and `normal` plugins for async logic. It's useful if you need to perform some API requests to get initialization data before starting the app. For example:
+
+```js
+// registers an async function: it is executed after all lib and normal plugins loaded
+MUSE_GLOBAL.waitFor(async () => {
+  await fetchAppInitData();
+});
+
+// or registers a promise: the code is executed immediately
+
+MUSE_GLOBAL.waitFor(fetchAppInitData())
+```
+
 ### \__shared__
+If you implement your own boot plugin, you must attach `__shared__` property to the `MUSE_GLOBAL`. All `lib` and `normal` plugins relies on this API to manage shared modules. Normally you don't need to implement it but use the `@ebay/muse-modules` package:
 
+```js
+import museModules from '@ebay/muse-modules';
 
-
-When open a Muse app, the server responds the current configuration of the app in window.MUSE_CONFIG variable, then muse-boot uses the config to bootstrap the application. It also means you can write your own boot plugin by the information in `MUSE_CONFIG`.
+MUSE_GLOBAL.__shared__ = {
+  modules: {},
+  register: museModules.register,
+  require: museModules.require,
+  parseMuseId: museModules.parseMuseId,
+};
+```
 
 ## Summary
-For any boot plugin , it must implement the APIs mentioned above. So that all plugins are able to be loaded by any boot plugin.
+The default Muse boot plugin defines the standard bootstrap logic of a Muse app.
