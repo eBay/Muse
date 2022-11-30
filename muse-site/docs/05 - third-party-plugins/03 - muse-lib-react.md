@@ -334,5 +334,8 @@ So, with extension point `routerProps` and the meta option `routerType` you are 
 
 ## Provided modules
 
+## Forking the project
+Since `@ebay/muse-lib-react` plugin provides fixed combination of dependency versions, you may want to full control them and maybe you want more customization for React, React Router or Redux. Then you can create your own React lib plugin. That will be a pretty good choice. If you keep same shared modules, your forked plugin will also be compatible with other plugins those are built on top of `@ebay/muse-lib-react`.
+
 
 ## Summary

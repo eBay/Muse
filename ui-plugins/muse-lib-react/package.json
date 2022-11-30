@@ -28,7 +28,7 @@
     "prestart": "muse-ebay-dev check-updates",
     "prebuild": "muse-ebay-dev check-updates",
     "build": "cross-env NODE_PATH=./node_modules muse-scripts-react build && cross-env NODE_PATH=./node_modules muse-scripts-react build --dev",
-    "build:dist": "cross-env NODE_PATH=./node_modules muse-scripts-react build",
+    "build:dist": "cross-env NODE_PATH=./node_modules muse-scripts-react build && node ./gen-lib.js",
     "build:dev": "cross-env NODE_PATH=./node_modules muse-scripts-react build --dev",
     "test": "cross-env NODE_PATH=./node_modules muse-scripts-react test --ci --watchAll=false --passWithNoTests --coverage",
     "test:config": "cross-env NODE_PATH=./node_modules muse-scripts-react test --showConfig",
