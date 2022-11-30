@@ -14,19 +14,6 @@ function PluginActions({ plugin, app }) {
 
   let items = useMemo(() => {
     return [
-      // {
-      //   key: 'build',
-      //   label: 'Trigger a build',
-      //   disabled: ability.cannot('build', plugin),
-      //   disabledText: 'Only owners can build.',
-      //   icon: 'tool',
-      //   order: 20,
-      //   highlight: true,
-      //   onClick: () => {
-      //     NiceModal.show('muse-manager.build-plugin-modal', { plugin, app });
-      //     // setTriggerBuildModalVisible(true, { plugin, app });
-      //   },
-      // },
       app && {
         key: 'deploy',
         label: 'Deploy',
@@ -35,11 +22,6 @@ function PluginActions({ plugin, app }) {
         highlight: true,
         onClick: () => {
           NiceModal.show('muse-manager.deploy-plugin-modal', { plugin, app });
-          // setDeployPluginModalVisible(true, {
-          //   pluginId: plugin.id,
-          //   plugin,
-          //   releaseTag: null,
-          // });
         },
       },
       {
@@ -50,35 +32,8 @@ function PluginActions({ plugin, app }) {
         highlight: true,
         onClick: () => {
           NiceModal.show('muse-manager.edit-plugin-modal', { plugin, app });
-
-          // pluginInfoModal.show({
-          //   app,
-          //   plugin,
-          //   forceEditMode: true,
-          // });
         },
       },
-      // ['lib', 'boot'].includes(plugin.type) &&
-      //   plugin.id !== 'altus-ui' &&
-      //   canNpmPublish && {
-      //     key: 'npmPublish',
-      //     label: 'Npm publish',
-      //     icon: 'book',
-      //     order: 45,
-      //     onClick: () => {
-      //       setNpmPublishModalVisible(true, { plugin, app });
-      //     },
-      //   },
-      // {
-      //   key: 'gitRepo',
-      //   label: `Open Git repo`,
-      //   icon: 'github',
-      //   order: 50,
-      //   highlight: false,
-      //   onClick: () => {
-      //     window.open(`https://github.corp.ebay.com/${plugin.meta.repo}`);
-      //   },
-      // },
       {
         key: 'releaseList',
         label: 'Show releases',
@@ -89,20 +44,6 @@ function PluginActions({ plugin, app }) {
           NiceModal.show('muse-manager.releases-drawer', { plugin, app });
         },
       },
-      // {
-      //   key: 'undepoly',
-      //   label: canUndeploy ? 'Undeploy' : 'Undeploy (Owners only)',
-      //   disabled: !canUndeploy,
-      //   order: 60,
-      //   icon: 'minus-circle',
-      //   highlight: false,
-      //   onClick: () => {
-      //     setUndeployPluginModalVisible(true, {
-      //       plugin,
-      //       app,
-      //     });
-      //   },
-      // },
       {
         key: 'delete',
         label: 'Delete Plugin',
