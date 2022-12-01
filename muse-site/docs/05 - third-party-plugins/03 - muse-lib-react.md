@@ -332,6 +332,27 @@ So, with extension point `routerProps` and the meta option `routerType` you are 
 
 ## Shared modules
 
+```json
+"@babel/core": "7.20.5",
+"@ebay/nice-modal-react": "1.2.8",
+"axios": "1.2.0",
+"craco-less": "2.0.0",
+"history": "5.3.0",
+"js-plugin": "1.1.0",
+"lodash": "4.17.21",
+"path-to-regexp": "6.2.1",
+"react": "18.2.0",
+"react-dom": "18.2.0",
+"react-loadable": "5.5.0",
+"react-redux": "8.0.5",
+"react-router-dom": "6.4.3",
+"react-use": "17.4.0",
+"redux": "4.2.0",
+"redux-logger": "3.0.6",
+"redux-mock-store": "1.5.4",
+"redux-thunk": "2.4.2",
+"typescript": "4.9.3"
+```
 ## Provided modules
 
 ## Forking the project
