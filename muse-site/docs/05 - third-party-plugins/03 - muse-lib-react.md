@@ -331,6 +331,8 @@ envs:
 So, with extension point `routerProps` and the meta option `routerType` you are actually able to custmize the router behavior.
 
 ## Shared modules
+All shared modules in a lib plugins use fixed version in `package.json`. So when the lib plugin is installed as dependency it will install same versions.
+
 
 ```json
 "@babel/core": "7.20.5",
@@ -354,6 +356,14 @@ So, with extension point `routerProps` and the meta option `routerType` you are 
 "typescript": "4.9.3"
 ```
 ## Provided modules
+
+The only useful module you can import is Redux store:
+
+```
+@ebay/muse-lib-react@1.0.12/src/common/store.js
+```
+
+Then you can dispatch actions or get global state with the API.
 
 ## Forking the project
 Since `@ebay/muse-lib-react` plugin provides fixed combination of dependency versions, you may want to full control them and maybe you want more customization for React, React Router or Redux. Then you can create your own React lib plugin. That will be a pretty good choice. If you keep same shared modules, your forked plugin will also be compatible with other plugins those are built on top of `@ebay/muse-lib-react`.
