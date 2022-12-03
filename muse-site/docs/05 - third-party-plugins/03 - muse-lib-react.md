@@ -353,7 +353,6 @@ All shared modules in a lib plugins use fixed version in `package.json`. So when
 "redux-logger": "3.0.6",
 "redux-mock-store": "1.5.4",
 "redux-thunk": "2.4.2",
-"typescript": "4.9.3"
 ```
 ## Provided modules
 
