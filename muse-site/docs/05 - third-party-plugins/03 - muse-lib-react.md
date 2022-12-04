@@ -369,3 +369,4 @@ Since `@ebay/muse-lib-react` plugin provides fixed combination of dependency ver
 
 
 ## Summary
+The lib plugin provides a tech stack for React development. It's a bit opinionate but you can also choose to build your common base lib plugin for your own Muse applications.
