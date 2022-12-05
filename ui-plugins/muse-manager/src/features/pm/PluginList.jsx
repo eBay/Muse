@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { Table, Button, Tag, Tooltip } from 'antd';
 import jsPlugin from 'js-plugin';
 import semver from 'semver';

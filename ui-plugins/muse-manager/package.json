@@ -43,7 +43,9 @@
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
+    "@vitejs/plugin-react": "^2.2.0",
     "cross-env": "^7.0.3",
+    "find-root": "^1.1.0",
     "lodash": "^4.17.21",
     "pretty-ms": "7.0.1",
     "react": "^18.2.0",
@@ -54,6 +56,7 @@
     "react-time-ago": "^7.2.1",
     "semver": "^7.3.7",
     "tailwindcss": "^3.1.8",
+    "vite": "^3.2.4",
     "web-vitals": "^2.1.4"
   },
   "pnpm2": {
@@ -65,6 +68,7 @@
   },
   "scripts": {
     "start": "cross-env PORT=3061 NODE_PATH=./node_modules muse-scripts-react start",
+    "vite:dev": "vite",
     "build": "cross-env NODE_PATH=./node_modules muse-scripts-react build",
     "build:dev": "cross-env NODE_PATH=./node_modules muse-scripts-react build --dev",
     "build:test": "cross-env NODE_PATH=./node_modules muse-scripts-react build --test",

@@ -5,7 +5,8 @@ const g = window.MUSE_GLOBAL;
 const museClient = mClient.create({
   endpoint:
     g.getPluginVariables('@ebay/muse-manager')?.museApiEndpoint ||
-    g.getAppVariables()?.museApiEndpoint,
+    g.getAppVariables()?.museApiEndpoint ||
+    'https://musenextsvc.vip.qa.ebay.com/api/v2',
   token: g.getUser()?.museSession,
   axiosConfig: {
     timeout: 120000,
