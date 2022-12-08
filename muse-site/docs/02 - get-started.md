@@ -313,7 +313,7 @@ You can edit `index.html` if you want to add other content to the page before de
 
 :::note
 
-`muse export-app` is a traditional way for using Muse, you upload all static assets to the server. But if you have a Muse web server which reads registry and serve assets directly from Muse storage then the `muse deploy` is the last step to make your plugin online. We will introduce it in later topics.
+`muse export-app` is a traditional way for using Muse, you upload all static assets to the server. But if you have a Muse web server which reads registry and serve assets directly from Muse storage then the you don't need to export the app. Only after `muse deploy` you can access your Muse app directly. We will introduce it in later topics.
 
 :::
 

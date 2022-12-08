@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { DropdownMenu } from '@ebay/muse-lib-antd/src/features/common';
 import { message, Modal } from 'antd';
 import { useMuseApi, useSyncStatus } from '../../hooks';

@@ -23,8 +23,8 @@ export default function PluginListBar({ app }) {
   );
   jsPlugin.sort(scopes);
 
-  const dropdownItems = [
-    {
+  let dropdownItems = [
+    app && {
       key: 'preview',
       label: 'Preview',
       onClick: () => {
@@ -37,6 +37,7 @@ export default function PluginListBar({ app }) {
     ..._.flatten(jsPlugin.invoke('museManager.pluginListBar.getDropdownItems', { app })),
   );
   jsPlugin.invoke('museManager.pluginListBar.processDropdownItems', { dropdownItems, app });
+  dropdownItems = dropdownItems.filter(Boolean);
 
   return (
     <div className="flex mb-2 justify-end gap-2 whitespace-nowrap">
@@ -63,7 +64,7 @@ export default function PluginListBar({ app }) {
       >
         Create Plugin
       </Button>
-      <DropdownMenu items={dropdownItems} size="default" />
+      {dropdownItems.length > 0 && <DropdownMenu items={dropdownItems} size="default" />}
     </div>
   );
 }

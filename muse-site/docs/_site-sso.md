@@ -48,3 +48,6 @@ sequenceDiagram
     - **/auth/redirect-after-login**: callback URI after sso login sccuess. It redirects to the correct Muse app Url and path.
 
 
+## zta
+post_logout_uri
+X-Frame-Options for user info api

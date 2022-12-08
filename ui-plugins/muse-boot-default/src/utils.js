@@ -49,7 +49,7 @@ export function load(resource, callback) {
       };
       script.onerror = () => {
         // fatalError('Failed to load resource: ' + resource);
-        error.show(`Failed to load resource: ${resource} .`);
+        error.showMessage(`Failed to load resource: ${resource} .`);
         reject();
       };
     });
