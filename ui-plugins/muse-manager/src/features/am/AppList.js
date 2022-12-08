@@ -30,10 +30,6 @@ export default function AppList() {
       width: '120px',
     },
     {
-      dataIndex: 'status',
-      title: 'Status',
-    },
-    {
       dataIndex: 'actions',
       title: 'Actions',
       width: '160px',
@@ -63,7 +59,6 @@ export default function AppList() {
           <AppListBar />
           <Table
             rowKey="name"
-            size="middle"
             columns={columns}
             dataSource={appList}
             loading={!apps}
