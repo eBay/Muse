@@ -11,6 +11,8 @@ variables:
   - endpoint: htts://google.com
 ```
 
+So we also open sourced all reuseful plugins used inside eBay for internal applications. Again, these plugins are just our opinionate appooaches. We look forward to seeing more plugins from the community.
+
 ## Share a Muse plugin
 Everyone can share Muse plugins to others by publishing them to the npm registry. It's the same process as publish normal npm packages. Then others can install these Muse plugins to their own Muse registry.
 
