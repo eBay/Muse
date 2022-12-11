@@ -75,4 +75,4 @@ The introduction of a third-party plugin may include below parts:
 
 
 ## Summary
-Muse plugins provides a mechanism for re-using bigger blocks of the application development. Though for now there are reuseful plugins from us, hope there would be more plugins from the community. 
+Muse provides a mechanism for reusing logic as plugins. Though for now there are reuseful plugins from us, hope there would be more plugins from the community. 
