@@ -60,8 +60,8 @@ content = fs.readFileSync(p).toString('utf-8');
 if (!content.startsWith(markPatched)) {
   content = content
     .replace(
-      'process.env.NODE_ENV = "production"',
-      `process.env.NODE_ENV = process.env.MUSE_DEV_BUILD ? "development" : "production"`,
+      `process.env.NODE_ENV = 'production'`,
+      `process.env.NODE_ENV = process.env.MUSE_DEV_BUILD ? 'development' : 'production'`,
     )
     .replace(
       `(0, override_1.overrideWebpackProd)(cracoConfig, context);`,
