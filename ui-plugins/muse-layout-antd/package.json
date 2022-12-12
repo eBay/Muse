@@ -16,7 +16,7 @@
   ],
   "devDependencies": {
     "@babel/preset-react": "^7.18.6",
-    "@craco/craco": "6.4.4",
+    "@craco/craco": "7.0.0",
     "@ebay/muse-core": "1.0.26",
     "@ebay/muse-craco-plugin": "1.0.14",
     "@ebay/muse-ebay-dev": "^1.0.1",
@@ -51,7 +51,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
-    "@craco/craco": "6.4.4",
+    "@craco/craco": "7.0.0",
     "@ebay/muse-craco-plugin": "1.0.28",
     "@ebay/muse-lib-antd": "1.0.12",
     "@ebay/muse-lib-react": "1.0.23",

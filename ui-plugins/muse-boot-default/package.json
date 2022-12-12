@@ -29,7 +29,7 @@
     "deploy": "pnpm build && muse release && muse deploy musemanager"
   },
   "devDependencies": {
-    "@craco/craco": "6.4.4",
+    "@craco/craco": "7.0.0",
     "@ebay/muse-core": "1.0.26",
     "@ebay/muse-craco-plugin": "1.0.28",
     "@ebay/muse-ebay-dev": "^1.0.1",

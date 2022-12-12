@@ -54,7 +54,7 @@ if (process.env.MUSE_DEV_BUILD) {
 }
 
 // Patch @craco/craco/scripts/build.js
-p = resolveCwd('@craco/craco/scripts/build.js');
+p = resolveCwd('@craco/craco/dist/scripts/build.js');
 content = fs.readFileSync(p).toString('utf-8');
 
 if (!content.startsWith(markPatched)) {
@@ -64,13 +64,8 @@ if (!content.startsWith(markPatched)) {
       `process.env.NODE_ENV = process.env.MUSE_DEV_BUILD ? "development" : "production"`,
     )
     .replace(
-      `process.env.NODE_ENV = 'production'`,
-      `process.env.NODE_ENV = process.env.MUSE_DEV_BUILD ? "development" : "production"`,
-    )
-    .replace(`{ overrideWebpackProd }`, `{ overrideWebpackProd, overrideWebpackDev }`)
-    .replace(
-      `overrideWebpackProd(`,
-      `(process.env.MUSE_DEV_BUILD ? overrideWebpackDev : overrideWebpackProd)(`,
+      `(0, override_1.overrideWebpackProd)(cracoConfig, context);`,
+      `(0, process.env.MUSE_DEV_BUILD ? override_1.overrideWebpackDev : override_1.overrideWebpackProd)(cracoConfig, context);`,
     );
 
   content = `${markPatched}${content}`;

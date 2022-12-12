@@ -1,7 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@craco/craco': 6.4.4
+  '@craco/craco': 7.0.0
   '@ebay/muse-core': 1.0.26
   '@ebay/muse-craco-plugin': 1.0.28
   '@ebay/muse-ebay-dev': ^1.0.1
@@ -17,9 +17,9 @@ dependencies:
   base64-inline-loader: 2.0.1
 
 devDependencies:
-  '@craco/craco': 6.4.4_react-scripts@5.0.1
+  '@craco/craco': 7.0.0_react-scripts@5.0.1
   '@ebay/muse-core': 1.0.26
-  '@ebay/muse-craco-plugin': 1.0.28_rptx3xqogbmxbyr5ohiedtyhva
+  '@ebay/muse-craco-plugin': 1.0.28_5wivucdpadqcz7rl42i7zvnr3u
   '@ebay/muse-ebay-dev': 1.0.1_@ebay+muse-core@1.0.26
   '@ebay/muse-modules': 1.0.21
   '@ebay/muse-scripts-react': 1.0.24
@@ -1416,24 +1416,26 @@ packages:
     engines: {node: '>=0.1.90'}
     dev: true
 
-  /@craco/craco/6.4.4_react-scripts@5.0.1:
-    resolution: {integrity: sha1-29iZwZpmjsOWDBiT9a4kuHSRGo8=}
+  /@craco/craco/7.0.0_react-scripts@5.0.1:
+    resolution: {integrity: sha1-TpJD5T+6btTSvAiqZarp0bY1Qe0=}
     engines: {node: '>=6'}
     hasBin: true
     peerDependencies:
-      react-scripts: ^4.0.0
+      react-scripts: ^5.0.0
     dependencies:
+      autoprefixer: 10.4.13
       cosmiconfig: 7.0.1
       cosmiconfig-typescript-loader: 1.0.9
       cross-spawn: 7.0.3
       lodash: 4.17.21
       react-scripts: 5.0.1_react@18.2.0
       semver: 7.3.7
-      webpack-merge: 4.2.2
+      webpack-merge: 5.8.0
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
       - '@types/node'
+      - postcss
       - typescript
     dev: true
 
@@ -1617,12 +1619,12 @@ packages:
       winston-transport: 4.5.0
     dev: true
 
-  /@ebay/muse-craco-plugin/1.0.28_rptx3xqogbmxbyr5ohiedtyhva:
+  /@ebay/muse-craco-plugin/1.0.28_5wivucdpadqcz7rl42i7zvnr3u:
     resolution: {integrity: sha1-CQui3s+nC7wM6/LvrZtG8nN2WUw=, tarball: '@ebay/muse-craco-plugin/-/@ebay/muse-craco-plugin-1.0.28.tgz'}
     peerDependencies:
       '@craco/craco': 6.4.4
     dependencies:
-      '@craco/craco': 6.4.4_react-scripts@5.0.1
+      '@craco/craco': 7.0.0_react-scripts@5.0.1
       '@ebay/muse-dev-utils': 1.0.29_@ebay+muse-core@1.0.26
       '@ebay/muse-webpack-plugin': 1.0.25
       resolve-cwd: 3.0.0
@@ -3120,6 +3122,21 @@ packages:
     engines: {node: '>= 4.0.0'}
     dev: true
 
+  /autoprefixer/10.4.13:
+    resolution: {integrity: sha1-tRNrWZMCCaMh6fo9yi58TSI+g6g=}
+    engines: {node: ^10 || ^12 || >=14}
+    hasBin: true
+    peerDependencies:
+      postcss: ^8.1.0
+    dependencies:
+      browserslist: 4.21.4
+      caniuse-lite: 1.0.30001439
+      fraction.js: 4.2.0
+      normalize-range: 0.1.2
+      picocolors: 1.0.0
+      postcss-value-parser: 4.2.0
+    dev: true
+
   /autoprefixer/10.4.7_postcss@8.4.14:
     resolution: {integrity: sha1-HbjRlfQaUspQabdZO+FnYY7bvt8=}
     engines: {node: ^10 || ^12 || >=14}
@@ -3470,6 +3487,17 @@ packages:
       update-browserslist-db: 1.0.4_browserslist@4.21.2
     dev: true
 
+  /browserslist/4.21.4:
+    resolution: {integrity: sha1-50lrvGe5453Q+YVl/szcsNT/aYc=}
+    engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
+    hasBin: true
+    dependencies:
+      caniuse-lite: 1.0.30001439
+      electron-to-chromium: 1.4.284
+      node-releases: 2.0.6
+      update-browserslist-db: 1.0.10_browserslist@4.21.4
+    dev: true
+
   /bser/2.1.1:
     resolution: {integrity: sha1-5nh9og7OnQeZhTPP2d5vXDj0vAU=}
     dependencies:
@@ -3587,14 +3615,18 @@ packages:
   /caniuse-api/3.0.0:
     resolution: {integrity: sha1-Xk2Q4idJYdRikZl99Znj7QCO5MA=}
     dependencies:
-      browserslist: 4.21.2
-      caniuse-lite: 1.0.30001367
+      browserslist: 4.21.4
+      caniuse-lite: 1.0.30001439
       lodash.memoize: 4.1.2
       lodash.uniq: 4.5.0
     dev: true
 
   /caniuse-lite/1.0.30001367:
     resolution: {integrity: sha1-K5f+Ry6Popx4xZcGFdfNLuQUEIo=}
+    dev: true
+
+  /caniuse-lite/1.0.30001439:
+    resolution: {integrity: sha1-q3Nx+utK3/S3Ta0XGKb9Ei5F2cs=}
     dev: true
 
   /case-sensitive-paths-webpack-plugin/2.4.0:
@@ -3680,6 +3712,15 @@ packages:
       string-width: 4.2.3
       strip-ansi: 6.0.1
       wrap-ansi: 7.0.0
+    dev: true
+
+  /clone-deep/4.0.1:
+    resolution: {integrity: sha1-wZ/Zvbv4WUK0/ZechNz31fB8I4c=}
+    engines: {node: '>=6'}
+    dependencies:
+      is-plain-object: 2.0.4
+      kind-of: 6.0.3
+      shallow-clone: 3.0.1
     dev: true
 
   /clone-response/1.0.2:
@@ -3880,7 +3921,7 @@ packages:
   /core-js-compat/3.23.5:
     resolution: {integrity: sha1-Ee3OLxxPaaltMM53yAXOEYkJzVs=}
     dependencies:
-      browserslist: 4.21.2
+      browserslist: 4.21.4
       semver: 7.0.0
     dev: true
 
@@ -4577,6 +4618,10 @@ packages:
 
   /electron-to-chromium/1.4.192:
     resolution: {integrity: sha1-+sBQBYs+BxO0AaEIjMV54UwqsWU=}
+    dev: true
+
+  /electron-to-chromium/1.4.284:
+    resolution: {integrity: sha1-YQRtHkyrOiUjj2v3QTeVJw8SVZI=}
     dev: true
 
   /emittery/0.10.2:
@@ -6167,6 +6212,13 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
+  /is-plain-object/2.0.4:
+    resolution: {integrity: sha1-LBY7P6+xtgbZ0Xko8FwqHDjgdnc=}
+    engines: {node: '>=0.10.0'}
+    dependencies:
+      isobject: 3.0.1
+    dev: true
+
   /is-potential-custom-element-name/1.0.1:
     resolution: {integrity: sha1-Fx7W8Z46xVQ5Tt94yqBXhKRb67U=}
     dev: true
@@ -6247,6 +6299,11 @@ packages:
 
   /isexe/2.0.0:
     resolution: {integrity: sha1-6PvzdNxVb/iUehDcsFctYz8s+hA=}
+    dev: true
+
+  /isobject/3.0.1:
+    resolution: {integrity: sha1-TkMekrEalzFjaqH5yNHMvP2reN8=}
+    engines: {node: '>=0.10.0'}
     dev: true
 
   /istanbul-lib-coverage/3.2.0:
@@ -7942,7 +7999,7 @@ packages:
     peerDependencies:
       postcss: ^8.2.15
     dependencies:
-      browserslist: 4.21.2
+      browserslist: 4.21.4
       caniuse-api: 3.0.0
       colord: 2.9.2
       postcss: 8.4.14
@@ -7955,7 +8012,7 @@ packages:
     peerDependencies:
       postcss: ^8.2.15
     dependencies:
-      browserslist: 4.21.2
+      browserslist: 4.21.4
       postcss: 8.4.14
       postcss-value-parser: 4.2.0
     dev: true
@@ -8219,7 +8276,7 @@ packages:
     peerDependencies:
       postcss: ^8.2.15
     dependencies:
-      browserslist: 4.21.2
+      browserslist: 4.21.4
       caniuse-api: 3.0.0
       cssnano-utils: 3.1.0_postcss@8.4.14
       postcss: 8.4.14
@@ -8254,7 +8311,7 @@ packages:
     peerDependencies:
       postcss: ^8.2.15
     dependencies:
-      browserslist: 4.21.2
+      browserslist: 4.21.4
       cssnano-utils: 3.1.0_postcss@8.4.14
       postcss: 8.4.14
       postcss-value-parser: 4.2.0
@@ -8397,7 +8454,7 @@ packages:
     peerDependencies:
       postcss: ^8.2.15
     dependencies:
-      browserslist: 4.21.2
+      browserslist: 4.21.4
       postcss: 8.4.14
       postcss-value-parser: 4.2.0
     dev: true
@@ -8553,7 +8610,7 @@ packages:
     peerDependencies:
       postcss: ^8.2.15
     dependencies:
-      browserslist: 4.21.2
+      browserslist: 4.21.4
       caniuse-api: 3.0.0
       postcss: 8.4.14
     dev: true
@@ -9423,6 +9480,13 @@ packages:
     resolution: {integrity: sha1-ZsmiSnP5/CjL5msJ/tPTPcrxtCQ=}
     dev: true
 
+  /shallow-clone/3.0.1:
+    resolution: {integrity: sha1-jymBrZJTH1UDWwH7IwdppA4C76M=}
+    engines: {node: '>=8'}
+    dependencies:
+      kind-of: 6.0.3
+    dev: true
+
   /shebang-command/2.0.0:
     resolution: {integrity: sha1-zNCvT4g1+9wmW4JGGq8MNmY/NOo=}
     engines: {node: '>=8'}
@@ -9765,7 +9829,7 @@ packages:
     peerDependencies:
       postcss: ^8.2.15
     dependencies:
-      browserslist: 4.21.2
+      browserslist: 4.21.4
       postcss: 8.4.14
       postcss-selector-parser: 6.0.10
     dev: true
@@ -10262,6 +10326,17 @@ packages:
     engines: {node: '>=4'}
     dev: true
 
+  /update-browserslist-db/1.0.10_browserslist@4.21.4:
+    resolution: {integrity: sha1-D1S4dlRXJvF9AM2aJWHm2t6UP/M=}
+    hasBin: true
+    peerDependencies:
+      browserslist: '>= 4.21.0'
+    dependencies:
+      browserslist: 4.21.4
+      escalade: 3.1.1
+      picocolors: 1.0.0
+    dev: true
+
   /update-browserslist-db/1.0.4_browserslist@4.21.2:
     resolution: {integrity: sha1-2/xaeJyqJrHbiZB5bCyOu84wSCQ=}
     hasBin: true
@@ -10460,10 +10535,12 @@ packages:
       webpack-sources: 2.3.1
     dev: true
 
-  /webpack-merge/4.2.2:
-    resolution: {integrity: sha1-onxS6ng9E5iv0gh/VH17nS9DY00=}
+  /webpack-merge/5.8.0:
+    resolution: {integrity: sha1-Kznb8ir4d3atdEw5AiNzHTCmj2E=}
+    engines: {node: '>=10.0.0'}
     dependencies:
-      lodash: 4.17.21
+      clone-deep: 4.0.1
+      wildcard: 2.0.0
     dev: true
 
   /webpack-sources/1.4.3:
@@ -10594,6 +10671,10 @@ packages:
     hasBin: true
     dependencies:
       isexe: 2.0.0
+    dev: true
+
+  /wildcard/2.0.0:
+    resolution: {integrity: sha1-p30g5SAMb6qsl55LOq3Hs91/j+w=}
     dev: true
 
   /winston-transport/4.5.0:

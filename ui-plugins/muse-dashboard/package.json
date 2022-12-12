@@ -16,7 +16,7 @@
     "build"
   ],
   "devDependencies": {
-    "@craco/craco": "6.4.4",
+    "@craco/craco": "7.0.0",
     "@ebay/muse-core": "^1.0.16",
     "@ebay/muse-craco-plugin": "1.0.27",
     "@ebay/muse-ebay-dev": "^1.0.1",
