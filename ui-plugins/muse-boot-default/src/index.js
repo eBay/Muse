@@ -8,16 +8,18 @@ import msgEngine from './msgEngine';
 
 import './style.css';
 
-if (!window.MUSE_GLOBAL) {
+const mg = window.MUSE_GLOBAL;
+
+if (!mg) {
   throw new Error('There must be global MUSE_GLOBAL object.');
 }
 
 loading.init();
 async function start() {
   loading.showMessage('Starting...');
-
   const waitForLoaders = [];
-  Object.assign(window.MUSE_GLOBAL, {
+  Object.assign(mg, {
+    appConfig: Object.assign({}, mg.app?.config || {}, mg.env?.config),
     msgEngine,
     loading,
     error,
@@ -36,8 +38,8 @@ async function start() {
       return document.currentScript.dataset.musePluginName;
     },
     getAppVariables: () => {
-      const appDefaultVars = window.MUSE_GLOBAL.app?.variables || {};
-      const appCurrentEnvVars = window.MUSE_GLOBAL.env?.variables || {};
+      const appDefaultVars = mg.app?.variables || {};
+      const appCurrentEnvVars = mg.env?.variables || {};
       const mergedAppVariables = {
         ...appDefaultVars,
         ...appCurrentEnvVars,
@@ -45,8 +47,8 @@ async function start() {
       return mergedAppVariables;
     },
     getPluginVariables: (pluginName) => {
-      const pluginDefaultVars = window.MUSE_GLOBAL.app?.pluginVariables?.[pluginName] || {};
-      const pluginCurrentEnvVars = window.MUSE_GLOBAL.env?.pluginVariables?.[pluginName] || {};
+      const pluginDefaultVars = mg.app?.pluginVariables?.[pluginName] || {};
+      const pluginCurrentEnvVars = mg.env?.pluginVariables?.[pluginName] || {};
       const mergedPluginVariables = {
         ...pluginDefaultVars,
         ...pluginCurrentEnvVars,
@@ -72,10 +74,10 @@ async function start() {
     appEntries,
     isDev = false,
     isE2eTest = false,
-  } = window.MUSE_GLOBAL;
-  let { plugins = [] } = window.MUSE_GLOBAL;
+  } = mg;
+  let { plugins = [] } = mg;
   // MUSE_CONFIG is for backward compatability
-  window.MUSE_CONFIG = window.MUSE_GLOBAL;
+  window.MUSE_CONFIG = mg;
   registerSw();
   // Print app plugins in dev console
   const bootPlugin = plugins.find((p) => p.type === 'boot');
@@ -89,7 +91,7 @@ async function start() {
   const searchParams = new URLSearchParams(window.location.search);
   const forcePluginStr = searchParams.get('forcePlugins');
   const previewClientCode = searchParams.get('clientCode');
-  const localClientCode = window.MUSE_GLOBAL.museClientCode;
+  const localClientCode = mg.museClientCode;
   if (forcePluginStr && (isE2eTest || previewClientCode === localClientCode)) {
     const forcePluginById = forcePluginStr
       .split(';')
