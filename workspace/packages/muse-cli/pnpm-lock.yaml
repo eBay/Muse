@@ -1,8 +1,8 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@ebay/muse-core': workspace:^1.0.26
-  '@ebay/muse-simple-server': workspace:^1.0.23
+  '@ebay/muse-core': workspace:^1.0.28
+  '@ebay/muse-simple-server': workspace:^1.0.24
   chalk: 4.1.2
   commander: 9.3.0
   eslint: ^8.18.0
