@@ -64,8 +64,8 @@ if (!content.startsWith(markPatched)) {
       `process.env.NODE_ENV = process.env.MUSE_DEV_BUILD ? 'development' : 'production'`,
     )
     .replace(
-      `(0, override_1.overrideWebpackProd)(cracoConfig, context);`,
-      `(0, process.env.MUSE_DEV_BUILD ? override_1.overrideWebpackDev : override_1.overrideWebpackProd)(cracoConfig, context);`,
+      /,\s(.*)overrideWebpackProd/gi,
+      `, process.env.MUSE_DEV_BUILD ? $1overrideWebpackDev : $1overrideWebpackProd`,
     );
 
   content = `${markPatched}${content}`;
