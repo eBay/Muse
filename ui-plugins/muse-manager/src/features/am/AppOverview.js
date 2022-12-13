@@ -9,7 +9,7 @@ export default function AppOverview({ app }) {
   return (
     <div>
       <section>
-        <h3 className="bg-gray-100 p-2 px-3">
+        <h3>
           Basic Information
           {ability.can('update', app) && (
             <Button
@@ -27,7 +27,7 @@ export default function AppOverview({ app }) {
         </div>
       </section>
       <section>
-        <h3 className="bg-gray-100 p-2 px-3">
+        <h3>
           Environments
           {ability.can('update', app) && (
             <Button

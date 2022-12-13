@@ -45,17 +45,17 @@ const museLayout = {
   sider: {
     getConfig() {
       return {
-        mode: 'fixed', // fixed | drawer | collapsable | collapsed | none
+        mode: 'collapsable', // fixed | drawer | collapsable | collapsed | none
         siderDefaultCollapsed: true,
         homeMenu: true,
-        theme: 'light', // dark | light
+        theme: 'dark', // dark | light
       };
     },
     getItems: () => {
       return [
         {
           key: 'apps',
-          icon: 'StarOutlined',
+          icon: 'AppstoreOutlined',
           link: '/apps',
           label: 'Apps',
         },
