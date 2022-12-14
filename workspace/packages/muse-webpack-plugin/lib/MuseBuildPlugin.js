@@ -7,7 +7,6 @@ const path = require('path');
  */
 class MuseBuildPlugin {
   constructor(context, entries, options) {
-    console.log('context: ', context);
     this.context = context;
     this.entries = entries;
     this.options = options;
