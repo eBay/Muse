@@ -6,6 +6,7 @@ import { useAbility } from '../../hooks';
 
 export default function AppOverview({ app }) {
   const ability = useAbility('App');
+
   return (
     <div>
       <section>

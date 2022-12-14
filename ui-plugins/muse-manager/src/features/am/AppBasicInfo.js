@@ -47,7 +47,7 @@ export default function AppBasicInfo({ app }) {
       {
         clear: 'left',
         key: 'iconId',
-        label: 'App icon',
+        label: 'App Icon',
         order: 1100,
         renderView: () => {
           return <AppIcon app={app} />;

@@ -6,11 +6,6 @@ import { useMuseApi, useSyncStatus } from '../../hooks';
 import NiceModal, { useModal, antdModal } from '@ebay/nice-modal-react';
 import jsPlugin from 'js-plugin';
 
-const isExisting = (env, envs) => {
-  if (!envs) return false;
-  return Object.keys(envs).includes(env);
-};
-
 export default NiceModal.create(function AddEnvModal({ app }) {
   const modal = useModal();
   const [form] = Form.useForm();
@@ -80,32 +75,7 @@ export default NiceModal.create(function AddEnvModal({ app }) {
     columns: 1,
     fields: [
       {
-        key: 'type',
-        label: 'Environment Type',
-        widget: 'radio-group',
-        required: true,
-        tooltip: `Choose an environment to add (feature env is treated as staging for Muse). At most one production environment for one application. Go to go/muse for more details`,
-        initialValue: 'staging',
-        widgetProps: {
-          options: [
-            {
-              label: 'staging',
-              value: 'staging',
-            },
-            {
-              label: 'production',
-              value: 'production',
-              disabled: isExisting('production', app.envs),
-            },
-          ],
-          onChange: e => {
-            if (e.target.value === 'production') {
-              form.setFieldsValue({ envName: 'production' });
-            }
-          },
-        },
-      },
-      {
+        order: 10,
         key: 'envName',
         label: 'Environment Name',
         widget: 'input',
@@ -135,6 +105,7 @@ export default NiceModal.create(function AddEnvModal({ app }) {
         tooltip: `Copy plugin list from an existing environment. Muse template means a blank environment.`,
         options: Object.keys(app.envs),
         required: true,
+        order: 15,
       },
     ].filter(Boolean),
   };
