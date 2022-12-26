@@ -3,7 +3,7 @@ import NiceModal, { useModal, antdModal } from '@ebay/nice-modal-react';
 import { Modal, message, Form } from 'antd';
 import FormBuilder from 'antd-form-builder';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
-import { useSyncStatus, useMuseApi, useMuse, usePollingMuseData } from '../../hooks';
+import { useSyncStatus, useMuseApi } from '../../hooks';
 import plugin from 'js-plugin';
 
 const user = window.MUSE_GLOBAL.getUser();
@@ -12,9 +12,11 @@ const CreateAppModal = NiceModal.create(() => {
   const [form] = Form.useForm();
   const syncStatus = useSyncStatus('muse.apps');
 
-  const { action: createApp, error: createAppError, pending: createAppPending } = useMuseApi(
-    'am.createApp',
-  );
+  const {
+    action: createApp,
+    error: createAppError,
+    pending: createAppPending,
+  } = useMuseApi('am.createApp');
 
   const meta = {
     columns: 1,

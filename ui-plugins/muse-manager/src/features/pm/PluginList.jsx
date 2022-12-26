@@ -14,7 +14,6 @@ import PluginListBar from './PluginListBar';
 import config from '../../config';
 
 const NA = () => <span style={{ color: 'gray', fontSize: '13px' }}>N/A</span>;
-const user = window.MUSE_GLOBAL.getUser();
 export default function PluginList({ app }) {
   //
   const { data, pending, error } = usePollingMuseData('muse.plugins');

@@ -1,15 +1,11 @@
-import { useCallback, useMemo } from 'react';
 import _ from 'lodash';
 import NiceModal, { useModal, antdModal } from '@ebay/nice-modal-react';
-import { Modal, message, Form, Tag } from 'antd';
+import { Modal, Tag } from 'antd';
 import FormBuilder from 'antd-form-builder';
 import prettyMs from 'pretty-ms';
 import TimeAgo from 'react-time-ago';
 import plugin from 'js-plugin';
 import CiOutput from '../common/CiOutput';
-import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
-import { useSyncStatus, useMuseApi } from '../../hooks';
-import { getPluginId } from '../../utils';
 
 const RequestDetailModal = NiceModal.create(({ request, status }) => {
   const modal = useModal();

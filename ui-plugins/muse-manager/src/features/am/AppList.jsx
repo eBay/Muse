@@ -1,7 +1,5 @@
-import { useEffect } from 'react';
-import museClient from '../../museClient';
 import { Table } from 'antd';
-import { useNavigate, Link } from 'react-router-dom';
+import {  Link } from 'react-router-dom';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import { usePollingMuseData } from '../../hooks';
 import AppActions from './AppActions';
