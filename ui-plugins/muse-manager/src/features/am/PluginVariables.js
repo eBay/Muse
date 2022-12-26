@@ -28,6 +28,38 @@ export default function PluginVariables({ app }) {
           );
         })}
       </div>
+      {envs.map(env => {
+        const currentEnvVariables = app.envs[env].pluginVariables
+          ? Object.keys(app.envs[env].pluginVariables)
+          : [];
+        return (
+          <div>
+            <h3 className="bg-gray-100 p-2 px-3">[{env}] Plugin variables</h3>
+            {currentEnvVariables.map(defPluginVar => {
+              return (
+                <div
+                  className="p-3"
+                  style={{ display: 'flex', justifyContent: 'flex-start', margin: '5px' }}
+                >
+                  <span>{defPluginVar}</span>
+                  <span style={{ marginLeft: '15px' }}>
+                    {Object.keys(app.envs[env].pluginVariables[defPluginVar]).map(
+                      defPluginVarValue => {
+                        return (
+                          <div>
+                            {defPluginVarValue} ={' '}
+                            {app.envs[env].pluginVariables[defPluginVar][defPluginVarValue]}
+                          </div>
+                        );
+                      },
+                    )}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        );
+      })}
     </>
   );
 }
