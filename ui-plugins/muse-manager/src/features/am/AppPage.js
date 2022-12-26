@@ -6,6 +6,7 @@ import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import { usePollingMuseData } from '../../hooks';
 import PluginList from '../pm/PluginList';
 import AppOverview from './AppOverview';
+import EnvironmentVariables from './EnvironmentVariables';
 const { TabPane } = Tabs;
 
 export default function AppPage() {
@@ -27,9 +28,15 @@ export default function AppPage() {
       component: PluginList,
     },
     {
+      key: 'variables',
+      name: 'Variables',
+      order: 30,
+      component: EnvironmentVariables,
+    },
+    {
       key: 'activities',
       name: 'Activities',
-      order: 30,
+      order: 40,
       component: () => 'Activites',
     },
   ];
