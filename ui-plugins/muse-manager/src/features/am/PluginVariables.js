@@ -1,4 +1,5 @@
 import React from 'react';
+import { Descriptions } from 'antd';
 
 export default function PluginVariables({ app }) {
   const envs = app.envs ? Object.keys(app.envs) : [];
@@ -10,21 +11,19 @@ export default function PluginVariables({ app }) {
         <h3 className="bg-gray-100 p-2 px-3">[Default] Plugin variables</h3>
         {defaultPluginVars.map(defPluginVar => {
           return (
-            <div
-              className="p-3"
-              style={{ display: 'flex', justifyContent: 'flex-start', margin: '5px' }}
-            >
-              <span>{defPluginVar}</span>
-              <span style={{ marginLeft: '15px' }}>
-                {Object.keys(app.pluginVariables[defPluginVar]).map(defPluginVarValue => {
-                  return (
-                    <div>
-                      {defPluginVarValue} = {app.pluginVariables[defPluginVar][defPluginVarValue]}
-                    </div>
-                  );
-                })}
-              </span>
-            </div>
+            <Descriptions column="1" bordered>
+              <Descriptions.Item label={defPluginVar}>
+                <Descriptions column="1" bordered>
+                  {Object.keys(app.pluginVariables[defPluginVar]).map(defPluginVarValue => {
+                    return (
+                      <Descriptions.Item span="4" label={defPluginVarValue}>
+                        {app.pluginVariables[defPluginVar][defPluginVarValue]}
+                      </Descriptions.Item>
+                    );
+                  })}
+                </Descriptions>
+              </Descriptions.Item>
+            </Descriptions>
           );
         })}
       </div>
@@ -37,24 +36,21 @@ export default function PluginVariables({ app }) {
             <h3 className="bg-gray-100 p-2 px-3">[{env}] Plugin variables</h3>
             {currentEnvVariables.map(defPluginVar => {
               return (
-                <div
-                  className="p-3"
-                  style={{ display: 'flex', justifyContent: 'flex-start', margin: '5px' }}
-                >
-                  <span>{defPluginVar}</span>
-                  <span style={{ marginLeft: '15px' }}>
-                    {Object.keys(app.envs[env].pluginVariables[defPluginVar]).map(
-                      defPluginVarValue => {
-                        return (
-                          <div>
-                            {defPluginVarValue} ={' '}
-                            {app.envs[env].pluginVariables[defPluginVar][defPluginVarValue]}
-                          </div>
-                        );
-                      },
-                    )}
-                  </span>
-                </div>
+                <Descriptions column="1" bordered>
+                  <Descriptions.Item label={defPluginVar}>
+                    <Descriptions column="1" bordered>
+                      {Object.keys(app.envs[env].pluginVariables[defPluginVar]).map(
+                        defPluginVarValue => {
+                          return (
+                            <Descriptions.Item span="4" label={defPluginVarValue}>
+                              {app.envs[env].pluginVariables[defPluginVar][defPluginVarValue]}
+                            </Descriptions.Item>
+                          );
+                        },
+                      )}
+                    </Descriptions>
+                  </Descriptions.Item>
+                </Descriptions>
               );
             })}
           </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { Descriptions } from 'antd';
 export default function AppVariables({ app }) {
   const envs = app.envs ? Object.keys(app.envs) : [];
   const defaultAppVars = app.variables ? Object.keys(app.variables) : [];
@@ -10,9 +10,11 @@ export default function AppVariables({ app }) {
         <h3 className="bg-gray-100 p-2 px-3">[Default] Application variables</h3>
         {defaultAppVars.map(defAppVar => {
           return (
-            <div className="p-3">
-              {defAppVar} = {app.variables[defAppVar]}
-            </div>
+            <Descriptions column="1" bordered>
+              <Descriptions.Item span="2" label={defAppVar}>
+                {app.variables[defAppVar]}
+              </Descriptions.Item>
+            </Descriptions>
           );
         })}
       </div>
@@ -25,9 +27,11 @@ export default function AppVariables({ app }) {
             <h3 className="bg-gray-100 p-2 px-3">[{env}] Application variables</h3>
             {currentEnvVariables.map(envVar => {
               return (
-                <div className="p-3">
-                  {envVar} = {app.envs[env].variables[envVar]}
-                </div>
+                <Descriptions column="1" bordered>
+                  <Descriptions.Item span="2" label={envVar}>
+                    {app.envs[env].variables[envVar]}
+                  </Descriptions.Item>
+                </Descriptions>
               );
             })}
           </div>
