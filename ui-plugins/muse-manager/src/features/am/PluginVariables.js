@@ -56,7 +56,7 @@ export default function PluginVariables({ app }) {
                 <Button
                   type="link"
                   onClick={() =>
-                    NiceModal.show('muse-manager.edit-plugin-variables-modal', { app, env: null })
+                    NiceModal.show('muse-manager.edit-plugin-variables-modal', { app, env: env })
                   }
                   size="small"
                   className="float-right"

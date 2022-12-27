@@ -1,9 +1,11 @@
 import { useCallback } from 'react';
 import NiceModal, { useModal, antdModal } from '@ebay/nice-modal-react';
-import { Modal, message, Form } from 'antd';
+import { Modal, message, Form, Input, Button } from 'antd';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import { useSyncStatus, useMuseApi } from '../../hooks';
-import FormBuilder from 'antd-form-builder';
+import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+
+const { TextArea } = Input;
 
 const EditPluginVariablesModal = NiceModal.create(({ app, env }) => {
   const modal = useModal();
@@ -39,6 +41,7 @@ const EditPluginVariablesModal = NiceModal.create(({ app, env }) => {
 
   const populateEnvVariablesInputField = environmentVars => {
     let propertyVariables = '';
+
     // we check if we have "variables" section, and transform the js object into "properties" string format
     if (environmentVars) {
       for (const [key, value] of Object.entries(environmentVars)) {
@@ -48,24 +51,21 @@ const EditPluginVariablesModal = NiceModal.create(({ app, env }) => {
     return propertyVariables;
   };
 
-  const sectionMeta = {
-    columns: 2,
-    formItemLayout: [10, 14],
-    fields: [
-      {
-        key: `pluginVariables`,
-        label: 'Variables',
-        widget: 'textarea',
-        widgetProps: { rows: 4 },
-        initialValue: populateEnvVariablesInputField(
-          env ? app.envs[env].pluginVariables : app.pluginVariables,
-        ),
-        colSpan: 2,
-        tooltip:
-          'Plugin. variables. Enter key/values, one per line, using properties syntax. eg  "var=value"',
-      },
-    ].filter(Boolean),
+  const populateInitialPluginVariables = environmentVars => {
+    let pluginVariables = [];
+
+    // we check if we have "variables" section, and transform the js object into "properties" string format
+    if (environmentVars) {
+      for (const [key, value] of Object.entries(environmentVars)) {
+        pluginVariables.push({ pluginName: key, variables: populateEnvVariablesInputField(value) });
+      }
+    }
+    return { pluginVariables: pluginVariables };
   };
+
+  const initialPluginVariableValues = populateInitialPluginVariables(
+    env ? app.envs[env].pluginVariables : app.pluginVariables,
+  );
 
   const handleFinish = useCallback(() => {
     let values = form.getFieldsValue();
@@ -112,7 +112,7 @@ const EditPluginVariablesModal = NiceModal.create(({ app, env }) => {
     <Modal
       {...antdModal(modal)}
       title={`Edit ${env ? `[${env}]` : '[Default]'} Plugin Variables`}
-      width="600px"
+      width="1024px"
       okText={updateAppPending ? 'Updating...' : 'Update'}
       maskClosable={false}
       onOk={() => {
@@ -120,8 +120,60 @@ const EditPluginVariablesModal = NiceModal.create(({ app, env }) => {
       }}
     >
       <RequestStatus loading={updateAppPending} error={updateAppError} />
-      <Form layout="horizontal" form={form} onFinish={handleFinish}>
-        <FormBuilder meta={sectionMeta} form={form} viewMode={false} />
+      <Form
+        layout="horizontal"
+        form={form}
+        onFinish={handleFinish}
+        initialValues={initialPluginVariableValues}
+      >
+        <Form.List name="pluginVariables">
+          {(fields, { add, remove }) => (
+            <>
+              {fields.map(({ key, name, ...restField }) => (
+                <div
+                  key={key}
+                  style={{
+                    display: 'flex',
+                    marginBottom: 8,
+                    justifyContent: 'space-evenly',
+                  }}
+                  align="baseline"
+                >
+                  <Form.Item
+                    {...restField}
+                    name={[name, 'pluginName']}
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Missing plugin name',
+                      },
+                    ]}
+                  >
+                    <Input placeholder="Plugin Name" />
+                  </Form.Item>
+                  <Form.Item
+                    {...restField}
+                    name={[name, 'variables']}
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Missing plugin variables',
+                      },
+                    ]}
+                  >
+                    <TextArea style={{ width: '650px' }} rows={4} placeholder="Plugin variables" />
+                  </Form.Item>
+                  <MinusCircleOutlined onClick={() => remove(name)} />
+                </div>
+              ))}
+              <Form.Item>
+                <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
+                  Add field
+                </Button>
+              </Form.Item>
+            </>
+          )}
+        </Form.List>
       </Form>
     </Modal>
   );
