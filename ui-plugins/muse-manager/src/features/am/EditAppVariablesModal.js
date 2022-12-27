@@ -5,7 +5,6 @@ import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import { useSyncStatus, useMuseApi } from '../../hooks';
 import FormBuilder from 'antd-form-builder';
 
-const user = window.MUSE_GLOBAL.getUser();
 const EditAppVariablesModal = NiceModal.create(({ app, env }) => {
   const modal = useModal();
   const [form] = Form.useForm();
@@ -16,6 +15,27 @@ const EditAppVariablesModal = NiceModal.create(({ app, env }) => {
     error: updateAppError,
     pending: updateAppPending,
   } = useMuseApi('am.updateApp');
+
+  const propertiesToJSON = str => {
+    const sanitizedLines = str
+      // Concat lines that end with '\'.
+      .replace(/\\\n( )*/g, '')
+      // Split by line breaks and remove empty lines
+      .split('\n')
+      .filter(Boolean);
+
+    // now for each line, we create a json object with key : value
+    const populatedJson = {};
+    for (const propline of sanitizedLines) {
+      // split key/value by the first occurrence of '=' (additional '=' on the same line may belong to the value itself)
+      const firstOccurrenceOfEquals = propline.indexOf('=');
+      const currentKey = propline.substring(0, firstOccurrenceOfEquals);
+      const currentValue = propline.substring(firstOccurrenceOfEquals + 1, propline.length);
+      populatedJson[currentKey] = currentValue;
+    }
+
+    return populatedJson;
+  };
 
   const populateEnvVariablesInputField = environmentVars => {
     let propertyVariables = '';
@@ -33,7 +53,7 @@ const EditAppVariablesModal = NiceModal.create(({ app, env }) => {
     formItemLayout: [10, 14],
     fields: [
       {
-        key: `envs.${env}.variables`,
+        key: `variables`,
         label: 'Variables',
         widget: 'textarea',
         widgetProps: { rows: 4 },
@@ -46,7 +66,23 @@ const EditAppVariablesModal = NiceModal.create(({ app, env }) => {
   };
 
   const handleFinish = useCallback(() => {
-    const values = form.getFieldsValue();
+    let values = form.getFieldsValue();
+    const variablesForEnv = values.variables;
+
+    if (env) {
+      const restOfEnvValues = (({ variables, ...others }) => others)(app.envs[env]);
+      if (!values.envs) {
+        values = { envs: {} };
+        values.envs[env] = { variables: {} };
+      }
+      values.envs[env] = restOfEnvValues;
+      delete values.envs[env].plugins;
+    }
+
+    env
+      ? (values.envs[env].variables = variablesForEnv ? propertiesToJSON(variablesForEnv) : null)
+      : (values.variables = variablesForEnv ? propertiesToJSON(variablesForEnv) : null);
+
     updateApp({
       appName: app.name,
       changes: {
@@ -57,7 +93,6 @@ const EditAppVariablesModal = NiceModal.create(({ app, env }) => {
           };
         }),
       },
-      author: user.username,
     })
       .then(async () => {
         modal.hide();
@@ -67,7 +102,7 @@ const EditAppVariablesModal = NiceModal.create(({ app, env }) => {
       .catch(err => {
         console.log('failed to update', err);
       });
-  }, [updateApp, syncStatus, modal, form, app.name]);
+  }, [updateApp, syncStatus, modal, form, app.name, env]);
 
   return (
     <Modal
