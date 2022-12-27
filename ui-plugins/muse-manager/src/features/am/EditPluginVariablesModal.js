@@ -155,6 +155,7 @@ const EditPluginVariablesModal = NiceModal.create(({ app, env }) => {
                       display: 'flex',
                       marginBottom: 8,
                       justifyContent: 'space-evenly',
+                      alignItems: 'center',
                     }}
                     align="baseline"
                   >
@@ -189,9 +190,9 @@ const EditPluginVariablesModal = NiceModal.create(({ app, env }) => {
                     <MinusCircleOutlined onClick={() => remove(name)} />
                   </div>
                 ))}
-                <Form.Item>
-                  <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
-                    Add field
+                <Form.Item style={{ width: '180px', float: 'right' }}>
+                  <Button type="primary" onClick={() => add()} block icon={<PlusOutlined />}>
+                    Add Plugin Variables
                   </Button>
                 </Form.Item>
               </>
