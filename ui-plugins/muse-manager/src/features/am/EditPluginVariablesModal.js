@@ -1,6 +1,6 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import NiceModal, { useModal, antdModal } from '@ebay/nice-modal-react';
-import { Modal, message, Form, Input, Button } from 'antd';
+import { Modal, message, Form, Input, Button, Select } from 'antd';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import { useSyncStatus, useMuseApi } from '../../hooks';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
@@ -10,6 +10,7 @@ const { TextArea } = Input;
 const EditPluginVariablesModal = NiceModal.create(({ app, env }) => {
   const modal = useModal();
   const [form] = Form.useForm();
+  const [pluginList, setPluginList] = useState([]);
   const syncStatus = useSyncStatus(`muse.app.${app.name}`);
 
   const {
@@ -17,6 +18,12 @@ const EditPluginVariablesModal = NiceModal.create(({ app, env }) => {
     error: updateAppError,
     pending: updateAppPending,
   } = useMuseApi('am.updateApp');
+
+  const {
+    action: getPlugins,
+    error: getPluginsError,
+    pending: getPluginsPending,
+  } = useMuseApi('pm.getPlugins');
 
   const populateEnvVariablesInputField = environmentVars => {
     let propertyVariables = '';
@@ -119,6 +126,21 @@ const EditPluginVariablesModal = NiceModal.create(({ app, env }) => {
       });
   }, [updateApp, syncStatus, modal, form, app, env]);
 
+  /*useEffect(() => {
+    async function getPluginsList() {
+      if (!pluginList || pluginList?.length === 0) {
+        const plugins = await getPlugins();
+        setPluginList(
+          plugins.map(p => {
+            return { value: p.name, label: p.name };
+          }),
+        );
+      }
+    }
+
+    getPluginsList();
+  }, [getPlugins, pluginList]); */
+
   return (
     <Modal
       {...antdModal(modal)}
@@ -169,7 +191,7 @@ const EditPluginVariablesModal = NiceModal.create(({ app, env }) => {
                         },
                       ]}
                     >
-                      <Input placeholder="Plugin Name" />
+                      <Select options={pluginList} placeholder="Plugin Name" />
                     </Form.Item>
                     <Form.Item
                       {...restField}
