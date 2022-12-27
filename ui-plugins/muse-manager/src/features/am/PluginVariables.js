@@ -1,14 +1,23 @@
 import React from 'react';
-import { Descriptions } from 'antd';
+import { Descriptions, Button } from 'antd';
+import { useAbility } from '../../hooks';
 
 export default function PluginVariables({ app }) {
   const envs = app.envs ? Object.keys(app.envs) : [];
   const defaultPluginVars = app.pluginVariables ? Object.keys(app.pluginVariables) : [];
+  const ability = useAbility('App');
 
   return (
     <>
       <div>
-        <h3 className="bg-gray-100 p-2 px-3">[Default] Plugin variables</h3>
+        <h3 className="bg-gray-100 p-2 px-3 my-2">
+          [Default] Plugin variables
+          {ability.can('update', app) && (
+            <Button type="link" onClick={() => {}} size="small" className="float-right">
+              Edit
+            </Button>
+          )}
+        </h3>
         {defaultPluginVars.map(defPluginVar => {
           return (
             <Descriptions column="1" bordered>
@@ -33,7 +42,14 @@ export default function PluginVariables({ app }) {
           : [];
         return (
           <div>
-            <h3 className="bg-gray-100 p-2 px-3">[{env}] Plugin variables</h3>
+            <h3 className="bg-gray-100 p-2 px-3 my-2">
+              [{env}] Plugin variables
+              {ability.can('update', app) && (
+                <Button type="link" onClick={() => {}} size="small" className="float-right">
+                  Edit
+                </Button>
+              )}
+            </h3>
             {currentEnvVariables.map(defPluginVar => {
               return (
                 <Descriptions column="1" bordered>
