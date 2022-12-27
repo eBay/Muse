@@ -102,7 +102,7 @@ const EditAppVariablesModal = NiceModal.create(({ app, env }) => {
       .catch(err => {
         console.log('failed to update', err);
       });
-  }, [updateApp, syncStatus, modal, form, app.name, env]);
+  }, [updateApp, syncStatus, modal, form, app, env]);
 
   return (
     <Modal

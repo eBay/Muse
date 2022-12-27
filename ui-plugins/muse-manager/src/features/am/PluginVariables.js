@@ -1,6 +1,7 @@
 import React from 'react';
 import { Descriptions, Button } from 'antd';
 import { useAbility } from '../../hooks';
+import NiceModal from '@ebay/nice-modal-react';
 
 export default function PluginVariables({ app }) {
   const envs = app.envs ? Object.keys(app.envs) : [];
@@ -13,7 +14,14 @@ export default function PluginVariables({ app }) {
         <h3 className="bg-gray-100 p-2 px-3 my-2">
           [Default] Plugin variables
           {ability.can('update', app) && (
-            <Button type="link" onClick={() => {}} size="small" className="float-right">
+            <Button
+              type="link"
+              onClick={() =>
+                NiceModal.show('muse-manager.edit-plugin-variables-modal', { app, env: null })
+              }
+              size="small"
+              className="float-right"
+            >
               Edit
             </Button>
           )}
@@ -45,7 +53,14 @@ export default function PluginVariables({ app }) {
             <h3 className="bg-gray-100 p-2 px-3 my-2">
               [{env}] Plugin variables
               {ability.can('update', app) && (
-                <Button type="link" onClick={() => {}} size="small" className="float-right">
+                <Button
+                  type="link"
+                  onClick={() =>
+                    NiceModal.show('muse-manager.edit-plugin-variables-modal', { app, env: null })
+                  }
+                  size="small"
+                  className="float-right"
+                >
                   Edit
                 </Button>
               )}

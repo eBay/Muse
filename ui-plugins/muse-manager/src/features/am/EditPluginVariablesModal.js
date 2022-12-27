@@ -53,11 +53,13 @@ const EditPluginVariablesModal = NiceModal.create(({ app, env }) => {
     formItemLayout: [10, 14],
     fields: [
       {
-        key: `variables`,
+        key: `pluginVariables`,
         label: 'Variables',
         widget: 'textarea',
         widgetProps: { rows: 4 },
-        initialValue: populateEnvVariablesInputField(env ? app.envs[env].variables : app.variables),
+        initialValue: populateEnvVariablesInputField(
+          env ? app.envs[env].pluginVariables : app.pluginVariables,
+        ),
         colSpan: 2,
         tooltip:
           'Plugin. variables. Enter key/values, one per line, using properties syntax. eg  "var=value"',
@@ -67,21 +69,23 @@ const EditPluginVariablesModal = NiceModal.create(({ app, env }) => {
 
   const handleFinish = useCallback(() => {
     let values = form.getFieldsValue();
-    const variablesForEnv = values.variables;
+    const variablesForEnv = values.pluginVariables;
 
     if (env) {
-      const restOfEnvValues = (({ variables, ...others }) => others)(app.envs[env]);
+      const restOfEnvValues = (({ pluginVariables, ...others }) => others)(app.envs[env]);
       if (!values.envs) {
         values = { envs: {} };
-        values.envs[env] = { variables: {} };
+        values.envs[env] = { pluginVariables: {} };
       }
       values.envs[env] = restOfEnvValues;
       delete values.envs[env].plugins;
     }
 
     env
-      ? (values.envs[env].variables = variablesForEnv ? propertiesToJSON(variablesForEnv) : null)
-      : (values.variables = variablesForEnv ? propertiesToJSON(variablesForEnv) : null);
+      ? (values.envs[env].pluginVariables = variablesForEnv
+          ? propertiesToJSON(variablesForEnv)
+          : null)
+      : (values.pluginVariables = variablesForEnv ? propertiesToJSON(variablesForEnv) : null);
 
     updateApp({
       appName: app.name,
@@ -102,12 +106,12 @@ const EditPluginVariablesModal = NiceModal.create(({ app, env }) => {
       .catch(err => {
         console.log('failed to update', err);
       });
-  }, [updateApp, syncStatus, modal, form, app.name, env]);
+  }, [updateApp, syncStatus, modal, form, app, env]);
 
   return (
     <Modal
       {...antdModal(modal)}
-      title={`Edit ${env ? `[${env}]` : '[Default]'} Application Variables`}
+      title={`Edit ${env ? `[${env}]` : '[Default]'} Plugin Variables`}
       width="600px"
       okText={updateAppPending ? 'Updating...' : 'Update'}
       maskClosable={false}
