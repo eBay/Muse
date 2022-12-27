@@ -18,27 +18,6 @@ const EditPluginVariablesModal = NiceModal.create(({ app, env }) => {
     pending: updateAppPending,
   } = useMuseApi('am.updateApp');
 
-  const propertiesToJSON = str => {
-    const sanitizedLines = str
-      // Concat lines that end with '\'.
-      .replace(/\\\n( )*/g, '')
-      // Split by line breaks and remove empty lines
-      .split('\n')
-      .filter(Boolean);
-
-    // now for each line, we create a json object with key : value
-    const populatedJson = {};
-    for (const propline of sanitizedLines) {
-      // split key/value by the first occurrence of '=' (additional '=' on the same line may belong to the value itself)
-      const firstOccurrenceOfEquals = propline.indexOf('=');
-      const currentKey = propline.substring(0, firstOccurrenceOfEquals);
-      const currentValue = propline.substring(firstOccurrenceOfEquals + 1, propline.length);
-      populatedJson[currentKey] = currentValue;
-    }
-
-    return populatedJson;
-  };
-
   const populateEnvVariablesInputField = environmentVars => {
     let propertyVariables = '';
 
@@ -68,6 +47,36 @@ const EditPluginVariablesModal = NiceModal.create(({ app, env }) => {
   );
 
   const handleFinish = useCallback(() => {
+    const propertiesToJSON = str => {
+      const sanitizedLines = str
+        // Concat lines that end with '\'.
+        .replace(/\\\n( )*/g, '')
+        // Split by line breaks and remove empty lines
+        .split('\n')
+        .filter(Boolean);
+
+      // now for each line, we create a json object with key : value
+      const populatedJson = {};
+      for (const propline of sanitizedLines) {
+        // split key/value by the first occurrence of '=' (additional '=' on the same line may belong to the value itself)
+        const firstOccurrenceOfEquals = propline.indexOf('=');
+        const currentKey = propline.substring(0, firstOccurrenceOfEquals);
+        const currentValue = propline.substring(firstOccurrenceOfEquals + 1, propline.length);
+        populatedJson[currentKey] = currentValue;
+      }
+
+      return populatedJson;
+    };
+
+    const populatePluginVarsForUpdate = pluginVarFields => {
+      const pluginVariables = {};
+      for (const pluginVarField of pluginVarFields) {
+        pluginVariables[pluginVarField.pluginName] = propertiesToJSON(pluginVarField.variables);
+      }
+
+      return pluginVariables;
+    };
+
     let values = form.getFieldsValue();
     const variablesForEnv = values.pluginVariables;
 
@@ -83,9 +92,11 @@ const EditPluginVariablesModal = NiceModal.create(({ app, env }) => {
 
     env
       ? (values.envs[env].pluginVariables = variablesForEnv
-          ? propertiesToJSON(variablesForEnv)
+          ? populatePluginVarsForUpdate(variablesForEnv)
           : null)
-      : (values.pluginVariables = variablesForEnv ? propertiesToJSON(variablesForEnv) : null);
+      : (values.pluginVariables = variablesForEnv
+          ? populatePluginVarsForUpdate(variablesForEnv)
+          : null);
 
     updateApp({
       appName: app.name,
@@ -113,68 +124,81 @@ const EditPluginVariablesModal = NiceModal.create(({ app, env }) => {
       {...antdModal(modal)}
       title={`Edit ${env ? `[${env}]` : '[Default]'} Plugin Variables`}
       width="1024px"
+      centered
       okText={updateAppPending ? 'Updating...' : 'Update'}
       maskClosable={false}
       onOk={() => {
         form.validateFields().then(() => form.submit());
       }}
     >
-      <RequestStatus loading={updateAppPending} error={updateAppError} />
-      <Form
-        layout="horizontal"
-        form={form}
-        onFinish={handleFinish}
-        initialValues={initialPluginVariableValues}
+      <div
+        id="scrollableDiv"
+        style={{
+          height: '60vh',
+          overflow: 'auto',
+        }}
       >
-        <Form.List name="pluginVariables">
-          {(fields, { add, remove }) => (
-            <>
-              {fields.map(({ key, name, ...restField }) => (
-                <div
-                  key={key}
-                  style={{
-                    display: 'flex',
-                    marginBottom: 8,
-                    justifyContent: 'space-evenly',
-                  }}
-                  align="baseline"
-                >
-                  <Form.Item
-                    {...restField}
-                    name={[name, 'pluginName']}
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Missing plugin name',
-                      },
-                    ]}
+        <RequestStatus loading={updateAppPending} error={updateAppError} />
+        <Form
+          layout="horizontal"
+          form={form}
+          onFinish={handleFinish}
+          initialValues={initialPluginVariableValues}
+        >
+          <Form.List name="pluginVariables">
+            {(fields, { add, remove }) => (
+              <>
+                {fields.map(({ key, name, ...restField }) => (
+                  <div
+                    key={key}
+                    style={{
+                      display: 'flex',
+                      marginBottom: 8,
+                      justifyContent: 'space-evenly',
+                    }}
+                    align="baseline"
                   >
-                    <Input placeholder="Plugin Name" />
-                  </Form.Item>
-                  <Form.Item
-                    {...restField}
-                    name={[name, 'variables']}
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Missing plugin variables',
-                      },
-                    ]}
-                  >
-                    <TextArea style={{ width: '650px' }} rows={4} placeholder="Plugin variables" />
-                  </Form.Item>
-                  <MinusCircleOutlined onClick={() => remove(name)} />
-                </div>
-              ))}
-              <Form.Item>
-                <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
-                  Add field
-                </Button>
-              </Form.Item>
-            </>
-          )}
-        </Form.List>
-      </Form>
+                    <Form.Item
+                      {...restField}
+                      name={[name, 'pluginName']}
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Missing plugin name',
+                        },
+                      ]}
+                    >
+                      <Input placeholder="Plugin Name" />
+                    </Form.Item>
+                    <Form.Item
+                      {...restField}
+                      name={[name, 'variables']}
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Missing plugin variables',
+                        },
+                      ]}
+                    >
+                      <TextArea
+                        style={{ width: '650px' }}
+                        rows={4}
+                        placeholder="Plugin variables"
+                      />
+                    </Form.Item>
+                    <MinusCircleOutlined onClick={() => remove(name)} />
+                  </div>
+                ))}
+                <Form.Item>
+                  <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
+                    Add field
+                  </Button>
+                </Form.Item>
+              </>
+            )}
+          </Form.List>
+        </Form>
+      </div>
     </Modal>
   );
 });

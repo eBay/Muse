@@ -108,7 +108,8 @@ const EditAppVariablesModal = NiceModal.create(({ app, env }) => {
     <Modal
       {...antdModal(modal)}
       title={`Edit ${env ? `[${env}]` : '[Default]'} Application Variables`}
-      width="600px"
+      width="800px"
+      centered
       okText={updateAppPending ? 'Updating...' : 'Update'}
       maskClosable={false}
       onOk={() => {
