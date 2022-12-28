@@ -7,7 +7,7 @@ export default function EnvironmentVariables({ app }) {
   const [environmentSelection, setEnvironmentSelection] = useState('App');
   const plainOptions = ['App', 'Plugin'];
 
-  const onChange1 = ({ target: { value } }) => {
+  const onChangeRadio = ({ target: { value } }) => {
     setEnvironmentSelection(value);
   };
 
@@ -15,7 +15,7 @@ export default function EnvironmentVariables({ app }) {
     <>
       <Radio.Group
         options={plainOptions}
-        onChange={onChange1}
+        onChange={onChangeRadio}
         value={environmentSelection}
         optionType="button"
         buttonStyle="solid"
