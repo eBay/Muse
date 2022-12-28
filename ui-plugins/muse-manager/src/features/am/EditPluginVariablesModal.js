@@ -1,10 +1,10 @@
 import { useCallback } from 'react';
 import NiceModal, { useModal, antdModal } from '@ebay/nice-modal-react';
-import { Modal, message, Form, Input, Button, Select } from 'antd';
+import { Modal, message, Form, Input, Button, Select, Tooltip } from 'antd';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import { useSyncStatus, useMuseApi } from '../../hooks';
 import { usePollingMuseData } from '../../hooks';
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { MinusCircleOutlined, PlusOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 
 const { TextArea } = Input;
 
@@ -190,6 +190,15 @@ const EditPluginVariablesModal = NiceModal.create(({ app, env }) => {
                     </Form.Item>
                     <Form.Item
                       {...restField}
+                      help={
+                        <Tooltip
+                          title={
+                            'Plugin variables. Enter key/values, one per line, using properties syntax. eg  "var=value"'
+                          }
+                        >
+                          <QuestionCircleOutlined />
+                        </Tooltip>
+                      }
                       name={[name, 'variables']}
                       rules={[
                         {
