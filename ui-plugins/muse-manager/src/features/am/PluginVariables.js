@@ -29,11 +29,14 @@ export default function PluginVariables({ app }) {
         <Descriptions column={1} bordered>
           {defaultPluginVars.map(defPluginVar => {
             return (
-              <Descriptions.Item label={defPluginVar}>
+              <Descriptions.Item label={defPluginVar} contentStyle={{ padding: '5px 5px' }}>
                 <Descriptions column={1} bordered>
                   {Object.keys(app.pluginVariables[defPluginVar]).map(defPluginVarValue => {
                     return (
-                      <Descriptions.Item label={defPluginVarValue}>
+                      <Descriptions.Item
+                        contentStyle={{ padding: '5px 10px' }}
+                        label={defPluginVarValue}
+                      >
                         {app.pluginVariables[defPluginVar][defPluginVarValue]}
                       </Descriptions.Item>
                     );
@@ -68,12 +71,15 @@ export default function PluginVariables({ app }) {
             <Descriptions column={1} bordered>
               {currentEnvVariables.map(defPluginVar => {
                 return (
-                  <Descriptions.Item label={defPluginVar}>
+                  <Descriptions.Item label={defPluginVar} contentStyle={{ padding: '5px 5px' }}>
                     <Descriptions column={1} bordered>
                       {Object.keys(app.envs[env].pluginVariables[defPluginVar]).map(
                         defPluginVarValue => {
                           return (
-                            <Descriptions.Item label={defPluginVarValue}>
+                            <Descriptions.Item
+                              label={defPluginVarValue}
+                              contentStyle={{ padding: '5px 10px' }}
+                            >
                               {app.envs[env].pluginVariables[defPluginVar][defPluginVarValue]}
                             </Descriptions.Item>
                           );
