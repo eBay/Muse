@@ -26,15 +26,13 @@ export default function AppVariables({ app }) {
             </Button>
           )}
         </h3>
-        {defaultAppVars.map(defAppVar => {
-          return (
-            <Descriptions column="1" bordered>
-              <Descriptions.Item span="2" label={defAppVar}>
-                {app.variables[defAppVar]}
-              </Descriptions.Item>
-            </Descriptions>
-          );
-        })}
+        <Descriptions column={1} bordered>
+          {defaultAppVars.map(defAppVar => {
+            return (
+              <Descriptions.Item label={defAppVar}>{app.variables[defAppVar]}</Descriptions.Item>
+            );
+          })}
+        </Descriptions>
       </div>
       {envs.map(env => {
         const currentEnvVariables = app.envs[env].variables
@@ -57,15 +55,15 @@ export default function AppVariables({ app }) {
                 </Button>
               )}
             </h3>
-            {currentEnvVariables.map(envVar => {
-              return (
-                <Descriptions column="1" bordered>
-                  <Descriptions.Item span="2" label={envVar}>
+            <Descriptions column={1} bordered>
+              {currentEnvVariables.map(envVar => {
+                return (
+                  <Descriptions.Item label={envVar}>
                     {app.envs[env].variables[envVar]}
                   </Descriptions.Item>
-                </Descriptions>
-              );
-            })}
+                );
+              })}
+            </Descriptions>
           </div>
         );
       })}

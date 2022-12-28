@@ -26,23 +26,23 @@ export default function PluginVariables({ app }) {
             </Button>
           )}
         </h3>
-        {defaultPluginVars.map(defPluginVar => {
-          return (
-            <Descriptions column="1" bordered>
+        <Descriptions column={1} bordered>
+          {defaultPluginVars.map(defPluginVar => {
+            return (
               <Descriptions.Item label={defPluginVar}>
-                <Descriptions column="1" bordered>
+                <Descriptions column={1} bordered>
                   {Object.keys(app.pluginVariables[defPluginVar]).map(defPluginVarValue => {
                     return (
-                      <Descriptions.Item span="4" label={defPluginVarValue}>
+                      <Descriptions.Item label={defPluginVarValue}>
                         {app.pluginVariables[defPluginVar][defPluginVarValue]}
                       </Descriptions.Item>
                     );
                   })}
                 </Descriptions>
               </Descriptions.Item>
-            </Descriptions>
-          );
-        })}
+            );
+          })}
+        </Descriptions>
       </div>
       {envs.map(env => {
         const currentEnvVariables = app.envs[env].pluginVariables
@@ -65,15 +65,15 @@ export default function PluginVariables({ app }) {
                 </Button>
               )}
             </h3>
-            {currentEnvVariables.map(defPluginVar => {
-              return (
-                <Descriptions column="1" bordered>
+            <Descriptions column={1} bordered>
+              {currentEnvVariables.map(defPluginVar => {
+                return (
                   <Descriptions.Item label={defPluginVar}>
-                    <Descriptions column="1" bordered>
+                    <Descriptions column={1} bordered>
                       {Object.keys(app.envs[env].pluginVariables[defPluginVar]).map(
                         defPluginVarValue => {
                           return (
-                            <Descriptions.Item span="4" label={defPluginVarValue}>
+                            <Descriptions.Item label={defPluginVarValue}>
                               {app.envs[env].pluginVariables[defPluginVar][defPluginVarValue]}
                             </Descriptions.Item>
                           );
@@ -81,9 +81,9 @@ export default function PluginVariables({ app }) {
                       )}
                     </Descriptions>
                   </Descriptions.Item>
-                </Descriptions>
-              );
-            })}
+                );
+              })}
+            </Descriptions>
           </div>
         );
       })}
