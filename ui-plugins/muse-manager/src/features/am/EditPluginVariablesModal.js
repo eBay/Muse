@@ -209,7 +209,7 @@ const EditPluginVariablesModal = NiceModal.create(({ app, env }) => {
                     >
                       <TextArea
                         style={{ width: '650px' }}
-                        rows={4}
+                        rows={8}
                         placeholder="Plugin variables"
                       />
                     </Form.Item>

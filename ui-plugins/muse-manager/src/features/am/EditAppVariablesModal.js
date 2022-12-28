@@ -56,7 +56,7 @@ const EditAppVariablesModal = NiceModal.create(({ app, env }) => {
         key: `variables`,
         label: 'Variables',
         widget: 'textarea',
-        widgetProps: { rows: 4 },
+        widgetProps: { rows: 10 },
         initialValue: populateEnvVariablesInputField(env ? app.envs[env].variables : app.variables),
         colSpan: 2,
         tooltip:
@@ -116,10 +116,19 @@ const EditAppVariablesModal = NiceModal.create(({ app, env }) => {
         form.validateFields().then(() => form.submit());
       }}
     >
-      <RequestStatus loading={updateAppPending} error={updateAppError} />
-      <Form layout="horizontal" form={form} onFinish={handleFinish}>
-        <FormBuilder meta={sectionMeta} form={form} viewMode={false} />
-      </Form>
+      <div
+        id="scrollableDiv"
+        style={{
+          height: '40vh',
+          overflowY: 'auto',
+          overflowX: 'hidden',
+        }}
+      >
+        <RequestStatus loading={updateAppPending} error={updateAppError} />
+        <Form layout="horizontal" form={form} onFinish={handleFinish}>
+          <FormBuilder meta={sectionMeta} form={form} viewMode={false} />
+        </Form>
+      </div>
     </Modal>
   );
 });
