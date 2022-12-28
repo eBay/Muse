@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import NiceModal, { useModal, antdModal } from '@ebay/nice-modal-react';
-import { Modal, message, Form, Input, Button, Select, Tooltip } from 'antd';
+import { Modal, message, Form, Input, Button, Select, Tooltip, Divider } from 'antd';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import { useSyncStatus, useMuseApi } from '../../hooks';
 import { usePollingMuseData } from '../../hooks';
@@ -154,67 +154,70 @@ const EditPluginVariablesModal = NiceModal.create(({ app, env }) => {
             {(fields, { add, remove }) => (
               <>
                 {fields.map(({ key, name, ...restField }) => (
-                  <div
-                    key={key}
-                    style={{
-                      display: 'flex',
-                      marginBottom: 8,
-                      justifyContent: 'space-evenly',
-                      alignItems: 'center',
-                    }}
-                    align="baseline"
-                  >
-                    <Form.Item
-                      {...restField}
-                      name={[name, 'pluginName']}
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Missing plugin name',
-                        },
-                      ]}
+                  <>
+                    <div
+                      key={key}
+                      style={{
+                        display: 'flex',
+                        marginBottom: 8,
+                        justifyContent: 'space-evenly',
+                        alignItems: 'center',
+                      }}
+                      align="baseline"
                     >
-                      <Select
-                        options={pluginList}
-                        showSearch
-                        optionFilterProp="children"
-                        filterOption={(input, option) => (option?.label ?? '').includes(input)}
-                        filterSort={(optionA, optionB) =>
-                          (optionA?.label ?? '')
-                            .toLowerCase()
-                            .localeCompare((optionB?.label ?? '').toLowerCase())
-                        }
-                        placeholder="Plugin Name"
-                        style={{ width: '250px' }}
-                      />
-                    </Form.Item>
-                    <Form.Item
-                      {...restField}
-                      help={
-                        <Tooltip
-                          title={
-                            'Plugin variables. Enter key/values, one per line, using properties syntax. eg  "var=value"'
+                      <Form.Item
+                        {...restField}
+                        name={[name, 'pluginName']}
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Missing plugin name',
+                          },
+                        ]}
+                      >
+                        <Select
+                          options={pluginList}
+                          showSearch
+                          optionFilterProp="children"
+                          filterOption={(input, option) => (option?.label ?? '').includes(input)}
+                          filterSort={(optionA, optionB) =>
+                            (optionA?.label ?? '')
+                              .toLowerCase()
+                              .localeCompare((optionB?.label ?? '').toLowerCase())
                           }
-                        >
-                          <QuestionCircleOutlined />
-                        </Tooltip>
-                      }
-                      name={[name, 'variables']}
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Missing plugin variables',
-                        },
-                      ]}
-                    >
-                      <TextArea
-                        style={{ width: '650px' }}
-                        rows={8}
-                        placeholder="Plugin variables"
-                      />
-                    </Form.Item>
-                    <MinusCircleOutlined onClick={() => remove(name)} />
-                  </div>
+                          placeholder="Plugin Name"
+                          style={{ width: '250px' }}
+                        />
+                      </Form.Item>
+                      <Form.Item
+                        {...restField}
+                        help={
+                          <Tooltip
+                            title={
+                              'Plugin variables. Enter key/values, one per line, using properties syntax. eg  "var=value"'
+                            }
+                          >
+                            <QuestionCircleOutlined />
+                          </Tooltip>
+                        }
+                        name={[name, 'variables']}
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Missing plugin variables',
+                          },
+                        ]}
+                      >
+                        <TextArea
+                          style={{ width: '650px' }}
+                          rows={8}
+                          placeholder="Plugin variables"
+                        />
+                      </Form.Item>
+                      <MinusCircleOutlined onClick={() => remove(name)} />
+                    </div>
+                    <Divider />
+                  </>
                 ))}
                 <Form.Item style={{ width: '180px', float: 'right' }}>
                   <Button type="primary" onClick={() => add()} block icon={<PlusOutlined />}>
