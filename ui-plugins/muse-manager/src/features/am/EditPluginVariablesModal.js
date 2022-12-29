@@ -4,7 +4,7 @@ import { Modal, message, Form, Input, Button, Select, Tooltip, Divider } from 'a
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import { useSyncStatus, useMuseApi } from '../../hooks';
 import { usePollingMuseData } from '../../hooks';
-import { MinusCircleOutlined, PlusOutlined, QuestionCircleOutlined } from '@ant-design/icons';
+import { DeleteOutlined, PlusOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 
 const { TextArea } = Input;
 
@@ -155,19 +155,13 @@ const EditPluginVariablesModal = NiceModal.create(({ app, env }) => {
               <>
                 {fields.map(({ key, name, ...restField }) => (
                   <>
-                    <div
-                      key={key}
-                      style={{
-                        display: 'flex',
-                        marginBottom: 8,
-                        justifyContent: 'space-evenly',
-                        alignItems: 'center',
-                      }}
-                      align="baseline"
-                    >
+                    <div key={key} align="baseline">
                       <Form.Item
                         {...restField}
+                        labelCol={{ span: 7 }}
+                        wrapperCol={{ span: 17 }}
                         name={[name, 'pluginName']}
+                        label="Plugin Name"
                         rules={[
                           {
                             required: true,
@@ -191,22 +185,21 @@ const EditPluginVariablesModal = NiceModal.create(({ app, env }) => {
                       </Form.Item>
                       <Form.Item
                         {...restField}
-                        help={
-                          <Tooltip
-                            title={
-                              'Plugin variables. Enter key/values, one per line, using properties syntax. eg  "var=value"'
-                            }
-                          >
-                            <QuestionCircleOutlined />
-                          </Tooltip>
+                        labelCol={{ span: 7 }}
+                        wrapperCol={{ span: 17 }}
+                        label={
+                          <span>
+                            Plugin Variables{' '}
+                            <Tooltip
+                              title={
+                                'Plugin variables. Enter key/values, one per line, using properties syntax. eg  "var=value"'
+                              }
+                            >
+                              <QuestionCircleOutlined style={{ color: '#1890ff' }} />
+                            </Tooltip>
+                          </span>
                         }
                         name={[name, 'variables']}
-                        rules={[
-                          {
-                            required: true,
-                            message: 'Missing plugin variables',
-                          },
-                        ]}
                       >
                         <TextArea
                           style={{ width: '650px' }}
@@ -214,13 +207,27 @@ const EditPluginVariablesModal = NiceModal.create(({ app, env }) => {
                           placeholder="Plugin variables"
                         />
                       </Form.Item>
-                      <MinusCircleOutlined onClick={() => remove(name)} />
+                      <DeleteOutlined
+                        style={{
+                          width: '97%',
+                          display: 'flex',
+                          justifyContent: 'flex-end',
+                          color: '#d93026',
+                        }}
+                        onClick={() => remove(name)}
+                      />
                     </div>
                     <Divider />
                   </>
                 ))}
-                <Form.Item style={{ width: '180px', float: 'right' }}>
-                  <Button type="primary" onClick={() => add()} block icon={<PlusOutlined />}>
+                <Form.Item>
+                  <Button
+                    style={{ width: '180px', float: 'right', marginRight: '30px' }}
+                    type="primary"
+                    onClick={() => add()}
+                    block
+                    icon={<PlusOutlined />}
+                  >
                     Add Plugin Variables
                   </Button>
                 </Form.Item>
