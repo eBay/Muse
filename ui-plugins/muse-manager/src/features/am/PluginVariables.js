@@ -38,6 +38,7 @@ export default function PluginVariables({ app }) {
                 label={defPluginVar}
                 labelStyle={{ width: '30%' }}
                 contentStyle={{ width: '70%', padding: '5px 5px' }}
+                key={defPluginVar}
               >
                 <Descriptions column={1} bordered>
                   {Object.keys(app.pluginVariables[defPluginVar]).map(defPluginVarValue => {
@@ -46,6 +47,7 @@ export default function PluginVariables({ app }) {
                         contentStyle={{ width: '70%', padding: '5px 10px' }}
                         label={defPluginVarValue}
                         labelStyle={{ width: '30%' }}
+                        key={`${defPluginVar}-${defPluginVarValue}`}
                       >
                         {app.pluginVariables[defPluginVar][defPluginVarValue]}
                       </Descriptions.Item>
@@ -62,7 +64,7 @@ export default function PluginVariables({ app }) {
           ? Object.keys(app.envs[env].pluginVariables)
           : [];
         return (
-          <div>
+          <div key={env}>
             <h3 className="bg-gray-100 p-2 px-3 my-2">
               [{env}] Plugin variables
               {ability.can('update', app) && (
@@ -90,6 +92,7 @@ export default function PluginVariables({ app }) {
                     labelStyle={{ width: '30%' }}
                     label={defPluginVar}
                     contentStyle={{ width: '70%', padding: '5px 5px' }}
+                    key={`${env}-${defPluginVar}`}
                   >
                     <Descriptions
                       column={1}
@@ -104,6 +107,7 @@ export default function PluginVariables({ app }) {
                               label={defPluginVarValue}
                               contentStyle={{ width: '70%', padding: '5px 10px' }}
                               labelStyle={{ width: '30%' }}
+                              key={`${env}-${defPluginVar}-${defPluginVarValue}`}
                             >
                               {app.envs[env].pluginVariables[defPluginVar][defPluginVarValue]}
                             </Descriptions.Item>
