@@ -26,10 +26,21 @@ export default function AppVariables({ app }) {
             </Button>
           )}
         </h3>
-        <Descriptions column={1} bordered>
+        <Descriptions
+          column={1}
+          bordered
+          labelStyle={{ width: '30%' }}
+          contentStyle={{ width: '70%' }}
+        >
           {defaultAppVars.map(defAppVar => {
             return (
-              <Descriptions.Item label={defAppVar}>{app.variables[defAppVar]}</Descriptions.Item>
+              <Descriptions.Item
+                labelStyle={{ width: '30%' }}
+                contentStyle={{ width: '70%' }}
+                label={defAppVar}
+              >
+                {app.variables[defAppVar]}
+              </Descriptions.Item>
             );
           })}
         </Descriptions>
@@ -55,10 +66,19 @@ export default function AppVariables({ app }) {
                 </Button>
               )}
             </h3>
-            <Descriptions column={1} bordered>
+            <Descriptions
+              column={1}
+              bordered
+              labelStyle={{ width: '30%' }}
+              contentStyle={{ width: '70%' }}
+            >
               {currentEnvVariables.map(envVar => {
                 return (
-                  <Descriptions.Item label={envVar}>
+                  <Descriptions.Item
+                    labelStyle={{ width: '30%' }}
+                    contentStyle={{ width: '70%' }}
+                    label={envVar}
+                  >
                     {app.envs[env].variables[envVar]}
                   </Descriptions.Item>
                 );

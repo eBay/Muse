@@ -26,16 +26,26 @@ export default function PluginVariables({ app }) {
             </Button>
           )}
         </h3>
-        <Descriptions column={1} bordered>
+        <Descriptions
+          column={1}
+          bordered
+          labelStyle={{ width: '30%' }}
+          contentStyle={{ width: '70%' }}
+        >
           {defaultPluginVars.map(defPluginVar => {
             return (
-              <Descriptions.Item label={defPluginVar} contentStyle={{ padding: '5px 5px' }}>
+              <Descriptions.Item
+                label={defPluginVar}
+                labelStyle={{ width: '30%' }}
+                contentStyle={{ width: '70%', padding: '5px 5px' }}
+              >
                 <Descriptions column={1} bordered>
                   {Object.keys(app.pluginVariables[defPluginVar]).map(defPluginVarValue => {
                     return (
                       <Descriptions.Item
-                        contentStyle={{ padding: '5px 10px' }}
+                        contentStyle={{ width: '70%', padding: '5px 10px' }}
                         label={defPluginVarValue}
+                        labelStyle={{ width: '30%' }}
                       >
                         {app.pluginVariables[defPluginVar][defPluginVarValue]}
                       </Descriptions.Item>
@@ -68,17 +78,32 @@ export default function PluginVariables({ app }) {
                 </Button>
               )}
             </h3>
-            <Descriptions column={1} bordered>
+            <Descriptions
+              column={1}
+              bordered
+              labelStyle={{ width: '30%' }}
+              contentStyle={{ width: '70%' }}
+            >
               {currentEnvVariables.map(defPluginVar => {
                 return (
-                  <Descriptions.Item label={defPluginVar} contentStyle={{ padding: '5px 5px' }}>
-                    <Descriptions column={1} bordered>
+                  <Descriptions.Item
+                    labelStyle={{ width: '30%' }}
+                    label={defPluginVar}
+                    contentStyle={{ width: '70%', padding: '5px 5px' }}
+                  >
+                    <Descriptions
+                      column={1}
+                      bordered
+                      labelStyle={{ width: '30%' }}
+                      contentStyle={{ width: '70%' }}
+                    >
                       {Object.keys(app.envs[env].pluginVariables[defPluginVar]).map(
                         defPluginVarValue => {
                           return (
                             <Descriptions.Item
                               label={defPluginVarValue}
-                              contentStyle={{ padding: '5px 10px' }}
+                              contentStyle={{ width: '70%', padding: '5px 10px' }}
+                              labelStyle={{ width: '30%' }}
                             >
                               {app.envs[env].pluginVariables[defPluginVar][defPluginVarValue]}
                             </Descriptions.Item>
