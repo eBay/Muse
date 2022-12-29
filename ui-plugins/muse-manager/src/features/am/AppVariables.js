@@ -38,6 +38,7 @@ export default function AppVariables({ app }) {
                 labelStyle={{ width: '30%' }}
                 contentStyle={{ width: '70%' }}
                 label={defAppVar}
+                key={defAppVar}
               >
                 {app.variables[defAppVar]}
               </Descriptions.Item>
@@ -50,7 +51,7 @@ export default function AppVariables({ app }) {
           ? Object.keys(app.envs[env].variables)
           : [];
         return (
-          <div>
+          <div key={env}>
             <h3 className="bg-gray-100 p-2 px-3 my-2">
               [{env}] Application variables
               {ability.can('update', app) && (
@@ -78,6 +79,7 @@ export default function AppVariables({ app }) {
                     labelStyle={{ width: '30%' }}
                     contentStyle={{ width: '70%' }}
                     label={envVar}
+                    key={`${env}-${envVar}`}
                   >
                     {app.envs[env].variables[envVar]}
                   </Descriptions.Item>
