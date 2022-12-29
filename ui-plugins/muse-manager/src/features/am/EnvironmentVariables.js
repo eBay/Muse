@@ -5,7 +5,10 @@ import PluginVariables from './PluginVariables';
 
 export default function EnvironmentVariables({ app }) {
   const [environmentSelection, setEnvironmentSelection] = useState('App');
-  const plainOptions = ['App', 'Plugin'];
+  const plainOptions = [
+    { label: 'App. Level', value: 'App' },
+    { label: 'Plugin Level', value: 'Plugin' },
+  ];
 
   const onChangeRadio = ({ target: { value } }) => {
     setEnvironmentSelection(value);
