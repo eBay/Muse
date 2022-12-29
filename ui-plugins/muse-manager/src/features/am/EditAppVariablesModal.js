@@ -4,7 +4,7 @@ import { Modal, message, Form } from 'antd';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import { useSyncStatus, useMuseApi } from '../../hooks';
 import FormBuilder from 'antd-form-builder';
-
+import { CloseOutlined, CheckOutlined } from '@ant-design/icons';
 const EditAppVariablesModal = NiceModal.create(({ app, env }) => {
   const modal = useModal();
   const [form] = Form.useForm();
@@ -114,6 +114,12 @@ const EditAppVariablesModal = NiceModal.create(({ app, env }) => {
       maskClosable={false}
       onOk={() => {
         form.validateFields().then(() => form.submit());
+      }}
+      okButtonProps={{
+        icon: <CheckOutlined />,
+      }}
+      cancelButtonProps={{
+        icon: <CloseOutlined />,
       }}
     >
       <div

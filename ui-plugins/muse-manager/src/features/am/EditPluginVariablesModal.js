@@ -4,7 +4,13 @@ import { Modal, message, Form, Input, Button, Select, Tooltip, Divider } from 'a
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import { useSyncStatus, useMuseApi } from '../../hooks';
 import { usePollingMuseData } from '../../hooks';
-import { DeleteOutlined, PlusOutlined, QuestionCircleOutlined } from '@ant-design/icons';
+import {
+  CloseOutlined,
+  CheckOutlined,
+  DeleteOutlined,
+  PlusOutlined,
+  QuestionCircleOutlined,
+} from '@ant-design/icons';
 
 const { TextArea } = Input;
 
@@ -134,6 +140,12 @@ const EditPluginVariablesModal = NiceModal.create(({ app, env }) => {
       maskClosable={false}
       onOk={() => {
         form.validateFields().then(() => form.submit());
+      }}
+      okButtonProps={{
+        icon: <CheckOutlined />,
+      }}
+      cancelButtonProps={{
+        icon: <CloseOutlined />,
       }}
     >
       <div
