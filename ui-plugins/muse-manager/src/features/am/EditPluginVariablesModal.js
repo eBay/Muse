@@ -31,8 +31,6 @@ const EditPluginVariablesModal = NiceModal.create(({ app, env }) => {
 
   const populateEnvVariablesInputField = environmentVars => {
     let propertyVariables = '';
-
-    // we check if we have "variables" section, and transform the js object into "properties" string format
     if (environmentVars) {
       for (const [key, value] of Object.entries(environmentVars)) {
         propertyVariables += `${key}=${value}\n`;
@@ -43,8 +41,6 @@ const EditPluginVariablesModal = NiceModal.create(({ app, env }) => {
 
   const populateInitialPluginVariables = environmentVars => {
     let pluginVariables = [];
-
-    // we check if we have "variables" section, and transform the js object into "properties" string format
     if (environmentVars) {
       for (const [key, value] of Object.entries(environmentVars)) {
         pluginVariables.push({ pluginName: key, variables: populateEnvVariablesInputField(value) });
