@@ -1,6 +1,8 @@
 import { register } from '@ebay/nice-modal-react';
 import CreateAppModal from './features/am/CreateAppModal';
 import EditAppModal from './features/am/EditAppModal';
+import EditAppVariablesModal from './features/am/EditAppVariablesModal';
+import EditPluginVariablesModal from './features/am/EditPluginVariablesModal';
 import DeployPluginModal from './features/pm/DeployPluginModal';
 import RequestDetailModal from './features/req/RequestDetailModal';
 import CreatePluginModal from './features/pm/CreatePluginModal';
@@ -20,3 +22,5 @@ register('muse-manager.releases-drawer', ReleasesDrawer);
 register('muse-manager.edit-environment-modal', EditEnvironmentModal);
 register('muse-manager.preview-modal', PreviewModal);
 register('muse-manager.add-env-modal', AddEnvironmentModal);
+register('muse-manager.edit-app-variables-modal', EditAppVariablesModal);
+register('muse-manager.edit-plugin-variables-modal', EditPluginVariablesModal);

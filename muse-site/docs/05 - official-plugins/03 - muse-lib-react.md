@@ -356,7 +356,7 @@ All shared modules in a lib plugins use fixed version in `package.json`. So when
 ```
 ## Provided modules
 
-The only useful module you can import is Redux store:
+The only useful module you can import is the Redux store:
 
 ```
 @ebay/muse-lib-react@1.0.12/src/common/store.js

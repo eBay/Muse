@@ -59,7 +59,7 @@ export function load(resource, callback) {
 export async function loadInParallel(items, callback = noop) {
   let count = 0;
   await Promise.all(
-    items.map(async item => {
+    items.map(async (item) => {
       await load(item);
       callback(++count);
     }),

@@ -4,13 +4,12 @@ import NiceModal from '@ebay/nice-modal-react';
 import jsPlugin from 'js-plugin';
 import { message, Modal } from 'antd';
 
-import { useMuseApi, useSyncStatus, useAbility } from '../../hooks';
+import { useMuseApi, useSyncStatus } from '../../hooks';
 import _ from 'lodash';
 
 function PluginActions({ plugin, app }) {
   const { action: deletePlugin } = useMuseApi('pm.deletePlugin');
   const syncStatus = useSyncStatus('muse.plugins');
-  const ability = useAbility('Plugin');
 
   let items = useMemo(() => {
     return [
@@ -77,7 +76,7 @@ function PluginActions({ plugin, app }) {
         },
       },
     ].filter(Boolean);
-  }, [syncStatus, app, plugin, deletePlugin, ability]);
+  }, [syncStatus, app, plugin, deletePlugin]);
   items.push(..._.flatten(jsPlugin.invoke('museManager.pm.getPluginActions', { app, plugin })));
   jsPlugin.invoke('museManager.pm.processPluginActions', { items, app, plugin });
   items = items.filter(Boolean);

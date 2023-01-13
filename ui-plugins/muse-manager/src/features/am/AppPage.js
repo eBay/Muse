@@ -2,10 +2,17 @@ import _ from 'lodash';
 import jsPlugin from 'js-plugin';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Tabs, Alert } from 'antd';
+import {
+  EyeOutlined,
+  AppstoreOutlined,
+  FunctionOutlined,
+  FieldTimeOutlined,
+} from '@ant-design/icons';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import { usePollingMuseData } from '../../hooks';
 import PluginList from '../pm/PluginList';
 import AppOverview from './AppOverview';
+import EnvironmentVariables from './EnvironmentVariables';
 const { TabPane } = Tabs;
 
 export default function AppPage() {
@@ -16,20 +23,46 @@ export default function AppPage() {
   const tabs = [
     {
       key: 'overview',
-      name: 'Overview',
+      name: (
+        <span>
+          <EyeOutlined />
+          Overview
+        </span>
+      ),
       order: 10,
       component: AppOverview,
     },
     {
       key: 'plugins',
-      name: 'Plugins',
+      name: (
+        <span>
+          <AppstoreOutlined />
+          Plugins
+        </span>
+      ),
       order: 20,
       component: PluginList,
     },
     {
-      key: 'activities',
-      name: 'Activities',
+      key: 'variables',
+      name: (
+        <span>
+          <FunctionOutlined />
+          Variables
+        </span>
+      ),
       order: 30,
+      component: EnvironmentVariables,
+    },
+    {
+      key: 'activities',
+      name: (
+        <span>
+          <FieldTimeOutlined />
+          Activities
+        </span>
+      ),
+      order: 40,
       component: () => 'Activites',
     },
   ];
