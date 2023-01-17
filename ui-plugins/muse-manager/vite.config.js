@@ -33,7 +33,7 @@ export default defineConfig({
           },
         },
         {
-          name: 'musetest',
+          name: 'musetest2',
           setup(build) {
             const allContent = {};
             ['@ebay/muse-lib-react', '@ebay/muse-lib-antd'].forEach(libName => {
@@ -62,6 +62,7 @@ export default defineConfig({
               if (museModule) {
                 return {
                   contents: `const m = MUSE_GLOBAL.__shared__.require("${museModuleId}"); module.exports=m ? (m.default || m): null;`,
+                  // contents: `export default MUSE_GLOBAL.__shared__.require("${museModuleId}");`,
                 };
               }
 

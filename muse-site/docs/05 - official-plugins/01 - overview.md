@@ -11,6 +11,8 @@ variables:
   - endpoint: htts://google.com
 ```
 
+So we also open sourced all reuseful plugins used inside eBay for internal applications. Again, these plugins are just our opinionate appooaches. We look forward to seeing more plugins from the community.
+
 ## Share a Muse plugin
 Everyone can share Muse plugins to others by publishing them to the npm registry. It's the same process as publish normal npm packages. Then others can install these Muse plugins to their own Muse registry.
 
@@ -73,4 +75,4 @@ The introduction of a third-party plugin may include below parts:
 
 
 ## Summary
-Muse plugins provides a mechanism for re-using bigger blocks of the application development. Though for now there are reuseful plugins from us, hope there would be more plugins from the community. 
+Muse provides a mechanism for reusing logic as plugins. Though for now there are reuseful plugins from us, hope there would be more plugins from the community. 
