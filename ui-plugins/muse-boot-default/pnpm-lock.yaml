@@ -3,7 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@craco/craco': 7.0.0
   '@ebay/muse-core': 1.0.26
-  '@ebay/muse-cra-patch': 1.0.0
+  '@ebay/muse-cra-patch': ^1.0.0
   '@ebay/muse-craco-plugin': 1.0.28
   '@ebay/muse-ebay-dev': ^1.0.1
   '@ebay/muse-modules': 1.0.21
