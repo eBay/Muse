@@ -98,9 +98,10 @@ const mapFile = (p) => path.join(__dirname, '..', p);
     log.info('Installing Muse dependencies...');
     const deps = [
       'js-plugin',
+      'cross-env',
       '@craco/craco@7.0.0',
       '@ebay/muse-core',
-      '@ebay/muse-scripts-react',
+      '@ebay/muse-cra-patch',
       '@ebay/muse-craco-plugin',
       '@ebay/muse-lib-react',
     ];
@@ -117,10 +118,11 @@ const mapFile = (p) => path.join(__dirname, '..', p);
     };
     log.info('Updating scripts in package.json...');
     Object.assign(pkgJson.scripts, {
-      start: 'muse-scripts-react start',
-      build: 'muse-scripts-react build && muse-scripts-react build --dev',
-      'build:dist': 'muse-scripts-react build',
-      'build:dev': 'muse-scripts-react build --dev',
+      start: 'muse-cra-patch && craco start',
+      build:
+        'muse-cra-patch && craco build && cross-env MUSE_DEV_BUILD=true muse-cra-patch && craco build ',
+      'build:dist': 'muse-cra-patch && craco build',
+      'build:dev': 'cross-env MUSE_DEV_BUILD=true muse-cra-patch && craco build',
     });
     fs.writeJsonSync('./package.json', pkgJson, { spaces: 2 });
 

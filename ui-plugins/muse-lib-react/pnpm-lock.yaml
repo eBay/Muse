@@ -6,7 +6,7 @@ specifiers:
   '@ebay/muse-core': 1.0.28
   '@ebay/muse-craco-plugin': 2.0.1
   '@ebay/muse-ebay-dev': 1.0.3
-  '@ebay/muse-scripts-react': 1.0.25
+  '@ebay/muse-cra-patch': ^1.0.0
   '@ebay/nice-modal-react': 1.2.8
   '@types/node': 18.11.9
   axios: 1.2.0
@@ -59,7 +59,7 @@ devDependencies:
   '@ebay/muse-core': 1.0.28
   '@ebay/muse-craco-plugin': 2.0.1_zn3b3rg7a76ksmoalqt6s3i4aq
   '@ebay/muse-ebay-dev': 1.0.3_@ebay+muse-core@1.0.28
-  '@ebay/muse-scripts-react': 1.0.25
+  '@ebay/muse-cra-patch': ^1.0.0
   '@types/node': 18.11.9
   cross-env: 7.0.3
   eslint: 8.28.0

@@ -20,22 +20,22 @@
     "@ebay/muse-core": "1.0.26",
     "@ebay/muse-craco-plugin": "1.0.14",
     "@ebay/muse-ebay-dev": "^1.0.1",
-    "@ebay/muse-scripts-react": "^1.0.12",
+    "@ebay/muse-cra-patch": "^1.0.0",
     "@zarconontol/enzyme-adapter-react-18": "^0.7.3",
     "craco-less": "^2.0.0",
     "cross-env": "^7.0.3",
     "enzyme": "^3.11.0"
   },
   "scripts": {
-    "start": "cross-env NODE_PATH=./node_modules PORT=3032 muse-scripts-react start",
+    "start": "cross-env NODE_PATH=./node_modules PORT=3032 muse-cra-patch && craco start",
     "prestart": "muse-ebay-dev check-updates",
     "prebuild": "muse-ebay-dev check-updates",
-    "build": "cross-env NODE_PATH=./node_modules muse-scripts-react build",
-    "build:dev": "cross-env NODE_PATH=./node_modules muse-scripts-react build --dev",
+    "build": "cross-env NODE_PATH=./node_modules muse-cra-patch && craco build",
+    "build:dev": "cross-env NODE_PATH=./node_modules MUSE_DEV_BUILD=true muse-cra-patch && craco build",
     "deploy": "pnpm build && pnpm build:dev && muse release && muse deploy nateapp staging",
-    "test": "cross-env NODE_PATH=./node_modules muse-scripts-react test --ci --watchAll=false --passWithNoTests --coverage",
-    "test:config": "cross-env NODE_PATH=./node_modules muse-scripts-react test --showConfig",
-    "test:dev": "cross-env NODE_PATH=./node_modules muse-scripts-react test --coverage"
+    "test": "cross-env NODE_PATH=./node_modules MUSE_TEST_BUILD=true muse-cra-patch && craco test --ci --watchAll=false --passWithNoTests --coverage",
+    "test:config": "cross-env NODE_PATH=./node_modules MUSE_TEST_BUILD=true muse-cra-patch && craco test --showConfig",
+    "test:dev": "cross-env NODE_PATH=./node_modules MUSE_TEST_BUILD=true muse-cra-patch && craco test --coverage"
   },
   "browserslist": {
     "production": [
@@ -55,7 +55,7 @@
     "@ebay/muse-craco-plugin": "1.0.28",
     "@ebay/muse-lib-antd": "1.0.12",
     "@ebay/muse-lib-react": "1.0.23",
-    "@ebay/muse-scripts-react": "1.0.24",
+    "@ebay/muse-cra-patch": "^1.0.0",
     "antd": "4.20.7",
     "js-plugin": "^1.1.0",
     "lodash": "^4.17.21",
