@@ -26,9 +26,9 @@ Config an empty create-react-app application to be a Muse plugin project.
 
 ```json
 "scripts": {
-  "start": "cross-env PORT=3033 muse-cra-patch && craco start",
+  "start": "muse-cra-patch && cross-env PORT=3033 craco start",
   "build": "muse-cra-patch && craco build",
-  "build:dev": "cross-env MUSE_DEV_BUILD=true muse-cra-patch && craco build",
+  "build:dev": "muse-cra-patch && cross-env MUSE_DEV_BUILD=true craco build",
   "prestart": "muse-ebay-dev check-updates",
   "prebuild": "muse-ebay-dev check-updates",
 }

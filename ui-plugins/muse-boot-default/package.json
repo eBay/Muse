@@ -20,12 +20,13 @@
     "build"
   ],
   "scripts": {
-    "start": "cross-env NODE_PATH=./node_modules muse-cra-patch && craco build start",
-    "build": "cross-env NODE_PATH=./node_modules muse-cra-patch && craco build",
-    "test": "cross-env NODE_PATH=./node_modules MUSE_TEST_BUILD=true muse-cra-patch && craco test --ci --watchAll=false --passWithNoTests --coverage",
+    "start": "muse-cra-patch && craco start",
+    "build": "muse-cra-patch && craco build",
+    "build:dev": "muse-cra-patch && cross-env MUSE_DEV_BUILD=true craco build",    
+    "test": "muse-cra-patch && cross-env MUSE_TEST_BUILD=true craco test --ci --watchAll=false --passWithNoTests --coverage",
+    "test:dev": "muse-cra-patch && cross-env MUSE_TEST_BUILD=true craco test --coverage",
     "prestart": "muse-ebay-dev check-updates",
-    "prebuild": "muse-ebay-dev check-updates",
-    "test:dev": "cross-env NODE_PATH=./node_modules MUSE_TEST_BUILD=true muse-cra-patch && craco test --coverage",
+    "prebuild": "muse-ebay-dev check-updates",    
     "deploy": "pnpm build && muse release && muse deploy musemanager"
   },
   "devDependencies": {

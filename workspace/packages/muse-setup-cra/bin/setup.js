@@ -119,10 +119,9 @@ const mapFile = (p) => path.join(__dirname, '..', p);
     log.info('Updating scripts in package.json...');
     Object.assign(pkgJson.scripts, {
       start: 'muse-cra-patch && craco start',
-      build:
-        'muse-cra-patch && craco build && cross-env MUSE_DEV_BUILD=true muse-cra-patch && craco build ',
+      build: 'muse-cra-patch && craco build && cross-env MUSE_DEV_BUILD=true craco build ',
       'build:dist': 'muse-cra-patch && craco build',
-      'build:dev': 'cross-env MUSE_DEV_BUILD=true muse-cra-patch && craco build',
+      'build:dev': 'muse-cra-patch && cross-env MUSE_DEV_BUILD=true craco build',
     });
     fs.writeJsonSync('./package.json', pkgJson, { spaces: 2 });
 
