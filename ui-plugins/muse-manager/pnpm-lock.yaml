@@ -1,9 +1,10 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@craco/craco': 6.4.4
+  '@craco/craco': 7.0.0
   '@ebay/muse-client': 1.0.18
   '@ebay/muse-core': 1.0.26
+  '@ebay/muse-cra-patch': ^1.0.0
   '@ebay/muse-craco-plugin': 2.0.0
   '@ebay/muse-dev-utils': 1.0.29
   '@ebay/muse-ebay-dev': 1.0.2
@@ -11,7 +12,6 @@ specifiers:
   '@ebay/muse-lib-antd': 1.0.13
   '@ebay/muse-lib-react': 1.0.28
   '@ebay/muse-plugin-acl': 1.0.6
-  '@ebay/muse-scripts-react': 1.0.24
   '@ebay/muse-webpack-plugin': 1.0.25
   '@headlessui/react': ^1.7.0
   '@heroicons/react': ^2.0.10
@@ -38,17 +38,17 @@ specifiers:
   web-vitals: ^2.1.4
 
 dependencies:
-  '@craco/craco': 6.4.4_react-scripts@5.0.1
+  '@craco/craco': 7.0.0_dm4h754km3axwm6s5dh6w536nu
   '@ebay/muse-client': 1.0.18
   '@ebay/muse-core': 1.0.26
-  '@ebay/muse-craco-plugin': 2.0.0_rptx3xqogbmxbyr5ohiedtyhva
+  '@ebay/muse-cra-patch': 1.0.0
+  '@ebay/muse-craco-plugin': 2.0.0_5wivucdpadqcz7rl42i7zvnr3u
   '@ebay/muse-dev-utils': 1.0.29_@ebay+muse-core@1.0.26
   '@ebay/muse-ebay-dev': 1.0.2_@ebay+muse-core@1.0.26
   '@ebay/muse-express-middleware': 1.0.26_@ebay+muse-core@1.0.26
-  '@ebay/muse-lib-antd': 1.0.13_@craco+craco@6.4.4
-  '@ebay/muse-lib-react': 1.0.28_5etiqhkfjdttz5dcmi2hz5fcv4
+  '@ebay/muse-lib-antd': 1.0.13_@craco+craco@7.0.0
+  '@ebay/muse-lib-react': 1.0.28_5ial7dl5a2d4aztokzwa5qionq
   '@ebay/muse-plugin-acl': 1.0.6
-  '@ebay/muse-scripts-react': 1.0.24
   '@ebay/muse-webpack-plugin': 1.0.25
   '@headlessui/react': 1.7.2_biqbaboplfbrettd7655fr4n2y
   '@heroicons/react': 2.0.11_react@18.2.0
@@ -73,7 +73,7 @@ dependencies:
 
 devDependencies:
   autoprefixer: 10.4.8_postcss@8.4.16
-  craco-less: 2.0.0_5etiqhkfjdttz5dcmi2hz5fcv4
+  craco-less: 2.0.0_5ial7dl5a2d4aztokzwa5qionq
   postcss: 8.4.16
 
 packages:
@@ -1640,24 +1640,26 @@ packages:
     engines: {node: '>=0.1.90'}
     dev: false
 
-  /@craco/craco/6.4.4_react-scripts@5.0.1:
-    resolution: {integrity: sha1-29iZwZpmjsOWDBiT9a4kuHSRGo8=}
+  /@craco/craco/7.0.0_dm4h754km3axwm6s5dh6w536nu:
+    resolution: {integrity: sha1-TpJD5T+6btTSvAiqZarp0bY1Qe0=}
     engines: {node: '>=6'}
     hasBin: true
     peerDependencies:
-      react-scripts: ^4.0.0
+      react-scripts: ^5.0.0
     dependencies:
+      autoprefixer: 10.4.13_postcss@8.4.16
       cosmiconfig: 7.0.1
       cosmiconfig-typescript-loader: 1.0.9
       cross-spawn: 7.0.3
       lodash: 4.17.21
       react-scripts: 5.0.1_react@18.2.0
       semver: 7.3.7
-      webpack-merge: 4.2.2
+      webpack-merge: 5.8.0
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
       - '@types/node'
+      - postcss
       - typescript
 
   /@cspotcode/source-map-support/0.8.1:
@@ -1839,12 +1841,20 @@ packages:
       winston-transport: 4.5.0
     dev: false
 
-  /@ebay/muse-craco-plugin/2.0.0_rptx3xqogbmxbyr5ohiedtyhva:
+  /@ebay/muse-cra-patch/1.0.0:
+    resolution: {integrity: sha1-tnJHYgOnioXGdg7i+uMs05AiGAQ=, tarball: '@ebay/muse-cra-patch/-/@ebay/muse-cra-patch-1.0.0.tgz'}
+    hasBin: true
+    dependencies:
+      cross-spawn: 7.0.3
+      resolve-cwd: 3.0.0
+    dev: false
+
+  /@ebay/muse-craco-plugin/2.0.0_5wivucdpadqcz7rl42i7zvnr3u:
     resolution: {integrity: sha1-q5rLjLGNGt4t3jUXryAiypRDAVQ=, tarball: '@ebay/muse-craco-plugin/-/@ebay/muse-craco-plugin-2.0.0.tgz'}
     peerDependencies:
       '@craco/craco': 6.4.4
     dependencies:
-      '@craco/craco': 6.4.4_react-scripts@5.0.1
+      '@craco/craco': 7.0.0_dm4h754km3axwm6s5dh6w536nu
       '@ebay/muse-dev-utils': 1.0.29_@ebay+muse-core@1.0.26
       '@ebay/muse-webpack-plugin': 1.0.25
       resolve-cwd: 3.0.0
@@ -1893,11 +1903,11 @@ packages:
       multer: 1.4.5-lts.1
     dev: false
 
-  /@ebay/muse-lib-antd/1.0.13_@craco+craco@6.4.4:
+  /@ebay/muse-lib-antd/1.0.13_@craco+craco@7.0.0:
     resolution: {integrity: sha1-Jtkzl7eHE21WI/F3dhWzcvDkRpE=, tarball: '@ebay/muse-lib-antd/-/@ebay/muse-lib-antd-1.0.13.tgz'}
     dependencies:
       '@ant-design/icons': 4.7.0_biqbaboplfbrettd7655fr4n2y
-      '@ebay/muse-lib-react': 1.0.23_5etiqhkfjdttz5dcmi2hz5fcv4
+      '@ebay/muse-lib-react': 1.0.23_5ial7dl5a2d4aztokzwa5qionq
       antd: 4.20.7_biqbaboplfbrettd7655fr4n2y
       antd-form-builder: 2.1.4_avqzthnwxfrzxtlyigsueimkbq
       history: 5.3.0
@@ -1959,14 +1969,14 @@ packages:
       - webpack-plugin-serve
     dev: false
 
-  /@ebay/muse-lib-react/1.0.23_5etiqhkfjdttz5dcmi2hz5fcv4:
+  /@ebay/muse-lib-react/1.0.23_5ial7dl5a2d4aztokzwa5qionq:
     resolution: {integrity: sha1-W2L1EwBz3gsOXnrL4ljvGA5WQsQ=, tarball: '@ebay/muse-lib-react/-/@ebay/muse-lib-react-1.0.23.tgz'}
     dependencies:
       '@babel/core': 7.20.5
       '@ebay/nice-modal-react': 1.2.7_biqbaboplfbrettd7655fr4n2y
       '@types/node': 17.0.45
       axios: 0.27.2
-      craco-less: 2.0.0_5etiqhkfjdttz5dcmi2hz5fcv4
+      craco-less: 2.0.0_5ial7dl5a2d4aztokzwa5qionq
       cross-env: 7.0.3
       eslint: 8.22.0
       eslint-config-react-app: 7.0.1_eslint@8.22.0
@@ -2002,14 +2012,14 @@ packages:
       - webpack
     dev: false
 
-  /@ebay/muse-lib-react/1.0.28_5etiqhkfjdttz5dcmi2hz5fcv4:
+  /@ebay/muse-lib-react/1.0.28_5ial7dl5a2d4aztokzwa5qionq:
     resolution: {integrity: sha1-YRfIMwjiQAiCLZocOx+VdDIsw/I=, tarball: '@ebay/muse-lib-react/-/@ebay/muse-lib-react-1.0.28.tgz'}
     dependencies:
       '@babel/core': 7.18.10
       '@ebay/nice-modal-react': 1.2.7_biqbaboplfbrettd7655fr4n2y
       '@types/node': 17.0.45
       axios: 0.27.2
-      craco-less: 2.0.0_5etiqhkfjdttz5dcmi2hz5fcv4
+      craco-less: 2.0.0_5ial7dl5a2d4aztokzwa5qionq
       cross-env: 7.0.3
       eslint: 8.22.0
       eslint-config-react-app: 7.0.1_eslint@8.22.0
@@ -2056,14 +2066,6 @@ packages:
       '@ebay/muse-core': 1.0.26
       js-plugin: 1.1.0
       lodash: 4.17.21
-    dev: false
-
-  /@ebay/muse-scripts-react/1.0.24:
-    resolution: {integrity: sha1-XsAqD49x+Q34bCZWZo5SnQcV3bg=, tarball: '@ebay/muse-scripts-react/-/@ebay/muse-scripts-react-1.0.24.tgz'}
-    hasBin: true
-    dependencies:
-      cross-spawn: 7.0.3
-      resolve-cwd: 3.0.0
     dev: false
 
   /@ebay/muse-webpack-plugin/1.0.25:
@@ -3661,6 +3663,21 @@ packages:
     resolution: {integrity: sha1-YCzUtG6EStTv/JKoARo8RuAjjcI=}
     engines: {node: '>= 4.0.0'}
 
+  /autoprefixer/10.4.13_postcss@8.4.16:
+    resolution: {integrity: sha1-tRNrWZMCCaMh6fo9yi58TSI+g6g=}
+    engines: {node: ^10 || ^12 || >=14}
+    hasBin: true
+    peerDependencies:
+      postcss: ^8.1.0
+    dependencies:
+      browserslist: 4.21.4
+      caniuse-lite: 1.0.30001439
+      fraction.js: 4.2.0
+      normalize-range: 0.1.2
+      picocolors: 1.0.0
+      postcss: 8.4.16
+      postcss-value-parser: 4.2.0
+
   /autoprefixer/10.4.8_postcss@8.4.16:
     resolution: {integrity: sha1-ksegGZ4c+yrV2UJ71YWj11iVueU=}
     engines: {node: ^10 || ^12 || >=14}
@@ -3675,6 +3692,7 @@ packages:
       picocolors: 1.0.0
       postcss: 8.4.16
       postcss-value-parser: 4.2.0
+    dev: true
 
   /axe-core/4.4.3:
     resolution: {integrity: sha1-EcdNI9UBPA+l0YN5Zym8NIK9L28=}
@@ -4024,6 +4042,16 @@ packages:
       node-releases: 2.0.6
       update-browserslist-db: 1.0.5_browserslist@4.21.3
 
+  /browserslist/4.21.4:
+    resolution: {integrity: sha1-50lrvGe5453Q+YVl/szcsNT/aYc=}
+    engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
+    hasBin: true
+    dependencies:
+      caniuse-lite: 1.0.30001439
+      electron-to-chromium: 1.4.284
+      node-releases: 2.0.6
+      update-browserslist-db: 1.0.10_browserslist@4.21.4
+
   /bser/2.1.1:
     resolution: {integrity: sha1-5nh9og7OnQeZhTPP2d5vXDj0vAU=}
     dependencies:
@@ -4130,13 +4158,16 @@ packages:
   /caniuse-api/3.0.0:
     resolution: {integrity: sha1-Xk2Q4idJYdRikZl99Znj7QCO5MA=}
     dependencies:
-      browserslist: 4.21.3
-      caniuse-lite: 1.0.30001376
+      browserslist: 4.21.4
+      caniuse-lite: 1.0.30001439
       lodash.memoize: 4.1.2
       lodash.uniq: 4.5.0
 
   /caniuse-lite/1.0.30001376:
     resolution: {integrity: sha1-ryRQgz5aBoc/uwMKlVbKlGGic20=}
+
+  /caniuse-lite/1.0.30001439:
+    resolution: {integrity: sha1-q3Nx+utK3/S3Ta0XGKb9Ei5F2cs=}
 
   /case-sensitive-paths-webpack-plugin/2.4.0:
     resolution: {integrity: sha1-22QGbGQi7tLgjMFLmGykN5bbxtQ=}
@@ -4234,6 +4265,14 @@ packages:
       string-width: 4.2.3
       strip-ansi: 6.0.1
       wrap-ansi: 7.0.0
+
+  /clone-deep/4.0.1:
+    resolution: {integrity: sha1-wZ/Zvbv4WUK0/ZechNz31fB8I4c=}
+    engines: {node: '>=6'}
+    dependencies:
+      is-plain-object: 2.0.4
+      kind-of: 6.0.3
+      shallow-clone: 3.0.1
 
   /clone-response/1.0.2:
     resolution: {integrity: sha1-0dyXOSAxTfZ/vrlCI7TuNQI56Ws=}
@@ -4426,7 +4465,7 @@ packages:
   /core-js-compat/3.24.1:
     resolution: {integrity: sha1-0a+EoX4Y391AHuOdqZlvmnuoh94=}
     dependencies:
-      browserslist: 4.21.3
+      browserslist: 4.21.4
       semver: 7.0.0
 
   /core-js-pure/3.24.1:
@@ -4473,13 +4512,13 @@ packages:
       path-type: 4.0.0
       yaml: 1.10.2
 
-  /craco-less/2.0.0_5etiqhkfjdttz5dcmi2hz5fcv4:
+  /craco-less/2.0.0_5ial7dl5a2d4aztokzwa5qionq:
     resolution: {integrity: sha1-ot8Ywy6X6/APYsPy6kzZcDX19kA=}
     peerDependencies:
       '@craco/craco': ^6.0.0
       react-scripts: ^5.0.0
     dependencies:
-      '@craco/craco': 6.4.4_react-scripts@5.0.1
+      '@craco/craco': 7.0.0_dm4h754km3axwm6s5dh6w536nu
       less: 4.1.3
       less-loader: 7.3.0_less@4.1.3
       react-scripts: 5.0.1_react@18.2.0
@@ -5101,6 +5140,9 @@ packages:
 
   /electron-to-chromium/1.4.221:
     resolution: {integrity: sha1-H/hCXSV6i/yCadVSpCaZPFtSVHE=}
+
+  /electron-to-chromium/1.4.284:
+    resolution: {integrity: sha1-YQRtHkyrOiUjj2v3QTeVJw8SVZI=}
 
   /emittery/0.10.2:
     resolution: {integrity: sha1-kC7siu24xBk4xG6ThenbfgMYKTM=}
@@ -6934,6 +6976,12 @@ packages:
     resolution: {integrity: sha1-r28uoUrFpkYYOlu9tbqrvBVq2dc=}
     engines: {node: '>=10'}
 
+  /is-plain-object/2.0.4:
+    resolution: {integrity: sha1-LBY7P6+xtgbZ0Xko8FwqHDjgdnc=}
+    engines: {node: '>=0.10.0'}
+    dependencies:
+      isobject: 3.0.1
+
   /is-potential-custom-element-name/1.0.1:
     resolution: {integrity: sha1-Fx7W8Z46xVQ5Tt94yqBXhKRb67U=}
 
@@ -7009,7 +7057,6 @@ packages:
   /isobject/3.0.1:
     resolution: {integrity: sha1-TkMekrEalzFjaqH5yNHMvP2reN8=}
     engines: {node: '>=0.10.0'}
-    dev: false
 
   /istanbul-lib-coverage/3.2.0:
     resolution: {integrity: sha1-GJ55CdCjn6Wj361bA/cZR3cBkdM=}
@@ -8710,7 +8757,7 @@ packages:
     peerDependencies:
       postcss: ^8.2.15
     dependencies:
-      browserslist: 4.21.3
+      browserslist: 4.21.4
       caniuse-api: 3.0.0
       colord: 2.9.3
       postcss: 8.4.16
@@ -8722,7 +8769,7 @@ packages:
     peerDependencies:
       postcss: ^8.2.15
     dependencies:
-      browserslist: 4.21.3
+      browserslist: 4.21.4
       postcss: 8.4.16
       postcss-value-parser: 4.2.0
 
@@ -8960,7 +9007,7 @@ packages:
     peerDependencies:
       postcss: ^8.2.15
     dependencies:
-      browserslist: 4.21.3
+      browserslist: 4.21.4
       caniuse-api: 3.0.0
       cssnano-utils: 3.1.0_postcss@8.4.16
       postcss: 8.4.16
@@ -8992,7 +9039,7 @@ packages:
     peerDependencies:
       postcss: ^8.2.15
     dependencies:
-      browserslist: 4.21.3
+      browserslist: 4.21.4
       cssnano-utils: 3.1.0_postcss@8.4.16
       postcss: 8.4.16
       postcss-value-parser: 4.2.0
@@ -9121,7 +9168,7 @@ packages:
     peerDependencies:
       postcss: ^8.2.15
     dependencies:
-      browserslist: 4.21.3
+      browserslist: 4.21.4
       postcss: 8.4.16
       postcss-value-parser: 4.2.0
 
@@ -9214,7 +9261,7 @@ packages:
       '@csstools/postcss-stepped-value-functions': 1.0.1_postcss@8.4.16
       '@csstools/postcss-trigonometric-functions': 1.0.2_postcss@8.4.16
       '@csstools/postcss-unset-value': 1.0.2_postcss@8.4.16
-      autoprefixer: 10.4.8_postcss@8.4.16
+      autoprefixer: 10.4.13_postcss@8.4.16
       browserslist: 4.21.3
       css-blank-pseudo: 3.0.3_postcss@8.4.16
       css-has-pseudo: 3.0.4_postcss@8.4.16
@@ -9266,7 +9313,7 @@ packages:
     peerDependencies:
       postcss: ^8.2.15
     dependencies:
-      browserslist: 4.21.3
+      browserslist: 4.21.4
       caniuse-api: 3.0.0
       postcss: 8.4.16
 
@@ -10911,6 +10958,12 @@ packages:
   /setprototypeof/1.2.0:
     resolution: {integrity: sha1-ZsmiSnP5/CjL5msJ/tPTPcrxtCQ=}
 
+  /shallow-clone/3.0.1:
+    resolution: {integrity: sha1-jymBrZJTH1UDWwH7IwdppA4C76M=}
+    engines: {node: '>=8'}
+    dependencies:
+      kind-of: 6.0.3
+
   /shallowequal/1.1.0:
     resolution: {integrity: sha1-GI1SHelbkIdAT9TctosT3wrk5/g=}
     dev: false
@@ -11262,7 +11315,7 @@ packages:
     peerDependencies:
       postcss: ^8.2.15
     dependencies:
-      browserslist: 4.21.3
+      browserslist: 4.21.4
       postcss: 8.4.16
       postcss-selector-parser: 6.0.10
 
@@ -11781,6 +11834,16 @@ packages:
     resolution: {integrity: sha1-j2bbzVWog6za5ECK+LA1pQRMGJQ=}
     engines: {node: '>=4'}
 
+  /update-browserslist-db/1.0.10_browserslist@4.21.4:
+    resolution: {integrity: sha1-D1S4dlRXJvF9AM2aJWHm2t6UP/M=}
+    hasBin: true
+    peerDependencies:
+      browserslist: '>= 4.21.0'
+    dependencies:
+      browserslist: 4.21.4
+      escalade: 3.1.1
+      picocolors: 1.0.0
+
   /update-browserslist-db/1.0.5_browserslist@4.21.3:
     resolution: {integrity: sha1-vgal7t1i8Qe3wZ61vO+xlEEavzg=}
     hasBin: true
@@ -12018,10 +12081,12 @@ packages:
       webpack: 5.74.0
       webpack-sources: 2.3.1
 
-  /webpack-merge/4.2.2:
-    resolution: {integrity: sha1-onxS6ng9E5iv0gh/VH17nS9DY00=}
+  /webpack-merge/5.8.0:
+    resolution: {integrity: sha1-Kznb8ir4d3atdEw5AiNzHTCmj2E=}
+    engines: {node: '>=10.0.0'}
     dependencies:
-      lodash: 4.17.21
+      clone-deep: 4.0.1
+      wildcard: 2.0.0
 
   /webpack-sources/1.4.3:
     resolution: {integrity: sha1-7t2OwLko+/HL/plOItLYkPMwqTM=}
@@ -12138,6 +12203,9 @@ packages:
     hasBin: true
     dependencies:
       isexe: 2.0.0
+
+  /wildcard/2.0.0:
+    resolution: {integrity: sha1-p30g5SAMb6qsl55LOq3Hs91/j+w=}
 
   /winston-transport/4.5.0:
     resolution: {integrity: sha1-bnsN0E05MXHtXk5JBdsmX3qzhPo=}

@@ -16,13 +16,13 @@
     "build"
   ],
   "devDependencies": {
-    "@craco/craco": "6.4.4",
+    "@craco/craco": "7.0.0",
     "@ebay/muse-core": "^1.0.16",
     "@ebay/muse-craco-plugin": "1.0.27",
     "@ebay/muse-ebay-dev": "^1.0.1",
     "@ebay/muse-lib-antd": "^1.0.11",
     "@ebay/muse-lib-react": "1.0.23",
-    "@ebay/muse-scripts-react": "^1.0.10",
+    "@ebay/muse-cra-patch": "^1.0.0",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
@@ -35,12 +35,13 @@
     "tailwindcss": "^3.1.8"
   },
   "scripts": {
-    "start": "cross-env PORT=3033 muse-scripts-react start",
-    "build": "muse-scripts-react build",
-    "build:dev": "muse-scripts-react build --dev",
+    "start": "muse-cra-patch && cross-env PORT=3033 craco start",
+    "build": "muse-cra-patch && craco build",
+    "build:dev": "muse-cra-patch && cross-env MUSE_DEV_BUILD=true craco build",    
+    "test": "muse-cra-patch && cross-env MUSE_TEST_BUILD=true craco test --ci --watchAll=false --passWithNoTests --coverage",
+    "test:dev": "muse-cra-patch && cross-env MUSE_TEST_BUILD=true craco test --coverage",   
     "prestart": "muse-ebay-dev check-updates",
-    "prebuild": "muse-ebay-dev check-updates",
-    "test": "react-scripts test"
+    "prebuild": "muse-ebay-dev check-updates"
   },
   "eslintConfig": {
     "extends": [
