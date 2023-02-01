@@ -6,7 +6,7 @@ specifiers:
   '@craco/craco': 7.0.0
   '@ebay/muse-core': 1.0.28
   '@ebay/muse-cra-patch': ^1.0.0
-  '@ebay/muse-craco-plugin': 2.0.1
+  '@ebay/muse-craco-plugin': 3.0.0
   '@ebay/muse-ebay-dev': 1.0.3
   '@ebay/nice-modal-react': 1.2.8
   '@types/node': 18.11.9
@@ -60,7 +60,7 @@ devDependencies:
   '@craco/craco': 7.0.0_ukpcj5htjh7iuewhpj6xoercgi
   '@ebay/muse-core': 1.0.28
   '@ebay/muse-cra-patch': 1.0.0
-  '@ebay/muse-craco-plugin': 2.0.1_zn3b3rg7a76ksmoalqt6s3i4aq
+  '@ebay/muse-craco-plugin': 3.0.0_zn3b3rg7a76ksmoalqt6s3i4aq
   '@ebay/muse-ebay-dev': 1.0.3_@ebay+muse-core@1.0.28
   '@types/node': 18.11.9
   cross-env: 7.0.3
@@ -1734,10 +1734,10 @@ packages:
       resolve-cwd: 3.0.0
     dev: true
 
-  /@ebay/muse-craco-plugin/2.0.1_zn3b3rg7a76ksmoalqt6s3i4aq:
-    resolution: {integrity: sha1-A5Z8unvLmaCVQaitmpO4nLRGBfc=, tarball: '@ebay/muse-craco-plugin/-/@ebay/muse-craco-plugin-2.0.1.tgz'}
+  /@ebay/muse-craco-plugin/3.0.0_zn3b3rg7a76ksmoalqt6s3i4aq:
+    resolution: {integrity: sha1-q92M30JY8FCyvxaWlixEesetF0Y=, tarball: '@ebay/muse-craco-plugin/-/@ebay/muse-craco-plugin-3.0.0.tgz'}
     peerDependencies:
-      '@craco/craco': 6.4.4
+      '@craco/craco': 7.0.0
     dependencies:
       '@craco/craco': 7.0.0_ukpcj5htjh7iuewhpj6xoercgi
       '@ebay/muse-dev-utils': 1.0.30_@ebay+muse-core@1.0.28

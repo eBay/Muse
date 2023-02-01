@@ -1,6 +1,6 @@
 {
   "name": "@ebay/muse-boot-default",
-  "version": "0.1.0",
+  "version": "2.0.0",
   "main": "index.js",
   "license": "MIT",
   "muse": {
@@ -33,7 +33,7 @@
     "@changesets/cli": "^2.23.2",
     "@craco/craco": "7.0.0",
     "@ebay/muse-core": "1.0.26",
-    "@ebay/muse-craco-plugin": "1.0.28",
+    "@ebay/muse-craco-plugin": "3.0.0",
     "@ebay/muse-ebay-dev": "^1.0.1",
     "@ebay/muse-modules": "1.0.21",
     "@ebay/muse-cra-patch": "^1.0.0",
