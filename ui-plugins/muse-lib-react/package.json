@@ -61,7 +61,7 @@
     "@changesets/cli": "^2.23.2",
     "@craco/craco": "7.0.0",
     "@ebay/muse-core": "1.0.28",
-    "@ebay/muse-craco-plugin": "2.0.1",
+    "@ebay/muse-craco-plugin": "3.0.0",
     "@ebay/muse-ebay-dev": "1.0.3",
     "@ebay/muse-cra-patch": "^1.0.0",
     "@types/node": "18.11.9",
