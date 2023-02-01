@@ -1,6 +1,6 @@
 {
   "name": "@ebay/muse-manager",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": false,
   "muse": {
     "devConfig": {
@@ -72,7 +72,7 @@
     "build": "muse-cra-patch && craco build",
     "build:dev": "muse-cra-patch && cross-env NODE_PATH=./node_modules MUSE_DEV_BUILD=true craco build",
     "build:test": "muse-cra-patch && cross-env MUSE_TEST_BUILD=true craco build",
-    "deploy": "pnpm build && pnpm build:dev && muse release && muse deploy musemanager staging",    
+    "deploy": "pnpm build && pnpm build:dev && muse release && muse deploy musemanager staging",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -98,6 +98,7 @@
     ]
   },
   "devDependencies": {
+    "@changesets/cli": "^2.23.2",
     "autoprefixer": "^10.4.8",
     "craco-less": "^2.0.0",
     "postcss": "^8.4.16"

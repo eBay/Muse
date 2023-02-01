@@ -1,5 +1,11 @@
 # @ebay/muse-craco-plugin
 
+## 3.0.0
+
+### Major Changes
+
+- use craco v7
+
 ## 2.0.1
 
 ### Patch Changes
