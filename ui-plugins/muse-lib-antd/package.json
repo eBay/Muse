@@ -1,6 +1,6 @@
 {
   "name": "@ebay/muse-lib-antd",
-  "version": "1.0.8",
+  "version": "1.1.0",
   "repository": "",
   "muse": {
     "type": "lib",
@@ -17,6 +17,7 @@
     "src"
   ],
   "devDependencies": {
+    "@changesets/cli": "^2.23.2",
     "@craco/craco": "7.0.0",
     "@ebay/muse-core": "1.0.27",
     "@ebay/muse-craco-plugin": "2.0.0",
@@ -28,7 +29,7 @@
   "scripts": {
     "start": "muse-cra-patch && cross-env PORT=3031 craco start",
     "build": "muse-cra-patch && craco build",
-    "build:dev": "muse-cra-patch && cross-env MUSE_DEV_BUILD=true craco build",    
+    "build:dev": "muse-cra-patch && cross-env MUSE_DEV_BUILD=true craco build",
     "test": "muse-cra-patch && cross-env MUSE_TEST_BUILD=true craco test --ci --watchAll=false --passWithNoTests --coverage",
     "test:dev": "muse-cra-patch && cross-env MUSE_TEST_BUILD=true craco test --coverage",
     "prestart": "muse-ebay-dev check-updates",

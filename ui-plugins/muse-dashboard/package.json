@@ -1,6 +1,6 @@
 {
   "name": "@ebay/muse-dashboard",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "muse": {
     "devConfig": {
       "app": "musemanager",
@@ -16,6 +16,7 @@
     "build"
   ],
   "devDependencies": {
+    "@changesets/cli": "^2.23.2",
     "@craco/craco": "7.0.0",
     "@ebay/muse-core": "^1.0.16",
     "@ebay/muse-craco-plugin": "1.0.27",
@@ -37,9 +38,9 @@
   "scripts": {
     "start": "muse-cra-patch && cross-env PORT=3033 craco start",
     "build": "muse-cra-patch && craco build",
-    "build:dev": "muse-cra-patch && cross-env MUSE_DEV_BUILD=true craco build",    
+    "build:dev": "muse-cra-patch && cross-env MUSE_DEV_BUILD=true craco build",
     "test": "muse-cra-patch && cross-env MUSE_TEST_BUILD=true craco test --ci --watchAll=false --passWithNoTests --coverage",
-    "test:dev": "muse-cra-patch && cross-env MUSE_TEST_BUILD=true craco test --coverage",   
+    "test:dev": "muse-cra-patch && cross-env MUSE_TEST_BUILD=true craco test --coverage",
     "prestart": "muse-ebay-dev check-updates",
     "prebuild": "muse-ebay-dev check-updates"
   },
