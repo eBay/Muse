@@ -24,15 +24,15 @@
     "src"
   ],
   "scripts": {
-    "start": "muse-cra-patch && cross-env PORT=3030 craco start",
-    "build": "muse-cra-patch && craco build",
-    "build:dev": "muse-cra-patch && cross-env MUSE_DEV_BUILD=true craco build",
-    "build:dist": "muse-cra-patch && craco build && node ./gen-lib.js",
-    "test": "muse-cra-patch && cross-env MUSE_TEST_BUILD=true craco test --ci --watchAll=false --passWithNoTests --coverage",
-    "test:dev": "muse-cra-patch && cross-env MUSE_TEST_BUILD=true craco test --coverage",
+    "start": "muse-cra-patch && cross-env NODE_PATH=./node_modules PORT=3030 craco start",
+    "build": "muse-cra-patch && cross-env NODE_PATH=./node_modules craco build",
+    "build:dev": "muse-cra-patch && cross-env NODE_PATH=./node_modules MUSE_DEV_BUILD=true craco build",
+    "build:dist": "muse-cra-patch && cross-env NODE_PATH=./node_modules craco build && node ./gen-lib.js",
+    "test": "muse-cra-patch && cross-env NODE_PATH=./node_modules MUSE_TEST_BUILD=true craco test --ci --watchAll=false --passWithNoTests --coverage",
+    "test:dev": "muse-cra-patch && cross-env NODE_PATH=./node_modules MUSE_TEST_BUILD=true craco test --coverage",
+    "test:config": "muse-cra-patch && cross-env NODE_PATH=./node_modules MUSE_TEST_BUILD=true craco test --showConfig",
     "prestart": "muse-ebay-dev check-updates",
-    "prebuild": "muse-ebay-dev check-updates",
-    "test:config": "cross-env NODE_PATH=./node_modules MUSE_TEST_BUILD=true muse-cra-patch && craco test --showConfig",
+    "prebuild": "muse-ebay-dev check-updates",    
     "e2e-test": "muse-scripts e2e-test",
     "deploy": "pnpm build && pnpm build:dev && muse release && muse deploy nateapp"
   },
