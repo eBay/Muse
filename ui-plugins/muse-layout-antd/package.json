@@ -53,7 +53,7 @@
     "@ebay/muse-craco-plugin": "3.0.0",
     "@ebay/muse-lib-antd": "1.1.0",
     "@ebay/muse-lib-react": "1.1.0",
-    "@ebay/muse-cra-patch": "^1.0.0",
+    "@ebay/muse-cra-patch": "^1.0.1",
     "antd": "4.20.7",
     "js-plugin": "^1.1.0",
     "lodash": "^4.17.21",
