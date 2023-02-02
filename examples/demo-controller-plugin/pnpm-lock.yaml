@@ -3,7 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@craco/craco': 7.0.0
   '@ebay/muse-core': ^1.0.26
-  '@ebay/muse-cra-patch': ^1.0.0
+  '@ebay/muse-cra-patch': ^1.0.1
   '@ebay/muse-craco-plugin': 3.0.0
   '@ebay/muse-lib-antd': 1.1.0
   '@ebay/muse-lib-react': 1.1.0
@@ -22,7 +22,7 @@ specifiers:
 dependencies:
   '@craco/craco': 7.0.0_react-scripts@5.0.1
   '@ebay/muse-core': 1.0.26
-  '@ebay/muse-cra-patch': 1.0.0
+  '@ebay/muse-cra-patch': 1.0.1
   '@ebay/muse-craco-plugin': 3.0.0_5wivucdpadqcz7rl42i7zvnr3u
   '@ebay/muse-lib-antd': 1.1.0_@craco+craco@7.0.0
   '@ebay/muse-lib-react': 1.1.0_5ial7dl5a2d4aztokzwa5qionq
@@ -1947,8 +1947,8 @@ packages:
       winston-transport: 4.5.0
     dev: false
 
-  /@ebay/muse-cra-patch/1.0.0:
-    resolution: {integrity: sha1-tnJHYgOnioXGdg7i+uMs05AiGAQ=, tarball: '@ebay/muse-cra-patch/-/@ebay/muse-cra-patch-1.0.0.tgz'}
+  /@ebay/muse-cra-patch/1.0.1:
+    resolution: {integrity: sha1-mTBdU2iyz+ZU7nM+f7Af9D31rjk=, tarball: '@ebay/muse-cra-patch/-/@ebay/muse-cra-patch-1.0.1.tgz'}
     hasBin: true
     dependencies:
       cross-spawn: 7.0.3
