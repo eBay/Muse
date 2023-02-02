@@ -5,7 +5,7 @@
   "muse": {
     "devConfig": {
       "app": "musemanager",
-      "env": "staging",
+      "env": "test",
       "appOverride": {
         "noSSO": false,
         "variables": {
@@ -27,7 +27,7 @@
   ],
   "dependencies": {
     "@craco/craco": "7.0.0",
-    "@ebay/muse-client": "1.0.18",
+    "@ebay/muse-client": "1.0.19",
     "@ebay/muse-core": "1.0.26",
     "@ebay/muse-craco-plugin": "3.0.0",
     "@ebay/muse-dev-utils": "1.0.29",
@@ -67,11 +67,11 @@
     }
   },
   "scripts": {
-    "start": "muse-cra-patch && cross-env PORT=3061 craco start",
+    "start": "muse-cra-patch && cross-env NODE_PATH=./node_modules PORT=3061 craco start",
     "vite:dev": "vite",
-    "build": "muse-cra-patch && craco build",
+    "build": "muse-cra-patch && cross-env NODE_PATH=./node_modules craco build",
     "build:dev": "muse-cra-patch && cross-env NODE_PATH=./node_modules MUSE_DEV_BUILD=true craco build",
-    "build:test": "muse-cra-patch && cross-env MUSE_TEST_BUILD=true craco build",
+    "build:test": "muse-cra-patch && cross-env NODE_PATH=./node_modules MUSE_TEST_BUILD=true craco build",
     "deploy": "pnpm build && pnpm build:dev && muse release && muse deploy musemanager staging",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
