@@ -36,7 +36,7 @@ class MuseDepsManifestPlugin {
       const depsContent = {};
       // we only need the DelegatedModules generated from the MuseDelegatedModuleFactoryPlugin
       const delegatedModules = Array.from(compilation.modules).filter(
-        m => m.sourceRequest === 'muse-shared-modules',
+        (m) => m.sourceRequest === 'muse-shared-modules',
       );
       const libsManifests = this.options.libsManifestContent; // lib-manifest.json contents of each library plugin
 
@@ -58,7 +58,9 @@ class MuseDepsManifestPlugin {
       const targetPath = compilation.getPath(
         path.join(
           process.cwd(),
-          `build/${this.options.isDevBuild ? 'dev' : 'dist'}/deps-manifest.json`,
+          `build/${
+            this.options?.isDev || this.options?.isDevBuild ? 'dev' : 'dist'
+          }/deps-manifest.json`,
         ),
       );
 
@@ -72,7 +74,7 @@ class MuseDepsManifestPlugin {
       mkdirp(
         compiler.intermediateFileSystem,
         dirname(compiler.intermediateFileSystem, targetPath),
-        err => {
+        (err) => {
           if (err) return callback(err);
           compiler.intermediateFileSystem.writeFile(targetPath, buffer, callback);
         },
