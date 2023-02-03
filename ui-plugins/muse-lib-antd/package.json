@@ -47,7 +47,8 @@
     "@ebay/muse-ebay-dev": "1.0.3",
     "@ebay/muse-cra-patch": "^1.0.1",
     "craco-less": "2.0.0",
-    "cross-env": "7.0.3"
+    "cross-env": "7.0.3",
+    "react-scripts": "^5.0.1"
   },
   "dependencies": {
     "@ant-design/icons": "4.7.0",
@@ -61,7 +62,6 @@
     "prop-types": "15.8.1",
     "react-copy-to-clipboard": "5.1.0",
     "react-highlight-words": "0.18.0",
-    "react-scripts": "^5.0.1",
     "react-syntax-highlighter": "15.5.0"
   }
 }
