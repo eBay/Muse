@@ -1,5 +1,11 @@
 # @ebay/muse-lib-react
 
+## 1.1.2
+
+### Patch Changes
+
+- remove axios dep
+
 ## 1.1.1
 
 ### Patch Changes
