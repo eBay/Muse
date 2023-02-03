@@ -1,5 +1,11 @@
 # muse-layout-antd
 
+## 1.1.1
+
+### Patch Changes
+
+- fix deps
+
 ## 1.1.0
 
 ### Minor Changes
