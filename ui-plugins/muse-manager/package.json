@@ -1,6 +1,6 @@
 {
   "name": "@ebay/muse-manager",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "private": false,
   "muse": {
     "devConfig": {
@@ -27,42 +27,40 @@
   ],
   "devDependencies": {
     "@changesets/cli": "^2.23.2",
-    "autoprefixer": "^10.4.8",
-    "craco-less": "^2.0.0",
-    "postcss": "^8.4.16"
-  },
-  "dependencies": {
     "@craco/craco": "7.0.0",
     "@ebay/muse-client": "1.0.19",
     "@ebay/muse-core": "1.0.28",
     "@ebay/muse-craco-plugin": "3.0.0",
+    "@ebay/muse-cra-patch": "^1.0.1",
     "@ebay/muse-dev-utils": "1.0.30",
     "@ebay/muse-ebay-dev": "1.0.3",
     "@ebay/muse-express-middleware": "1.0.26",
-    "@ebay/muse-lib-antd": "1.1.0",
-    "@ebay/muse-lib-react": "1.1.0",
-    "@ebay/muse-plugin-acl": "1.0.6",
-    "@ebay/muse-cra-patch": "^1.0.1",
-    "@headlessui/react": "^1.7.0",
-    "@heroicons/react": "^2.0.10",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
-    "@vitejs/plugin-react": "^2.2.0",
+    "@vitejs/plugin-react": "2.2.0",
+    "autoprefixer": "^10.4.8",
+    "craco-less": "^2.0.0",
     "cross-env": "^7.0.3",
-    "find-root": "^1.1.0",
-    "lodash": "^4.17.21",
-    "pretty-ms": "7.0.1",
-    "react": "^18.2.0",
-    "react-color": "^2.19.3",
-    "react-dom": "^18.2.0",
-    "react-markdown": "6.0.3",
+    "postcss": "^8.4.16",
     "react-scripts": "5.0.1",
+    "tailwindcss": "3.1.8",
+    "vite": "3.2.4"
+  },
+  "dependencies": {
+    "@ebay/muse-lib-antd": "1.1.1",
+    "@ebay/muse-lib-react": "1.1.1",
+    "@ebay/muse-plugin-acl": "1.0.6",
+    "@headlessui/react": "1.7.0",
+    "@heroicons/react": "2.0.10",
+    "find-root": "1.1.0",
+    "lodash": "4.17.21",
+    "pretty-ms": "7.0.1",
+    "react-color": "^2.19.3",
+    "react-markdown": "6.0.3",
     "react-time-ago": "^7.2.1",
-    "semver": "^7.3.7",
-    "tailwindcss": "^3.1.8",
-    "vite": "^3.2.4",
-    "web-vitals": "^2.1.4"
+    "semver": "7.3.7",
+    "web-vitals": "2.1.4"
   },
   "pnpm2": {
     "overrides": {
