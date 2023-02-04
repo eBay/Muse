@@ -1,7 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@ant-design/icons': 4.7.0
+  '@ant-design/icons': 5.0.1
   '@changesets/cli': ^2.23.2
   '@craco/craco': 7.0.0
   '@ebay/muse-core': 1.0.28
@@ -9,8 +9,8 @@ specifiers:
   '@ebay/muse-craco-plugin': 3.0.0
   '@ebay/muse-ebay-dev': 1.0.3
   '@ebay/muse-lib-react': 1.1.2
-  antd: 4.20.7
-  antd-form-builder: 2.1.4
+  '@ebay/nice-form-react': ^1.0.1
+  antd: 5.1.7
   craco-less: 2.0.0
   cross-env: 7.0.3
   history: 5.3.0
@@ -24,10 +24,10 @@ specifiers:
   react-syntax-highlighter: 15.5.0
 
 dependencies:
-  '@ant-design/icons': 4.7.0
+  '@ant-design/icons': 5.0.1
   '@ebay/muse-lib-react': 1.1.2
-  antd: 4.20.7
-  antd-form-builder: 2.1.4_obqumlcjc7rwao5phqj2judeci
+  '@ebay/nice-form-react': 1.0.1
+  antd: 5.1.7_moment@2.29.4
   history: 5.3.0
   js-plugin: 1.1.0
   lodash: 4.17.21
@@ -58,40 +58,55 @@ packages:
       '@jridgewell/trace-mapping': 0.3.17
     dev: true
 
-  /@ant-design/colors/6.0.0:
-    resolution: {integrity: sha1-m5NmJXz/zEfbQrnQIDu1ksE8Apg=}
+  /@ant-design/colors/7.0.0:
+    resolution: {integrity: sha1-637s6tEkw1M66gXWElTwoX8rYbM=}
     dependencies:
       '@ctrl/tinycolor': 3.5.0
+    dev: false
+
+  /@ant-design/cssinjs/1.5.6:
+    resolution: {integrity: sha1-nrYIIqMHM51yliRTMgUgnJlCkGI=}
+    peerDependencies:
+      react: '>=16.0.0'
+      react-dom: '>=16.0.0'
+    dependencies:
+      '@babel/runtime': 7.20.13
+      '@emotion/hash': 0.8.0
+      '@emotion/unitless': 0.7.5
+      classnames: 2.3.2
+      csstype: 3.1.1
+      rc-util: 5.27.2
+      stylis: 4.1.3
     dev: false
 
   /@ant-design/icons-svg/4.2.1:
     resolution: {integrity: sha1-hjDajrRHGkqr2u19H/apfcss8Fo=}
     dev: false
 
-  /@ant-design/icons/4.7.0:
-    resolution: {integrity: sha1-jDy+ClVrqSr13H0ecMCyW1F5rw8=}
+  /@ant-design/icons/5.0.1:
+    resolution: {integrity: sha1-/rsf3Fd29YGHsslTrJpElgadBFs=}
     engines: {node: '>=8'}
     peerDependencies:
       react: '>=16.0.0'
       react-dom: '>=16.0.0'
     dependencies:
-      '@ant-design/colors': 6.0.0
+      '@ant-design/colors': 7.0.0
       '@ant-design/icons-svg': 4.2.1
       '@babel/runtime': 7.20.13
       classnames: 2.3.2
       rc-util: 5.27.2
     dev: false
 
-  /@ant-design/react-slick/0.28.4:
-    resolution: {integrity: sha1-iylrh618euh38qUnuBt+69ndKak=}
+  /@ant-design/react-slick/1.0.0:
+    resolution: {integrity: sha1-RpbuyqLeoEKeR64kwmcBXP1t81w=}
     peerDependencies:
       react: '>=16.9.0'
     dependencies:
       '@babel/runtime': 7.20.13
       classnames: 2.3.2
       json2mq: 0.2.0
-      lodash: 4.17.21
       resize-observer-polyfill: 1.5.1
+      throttle-debounce: 5.0.0
     dev: false
 
   /@apideck/better-ajv-errors/0.3.6_ajv@8.12.0:
@@ -1981,6 +1996,10 @@ packages:
       resolve-cwd: 3.0.0
     dev: true
 
+  /@ebay/nice-form-react/1.0.1:
+    resolution: {integrity: sha1-Gfcr6oYV5vlUJAibsKyr/DJ5SoE=, tarball: '@ebay/nice-form-react/-/@ebay/nice-form-react-1.0.1.tgz'}
+    dev: false
+
   /@ebay/nice-modal-react/1.2.8_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha1-Mwm82OpsDlwKrfnDVg9qwLlhzx8=}
     peerDependencies:
@@ -1989,6 +2008,14 @@ packages:
     dependencies:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
+    dev: false
+
+  /@emotion/hash/0.8.0:
+    resolution: {integrity: sha1-u7/2iXj+/b5ozLUzvIy+HRr7VBM=}
+    dev: false
+
+  /@emotion/unitless/0.7.5:
+    resolution: {integrity: sha1-dyESkcGQCnALinjPr9oxYNdpSe0=}
     dev: false
 
   /@eslint/eslintrc/1.4.1:
@@ -2418,6 +2445,61 @@ packages:
       webpack: 5.75.0
       webpack-dev-server: 4.11.1_webpack@5.75.0
     dev: true
+
+  /@rc-component/context/1.3.0:
+    resolution: {integrity: sha1-YIzPCry+yUBnUbF6SzXbCOSBwRA=}
+    peerDependencies:
+      react: '>=16.9.0'
+      react-dom: '>=16.9.0'
+    dependencies:
+      '@babel/runtime': 7.20.13
+      rc-util: 5.27.2
+    dev: false
+
+  /@rc-component/mini-decimal/1.0.1:
+    resolution: {integrity: sha1-5dvCCmpbDiNNJ5vHHOcwq4ZdORA=}
+    engines: {node: '>=8.x'}
+    dependencies:
+      '@babel/runtime': 7.20.13
+    dev: false
+
+  /@rc-component/mutate-observer/1.0.0:
+    resolution: {integrity: sha1-zpmvMjntnHTuPnMC8cZwmN6SC0Y=}
+    engines: {node: '>=8.x'}
+    peerDependencies:
+      react: '>=16.9.0'
+      react-dom: '>=16.9.0'
+    dependencies:
+      '@babel/runtime': 7.20.13
+      classnames: 2.3.2
+      rc-util: 5.27.2
+    dev: false
+
+  /@rc-component/portal/1.1.0:
+    resolution: {integrity: sha1-a5RFDSwrANULFBvXoL4jvZZQPb4=}
+    engines: {node: '>=8.x'}
+    peerDependencies:
+      react: '>=16.9.0'
+      react-dom: '>=16.9.0'
+    dependencies:
+      '@babel/runtime': 7.20.13
+      classnames: 2.3.2
+      rc-util: 5.27.2
+    dev: false
+
+  /@rc-component/tour/1.1.0:
+    resolution: {integrity: sha1-F7Q7XAvftqirMCexl32WCVJhbZ4=}
+    engines: {node: '>=8.x'}
+    peerDependencies:
+      react: '>=16.9.0'
+      react-dom: '>=16.9.0'
+    dependencies:
+      '@babel/runtime': 7.20.13
+      '@rc-component/portal': 1.1.0
+      classnames: 2.3.2
+      rc-trigger: 5.3.4
+      rc-util: 5.27.2
+    dev: false
 
   /@remix-run/router/1.0.3:
     resolution: {integrity: sha1-lTuIwg6gDQ7dr/3BsRXAhHSqKV0=}
@@ -3295,10 +3377,8 @@ packages:
       - supports-color
     dev: true
 
-  /ajv-formats/2.1.1_ajv@8.12.0:
+  /ajv-formats/2.1.1:
     resolution: {integrity: sha1-bmaUAGWet0lzu/LjMycYCgmWtSA=}
-    peerDependencies:
-      ajv: ^8.0.0
     peerDependenciesMeta:
       ajv:
         optional: true
@@ -3388,78 +3468,62 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /antd-form-builder/2.1.4_obqumlcjc7rwao5phqj2judeci:
-    resolution: {integrity: sha1-5wBfW4jZ+7nL2f4AJjJgvDhn2dw=}
-    engines: {node: '>=8', npm: '>=5'}
-    peerDependencies:
-      '@ant-design/compatible': ^1.0.1
-      '@ant-design/icons': '>3.0.0'
-      antd: '>3.0.0'
-      lodash: ^4.0.0
-      prop-types: ^15.5.4
-      rc-field-form: '>0.0.1'
-      react: ^15.0.0 || ^16.0.0 || ^17.0.0
-      react-dom: ^15.0.0 || ^16.0.0 || ^17.0.0
-    dependencies:
-      '@ant-design/icons': 4.7.0
-      antd: 4.20.7
-      eslint-plugin-react-hooks: 4.6.0
-      lodash: 4.17.21
-      prop-types: 15.8.1
-    transitivePeerDependencies:
-      - eslint
-    dev: false
-
-  /antd/4.20.7:
-    resolution: {integrity: sha1-f04vXzYgBEMjNVOGCRlnBFz+LCQ=}
+  /antd/5.1.7_moment@2.29.4:
+    resolution: {integrity: sha1-7Z5BgbkfKF12VW0VxN/d6rt9rB0=}
     peerDependencies:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@ant-design/colors': 6.0.0
-      '@ant-design/icons': 4.7.0
-      '@ant-design/react-slick': 0.28.4
+      '@ant-design/colors': 7.0.0
+      '@ant-design/cssinjs': 1.5.6
+      '@ant-design/icons': 5.0.1
+      '@ant-design/react-slick': 1.0.0
       '@babel/runtime': 7.20.13
       '@ctrl/tinycolor': 3.5.0
+      '@rc-component/mutate-observer': 1.0.0
+      '@rc-component/tour': 1.1.0
       classnames: 2.3.2
       copy-to-clipboard: 3.3.3
-      lodash: 4.17.21
-      memoize-one: 6.0.0
-      moment: 2.29.4
-      rc-cascader: 3.5.0
+      dayjs: 1.11.7
+      qrcode.react: 3.1.0
+      rc-cascader: 3.8.0
       rc-checkbox: 2.3.2
-      rc-collapse: 3.1.4
-      rc-dialog: 8.8.2
-      rc-drawer: 4.4.3
-      rc-dropdown: 3.5.2
-      rc-field-form: 1.26.7
-      rc-image: 5.6.4
-      rc-input: 0.0.1-alpha.7
-      rc-input-number: 7.3.11
-      rc-mentions: 1.7.1
-      rc-menu: 9.5.5
+      rc-collapse: 3.4.2
+      rc-dialog: 9.0.2
+      rc-drawer: 6.1.2
+      rc-dropdown: 4.0.1
+      rc-field-form: 1.27.3
+      rc-image: 5.13.0
+      rc-input: 0.1.4
+      rc-input-number: 7.4.0
+      rc-mentions: 1.13.1
+      rc-menu: 9.8.2
       rc-motion: 2.6.3
-      rc-notification: 4.6.1
-      rc-pagination: 3.1.17
-      rc-picker: 2.6.11
-      rc-progress: 3.2.4
+      rc-notification: 5.0.2
+      rc-pagination: 3.2.0
+      rc-picker: 3.1.4_dayjs@1.11.7+moment@2.29.4
+      rc-progress: 3.4.1
       rc-rate: 2.9.2
       rc-resize-observer: 1.3.0
       rc-segmented: 2.1.0
-      rc-select: 14.1.16
+      rc-select: 14.2.0
       rc-slider: 10.0.1
-      rc-steps: 4.1.4
-      rc-switch: 3.2.2
-      rc-table: 7.24.3
-      rc-tabs: 11.13.0
-      rc-textarea: 0.3.7
-      rc-tooltip: 5.1.1
-      rc-tree: 5.5.0
-      rc-tree-select: 5.3.0
+      rc-steps: 6.0.0
+      rc-switch: 4.0.0
+      rc-table: 7.30.3
+      rc-tabs: 12.5.6
+      rc-textarea: 0.4.7
+      rc-tooltip: 5.2.2
+      rc-tree: 5.7.2
+      rc-tree-select: 5.6.0
       rc-trigger: 5.3.4
       rc-upload: 4.3.4
       rc-util: 5.27.2
-      scroll-into-view-if-needed: 2.2.31
+      scroll-into-view-if-needed: 3.0.4
+      throttle-debounce: 5.0.0
+    transitivePeerDependencies:
+      - date-fns
+      - moment
     dev: false
 
   /anymatch/3.1.3:
@@ -4427,8 +4491,8 @@ packages:
       - supports-color
     dev: true
 
-  /compute-scroll-into-view/1.0.20:
-    resolution: {integrity: sha1-F2i1Ui0RcnVPXQybAt469r5QakM=}
+  /compute-scroll-into-view/2.0.4:
+    resolution: {integrity: sha1-K0RLK55HJIGdJTHvrLesCUFV/fY=}
     dev: false
 
   /concat-map/0.0.1:
@@ -4879,11 +4943,6 @@ packages:
       whatwg-mimetype: 2.3.0
       whatwg-url: 8.7.0
     dev: true
-
-  /date-fns/2.29.3:
-    resolution: {integrity: sha1-J0AtL8Z+tEK1EbcLvfmOZBHNaKg=}
-    engines: {node: '>=0.11'}
-    dev: false
 
   /dayjs/1.11.7:
     resolution: {integrity: sha1-SylpImQvcJmVRNEUSiwlcw/OY+I=}
@@ -5673,13 +5732,6 @@ packages:
       object.fromentries: 2.0.6
       semver: 6.3.0
     dev: true
-
-  /eslint-plugin-react-hooks/4.6.0:
-    resolution: {integrity: sha1-TD5petlbd+k/hkaqoWMMG6YH7dM=}
-    engines: {node: '>=10'}
-    peerDependencies:
-      eslint: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0
-    dev: false
 
   /eslint-plugin-react-hooks/4.6.0_eslint@8.33.0:
     resolution: {integrity: sha1-TD5petlbd+k/hkaqoWMMG6YH7dM=}
@@ -8420,10 +8472,6 @@ packages:
     resolution: {integrity: sha1-zf3ZQoU/GhtMccUza4xJ2gvwJzw=}
     dev: false
 
-  /memoize-one/6.0.0:
-    resolution: {integrity: sha1-slkbhx7YKUiu5HJ9xqvO7qyMEEU=}
-    dev: false
-
   /meow/6.1.1:
     resolution: {integrity: sha1-GtZMS3ayok37L2Nf3crfMg0lFGc=}
     engines: {node: '>=8'}
@@ -10043,6 +10091,12 @@ packages:
     engines: {node: '>=0.6.0', teleport: '>=0.2.0'}
     dev: true
 
+  /qrcode.react/3.1.0:
+    resolution: {integrity: sha1-XJHdwDQPdoMW+9uP/ydlE0wq7Ng=}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dev: false
+
   /qs/6.11.0:
     resolution: {integrity: sha1-/Q2WNEb3pl4TZ+AavYVClFPww3o=}
     engines: {node: '>=0.6'}
@@ -10117,8 +10171,8 @@ packages:
       resize-observer-polyfill: 1.5.1
     dev: false
 
-  /rc-cascader/3.5.0:
-    resolution: {integrity: sha1-pJtjK8LQyO8xshLI3dC+o0bmSHc=}
+  /rc-cascader/3.8.0:
+    resolution: {integrity: sha1-XqyomYsuP1aS0T8Wv+I0bszIfGo=}
     peerDependencies:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
@@ -10126,8 +10180,8 @@ packages:
       '@babel/runtime': 7.20.13
       array-tree-filter: 2.1.0
       classnames: 2.3.2
-      rc-select: 14.1.16
-      rc-tree: 5.5.0
+      rc-select: 14.2.0
+      rc-tree: 5.7.2
       rc-util: 5.27.2
     dev: false
 
@@ -10141,8 +10195,8 @@ packages:
       classnames: 2.3.2
     dev: false
 
-  /rc-collapse/3.1.4:
-    resolution: {integrity: sha1-Bj4z/MQno3jmPadXiYzR+6Ymlnk=}
+  /rc-collapse/3.4.2:
+    resolution: {integrity: sha1-ExC+etTNDc/GIsRfbDtf/e5AOtc=}
     peerDependencies:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
@@ -10154,43 +10208,34 @@ packages:
       shallowequal: 1.1.0
     dev: false
 
-  /rc-dialog/8.8.2:
-    resolution: {integrity: sha1-IhLGO5QM8MpG+WGAP4MAeWbMZYI=}
+  /rc-dialog/9.0.2:
+    resolution: {integrity: sha1-qt/r3roUXyVsH6ybn1CfiTzbtbg=}
     peerDependencies:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
       '@babel/runtime': 7.20.13
+      '@rc-component/portal': 1.1.0
       classnames: 2.3.2
       rc-motion: 2.6.3
       rc-util: 5.27.2
     dev: false
 
-  /rc-dialog/8.9.0:
-    resolution: {integrity: sha1-BNw5Ui8DIe0uBgGNSn4CpMMr0+o=}
+  /rc-drawer/6.1.2:
+    resolution: {integrity: sha1-AykYohv6in2eUq2h57jtCMCuY0Y=}
     peerDependencies:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
       '@babel/runtime': 7.20.13
+      '@rc-component/portal': 1.1.0
       classnames: 2.3.2
       rc-motion: 2.6.3
       rc-util: 5.27.2
     dev: false
 
-  /rc-drawer/4.4.3:
-    resolution: {integrity: sha1-IJSTeoROVdyWRCNqLZ+6ecNE4yE=}
-    peerDependencies:
-      react: '>=16.9.0'
-      react-dom: '>=16.9.0'
-    dependencies:
-      '@babel/runtime': 7.20.13
-      classnames: 2.3.2
-      rc-util: 5.27.2
-    dev: false
-
-  /rc-dropdown/3.5.2:
-    resolution: {integrity: sha1-Lx9O6zbAf7Z81ZnAy46GHaPeVSc=}
+  /rc-dropdown/4.0.1:
+    resolution: {integrity: sha1-9l2dPYl1AkEFfbWdWnXkPNRXa2g=}
     peerDependencies:
       react: '>=16.11.0'
       react-dom: '>=16.11.0'
@@ -10201,8 +10246,8 @@ packages:
       rc-util: 5.27.2
     dev: false
 
-  /rc-field-form/1.26.7:
-    resolution: {integrity: sha1-F5SvpQ+EQXDYkHzFdatILWXbmSY=}
+  /rc-field-form/1.27.3:
+    resolution: {integrity: sha1-5SYnlrkcgISKQqPnpmm/RZ8I1j0=}
     engines: {node: '>=8.x'}
     peerDependencies:
       react: '>=16.9.0'
@@ -10213,31 +10258,34 @@ packages:
       rc-util: 5.27.2
     dev: false
 
-  /rc-image/5.6.4:
-    resolution: {integrity: sha1-eDPcNmFClQsiJpgRgwZwpj64JzE=}
+  /rc-image/5.13.0:
+    resolution: {integrity: sha1-Htm4UqQLXv80eGun0vDp0m7quHQ=}
     peerDependencies:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
       '@babel/runtime': 7.20.13
+      '@rc-component/portal': 1.1.0
       classnames: 2.3.2
-      rc-dialog: 8.9.0
+      rc-dialog: 9.0.2
+      rc-motion: 2.6.3
       rc-util: 5.27.2
     dev: false
 
-  /rc-input-number/7.3.11:
-    resolution: {integrity: sha1-xwiXBaIg4aWbqXT6v4lpPgDdJEI=}
+  /rc-input-number/7.4.0:
+    resolution: {integrity: sha1-uLT/qLvAQZjnnOi5YRdW0EbRKOw=}
     peerDependencies:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
       '@babel/runtime': 7.20.13
+      '@rc-component/mini-decimal': 1.0.1
       classnames: 2.3.2
       rc-util: 5.27.2
     dev: false
 
-  /rc-input/0.0.1-alpha.7:
-    resolution: {integrity: sha1-U+PxOHEnXCHZK1H4C2mPOJrUXdM=}
+  /rc-input/0.1.4:
+    resolution: {integrity: sha1-RctLogmubMg1oqy4Yp1PjwyzR+A=}
     peerDependencies:
       react: '>=16.0.0'
       react-dom: '>=16.0.0'
@@ -10247,22 +10295,22 @@ packages:
       rc-util: 5.27.2
     dev: false
 
-  /rc-mentions/1.7.1:
-    resolution: {integrity: sha1-SArQSvRGDuAbbM2RN/zqIwZ6qb4=}
+  /rc-mentions/1.13.1:
+    resolution: {integrity: sha1-yIS3DhUFoZfxsyp8azkJDbaZKnI=}
     peerDependencies:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
       '@babel/runtime': 7.20.13
       classnames: 2.3.2
-      rc-menu: 9.5.5
-      rc-textarea: 0.3.7
+      rc-menu: 9.8.2
+      rc-textarea: 0.4.7
       rc-trigger: 5.3.4
       rc-util: 5.27.2
     dev: false
 
-  /rc-menu/9.5.5:
-    resolution: {integrity: sha1-qi8VHUGR7QidwagUH+Nlybd9Yak=}
+  /rc-menu/9.8.2:
+    resolution: {integrity: sha1-F5306g/Eb/+3oh4Y083bkBzjWYY=}
     peerDependencies:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
@@ -10273,7 +10321,6 @@ packages:
       rc-overflow: 1.2.8
       rc-trigger: 5.3.4
       rc-util: 5.27.2
-      shallowequal: 1.1.0
     dev: false
 
   /rc-motion/2.6.3:
@@ -10287,8 +10334,8 @@ packages:
       rc-util: 5.27.2
     dev: false
 
-  /rc-notification/4.6.1:
-    resolution: {integrity: sha1-Bo6GdPS9eSakR+ylEpFdS0GxXJE=}
+  /rc-notification/5.0.2:
+    resolution: {integrity: sha1-MYEayQ6VFtiJkP0qk9vmHMFxLuw=}
     engines: {node: '>=8.x'}
     peerDependencies:
       react: '>=16.9.0'
@@ -10312,8 +10359,8 @@ packages:
       rc-util: 5.27.2
     dev: false
 
-  /rc-pagination/3.1.17:
-    resolution: {integrity: sha1-keaQqolIBuNEzqiOpKFtJEGUob0=}
+  /rc-pagination/3.2.0:
+    resolution: {integrity: sha1-Ty/bqf2sD0jlyfsRQZc4GBOK9+E=}
     peerDependencies:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
@@ -10322,16 +10369,25 @@ packages:
       classnames: 2.3.2
     dev: false
 
-  /rc-picker/2.6.11:
-    resolution: {integrity: sha1-1KVeRkgFF80b/qX1rNKLHWviMtI=}
+  /rc-picker/3.1.4_dayjs@1.11.7+moment@2.29.4:
+    resolution: {integrity: sha1-SAbcNqeEJKuu5hCDB3fI4iojx0w=}
     engines: {node: '>=8.x'}
     peerDependencies:
+      date-fns: '>= 2.x'
+      dayjs: '>= 1.x'
+      moment: '>= 2.x'
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
+    peerDependenciesMeta:
+      date-fns:
+        optional: true
+      dayjs:
+        optional: true
+      moment:
+        optional: true
     dependencies:
       '@babel/runtime': 7.20.13
       classnames: 2.3.2
-      date-fns: 2.29.3
       dayjs: 1.11.7
       moment: 2.29.4
       rc-trigger: 5.3.4
@@ -10339,8 +10395,8 @@ packages:
       shallowequal: 1.1.0
     dev: false
 
-  /rc-progress/3.2.4:
-    resolution: {integrity: sha1-QDas2uJWZDhUW8TfIgMki6uvdUk=}
+  /rc-progress/3.4.1:
+    resolution: {integrity: sha1-qf/gmeiKT8A6+wnYYDFivwdg10M=}
     peerDependencies:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
@@ -10386,8 +10442,8 @@ packages:
       rc-util: 5.27.2
     dev: false
 
-  /rc-select/14.1.16:
-    resolution: {integrity: sha1-DMS1ofxVGi23yWvB7OCJYxfs3Uc=}
+  /rc-select/14.2.0:
+    resolution: {integrity: sha1-YOg6fVpdrn/Z45GNmyCQdOosktQ=}
     engines: {node: '>=8.x'}
     peerDependencies:
       react: '*'
@@ -10415,8 +10471,8 @@ packages:
       shallowequal: 1.1.0
     dev: false
 
-  /rc-steps/4.1.4:
-    resolution: {integrity: sha1-C6gtsgLVnKUtBpPcmIDdFFsZ3CM=}
+  /rc-steps/6.0.0:
+    resolution: {integrity: sha1-9xSPgJfV0TXxm5bBtPS1CtYJN1M=}
     engines: {node: '>=8.x'}
     peerDependencies:
       react: '>=16.9.0'
@@ -10427,8 +10483,8 @@ packages:
       rc-util: 5.27.2
     dev: false
 
-  /rc-switch/3.2.2:
-    resolution: {integrity: sha1-0AH3fxJmTVJZW09vtCXdnmb7qOg=}
+  /rc-switch/4.0.0:
+    resolution: {integrity: sha1-Vfv5n8LWgHkRdQN9N54XC6Ufvng=}
     peerDependencies:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
@@ -10438,9 +10494,38 @@ packages:
       rc-util: 5.27.2
     dev: false
 
-  /rc-table/7.24.3:
-    resolution: {integrity: sha1-Wj8FA3psNujdk0W018Awj0lS7ow=}
+  /rc-table/7.30.3:
+    resolution: {integrity: sha1-kzPk0LEGc42I4uFsiwZt+ynZMRQ=}
     engines: {node: '>=8.x'}
+    peerDependencies:
+      react: '>=16.9.0'
+      react-dom: '>=16.9.0'
+    dependencies:
+      '@babel/runtime': 7.20.13
+      '@rc-component/context': 1.3.0
+      classnames: 2.3.2
+      rc-resize-observer: 1.3.0
+      rc-util: 5.27.2
+    dev: false
+
+  /rc-tabs/12.5.6:
+    resolution: {integrity: sha1-YRcoV11fPvAQqOXnXSwbZ7tx6Go=}
+    engines: {node: '>=8.x'}
+    peerDependencies:
+      react: '>=16.9.0'
+      react-dom: '>=16.9.0'
+    dependencies:
+      '@babel/runtime': 7.20.13
+      classnames: 2.3.2
+      rc-dropdown: 4.0.1
+      rc-menu: 9.8.2
+      rc-motion: 2.6.3
+      rc-resize-observer: 1.3.0
+      rc-util: 5.27.2
+    dev: false
+
+  /rc-textarea/0.4.7:
+    resolution: {integrity: sha1-Yn9mLUb5ngBZ0cHryNtAxlM5/pA=}
     peerDependencies:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
@@ -10452,59 +10537,32 @@ packages:
       shallowequal: 1.1.0
     dev: false
 
-  /rc-tabs/11.13.0:
-    resolution: {integrity: sha1-CD7tV4+K0C3A1GLXPaSH/jLjpXM=}
-    engines: {node: '>=8.x'}
+  /rc-tooltip/5.2.2:
+    resolution: {integrity: sha1-5cr6js6/eBCJNqC8uTwVD6gayTs=}
     peerDependencies:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
       '@babel/runtime': 7.20.13
       classnames: 2.3.2
-      rc-dropdown: 3.5.2
-      rc-menu: 9.5.5
-      rc-resize-observer: 1.3.0
-      rc-util: 5.27.2
-    dev: false
-
-  /rc-textarea/0.3.7:
-    resolution: {integrity: sha1-mHFCiR797bd0iDwH4vUbMY/eWhE=}
-    peerDependencies:
-      react: '>=16.9.0'
-      react-dom: '>=16.9.0'
-    dependencies:
-      '@babel/runtime': 7.20.13
-      classnames: 2.3.2
-      rc-resize-observer: 1.3.0
-      rc-util: 5.27.2
-      shallowequal: 1.1.0
-    dev: false
-
-  /rc-tooltip/5.1.1:
-    resolution: {integrity: sha1-lBeO0WLQJSvEmTtyX13CrA/M8VQ=}
-    peerDependencies:
-      react: '>=16.9.0'
-      react-dom: '>=16.9.0'
-    dependencies:
-      '@babel/runtime': 7.20.13
       rc-trigger: 5.3.4
     dev: false
 
-  /rc-tree-select/5.3.0:
-    resolution: {integrity: sha1-bt0Z0QZq0r+iEvBDw/9wG5OCgCY=}
+  /rc-tree-select/5.6.0:
+    resolution: {integrity: sha1-80FH9MFDQUMLzs5IGARJbQq9M3E=}
     peerDependencies:
       react: '*'
       react-dom: '*'
     dependencies:
       '@babel/runtime': 7.20.13
       classnames: 2.3.2
-      rc-select: 14.1.16
-      rc-tree: 5.5.0
+      rc-select: 14.2.0
+      rc-tree: 5.7.2
       rc-util: 5.27.2
     dev: false
 
-  /rc-tree/5.5.0:
-    resolution: {integrity: sha1-unyK6irSn0CpxxaOSQMA96UMDyI=}
+  /rc-tree/5.7.2:
+    resolution: {integrity: sha1-Jw6n2eGy5egc02Weui+9AipIMfY=}
     engines: {node: '>=10.x'}
     peerDependencies:
       react: '*'
@@ -11326,7 +11384,7 @@ packages:
     dependencies:
       '@types/json-schema': 7.0.11
       ajv: 8.12.0
-      ajv-formats: 2.1.1_ajv@8.12.0
+      ajv-formats: 2.1.1
       ajv-keywords: 5.1.0_ajv@8.12.0
     dev: true
 
@@ -11335,10 +11393,10 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: false
 
-  /scroll-into-view-if-needed/2.2.31:
-    resolution: {integrity: sha1-08SClZ3Eg+N5YtFSElTjKV0NFYc=}
+  /scroll-into-view-if-needed/3.0.4:
+    resolution: {integrity: sha1-SzEBcS8KyOyYLAp6tNBx45MkHiE=}
     dependencies:
-      compute-scroll-into-view: 1.0.20
+      compute-scroll-into-view: 2.0.4
     dev: false
 
   /seek-bzip/1.0.6:
@@ -12156,6 +12214,11 @@ packages:
   /throttle-debounce/3.0.1:
     resolution: {integrity: sha1-MvlNhN+olPeGyaHykOemRbahmrs=}
     engines: {node: '>=10'}
+    dev: false
+
+  /throttle-debounce/5.0.0:
+    resolution: {integrity: sha1-oXpAOegqLtOKXnJo5BMtaWDUGTM=}
+    engines: {node: '>=12.22'}
     dev: false
 
   /through/2.3.8:
