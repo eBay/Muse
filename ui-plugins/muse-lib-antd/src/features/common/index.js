@@ -12,7 +12,7 @@ export { default as TableBar } from './TableBar';
 export { default as PageNotFound } from './PageNotFound';
 export { default as LoadingMask } from './LoadingMask';
 export { default as TagInput } from './TagInput';
-export { default as Wizard } from './Wizard';
+// export { default as Wizard } from './Wizard';
 export { default as Icon } from './Icon';
 export { default as RequestStatus } from './RequestStatus';
 export { default as GlobalErrorBox } from './GlobalErrorBox';
