@@ -1,13 +1,13 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@ebay/muse-modules': workspace:^1.0.21
+  '@ebay/muse-modules': ^1.0.22
   eslint: ^8.18.0
   json-parse-better-errors: ^1.0.2
   resolve-cwd: ^3.0.0
 
 dependencies:
-  '@ebay/muse-modules': link:../muse-modules
+  '@ebay/muse-modules': 1.0.22
   json-parse-better-errors: 1.0.2
   resolve-cwd: 3.0.0
 
@@ -15,6 +15,10 @@ devDependencies:
   eslint: 8.19.0
 
 packages:
+
+  /@ebay/muse-modules/1.0.22:
+    resolution: {integrity: sha1-hj8so86V1MKrbqG/1r//0AkzZgE=, tarball: '@ebay/muse-modules/-/@ebay/muse-modules-1.0.22.tgz'}
+    dev: false
 
   /@eslint/eslintrc/1.3.0:
     resolution: {integrity: sha1-KfksMLs+dx5KIEjJX6aFU5LfrE8=}

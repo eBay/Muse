@@ -1,5 +1,11 @@
 # @ebay/muse-client
 
+## 1.0.20
+
+### Patch Changes
+
+- fix deps
+
 ## 1.0.19
 
 ### Patch Changes

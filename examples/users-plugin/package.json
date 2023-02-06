@@ -1,14 +1,14 @@
 {
   "name": "users-plugin",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "@craco/craco": "6.4.4",
-    "@ebay/muse-core": "^1.0.26",
-    "@ebay/muse-craco-plugin": "^1.0.28",
-    "@ebay/muse-lib-antd": "^1.0.13",
-    "@ebay/muse-lib-react": "^1.0.28",
-    "@ebay/muse-scripts-react": "^1.0.24",
+    "@craco/craco": "7.0.0",
+    "@ebay/muse-core": "^1.0.28",
+    "@ebay/muse-cra-patch": "^1.0.1",
+    "@ebay/muse-craco-plugin": "3.0.0",
+    "@ebay/muse-lib-antd": "1.1.0",
+    "@ebay/muse-lib-react": "1.1.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -22,11 +22,11 @@
     "webpack-bundle-analyzer": "^4.6.1"
   },
   "scripts": {
-    "start": "muse-scripts-react start",
-    "build": "muse-scripts-react build && muse-scripts-react build --dev",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "build:dev": "muse-scripts-react build --dev"
+    "start": "muse-cra-patch && craco start",
+    "build": "muse-cra-patch && craco build",
+    "build:dev": "muse-cra-patch && cross-env MUSE_DEV_BUILD=true FAST_REFRESH=false craco build",
+    "test": "muse-cra-patch && cross-env MUSE_TEST_BUILD=true craco test --ci --watchAll=false --passWithNoTests --coverage",
+    "test:dev": "muse-cra-patch && cross-env MUSE_TEST_BUILD=true craco test --coverage"
   },
   "eslintConfig": {
     "extends": [
@@ -58,5 +58,8 @@
         }
       }
     }
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3"
   }
 }
