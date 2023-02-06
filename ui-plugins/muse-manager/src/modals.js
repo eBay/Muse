@@ -24,4 +24,3 @@ register('muse-manager.preview-modal', PreviewModal);
 register('muse-manager.add-env-modal', AddEnvironmentModal);
 register('muse-manager.edit-app-variables-modal', EditAppVariablesModal);
 register('muse-manager.edit-plugin-variables-modal', EditPluginVariablesModal);
-

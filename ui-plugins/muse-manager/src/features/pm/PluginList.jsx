@@ -87,13 +87,18 @@ export default function PluginList({ app }) {
             return envP.versionDiff === filter;
           case 'core':
             return envP.meta && envP.meta.core;
-          case 'whitelist':
-            return envP.whitelist;
 
           default:
-            return false;
+            return true;
         }
       });
+      // Execute extended filters one by one
+      const filters = _.flatten(
+        jsPlugin.invoke('museManager.pm.getEnvFilterFns', { filterKey: filter, app, envName }),
+      ).filter(Boolean);
+      if (filters.length > 0) {
+        pluginList = _.flow(filters)(pluginList);
+      }
     });
   }
 

@@ -5,7 +5,7 @@ import flow from 'lodash/fp/flow';
 import semverDiff from 'semver/functions/diff';
 
 // Get plugin list table data
-export default function usePlugins({ app, allPlugins, latestReleases, npmVersions }) {
+export default function usePlugins({ app, allPlugins, latestReleases }) {
   const pluginList = useMemo(() => {
     const pluginByEnv = _.mapValues(app?.envs, env => {
       return _.keyBy(env.plugins || [], 'name');
@@ -26,24 +26,13 @@ export default function usePlugins({ app, allPlugins, latestReleases, npmVersion
         }),
       )(app?.envs || {});
 
-      const npmInfo = {};
-      if (npmVersions) {
-        const npmVersion = npmVersions[`@ebay/${p.name}`] || npmVersions[p.name];
-        if (npmVersion && latestVersion) {
-          npmInfo.npmVersion = npmVersion;
-          npmInfo.npmDiff = semverDiff(npmVersion, latestVersion);
-        }
-      }
-
       return {
         ...p,
-        latestRelease,
-        ...npmInfo,
         envs,
         // status,
       };
     });
-  }, [app, allPlugins, latestReleases, npmVersions]);
+  }, [app, allPlugins, latestReleases]);
 
   return { data: pluginList };
 }

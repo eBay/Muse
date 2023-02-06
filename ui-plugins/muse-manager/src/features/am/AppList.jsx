@@ -52,7 +52,7 @@ export default function AppList() {
 
   return (
     <div>
-      <h1>App List222</h1>
+      <h1>App List</h1>
       <RequestStatus loading={!apps && !error} error={!apps && error} loadingMode="skeleton" />
       {apps ? (
         <>

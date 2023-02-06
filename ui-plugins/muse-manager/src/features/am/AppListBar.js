@@ -1,5 +1,4 @@
-import NiceModal from '@ebay/nice-modal-react';
-import { Radio, Button } from 'antd';
+import { Radio } from 'antd';
 import _ from 'lodash';
 import jsPlugin from 'js-plugin';
 import SearchBox from '../common/SearchBox';
@@ -39,13 +38,6 @@ export default function AppListBar({}) {
           })}
         </Radio.Group>
       ) : null}
-      {/* <Button
-        className="float-right"
-        type="primary"
-        onClick={() => NiceModal.show('muse-manager.create-app-modal')}
-      >
-        Create App
-      </Button> */}
       <DropdownMenu items={dropdownItems} size="default" />
     </div>
   );
