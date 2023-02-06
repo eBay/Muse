@@ -1,5 +1,23 @@
 # @ebay/muse-boot-default
 
+## 2.0.0
+
+### Major Changes
+
+- upgrade major version to avoid conflict
+
+## 1.0.0
+
+### Major Changes
+
+- upgrade major version to avoid conflicts
+
+## 0.1.0
+
+### Minor Changes
+
+- update to craco v7
+
 ## 0.0.3
 
 ### Patch Changes

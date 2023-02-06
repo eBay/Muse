@@ -24,7 +24,7 @@ switch (script) {
   case 'start':
   case 'test': {
     const nodeArgs = scriptIndex > 0 ? args.slice(0, scriptIndex) : [];
-    const scriptPath = resolveCwd(`@craco/craco/scripts/${script}`);
+    const scriptPath = resolveCwd(`@craco/craco/dist/scripts/${script}`);
     const scriptArgs = args.slice(scriptIndex + 1);
     const processArgs = nodeArgs.concat(scriptPath).concat(scriptArgs);
 

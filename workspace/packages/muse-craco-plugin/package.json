@@ -1,6 +1,6 @@
 {
   "name": "@ebay/muse-craco-plugin",
-  "version": "2.0.1",
+  "version": "3.0.0",
   "main": "lib/index.js",
   "license": "MIT",
   "publishConfig": {
@@ -10,16 +10,16 @@
     "lib"
   ],
   "dependencies": {
-    "@ebay/muse-dev-utils": "workspace:*",
-    "@ebay/muse-webpack-plugin": "workspace:*",
+    "@ebay/muse-dev-utils": "^1.0.30",
+    "@ebay/muse-webpack-plugin": "^1.0.27",
     "resolve-cwd": "^3.0.0"
   },
   "devDependencies": {
-    "@craco/craco": "6.4.4",
+    "@craco/craco": "7.0.0",
     "babel-plugin-istanbul": "^6.1.1",
     "eslint": "^8.14.0"
   },
   "peerDependencies": {
-    "@craco/craco": "6.4.4"
+    "@craco/craco": "7.0.0"
   }
 }

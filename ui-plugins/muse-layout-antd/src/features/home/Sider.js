@@ -21,7 +21,6 @@ export default function Sider() {
   }
   const handleToggleSiderCollapsed = useCallback(() => {
     setSiderCollapsed(!siderCollapsed);
-    console.log('resize');
     requestAnimationFrame(() => {
       window.dispatchEvent(new Event('resize'));
     });

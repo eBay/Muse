@@ -1,6 +1,6 @@
 {
   "name": "@ebay/muse-lib-antd",
-  "version": "1.0.8",
+  "version": "1.1.2",
   "repository": "",
   "muse": {
     "type": "lib",
@@ -16,25 +16,16 @@
     "build",
     "src"
   ],
-  "devDependencies": {
-    "@craco/craco": "6.4.4",
-    "@ebay/muse-core": "1.0.27",
-    "@ebay/muse-craco-plugin": "2.0.0",
-    "@ebay/muse-ebay-dev": "1.0.3",
-    "@ebay/muse-scripts-react": "1.0.24",
-    "craco-less": "^2.0.0",
-    "cross-env": "^7.0.3"
-  },
   "scripts": {
-    "start": "cross-env PORT=3034 muse-scripts-react start",
-    "build": "cross-env NODE_PATH=./node_modules muse-scripts-react build",
-    "build:dev": "cross-env NODE_PATH=./node_modules muse-scripts-react build --dev",
+    "start": "muse-cra-patch && cross-env NODE_PATH=./node_modules PORT=3031 craco start",
+    "build": "muse-cra-patch && cross-env NODE_PATH=./node_modules craco build",
+    "build:dev": "muse-cra-patch && cross-env NODE_PATH=./node_modules MUSE_DEV_BUILD=true FAST_REFRESH=false craco build",
+    "test": "muse-cra-patch && cross-env NODE_PATH=./node_modules MUSE_TEST_BUILD=true craco test --ci --watchAll=false --passWithNoTests --coverage",
+    "test:dev": "muse-cra-patch && cross-env NODE_PATH=./node_modules MUSE_TEST_BUILD=true craco test --coverage",
+    "test:config": "muse-cra-patch && cross-env NODE_PATH=./node_modules MUSE_TEST_BUILD=true craco test --showConfig",
     "prestart": "muse-ebay-dev check-updates",
     "prebuild": "muse-ebay-dev check-updates",
-    "deploy": "pnpm build && pnpm build:dev && muse release && muse deploy nateapp staging",
-    "test": "cross-env NODE_PATH=./node_modules muse-scripts-react test --ci --watchAll=false --passWithNoTests --coverage",
-    "test:config": "cross-env NODE_PATH=./node_modules muse-scripts-react test --showConfig",
-    "test:dev": "cross-env NODE_PATH=./node_modules muse-scripts-react test --coverage"
+    "deploy": "pnpm build && pnpm build:dev && muse release && muse deploy nateapp staging"
   },
   "browserslist": {
     "production": [
@@ -48,25 +39,29 @@
       "last 1 safari version"
     ]
   },
+  "devDependencies": {
+    "@changesets/cli": "^2.23.2",
+    "@craco/craco": "7.0.0",
+    "@ebay/muse-core": "1.0.28",
+    "@ebay/muse-cra-patch": "^1.0.1",
+    "@ebay/muse-craco-plugin": "3.0.0",
+    "@ebay/muse-ebay-dev": "1.0.3",
+    "craco-less": "2.0.0",
+    "cross-env": "7.0.3",
+    "react-scripts": "^5.0.1"
+  },
   "dependencies": {
-    "@ant-design/icons": "^4.7.0",
-    "@ebay/muse-lib-react": "1.0.29",
-    "antd": "4.20.7",
-    "antd-form-builder": "2.1.4",
-    "history": "^5.3.0",
-    "js-plugin": "^1.1.0",
-    "lodash": "^4.17.21",
-    "moment": "^2.29.4",
-    "prop-types": "^15.8.1",
-    "react": "^18.2.0",
-    "react-copy-to-clipboard": "^5.1.0",
-    "react-dom": "^18.2.0",
-    "react-highlight-words": "^0.18.0",
-    "react-redux": "^8.0.2",
-    "react-router-dom": "^6.3.0",
-    "react-scripts": "^5.0.1",
-    "react-syntax-highlighter": "^15.5.0",
-    "react-use": "^17.4.0",
-    "redux": "^4.2.0"
+    "@ant-design/icons": "5.0.1",
+    "@ebay/muse-lib-react": "1.1.2",
+    "@ebay/nice-form-react": "^1.0.1",
+    "antd": "5.1.7",
+    "history": "5.3.0",
+    "js-plugin": "1.1.0",
+    "lodash": "4.17.21",
+    "moment": "2.29.4",
+    "prop-types": "15.8.1",
+    "react-copy-to-clipboard": "5.1.0",
+    "react-highlight-words": "0.18.0",
+    "react-syntax-highlighter": "15.5.0"
   }
 }

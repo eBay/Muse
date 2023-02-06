@@ -40,18 +40,18 @@ const timestamp = () => {
   return `${padding(m, 2)}:${padding(s, 2)}.${padding(ms, 3)}`;
 };
 const log = {
-  info: s => {
+  info: (s) => {
     console.log(chalk.cyan(timestamp() + ' ' + s));
   },
-  success: s => {
+  success: (s) => {
     console.log(chalk.green(s));
   },
-  error: s => {
+  error: (s) => {
     console.log(chalk.red(s));
   },
 };
 
-const execSync = cmd => {
+const execSync = (cmd) => {
   const arr = cmd.split(' ');
 
   const child = spawn.sync(arr[0], arr.slice(1), { stdio: 'inherit' });
@@ -80,7 +80,7 @@ const execSync = cmd => {
   }
 };
 
-const mapFile = p => path.join(__dirname, '..', p);
+const mapFile = (p) => path.join(__dirname, '..', p);
 (async () => {
   try {
     const pkgMgr = getPkgMgr();
@@ -98,9 +98,10 @@ const mapFile = p => path.join(__dirname, '..', p);
     log.info('Installing Muse dependencies...');
     const deps = [
       'js-plugin',
-      '@craco/craco@6.4.4',
+      'cross-env',
+      '@craco/craco@7.0.0',
       '@ebay/muse-core',
-      '@ebay/muse-scripts-react',
+      '@ebay/muse-cra-patch',
       '@ebay/muse-craco-plugin',
       '@ebay/muse-lib-react',
     ];
@@ -117,10 +118,10 @@ const mapFile = p => path.join(__dirname, '..', p);
     };
     log.info('Updating scripts in package.json...');
     Object.assign(pkgJson.scripts, {
-      start: 'muse-scripts-react start',
-      build: 'muse-scripts-react build && muse-scripts-react build --dev',
-      'build:dist': 'muse-scripts-react build',
-      'build:dev': 'muse-scripts-react build --dev',
+      start: 'muse-cra-patch && craco start',
+      build: 'muse-cra-patch && craco build && cross-env MUSE_DEV_BUILD=true craco build ',
+      'build:dist': 'muse-cra-patch && craco build',
+      'build:dev': 'muse-cra-patch && cross-env MUSE_DEV_BUILD=true craco build',
     });
     fs.writeJsonSync('./package.json', pkgJson, { spaces: 2 });
 

@@ -1,5 +1,11 @@
 # @ebay/muse-git-storage
 
+## 1.0.25
+
+### Patch Changes
+
+- fix deps
+
 ## 1.0.24
 
 ### Patch Changes
