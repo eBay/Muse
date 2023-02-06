@@ -29,16 +29,13 @@ export default function Environments({ app }) {
   columns = columns.filter(Boolean);
   jsPlugin.sort(columns);
   return (
-    <div>
-      <div>
-        <Table
-          pagination={false}
-          rowKey="name"
-          size="middle"
-          columns={columns}
-          dataSource={_.toArray(app.envs)}
-        />
-      </div>
-    </div>
+    <Table
+      bordered
+      pagination={false}
+      rowKey="name"
+      size="middle"
+      columns={columns}
+      dataSource={_.toArray(app.envs)}
+    />
   );
 }

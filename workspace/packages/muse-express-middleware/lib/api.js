@@ -38,6 +38,7 @@ const exposedApis = [
   'pm.undeployPlugin',
   'pm.unregisterRelease',
   'pm.updatePlugin',
+  'pm.updateDeployedPlugin',
   'data.get',
   'data.setCache',
   'data.handleDataChange',
@@ -60,7 +61,7 @@ const fileFields = {
 module.exports = ({ basePath = '/api/v2' } = {}) => {
   // Allow a plugin to provide api from RESTful service
   const apis = _.flatten(muse.plugin.invoke('museMiddleware.api.getApis'));
-  _.flatten(muse.plugin.invoke('museMiddleware.api.getFileFields')).forEach(obj => {
+  _.flatten(muse.plugin.invoke('museMiddleware.api.getFileFields')).forEach((obj) => {
     fileFields[obj.apiKey] = obj.fields;
   });
   exposedApis.push(...apis);
@@ -79,7 +80,7 @@ module.exports = ({ basePath = '/api/v2' } = {}) => {
     const apiKey = apiPath
       .split('/')
       .filter(Boolean)
-      .map(s => _.camelCase(s))
+      .map((s) => _.camelCase(s))
       .join('.');
 
     // If not a defined api or it doesn't exist, then just say 404
@@ -108,14 +109,14 @@ module.exports = ({ basePath = '/api/v2' } = {}) => {
       // If some property is a buffer, it can accept upload as buffer
       if (fileFields[apiKey]) {
         await new Promise((resolve, reject) => {
-          upload.fields(_.castArray(fileFields[apiKey]))(req, res, err => {
+          upload.fields(_.castArray(fileFields[apiKey]))(req, res, (err) => {
             if (err) reject(err);
             resolve();
           });
         });
         const params = {};
-        Object.keys(req.body).forEach(k => (params[k] = req.body[k]));
-        _.keys(req.files).forEach(f => {
+        Object.keys(req.body).forEach((k) => (params[k] = req.body[k]));
+        _.keys(req.files).forEach((f) => {
           params[f] = req.files[f][0].buffer;
         });
         req.body.args = [params];
@@ -142,7 +143,7 @@ module.exports = ({ basePath = '/api/v2' } = {}) => {
       // TODO: inject author info
 
       if (req.query.type === 'raw') {
-        _.invoke(muse, apiKey, ...args).then(result => {
+        _.invoke(muse, apiKey, ...args).then((result) => {
           res.setHeader(
             'content-type',
             result.headers['content-type'] || result.headers['Content-Type'],

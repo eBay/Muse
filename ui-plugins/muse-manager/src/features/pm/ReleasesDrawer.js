@@ -19,7 +19,7 @@ const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
       order: 10,
       title: 'Version',
       render: v => {
-        return <a href="https://go/muse">{v}</a>;
+        return <a>{v}</a>;
       },
     },
     {
@@ -88,7 +88,11 @@ const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
   const renderBody = useCallback(
     item => (
       <div className="markdown-wrapper">
-        <ReactMarkdown children={item.description} />
+        {item.description ? (
+          <ReactMarkdown children={item.description} />
+        ) : (
+          <p className="italic text-zinc-500 text-sm pl-14">No description</p>
+        )}
       </div>
     ),
     [],

@@ -9,6 +9,7 @@ import CreatePluginModal from './features/pm/CreatePluginModal';
 import EditPluginModal from './features/pm/EditPluginModal';
 import ReleasesDrawer from './features/pm/ReleasesDrawer';
 import EditEnvironmentModal from './features/am/EditEnvironmentModal';
+import AddEnvironmentModal from './features/am/AddEnviromentModal';
 import PreviewModal from './features/pm/PreviewModal';
 
 register('muse-manager.create-app-modal', CreateAppModal);
@@ -20,5 +21,6 @@ register('muse-manager.edit-plugin-modal', EditPluginModal);
 register('muse-manager.releases-drawer', ReleasesDrawer);
 register('muse-manager.edit-environment-modal', EditEnvironmentModal);
 register('muse-manager.preview-modal', PreviewModal);
+register('muse-manager.add-env-modal', AddEnvironmentModal);
 register('muse-manager.edit-app-variables-modal', EditAppVariablesModal);
 register('muse-manager.edit-plugin-variables-modal', EditPluginVariablesModal);

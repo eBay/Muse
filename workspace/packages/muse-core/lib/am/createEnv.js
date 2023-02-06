@@ -1,4 +1,4 @@
-const { asyncInvoke, syncInvoke, osUsername, validate, jsonByYamlBuff } = require('../utils');
+const { asyncInvoke, syncInvoke, osUsername, validate } = require('../utils');
 const { registry } = require('../storage');
 const getApp = require('./getApp');
 const updateApp = require('./updateApp');

@@ -9,20 +9,6 @@ function PluginActions({ app }) {
   const items = useMemo(() => {
     return [
       {
-        key: 'edit',
-        label: 'Edit',
-        order: 40,
-        icon: 'edit',
-        highlight: true,
-        onClick: () => {
-          // pluginInfoModal.show({
-          //   app,
-          //   plugin,
-          //   forceEditMode: true,
-          // });
-        },
-      },
-      {
         key: 'delete',
         label: 'Delete App',
         // disabled: !canDelete,
