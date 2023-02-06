@@ -1,5 +1,11 @@
 # @ebay/muse-manager
 
+## 1.1.5
+
+### Patch Changes
+
+- multiple bugfix and enhancements to be on par with original muse v1.x app / plugin manager
+
 ## 1.1.4
 
 ### Patch Changes
