@@ -1,5 +1,11 @@
 # @ebay/muse-manager
 
+## 1.1.3
+
+### Patch Changes
+
+- fix mis-spelled word issue
+
 ## 1.1.2
 
 ### Patch Changes
