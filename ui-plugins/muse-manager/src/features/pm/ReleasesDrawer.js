@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import NiceModal, { useModal, antdDrawer } from '@ebay/nice-modal-react';
 import TimeAgo from 'react-time-ago';
 import prettyMs from 'pretty-ms';
-import { Drawer, Table } from 'antd';
+import { Drawer, Table, Tooltip } from 'antd';
 import jsPlugin from 'js-plugin';
 import _ from 'lodash';
 import ReactMarkdown from 'react-markdown';
@@ -28,15 +28,22 @@ const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
       title: 'Build Branch',
     },
     {
-      dataIndex: 'size',
-      order: 30,
-      title: 'Size',
-    },
-    {
       dataIndex: 'duration',
       order: 40,
-      title: 'Duration',
+      title: (
+        <Tooltip
+          title={
+            <span style={{ whiteSpace: 'nowrap' }}>Job Prep / Install Deps / Pack Bundle</span>
+          }
+        >
+          Duration
+        </Tooltip>
+      ),
       render: d => {
+        if (_.isObject(d)) {
+          const { prep, deps, pack } = d;
+          return `${prettyMs(prep || 0)} / ${prettyMs(deps || 0)} / ${prettyMs(pack || 0)} `;
+        }
         return d ? prettyMs(d) : 'N/A';
       },
     },

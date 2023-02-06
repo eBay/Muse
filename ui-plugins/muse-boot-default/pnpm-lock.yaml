@@ -1839,11 +1839,15 @@ packages:
     dev: true
 
   /@ebay/muse-craco-plugin/3.0.0_zn3b3rg7a76ksmoalqt6s3i4aq:
+<<<<<<< HEAD
+    resolution: {integrity: sha1-c5cJuvAzKPKHCCOtXqavNM2ZNcs=, tarball: '@ebay/muse-craco-plugin/-/@ebay/muse-craco-plugin-3.0.0.tgz'}
+=======
     resolution:
       {
         integrity: sha1-c5cJuvAzKPKHCCOtXqavNM2ZNcs=,
         tarball: '@ebay/muse-craco-plugin/-/@ebay/muse-craco-plugin-3.0.0.tgz',
       }
+>>>>>>> main
     peerDependencies:
       '@craco/craco': 7.0.0
     dependencies:
@@ -1857,11 +1861,15 @@ packages:
     dev: true
 
   /@ebay/muse-dev-utils/1.0.30_@ebay+muse-core@1.0.28:
+<<<<<<< HEAD
+    resolution: {integrity: sha1-3lnB7Dd1IzE2wOUzEyrtTF3mJcM=, tarball: '@ebay/muse-dev-utils/-/@ebay/muse-dev-utils-1.0.30.tgz'}
+=======
     resolution:
       {
         integrity: sha1-3lnB7Dd1IzE2wOUzEyrtTF3mJcM=,
         tarball: '@ebay/muse-dev-utils/-/@ebay/muse-dev-utils-1.0.30.tgz',
       }
+>>>>>>> main
     peerDependencies:
       '@ebay/muse-core': ^1.0.28
       express: ^4.18.1
@@ -1874,11 +1882,15 @@ packages:
     dev: true
 
   /@ebay/muse-ebay-dev/1.0.3_@ebay+muse-core@1.0.28:
+<<<<<<< HEAD
+    resolution: {integrity: sha1-k4u7ZmUj9vGwicqkoiuwP8YPSf4=, tarball: '@ebay/muse-ebay-dev/-/@ebay/muse-ebay-dev-1.0.3.tgz'}
+=======
     resolution:
       {
         integrity: sha1-k4u7ZmUj9vGwicqkoiuwP8YPSf4=,
         tarball: '@ebay/muse-ebay-dev/-/@ebay/muse-ebay-dev-1.0.3.tgz',
       }
+>>>>>>> main
     hasBin: true
     peerDependencies:
       '@ebay/muse-core': ^1.0.6
@@ -1894,11 +1906,15 @@ packages:
     dev: true
 
   /@ebay/muse-express-middleware/1.0.30_@ebay+muse-core@1.0.28:
+<<<<<<< HEAD
+    resolution: {integrity: sha1-zGV2PIQVZrBTqGiJjadoYpMxViY=, tarball: '@ebay/muse-express-middleware/-/@ebay/muse-express-middleware-1.0.30.tgz'}
+=======
     resolution:
       {
         integrity: sha1-zGV2PIQVZrBTqGiJjadoYpMxViY=,
         tarball: '@ebay/muse-express-middleware/-/@ebay/muse-express-middleware-1.0.30.tgz',
       }
+>>>>>>> main
     peerDependencies:
       '@ebay/muse-core': ^1.0.28
     dependencies:

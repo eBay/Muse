@@ -56,7 +56,19 @@ async function start() {
       return mergedPluginVariables;
     },
     // TODO: get plugin assets public paths (assets in public folder)
-    getPublicPath: (pluginName, assetPath) => {},
+    getPublicPath: (pluginName, assetPath) => {
+      const currentPlugin = window.MUSE_GLOBAL.plugins?.find((p) => p.name === pluginName);
+      if (!currentPlugin) return;
+      const { version } = currentPlugin || {};
+      const pluginId = getPluginId(pluginName);
+      let publicPath = `${window.MUSE_GLOBAL.cdn}/p/${pluginId}/${version}`;
+      if (window.MUSE_GLOBAL.isDev || window.MUSE_GLOBAL.isLocal) {
+        publicPath = publicPath + `/dev/${assetPath}`;
+      } else {
+        publicPath = publicPath + `/dist/${assetPath}`;
+      }
+      return publicPath;
+    },
     // Muse shared modules global methods
     __shared__: {
       modules: {},
@@ -75,7 +87,9 @@ async function start() {
     isDev = false,
     isE2eTest = false,
   } = mg;
-  let { plugins = [] } = mg;
+  let { plugins = [] } = window.MUSE_GLOBAL;
+  window.MUSE_GLOBAL.appConfig = app.config;
+
   // MUSE_CONFIG is for backward compatability
   window.MUSE_CONFIG = mg;
   registerSw();
