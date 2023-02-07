@@ -18,7 +18,7 @@ export default {
     </div>
     `;
     loadingDiv.id = 'muse-loading-node';
-    if (app.config.theme === 'dark') {
+    if (app.config?.theme === 'dark') {
       document.body.classList.add('muse-theme-dark');
     }
     document.body.appendChild(loadingDiv);

@@ -1,5 +1,11 @@
 # @ebay/muse-boot-default
 
+## 2.0.2
+
+### Patch Changes
+
+- fix checking of app.config.theme
+
 ## 2.0.1
 
 ### Patch Changes
