@@ -1,5 +1,11 @@
 # @ebay/muse-boot-default
 
+## 2.0.1
+
+### Patch Changes
+
+- fix show error message
+
 ## 2.0.0
 
 ### Major Changes

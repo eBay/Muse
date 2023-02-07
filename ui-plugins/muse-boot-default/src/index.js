@@ -275,6 +275,6 @@ start()
     err && console.error(err);
     loading.hide();
     if (err?.message) {
-      error.show(err.message);
+      error.showMessage(err.message);
     }
   });
