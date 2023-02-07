@@ -1,3 +1,4 @@
+import React from 'react';
 import { Table } from 'antd';
 import EnvActions from '../am/EnvActions';
 import jsPlugin from 'js-plugin';

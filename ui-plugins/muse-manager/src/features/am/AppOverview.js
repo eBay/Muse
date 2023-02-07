@@ -1,3 +1,4 @@
+import React from 'react';
 import NiceModal from '@ebay/nice-modal-react';
 import { Button } from 'antd';
 import AppBasicInfo from './AppBasicInfo';

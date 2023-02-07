@@ -123,8 +123,8 @@ export default function MetaMenu({ meta = {}, onClick, baseExtPoint, autoSort = 
     theme: meta.theme || 'light',
     items: newItems,
   };
+
   if (menuMode === 'inline') menuProps.inlineCollapsed = !!meta.collapsed;
-  const menu = <Menu {...menuProps} />;
 
   if (meta.trigger) {
     const { trigger } = meta;
@@ -142,7 +142,8 @@ export default function MetaMenu({ meta = {}, onClick, baseExtPoint, autoSort = 
         </span>
       </div>
     );
-    return menu ? <Dropdown overlay={menu}>{ele}</Dropdown> : ele;
+    // console.log(menu);
+    return <Dropdown menu={menuProps}>{ele}</Dropdown>;
   }
-  return menu;
+  return <Menu {...menuProps} />;
 }

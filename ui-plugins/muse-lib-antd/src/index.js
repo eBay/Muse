@@ -7,6 +7,7 @@ import route from './common/routeConfig';
 import reducer from './common/rootReducer';
 // import './initFormBuilder';
 import './styles/index.less';
+import('antd/dist/reset.css');
 
 plugin.register({
   ...ext,

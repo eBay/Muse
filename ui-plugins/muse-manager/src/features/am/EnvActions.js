@@ -1,3 +1,4 @@
+import React from 'react';
 import { useMemo } from 'react';
 import { DropdownMenu } from '@ebay/muse-lib-antd/src/features/common';
 import NiceModal from '@ebay/nice-modal-react';

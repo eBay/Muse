@@ -1,3 +1,4 @@
+import React from 'react';
 import FormBuilder from 'antd-form-builder';
 import AppIcon from './app-icon/AppIcon';
 import jsPlugin from 'js-plugin';
