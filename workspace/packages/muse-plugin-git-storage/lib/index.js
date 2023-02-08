@@ -12,7 +12,7 @@ module.exports = ({
   token,
 }) => {
   const obj = {
-    name: 'muse-plugin-git-storage' || pluginName,
+    name: pluginName || 'muse-plugin-git-storage',
   };
 
   _.set(
