@@ -2,12 +2,13 @@ import { useCallback } from 'react';
 import NiceModal, { useModal, antdDrawer } from '@ebay/nice-modal-react';
 import TimeAgo from 'react-time-ago';
 import prettyMs from 'pretty-ms';
-import { Drawer, Table, Tooltip } from 'antd';
+import { Drawer, Table } from 'antd';
 import jsPlugin from 'js-plugin';
 import _ from 'lodash';
 import ReactMarkdown from 'react-markdown';
 import { RequestStatus, DropdownMenu } from '@ebay/muse-lib-antd/src/features/common';
 import { useMuseData } from '../../hooks';
+import ReleaseDurationTrend from './ReleaseDurationTrend';
 
 const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
   const modal = useModal();
@@ -30,21 +31,14 @@ const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
     {
       dataIndex: 'duration',
       order: 40,
-      title: (
-        <Tooltip
-          title={
-            <span style={{ whiteSpace: 'nowrap' }}>Job Prep / Install Deps / Pack Bundle</span>
-          }
-        >
-          Duration
-        </Tooltip>
-      ),
+      title: 'Duration',
       render: d => {
         if (_.isObject(d)) {
-          const { prep, deps, pack } = d;
-          return `${prettyMs(prep || 0)} / ${prettyMs(deps || 0)} / ${prettyMs(pack || 0)} `;
+          const { build, installDeps, uploadAssets } = d;
+          const total = (build || 0) + (installDeps || 0) + (uploadAssets || 0);
+          return `${prettyMs(total)} `;
         }
-        return d ? prettyMs(d) : 'N/A';
+        return d ? prettyMs(d) : 'N/A'; // compatible with old releases
       },
     },
     {
@@ -56,7 +50,9 @@ const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
       dataIndex: 'createdAt',
       order: 60,
       title: 'Time',
-      render: d => (d ? <TimeAgo date={d} /> : 'N/A'),
+      render: d => {
+        return d ? <TimeAgo date={new Date(d).getTime()} /> : 'N/A';
+      },
     },
     {
       dataIndex: 'actions',
@@ -116,13 +112,16 @@ const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
     <Drawer {...antdDrawer(modal)} title={`Releases of ${plugin.name}`} width="1200px">
       <RequestStatus loading={loading} error={error} loadingMode="skeleton" />
       {!loading && (
-        <Table
-          rowKey={'version'}
-          dataSource={releases}
-          pagination={false}
-          columns={columns}
-          expandedRowRender={renderBody}
-        />
+        <>
+          <ReleaseDurationTrend plugin={plugin} />
+          <Table
+            rowKey={'version'}
+            dataSource={releases}
+            pagination={false}
+            columns={columns}
+            expandedRowRender={renderBody}
+          />
+        </>
       )}
     </Drawer>
   );

@@ -22,6 +22,8 @@ specifiers:
   autoprefixer: ^10.4.8
   craco-less: ^2.0.0
   cross-env: ^7.0.3
+  echarts: ^5.4.1
+  echarts-for-react: ^3.0.2
   find-root: 1.1.0
   lodash: 4.17.21
   postcss: ^8.4.16
@@ -42,6 +44,8 @@ dependencies:
   '@ebay/muse-plugin-acl': 1.0.6
   '@headlessui/react': 1.7.0
   '@heroicons/react': 2.0.10
+  echarts: 5.4.1
+  echarts-for-react: 3.0.2_echarts@5.4.1
   find-root: 1.1.0
   lodash: 4.17.21
   pretty-ms: 7.0.1
@@ -69,7 +73,7 @@ devDependencies:
   cross-env: 7.0.3
   postcss: 8.4.21
   react-scripts: 5.0.1
-  tailwindcss: 3.1.8_postcss@8.4.21
+  tailwindcss: 3.1.8
   vite: 3.2.4
 
 packages:
@@ -3589,10 +3593,8 @@ packages:
       - supports-color
     dev: true
 
-  /ajv-formats/2.1.1_ajv@8.12.0:
+  /ajv-formats/2.1.1:
     resolution: {integrity: sha1-bmaUAGWet0lzu/LjMycYCgmWtSA=}
-    peerDependencies:
-      ajv: ^8.0.0
     peerDependenciesMeta:
       ajv:
         optional: true
@@ -5532,6 +5534,24 @@ packages:
 
   /duplexer3/0.1.5:
     resolution: {integrity: sha1-C15Ne61d6JAepEQGJMjh0gCZIX4=}
+
+  /echarts-for-react/3.0.2_echarts@5.4.1:
+    resolution: {integrity: sha1-rFhZFXBIoQZtRVPjSzKKuyTyt8E=}
+    peerDependencies:
+      echarts: ^3.0.0 || ^4.0.0 || ^5.0.0
+      react: ^15.0.0 || >=16.0.0
+    dependencies:
+      echarts: 5.4.1
+      fast-deep-equal: 3.1.3
+      size-sensor: 1.0.1
+    dev: false
+
+  /echarts/5.4.1:
+    resolution: {integrity: sha1-1/ZaWE14vv9iVo2HixYVGzOBgRw=}
+    dependencies:
+      tslib: 2.3.0
+      zrender: 5.4.1
+    dev: false
 
   /ee-first/1.1.1:
     resolution: {integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=}
@@ -11119,12 +11139,6 @@ packages:
   /react-dev-utils/12.0.1_nkwuvqep7k7zzhloz3wxbhr4hq:
     resolution: {integrity: sha1-upLttKHzeb1GzNa81Oe8OY3zPnM=}
     engines: {node: '>=14'}
-    peerDependencies:
-      typescript: '>=2.7'
-      webpack: '>=4'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
     dependencies:
       '@babel/code-frame': 7.18.6
       address: 1.2.2
@@ -11154,7 +11168,9 @@ packages:
     transitivePeerDependencies:
       - eslint
       - supports-color
+      - typescript
       - vue-template-compiler
+      - webpack
     dev: true
 
   /react-dom/18.2.0_react@18.2.0:
@@ -11339,7 +11355,7 @@ packages:
       semver: 7.3.8
       source-map-loader: 3.0.2_webpack@5.75.0
       style-loader: 3.3.1_webpack@5.75.0
-      tailwindcss: 3.2.4_postcss@8.4.21
+      tailwindcss: 3.2.4
       terser-webpack-plugin: 5.3.6_webpack@5.75.0
       webpack: 5.75.0
       webpack-dev-server: 4.11.1_webpack@5.75.0
@@ -11904,7 +11920,7 @@ packages:
     dependencies:
       '@types/json-schema': 7.0.11
       ajv: 8.12.0
-      ajv-formats: 2.1.1_ajv@8.12.0
+      ajv-formats: 2.1.1
       ajv-keywords: 5.1.0_ajv@8.12.0
 
   /screenfull/5.2.0:
@@ -12098,6 +12114,10 @@ packages:
   /sisteransi/1.0.5:
     resolution: {integrity: sha1-E01oEpd1ZDfMBcoBNw06elcQde0=}
     dev: true
+
+  /size-sensor/1.0.1:
+    resolution: {integrity: sha1-+E5GIG0+JZ+v8dVI5LO+ypMhnbs=}
+    dev: false
 
   /slash/3.0.0:
     resolution: {integrity: sha1-ZTm+hwwWWtvVJAIg2+Nh8bxNRjQ=}
@@ -12578,12 +12598,10 @@ packages:
     resolution: {integrity: sha1-QwY30ki6d+B4iDlR+5qg7tfGP6I=}
     dev: true
 
-  /tailwindcss/3.1.8_postcss@8.4.21:
+  /tailwindcss/3.1.8:
     resolution: {integrity: sha1-T4UgVQ1nqDXTLy9AIVgPn923t0E=}
     engines: {node: '>=12.13.0'}
     hasBin: true
-    peerDependencies:
-      postcss: ^8.0.9
     dependencies:
       arg: 5.0.2
       chokidar: 3.5.3
@@ -12611,12 +12629,10 @@ packages:
       - ts-node
     dev: true
 
-  /tailwindcss/3.2.4_postcss@8.4.21:
+  /tailwindcss/3.2.4:
     resolution: {integrity: sha1-r+NHfnoZ886vtI5LCD4pLODcAlA=}
     engines: {node: '>=12.13.0'}
     hasBin: true
-    peerDependencies:
-      postcss: ^8.0.9
     dependencies:
       arg: 5.0.2
       chokidar: 3.5.3
@@ -12907,6 +12923,10 @@ packages:
   /tslib/1.14.1:
     resolution: {integrity: sha1-zy04vcNKE0vK8QkcQfZhni9nLQA=}
     dev: true
+
+  /tslib/2.3.0:
+    resolution: {integrity: sha1-gDuM2rPhK6WBpMpByIObuw2ssJ4=}
+    dev: false
 
   /tslib/2.5.0:
     resolution: {integrity: sha1-Qr/thvV4eutB0DGGbI9AJCng/d8=}
@@ -13966,3 +13986,9 @@ packages:
       archiver-utils: 2.1.0
       compress-commons: 4.1.1
       readable-stream: 3.6.0
+
+  /zrender/5.4.1:
+    resolution: {integrity: sha1-iS+GS4hcceHcJdyzx6S6QmeNPxE=}
+    dependencies:
+      tslib: 2.3.0
+    dev: false
