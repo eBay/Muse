@@ -170,9 +170,9 @@ module.exports = class GitClient {
     const arr = keyPath.split('/');
     const filename = arr.pop();
     const parentPath = arr.join('/');
-    const folder = (await this.axiosGit.get(`/repos/${repo}/contents/${parentPath}?ref=${branch}`))
+    const folder = (await this.axiosGit.get(`/repos/${repo}/contents${parentPath}?ref=${branch}`))
       .data;
-    const fileSha = folder.find(file => file.name === filename)?.sha;
+    const fileSha = folder.find((file) => file.name === filename)?.sha;
     const blob = (await this.axiosGit.get(`/repos/${repo}/git/blobs/${fileSha}`)).data;
     return decode ? Buffer.from(blob.content, 'base64').toString() : blob.content;
   }
