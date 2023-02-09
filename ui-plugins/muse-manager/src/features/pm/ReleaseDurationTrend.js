@@ -20,7 +20,7 @@ export default function MyResponsiveBar({ plugin }) {
           const { version, main } = params?.[0]?.data || {};
           const headerP = `<p style="display:flex;width:150px;align-items:center"><strong>v${version}:</strong><span style="margin-left:auto">${
             main || '--'
-          } Byte</span></p>`;
+          } kB</span></p>`;
           const metrics = params
             ?.filter(item => item.seriesName !== 'main.js')
             ?.map(({ color, seriesName, value }) => {
