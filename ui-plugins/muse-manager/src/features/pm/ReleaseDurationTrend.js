@@ -55,7 +55,7 @@ export default function MyResponsiveBar({ plugin }) {
         },
         {
           type: 'value',
-          name: 'Gzip Size (B)',
+          name: 'Gzip Size (kB)',
           position: 'right',
           alignTicks: true,
           axisLabel: {
