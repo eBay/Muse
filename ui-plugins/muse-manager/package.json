@@ -29,8 +29,8 @@
     "@changesets/cli": "^2.23.2",
     "@craco/craco": "7.0.0",
     "@ebay/muse-core": "1.0.28",
-    "@ebay/muse-craco-plugin": "3.0.0",
     "@ebay/muse-cra-patch": "^1.0.1",
+    "@ebay/muse-craco-plugin": "3.0.0",
     "@ebay/muse-dev-utils": "1.0.30",
     "@ebay/muse-ebay-dev": "1.0.3",
     "@ebay/muse-express-middleware": "1.0.26",
@@ -53,6 +53,7 @@
     "@ebay/muse-plugin-acl": "1.0.6",
     "@headlessui/react": "1.7.0",
     "@heroicons/react": "2.0.10",
+    "antd": "^5.1.7",
     "find-root": "1.1.0",
     "lodash": "4.17.21",
     "pretty-ms": "7.0.1",
@@ -62,7 +63,7 @@
     "semver": "7.3.7",
     "web-vitals": "2.1.4"
   },
-  "pnpm2": {
+  "pnpm": {
     "overrides": {
       "@ebay/muse-webpack-plugin": "link:../../workspace/packages/muse-webpack-plugin",
       "@ebay/muse-dev-utils": "link:../../workspace/packages/muse-dev-utils",

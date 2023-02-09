@@ -55,7 +55,7 @@ export default function AppIcon({ app, form }) {
     : defaultIcon;
   return (
     <>
-      <div className="fixed -left-full">
+      <div className="fixed -left-full hidden">
         <span className="font-['Leckerli_One']">a</span>
         <span className="font-['Aclonica']">a</span>
         <span className="font-['Asap']">a</span>

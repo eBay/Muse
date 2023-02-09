@@ -5,7 +5,9 @@ import * as icons from '@ant-design/icons';
 import * as ext from './ext';
 import route from './common/routeConfig';
 import reducer from './common/rootReducer';
-// import './initFormBuilder';
+// import NiceForm from '@ebay/nice-form-react';
+import './initNiceForm';
+
 import './styles/index.less';
 import('antd/dist/reset.css');
 

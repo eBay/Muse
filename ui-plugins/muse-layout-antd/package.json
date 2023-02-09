@@ -5,7 +5,10 @@
   "muse": {
     "devConfig": {
       "app": "nateapp",
-      "env": "staging"
+      "env": "staging",
+      "remotePlugins": [
+        "@ebay/muse-boot-default#boot:http://localhost:3000/boot.js"
+      ]
     }
   },
   "publishConfig": {
@@ -52,11 +55,20 @@
     "react-scripts": "^5.0.1"
   },
   "dependencies": {
+    "@ebay/muse-dev-utils": "link:../../workspace/packages/muse-dev-utils",
     "@ebay/muse-lib-antd": "1.1.2",
     "@ebay/muse-lib-react": "1.1.2",
     "antd": "5.1.7",
     "js-plugin": "1.1.0",
     "lodash": "4.17.21",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "semver": "7.3.7"
+  },
+  "pnpm2": {
+    "overrides": {
+      "@ebay/muse-dev-utils": "link:../../workspace/packages/muse-dev-utils",
+      "@ebay/muse-craco-plugin": "link:../../workspace/packages/muse-craco-plugin"
+    }
   }
 }
