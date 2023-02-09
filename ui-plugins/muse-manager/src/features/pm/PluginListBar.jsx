@@ -31,6 +31,13 @@ export default function PluginListBar({ app }) {
         NiceModal.show('muse-manager.preview-modal', { app });
       },
     },
+    app && {
+      key: 'multi-deployment',
+      label: 'Multi-Deployment',
+      onClick: () => {
+        NiceModal.show('muse-manager.multi-deployment-modal', { app });
+      },
+    },
   ];
 
   dropdownItems.push(
