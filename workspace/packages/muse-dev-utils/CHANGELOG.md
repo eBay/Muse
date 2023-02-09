@@ -1,5 +1,11 @@
 # @ebay/muse-dev-utils
 
+## 1.0.31
+
+### Patch Changes
+
+- support public folder.
+
 ## 1.0.30
 
 ### Patch Changes
