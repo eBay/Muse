@@ -13,10 +13,10 @@ const logger = require('../logger').createLogger('muse.am.getApp');
  * @returns {object} AppObject.
  */
 
-module.exports = async appName => {
+module.exports = async (appName) => {
   validate(schema, appName);
   const ctx = {};
-  logger.info(`Getting app ${appName}...`);
+  logger.verbose(`Getting app ${appName}...`);
   await asyncInvoke('museCore.am.beforeGetApp', ctx, appName);
 
   try {
@@ -29,7 +29,7 @@ module.exports = async appName => {
     throw err;
   }
   await asyncInvoke('museCore.am.afterGetApp', ctx, appName);
-  logger.info(`Get app success: ${appName}`);
+  logger.verbose(`Get app success: ${appName}`);
 
   return ctx.app;
 };

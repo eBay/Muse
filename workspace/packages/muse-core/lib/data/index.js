@@ -12,12 +12,12 @@ const get = async (key, { noCache } = {}) => {
   // If there's cache provider, always get it from cache
   plugin.invoke(`museCore.data.beforeGet`, key);
   if (!noCache && plugin.getPlugins('museCore.data.cache.get').length > 0) {
-    logger.info(`Getting data from cache: ${key}`);
+    logger.verbose(`Getting data from cache: ${key}`);
     const value = await asyncInvokeFirst('museCore.data.cache.get', key);
     if (!value) return null;
     return JSON.parse(value.toString());
   } else {
-    logger.info(`Getting data without cache: ${key}`);
+    logger.verbose(`Getting data without cache: ${key}`);
     return await builder.get(key);
   }
 };
@@ -38,12 +38,12 @@ const setCache = async (key, value) => {
  * @description It is used to build cache data at dev time for prod usage
  * @param {string} key
  */
-const refreshCache = async key => {
+const refreshCache = async (key) => {
   if (!key) {
     throw new Error(`Key is missing in museCore.data.refreshCache.`);
   }
   plugin.invoke(`museCore.data.beforeRefreshCache`, key);
-  logger.info(`Refreshing data cache: ${key}`);
+  logger.verbose(`Refreshing data cache: ${key}`);
   // The value must be a json
   const value = await builder.get(key, { noCache: true });
   await setCache(key, value);
@@ -64,11 +64,11 @@ const syncCache = async () => {
  * @param { string | array} keys  - Changed keys in the storage
  */
 const handleDataChange = async (type, keys) => {
-  logger.info(`Handling data sourche change: ${keys}`);
+  logger.verbose(`Handling data sourche change: ${keys}`);
   const museDataKeys = builder.getMuseDataKeysByRawKeys(type, keys);
-  logger.info(`Refershing data for keys: ${museDataKeys}`);
+  logger.verbose(`Refershing data for keys: ${museDataKeys}`);
   await batchAsync(
-    museDataKeys.map(k => async () => {
+    museDataKeys.map((k) => async () => {
       await makeRetryAble(refreshCache, { times: 5, msg: `Refreshing muse data cache ${k}...` })(k);
     }),
     { size: 50, msg: 'batch refresh cache' },

@@ -11,16 +11,16 @@ const logger = require('../logger').createLogger('muse.am.getApps');
  * @param {*} [params] Args to get all apps.
  * @returns {object[]} List of app object.
  */
-module.exports = async params => {
+module.exports = async (params) => {
   const ctx = {};
-  logger.info(`Getting apps...`);
+  logger.verbose(`Getting apps...`);
   await asyncInvoke('museCore.am.beforeGetApps', ctx, params);
   try {
     const items = await registry.list('/apps');
     await batchAsync(
       items
-        .filter(item => item.type === 'dir')
-        .map(item => async () => {
+        .filter((item) => item.type === 'dir')
+        .map((item) => async () => {
           item.content = await makeRetryAble(async (...args) => registry.get(...args), {
             times: 5,
             msg: `Getting app ${item.name}...`,
@@ -31,7 +31,7 @@ module.exports = async params => {
         msg: 'Getting app yaml',
       },
     );
-    ctx.apps = items.map(item => jsonByYamlBuff(item.content)).filter(Boolean);
+    ctx.apps = items.map((item) => jsonByYamlBuff(item.content)).filter(Boolean);
     await asyncInvoke('museCore.am.getApps', ctx, params);
   } catch (err) {
     ctx.error = err;
@@ -39,6 +39,6 @@ module.exports = async params => {
     throw err;
   }
   await asyncInvoke('museCore.am.afterGetApps', ctx, params);
-  logger.info(`Get apps success.`);
+  logger.verbose(`Get apps success.`);
   return ctx.apps;
 };
