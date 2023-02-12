@@ -1,13 +1,12 @@
 // import React from 'react';
-import FormBuilder from 'antd-form-builder';
 import NiceForm from '@ebay/nice-form-react';
 import AppIcon from './app-icon/AppIcon';
 import jsPlugin from 'js-plugin';
+import utils from '@ebay/muse-lib-antd/src/utils';
 import { Form } from 'antd';
 import _ from 'lodash';
 
 export default function AppBasicInfo({ app }) {
-  console.log('render');
   const meta = {
     viewMode: true,
     initialValues: app,
@@ -59,8 +58,10 @@ export default function AppBasicInfo({ app }) {
     ],
   };
 
-  jsPlugin.invoke('museManager.appBasicInfo.processMeta', { meta, app });
-  jsPlugin.sort(meta.fields);
+  utils.extendFormMeta(meta, 'museManager.appBasicInfo', { meta, app });
+
+  // jsPlugin.invoke('museManager.appBasicInfo.processMeta', { meta, app });
+  // jsPlugin.sort(meta.fields);
   return (
     <Form>
       <NiceForm meta={meta}></NiceForm>

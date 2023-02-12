@@ -1,15 +1,15 @@
 import { useCallback } from 'react';
 import { Modal, Form, Button, Alert } from 'antd';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
-import FormBuilder from 'antd-form-builder';
+import NiceForm from '@ebay/nice-form-react';
+import _ from 'lodash';
 import { useMuseApi, useSyncStatus } from '../../hooks';
-import NiceModal, { useModal, antdModal } from '@ebay/nice-modal-react';
-import jsPlugin from 'js-plugin';
+import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
+import utils from '@ebay/muse-lib-antd/src/utils';
 
 export default NiceModal.create(function AddEnvModal({ app }) {
   const modal = useModal();
   const [form] = Form.useForm();
-  const forceUpdate = FormBuilder.useForceUpdate();
   const syncStatus = useSyncStatus(`muse.app.${app.name}`);
   const {
     action: addAppEnv,
@@ -22,11 +22,11 @@ export default NiceModal.create(function AddEnvModal({ app }) {
   }, [modal]);
 
   const handleAddAppEnv = useCallback(() => {
-    form.validateFields().then(values => {
+    form.validateFields().then((values) => {
       values.baseEnv = `${app.name}/${values.baseEnv}`;
       const updatedValues = Object.assign({ appName: app.name }, values);
       addAppEnv(updatedValues)
-        .then(res => {
+        .then((res) => {
           let content = '';
           if (values.type === 'production') {
             content = (
@@ -52,7 +52,7 @@ export default NiceModal.create(function AddEnvModal({ app }) {
             },
           });
         })
-        .catch(err => {
+        .catch((err) => {
           return;
         });
     });
@@ -110,13 +110,15 @@ export default NiceModal.create(function AddEnvModal({ app }) {
     ].filter(Boolean),
   };
 
-  jsPlugin.invoke('museManager.addEnvForm.processMeta', { meta, app, form });
-
-  jsPlugin.sort(meta.fields);
-
+  const { watchingFields } = utils.extendFormMeta(meta, 'museManager.addEnvForm', {
+    meta,
+    app,
+    form,
+  });
+  const updateOnChange = NiceForm.useUpdateOnChange(watchingFields);
   return (
     <Modal
-      {...antdModal(modal)}
+      {...antdModalV5(modal)}
       className="muse-app-manager_home-add-env-modal"
       title={`Add Environment for: ${app.name}`}
       width="600px"
@@ -138,8 +140,12 @@ export default NiceModal.create(function AddEnvModal({ app }) {
           style={{ marginBottom: '20px' }}
         />
       ) : null}
-      <Form form={form} style={{ marginLeft: '-20px', width: '100%' }} onValuesChange={forceUpdate}>
-        <FormBuilder meta={meta} form={form} />
+      <Form
+        form={form}
+        style={{ marginLeft: '-20px', width: '100%' }}
+        onValuesChange={updateOnChange}
+      >
+        <NiceForm meta={meta} />
       </Form>
     </Modal>
   );

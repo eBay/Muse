@@ -111,7 +111,7 @@ muse.plugin.register({
         if (process.env.MUSE_REMOTE_PLUGINS) {
           remotePlugins.push(...process.env.MUSE_REMOTE_PLUGINS.split(';').map((s) => _.trim(s)));
         }
-        console.log('remote plugins:', remotePlugins);
+
         // if a plugin is defined by url like plugin-name#type:http://localhost:3030/main.js then it's loaded as a plugin
         // it could come from remotePlugins or MUSE_REMOTE_PLUGINS
         const urlPlugins = remotePlugins

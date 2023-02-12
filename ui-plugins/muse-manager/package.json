@@ -13,9 +13,7 @@
         }
       },
       "remotePlugins": [
-        "*",
-        "@ebay/muse-lib-antd",
-        "@ebay/muse-layout-antd"
+        "*"
       ]
     }
   },
@@ -51,19 +49,22 @@
     "@ebay/muse-lib-antd": "1.1.2",
     "@ebay/muse-lib-react": "1.1.2",
     "@ebay/muse-plugin-acl": "1.0.6",
+    "@ebay/nice-form-react": "^1.0.5",
     "@headlessui/react": "1.7.0",
     "@heroicons/react": "2.0.10",
     "antd": "^5.1.7",
     "find-root": "1.1.0",
     "lodash": "4.17.21",
     "pretty-ms": "7.0.1",
+    "react": "^18.2.0",
     "react-color": "^2.19.3",
+    "react-dom": "^18.2.0",
     "react-markdown": "6.0.3",
     "react-time-ago": "^7.2.1",
     "semver": "7.3.7",
     "web-vitals": "2.1.4"
   },
-  "pnpm": {
+  "pnpm2": {
     "overrides": {
       "@ebay/muse-webpack-plugin": "link:../../workspace/packages/muse-webpack-plugin",
       "@ebay/muse-dev-utils": "link:../../workspace/packages/muse-dev-utils",
