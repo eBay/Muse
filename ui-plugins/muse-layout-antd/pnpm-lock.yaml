@@ -40,7 +40,7 @@ devDependencies:
   '@craco/craco': 7.0.0_react-scripts@5.0.1
   '@ebay/muse-core': 1.0.28
   '@ebay/muse-cra-patch': 1.0.1
-  '@ebay/muse-craco-plugin': link:../../workspace/packages/muse-craco-plugin
+  '@ebay/muse-craco-plugin': 3.0.0_zn3b3rg7a76ksmoalqt6s3i4aq
   '@ebay/muse-ebay-dev': 1.0.3_@ebay+muse-core@1.0.28
   '@zarconontol/enzyme-adapter-react-18': 0.7.3_todk22eekuihjg65rlnudp4qdi
   craco-less: 2.0.0_5ial7dl5a2d4aztokzwa5qionq
@@ -2024,6 +2024,33 @@ packages:
       resolve-cwd: 3.0.0
     dev: true
 
+  /@ebay/muse-craco-plugin/3.0.0_zn3b3rg7a76ksmoalqt6s3i4aq:
+    resolution: {integrity: sha1-c5cJuvAzKPKHCCOtXqavNM2ZNcs=, tarball: '@ebay/muse-craco-plugin/-/@ebay/muse-craco-plugin-3.0.0.tgz'}
+    peerDependencies:
+      '@craco/craco': 7.0.0
+    dependencies:
+      '@craco/craco': 7.0.0_react-scripts@5.0.1
+      '@ebay/muse-dev-utils': 1.0.31_@ebay+muse-core@1.0.28
+      '@ebay/muse-webpack-plugin': 1.0.27
+      resolve-cwd: 3.0.0
+    transitivePeerDependencies:
+      - '@ebay/muse-core'
+      - express
+    dev: true
+
+  /@ebay/muse-dev-utils/1.0.31_@ebay+muse-core@1.0.28:
+    resolution: {integrity: sha1-Dx08UZBUOiKLlFul/lIvZA4veh4=, tarball: '@ebay/muse-dev-utils/-/@ebay/muse-dev-utils-1.0.31.tgz'}
+    peerDependencies:
+      '@ebay/muse-core': ^1.0.28
+      express: ^4.18.1
+    dependencies:
+      '@ebay/muse-core': 1.0.28
+      '@ebay/muse-express-middleware': 1.0.30_@ebay+muse-core@1.0.28
+      dotenv: 16.0.3
+      lodash: 4.17.21
+      resolve-cwd: 3.0.0
+    dev: true
+
   /@ebay/muse-ebay-dev/1.0.3_@ebay+muse-core@1.0.28:
     resolution: {integrity: sha1-k4u7ZmUj9vGwicqkoiuwP8YPSf4=, tarball: '@ebay/muse-ebay-dev/-/@ebay/muse-ebay-dev-1.0.3.tgz'}
     hasBin: true
@@ -2038,6 +2065,18 @@ packages:
       semver: 7.3.8
     transitivePeerDependencies:
       - debug
+    dev: true
+
+  /@ebay/muse-express-middleware/1.0.30_@ebay+muse-core@1.0.28:
+    resolution: {integrity: sha1-zGV2PIQVZrBTqGiJjadoYpMxViY=, tarball: '@ebay/muse-express-middleware/-/@ebay/muse-express-middleware-1.0.30.tgz'}
+    peerDependencies:
+      '@ebay/muse-core': ^1.0.28
+    dependencies:
+      '@ebay/muse-core': 1.0.28
+      lodash: 4.17.21
+      mime-types: 2.1.35
+      multer: 1.4.5-lts.1
+      request-ip: 3.3.0
     dev: true
 
   /@ebay/muse-lib-antd/1.1.2_biqbaboplfbrettd7655fr4n2y:
@@ -2090,6 +2129,18 @@ packages:
       - '@types/react-dom'
       - react-native
     dev: false
+
+  /@ebay/muse-modules/1.0.22:
+    resolution: {integrity: sha1-hj8so86V1MKrbqG/1r//0AkzZgE=, tarball: '@ebay/muse-modules/-/@ebay/muse-modules-1.0.22.tgz'}
+    dev: true
+
+  /@ebay/muse-webpack-plugin/1.0.27:
+    resolution: {integrity: sha1-gfv2JV3EIbwyvGkTDzTdXN+Ghh0=, tarball: '@ebay/muse-webpack-plugin/-/@ebay/muse-webpack-plugin-1.0.27.tgz'}
+    dependencies:
+      '@ebay/muse-modules': 1.0.22
+      json-parse-better-errors: 1.0.2
+      resolve-cwd: 3.0.0
+    dev: true
 
   /@ebay/nice-modal-react/1.2.8_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha1-Mwm82OpsDlwKrfnDVg9qwLlhzx8=}
@@ -3506,10 +3557,8 @@ packages:
       - supports-color
     dev: true
 
-  /ajv-formats/2.1.1_ajv@8.12.0:
+  /ajv-formats/2.1.1:
     resolution: {integrity: sha1-bmaUAGWet0lzu/LjMycYCgmWtSA=}
-    peerDependencies:
-      ajv: ^8.0.0
     peerDependenciesMeta:
       ajv:
         optional: true
@@ -3743,6 +3792,10 @@ packages:
     dependencies:
       normalize-path: 3.0.0
       picomatch: 2.3.1
+    dev: true
+
+  /append-field/1.0.0:
+    resolution: {integrity: sha1-HjRA6RXwsSA9I3SOeO3XubW0PlY=}
     dev: true
 
   /archive-type/4.0.0:
@@ -4338,6 +4391,13 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
+  /busboy/1.6.0:
+    resolution: {integrity: sha1-lm6japUC5DzbkUaWJSO5L1MfaJM=}
+    engines: {node: '>=10.16.0'}
+    dependencies:
+      streamsearch: 1.1.0
+    dev: true
+
   /bytes/3.0.0:
     resolution: {integrity: sha1-0ygVQE1olpn4Wk6k+odV3ROpYEg=}
     engines: {node: '>= 0.8'}
@@ -4736,6 +4796,16 @@ packages:
 
   /concat-map/0.0.1:
     resolution: {integrity: sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=}
+    dev: true
+
+  /concat-stream/1.6.2:
+    resolution: {integrity: sha1-kEvfGUzTEi/Gdcd/xKw9T/D9GjQ=}
+    engines: {'0': node >= 0.8}
+    dependencies:
+      buffer-from: 1.1.2
+      inherits: 2.0.4
+      readable-stream: 2.3.7
+      typedarray: 0.0.6
     dev: true
 
   /confusing-browser-globals/1.0.11:
@@ -8398,6 +8468,10 @@ packages:
     resolution: {integrity: sha1-Wx85evx11ne96Lz8Dkfh+aPZqJg=}
     dev: true
 
+  /json-parse-better-errors/1.0.2:
+    resolution: {integrity: sha1-u4Z8+zRQ5pEHwTHRxRS6s9yLyqk=}
+    dev: true
+
   /json-parse-even-better-errors/2.3.1:
     resolution: {integrity: sha1-fEeAWpQxmSjgV3dAXcEuH3pO4C0=}
     dev: true
@@ -8966,6 +9040,19 @@ packages:
 
   /ms/2.1.3:
     resolution: {integrity: sha1-V0yBOM4dK1hh8LRFedut1gxmFbI=}
+    dev: true
+
+  /multer/1.4.5-lts.1:
+    resolution: {integrity: sha1-gD4krRmE9Y7f+8efVuMFrsXP0aw=}
+    engines: {node: '>= 6.0.0'}
+    dependencies:
+      append-field: 1.0.0
+      busboy: 1.6.0
+      concat-stream: 1.6.2
+      mkdirp: 0.5.6
+      object-assign: 4.1.1
+      type-is: 1.6.18
+      xtend: 4.0.2
     dev: true
 
   /multicast-dns/7.2.5:
@@ -11462,12 +11549,6 @@ packages:
   /react-dev-utils/12.0.1_nkwuvqep7k7zzhloz3wxbhr4hq:
     resolution: {integrity: sha1-upLttKHzeb1GzNa81Oe8OY3zPnM=}
     engines: {node: '>=14'}
-    peerDependencies:
-      typescript: '>=2.7'
-      webpack: '>=4'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
     dependencies:
       '@babel/code-frame': 7.18.6
       address: 1.2.2
@@ -11497,7 +11578,9 @@ packages:
     transitivePeerDependencies:
       - eslint
       - supports-color
+      - typescript
       - vue-template-compiler
+      - webpack
     dev: true
 
   /react-dom/18.2.0_react@18.2.0:
@@ -11970,6 +12053,10 @@ packages:
       strip-ansi: 6.0.1
     dev: true
 
+  /request-ip/3.3.0:
+    resolution: {integrity: sha1-hjRR6P7AOEfUTyI+MKXWPjafphE=}
+    dev: true
+
   /require-directory/2.1.1:
     resolution: {integrity: sha1-jGStX9MNqxyXbiNE/+f3kqam30I=}
     engines: {node: '>=0.10.0'}
@@ -12228,7 +12315,7 @@ packages:
     dependencies:
       '@types/json-schema': 7.0.11
       ajv: 8.12.0
-      ajv-formats: 2.1.1_ajv@8.12.0
+      ajv-formats: 2.1.1
       ajv-keywords: 5.1.0_ajv@8.12.0
     dev: true
 
@@ -12664,6 +12751,11 @@ packages:
     resolution: {integrity: sha1-ocPs1y3b9QCqjTQrC53zj1qlmOM=}
     dependencies:
       mixme: 0.5.5
+    dev: true
+
+  /streamsearch/1.1.0:
+    resolution: {integrity: sha1-QE3R4iR8qUr1VOhBqO8OqiONp2Q=}
+    engines: {node: '>=10.0.0'}
     dev: true
 
   /strict-uri-encode/1.1.0:
@@ -13320,6 +13412,10 @@ packages:
     resolution: {integrity: sha1-qX7nqf9CaRufeD/xvFES/j/KkIA=}
     dependencies:
       is-typedarray: 1.0.0
+    dev: true
+
+  /typedarray/0.0.6:
+    resolution: {integrity: sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=}
     dev: true
 
   /typescript/4.9.3:
