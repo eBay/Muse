@@ -1,8 +1,9 @@
 import { useCallback } from 'react';
 import NiceModal, { useModal, antdModal } from '@ebay/nice-modal-react';
 import { Modal, message, Form } from 'antd';
-import FormBuilder from 'antd-form-builder';
+import NiceForm from '@ebay/nice-form-react';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
+import utils from '@ebay/muse-lib-antd/src/utils';
 import { useSyncStatus, useMuseApi } from '../../hooks';
 const user = window.MUSE_GLOBAL.getUser();
 
@@ -60,10 +61,16 @@ const CreatePluginModal = NiceModal.create(() => {
         message.success('Create plugin success.');
         await syncStatus();
       })
-      .catch(err => {
+      .catch((err) => {
         console.log('failed to deploy', err);
       });
   }, [createPlugin, syncStatus, modal, form]);
+
+  const { watchingFields } = utils.extendFormMeta(meta, 'museManager.createPluginForm', {
+    meta,
+    form,
+  });
+  const updateOnChange = NiceForm.useUpdateOnChange(watchingFields);
 
   return (
     <Modal
@@ -77,8 +84,8 @@ const CreatePluginModal = NiceModal.create(() => {
       }}
     >
       <RequestStatus loading={createPluginPending} error={createPluginError} />
-      <Form layout="horizontal" form={form} onFinish={handleFinish}>
-        <FormBuilder form={form} meta={meta} />
+      <Form layout="horizontal" form={form} onValuesChange={updateOnChange} onFinish={handleFinish}>
+        <NiceForm meta={meta} />
       </Form>
     </Modal>
   );
