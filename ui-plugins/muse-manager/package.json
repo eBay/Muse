@@ -55,6 +55,7 @@
     "@heroicons/react": "2.0.10",
     "echarts": "^5.4.1",
     "echarts-for-react": "^3.0.2",
+    "antd": "^5.1.7",
     "find-root": "1.1.0",
     "lodash": "4.17.21",
     "pretty-ms": "7.0.1",

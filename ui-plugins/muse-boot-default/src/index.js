@@ -57,10 +57,20 @@ async function start() {
     },
     // TODO: get plugin assets public paths (assets in public folder)
     getPublicPath: (pluginName, assetPath) => {
+      if (!assetPath) throw new Error('assetPath is required for getPublicPath method.');
+      assetPath = assetPath.replace(/^\/*/, '');
+      const pluginId = getPluginId(pluginName);
+
+      if (mg.isDev) {
+        // for dev, check if there's local plugins
+        const names = mg.plugins.find((p) => !!p.localPlugins)?.localPlugins;
+        if (names && names.includes(pluginName)) {
+          return `/muse-assets/local/p/${pluginId}/${assetPath}`;
+        }
+      }
       const currentPlugin = window.MUSE_GLOBAL.plugins?.find((p) => p.name === pluginName);
       if (!currentPlugin) return;
       const { version } = currentPlugin || {};
-      const pluginId = getPluginId(pluginName);
       let publicPath = `${window.MUSE_GLOBAL.cdn}/p/${pluginId}/${version}`;
       if (window.MUSE_GLOBAL.isDev || window.MUSE_GLOBAL.isLocal) {
         publicPath = publicPath + `/dev/${assetPath}`;

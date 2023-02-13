@@ -111,7 +111,7 @@ muse.plugin.register({
         if (process.env.MUSE_REMOTE_PLUGINS) {
           remotePlugins.push(...process.env.MUSE_REMOTE_PLUGINS.split(';').map((s) => _.trim(s)));
         }
-
+        console.log('remote plugins:', remotePlugins);
         // if a plugin is defined by url like plugin-name#type:http://localhost:3030/main.js then it's loaded as a plugin
         // it could come from remotePlugins or MUSE_REMOTE_PLUGINS
         const urlPlugins = remotePlugins
@@ -120,7 +120,7 @@ muse.plugin.register({
 
         const localNames = [pkgJson.name];
         const localPlugins = getLocalPlugins();
-        localNames.push(...localPlugins.map((p) => p.name));
+        localNames.push(...localPlugins.map((p) => p.pkg.name));
 
         let realPluginsToLoad = [
           ...plugins.filter(
@@ -175,6 +175,7 @@ muse.plugin.register({
           realPluginsToLoad.push({
             // Show plugin name in browser console
             name: 'LOCAL: ' + localNames.join(','),
+            localPlugins: localNames,
             type: museConfig.type || 'normal',
             url: '/main.js',
             dev: true,
@@ -225,6 +226,17 @@ module.exports = (middlewares) => {
       middleware: express.static(path.join(pkgDir, 'build')),
     };
   });
+
+  const localPlugins = [{ path: process.cwd(), pkg: getPkgJson() }, ...getLocalPlugins()];
+  const localPublicMiddlewares = localPlugins.map((item) => {
+    const id = muse.utils.getPluginId(item.pkg.name);
+    return {
+      name: `muse-local-public-${item.pkg.name}`,
+      path: `/muse-assets/local/p/${id}`,
+      middleware: express.static(path.join(item.path, 'public')),
+    };
+  });
+
   try {
     // It doesn't need history fallback since Muse app middleware handles it.
     const i = _.findIndex(middlewares, (m) => m.name === 'webpack-dev-middleware');
@@ -236,6 +248,7 @@ module.exports = (middlewares) => {
       i + 1,
       0,
       ...localLibMiddlewares,
+      ...localPublicMiddlewares,
       // Local Muse assets server to improve local dev performance
       // Because Muse assets middleware caches resource in local cache folder.
       museAssetsMiddleware({ basePath: '/muse-assets' }),

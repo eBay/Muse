@@ -1,5 +1,13 @@
 # @ebay/muse-craco-plugin
 
+## 3.0.1
+
+### Patch Changes
+
+- support public folder.
+- Updated dependencies
+  - @ebay/muse-dev-utils@1.0.31
+
 ## 3.0.0
 
 ### Major Changes

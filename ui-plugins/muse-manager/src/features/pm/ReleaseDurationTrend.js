@@ -68,7 +68,7 @@ export default function MyResponsiveBar({ plugin }) {
           type: 'inside',
           startValue:
             source?.length >= 21 ? source?.[source.length - 21]?.version : source?.[0]?.version,
-          endValue: source?.[source.length - 1]?.version,
+          endValue: source?.[source?.length - 1]?.version,
         },
       ],
       series: [

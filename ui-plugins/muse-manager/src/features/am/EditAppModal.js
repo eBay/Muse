@@ -1,11 +1,12 @@
 import { useCallback } from 'react';
-import NiceModal, { useModal, antdModal } from '@ebay/nice-modal-react';
+import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
 import { Modal, message, Form } from 'antd';
-import FormBuilder from 'antd-form-builder';
+// import FormBuilder from 'antd-form-builder';
+import _ from 'lodash';
+import NiceForm from '@ebay/nice-form-react';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import { useSyncStatus, useMuseApi } from '../../hooks';
 import plugin from 'js-plugin';
-
 const user = window.MUSE_GLOBAL.getUser();
 const EditAppModal = NiceModal.create(({ app }) => {
   const modal = useModal();
@@ -19,7 +20,6 @@ const EditAppModal = NiceModal.create(({ app }) => {
   } = useMuseApi('am.updateApp');
 
   const meta = {
-    columns: 1,
     initialValues: app,
     fields: [
       {
@@ -33,6 +33,10 @@ const EditAppModal = NiceModal.create(({ app }) => {
 
   plugin.invoke('museManager.updateAppForm.processMeta', { meta, app, form });
   plugin.sort(meta.fields);
+
+  const watches = plugin.invoke('museManager.updateAppForm.watch', { meta, app, form });
+  Form.useWatch([], form);
+  Form.useWatch(_.flatten(watches), form);
 
   const handleFinish = useCallback(() => {
     const values = form.getFieldsValue();
@@ -60,9 +64,9 @@ const EditAppModal = NiceModal.create(({ app }) => {
 
   return (
     <Modal
-      {...antdModal(modal)}
+      {...antdModalV5(modal)}
       title={`Edit App: ${app.name}`}
-      width="600px"
+      width="700px"
       okText={updateAppPending ? 'Updating...' : 'Update'}
       maskClosable={false}
       onOk={() => {
@@ -71,7 +75,7 @@ const EditAppModal = NiceModal.create(({ app }) => {
     >
       <RequestStatus loading={updateAppPending} error={updateAppError} />
       <Form layout="horizontal" form={form} onFinish={handleFinish}>
-        <FormBuilder form={form} meta={meta} />
+        <NiceForm meta={meta} />
       </Form>
     </Modal>
   );
