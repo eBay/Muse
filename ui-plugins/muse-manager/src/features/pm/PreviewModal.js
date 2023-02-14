@@ -1,7 +1,9 @@
 import { useState } from 'react';
-import NiceModal, { useModal, antdModal } from '@ebay/nice-modal-react';
+import NiceModal, { useModal, antdModal, antdModalV5 } from '@ebay/nice-modal-react';
 import { Modal, Form } from 'antd';
-import FormBuilder from 'antd-form-builder';
+// import FormBuilder from 'antd-form-builder';
+import utils from '@ebay/muse-lib-antd/src/utils';
+import NiceForm from '@ebay/nice-form-react';
 import MultiPluginSelector from './MultiPluginSelector';
 import _ from 'lodash';
 import jsPlugin from 'js-plugin';
@@ -11,7 +13,6 @@ const PreviewModal = NiceModal.create(({ app }) => {
   const envNames = Object.keys(envs || {});
   const [form] = Form.useForm();
   const modal = useModal();
-  const forceUpdate = FormBuilder.useForceUpdate();
   const [deployedPlugins, setDeployedPlugins] = useState(
     app.envs[Object.keys(app.envs)[0]].plugins,
   );
@@ -31,13 +32,13 @@ const PreviewModal = NiceModal.create(({ app }) => {
         initialValue: envNames?.[0],
         required: true,
         widgetProps: {
-          onChange: e => {
+          onChange: (e) => {
             const deployedPlugins = envs?.[e.target.value]?.plugins || [];
             const selectedRemovedPlugins = form.getFieldValue('pluginsToRemove');
             setDeployedPlugins(deployedPlugins);
             form.setFieldsValue({
-              pluginsToRemove: selectedRemovedPlugins.filter(name =>
-                deployedPlugins.find(d => d.name === name),
+              pluginsToRemove: selectedRemovedPlugins.filter((name) =>
+                deployedPlugins.find((d) => d.name === name),
               ),
             });
           },
@@ -57,7 +58,7 @@ const PreviewModal = NiceModal.create(({ app }) => {
         widget: 'select',
         placeholder: 'Select which plugins to remove',
         widgetProps: { mode: 'multiple', allowClear: true },
-        options: deployedPlugins?.map(p => ({ value: p.name, label: p.name })),
+        options: deployedPlugins?.map((p) => ({ value: p.name, label: p.name })),
       },
       {
         key: 'link',
@@ -72,7 +73,7 @@ const PreviewModal = NiceModal.create(({ app }) => {
           } = form.getFieldsValue();
           if (!pluginToAdd?.length && !pluginsToRemove?.length && !environment) return 'N/A';
           const forcePlugins = (pluginToAdd || []).concat(
-            pluginsToRemove?.map(pName => ({ name: pName, version: null })) || [],
+            pluginsToRemove?.map((pName) => ({ name: pName, version: null })) || [],
           );
           const host =
             'https://' +
@@ -80,7 +81,7 @@ const PreviewModal = NiceModal.create(({ app }) => {
             `?clientCode=${window.MUSE_GLOBAL.museClientCode}&forcePlugins=` +
             forcePlugins
               .map(({ name, version }) => {
-                const type = allPlugins?.find(p => p.name === name)?.type;
+                const type = allPlugins?.find((p) => p.name === name)?.type;
                 return `${name}!${type}@${version}`;
               })
               .join(';');
@@ -98,10 +99,15 @@ const PreviewModal = NiceModal.create(({ app }) => {
       },
     ],
   };
-
+  utils.extendFormMeta(meta, 'museManager.previewModalForm', {
+    meta,
+    form,
+    app,
+  });
+  const updateOnChange = NiceForm.useUpdateOnChange('*');
   return (
     <Modal
-      {...antdModal(modal)}
+      {...antdModalV5(modal)}
       className="plugin-manager-ebay_preview-modal"
       title={`Preview Link Generator`}
       maskClosable={false}
@@ -113,8 +119,8 @@ const PreviewModal = NiceModal.create(({ app }) => {
         If you want to verify a release (usually for new release) manually, or send other for
         review, you can use the generated link to load plugins with specific versions.
       </p>
-      <Form layout="horizontal" form={form} onValuesChange={forceUpdate}>
-        <FormBuilder form={form} meta={meta} />
+      <Form layout="horizontal" form={form} onValuesChange={updateOnChange}>
+        <NiceForm meta={meta} />
       </Form>
     </Modal>
   );

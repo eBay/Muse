@@ -13,7 +13,7 @@ specifiers:
   '@ebay/muse-lib-antd': 1.1.2
   '@ebay/muse-lib-react': 1.1.2
   '@ebay/muse-plugin-acl': 1.0.6
-  '@ebay/nice-form-react': ^1.0.5
+  '@ebay/nice-form-react': ^1.0.7
   '@headlessui/react': 1.7.0
   '@heroicons/react': 2.0.10
   '@testing-library/jest-dom': ^5.16.4
@@ -44,7 +44,7 @@ dependencies:
   '@ebay/muse-lib-antd': 1.1.2_biqbaboplfbrettd7655fr4n2y
   '@ebay/muse-lib-react': 1.1.2
   '@ebay/muse-plugin-acl': 1.0.6
-  '@ebay/nice-form-react': 1.0.5
+  '@ebay/nice-form-react': 1.0.7
   '@headlessui/react': 1.7.0_biqbaboplfbrettd7655fr4n2y
   '@heroicons/react': 2.0.10_react@18.2.0
   antd: 5.1.7_biqbaboplfbrettd7655fr4n2y
@@ -2163,8 +2163,8 @@ packages:
       resolve-cwd: 3.0.0
     dev: true
 
-  /@ebay/nice-form-react/1.0.5:
-    resolution: {integrity: sha1-iXLtp7PWlsZjWjXAQNGQ88t1N5U=, tarball: '@ebay/nice-form-react/-/@ebay/nice-form-react-1.0.5.tgz'}
+  /@ebay/nice-form-react/1.0.7:
+    resolution: {integrity: sha1-5W6uD4EQekglXeUgEaT8AwcnpuY=, tarball: '@ebay/nice-form-react/-/@ebay/nice-form-react-1.0.7.tgz'}
     dev: false
 
   /@ebay/nice-modal-react/1.2.8_biqbaboplfbrettd7655fr4n2y:

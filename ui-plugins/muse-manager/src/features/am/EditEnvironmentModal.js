@@ -1,10 +1,11 @@
 import { useCallback } from 'react';
-import NiceModal, { useModal, antdModal } from '@ebay/nice-modal-react';
+import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
 import { Form, Modal, message } from 'antd';
-import FormBuilder from 'antd-form-builder';
+import utils from '@ebay/muse-lib-antd/src/utils';
+import NiceForm from '@ebay/nice-form-react';
+// import FormBuilder from 'antd-form-builder';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import { useSyncStatus, useMuseApi } from '../../hooks';
-import plugin from 'js-plugin';
 
 const user = window.MUSE_GLOBAL.getUser();
 
@@ -13,27 +14,18 @@ const EditEnvironmentModal = NiceModal.create(({ env, app }) => {
   const modal = useModal();
   const [form] = Form.useForm();
 
-  console.log(env);
   const {
     action: updateEnv,
     error: updateEnvError,
     pending: updateEnvPending,
   } = useMuseApi('am.updateEnv');
 
-  const meta = {
-    columns: 1,
-    initialValues: { ...env, envName: env.name },
-    fields: [],
-  };
-
-  plugin.invoke('museManager.editEnvForm.processMeta', { meta, form, env });
-
   const handleFinish = useCallback(() => {
     const values = form.getFieldsValue();
 
     updateEnv({
       changes: {
-        set: Object.entries({ ...values }).map(item => {
+        set: Object.entries({ ...values }).map((item) => {
           return { path: item[0], value: item[1] };
         }),
       },
@@ -46,14 +38,27 @@ const EditEnvironmentModal = NiceModal.create(({ env, app }) => {
         message.success('Update environment success.');
         await syncStatus();
       })
-      .catch(err => {
+      .catch((err) => {
         console.log('failed to update environment', err);
       });
   }, [updateEnv, modal, form, syncStatus, app, env]);
 
+  const meta = {
+    columns: 1,
+    initialValues: { ...env, envName: env.name },
+    fields: [],
+  };
+
+  const { watchingFields } = utils.extendFormMeta(meta, 'museManager.editEnvForm', {
+    meta,
+    form,
+    env,
+  });
+  const updateOnChange = NiceForm.useUpdateOnChange(watchingFields);
+
   return (
     <Modal
-      {...antdModal(modal)}
+      {...antdModalV5(modal)}
       title={`Edit Environment`}
       width="600px"
       okText="Update"
@@ -63,8 +68,8 @@ const EditEnvironmentModal = NiceModal.create(({ env, app }) => {
       }}
     >
       <RequestStatus loading={updateEnvPending} error={updateEnvError} />
-      <Form layout="horizontal" form={form} onFinish={handleFinish}>
-        <FormBuilder form={form} meta={meta} />
+      <Form layout="horizontal" form={form} onValuesChange={updateOnChange} onFinish={handleFinish}>
+        <NiceForm meta={meta} />
       </Form>
     </Modal>
   );

@@ -1,7 +1,9 @@
 import { useCallback } from 'react';
-import NiceModal, { useModal, antdModal } from '@ebay/nice-modal-react';
+import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
 import { Modal, Button, Form, message } from 'antd';
-import FormBuilder from 'antd-form-builder';
+import utils from '@ebay/muse-lib-antd/src/utils';
+import NiceForm from '@ebay/nice-form-react';
+// import FormBuilder from 'antd-form-builder';
 import { useMuseApi, useSyncStatus } from '../../hooks';
 
 import PluginReleaseSelect from './PluginReleaseSelect';
@@ -18,6 +20,7 @@ const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
 
   const meta = {
     columns: 1,
+    disabled: deployPluginPending,
     elements: [
       {
         key: 'appName',
@@ -69,7 +72,7 @@ const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
         //   },
         // });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log('failed to deploy', err);
       });
   }, [app.name, plugin.name, modal, form, syncStatus, deployPlugin]);
@@ -114,10 +117,17 @@ const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
       },
     },
   ];
-
+  const { watchingFields } = utils.extendFormMeta(meta, 'museManager.deployPluginForm', {
+    meta,
+    form,
+    app,
+    plugin,
+    version,
+  });
+  const updateOnChange = NiceForm.useUpdateOnChange(watchingFields);
   return (
     <Modal
-      {...antdModal(modal)}
+      {...antdModalV5(modal)}
       title={`Deploy Plugin`}
       maskClosable={false}
       width="600px"
@@ -127,8 +137,8 @@ const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
       ))}
     >
       <RequestStatus loading={deployPluginPending} error={deployPluginError} />
-      <Form layout="horizontal" form={form} onFinish={handleFinish}>
-        <FormBuilder disabled={deployPluginPending} form={form} meta={meta} />
+      <Form layout="horizontal" form={form} onValuesChange={updateOnChange} onFinish={handleFinish}>
+        <NiceForm meta={meta} />
       </Form>
     </Modal>
   );
