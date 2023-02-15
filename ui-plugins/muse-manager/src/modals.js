@@ -11,6 +11,7 @@ import ReleasesDrawer from './features/pm/ReleasesDrawer';
 import EditEnvironmentModal from './features/am/EditEnvironmentModal';
 import AddEnvironmentModal from './features/am/AddEnviromentModal';
 import PreviewModal from './features/pm/PreviewModal';
+import MultiDeploymentModal from './features/pm/MultiDeploymentModal';
 
 register('muse-manager.create-app-modal', CreateAppModal);
 register('muse-manager.edit-app-modal', EditAppModal);
@@ -24,3 +25,4 @@ register('muse-manager.preview-modal', PreviewModal);
 register('muse-manager.add-env-modal', AddEnvironmentModal);
 register('muse-manager.edit-app-variables-modal', EditAppVariablesModal);
 register('muse-manager.edit-plugin-variables-modal', EditPluginVariablesModal);
+register('muse-manager.multi-deployment-modal', MultiDeploymentModal);

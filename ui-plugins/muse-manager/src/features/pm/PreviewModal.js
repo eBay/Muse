@@ -115,7 +115,7 @@ const PreviewModal = NiceModal.create(({ app }) => {
       okText="Close"
       cancelButtonProps={{ style: { display: 'none' } }}
     >
-      <p className="form-help">
+      <p className="p-5 bg-gray-50 text-neutral-500">
         If you want to verify a release (usually for new release) manually, or send other for
         review, you can use the generated link to load plugins with specific versions.
       </p>
