@@ -46,7 +46,7 @@
   },
   "dependencies": {
     "@ebay/muse-client": "1.0.19",
-    "@ebay/muse-lib-antd": "^1.1.4",
+    "@ebay/muse-lib-antd": "1.1.4",
     "@ebay/muse-lib-react": "1.1.2",
     "@ebay/muse-plugin-acl": "1.0.7",
     "@ebay/nice-form-react": "^1.0.7",
@@ -58,9 +58,7 @@
     "find-root": "1.1.0",
     "lodash": "4.17.21",
     "pretty-ms": "7.0.1",
-    "react": "^18.2.0",
     "react-color": "^2.19.3",
-    "react-dom": "^18.2.0",
     "react-markdown": "6.0.3",
     "react-time-ago": "^7.2.1",
     "semver": "7.3.7",

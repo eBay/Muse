@@ -1,5 +1,11 @@
 # @ebay/muse-lib-antd
 
+## 1.1.3
+
+### Patch Changes
+
+- upgrade to antd5 and nice-form
+
 ## 1.1.2
 
 ### Patch Changes
