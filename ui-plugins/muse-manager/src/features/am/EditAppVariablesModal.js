@@ -1,10 +1,13 @@
 import { useCallback } from 'react';
-import NiceModal, { useModal, antdModal } from '@ebay/nice-modal-react';
+import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
 import { Modal, message, Form } from 'antd';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
-import { useSyncStatus, useMuseApi } from '../../hooks';
-import FormBuilder from 'antd-form-builder';
+import utils from '@ebay/muse-lib-antd/src/utils';
+import NiceForm from '@ebay/nice-form-react';
+// import FormBuilder from 'antd-form-builder';
 import { CloseOutlined, CheckOutlined } from '@ant-design/icons';
+import { useSyncStatus, useMuseApi } from '../../hooks';
+
 const EditAppVariablesModal = NiceModal.create(({ app, env }) => {
   const modal = useModal();
   const [form] = Form.useForm();
@@ -16,7 +19,7 @@ const EditAppVariablesModal = NiceModal.create(({ app, env }) => {
     pending: updateAppPending,
   } = useMuseApi('am.updateApp');
 
-  const propertiesToJSON = str => {
+  const propertiesToJSON = (str) => {
     const sanitizedLines = str
       // Concat lines that end with '\'.
       .replace(/\\\n( )*/g, '')
@@ -37,7 +40,7 @@ const EditAppVariablesModal = NiceModal.create(({ app, env }) => {
     return populatedJson;
   };
 
-  const populateEnvVariablesInputField = environmentVars => {
+  const populateEnvVariablesInputField = (environmentVars) => {
     let propertyVariables = '';
     // we check if we have "variables" section, and transform the js object into "properties" string format
     if (environmentVars) {
@@ -99,14 +102,20 @@ const EditAppVariablesModal = NiceModal.create(({ app, env }) => {
         message.success('Update app success.');
         await syncStatus();
       })
-      .catch(err => {
+      .catch((err) => {
         console.log('failed to update', err);
       });
   }, [updateApp, syncStatus, modal, form, app, env]);
 
+  const { watchingFields } = utils.extendFormMeta(sectionMeta, 'museManager.editAppVariablesForm', {
+    meta: sectionMeta,
+    form,
+  });
+  const updateOnChange = NiceForm.useUpdateOnChange(watchingFields);
+
   return (
     <Modal
-      {...antdModal(modal)}
+      {...antdModalV5(modal)}
       title={`Edit ${env ? `[${env}]` : '[Default]'} Application Variables`}
       width="800px"
       centered
@@ -131,8 +140,13 @@ const EditAppVariablesModal = NiceModal.create(({ app, env }) => {
         }}
       >
         <RequestStatus loading={updateAppPending} error={updateAppError} />
-        <Form layout="horizontal" form={form} onFinish={handleFinish}>
-          <FormBuilder meta={sectionMeta} form={form} viewMode={false} />
+        <Form
+          layout="horizontal"
+          form={form}
+          onValuesChange={updateOnChange}
+          onFinish={handleFinish}
+        >
+          <NiceForm meta={sectionMeta} />
         </Form>
       </div>
     </Modal>

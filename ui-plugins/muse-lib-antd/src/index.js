@@ -7,6 +7,7 @@ import route from './common/routeConfig';
 import reducer from './common/rootReducer';
 // import NiceForm from '@ebay/nice-form-react';
 import './initNiceForm';
+import utils from './utils';
 
 import './styles/index.less';
 import('antd/dist/reset.css');
@@ -26,8 +27,5 @@ if (theme === 'dark' || document.location.search.includes('theme=dark')) {
   // themeLoader = import('antd/dist/antd.css');
 }
 
-// if (window.MUSE_LOADER && themeLoader) window.MUSE_LOADER.waitFor(themeLoader);
-// window.MUSE_GLOBAL.waitFor?.(themeLoader);
-
 // Use this trick to force include all antd's modules into the library.
-export default { antd, icons };
+export default { antd, icons, utils };

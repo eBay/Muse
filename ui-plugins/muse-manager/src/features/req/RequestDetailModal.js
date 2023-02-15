@@ -1,18 +1,21 @@
 import _ from 'lodash';
-import NiceModal, { useModal, antdModal } from '@ebay/nice-modal-react';
-import { Modal, Tag } from 'antd';
-import FormBuilder from 'antd-form-builder';
+import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
+import { Modal, Tag, Form } from 'antd';
+import NiceForm from '@ebay/nice-form-react';
+// import FormBuilder from 'antd-form-builder';
 import prettyMs from 'pretty-ms';
 import TimeAgo from 'react-time-ago';
-import plugin from 'js-plugin';
+import utils from '@ebay/muse-lib-antd/src/utils';
 import CiOutput from '../common/CiOutput';
 
 const RequestDetailModal = NiceModal.create(({ request, status }) => {
   const modal = useModal();
+  const [form] = Form.useForm();
   const meta = {
     columns: 2,
+    viewMode: true,
     initialValues: { ...request, status },
-    elements: [
+    fields: [
       {
         key: 'payload.pluginName',
         label: 'Plugin name',
@@ -36,7 +39,7 @@ const RequestDetailModal = NiceModal.create(({ request, status }) => {
       {
         key: 'status',
         label: 'Status',
-        renderView: status => {
+        renderView: (status) => {
           const color = {
             success: 'success',
             failure: 'error',
@@ -48,14 +51,15 @@ const RequestDetailModal = NiceModal.create(({ request, status }) => {
       {
         key: 'createdAt',
         label: 'Started at',
-        renderView: timestamp => {
+        renderView: (timestamp) => {
+          console.log(timestamp);
           return timestamp ? <TimeAgo date={new Date(timestamp)} /> : 'N/A';
         },
       },
       {
         key: 'duration',
         label: 'Duration',
-        renderView: duration => (duration ? prettyMs(duration) : 'N/A'),
+        renderView: (duration) => (duration ? prettyMs(duration) : 'N/A'),
       },
       {
         key: 'consoleOutput',
@@ -67,18 +71,26 @@ const RequestDetailModal = NiceModal.create(({ request, status }) => {
     ],
   };
 
-  plugin.invoke('museManager.requestDetailModal.processFormMeta', meta, { request, status, modal });
-
+  // plugin.invoke('museManager.requestDetailModal.processFormMeta', meta, { request, status, modal });
+  utils.extendFormMeta(meta, 'museManager.requestDetailForm', {
+    meta,
+    request,
+    status,
+    modal,
+  });
+  const updateOnChange = NiceForm.useUpdateOnChange('*');
   return (
     <Modal
-      {...antdModal(modal)}
+      {...antdModalV5(modal)}
       okButtonProps={{ style: { display: 'none' } }}
       cancelText="Close Dialog"
       title={_.startCase(request.type)}
       width="800px"
       maskClosable={false}
     >
-      <FormBuilder viewMode meta={meta} />
+      <Form form={form}>
+        <NiceForm meta={meta} />
+      </Form>
     </Modal>
   );
 });
