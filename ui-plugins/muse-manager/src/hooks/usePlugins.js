@@ -29,6 +29,7 @@ export default function usePlugins({ app, allPlugins, latestReleases }) {
       return {
         ...p,
         envs,
+        latestRelease,
         // status,
       };
     });
