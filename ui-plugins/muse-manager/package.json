@@ -5,7 +5,7 @@
   "muse": {
     "devConfig": {
       "app": "musemanager",
-      "env": "test",
+      "env": "staging",
       "appOverride": {
         "noSSO": false,
         "variables": {
@@ -28,10 +28,10 @@
     "@craco/craco": "7.0.0",
     "@ebay/muse-core": "1.0.28",
     "@ebay/muse-cra-patch": "^1.0.1",
-    "@ebay/muse-craco-plugin": "3.0.0",
-    "@ebay/muse-dev-utils": "1.0.31",
+    "@ebay/muse-craco-plugin": "^3.0.1",
+    "@ebay/muse-dev-utils": "^1.0.31",
     "@ebay/muse-ebay-dev": "1.0.3",
-    "@ebay/muse-express-middleware": "1.0.26",
+    "@ebay/muse-express-middleware": "1.0.30",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
@@ -48,10 +48,12 @@
     "@ebay/muse-client": "1.0.19",
     "@ebay/muse-lib-antd": "1.1.4",
     "@ebay/muse-lib-react": "1.1.2",
-    "@ebay/muse-plugin-acl": "1.0.6",
+    "@ebay/muse-plugin-acl": "1.0.7",
     "@ebay/nice-form-react": "^1.0.7",
     "@headlessui/react": "1.7.0",
     "@heroicons/react": "2.0.10",
+    "echarts": "^5.4.1",
+    "echarts-for-react": "^3.0.2",
     "find-root": "1.1.0",
     "lodash": "4.17.21",
     "pretty-ms": "7.0.1",
