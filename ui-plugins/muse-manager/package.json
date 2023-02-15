@@ -15,7 +15,8 @@
       "remotePlugins": [
         "*",
         "@ebay/muse-lib-antd",
-        "@ebay/muse-layout-antd"
+        "@ebay/muse-layout-antd",
+        "muse-manager-ebay#normal:http://local.cloud.ebay.com:3031/main.js"
       ]
     }
   },

@@ -12,7 +12,8 @@
   "dependencies": {
     "@ebay/muse-dev-utils": "^1.0.30",
     "@ebay/muse-webpack-plugin": "^1.0.27",
-    "resolve-cwd": "^3.0.0"
+    "resolve-cwd": "^3.0.0",
+    "webpack-bundle-analyzer": "^4.8.0"
   },
   "devDependencies": {
     "@craco/craco": "7.0.0",
