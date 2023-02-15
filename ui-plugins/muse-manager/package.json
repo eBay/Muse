@@ -1,6 +1,6 @@
 {
   "name": "@ebay/muse-manager",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "private": false,
   "muse": {
     "devConfig": {
@@ -52,7 +52,6 @@
     "@ebay/nice-form-react": "^1.0.7",
     "@headlessui/react": "1.7.0",
     "@heroicons/react": "2.0.10",
-    "antd": "^5.1.7",
     "echarts": "^5.4.1",
     "echarts-for-react": "^3.0.2",
     "find-root": "1.1.0",
