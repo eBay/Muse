@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import NiceModal, { useModal, antdModal, antdModalV5 } from '@ebay/nice-modal-react';
+import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
 import { Modal, Form } from 'antd';
-// import FormBuilder from 'antd-form-builder';
 import utils from '@ebay/muse-lib-antd/src/utils';
 import NiceForm from '@ebay/nice-form-react';
 import MultiPluginSelector from './MultiPluginSelector';

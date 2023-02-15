@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { Modal, Button, Form, message } from 'antd';
-import FormBuilder from 'antd-form-builder';
+import NiceForm from '@ebay/nice-form-react';
 import { flatten, uniq, concat } from 'lodash';
 import NiceModal, { useModal, antdModal } from '@ebay/nice-modal-react';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
@@ -17,12 +17,14 @@ const MultiDeploymentModal = NiceModal.create(({ app }) => {
   } = useMuseApi('pm.deployPlugin');
   const syncStatus = useSyncStatus(`muse.app.${app.name}`);
   const deployedPlugins = uniq(
-    flatten(Object.keys(app?.envs || {})?.map(env => app?.envs?.[env]?.plugins?.map(p => p.name))),
+    flatten(
+      Object.keys(app?.envs || {})?.map((env) => app?.envs?.[env]?.plugins?.map((p) => p.name)),
+    ),
   );
 
   const meta = {
     columns: 1,
-    elements: [
+    fields: [
       {
         key: 'appName',
         label: 'App',
@@ -57,13 +59,12 @@ const MultiDeploymentModal = NiceModal.create(({ app }) => {
   const handleFinish = useCallback(() => {
     form
       .validateFields()
-      .then(values => {
-        console.log('values: ', values);
+      .then((values) => {
         const { pluginToAdd = [], pluginsToRemove = [], envs } = values;
         const deployMsg =
           pluginToAdd.length > 0 ? (
             <>
-              deploy <b>{pluginToAdd.map(p => `${p.name}@${p.version}`).join(', ')}</b>
+              deploy <b>{pluginToAdd.map((p) => `${p.name}@${p.version}`).join(', ')}</b>
             </>
           ) : null;
         const undeployMsg =
@@ -86,12 +87,15 @@ const MultiDeploymentModal = NiceModal.create(({ app }) => {
             </>
           ),
           onOk: () => {
-            const addList = pluginToAdd?.map(item => ({
+            const addList = pluginToAdd?.map((item) => ({
               type: 'add',
               pluginName: item.name,
               version: item.version,
             }));
-            const removeList = pluginsToRemove?.map(pluginName => ({ type: 'remove', pluginName }));
+            const removeList = pluginsToRemove?.map((pluginName) => ({
+              type: 'remove',
+              pluginName,
+            }));
 
             const args = {
               appName: app.name,
@@ -108,14 +112,14 @@ const MultiDeploymentModal = NiceModal.create(({ app }) => {
                 message.success('Multi-Deploy success.');
                 await syncStatus();
               })
-              .catch(err => {
+              .catch((err) => {
                 console.log('failed to multi-deploy', err);
               });
             return Promise.resolve();
           },
         });
       })
-      .catch(err => {
+      .catch((err) => {
         return;
       });
   }, [app.name, deployPlugin, form, modal, syncStatus]);
@@ -152,7 +156,7 @@ const MultiDeploymentModal = NiceModal.create(({ app }) => {
         Note only app owners can undeploy plugins.
       </p>
       <Form layout="horizontal" form={form}>
-        <FormBuilder disabled={deployPluginPending} form={form} meta={meta} />
+        <NiceForm disabled={deployPluginPending} meta={meta} />
       </Form>
     </Modal>
   );

@@ -8,7 +8,7 @@ export default function MyResponsiveBar({ plugin }) {
 
   const getOption = useCallback(() => {
     const source = (
-      releases?.map(r => ({ version: r.version, ...r.duration, ...r.info?.size })) || []
+      releases?.map((r) => ({ version: r.version, ...r.duration, ...r.info?.size })) || []
     )?.reverse();
     const options = {
       tooltip: {
@@ -16,13 +16,13 @@ export default function MyResponsiveBar({ plugin }) {
         axisPointer: {
           type: 'line',
         },
-        formatter: params => {
+        formatter: (params) => {
           const { version, main } = params?.[0]?.data || {};
           const headerP = `<p style="display:flex;width:150px;align-items:center"><strong>v${version}:</strong><span style="margin-left:auto">${
             main || '--'
           } kB</span></p>`;
           const metrics = params
-            ?.filter(item => item.seriesName !== 'main.js')
+            ?.filter((item) => item.seriesName !== 'main.js')
             ?.map(({ color, seriesName, value }) => {
               return `<p style="display:flex;width:150px;align-items:center">
               <span style="width: 10px; height: 10px; border-radius: 50%; background:${color};margin-right:3px"></span>
@@ -35,7 +35,7 @@ export default function MyResponsiveBar({ plugin }) {
       },
       legend: {},
       grid: {
-        left: '3%',
+        left: 60,
         right: '4%',
         bottom: '4%',
         containLabel: true,
@@ -50,7 +50,7 @@ export default function MyResponsiveBar({ plugin }) {
           type: 'value',
           name: 'Release Duration (s)',
           axisLabel: {
-            formatter: value => (value / 1000).toFixed(1),
+            formatter: (value) => (value / 1000).toFixed(1),
           },
         },
         {
