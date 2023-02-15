@@ -1,6 +1,6 @@
 {
   "name": "@ebay/muse-manager",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "private": false,
   "muse": {
     "devConfig": {
@@ -51,11 +51,11 @@
     "@ebay/muse-plugin-acl": "1.0.6",
     "@ebay/nice-form-react": "^1.0.7",
     "@headlessui/react": "1.7.0",
-    "@heroicons/react": "2.0.10",    
+    "@heroicons/react": "2.0.10",
     "find-root": "1.1.0",
     "lodash": "4.17.21",
-    "pretty-ms": "7.0.1",   
-    "react-color": "^2.19.3",    
+    "pretty-ms": "7.0.1",
+    "react-color": "^2.19.3",
     "react-markdown": "6.0.3",
     "react-time-ago": "^7.2.1",
     "semver": "7.3.7",
