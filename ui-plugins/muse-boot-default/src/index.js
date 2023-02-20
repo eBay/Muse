@@ -23,6 +23,7 @@ async function start() {
     msgEngine,
     loading,
     error,
+    // isSubApp: window.parent !== window,
     getUser: () => null,
     appEntries: [], // entries to start the app
     initEntries: [], // entries from init plugins
@@ -102,7 +103,15 @@ async function start() {
 
   // MUSE_CONFIG is for backward compatability
   window.MUSE_CONFIG = mg;
+
+  msgEngine.sendToParent({
+    type: 'app-state-change',
+    state: 'app-starting',
+    url: document.location.href,
+  });
+
   registerSw();
+
   // Print app plugins in dev console
   const bootPlugin = plugins.find((p) => p.type === 'boot');
   if (bootPlugin) {
@@ -168,7 +177,11 @@ async function start() {
   plugins.forEach((p) =>
     console.log(`  * ${p.name}@${p.version || p.url}${p.noUrl ? ' (No Url)' : ''}`),
   );
-
+  msgEngine.sendToParent({
+    type: 'app-state-change',
+    state: 'app-loading',
+    url: document.location.href,
+  });
   // Load init plugins
   // Init plugins should be small and not depend on each other
   const initPluginUrls = plugins
@@ -278,6 +291,11 @@ const timeStart = Date.now();
 start()
   .then(() => {
     const timeEnd = Date.now();
+    msgEngine.sendToParent({
+      type: 'app-state-change',
+      state: 'app-loaded',
+      url: document.location.href,
+    });
     console.log(`Muse app started in ${(timeEnd - timeStart) / 1000} seconds.`);
   })
   .catch((err) => {
@@ -287,4 +305,9 @@ start()
     if (err?.message) {
       error.showMessage(err.message);
     }
+    msgEngine.sendToParent({
+      type: 'app-state-change',
+      state: 'app-failed',
+      url: document.location.href,
+    });
   });
