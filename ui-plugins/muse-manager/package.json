@@ -13,8 +13,7 @@
         }
       },
       "remotePlugins": [
-        "*",
-        "muse-manager-ebay#normal:http://local.cloud.ebay.com:3031/main.js"
+        "*"
       ]
     }
   },
