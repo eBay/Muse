@@ -1,5 +1,11 @@
 # @ebay/muse-manager
 
+## 1.1.6
+
+### Patch Changes
+
+- upgrade deps for using antd5 and nice-form
+
 ## 1.1.5
 
 ### Patch Changes

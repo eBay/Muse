@@ -1,7 +1,9 @@
 import { useCallback } from 'react';
-import NiceModal, { useModal, antdModal } from '@ebay/nice-modal-react';
+import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
 import { Modal, message, Form } from 'antd';
-import FormBuilder from 'antd-form-builder';
+import NiceForm from '@ebay/nice-form-react';
+import utils from '@ebay/muse-lib-antd/src/utils';
+// import FormBuilder from 'antd-form-builder';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import { useSyncStatus, useMuseApi } from '../../hooks';
 import plugin from 'js-plugin';
@@ -38,10 +40,6 @@ const CreateAppModal = NiceModal.create(() => {
     ],
   };
 
-  plugin.invoke('museManager.createAppForm.processMeta', { meta, form });
-
-  plugin.sort(meta.fields);
-
   const handleFinish = useCallback(() => {
     const values = form.getFieldsValue();
     createApp({ ...values, author: user.username })
@@ -50,14 +48,19 @@ const CreateAppModal = NiceModal.create(() => {
         message.success('Create app success.');
         await syncStatus();
       })
-      .catch(err => {
+      .catch((err) => {
         console.log('failed to create', err);
       });
   }, [createApp, syncStatus, modal, form]);
 
+  const { watchingFields } = utils.extendFormMeta(meta, 'museManager.createAppForm', {
+    meta,
+    form,
+  });
+  const updateOnChange = NiceForm.useUpdateOnChange(watchingFields);
   return (
     <Modal
-      {...antdModal(modal)}
+      {...antdModalV5(modal)}
       title={createAppPending ? 'Creating...' : `Create App`}
       width="600px"
       okText="Create"
@@ -67,8 +70,8 @@ const CreateAppModal = NiceModal.create(() => {
       }}
     >
       <RequestStatus loading={createAppPending} error={createAppError} />
-      <Form layout="horizontal" form={form} onFinish={handleFinish}>
-        <FormBuilder form={form} meta={meta} />
+      <Form layout="horizontal" form={form} onFinish={handleFinish} onValuesChange={updateOnChange}>
+        <NiceForm meta={meta} />
       </Form>
     </Modal>
   );

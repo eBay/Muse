@@ -63,7 +63,7 @@ export default function MultiPluginSelector({ value, onChange, app }) {
       {rows.map((item, i) => {
         const p = item.name ? pluginById[item.name] : null;
         return (
-          <Row gutter={10} key={i}>
+          <Row gutter={10} key={i} className="leading-10">
             <Col span="12">
               <Select
                 showSearch

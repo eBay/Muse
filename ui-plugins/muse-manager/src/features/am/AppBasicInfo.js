@@ -1,7 +1,9 @@
-import React from 'react';
-import FormBuilder from 'antd-form-builder';
+// import React from 'react';
+import NiceForm from '@ebay/nice-form-react';
 import AppIcon from './app-icon/AppIcon';
 import jsPlugin from 'js-plugin';
+import utils from '@ebay/muse-lib-antd/src/utils';
+import { Form } from 'antd';
 import _ from 'lodash';
 
 export default function AppBasicInfo({ app }) {
@@ -50,18 +52,19 @@ export default function AppBasicInfo({ app }) {
         key: 'iconId',
         label: 'App Icon',
         order: 1100,
-        renderView: () => {
-          return <AppIcon app={app} />;
-        },
+        viewWidget: AppIcon,
+        viewWidgetProps: { app },
       },
     ],
   };
 
-  jsPlugin.invoke('museManager.appBasicInfo.processMeta', { meta, app });
-  jsPlugin.sort(meta.fields);
+  utils.extendFormMeta(meta, 'museManager.appBasicInfo', { meta, app });
+
+  // jsPlugin.invoke('museManager.appBasicInfo.processMeta', { meta, app });
+  // jsPlugin.sort(meta.fields);
   return (
-    <div>
-      <FormBuilder meta={meta}></FormBuilder>
-    </div>
+    <Form>
+      <NiceForm meta={meta}></NiceForm>
+    </Form>
   );
 }

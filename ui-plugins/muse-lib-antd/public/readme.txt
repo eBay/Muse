@@ -1,1 +1,1 @@
-All files under public folder will be published to CDN.
+All files under public folder will be published to CDN.2

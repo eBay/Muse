@@ -9,13 +9,16 @@ module.exports = {
   getLocalPlugins: () => {
     const localPlugins = (process.env.MUSE_LOCAL_PLUGINS || '')
       .split(';')
-      .map(s => s.trim())
+      .map((s) => s.trim())
       .filter(Boolean);
 
     return localPlugins
-      .map(p => (path.isAbsolute(p) ? p : path.join(process.cwd(), p)))
-      .map(p => {
-        return require(path.join(p, 'package.json'));
+      .map((p) => (path.isAbsolute(p) ? p : path.join(process.cwd(), p)))
+      .map((p) => {
+        return {
+          path: p,
+          pkg: require(path.join(p, 'package.json')),
+        };
       });
   },
 
@@ -24,7 +27,7 @@ module.exports = {
       ...pkgJson.dependencies,
       ...pkgJson.devDependencies,
       ...pkgJson.peerDependencies,
-    }).filter(dep => {
+    }).filter((dep) => {
       try {
         const depPkgJson = require(resolveCwd(`${dep}/package.json`));
         return depPkgJson?.muse?.type === 'lib';

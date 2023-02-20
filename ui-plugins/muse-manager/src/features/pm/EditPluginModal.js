@@ -1,8 +1,10 @@
 import { useCallback } from 'react';
-import NiceModal, { useModal, antdModal } from '@ebay/nice-modal-react';
+import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
 import { Modal, message, Form } from 'antd';
-import FormBuilder from 'antd-form-builder';
+// import FormBuilder from 'antd-form-builder';
+import NiceForm from '@ebay/nice-form-react';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
+import utils from '@ebay/muse-lib-antd/src/utils';
 import { useSyncStatus, useMuseApi } from '../../hooks';
 const user = window.MUSE_GLOBAL.getUser();
 
@@ -61,14 +63,21 @@ const EditPluginModal = NiceModal.create(({ plugin, app }) => {
         message.success('Create plugin success.');
         await syncStatus();
       })
-      .catch(err => {
+      .catch((err) => {
         console.log('failed to deploy', err);
       });
   }, [updatePlugin, syncStatus, modal, form]);
 
+  const { watchingFields } = utils.extendFormMeta(meta, 'museManager.editPluginForm', {
+    meta,
+    form,
+    app,
+    plugin,
+  });
+  const updateOnChange = NiceForm.useUpdateOnChange(watchingFields);
   return (
     <Modal
-      {...antdModal(modal)}
+      {...antdModalV5(modal)}
       title={`Edit Plugin`}
       width="600px"
       okText="Update"
@@ -78,8 +87,8 @@ const EditPluginModal = NiceModal.create(({ plugin, app }) => {
       }}
     >
       <RequestStatus loading={updatePluginPending} error={updatePluginError} />
-      <Form layout="horizontal" form={form} onFinish={handleFinish}>
-        <FormBuilder form={form} meta={meta} />
+      <Form layout="horizontal" form={form} onValuesChange={updateOnChange} onFinish={handleFinish}>
+        <NiceForm meta={meta} />
       </Form>
     </Modal>
   );

@@ -2,10 +2,12 @@ import React, { useCallback, useRef } from 'react';
 import { Form, Modal, message } from 'antd';
 import _ from 'lodash';
 
-import NiceModal, { useModal, antdModal } from '@ebay/nice-modal-react';
+import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
+import utils from '@ebay/muse-lib-antd/src/utils';
 import { useMuseApi, useSyncStatus } from '../../../hooks';
-import FormBuilder from 'antd-form-builder';
+import NiceForm from '@ebay/nice-form-react';
+// import FormBuilder from 'antd-form-builder';
 
 import IconCanvas from './IconCanvas';
 import ColorPicker from './ColorPicker';
@@ -14,16 +16,18 @@ export default NiceModal.create(({ app }) => {
   const modal = useModal();
   const initials = _.words(app.title || app.name)
     .slice(0, 2)
-    .map(s => s[0])
+    .map((s) => s[0])
     .join('');
 
-  const { action: setAppIcon, error: setAppIconError, pending: setAppIconPending } = useMuseApi(
-    'am.setAppIcon',
-  );
+  const {
+    action: setAppIcon,
+    error: setAppIconError,
+    pending: setAppIconPending,
+  } = useMuseApi('am.setAppIcon');
   const syncStatus = useSyncStatus(`muse.app.${app.name}`);
 
   const [form] = Form.useForm();
-  const forceUpdate = FormBuilder.useForceUpdate();
+  // const forceUpdate = FormBuilder.useForceUpdate();
 
   const initialValues = {
     text: initials,
@@ -35,7 +39,8 @@ export default NiceModal.create(({ app }) => {
   };
 
   const meta = {
-    formItemLayout: [14, 10],
+    // formItemLayout: [14, 10],
+    labelWidth: 14,
     columns: 2,
     initialValues,
     fields: [
@@ -92,14 +97,14 @@ export default NiceModal.create(({ app }) => {
     ],
   };
   const canvasRef = useRef();
-  const handleOnLoad = useCallback(c => {
+  const handleOnLoad = useCallback((c) => {
     canvasRef.current = c;
   }, []);
 
   const handleSaveGeneratedLogo = useCallback(async () => {
     const fd = new FormData();
     const iconBlob = await new Promise((resolve, reject) => {
-      canvasRef.current.toBlob(b => {
+      canvasRef.current.toBlob((b) => {
         if (b) resolve(b);
         reject();
       });
@@ -113,10 +118,14 @@ export default NiceModal.create(({ app }) => {
   }, [app, setAppIcon, syncStatus, modal]);
 
   const iconOptions = Object.assign({}, initialValues, form.getFieldsValue());
-
+  utils.extendFormMeta(meta, 'museManager.iconCreatorForm', {
+    meta,
+    form,
+  });
+  const updateOnChange = NiceForm.useUpdateOnChange('*');
   return (
     <Modal
-      {...antdModal(modal)}
+      {...antdModalV5(modal)}
       title="Create App Icon"
       width="800px"
       destroyOnClose
@@ -135,9 +144,9 @@ export default NiceModal.create(({ app }) => {
           <Form
             form={form}
             style={{ marginLeft: '-20px', width: '100%' }}
-            onValuesChange={forceUpdate}
+            onValuesChange={updateOnChange}
           >
-            <FormBuilder meta={meta} form={form} />
+            <NiceForm meta={meta} />
           </Form>
         </div>
       </div>

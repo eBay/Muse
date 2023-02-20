@@ -6,7 +6,7 @@ import { useSearchState } from '../../hooks';
 import { DropdownMenu } from '@ebay/muse-lib-antd/src/features/common';
 import config from '../../config';
 
-export default function AppListBar({}) {
+export default function AppListBar() {
   const [scope, setScope] = useSearchState('scope', config.get('appListDefaultScope'));
   const scopes = [{ key: 'all', label: 'All Apps', onClick: () => setScope('all'), order: 100 }];
 
@@ -29,7 +29,7 @@ export default function AppListBar({}) {
       />
       {scopes.length > 1 ? (
         <Radio.Group value={scope}>
-          {scopes.map(s => {
+          {scopes.map((s) => {
             return (
               <Radio.Button value={s.key} key={s.key} onClick={() => s.onClick()}>
                 {s.label}
