@@ -6,7 +6,7 @@ specifiers:
   '@craco/craco': 7.0.0
   '@ebay/muse-core': 1.0.28
   '@ebay/muse-cra-patch': ^1.0.1
-  '@ebay/muse-craco-plugin': 3.0.0
+  '@ebay/muse-craco-plugin': 3.0.1
   '@ebay/muse-ebay-dev': 1.0.3
   '@ebay/muse-lib-react': 1.1.2
   '@ebay/nice-form-react': ^1.0.7
@@ -42,7 +42,7 @@ devDependencies:
   '@craco/craco': 7.0.0_react-scripts@5.0.1
   '@ebay/muse-core': 1.0.28
   '@ebay/muse-cra-patch': 1.0.1
-  '@ebay/muse-craco-plugin': 3.0.0_zn3b3rg7a76ksmoalqt6s3i4aq
+  '@ebay/muse-craco-plugin': 3.0.1_zn3b3rg7a76ksmoalqt6s3i4aq
   '@ebay/muse-ebay-dev': 1.0.3_@ebay+muse-core@1.0.28
   craco-less: 2.0.0_5ial7dl5a2d4aztokzwa5qionq
   cross-env: 7.0.3
@@ -1904,13 +1904,13 @@ packages:
       resolve-cwd: 3.0.0
     dev: true
 
-  /@ebay/muse-craco-plugin/3.0.0_zn3b3rg7a76ksmoalqt6s3i4aq:
-    resolution: {integrity: sha1-c5cJuvAzKPKHCCOtXqavNM2ZNcs=, tarball: '@ebay/muse-craco-plugin/-/@ebay/muse-craco-plugin-3.0.0.tgz'}
+  /@ebay/muse-craco-plugin/3.0.1_zn3b3rg7a76ksmoalqt6s3i4aq:
+    resolution: {integrity: sha1-rVpOd7s3MgNksWLLtg4RtnGbbZE=, tarball: '@ebay/muse-craco-plugin/-/@ebay/muse-craco-plugin-3.0.1.tgz'}
     peerDependencies:
       '@craco/craco': 7.0.0
     dependencies:
       '@craco/craco': 7.0.0_react-scripts@5.0.1
-      '@ebay/muse-dev-utils': 1.0.30_@ebay+muse-core@1.0.28
+      '@ebay/muse-dev-utils': 1.0.31_@ebay+muse-core@1.0.28
       '@ebay/muse-webpack-plugin': 1.0.27
       resolve-cwd: 3.0.0
     transitivePeerDependencies:
@@ -1918,8 +1918,8 @@ packages:
       - express
     dev: true
 
-  /@ebay/muse-dev-utils/1.0.30_@ebay+muse-core@1.0.28:
-    resolution: {integrity: sha1-3lnB7Dd1IzE2wOUzEyrtTF3mJcM=, tarball: '@ebay/muse-dev-utils/-/@ebay/muse-dev-utils-1.0.30.tgz'}
+  /@ebay/muse-dev-utils/1.0.31_@ebay+muse-core@1.0.28:
+    resolution: {integrity: sha1-Dx08UZBUOiKLlFul/lIvZA4veh4=, tarball: '@ebay/muse-dev-utils/-/@ebay/muse-dev-utils-1.0.31.tgz'}
     peerDependencies:
       '@ebay/muse-core': ^1.0.28
       express: ^4.18.1
@@ -3377,10 +3377,8 @@ packages:
       - supports-color
     dev: true
 
-  /ajv-formats/2.1.1_ajv@8.12.0:
+  /ajv-formats/2.1.1:
     resolution: {integrity: sha1-bmaUAGWet0lzu/LjMycYCgmWtSA=}
-    peerDependencies:
-      ajv: ^8.0.0
     peerDependenciesMeta:
       ajv:
         optional: true
@@ -10649,12 +10647,6 @@ packages:
   /react-dev-utils/12.0.1_nkwuvqep7k7zzhloz3wxbhr4hq:
     resolution: {integrity: sha1-upLttKHzeb1GzNa81Oe8OY3zPnM=}
     engines: {node: '>=14'}
-    peerDependencies:
-      typescript: '>=2.7'
-      webpack: '>=4'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
     dependencies:
       '@babel/code-frame': 7.18.6
       address: 1.2.2
@@ -10684,7 +10676,9 @@ packages:
     transitivePeerDependencies:
       - eslint
       - supports-color
+      - typescript
       - vue-template-compiler
+      - webpack
     dev: true
 
   /react-dom/18.2.0_react@18.2.0:
@@ -11386,7 +11380,7 @@ packages:
     dependencies:
       '@types/json-schema': 7.0.11
       ajv: 8.12.0
-      ajv-formats: 2.1.1_ajv@8.12.0
+      ajv-formats: 2.1.1
       ajv-keywords: 5.1.0_ajv@8.12.0
     dev: true
 
