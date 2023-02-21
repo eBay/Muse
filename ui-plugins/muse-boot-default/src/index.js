@@ -172,10 +172,14 @@ async function start() {
     console.warn(`ClientCode is invalid.`);
   }
   console.log(`Plugins(${plugins.length}):`);
-  // If a plugin has noUrl, it means its bundle is loaded somewhere else.
+  // If a plugin has isLocal, it means its bundle is loaded somewhere else.
   // The registered plugin item is used to provide configurations. e.g plugin variables.
   plugins.forEach((p) =>
-    console.log(`  * ${p.name}@${p.version || p.url}${p.noUrl ? ' (No Url)' : ''}`),
+    console.log(
+      `  * ${p.name}@${p.version || 'local'}${p.url ? ' (' + p.url + ') ' : ''}${
+        p.isLocal ? ' (Local)' : ''
+      }`,
+    ),
   );
   msgEngine.sendToParent({
     type: 'app-state-change',
@@ -187,7 +191,7 @@ async function start() {
   const initPluginUrls = plugins
     .filter((p) => p.type === 'init')
     .map((p) =>
-      p.noUrl ? false : p.url || `${cdn}/p/${getPluginId(p.name)}/v${p.version}/dist/main.js`,
+      p.isLocal ? false : p.url || `${cdn}/p/${getPluginId(p.name)}/v${p.version}/dist/main.js`,
     )
     .filter(Boolean);
 
@@ -220,7 +224,7 @@ async function start() {
   const pluginUrls = plugins
     .filter((p) => p.type !== 'boot' && p.type !== 'init')
     .map((p) =>
-      p.noUrl
+      p.isLocal
         ? false
         : p.url || `${cdn}/p/${getPluginId(p.name)}/v${p.version}/${bundleDir}/main.js`,
     )

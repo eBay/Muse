@@ -35,6 +35,11 @@
     "e2e-test": "muse-scripts e2e-test",
     "deploy": "pnpm build && pnpm build:dev && muse release && muse deploy nateapp"
   },
+  "pnpm": {
+    "overrides": {
+      "@ebay/muse-dev-utils": "link:../../workspace/packages/muse-dev-utils"
+    }
+  },
   "dependencies": {
     "@ebay/nice-modal-react": "1.2.8",
     "history": "5.3.0",
@@ -58,9 +63,9 @@
     "@changesets/cli": "^2.23.2",
     "@craco/craco": "7.0.0",
     "@ebay/muse-core": "1.0.28",
-    "@ebay/muse-craco-plugin": "3.0.0",
-    "@ebay/muse-ebay-dev": "1.0.3",
     "@ebay/muse-cra-patch": "^1.0.1",
+    "@ebay/muse-craco-plugin": "3.0.1",
+    "@ebay/muse-ebay-dev": "1.0.3",
     "@types/node": "18.11.9",
     "craco-less": "2.0.0",
     "cross-env": "7.0.3",
