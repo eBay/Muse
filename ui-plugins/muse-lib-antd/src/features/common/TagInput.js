@@ -9,7 +9,7 @@ export default function TagInput(props) {
       className="muse-antd_common-tag-input"
       mode="tags"
       style={{ width: '100%' }}
-      dropdownClassName="force-hidden"
+      popupClassName="force-hidden"
       tokenSeparators={[' ']}
       maxTagCount={props.max}
     />
