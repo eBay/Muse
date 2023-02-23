@@ -5,7 +5,6 @@ import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import utils from '@ebay/muse-lib-antd/src/utils';
 import NiceForm from '@ebay/nice-form-react';
 // import FormBuilder from 'antd-form-builder';
-import { CloseOutlined, CheckOutlined } from '@ant-design/icons';
 import { useSyncStatus, useMuseApi } from '../../hooks';
 
 const EditAppVariablesModal = NiceModal.create(({ app, env }) => {
@@ -123,12 +122,6 @@ const EditAppVariablesModal = NiceModal.create(({ app, env }) => {
       maskClosable={false}
       onOk={() => {
         form.validateFields().then(() => form.submit());
-      }}
-      okButtonProps={{
-        icon: <CheckOutlined />,
-      }}
-      cancelButtonProps={{
-        icon: <CloseOutlined />,
       }}
     >
       <div
