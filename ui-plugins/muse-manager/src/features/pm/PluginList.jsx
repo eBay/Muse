@@ -139,7 +139,7 @@ export default function PluginList({ app }) {
       order: 10,
       sorter: tableConfig.defaultSorter('name'),
       ...tableConfig.defaultFilter(pluginList, 'type'),
-      render: (pluginName) => {
+      render: (pluginName, plugin) => {
         const tags = [];
         const npmVersion = npmVersions?.[pluginName];
         const latestVersion = latestReleases?.[pluginName]?.version;
@@ -157,7 +157,11 @@ export default function PluginList({ app }) {
         }
         return (
           <>
-            <a href="#">
+            <a
+              onClick={() => {
+                NiceModal.show('muse-manager.edit-plugin-modal', { plugin, app });
+              }}
+            >
               <Highlighter search={searchValue} text={pluginName} />
             </a>
             {tags}
@@ -246,9 +250,12 @@ export default function PluginList({ app }) {
   ].filter(Boolean);
 
   jsPlugin.invoke('museManager.pm.pluginList.processColumns', {
+    app,
     columns,
     plugins: pluginList,
     searchValue,
+    npmVersions,
+    latestReleases,
   });
   jsPlugin.invoke('museManager.pm.pluginList.postProcessColumns', { columns, plugins: pluginList });
   jsPlugin.sort(columns);

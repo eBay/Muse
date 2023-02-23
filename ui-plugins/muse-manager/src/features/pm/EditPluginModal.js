@@ -12,7 +12,6 @@ const EditPluginModal = NiceModal.create(({ plugin, app }) => {
   const modal = useModal();
   const [form] = Form.useForm();
   const syncStatus = useSyncStatus('muse.plugins');
-  console.log(plugin);
   const {
     action: updatePlugin,
     error: updatePluginError,
