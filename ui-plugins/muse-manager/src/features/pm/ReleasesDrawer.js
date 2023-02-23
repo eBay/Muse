@@ -19,7 +19,7 @@ const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
       dataIndex: 'version',
       order: 10,
       title: 'Version',
-      render: v => {
+      render: (v) => {
         return <a>{v}</a>;
       },
     },
@@ -32,7 +32,7 @@ const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
       dataIndex: 'duration',
       order: 40,
       title: 'Duration',
-      render: d => {
+      render: (d) => {
         if (_.isObject(d)) {
           const { build, installDeps, uploadAssets } = d;
           const total = (build || 0) + (installDeps || 0) + (uploadAssets || 0);
@@ -50,7 +50,7 @@ const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
       dataIndex: 'createdAt',
       order: 60,
       title: 'Time',
-      render: d => {
+      render: (d) => {
         return d ? <TimeAgo date={new Date(d).getTime()} /> : 'N/A';
       },
     },
@@ -75,13 +75,13 @@ const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
               });
             },
           },
-          {
-            key: 'delete',
-            label: 'Delete Plugin',
-            highlight: true,
-            order: 50,
-            icon: 'delete',
-          },
+          // {
+          //   key: 'delete',
+          //   label: 'Delete Release',
+          //   highlight: true,
+          //   order: 50,
+          //   icon: 'delete',
+          // },
         ].filter(Boolean);
         return <DropdownMenu extPoint="museManager.plugin.processReleaseActions" items={items} />;
       },
@@ -89,7 +89,7 @@ const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
   ];
 
   const renderBody = useCallback(
-    item => (
+    (item) => (
       <div className="markdown-wrapper">
         {item.description ? (
           <ReactMarkdown children={item.description} />

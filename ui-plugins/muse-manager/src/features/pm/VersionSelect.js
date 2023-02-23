@@ -5,7 +5,7 @@ import semver from 'semver';
 function VersionSelect({ value = '1.0.0', onChange, baseVersion = '1.0.0' }) {
   //
   const [type, setType] = useState('patch');
-  const handleTypeChange = e => {
+  const handleTypeChange = (e) => {
     const type = e.target.value;
     setType(type);
     if (type === 'custom') return;
@@ -24,7 +24,7 @@ function VersionSelect({ value = '1.0.0', onChange, baseVersion = '1.0.0' }) {
         disabled={type !== 'custom'}
         style={{ marginTop: 10 }}
         value={value}
-        onChange={e => onChange(e.target.value)}
+        onChange={(e) => onChange(e.target.value)}
       />
     </div>
   );
