@@ -21,16 +21,25 @@ const RequestDetailModal = NiceModal.create(({ request, status }) => {
         label: 'Plugin name',
       },
       {
-        key: 'branch',
+        key: 'payload.buildBranch',
         label: 'Build branch',
       },
       {
-        key: 'version',
+        key: 'payload.newVersion',
         label: 'New Version',
       },
       {
-        key: 'number',
+        key: 'status.buildNumber',
         label: 'Build',
+        renderView: (buildNumber) => {
+          return buildNumber ? (
+            <a href={`${status.ci}`} target="_blank" rel="noreferrer">
+              #{buildNumber}
+            </a>
+          ) : (
+            'N/A'
+          );
+        },
       },
       {
         key: 'createdBy',
