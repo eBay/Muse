@@ -103,6 +103,7 @@ const mapFile = (p) => path.join(__dirname, '..', p);
       '@ebay/muse-core',
       '@ebay/muse-cra-patch',
       '@ebay/muse-craco-plugin',
+      'react-scripts@5.0.1',
     ];
 
     const deps = ['js-plugin', '@ebay/muse-lib-react'];
