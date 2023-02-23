@@ -28,9 +28,11 @@ export default function PluginList({ app }) {
     npmVersions,
   });
   const searchValue = useSearchParam('search')?.toLowerCase() || '';
-  const scope = useSearchParam('scope') || config.get('pluginListDefaultScope');
+  const scope =
+    useSearchParam('scope') || (app ? 'deployed' : config.get('pluginListDefaultScope'));
   const { envFilterMap, envFilterDropdownOpenMap, onEnvFilterChange, onFilterOpenChange } =
     useEnvFilter();
+  const selectedEnvName = useSearchParam('env') || config.get('pluginListDefaultEnv');
 
   const deploymentInfoByPlugin = useMemo(() => {
     return (
@@ -47,36 +49,44 @@ export default function PluginList({ app }) {
       {}
     );
   }, [app]);
-
   let pluginList = patchedPlugins;
 
   if (scope && pluginList) {
     switch (scope) {
       case 'deployed':
-        pluginList = pluginList.filter(p => deploymentInfoByPlugin[p.name]);
+        pluginList = pluginList.filter((p) =>
+          selectedEnvName === 'all'
+            ? deploymentInfoByPlugin[p.name]
+            : deploymentInfoByPlugin[p.name]?.[selectedEnvName],
+        );
         break;
       case 'all':
         // no filter
         break;
       default:
-        console.warn('Unknown scope: ', scope);
-        break;
+    }
+    const filters = _.flatten(
+      jsPlugin.invoke('museManager.pm.getScopeFilterFns', { scope }),
+    ).filter(Boolean);
+    if (filters.length > 0) {
+      pluginList = _.flow(filters)(pluginList);
     }
   }
+
   const ctx = { pluginList };
   jsPlugin.invoke('museManager.pm.pluginList.processPluginList', ctx);
 
   pluginList = ctx.pluginList?.filter(
-    p =>
+    (p) =>
       p.name.toLowerCase().includes(searchValue) ||
-      p.owners?.some(o => o.toLowerCase().includes(searchValue)),
+      p.owners?.some((o) => o.toLowerCase().includes(searchValue)),
   );
 
   if (pluginList) {
     const entries = Object.entries(envFilterMap);
     entries.forEach(([envName, filter]) => {
       if (!filter) return;
-      pluginList = pluginList.filter(p => {
+      pluginList = pluginList.filter((p) => {
         const envP = p.envs[envName] || {};
         switch (filter) {
           case 'null':
@@ -103,19 +113,19 @@ export default function PluginList({ app }) {
   }
 
   const envFilterConfig = useCallback(
-    envName => {
+    (envName) => {
       return {
         filterDropdown: (
           <EnvFilterMenu
             selectedKeys={[envFilterMap[envName]]}
-            onSelect={args => onEnvFilterChange(envName, args)}
+            onSelect={(args) => onEnvFilterChange(envName, args)}
           />
         ),
         filterIcon: (
           <FilterOutlined style={{ color: envFilterMap[envName] ? '#1890ff' : '#aaa' }} />
         ),
         filterDropdownVisible: envFilterDropdownOpenMap[envName],
-        onFilterDropdownVisibleChange: visible => onFilterOpenChange(envName, visible),
+        onFilterDropdownVisibleChange: (visible) => onFilterOpenChange(envName, visible),
       };
     },
     [envFilterDropdownOpenMap, envFilterMap, onEnvFilterChange, onFilterOpenChange],
@@ -129,7 +139,7 @@ export default function PluginList({ app }) {
       order: 10,
       sorter: tableConfig.defaultSorter('name'),
       ...tableConfig.defaultFilter(pluginList, 'type'),
-      render: pluginName => {
+      render: (pluginName) => {
         const tags = [];
         const npmVersion = npmVersions?.[pluginName];
         const latestVersion = latestReleases?.[pluginName]?.version;
@@ -155,27 +165,29 @@ export default function PluginList({ app }) {
         );
       },
     },
-    ...Object.values(app?.envs || {}).map((env, i) => {
-      return {
-        dataIndex: `${env.name}`,
-        title: _.capitalize(env.name),
-        order: i + 20,
-        width: 120,
-        ...envFilterConfig(env.name),
-        render: (_, plugin) => {
-          const version = deploymentInfoByPlugin?.[plugin.name]?.[env.name]; // _.find(env?.plugins, { name: pluginName })?.version;
-          if (!version) return <NA />;
-          const latestVersion = latestReleases?.[plugin.name]?.version;
-          if (!latestVersion) return version;
-          const color = semver.lt(version, latestVersion) ? 'orange' : '#8bc34a';
-          return (
-            <Button type="link" style={{ textAlign: 'left', padding: 0, color }}>
-              v{version}
-            </Button>
-          );
-        },
-      };
-    }),
+    ...Object.keys(app?.envs || {})
+      .filter((envName) => selectedEnvName === 'all' || envName === selectedEnvName)
+      .map((env, i) => {
+        return {
+          dataIndex: env,
+          title: _.capitalize(env),
+          order: i + 20,
+          width: 120,
+          ...envFilterConfig(env),
+          render: (_, plugin) => {
+            const version = deploymentInfoByPlugin?.[plugin.name]?.[env]; // _.find(env?.plugins, { name: pluginName })?.version;
+            if (!version) return <NA />;
+            const latestVersion = latestReleases?.[plugin.name]?.version;
+            if (!latestVersion) return version;
+            const color = semver.lt(version, latestVersion) ? 'orange' : '#8bc34a';
+            return (
+              <Button type="link" style={{ textAlign: 'left', padding: 0, color }}>
+                v{version}
+              </Button>
+            );
+          },
+        };
+      }),
     {
       dataIndex: 'latestVersion',
       title: 'Latest',
@@ -256,7 +268,7 @@ export default function PluginList({ app }) {
             pagination={{
               hideOnSinglePage: false,
               size: 'small',
-              showTotal: total => `Total ${total} items`,
+              showTotal: (total) => `Total ${total} items`,
               showQuickJumper: true,
             }}
           />
