@@ -11,7 +11,7 @@ module.exports = (museId) => {
 
   // Use module's require method to get the final module
   const m = __muse_module_cache__[museId];
-  if (!m) throw new Error('Muse module not found: ' + museId);
+  if (!m) throw new Error('Muse shared module not found: ' + museId);
 
   return m.__require__(m.id);
 };
