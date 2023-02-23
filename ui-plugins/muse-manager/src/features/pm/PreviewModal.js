@@ -22,7 +22,7 @@ const PreviewModal = NiceModal.create(({ app }) => {
 
   const meta = {
     formItemLayout: [6, 18],
-    elements: [
+    fields: [
       {
         key: 'environment',
         label: 'Environment',
