@@ -118,25 +118,22 @@ muse.plugin.register({
         const urlPlugins = remotePlugins.filter(Boolean).map((s) => {
           if (/:https?:/.test(s)) {
             return getPluginByUrl(s);
-          }
-          // It's a folder with relative or absolute path: /Users/my/project:3030 , ../my-plugin:3031
-          // Then need to get the plugin information
-          const arr = s.split(':');
-          if (arr.length < 2) {
-            throw new Error(
-              `Invalid remote plugin format: ${s}. It should be "$pluginName#$type:$urlToMainJs" or "$path:$port".`,
-            );
-          }
-          const port = arr.pop();
-          const folderPath = arr.join(':');
-          const pkg = fs.readJsonSync(path.join(folderPath, 'package.json'));
-          if (!pkg.muse) throw new Error(`It's not a Muse plugin project: ${s}`);
+          } else if (s.includes(':')) {
+            // it's in $path:$port format.
+            // It's a folder with relative or absolute path: /Users/my/project:3030 , ../my-plugin:3031
+            // Then need to get the plugin information
+            const arr = s.split(':');
+            const port = arr.pop();
+            const folderPath = arr.join(':');
+            const pkg = fs.readJsonSync(path.join(folderPath, 'package.json'));
+            if (!pkg.muse) throw new Error(`It's not a Muse plugin project: ${s}`);
 
-          return {
-            name: pkg.name,
-            url: `http://localhost:${port}/${pkg.muse.type === 'boot' ? 'boot' : 'main'}.js`,
-            type: pkg.muse.type || 'normal',
-          };
+            return {
+              name: pkg.name,
+              url: `http://localhost:${port}/${pkg.muse.type === 'boot' ? 'boot' : 'main'}.js`,
+              type: pkg.muse.type || 'normal',
+            };
+          }
         });
 
         const localNames = [pkgJson.name];
