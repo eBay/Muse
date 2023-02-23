@@ -96,15 +96,23 @@ const mapFile = (p) => path.join(__dirname, '..', p);
 
     // Install deps
     log.info('Installing Muse dependencies...');
-    const deps = [
-      'js-plugin',
+
+    const devDeps = [
       'cross-env',
       '@craco/craco@7.0.0',
       '@ebay/muse-core',
       '@ebay/muse-cra-patch',
       '@ebay/muse-craco-plugin',
-      '@ebay/muse-lib-react',
     ];
+
+    const deps = ['js-plugin', '@ebay/muse-lib-react'];
+
+    execSync(
+      `${pkgMgr} add ${devDeps.join(' ')}${
+        pkgMgr === 'npm' ? '  --save-dev --legacy-peer-deps' : '  --dev'
+      }`,
+    );
+
     execSync(`${pkgMgr} add ${deps.join(' ')}${pkgMgr === 'npm' ? '  --legacy-peer-deps' : ''}`);
 
     // Update package.json
@@ -119,9 +127,12 @@ const mapFile = (p) => path.join(__dirname, '..', p);
     log.info('Updating scripts in package.json...');
     Object.assign(pkgJson.scripts, {
       start: 'muse-cra-patch && craco start',
-      build: 'muse-cra-patch && craco build && cross-env MUSE_DEV_BUILD=true craco build ',
+      build:
+        'muse-cra-patch && craco build && cross-env MUSE_DEV_BUILD=true FAST_REFRESH=false craco build ',
       'build:dist': 'muse-cra-patch && craco build',
-      'build:dev': 'muse-cra-patch && cross-env MUSE_DEV_BUILD=true craco build',
+      'build:dev': 'muse-cra-patch && cross-env MUSE_DEV_BUILD=true FAST_REFRESH=false craco build',
+      'build:test':
+        'muse-cra-patch && cross-env MUSE_TEST_BUILD=true FAST_REFRESH=false craco build',
     });
     fs.writeJsonSync('./package.json', pkgJson, { spaces: 2 });
 
