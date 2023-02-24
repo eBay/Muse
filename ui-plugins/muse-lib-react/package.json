@@ -10,7 +10,7 @@
       "noSSO": true
     },
     "devConfig": {
-      "app": "myapp",
+      "app": "nateapp",
       "env": "staging",
       "remotePlugins": []
     }

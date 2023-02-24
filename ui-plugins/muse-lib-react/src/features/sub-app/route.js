@@ -1,15 +1,13 @@
-// This is the JSON way to define React Router rules in a Rekit app.
-// Learn more from: http://rekit.js.org/docs/routing.html
 import React from 'react';
-import route from '../home/route';
 import { SubAppContainer } from './';
 
 // Get sub app route defined in muse-react plugin
 const subAppsRoute = [];
-const pMuseReact = window.MUSE_GLOBAL?.pluginList?.find((p) => p.id === 'muse-react');
-// pMuseReact.config = {
+const pMuseLibReact = window.MUSE_GLOBAL?.plugins?.find(p => p.name === '@ebay/muse-lib-react');
+// pMuseLibReact.config = {
 //   subApps: [
 //     {
+//       mountPoint: 'default',
 //       name: 'musedemo',
 //       path: '/demo',
 //       // persist: true,
@@ -20,27 +18,23 @@ const pMuseReact = window.MUSE_GLOBAL?.pluginList?.find((p) => p.id === 'muse-re
 //     },
 //   ],
 // };
-
-pMuseReact?.config?.subApps?.forEach((subApp) => {
-  // check app allowlist
-  if (subApp.name && window.MUSE_GLOBAL?.allowlistByApp && window.MUSE_CURRENT_USER) {
-    const allowlist = window.MUSE_GLOBAL?.allowlistByApp[subApp.name];
-    if (
-      allowlist &&
-      allowlist.length &&
-      allowlist.includes &&
-      !allowlist.includes(window.MUSE_CURRENT_USER.username)
-    ) {
-      // user is not allowed to access the app
-      return;
-    }
-  }
-  subAppsRoute.push({
-    path: subApp.path, //[subApp.path, subApp.path + '/*'],
-    exact: false,
-    component: () => <SubAppContainer subApps={pMuseReact?.config?.subApps || []} />,
+console.log('found react plugin: ', pMuseLibReact);
+pMuseLibReact?.subApps
+  ?.filter(s => s.mountPoint === 'default' || !s.mountPoint)
+  ?.forEach(subApp => {
+    console.log('pushing sub app route: ', subApp);
+    subAppsRoute.push({
+      path: subApp.path,
+      exact: false,
+      component: () => (
+        <SubAppContainer
+          key={subApp.url}
+          subApps={pMuseLibReact?.config?.subApps || []}
+          subApp={subApp}
+        />
+      ),
+    });
   });
-});
 
 const exportedRoute = {
   path: 'sub-app',
