@@ -1,5 +1,11 @@
 # @ebay/muse-boot-default
 
+## 2.0.3
+
+### Patch Changes
+
+- upgrade craco plugin version
+
 ## 2.0.2
 
 ### Patch Changes
