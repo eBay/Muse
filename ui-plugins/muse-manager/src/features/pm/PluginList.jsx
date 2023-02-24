@@ -53,7 +53,7 @@ export default function PluginList({ app }) {
   if (scope && pluginList) {
     switch (scope) {
       case 'deployed':
-        pluginList = pluginList.filter(p => deploymentInfoByPlugin[p.name]);
+        pluginList = pluginList.filter((p) => deploymentInfoByPlugin[p.name]);
         break;
       case 'all':
         // no filter
@@ -67,16 +67,16 @@ export default function PluginList({ app }) {
   jsPlugin.invoke('museManager.pm.pluginList.processPluginList', ctx);
 
   pluginList = ctx.pluginList?.filter(
-    p =>
+    (p) =>
       p.name.toLowerCase().includes(searchValue) ||
-      p.owners?.some(o => o.toLowerCase().includes(searchValue)),
+      p.owners?.some((o) => o.toLowerCase().includes(searchValue)),
   );
 
   if (pluginList) {
     const entries = Object.entries(envFilterMap);
     entries.forEach(([envName, filter]) => {
       if (!filter) return;
-      pluginList = pluginList.filter(p => {
+      pluginList = pluginList.filter((p) => {
         const envP = p.envs[envName] || {};
         switch (filter) {
           case 'null':
@@ -103,19 +103,19 @@ export default function PluginList({ app }) {
   }
 
   const envFilterConfig = useCallback(
-    envName => {
+    (envName) => {
       return {
         filterDropdown: (
           <EnvFilterMenu
             selectedKeys={[envFilterMap[envName]]}
-            onSelect={args => onEnvFilterChange(envName, args)}
+            onSelect={(args) => onEnvFilterChange(envName, args)}
           />
         ),
         filterIcon: (
           <FilterOutlined style={{ color: envFilterMap[envName] ? '#1890ff' : '#aaa' }} />
         ),
         filterDropdownVisible: envFilterDropdownOpenMap[envName],
-        onFilterDropdownVisibleChange: visible => onFilterOpenChange(envName, visible),
+        onFilterDropdownOpenChange: (visible) => onFilterOpenChange(envName, visible),
       };
     },
     [envFilterDropdownOpenMap, envFilterMap, onEnvFilterChange, onFilterOpenChange],
@@ -129,7 +129,7 @@ export default function PluginList({ app }) {
       order: 10,
       sorter: tableConfig.defaultSorter('name'),
       ...tableConfig.defaultFilter(pluginList, 'type'),
-      render: pluginName => {
+      render: (pluginName) => {
         const tags = [];
         const npmVersion = npmVersions?.[pluginName];
         const latestVersion = latestReleases?.[pluginName]?.version;
@@ -256,7 +256,7 @@ export default function PluginList({ app }) {
             pagination={{
               hideOnSinglePage: false,
               size: 'small',
-              showTotal: total => `Total ${total} items`,
+              showTotal: (total) => `Total ${total} items`,
               showQuickJumper: true,
             }}
           />

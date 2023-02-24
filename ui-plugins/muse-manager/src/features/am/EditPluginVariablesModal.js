@@ -1,16 +1,10 @@
 import { useCallback } from 'react';
-import NiceModal, { useModal, antdModal } from '@ebay/nice-modal-react';
+import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
 import { Modal, message, Form, Input, Button, Select, Tooltip, Divider } from 'antd';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import { useSyncStatus, useMuseApi } from '../../hooks';
 import { usePollingMuseData } from '../../hooks';
-import {
-  CloseOutlined,
-  CheckOutlined,
-  DeleteOutlined,
-  PlusOutlined,
-  QuestionCircleOutlined,
-} from '@ant-design/icons';
+import { DeleteOutlined, PlusOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 
 const { TextArea } = Input;
 
@@ -19,7 +13,7 @@ const EditPluginVariablesModal = NiceModal.create(({ app, env }) => {
   const [form] = Form.useForm();
   const syncStatus = useSyncStatus(`muse.app.${app.name}`);
   const { data } = usePollingMuseData('muse.plugins');
-  const pluginList = data?.map(pl => {
+  const pluginList = data?.map((pl) => {
     return { label: pl.name, value: pl.name };
   });
 
@@ -29,7 +23,7 @@ const EditPluginVariablesModal = NiceModal.create(({ app, env }) => {
     pending: updateAppPending,
   } = useMuseApi('am.updateApp');
 
-  const populateEnvVariablesInputField = environmentVars => {
+  const populateEnvVariablesInputField = (environmentVars) => {
     let propertyVariables = '';
     if (environmentVars) {
       for (const [key, value] of Object.entries(environmentVars)) {
@@ -39,7 +33,7 @@ const EditPluginVariablesModal = NiceModal.create(({ app, env }) => {
     return propertyVariables;
   };
 
-  const populateInitialPluginVariables = environmentVars => {
+  const populateInitialPluginVariables = (environmentVars) => {
     let pluginVariables = [];
     if (environmentVars) {
       for (const [key, value] of Object.entries(environmentVars)) {
@@ -54,7 +48,7 @@ const EditPluginVariablesModal = NiceModal.create(({ app, env }) => {
   );
 
   const handleFinish = useCallback(() => {
-    const propertiesToJSON = str => {
+    const propertiesToJSON = (str) => {
       const sanitizedLines = str
         // Concat lines that end with '\'.
         .replace(/\\\n( )*/g, '')
@@ -75,7 +69,7 @@ const EditPluginVariablesModal = NiceModal.create(({ app, env }) => {
       return populatedJson;
     };
 
-    const populatePluginVarsForUpdate = pluginVarFields => {
+    const populatePluginVarsForUpdate = (pluginVarFields) => {
       const pluginVariables = {};
       for (const pluginVarField of pluginVarFields) {
         pluginVariables[pluginVarField.pluginName] = propertiesToJSON(pluginVarField.variables);
@@ -121,14 +115,14 @@ const EditPluginVariablesModal = NiceModal.create(({ app, env }) => {
         message.success('Update app success.');
         await syncStatus();
       })
-      .catch(err => {
+      .catch((err) => {
         console.log('failed to update', err);
       });
   }, [updateApp, syncStatus, modal, form, app, env]);
 
   return (
     <Modal
-      {...antdModal(modal)}
+      {...antdModalV5(modal)}
       title={`Edit ${env ? `[${env}]` : '[Default]'} Plugin Variables`}
       width="1024px"
       centered
@@ -136,12 +130,6 @@ const EditPluginVariablesModal = NiceModal.create(({ app, env }) => {
       maskClosable={false}
       onOk={() => {
         form.validateFields().then(() => form.submit());
-      }}
-      okButtonProps={{
-        icon: <CheckOutlined />,
-      }}
-      cancelButtonProps={{
-        icon: <CloseOutlined />,
       }}
     >
       <div

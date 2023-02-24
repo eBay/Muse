@@ -1,5 +1,12 @@
 # @ebay/muse-git-storage
 
+## 1.0.26
+
+### Patch Changes
+
+- downgrade axios to 0.27.2
+- fix deps
+
 ## 1.0.25
 
 ### Patch Changes

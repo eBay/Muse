@@ -1,5 +1,11 @@
 # @ebay/muse-craco-plugin
 
+## 3.0.2
+
+### Patch Changes
+
+- include webpack polyfills
+
 ## 3.0.1
 
 ### Patch Changes

@@ -17,13 +17,12 @@ function renderRouteConfigV3(routes, contextPath) {
 
   const renderRoute = (item, routeContextPath) => {
     let newContextPath;
-    const isPathArray = _.isArray(item.path);
-    if (/^\//.test(item.path) || isPathArray) {
+    if (/^\//.test(item.path)) {
       newContextPath = item.path;
     } else {
       newContextPath = `${routeContextPath}/${item.path}`;
     }
-    if (!isPathArray) newContextPath = newContextPath.replace(/\/+/g, '/');
+    newContextPath = newContextPath.replace(/\/+/g, '/');
     if ((item.render || item.component) && item.childRoutes) {
       const childRoutes = renderRouteConfigV3(item.childRoutes, newContextPath);
       children.push(
@@ -58,10 +57,23 @@ function renderRouteConfigV3(routes, contextPath) {
     }
   };
 
-  routes.forEach(item => renderRoute(item, contextPath));
+  routes
+    .reduce((p, c) => {
+      if (_.isArray(c.path)) {
+        // support path as an array, like react router v5
+        c.path.forEach(path => {
+          p.push({
+            ...c,
+            path,
+          });
+        });
+      } else {
+        p.push(c);
+      }
+      return p;
+    }, [])
+    .forEach(item => renderRoute(item, contextPath));
 
-  // Use Switch so that only the first matched route is rendered.
-  // return <Routes>{children}</Routes>;
   return children;
 }
 
@@ -80,13 +92,17 @@ const routerMap = {
   memory: MemoryRouter,
 };
 
-const WrappedInRedux = () => {
+const WrappingComponent = () => {
   const children = renderRouteConfigV3(routeConfig(), '/');
   const dispatch = useDispatch();
   const modals = useSelector(s => s.modals);
   const { routerType = 'browser', basePath } = window.MUSE_GLOBAL.getAppVariables() || {};
   const Router = routerMap[routerType];
   const routerProps = plugin.invoke('!routerProps')[0] || {};
+
+  if (routerType === 'browser') {
+    routerProps.navigator = history;
+  }
   return (
     <NiceModal.Provider dispatch={dispatch} modals={modals}>
       <Router basename={basePath} {...routerProps}>
@@ -100,18 +116,20 @@ const Root = () => {
   const [subAppContext, setSubAppContext] = useState(null);
   const handleMsg = useCallback(msg => {
     if (msg.type === 'sub-app-context-change') {
+      // Allows parent to send data to children
       setSubAppContext(msg.data);
     }
   }, []);
   useEffect(() => {
-    window.MUSE_CONFIG?.msgEngine?.addListener('sub-app-context-change', handleMsg);
-    return () => window.MUSE_CONFIG?.msgEngine?.removeListener('sub-app-context-change');
+    const k = 'muse-react_handle-context-change';
+    window.MUSE_CONFIG?.msgEngine?.addListener(k, handleMsg);
+    return () => window.MUSE_CONFIG?.msgEngine?.removeListener(k);
   }, [handleMsg]);
 
   return (
     <Provider store={store.getStore()}>
       <SubAppContext.Provider value={subAppContext}>
-        <WrappedInRedux />
+        <WrappingComponent />
       </SubAppContext.Provider>
     </Provider>
   );

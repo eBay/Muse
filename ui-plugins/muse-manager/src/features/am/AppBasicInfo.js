@@ -1,10 +1,8 @@
 // import React from 'react';
 import NiceForm from '@ebay/nice-form-react';
 import AppIcon from './app-icon/AppIcon';
-import jsPlugin from 'js-plugin';
 import utils from '@ebay/muse-lib-antd/src/utils';
 import { Form } from 'antd';
-import _ from 'lodash';
 
 export default function AppBasicInfo({ app }) {
   const meta = {
@@ -28,9 +26,7 @@ export default function AppBasicInfo({ app }) {
         label: 'Entry plugin',
         order: 30,
         tooltip: `Which plugin is used to start the Muse app.`,
-        getInitialValue: (ele, item) => {
-          return _.get(item, 'config.entry') || 'muse-react';
-        },
+        initialValue: 'muse-lib-react',
       },
       {
         key: 'createdBy',
@@ -60,8 +56,6 @@ export default function AppBasicInfo({ app }) {
 
   utils.extendFormMeta(meta, 'museManager.appBasicInfo', { meta, app });
 
-  // jsPlugin.invoke('museManager.appBasicInfo.processMeta', { meta, app });
-  // jsPlugin.sort(meta.fields);
   return (
     <Form>
       <NiceForm meta={meta}></NiceForm>

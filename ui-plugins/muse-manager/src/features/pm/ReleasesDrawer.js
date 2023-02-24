@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import NiceModal, { useModal, antdDrawer } from '@ebay/nice-modal-react';
+import NiceModal, { useModal, antdDrawerV5 } from '@ebay/nice-modal-react';
 import TimeAgo from 'react-time-ago';
 import prettyMs from 'pretty-ms';
 import { Drawer, Table } from 'antd';
@@ -19,7 +19,7 @@ const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
       dataIndex: 'version',
       order: 10,
       title: 'Version',
-      render: v => {
+      render: (v) => {
         return <a>{v}</a>;
       },
     },
@@ -32,7 +32,7 @@ const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
       dataIndex: 'duration',
       order: 40,
       title: 'Duration',
-      render: d => {
+      render: (d) => {
         if (_.isObject(d)) {
           const { build, installDeps, uploadAssets } = d;
           const total = (build || 0) + (installDeps || 0) + (uploadAssets || 0);
@@ -50,7 +50,7 @@ const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
       dataIndex: 'createdAt',
       order: 60,
       title: 'Time',
-      render: d => {
+      render: (d) => {
         return d ? <TimeAgo date={new Date(d).getTime()} /> : 'N/A';
       },
     },
@@ -89,7 +89,7 @@ const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
   ];
 
   const renderBody = useCallback(
-    item => (
+    (item) => (
       <div className="markdown-wrapper">
         {item.description ? (
           <ReactMarkdown children={item.description} />
@@ -109,7 +109,7 @@ const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
 
   const loading = !releases && releases !== null && !error;
   return (
-    <Drawer {...antdDrawer(modal)} title={`Releases of ${plugin.name}`} width="1200px">
+    <Drawer {...antdDrawerV5(modal)} title={`Releases of ${plugin.name}`} width="1200px">
       <RequestStatus loading={loading} error={error} loadingMode="skeleton" />
       {!loading && (
         <>

@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const fs = require('fs-extra');
 // This is the only place needs muse-core
 const muse = require('@ebay/muse-core');
 const _ = require('lodash');
@@ -48,7 +49,7 @@ muse.plugin.register({
       processAppInfo: ({ app, env }) => {
         const {
           appOverride, // override app config from registry
-          envOverride, // override env config from registry - NOT USED SO FAR
+          // envOverride, // override env config from registry - NOT USED SO FAR
           pluginsOverride,
         } = getPkgJson().muse.devConfig;
 
@@ -114,9 +115,29 @@ muse.plugin.register({
 
         // if a plugin is defined by url like plugin-name#type:http://localhost:3030/main.js then it's loaded as a plugin
         // it could come from remotePlugins or MUSE_REMOTE_PLUGINS
-        const urlPlugins = remotePlugins
-          .filter((s) => /:https?:/.test(s)) // for remote plugin loaded by url, should not compile it
-          .map(getPluginByUrl);
+        const urlPlugins = remotePlugins.filter(Boolean).map((s) => {
+          if (/:https?:/.test(s)) {
+            return getPluginByUrl(s);
+          }
+          // It's a folder with relative or absolute path: /Users/my/project:3030 , ../my-plugin:3031
+          // Then need to get the plugin information
+          const arr = s.split(':');
+          if (arr.length < 2) {
+            throw new Error(
+              `Invalid remote plugin format: ${s}. It should be "$pluginName#$type:$urlToMainJs" or "$path:$port".`,
+            );
+          }
+          const port = arr.pop();
+          const folderPath = arr.join(':');
+          const pkg = fs.readJsonSync(path.join(folderPath, 'package.json'));
+          if (!pkg.muse) throw new Error(`It's not a Muse plugin project: ${s}`);
+
+          return {
+            name: pkg.name,
+            url: `http://localhost:${port}/${pkg.muse.type === 'boot' ? 'boot' : 'main'}.js`,
+            type: pkg.muse.type || 'normal',
+          };
+        });
 
         const localNames = [pkgJson.name];
         const localPlugins = getLocalPlugins();
@@ -140,7 +161,7 @@ muse.plugin.register({
         localNames.forEach((name) => {
           // For a local included plugin, the bundle is from local bundle
           // Keep original plugin meta for configurations data
-          if (pluginByName[name]) pluginByName[name].noUrl = true;
+          if (pluginByName[name]) pluginByName[name].isLocal = true;
         });
 
         // // if a plugin is defined by url, then it has higher priority than deployed ones
