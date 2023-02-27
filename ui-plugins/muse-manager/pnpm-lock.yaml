@@ -1,5 +1,8 @@
 lockfileVersion: 5.4
 
+overrides:
+  '@ebay/muse-dev-utils': link:../../workspace/packages/muse-dev-utils
+
 specifiers:
   '@changesets/cli': ^2.23.2
   '@craco/craco': 7.0.0
@@ -7,7 +10,7 @@ specifiers:
   '@ebay/muse-core': 1.0.28
   '@ebay/muse-cra-patch': ^1.0.1
   '@ebay/muse-craco-plugin': ^3.0.1
-  '@ebay/muse-dev-utils': ^1.0.31
+  '@ebay/muse-dev-utils': link:../../workspace/packages/muse-dev-utils
   '@ebay/muse-ebay-dev': 1.0.3
   '@ebay/muse-express-middleware': 1.0.30
   '@ebay/muse-lib-antd': 1.1.4
@@ -63,8 +66,8 @@ devDependencies:
   '@craco/craco': 7.0.0_j3ql74q7aewvl36zs2z25ws3lu
   '@ebay/muse-core': 1.0.28
   '@ebay/muse-cra-patch': 1.0.1
-  '@ebay/muse-craco-plugin': 3.0.1_zn3b3rg7a76ksmoalqt6s3i4aq
-  '@ebay/muse-dev-utils': 1.0.31_@ebay+muse-core@1.0.28
+  '@ebay/muse-craco-plugin': 3.0.1_@craco+craco@7.0.0
+  '@ebay/muse-dev-utils': link:../../workspace/packages/muse-dev-utils
   '@ebay/muse-ebay-dev': 1.0.3_@ebay+muse-core@1.0.28
   '@ebay/muse-express-middleware': 1.0.30_@ebay+muse-core@1.0.28
   '@testing-library/jest-dom': 5.16.5
@@ -76,7 +79,7 @@ devDependencies:
   cross-env: 7.0.3
   postcss: 8.4.21
   react-scripts: 5.0.1
-  tailwindcss: 3.1.8
+  tailwindcss: 3.1.8_postcss@8.4.21
   vite: 3.2.4
   webpack-bundle-analyzer: 4.8.0
 
@@ -1974,30 +1977,14 @@ packages:
       resolve-cwd: 3.0.0
     dev: true
 
-  /@ebay/muse-craco-plugin/3.0.1_zn3b3rg7a76ksmoalqt6s3i4aq:
+  /@ebay/muse-craco-plugin/3.0.1_@craco+craco@7.0.0:
     resolution: {integrity: sha1-rVpOd7s3MgNksWLLtg4RtnGbbZE=, tarball: '@ebay/muse-craco-plugin/-/@ebay/muse-craco-plugin-3.0.1.tgz'}
     peerDependencies:
       '@craco/craco': 7.0.0
     dependencies:
       '@craco/craco': 7.0.0_j3ql74q7aewvl36zs2z25ws3lu
-      '@ebay/muse-dev-utils': 1.0.31_@ebay+muse-core@1.0.28
+      '@ebay/muse-dev-utils': link:../../workspace/packages/muse-dev-utils
       '@ebay/muse-webpack-plugin': 1.0.27
-      resolve-cwd: 3.0.0
-    transitivePeerDependencies:
-      - '@ebay/muse-core'
-      - express
-    dev: true
-
-  /@ebay/muse-dev-utils/1.0.31_@ebay+muse-core@1.0.28:
-    resolution: {integrity: sha1-Dx08UZBUOiKLlFul/lIvZA4veh4=, tarball: '@ebay/muse-dev-utils/-/@ebay/muse-dev-utils-1.0.31.tgz'}
-    peerDependencies:
-      '@ebay/muse-core': ^1.0.28
-      express: ^4.18.1
-    dependencies:
-      '@ebay/muse-core': 1.0.28
-      '@ebay/muse-express-middleware': 1.0.30_@ebay+muse-core@1.0.28
-      dotenv: 16.0.3
-      lodash: 4.17.21
       resolve-cwd: 3.0.0
     dev: true
 
@@ -3661,8 +3648,10 @@ packages:
       - supports-color
     dev: true
 
-  /ajv-formats/2.1.1:
+  /ajv-formats/2.1.1_ajv@8.12.0:
     resolution: {integrity: sha1-bmaUAGWet0lzu/LjMycYCgmWtSA=}
+    peerDependencies:
+      ajv: ^8.0.0
     peerDependenciesMeta:
       ajv:
         optional: true
@@ -11198,6 +11187,12 @@ packages:
   /react-dev-utils/12.0.1_nkwuvqep7k7zzhloz3wxbhr4hq:
     resolution: {integrity: sha1-upLttKHzeb1GzNa81Oe8OY3zPnM=}
     engines: {node: '>=14'}
+    peerDependencies:
+      typescript: '>=2.7'
+      webpack: '>=4'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
     dependencies:
       '@babel/code-frame': 7.18.6
       address: 1.2.2
@@ -11227,9 +11222,7 @@ packages:
     transitivePeerDependencies:
       - eslint
       - supports-color
-      - typescript
       - vue-template-compiler
-      - webpack
     dev: true
 
   /react-dom/18.2.0_react@18.2.0:
@@ -11414,7 +11407,7 @@ packages:
       semver: 7.3.8
       source-map-loader: 3.0.2_webpack@5.75.0
       style-loader: 3.3.1_webpack@5.75.0
-      tailwindcss: 3.2.4
+      tailwindcss: 3.2.4_postcss@8.4.21
       terser-webpack-plugin: 5.3.6_webpack@5.75.0
       webpack: 5.75.0
       webpack-dev-server: 4.11.1_webpack@5.75.0
@@ -11979,7 +11972,7 @@ packages:
     dependencies:
       '@types/json-schema': 7.0.11
       ajv: 8.12.0
-      ajv-formats: 2.1.1
+      ajv-formats: 2.1.1_ajv@8.12.0
       ajv-keywords: 5.1.0_ajv@8.12.0
 
   /screenfull/5.2.0:
@@ -12666,10 +12659,12 @@ packages:
     resolution: {integrity: sha1-QwY30ki6d+B4iDlR+5qg7tfGP6I=}
     dev: true
 
-  /tailwindcss/3.1.8:
+  /tailwindcss/3.1.8_postcss@8.4.21:
     resolution: {integrity: sha1-T4UgVQ1nqDXTLy9AIVgPn923t0E=}
     engines: {node: '>=12.13.0'}
     hasBin: true
+    peerDependencies:
+      postcss: ^8.0.9
     dependencies:
       arg: 5.0.2
       chokidar: 3.5.3
@@ -12697,10 +12692,12 @@ packages:
       - ts-node
     dev: true
 
-  /tailwindcss/3.2.4:
+  /tailwindcss/3.2.4_postcss@8.4.21:
     resolution: {integrity: sha1-r+NHfnoZ886vtI5LCD4pLODcAlA=}
     engines: {node: '>=12.13.0'}
     hasBin: true
+    peerDependencies:
+      postcss: ^8.0.9
     dependencies:
       arg: 5.0.2
       chokidar: 3.5.3

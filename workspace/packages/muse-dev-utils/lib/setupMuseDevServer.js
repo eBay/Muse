@@ -110,31 +110,40 @@ muse.plugin.register({
         // Handle remote plugins defined in package.json or .env
         const remotePlugins = _.castArray(museConfig?.devConfig?.remotePlugins || []);
         if (process.env.MUSE_REMOTE_PLUGINS) {
-          remotePlugins.push(...process.env.MUSE_REMOTE_PLUGINS.split(';').map((s) => _.trim(s)));
+          remotePlugins.push(
+            ...process.env.MUSE_REMOTE_PLUGINS.split(';')
+              .filter(Boolean)
+              .map((s) => _.trim(s)),
+          );
         }
-
+        console.log('remotePlugins', remotePlugins);
         // if a plugin is defined by url like plugin-name#type:http://localhost:3030/main.js then it's loaded as a plugin
         // it could come from remotePlugins or MUSE_REMOTE_PLUGINS
-        const urlPlugins = remotePlugins.filter(Boolean).map((s) => {
-          if (/:https?:/.test(s)) {
-            return getPluginByUrl(s);
-          } else if (s.includes(':')) {
-            // it's in $path:$port format.
-            // It's a folder with relative or absolute path: /Users/my/project:3030 , ../my-plugin:3031
-            // Then need to get the plugin information
-            const arr = s.split(':');
-            const port = arr.pop();
-            const folderPath = arr.join(':');
-            const pkg = fs.readJsonSync(path.join(folderPath, 'package.json'));
-            if (!pkg.muse) throw new Error(`It's not a Muse plugin project: ${s}`);
+        const urlPlugins = remotePlugins
+          .filter(Boolean)
+          .map((s) => {
+            if (/:https?:/.test(s)) {
+              return getPluginByUrl(s);
+            } else if (s.includes(':')) {
+              // it's in $path:$port format.
+              // It's a folder with relative or absolute path: /Users/my/project:3030 , ../my-plugin:3031
+              // Then need to get the plugin information
+              const arr = s.split(':');
+              const port = arr.pop();
+              const folderPath = arr.join(':');
+              const pkg = fs.readJsonSync(path.join(folderPath, 'package.json'));
+              if (!pkg.muse) throw new Error(`It's not a Muse plugin project: ${s}`);
 
-            return {
-              name: pkg.name,
-              url: `http://localhost:${port}/${pkg.muse.type === 'boot' ? 'boot' : 'main'}.js`,
-              type: pkg.muse.type || 'normal',
-            };
-          }
-        });
+              return {
+                name: pkg.name,
+                url: `http://localhost:${port}/${pkg.muse.type === 'boot' ? 'boot' : 'main'}.js`,
+                type: pkg.muse.type || 'normal',
+              };
+            }
+            // only plugin name
+            return null;
+          })
+          .filter(Boolean);
 
         const localNames = [pkgJson.name];
         const localPlugins = getLocalPlugins();
@@ -220,6 +229,7 @@ muse.plugin.register({
         plugins.push(...realPluginsToLoad);
 
         // For a plugin included by url, keep the original meta too
+        console.log('urlPlugins:', urlPlugins);
         urlPlugins.forEach((up) => {
           if (pluginByName[up.name]) pluginByName[up.name].url = up.url;
           else plugins.push(up);

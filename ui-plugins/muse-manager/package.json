@@ -71,6 +71,11 @@
       "@ebay/muse-craco-plugin": "link:../../workspace/packages/muse-craco-plugin"
     }
   },
+  "pnpm": {
+    "overrides": {
+      "@ebay/muse-dev-utils": "link:../../workspace/packages/muse-dev-utils"
+    }
+  },
   "scripts": {
     "start": "muse-cra-patch && cross-env NODE_PATH=./node_modules PORT=3061 craco start",
     "vite:dev": "vite",

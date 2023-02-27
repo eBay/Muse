@@ -67,18 +67,18 @@ export default function SubAppContainer({ context = null, subApp }) {
   const [iframeMounted, setIframeMounted] = useState(false);
   const loc = useLocation();
   const parentFullPath = loc.href.replace(loc.origin, '');
-  const subUrl = urlUtils.toSubApp(parentFullPath, subApp.path, subApp.url);
-
+  const subPath = urlUtils.toSubApp(parentFullPath, subApp.path, subApp.url);
+  const subUrl = `${urlUtils.getBaseUrl(subApp.url)}${subPath}`;
   // When context is changed, send message to the child app
   useEffect(() => {
-    const iframe = iframeWrapperNode.current?.firstChild;
-    if (iframe && subAppState === 'app-loaded') {
+    // const iframe = iframeWrapperNode.current?.firstChild;
+    if (iframeNode.current && subAppState === 'app-loaded') {
       msgEngine?.sendToChild(
         {
           type: 'sub-app-context-change',
           data: context,
         },
-        iframe,
+        iframeNode.current,
       );
     }
   }, [context, subApp, subAppState]);
@@ -89,11 +89,11 @@ export default function SubAppContainer({ context = null, subApp }) {
     msgEngine?.sendToChild(
       {
         type: 'parent-route-change',
-        url: subUrl,
+        url: subPath,
       },
       iframeNode.current,
     );
-  }, [parentFullPath, subUrl]);
+  }, [parentFullPath, subPath]);
 
   // When current sub app is changed
   // If not persist, delete old app:
@@ -103,28 +103,39 @@ export default function SubAppContainer({ context = null, subApp }) {
   //   - cache iframe and state: but the post message will pause?
 
   // while iframe is loaded, ensure it's a muse app
-  const handleIframeOnload = useCallback(async evt => {
-    try {
-      await window.MUSE_GLOBAL?.msgEngine.assertMuseApp(iframeNode.current);
-      setIframeMounted(true);
-    } catch (err) {
-      console.log('Not a muse app: ', err);
-      setSubAppState('not-a-muse-app');
-    }
-  }, []);
+  const handleIframeOnload = useCallback(
+    async evt => {
+      console.log('iframe loaded');
+      if (!iframeMounted) {
+        setIframeMounted(true);
+      } else {
+        try {
+          await window.MUSE_GLOBAL?.msgEngine.assertMuseApp(iframeNode.current);
+          // setIframeMounted(true);
+        } catch (err) {
+          console.log('Not a muse app: ', err);
+          setSubAppState('not-a-muse-app');
+        }
+      }
+    },
+    [iframeMounted],
+  );
 
   useEffect(() => {
-    if (!iframeMounted) iframeNode.current.url = subUrl;
-    else {
+    // console.log('load sub app by url', iframeMounted, subUrl);
+    if (iframeMounted) {
+      console.log('load sub app by url', iframeNode.current, subPath);
+      iframeNode.current.src = subUrl; //`${urlUtils.getBaseUrl(subApp.url)}${subPath}`;
+    } else {
       msgEngine?.sendToChild(
         {
           type: 'parent-route-change',
-          url: subUrl,
+          url: subPath,
         },
         iframeNode.current,
       );
     }
-  }, [iframeMounted, subUrl]);
+  }, [iframeMounted, subUrl, subPath]);
 
   // handle sub app messages: route change, app load status, etc...
   // const handleSubAppMsg = useCallback(

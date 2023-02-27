@@ -58,7 +58,11 @@ devDependencies:
   '@craco/craco': 7.0.0_ukpcj5htjh7iuewhpj6xoercgi
   '@ebay/muse-core': 1.0.28
   '@ebay/muse-cra-patch': 1.0.1
+<<<<<<< HEAD
   '@ebay/muse-craco-plugin': 3.0.2_zn3b3rg7a76ksmoalqt6s3i4aq
+=======
+  '@ebay/muse-craco-plugin': 3.0.2_@craco+craco@7.0.0
+>>>>>>> 116f0a1 (Sub app in progress.)
   '@ebay/muse-ebay-dev': 1.0.3_@ebay+muse-core@1.0.28
   '@types/node': 18.11.9
   craco-less: 2.0.0_ree3i5dki7r4uuqd7wpz37jhse
@@ -1923,6 +1927,14 @@ packages:
       dotenv: 16.0.3
       lodash: 4.17.21
       resolve-cwd: 3.0.0
+      stream-browserify: 3.0.0
+      stream-http: 3.2.0
+      string_decoder: 1.3.0
+      timers-browserify: 2.0.12
+      tty-browserify: 0.0.1
+      url: 0.11.0
+      util: 0.12.5
+      vm-browserify: 1.1.2
     dev: true
 
   /@ebay/muse-ebay-dev/1.0.3_@ebay+muse-core@1.0.28:
