@@ -1,6 +1,5 @@
-import { useMemo, useCallback, useState } from 'react';
+import { useMemo } from 'react';
 import { Table, Button, Tag, Tooltip } from 'antd';
-import { FilterOutlined } from '@ant-design/icons';
 import jsPlugin from 'js-plugin';
 import semver from 'semver';
 import TimeAgo from 'react-time-ago';
@@ -19,7 +18,7 @@ import { versionDiff } from '../../utils';
 
 const NA = () => <span style={{ color: 'gray', fontSize: '13px' }}>N/A</span>;
 export default function PluginList({ app }) {
-  let { data, pending, error } = usePollingMuseData('muse.plugins');
+  const { data, pending, error } = usePollingMuseData('muse.plugins');
   const { data: latestReleases } = usePollingMuseData('muse.plugins.latest-releases');
   const { data: npmVersions } = usePollingMuseData('muse.npm.versions', { interval: 30000 });
   const searchValue = useSearchParam('search')?.toLowerCase() || '';
@@ -214,6 +213,7 @@ export default function PluginList({ app }) {
     columns,
     plugins: pluginList,
     searchValue,
+    app,
   });
   jsPlugin.invoke('museManager.pm.pluginList.postProcessColumns', { columns, plugins: pluginList });
   jsPlugin.sort(columns);
