@@ -1,4 +1,4 @@
-import { useMemo, useCallback } from 'react';
+import { useMemo, useCallback, useState } from 'react';
 import { Table, Button, Tag, Tooltip } from 'antd';
 import { FilterOutlined } from '@ant-design/icons';
 import jsPlugin from 'js-plugin';
@@ -7,31 +7,24 @@ import TimeAgo from 'react-time-ago';
 import NiceModal from '@ebay/nice-modal-react';
 import { RequestStatus, Highlighter } from '@ebay/muse-lib-antd/src/features/common';
 import tableConfig from '@ebay/muse-lib-antd/src/features/common/tableConfig';
-import { usePollingMuseData, useEnvFilter, usePlugins } from '../../hooks';
-import PluginActions from './PluginActions';
-import PluginStatus from './PluginStatus';
 import _ from 'lodash';
 import { useSearchParam } from 'react-use';
+import { usePollingMuseData, useEnvFilter } from '../../hooks';
+import PluginActions from './PluginActions';
+import PluginStatus from './PluginStatus';
 import PluginListBar from './PluginListBar';
-import EnvFilterMenu from './EnvFilterMenu';
+import { versionDiffColorMap } from './EnvFilterMenu';
 import config from '../../config';
+import { versionDiff } from '../../utils';
 
 const NA = () => <span style={{ color: 'gray', fontSize: '13px' }}>N/A</span>;
 export default function PluginList({ app }) {
-  const { data, pending, error } = usePollingMuseData('muse.plugins');
+  let { data, pending, error } = usePollingMuseData('muse.plugins');
   const { data: latestReleases } = usePollingMuseData('muse.plugins.latest-releases');
   const { data: npmVersions } = usePollingMuseData('muse.npm.versions', { interval: 30000 });
-  const { data: patchedPlugins } = usePlugins({
-    app,
-    allPlugins: data,
-    latestReleases,
-    npmVersions,
-  });
   const searchValue = useSearchParam('search')?.toLowerCase() || '';
   const scope = useSearchParam('scope') || config.get('pluginListDefaultScope');
-  const { envFilterMap, envFilterDropdownOpenMap, onEnvFilterChange, onFilterOpenChange } =
-    useEnvFilter();
-
+  const { getEnvFilterConfig, envFilterMap } = useEnvFilter({});
   const deploymentInfoByPlugin = useMemo(() => {
     return (
       (app &&
@@ -47,8 +40,7 @@ export default function PluginList({ app }) {
       {}
     );
   }, [app]);
-
-  let pluginList = patchedPlugins;
+  let pluginList = data;
 
   if (scope && pluginList) {
     switch (scope) {
@@ -74,52 +66,33 @@ export default function PluginList({ app }) {
 
   if (pluginList) {
     const entries = Object.entries(envFilterMap);
-    entries.forEach(([envName, filter]) => {
-      if (!filter) return;
+    entries.forEach(([envName, filterKey]) => {
+      if (!filterKey) return; // clear
       pluginList = pluginList.filter((p) => {
-        const envP = p.envs[envName] || {};
-        switch (filter) {
+        if (!deploymentInfoByPlugin[p.name]) return false;
+        switch (filterKey) {
           case 'null':
-            return envP.versionDiff === null;
           case 'patch':
           case 'minor':
           case 'major':
-            return envP.versionDiff === filter;
+            const latestVersion = latestReleases?.[p.name]?.version;
+            const diff = versionDiff(latestVersion, deploymentInfoByPlugin?.[p.name]?.[envName]);
+            return diff === filterKey;
           case 'core':
-            return envP.meta && envP.meta.core;
-
+            return p.type === 'core';
           default:
             return true;
         }
       });
       // Execute extended filters one by one
       const filters = _.flatten(
-        jsPlugin.invoke('museManager.pm.getEnvFilterFns', { filterKey: filter, app, envName }),
+        jsPlugin.invoke('museManager.pm.getEnvFilterFns', { filterKey, app, envName }),
       ).filter(Boolean);
       if (filters.length > 0) {
         pluginList = _.flow(filters)(pluginList);
       }
     });
   }
-
-  const envFilterConfig = useCallback(
-    (envName) => {
-      return {
-        filterDropdown: (
-          <EnvFilterMenu
-            selectedKeys={[envFilterMap[envName]]}
-            onSelect={(args) => onEnvFilterChange(envName, args)}
-          />
-        ),
-        filterIcon: (
-          <FilterOutlined style={{ color: envFilterMap[envName] ? '#1890ff' : '#aaa' }} />
-        ),
-        filterDropdownVisible: envFilterDropdownOpenMap[envName],
-        onFilterDropdownOpenChange: (visible) => onFilterOpenChange(envName, visible),
-      };
-    },
-    [envFilterDropdownOpenMap, envFilterMap, onEnvFilterChange, onFilterOpenChange],
-  );
 
   const columns = [
     {
@@ -129,7 +102,7 @@ export default function PluginList({ app }) {
       order: 10,
       sorter: tableConfig.defaultSorter('name'),
       ...tableConfig.defaultFilter(pluginList, 'type'),
-      render: (pluginName) => {
+      render: (pluginName, plugin) => {
         const tags = [];
         const npmVersion = npmVersions?.[pluginName];
         const latestVersion = latestReleases?.[pluginName]?.version;
@@ -147,7 +120,11 @@ export default function PluginList({ app }) {
         }
         return (
           <>
-            <a href="#">
+            <a
+              onClick={() => {
+                NiceModal.show('muse-manager.edit-plugin-modal', { plugin });
+              }}
+            >
               <Highlighter search={searchValue} text={pluginName} />
             </a>
             {tags}
@@ -161,16 +138,16 @@ export default function PluginList({ app }) {
         title: _.capitalize(env.name),
         order: i + 20,
         width: 120,
-        ...envFilterConfig(env.name),
+        ...getEnvFilterConfig(env.name),
         render: (_, plugin) => {
-          const version = deploymentInfoByPlugin?.[plugin.name]?.[env.name]; // _.find(env?.plugins, { name: pluginName })?.version;
-          if (!version) return <NA />;
+          const versionDeployed = deploymentInfoByPlugin?.[plugin.name]?.[env.name];
+          if (!versionDeployed) return <NA />;
           const latestVersion = latestReleases?.[plugin.name]?.version;
-          if (!latestVersion) return version;
-          const color = semver.lt(version, latestVersion) ? 'orange' : '#8bc34a';
+          if (!latestVersion) return versionDeployed;
+          const color = versionDiffColorMap[versionDiff(versionDeployed, latestVersion)];
           return (
             <Button type="link" style={{ textAlign: 'left', padding: 0, color }}>
-              v{version}
+              v{versionDeployed}
             </Button>
           );
         },
@@ -240,6 +217,7 @@ export default function PluginList({ app }) {
   });
   jsPlugin.invoke('museManager.pm.pluginList.postProcessColumns', { columns, plugins: pluginList });
   jsPlugin.sort(columns);
+
   return (
     <div>
       {!app && <h1>Plugins</h1>}

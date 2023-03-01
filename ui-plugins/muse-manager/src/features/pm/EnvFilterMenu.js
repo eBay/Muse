@@ -2,6 +2,13 @@ import { Menu } from 'antd';
 import jsPlugin from 'js-plugin';
 import { flatten } from 'lodash';
 
+export const versionDiffColorMap = {
+  null: '#8bc34a',
+  patch: '#ffc107',
+  minor: '#9c27b0',
+  major: '#e53935',
+};
+
 export default function EnvFilterMenu(props) {
   let items = [
     {
@@ -57,7 +64,9 @@ export default function EnvFilterMenu(props) {
   jsPlugin.sort(items);
 
   const clearItem = {
-    label: <p className="text-center border-0 border-t border-[#f0f0f0] border-solid">Clear</p>,
+    label: (
+      <p className="text-center border-0 border-t border-[#f0f0f0] border-solid py-1 mb-0">Clear</p>
+    ),
     key: 'clear',
   };
 
