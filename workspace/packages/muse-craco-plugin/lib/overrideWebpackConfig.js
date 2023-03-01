@@ -2,7 +2,6 @@ const crypto = require('crypto');
 const { getLoaders, loaderByName } = require('@craco/craco');
 const { pkgJson, isDev, isTestBuild } = require('@ebay/muse-dev-utils').museContext;
 const handleMuseLocalPlugins = require('./handleMuseLocalPlugins');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const _ = require('lodash');
 const path = require('path');
 
@@ -65,16 +64,6 @@ module.exports = ({ webpackConfig }) => {
         match.loader.options.base = styleBase++;
       }
     });
-  }
-
-  // Bundle analyzer for production build
-  if (process.env.NODE_ENV === 'production' && !process.env.MUSE_TEST_BUILD) {
-    webpackConfig.plugins.push(
-      new BundleAnalyzerPlugin({
-        analyzerMode: 'static',
-        openAnalyzer: false,
-      }),
-    );
   }
 
   return webpackConfig;
