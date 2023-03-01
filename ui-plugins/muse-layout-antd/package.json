@@ -52,7 +52,8 @@
     "craco-less": "2.0.0",
     "cross-env": "7.0.3",
     "enzyme": "3.11.0",
-    "react-scripts": "^5.0.1"
+    "react-scripts": "^5.0.1",
+    "webpack-bundle-analyzer": "^4.8.0"
   },
   "dependencies": {
     "@ebay/muse-dev-utils": "^1.0.31",

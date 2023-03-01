@@ -13,8 +13,8 @@ const hashed = crypto
 let styleBase = parseInt(hashed, 16);
 
 function configIstanbul(config) {
-  const oneOfRules = _.find(config.module.rules, r => !!r.oneOf);
-  const babelLoader = _.find(oneOfRules.oneOf, item => item?.loader?.includes('babel-loader'));
+  const oneOfRules = _.find(config.module.rules, (r) => !!r.oneOf);
+  const babelLoader = _.find(oneOfRules.oneOf, (item) => item?.loader?.includes('babel-loader'));
   babelLoader.options.plugins.push([
     require.resolve('babel-plugin-istanbul'),
     {
@@ -26,7 +26,7 @@ function configIstanbul(config) {
 
 module.exports = ({ webpackConfig }) => {
   // For development and build:test, need to set "babel-plugin-istanbul" webpack plugin to enable generate test report.
-  if(isDev || isTestBuild) {
+  if (isDev || isTestBuild) {
     configIstanbul(webpackConfig);
   }
   // For development, need to load all configured local plugin projects
@@ -37,10 +37,10 @@ module.exports = ({ webpackConfig }) => {
   // Disable MiniCssExtractPlugin and use style-loader
   // This is only for production build
   // This setting is for production since only prod config has MiniCssExtractPlugin
-  webpackConfig.module?.rules?.forEach(rule => {
-    rule?.oneOf?.forEach(item => {
-      if (item?.use?.some(u => u?.loader?.includes('mini-css-extract-plugin'))) {
-        item.use = item.use?.filter(u => !u?.loader?.includes('mini-css-extract-plugin'));
+  webpackConfig.module?.rules?.forEach((rule) => {
+    rule?.oneOf?.forEach((item) => {
+      if (item?.use?.some((u) => u?.loader?.includes('mini-css-extract-plugin'))) {
+        item.use = item.use?.filter((u) => !u?.loader?.includes('mini-css-extract-plugin'));
         item.use.unshift({
           loader: 'style-loader',
           options: { base: styleBase++ },
@@ -54,7 +54,7 @@ module.exports = ({ webpackConfig }) => {
   const { hasFoundAny, matches } = getLoaders(webpackConfig, loaderByName('style-loader'));
 
   if (hasFoundAny) {
-    matches.forEach(match => {
+    matches.forEach((match) => {
       if (typeof match.loader === 'string') {
         match.parent[match.index] = {
           loader: 'style-loader',

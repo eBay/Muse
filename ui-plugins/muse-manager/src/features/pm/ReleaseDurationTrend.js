@@ -3,6 +3,7 @@ import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import ReactECharts from 'echarts-for-react';
 import { useMuseData } from '../../hooks';
 
+const formatToKB = (value) => (isNaN(+value) ? null : (value / 1000).toFixed(2));
 export default function MyResponsiveBar({ plugin }) {
   const { data: releases, error, pending } = useMuseData(`muse.plugin-releases.${plugin.name}`);
 
@@ -19,18 +20,23 @@ export default function MyResponsiveBar({ plugin }) {
         formatter: (params) => {
           const { version, main } = params?.[0]?.data || {};
           const headerP = `<p style="display:flex;width:150px;align-items:center"><strong>v${version}:</strong><span style="margin-left:auto">${
-            main || '--'
+            formatToKB(main) || '--'
           } kB</span></p>`;
+          let sumTimes = 0;
           const metrics = params
             ?.filter((item) => item.seriesName !== 'main.js')
             ?.map(({ color, seriesName, value }) => {
+              sumTimes += value[seriesName];
               return `<p style="display:flex;width:150px;align-items:center">
               <span style="width: 10px; height: 10px; border-radius: 50%; background:${color};margin-right:3px"></span>
               <span>${seriesName}:</span><span style="margin-left:auto">${
                 value[seriesName] ? (value[seriesName] / 1000)?.toFixed(1) : '--'
               } s</span></p>`;
             });
-          return headerP + metrics.join('');
+          const summary = `<p style="display:flex;width:150px;align-items:center;margin-bottom: 0px"> <span>Total:</span><span style="margin-left:auto">${
+            sumTimes ? (sumTimes / 1000)?.toFixed(1) : '--'
+          } s</span></p>`;
+          return headerP + metrics.join('') + summary;
         },
       },
       legend: {},
@@ -59,7 +65,7 @@ export default function MyResponsiveBar({ plugin }) {
           position: 'right',
           alignTicks: true,
           axisLabel: {
-            formatter: '{value}',
+            formatter: (value) => formatToKB(value),
           },
         },
       ],
