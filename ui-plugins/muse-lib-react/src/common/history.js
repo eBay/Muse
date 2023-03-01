@@ -25,11 +25,8 @@ const history = historyCreator();
 window.MUSE_CONFIG?.msgEngine?.addListener('muse-react_history', msg => {
   // Parent may notify the child iframe to update url: implemented in SubAppContainer
   // muse-boot will notify parent when child iframe url changed
-  if (msg.type === 'parent-route-change') {
-    const url = document.location.href.replace(document.location.origin, '');
-    if (msg.url !== url) {
-      history.push(msg.url);
-    }
+  if (msg.type === 'parent-route-change' && msg.pathname !== document.location.pathname) {
+    history.push(msg.pathname);
   }
 });
 

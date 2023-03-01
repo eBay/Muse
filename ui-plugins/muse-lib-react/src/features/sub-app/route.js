@@ -24,8 +24,7 @@ pMuseLibReact?.subApps
   ?.forEach(subApp => {
     console.log('pushing sub app route: ', subApp);
     subAppsRoute.push({
-      path: subApp.path,
-      exact: false,
+      path: subApp.path + '/*',
       component: () => (
         <SubAppContainer
           key={subApp.url}

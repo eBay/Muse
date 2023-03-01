@@ -30,43 +30,6 @@ function handleIndexRoute(route) {
   route.childRoutes.forEach(handleIndexRoute);
 }
 
-// routes.forEach(handleIndexRoute);
-
-function handleParentRoutes(routes) {
-  const byId = {};
-  const arr = [...routes];
-  const hasParent = [];
-  // traverse routes recursively
-  while (arr.length > 0) {
-    const r = arr.shift();
-
-    if (r?.id) {
-      byId[r.id] = r;
-    }
-    if (r.childRoutes) {
-      arr.push(...r.childRoutes);
-      // find all routes which have parents
-      [...r.childRoutes].forEach(cr => {
-        if (cr.parent) {
-          hasParent.push(cr);
-          _.pull(r.childRoutes, cr);
-        }
-      });
-    }
-  }
-
-  // for all routes which have parents, put them in the correct childRoutes
-  hasParent.forEach(r => {
-    const parentId = r.parent;
-    if (byId[parentId]) {
-      if (!byId[parentId].childRoutes) byId[parentId].childRoutes = [];
-      byId[parentId].childRoutes.unshift(r);
-    } else {
-      console.warn(`Warning: no parent route found with id ${parentId}.`, r);
-    }
-  });
-}
-
 const normalizeRoutes = routes => {
   const byId = {};
   const arr = [...routes];

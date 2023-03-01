@@ -5,6 +5,7 @@ import error from './error';
 import registerSw from './registerSw';
 import { loadInParallel, getPluginId } from './utils';
 import msgEngine from './msgEngine';
+import './urlListener';
 
 import './style.css';
 
@@ -107,7 +108,7 @@ async function start() {
   msgEngine.sendToParent({
     type: 'app-state-change',
     state: 'app-starting',
-    url: document.location.href,
+    // url: document.location.href,
   });
 
   registerSw();
@@ -184,7 +185,7 @@ async function start() {
   msgEngine.sendToParent({
     type: 'app-state-change',
     state: 'app-loading',
-    url: document.location.href,
+    // url: document.location.href,
   });
   // Load init plugins
   // Init plugins should be small and not depend on each other
@@ -298,7 +299,7 @@ start()
     msgEngine.sendToParent({
       type: 'app-state-change',
       state: 'app-loaded',
-      url: document.location.href,
+      // url: document.location.href,
     });
     console.log(`Muse app started in ${(timeEnd - timeStart) / 1000} seconds.`);
   })
@@ -312,6 +313,6 @@ start()
     msgEngine.sendToParent({
       type: 'app-state-change',
       state: 'app-failed',
-      url: document.location.href,
+      // url: document.location.href,
     });
   });

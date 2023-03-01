@@ -1,5 +1,4 @@
 // Message engine is used to communicate between main app and sub app via postMessage
-
 const makeId = () => Math.random().toString(36).substring(2);
 
 const msgEngine = {
@@ -21,6 +20,7 @@ const msgEngine = {
       'message',
       (msg) => {
         if (msg?.data?.type !== 'muse') return;
+        console.log('on muse post msg: ', msg);
         if (msg?.data?.payload?.promiseId) {
           this.resolvePromise(msg.data.payload.promiseId, msg?.data.payload?.data);
         }
@@ -49,7 +49,6 @@ const msgEngine = {
     let promise = null;
     let promiseHandler = null;
     let id = null;
-    console.log('send to child: ', msg, iframe, isPromise);
     if (isPromise) {
       id = makeId();
       promise = new Promise((resolve, reject) => {
@@ -81,8 +80,6 @@ const msgEngine = {
     let promise = null;
     let promiseHandler = null;
     let id = null;
-    console.log('send to child: ', msg, isPromise);
-
     if (isPromise) {
       id = makeId();
       promise = new Promise((resolve, reject) => {
@@ -112,7 +109,6 @@ const msgEngine = {
   },
 
   assertMuseApp(iframe) {
-    console.log('asset muse app');
     return new Promise((resolve, reject) => {
       this.sendToChild({ type: 'assert-muse-app' }, this.getIframe(iframe), true).then(resolve);
       setTimeout(() => reject(new Error('Muse app check timeout.')), 300); // if no response in 300ms (normally 30ms), it means it's not a Muse app.
@@ -135,7 +131,6 @@ msgEngine.init();
 
 // Assert a client is a Muse app
 msgEngine.addListener('handle-muse-app-check', (payload, msg) => {
-  console.log('handle muse app msg: ', payload, msg);
   if (payload?.type === 'assert-muse-app' && msg.data?.from?.clientKey === 'parent') {
     // Tell parent I'm a Muse app.
     msgEngine.resolveParent(msg?.data?.promiseId, {
