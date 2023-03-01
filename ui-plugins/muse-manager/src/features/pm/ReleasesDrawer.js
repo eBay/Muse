@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import NiceModal, { useModal, antdDrawer } from '@ebay/nice-modal-react';
+import NiceModal, { useModal, antdDrawerV5 } from '@ebay/nice-modal-react';
 import TimeAgo from 'react-time-ago';
 import prettyMs from 'pretty-ms';
 import { Drawer, Table } from 'antd';
@@ -109,7 +109,7 @@ const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
 
   const loading = !releases && releases !== null && !error;
   return (
-    <Drawer {...antdDrawer(modal)} title={`Releases of ${plugin.name}`} width="1200px">
+    <Drawer {...antdDrawerV5(modal)} title={`Releases of ${plugin.name}`} width="1200px">
       <RequestStatus loading={loading} error={error} loadingMode="skeleton" />
       {!loading && (
         <>

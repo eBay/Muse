@@ -14,7 +14,6 @@ import { usePollingMuseData } from '../../hooks';
 import PluginList from '../pm/PluginList';
 import AppOverview from './AppOverview';
 import EnvironmentVariables from './EnvironmentVariables';
-const { TabPane } = Tabs;
 
 export default function AppPage() {
   //
@@ -24,47 +23,47 @@ export default function AppPage() {
   const tabs = [
     {
       key: 'overview',
-      name: (
+      label: (
         <span>
           <EyeOutlined />
           Overview
         </span>
       ),
       order: 10,
-      component: AppOverview,
+      children: <AppOverview app={app} />,
     },
     {
       key: 'plugins',
-      name: (
+      label: (
         <span>
           <AppstoreOutlined />
           Plugins
         </span>
       ),
       order: 20,
-      component: PluginList,
+      children: <PluginList app={app} />,
     },
     {
       key: 'variables',
-      name: (
+      label: (
         <span>
           <FunctionOutlined />
           Variables
         </span>
       ),
       order: 30,
-      component: EnvironmentVariables,
+      children: <EnvironmentVariables app={app} />,
     },
     {
       key: 'activities',
-      name: (
+      label: (
         <span>
           <FieldTimeOutlined />
           Activities
         </span>
       ),
       order: 40,
-      component: () => 'Activites',
+      children: 'Activites',
     },
   ];
 
@@ -73,7 +72,7 @@ export default function AppPage() {
   jsPlugin.invoke('museManager.appPage.postProcessTabs', tabs);
   jsPlugin.sort(tabs);
 
-  if (!tabs.map(t => t.key).includes(tabKey)) {
+  if (!tabs.map((t) => t.key).includes(tabKey)) {
     return <Alert type="error" message={`Unknown tab: ${tabKey}`} showIcon />;
   }
   return (
@@ -82,13 +81,7 @@ export default function AppPage() {
       <RequestStatus loading={!error && !app} error={!app && error} loadingMode="skeleton" />
 
       {app && (
-        <Tabs activeKey={tabKey} onChange={k => navigate(`/app/${appName}/${k}`)}>
-          {tabs.map(tab => (
-            <TabPane tab={tab.name} key={tab.key}>
-              <tab.component app={app}></tab.component>
-            </TabPane>
-          ))}
-        </Tabs>
+        <Tabs activeKey={tabKey} onChange={(k) => navigate(`/app/${appName}/${k}`)} items={tabs} />
       )}
     </div>
   );

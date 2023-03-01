@@ -17,13 +17,12 @@ function renderRouteConfigV3(routes, contextPath) {
 
   const renderRoute = (item, routeContextPath) => {
     let newContextPath;
-    const isPathArray = _.isArray(item.path);
-    if (/^\//.test(item.path) || isPathArray) {
+    if (/^\//.test(item.path)) {
       newContextPath = item.path;
     } else {
       newContextPath = `${routeContextPath}/${item.path}`;
     }
-    if (!isPathArray) newContextPath = newContextPath.replace(/\/+/g, '/');
+    newContextPath = newContextPath.replace(/\/+/g, '/');
     if ((item.render || item.component) && item.childRoutes) {
       const childRoutes = renderRouteConfigV3(item.childRoutes, newContextPath);
       children.push(
@@ -58,7 +57,22 @@ function renderRouteConfigV3(routes, contextPath) {
     }
   };
 
-  routes.forEach(item => renderRoute(item, contextPath));
+  routes
+    .reduce((p, c) => {
+      if (_.isArray(c.path)) {
+        // support path as an array, like react router v5
+        c.path.forEach(path => {
+          p.push({
+            ...c,
+            path,
+          });
+        });
+      } else {
+        p.push(c);
+      }
+      return p;
+    }, [])
+    .forEach(item => renderRoute(item, contextPath));
 
   return children;
 }
@@ -107,7 +121,7 @@ const Root = () => {
     }
   }, []);
   useEffect(() => {
-    const k = Math.random();
+    const k = 'muse-react_handle-context-change';
     window.MUSE_CONFIG?.msgEngine?.addListener(k, handleMsg);
     return () => window.MUSE_CONFIG?.msgEngine?.removeListener(k);
   }, [handleMsg]);

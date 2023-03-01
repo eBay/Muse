@@ -1,12 +1,13 @@
 import { useCallback } from 'react';
 import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
 import { Modal, message, Form } from 'antd';
-// import FormBuilder from 'antd-form-builder';
 import _ from 'lodash';
 import NiceForm from '@ebay/nice-form-react';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import { useSyncStatus, useMuseApi } from '../../hooks';
 import plugin from 'js-plugin';
+import utils from '@ebay/muse-lib-antd/src/utils';
+
 const user = window.MUSE_GLOBAL.getUser();
 const EditAppModal = NiceModal.create(({ app }) => {
   const modal = useModal();
@@ -30,9 +31,7 @@ const EditAppModal = NiceModal.create(({ app }) => {
       },
     ],
   };
-
-  plugin.invoke('museManager.updateAppForm.processMeta', { meta, app, form });
-  plugin.sort(meta.fields);
+  utils.extendFormMeta(meta, 'museManager.updateAppForm', { meta, app, form });
 
   const watches = plugin.invoke('museManager.updateAppForm.watch', { meta, app, form });
   Form.useWatch([], form);
@@ -57,7 +56,7 @@ const EditAppModal = NiceModal.create(({ app }) => {
         message.success('Update app success.');
         await syncStatus();
       })
-      .catch(err => {
+      .catch((err) => {
         console.log('failed to update', err);
       });
   }, [updateApp, syncStatus, modal, form, app.name]);
