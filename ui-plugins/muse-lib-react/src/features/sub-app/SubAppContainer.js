@@ -11,7 +11,7 @@
  * Sub apps configured in muse-react plugin:
  * [
  *   {
- *     path: '/muse-apps', // no array
+ *     path: '/muse-apps', // no array. Support regex: /app/.* /someapp
  *     url: 'https://demo.muse.vip.ebay.com/muse-apps',
  *     persist: false,
  *     name: 'musedemo',
@@ -19,13 +19,11 @@
  *   }
  * ]
  */
-import React, { useEffect, useState, useCallback, useRef } from 'react';
+import React, { useEffect, useMemo, useState, useCallback, useRef } from 'react';
 import { useLocation, usePrevious } from 'react-use';
 import _ from 'lodash';
-import { pathToRegexp } from 'path-to-regexp';
 import history from '../../common/history';
 import urlUtils from './urlUtils';
-import { useSetSubAppState } from './redux/hooks';
 import { LoadingSkeleton, C2SProxyFailed } from './';
 
 const debouncedPush = _.debounce(url => {

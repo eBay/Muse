@@ -2,10 +2,10 @@ import { pathToRegexp } from 'path-to-regexp';
 
 export default {
   // Map a parent url to the sub app
-  toSubApp(url, path, subAppUrl) {
-    const re = pathToRegexp(path, [], { end: false });
-    if (re.test(path)) {
-      let u = url.replace(re, '');
+  toSubApp(fullPath, subPath, subAppUrl) {
+    const re = pathToRegexp(subPath, [], { end: false });
+    if (re.test(fullPath)) {
+      let u = fullPath.replace(re, '');
       if (!u.startsWith('/')) u = '/' + u;
       // https://abc.com/ab/def
       const arr = subAppUrl.split('/');
