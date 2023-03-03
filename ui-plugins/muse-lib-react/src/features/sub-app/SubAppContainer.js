@@ -30,30 +30,6 @@ const debouncedPush = _.debounce(url => {
   history.push(url);
 });
 
-const subAppCache = {};
-
-// export default function SubAppContainerController({ context = null, subApps = [], subApp }) {
-//   // TODO: do some cache for sub apps
-//   const loc = useLocation();
-//   const parentFullPath = loc.href.replace(loc.origin, '');
-
-//   // find the current app info by url
-//   let currentApp = null;
-//   subApps.forEach(subApp => {
-//     const re = pathToRegexp(subApp.path, [], { end: false });
-//     if (re.test(parentFullPath)) {
-//       const s = parentFullPath.replace(re, '');
-//       if (!s || /^[/#?]/.test(s)) {
-//         // "/abc" should not match "/abcde"
-//         currentApp = subApp;
-//       }
-//     }
-//   });
-
-//   if (!currentApp) return null;
-//   return <SubAppContainer context={context} subApps={subApps} currentApp={currentApp} />;
-// }
-
 // Map a url pattern to load another muse app in iframe
 // For example: /groot-ui => https://grootapp.muse.vip.ebay.com
 // It will sync path, querystring, hash between the parent and iframe
@@ -83,18 +59,6 @@ export default function SubAppContainer({ context = null, subApp }) {
       );
     }
   }, [context, subApp, subAppState]);
-
-  // Whenever parent url is changed, notify sub app to sync the url
-  // useEffect(() => {
-  //   if (!iframeWrapper.current) return;
-  //   msgEngine?.sendToChild(
-  //     {
-  //       type: 'parent-route-change',
-  //       pathname: subPath,
-  //     },
-  //     iframeWrapper.current.firstChild,
-  //   );
-  // }, [subPath]);
 
   // When current sub app is changed
   // If not persist, delete old app:
