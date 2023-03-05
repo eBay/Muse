@@ -66,13 +66,6 @@
   },
   "pnpm2": {
     "overrides": {
-      "@ebay/muse-webpack-plugin": "link:../../workspace/packages/muse-webpack-plugin",
-      "@ebay/muse-dev-utils": "link:../../workspace/packages/muse-dev-utils",
-      "@ebay/muse-craco-plugin": "link:../../workspace/packages/muse-craco-plugin"
-    }
-  },
-  "pnpm": {
-    "overrides": {
       "@ebay/muse-dev-utils": "link:../../workspace/packages/muse-dev-utils"
     }
   },

@@ -18,7 +18,7 @@ const pMuseLibReact = window.MUSE_GLOBAL?.plugins?.find(p => p.name === '@ebay/m
 //     },
 //   ],
 // };
-console.log('found react plugin: ', pMuseLibReact);
+
 pMuseLibReact?.subApps
   ?.filter(s => s.mountPoint === 'default' || !s.mountPoint)
   ?.forEach(subApp => {

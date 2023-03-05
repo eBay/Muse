@@ -1,8 +1,5 @@
 lockfileVersion: 5.4
 
-overrides:
-  '@ebay/muse-dev-utils': link:../../workspace/packages/muse-dev-utils
-
 specifiers:
   '@changesets/cli': ^2.23.2
   '@craco/craco': 7.0.0
@@ -10,7 +7,7 @@ specifiers:
   '@ebay/muse-core': 1.0.28
   '@ebay/muse-cra-patch': ^1.0.1
   '@ebay/muse-craco-plugin': ^3.0.1
-  '@ebay/muse-dev-utils': link:../../workspace/packages/muse-dev-utils
+  '@ebay/muse-dev-utils': ^1.0.31
   '@ebay/muse-ebay-dev': 1.0.3
   '@ebay/muse-express-middleware': 1.0.30
   '@ebay/muse-lib-antd': 1.1.4
@@ -66,8 +63,8 @@ devDependencies:
   '@craco/craco': 7.0.0_j3ql74q7aewvl36zs2z25ws3lu
   '@ebay/muse-core': 1.0.28
   '@ebay/muse-cra-patch': 1.0.1
-  '@ebay/muse-craco-plugin': 3.0.1_@craco+craco@7.0.0
-  '@ebay/muse-dev-utils': link:../../workspace/packages/muse-dev-utils
+  '@ebay/muse-craco-plugin': 3.0.1_zn3b3rg7a76ksmoalqt6s3i4aq
+  '@ebay/muse-dev-utils': 1.0.31_@ebay+muse-core@1.0.28
   '@ebay/muse-ebay-dev': 1.0.3_@ebay+muse-core@1.0.28
   '@ebay/muse-express-middleware': 1.0.30_@ebay+muse-core@1.0.28
   '@testing-library/jest-dom': 5.16.5
@@ -1977,14 +1974,30 @@ packages:
       resolve-cwd: 3.0.0
     dev: true
 
-  /@ebay/muse-craco-plugin/3.0.1_@craco+craco@7.0.0:
+  /@ebay/muse-craco-plugin/3.0.1_zn3b3rg7a76ksmoalqt6s3i4aq:
     resolution: {integrity: sha1-rVpOd7s3MgNksWLLtg4RtnGbbZE=, tarball: '@ebay/muse-craco-plugin/-/@ebay/muse-craco-plugin-3.0.1.tgz'}
     peerDependencies:
       '@craco/craco': 7.0.0
     dependencies:
       '@craco/craco': 7.0.0_j3ql74q7aewvl36zs2z25ws3lu
-      '@ebay/muse-dev-utils': link:../../workspace/packages/muse-dev-utils
+      '@ebay/muse-dev-utils': 1.0.31_@ebay+muse-core@1.0.28
       '@ebay/muse-webpack-plugin': 1.0.27
+      resolve-cwd: 3.0.0
+    transitivePeerDependencies:
+      - '@ebay/muse-core'
+      - express
+    dev: true
+
+  /@ebay/muse-dev-utils/1.0.31_@ebay+muse-core@1.0.28:
+    resolution: {integrity: sha1-Dx08UZBUOiKLlFul/lIvZA4veh4=, tarball: '@ebay/muse-dev-utils/-/@ebay/muse-dev-utils-1.0.31.tgz'}
+    peerDependencies:
+      '@ebay/muse-core': ^1.0.28
+      express: ^4.18.1
+    dependencies:
+      '@ebay/muse-core': 1.0.28
+      '@ebay/muse-express-middleware': 1.0.30_@ebay+muse-core@1.0.28
+      dotenv: 16.0.3
+      lodash: 4.17.21
       resolve-cwd: 3.0.0
     dev: true
 

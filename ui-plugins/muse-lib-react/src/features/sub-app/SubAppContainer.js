@@ -37,19 +37,14 @@ const msgEngine = window.MUSE_GLOBAL.msgEngine;
 
 export default function SubAppContainer({ context = null, subApp }) {
   const iframeWrapper = useRef();
-  // const iframeNode = useRef();
   const [subAppState, setSubAppState] = useState();
-  // const [iframeMounted, setIframeMounted] = useState(false);
   const loc = useLocation();
-  // let urlPath = loc.href.replace(`${loc.protocol}//${loc.host}`);
-  // if (!urlPath.startsWith('/') urlPath = '/' + urlPath;
   const parentFullPath = loc.href.replace(loc.origin, '');
   const subPath = urlUtils.getChildUrl(subApp);
 
   const subUrl = `${urlUtils.getOrigin(subApp.url)}${subPath}`;
   // When context is changed, send message to the child app
   useEffect(() => {
-    // const iframe = iframeWrapperNode.current?.firstChild;
     if (iframeWrapper.current && subAppState === 'app-loaded') {
       msgEngine?.sendToChild(
         {
@@ -70,13 +65,8 @@ export default function SubAppContainer({ context = null, subApp }) {
 
   // while iframe is loaded, ensure it's a muse app
   const handleIframeOnload = useCallback(async evt => {
-    // if (!iframeMounted) {
-    //   // The first time
-    //   setIframeMounted(true);
-    // } else {
     try {
       await window.MUSE_GLOBAL?.msgEngine.assertMuseApp(iframeWrapper.current.firstChild);
-      // setIframeMounted(true);
     } catch (err) {
       console.log('Not a muse app: ', err);
       setSubAppState('not-a-muse-app');
