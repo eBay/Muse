@@ -44,8 +44,9 @@ export default function SubAppContainer({ context = null, subApp }) {
   // let urlPath = loc.href.replace(`${loc.protocol}//${loc.host}`);
   // if (!urlPath.startsWith('/') urlPath = '/' + urlPath;
   const parentFullPath = loc.href.replace(loc.origin, '');
-  const subPath = urlUtils.toSubApp(parentFullPath, subApp.path, subApp.url);
-  const subUrl = `${urlUtils.getBaseUrl(subApp.url)}${subPath}`;
+  const subPath = urlUtils.getChildUrl(subApp);
+
+  const subUrl = `${urlUtils.getOrigin(subApp.url)}${subPath}`;
   // When context is changed, send message to the child app
   useEffect(() => {
     // const iframe = iframeWrapperNode.current?.firstChild;
@@ -84,6 +85,7 @@ export default function SubAppContainer({ context = null, subApp }) {
   }, []);
 
   useEffect(() => {
+    if (!subPath) return;
     if (!iframeWrapper.current?.firstChild) {
       // when first load, create iframe node to load sub app
       const iframe = document.createElement('iframe');
@@ -99,7 +101,7 @@ export default function SubAppContainer({ context = null, subApp }) {
       msgEngine?.sendToChild(
         {
           type: 'parent-route-change',
-          pathname: subPath,
+          path: subPath,
         },
         iframeWrapper.current.firstChild,
       );
@@ -109,41 +111,10 @@ export default function SubAppContainer({ context = null, subApp }) {
   // handle sub app messages: route change, app load status, etc...
   const handleSubAppMsg = useCallback(
     msg => {
-      console.log('handle msg: ', msg);
       if (!msg.type) return;
-      if (msg.type === 'child-route-change' && msg.pathname) {
-        // mountedSubPath is the path defined in subApp.url, for example:
-        //   - https://subapp.musejs.org/foo/bar => /foo/bar
-        //   - https://subapp.musejs.org => '/'
-        const mountedSubPath = '/' + subApp.url.split('/').slice(3).join('/');
-        // If the sub app go out of the registered mounted path, do nothing. This is usually due to a un-well design.
-        // /foo - '/' => valid
-        // /foo - /foo => valid
-        // /foo?query - /foo => valid
-        // /foo#hash - /foo => valid
-        // /foo/bar - /foo => valid
-        // /xxx - /foo => invalid
-        // /foo/bar - /foo => valid
-        // /bar - /foo => invalid
-        const isPathValid =
-          mountedSubPath === '/' ||
-          (msg.pathname.startsWith(mountedSubPath) &&
-            ['', '?', '/', '#'].includes(msg.pathname.chartAt(mountedSubPath.length)));
-        if (!isPathValid) return;
-        const newParentFullPath = (
-          subApp.path +
-          '/' +
-          // msg.pathname = '/', mountedSubPath='/' => ''
-          // msg.pathname = '/abc', mountedSubPath='/' => 'abc'
-          // msg.pathname = '/abc', mountedSubPath='/abc' => ''
-          // msg.pathname = '/abc/def', mountedSubPath='/abc' => '/def'
-          msg.pathname.replace(mountedSubPath, '')
-        )
-          .replace('//', '/')
-          .replace(/\/$/, '');
-        // const newFullPath = subApp.path + msg.pathname;
-        console.log(msg.pathname, newParentFullPath, mountedSubPath);
-
+      // Here msg.path is the full path of sub app
+      if (msg.type === 'child-route-change' && msg.path) {
+        const newParentFullPath = urlUtils.getParentPath(msg.path, subApp);
         if (newParentFullPath !== parentFullPath) {
           // Need debounce because there maybe quick redirect of the sub app which may cause endless loop
           debouncedPush(newParentFullPath);
@@ -171,6 +142,9 @@ export default function SubAppContainer({ context = null, subApp }) {
     return () => msgEngine?.removeListener(k);
   }, [handleSubAppMsg]);
 
+  if (!subPath) {
+    return 'Error: can not detect a sub app. Are you using sub app container correctly?';
+  }
   return (
     <div className="muse-react_sub-app-sub-app-container">
       {subAppState !== 'app-loaded' &&

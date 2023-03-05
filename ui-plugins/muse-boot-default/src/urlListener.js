@@ -23,7 +23,7 @@ patchHistoryMethod('replaceState');
 const handleUrlChange = () => {
   msgEngine.sendToParent({
     type: 'child-route-change',
-    pathname: document.location.pathname,
+    path: document.location.href.replace(document.location.origin, ''),
   });
 };
 window.addEventListener('popstate', handleUrlChange);
