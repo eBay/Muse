@@ -1,5 +1,13 @@
 # @ebay/muse-craco-plugin
 
+## 3.0.3
+
+### Patch Changes
+
+- 2206fc5: test
+- Updated dependencies [2206fc5]
+  - @ebay/muse-dev-utils@1.0.32
+
 ## 3.0.2
 
 ### Patch Changes

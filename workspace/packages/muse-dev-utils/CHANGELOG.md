@@ -1,5 +1,11 @@
 # @ebay/muse-dev-utils
 
+## 1.0.32
+
+### Patch Changes
+
+- 2206fc5: test
+
 ## 1.0.31
 
 ### Patch Changes
