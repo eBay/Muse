@@ -1,5 +1,11 @@
 # @ebay/muse-craco-plugin
 
+## 3.0.4
+
+### Patch Changes
+
+- remove automatic polyfills
+
 ## 3.0.3
 
 ### Patch Changes
