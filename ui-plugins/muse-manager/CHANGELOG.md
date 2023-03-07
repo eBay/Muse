@@ -1,5 +1,11 @@
 # @ebay/muse-manager
 
+## 1.1.10
+
+### Patch Changes
+
+- upgrade libs
+
 ## 1.1.6
 
 ### Patch Changes
