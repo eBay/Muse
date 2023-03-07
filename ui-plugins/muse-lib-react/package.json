@@ -59,7 +59,7 @@
     "@craco/craco": "7.0.0",
     "@ebay/muse-core": "1.0.28",
     "@ebay/muse-cra-patch": "^1.0.1",
-    "@ebay/muse-craco-plugin": "3.0.2",
+    "@ebay/muse-craco-plugin": "3.0.4",
     "@ebay/muse-ebay-dev": "1.0.3",
     "@types/node": "18.11.9",
     "craco-less": "2.0.0",
