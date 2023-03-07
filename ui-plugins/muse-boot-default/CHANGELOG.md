@@ -1,5 +1,11 @@
 # @ebay/muse-boot-default
 
+## 2.0.8
+
+### Patch Changes
+
+- clean up craco
+
 ## 2.0.3
 
 ### Patch Changes
