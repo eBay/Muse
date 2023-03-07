@@ -1,5 +1,11 @@
 # @ebay/muse-lib-antd
 
+## 1.1.7
+
+### Patch Changes
+
+- clean craco config
+
 ## 1.1.5
 
 ### Patch Changes
