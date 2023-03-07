@@ -9,30 +9,24 @@ specifiers:
   '@ebay/muse-craco-plugin': 3.0.4
   '@ebay/muse-dev-utils': ^1.0.31
   '@ebay/muse-ebay-dev': 1.0.3
-  '@ebay/muse-lib-antd': 1.1.5
-  '@ebay/muse-lib-react': 1.1.3
+  '@ebay/muse-lib-antd': 1.1.7
+  '@ebay/muse-lib-react': 1.1.4
   '@zarconontol/enzyme-adapter-react-18': 0.7.3
-  antd: 5.1.7
   craco-less: 2.0.0
   cross-env: 7.0.3
   enzyme: 3.11.0
   js-plugin: 1.1.0
   lodash: 4.17.21
-  react: ^18.2.0
-  react-dom: ^18.2.0
   react-scripts: ^5.0.1
   semver: 7.3.7
   webpack-bundle-analyzer: ^4.8.0
 
 dependencies:
   '@ebay/muse-dev-utils': 1.0.31_@ebay+muse-core@1.0.28
-  '@ebay/muse-lib-antd': 1.1.5_biqbaboplfbrettd7655fr4n2y
-  '@ebay/muse-lib-react': 1.1.3
-  antd: 5.1.7_biqbaboplfbrettd7655fr4n2y
+  '@ebay/muse-lib-antd': 1.1.7
+  '@ebay/muse-lib-react': 1.1.4
   js-plugin: 1.1.0
   lodash: 4.17.21
-  react: 18.2.0
-  react-dom: 18.2.0_react@18.2.0
   semver: 7.3.7
 
 devDependencies:
@@ -43,11 +37,11 @@ devDependencies:
   '@ebay/muse-cra-patch': 1.0.1
   '@ebay/muse-craco-plugin': 3.0.4_zn3b3rg7a76ksmoalqt6s3i4aq
   '@ebay/muse-ebay-dev': 1.0.3_@ebay+muse-core@1.0.28
-  '@zarconontol/enzyme-adapter-react-18': 0.7.3_todk22eekuihjg65rlnudp4qdi
+  '@zarconontol/enzyme-adapter-react-18': 0.7.3_enzyme@3.11.0
   craco-less: 2.0.0_5ial7dl5a2d4aztokzwa5qionq
   cross-env: 7.0.3
   enzyme: 3.11.0
-  react-scripts: 5.0.1_react@18.2.0
+  react-scripts: 5.0.1
   webpack-bundle-analyzer: 4.8.0
 
 packages:
@@ -66,7 +60,7 @@ packages:
       '@ctrl/tinycolor': 3.5.0
     dev: false
 
-  /@ant-design/cssinjs/1.5.6_biqbaboplfbrettd7655fr4n2y:
+  /@ant-design/cssinjs/1.5.6:
     resolution: {integrity: sha1-nrYIIqMHM51yliRTMgUgnJlCkGI=}
     peerDependencies:
       react: '>=16.0.0'
@@ -77,9 +71,7 @@ packages:
       '@emotion/unitless': 0.7.5
       classnames: 2.3.2
       csstype: 3.1.1
-      rc-util: 5.27.2_biqbaboplfbrettd7655fr4n2y
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
+      rc-util: 5.27.2
       stylis: 4.1.3
     dev: false
 
@@ -87,7 +79,7 @@ packages:
     resolution: {integrity: sha1-hjDajrRHGkqr2u19H/apfcss8Fo=}
     dev: false
 
-  /@ant-design/icons/5.0.1_biqbaboplfbrettd7655fr4n2y:
+  /@ant-design/icons/5.0.1:
     resolution: {integrity: sha1-/rsf3Fd29YGHsslTrJpElgadBFs=}
     engines: {node: '>=8'}
     peerDependencies:
@@ -98,12 +90,10 @@ packages:
       '@ant-design/icons-svg': 4.2.1
       '@babel/runtime': 7.20.13
       classnames: 2.3.2
-      rc-util: 5.27.2_biqbaboplfbrettd7655fr4n2y
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
+      rc-util: 5.27.2
     dev: false
 
-  /@ant-design/react-slick/1.0.0_react@18.2.0:
+  /@ant-design/react-slick/1.0.0:
     resolution: {integrity: sha1-RpbuyqLeoEKeR64kwmcBXP1t81w=}
     peerDependencies:
       react: '>=16.9.0'
@@ -111,7 +101,6 @@ packages:
       '@babel/runtime': 7.20.13
       classnames: 2.3.2
       json2mq: 0.2.0
-      react: 18.2.0
       resize-observer-polyfill: 1.5.1
       throttle-debounce: 5.0.0
     dev: false
@@ -1747,7 +1736,7 @@ packages:
       cosmiconfig-typescript-loader: 1.0.9
       cross-spawn: 7.0.3
       lodash: 4.17.21
-      react-scripts: 5.0.1_react@18.2.0
+      react-scripts: 5.0.1
       semver: 7.3.8
       webpack-merge: 5.8.0
     transitivePeerDependencies:
@@ -2041,21 +2030,21 @@ packages:
       multer: 1.4.5-lts.1
       request-ip: 3.3.0
 
-  /@ebay/muse-lib-antd/1.1.5_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha1-F6Hf7LyxLKIgmMttxHLb68dL94w=, tarball: '@ebay/muse-lib-antd/-/@ebay/muse-lib-antd-1.1.5.tgz'}
+  /@ebay/muse-lib-antd/1.1.7:
+    resolution: {integrity: sha1-37nTjhh99sw4mkwEhbwTfp3CDzw=, tarball: '@ebay/muse-lib-antd/-/@ebay/muse-lib-antd-1.1.7.tgz'}
     dependencies:
-      '@ant-design/icons': 5.0.1_biqbaboplfbrettd7655fr4n2y
-      '@ebay/muse-lib-react': 1.1.3
+      '@ant-design/icons': 5.0.1
+      '@ebay/muse-lib-react': 1.1.4
       '@ebay/nice-form-react': 1.0.7
-      antd: 5.1.7_jb42yyeu5qxbfieyxjks6malva
+      antd: 5.1.7_moment@2.29.4
       history: 5.3.0
       js-plugin: 1.1.0
       lodash: 4.17.21
       moment: 2.29.4
       prop-types: 15.8.1
-      react-copy-to-clipboard: 5.1.0_react@18.2.0
-      react-highlight-words: 0.18.0_react@18.2.0
-      react-syntax-highlighter: 15.5.0_react@18.2.0
+      react-copy-to-clipboard: 5.1.0
+      react-highlight-words: 0.18.0
+      react-syntax-highlighter: 15.5.0
     transitivePeerDependencies:
       - '@types/react'
       - '@types/react-dom'
@@ -2065,8 +2054,8 @@ packages:
       - react-native
     dev: false
 
-  /@ebay/muse-lib-react/1.1.3:
-    resolution: {integrity: sha1-c90ly1QrQ3e+i1cr8r+OOMQL9lU=, tarball: '@ebay/muse-lib-react/-/@ebay/muse-lib-react-1.1.3.tgz'}
+  /@ebay/muse-lib-react/1.1.4:
+    resolution: {integrity: sha1-zCGzYWsJT0niikamoEq+ECia1Ss=, tarball: '@ebay/muse-lib-react/-/@ebay/muse-lib-react-1.1.4.tgz'}
     dependencies:
       '@ebay/nice-modal-react': 1.2.8_biqbaboplfbrettd7655fr4n2y
       history: 5.3.0
@@ -2553,16 +2542,14 @@ packages:
     resolution: {integrity: sha1-XeWiOFo1MJQn9gEZkrVEUU1VmqE=}
     dev: true
 
-  /@rc-component/context/1.3.0_biqbaboplfbrettd7655fr4n2y:
+  /@rc-component/context/1.3.0:
     resolution: {integrity: sha1-YIzPCry+yUBnUbF6SzXbCOSBwRA=}
     peerDependencies:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
       '@babel/runtime': 7.20.13
-      rc-util: 5.27.2_biqbaboplfbrettd7655fr4n2y
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
+      rc-util: 5.27.2
     dev: false
 
   /@rc-component/mini-decimal/1.0.1:
@@ -2572,7 +2559,7 @@ packages:
       '@babel/runtime': 7.20.13
     dev: false
 
-  /@rc-component/mutate-observer/1.0.0_biqbaboplfbrettd7655fr4n2y:
+  /@rc-component/mutate-observer/1.0.0:
     resolution: {integrity: sha1-zpmvMjntnHTuPnMC8cZwmN6SC0Y=}
     engines: {node: '>=8.x'}
     peerDependencies:
@@ -2581,12 +2568,10 @@ packages:
     dependencies:
       '@babel/runtime': 7.20.13
       classnames: 2.3.2
-      rc-util: 5.27.2_biqbaboplfbrettd7655fr4n2y
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
+      rc-util: 5.27.2
     dev: false
 
-  /@rc-component/portal/1.1.0_biqbaboplfbrettd7655fr4n2y:
+  /@rc-component/portal/1.1.0:
     resolution: {integrity: sha1-a5RFDSwrANULFBvXoL4jvZZQPb4=}
     engines: {node: '>=8.x'}
     peerDependencies:
@@ -2595,12 +2580,10 @@ packages:
     dependencies:
       '@babel/runtime': 7.20.13
       classnames: 2.3.2
-      rc-util: 5.27.2_biqbaboplfbrettd7655fr4n2y
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
+      rc-util: 5.27.2
     dev: false
 
-  /@rc-component/tour/1.1.0_biqbaboplfbrettd7655fr4n2y:
+  /@rc-component/tour/1.1.0:
     resolution: {integrity: sha1-F7Q7XAvftqirMCexl32WCVJhbZ4=}
     engines: {node: '>=8.x'}
     peerDependencies:
@@ -2608,12 +2591,10 @@ packages:
       react-dom: '>=16.9.0'
     dependencies:
       '@babel/runtime': 7.20.13
-      '@rc-component/portal': 1.1.0_biqbaboplfbrettd7655fr4n2y
+      '@rc-component/portal': 1.1.0
       classnames: 2.3.2
-      rc-trigger: 5.3.4_biqbaboplfbrettd7655fr4n2y
-      rc-util: 5.27.2_biqbaboplfbrettd7655fr4n2y
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
+      rc-trigger: 5.3.4
+      rc-util: 5.27.2
     dev: false
 
   /@remix-run/router/1.0.3:
@@ -3387,7 +3368,7 @@ packages:
       '@xtuc/long': 4.2.2
     dev: true
 
-  /@wojtekmaj/enzyme-adapter-utils/0.1.4_react@18.2.0:
+  /@wojtekmaj/enzyme-adapter-utils/0.1.4:
     resolution: {integrity: sha1-vNQRrW42jxfc5UJVgsKQcQTNsa0=}
     peerDependencies:
       react: ^17.0.0-0
@@ -3396,7 +3377,6 @@ packages:
       has: 1.0.3
       object.fromentries: 2.0.6
       prop-types: 15.8.1
-      react: 18.2.0
     dev: true
 
   /@xobotyi/scrollbar-width/1.9.5:
@@ -3411,22 +3391,20 @@ packages:
     resolution: {integrity: sha1-0pHGpOl5ibXGHZrPOWrk/hM6cY0=}
     dev: true
 
-  /@zarconontol/enzyme-adapter-react-18/0.7.3_todk22eekuihjg65rlnudp4qdi:
+  /@zarconontol/enzyme-adapter-react-18/0.7.3_enzyme@3.11.0:
     resolution: {integrity: sha1-SwQEP5zIxYUu8uRMaANifKUSBLI=}
     peerDependencies:
       enzyme: ^3.0.0
       react: ^18.0.0-0
       react-dom: ^18.0.0-0
     dependencies:
-      '@wojtekmaj/enzyme-adapter-utils': 0.1.4_react@18.2.0
+      '@wojtekmaj/enzyme-adapter-utils': 0.1.4
       enzyme: 3.11.0
       enzyme-shallow-equal: 1.0.5
       has: 1.0.3
       prop-types: 15.8.1
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
       react-is: 18.2.0
-      react-test-renderer: 18.2.0_react@18.2.0
+      react-test-renderer: 18.2.0
     dev: true
 
   /abab/2.0.6:
@@ -3605,119 +3583,57 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /antd/5.1.7_biqbaboplfbrettd7655fr4n2y:
+  /antd/5.1.7_moment@2.29.4:
     resolution: {integrity: sha1-7Z5BgbkfKF12VW0VxN/d6rt9rB0=}
     peerDependencies:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
       '@ant-design/colors': 7.0.0
-      '@ant-design/cssinjs': 1.5.6_biqbaboplfbrettd7655fr4n2y
-      '@ant-design/icons': 5.0.1_biqbaboplfbrettd7655fr4n2y
-      '@ant-design/react-slick': 1.0.0_react@18.2.0
+      '@ant-design/cssinjs': 1.5.6
+      '@ant-design/icons': 5.0.1
+      '@ant-design/react-slick': 1.0.0
       '@babel/runtime': 7.20.13
       '@ctrl/tinycolor': 3.5.0
-      '@rc-component/mutate-observer': 1.0.0_biqbaboplfbrettd7655fr4n2y
-      '@rc-component/tour': 1.1.0_biqbaboplfbrettd7655fr4n2y
+      '@rc-component/mutate-observer': 1.0.0
+      '@rc-component/tour': 1.1.0
       classnames: 2.3.2
       copy-to-clipboard: 3.3.3
       dayjs: 1.11.7
-      qrcode.react: 3.1.0_react@18.2.0
-      rc-cascader: 3.8.0_biqbaboplfbrettd7655fr4n2y
-      rc-checkbox: 2.3.2_biqbaboplfbrettd7655fr4n2y
-      rc-collapse: 3.4.2_biqbaboplfbrettd7655fr4n2y
-      rc-dialog: 9.0.2_biqbaboplfbrettd7655fr4n2y
-      rc-drawer: 6.1.2_biqbaboplfbrettd7655fr4n2y
-      rc-dropdown: 4.0.1_biqbaboplfbrettd7655fr4n2y
-      rc-field-form: 1.27.3_biqbaboplfbrettd7655fr4n2y
-      rc-image: 5.13.0_biqbaboplfbrettd7655fr4n2y
-      rc-input: 0.1.4_biqbaboplfbrettd7655fr4n2y
-      rc-input-number: 7.4.0_biqbaboplfbrettd7655fr4n2y
-      rc-mentions: 1.13.1_biqbaboplfbrettd7655fr4n2y
-      rc-menu: 9.8.2_biqbaboplfbrettd7655fr4n2y
-      rc-motion: 2.6.3_biqbaboplfbrettd7655fr4n2y
-      rc-notification: 5.0.2_biqbaboplfbrettd7655fr4n2y
-      rc-pagination: 3.2.0_biqbaboplfbrettd7655fr4n2y
-      rc-picker: 3.1.5_mlnkrlbros4rghcauwy625gk7y
-      rc-progress: 3.4.1_biqbaboplfbrettd7655fr4n2y
-      rc-rate: 2.9.2_biqbaboplfbrettd7655fr4n2y
-      rc-resize-observer: 1.3.0_biqbaboplfbrettd7655fr4n2y
-      rc-segmented: 2.1.0_biqbaboplfbrettd7655fr4n2y
-      rc-select: 14.2.0_biqbaboplfbrettd7655fr4n2y
-      rc-slider: 10.0.1_biqbaboplfbrettd7655fr4n2y
-      rc-steps: 6.0.0_biqbaboplfbrettd7655fr4n2y
-      rc-switch: 4.0.0_biqbaboplfbrettd7655fr4n2y
-      rc-table: 7.30.3_biqbaboplfbrettd7655fr4n2y
-      rc-tabs: 12.5.6_biqbaboplfbrettd7655fr4n2y
-      rc-textarea: 0.4.7_biqbaboplfbrettd7655fr4n2y
-      rc-tooltip: 5.2.2_biqbaboplfbrettd7655fr4n2y
-      rc-tree: 5.7.2_biqbaboplfbrettd7655fr4n2y
-      rc-tree-select: 5.6.0_biqbaboplfbrettd7655fr4n2y
-      rc-trigger: 5.3.4_biqbaboplfbrettd7655fr4n2y
-      rc-upload: 4.3.4_biqbaboplfbrettd7655fr4n2y
-      rc-util: 5.27.2_biqbaboplfbrettd7655fr4n2y
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-      scroll-into-view-if-needed: 3.0.4
-      throttle-debounce: 5.0.0
-    transitivePeerDependencies:
-      - date-fns
-      - moment
-    dev: false
-
-  /antd/5.1.7_jb42yyeu5qxbfieyxjks6malva:
-    resolution: {integrity: sha1-7Z5BgbkfKF12VW0VxN/d6rt9rB0=}
-    peerDependencies:
-      react: '>=16.9.0'
-      react-dom: '>=16.9.0'
-    dependencies:
-      '@ant-design/colors': 7.0.0
-      '@ant-design/cssinjs': 1.5.6_biqbaboplfbrettd7655fr4n2y
-      '@ant-design/icons': 5.0.1_biqbaboplfbrettd7655fr4n2y
-      '@ant-design/react-slick': 1.0.0_react@18.2.0
-      '@babel/runtime': 7.20.13
-      '@ctrl/tinycolor': 3.5.0
-      '@rc-component/mutate-observer': 1.0.0_biqbaboplfbrettd7655fr4n2y
-      '@rc-component/tour': 1.1.0_biqbaboplfbrettd7655fr4n2y
-      classnames: 2.3.2
-      copy-to-clipboard: 3.3.3
-      dayjs: 1.11.7
-      qrcode.react: 3.1.0_react@18.2.0
-      rc-cascader: 3.8.0_biqbaboplfbrettd7655fr4n2y
-      rc-checkbox: 2.3.2_biqbaboplfbrettd7655fr4n2y
-      rc-collapse: 3.4.2_biqbaboplfbrettd7655fr4n2y
-      rc-dialog: 9.0.2_biqbaboplfbrettd7655fr4n2y
-      rc-drawer: 6.1.2_biqbaboplfbrettd7655fr4n2y
-      rc-dropdown: 4.0.1_biqbaboplfbrettd7655fr4n2y
-      rc-field-form: 1.27.3_biqbaboplfbrettd7655fr4n2y
-      rc-image: 5.13.0_biqbaboplfbrettd7655fr4n2y
-      rc-input: 0.1.4_biqbaboplfbrettd7655fr4n2y
-      rc-input-number: 7.4.0_biqbaboplfbrettd7655fr4n2y
-      rc-mentions: 1.13.1_biqbaboplfbrettd7655fr4n2y
-      rc-menu: 9.8.2_biqbaboplfbrettd7655fr4n2y
-      rc-motion: 2.6.3_biqbaboplfbrettd7655fr4n2y
-      rc-notification: 5.0.2_biqbaboplfbrettd7655fr4n2y
-      rc-pagination: 3.2.0_biqbaboplfbrettd7655fr4n2y
-      rc-picker: 3.1.5_lejchghvacj3hhjkogy3eaalky
-      rc-progress: 3.4.1_biqbaboplfbrettd7655fr4n2y
-      rc-rate: 2.9.2_biqbaboplfbrettd7655fr4n2y
-      rc-resize-observer: 1.3.0_biqbaboplfbrettd7655fr4n2y
-      rc-segmented: 2.1.0_biqbaboplfbrettd7655fr4n2y
-      rc-select: 14.2.0_biqbaboplfbrettd7655fr4n2y
-      rc-slider: 10.0.1_biqbaboplfbrettd7655fr4n2y
-      rc-steps: 6.0.0_biqbaboplfbrettd7655fr4n2y
-      rc-switch: 4.0.0_biqbaboplfbrettd7655fr4n2y
-      rc-table: 7.30.3_biqbaboplfbrettd7655fr4n2y
-      rc-tabs: 12.5.6_biqbaboplfbrettd7655fr4n2y
-      rc-textarea: 0.4.7_biqbaboplfbrettd7655fr4n2y
-      rc-tooltip: 5.2.2_biqbaboplfbrettd7655fr4n2y
-      rc-tree: 5.7.2_biqbaboplfbrettd7655fr4n2y
-      rc-tree-select: 5.6.0_biqbaboplfbrettd7655fr4n2y
-      rc-trigger: 5.3.4_biqbaboplfbrettd7655fr4n2y
-      rc-upload: 4.3.4_biqbaboplfbrettd7655fr4n2y
-      rc-util: 5.27.2_biqbaboplfbrettd7655fr4n2y
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
+      qrcode.react: 3.1.0
+      rc-cascader: 3.8.0
+      rc-checkbox: 2.3.2
+      rc-collapse: 3.4.2
+      rc-dialog: 9.0.2
+      rc-drawer: 6.1.2
+      rc-dropdown: 4.0.1
+      rc-field-form: 1.27.3
+      rc-image: 5.13.0
+      rc-input: 0.1.4
+      rc-input-number: 7.4.0
+      rc-mentions: 1.13.1
+      rc-menu: 9.8.2
+      rc-motion: 2.6.3
+      rc-notification: 5.0.2
+      rc-pagination: 3.2.0
+      rc-picker: 3.1.5_dayjs@1.11.7+moment@2.29.4
+      rc-progress: 3.4.1
+      rc-rate: 2.9.2
+      rc-resize-observer: 1.3.0
+      rc-segmented: 2.1.0
+      rc-select: 14.2.0
+      rc-slider: 10.0.1
+      rc-steps: 6.0.0
+      rc-switch: 4.0.0
+      rc-table: 7.30.3
+      rc-tabs: 12.5.6
+      rc-textarea: 0.4.7
+      rc-tooltip: 5.2.2
+      rc-tree: 5.7.2
+      rc-tree-select: 5.6.0
+      rc-trigger: 5.3.4
+      rc-upload: 4.3.4
+      rc-util: 5.27.2
       scroll-into-view-if-needed: 3.0.4
       throttle-debounce: 5.0.0
     transitivePeerDependencies:
@@ -4810,7 +4726,7 @@ packages:
       '@craco/craco': 7.0.0_react-scripts@5.0.1
       less: 4.1.3
       less-loader: 7.3.0_less@4.1.3
-      react-scripts: 5.0.1_react@18.2.0
+      react-scripts: 5.0.1
     transitivePeerDependencies:
       - supports-color
       - webpack
@@ -10299,12 +10215,10 @@ packages:
     engines: {node: '>=0.6.0', teleport: '>=0.2.0'}
     dev: true
 
-  /qrcode.react/3.1.0_react@18.2.0:
+  /qrcode.react/3.1.0:
     resolution: {integrity: sha1-XJHdwDQPdoMW+9uP/ydlE0wq7Ng=}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    dependencies:
-      react: 18.2.0
     dev: false
 
   /qs/6.11.0:
@@ -10378,7 +10292,7 @@ packages:
       unpipe: 1.0.0
     dev: true
 
-  /rc-align/4.0.15_biqbaboplfbrettd7655fr4n2y:
+  /rc-align/4.0.15:
     resolution: {integrity: sha1-K71mXPhd/QsCRMWnUrB1ZekJhXc=}
     peerDependencies:
       react: '>=16.9.0'
@@ -10387,13 +10301,11 @@ packages:
       '@babel/runtime': 7.20.13
       classnames: 2.3.2
       dom-align: 1.12.4
-      rc-util: 5.27.2_biqbaboplfbrettd7655fr4n2y
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
+      rc-util: 5.27.2
       resize-observer-polyfill: 1.5.1
     dev: false
 
-  /rc-cascader/3.8.0_biqbaboplfbrettd7655fr4n2y:
+  /rc-cascader/3.8.0:
     resolution: {integrity: sha1-XqyomYsuP1aS0T8Wv+I0bszIfGo=}
     peerDependencies:
       react: '>=16.9.0'
@@ -10402,14 +10314,12 @@ packages:
       '@babel/runtime': 7.20.13
       array-tree-filter: 2.1.0
       classnames: 2.3.2
-      rc-select: 14.2.0_biqbaboplfbrettd7655fr4n2y
-      rc-tree: 5.7.2_biqbaboplfbrettd7655fr4n2y
-      rc-util: 5.27.2_biqbaboplfbrettd7655fr4n2y
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
+      rc-select: 14.2.0
+      rc-tree: 5.7.2
+      rc-util: 5.27.2
     dev: false
 
-  /rc-checkbox/2.3.2_biqbaboplfbrettd7655fr4n2y:
+  /rc-checkbox/2.3.2:
     resolution: {integrity: sha1-+Rs2eMftsrqoEhyUg8Zk+m8K78E=}
     peerDependencies:
       react: '>=16.9.0'
@@ -10417,11 +10327,9 @@ packages:
     dependencies:
       '@babel/runtime': 7.20.13
       classnames: 2.3.2
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
     dev: false
 
-  /rc-collapse/3.4.2_biqbaboplfbrettd7655fr4n2y:
+  /rc-collapse/3.4.2:
     resolution: {integrity: sha1-ExC+etTNDc/GIsRfbDtf/e5AOtc=}
     peerDependencies:
       react: '>=16.9.0'
@@ -10429,44 +10337,38 @@ packages:
     dependencies:
       '@babel/runtime': 7.20.13
       classnames: 2.3.2
-      rc-motion: 2.6.3_biqbaboplfbrettd7655fr4n2y
-      rc-util: 5.27.2_biqbaboplfbrettd7655fr4n2y
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
+      rc-motion: 2.6.3
+      rc-util: 5.27.2
       shallowequal: 1.1.0
     dev: false
 
-  /rc-dialog/9.0.2_biqbaboplfbrettd7655fr4n2y:
+  /rc-dialog/9.0.2:
     resolution: {integrity: sha1-qt/r3roUXyVsH6ybn1CfiTzbtbg=}
     peerDependencies:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
       '@babel/runtime': 7.20.13
-      '@rc-component/portal': 1.1.0_biqbaboplfbrettd7655fr4n2y
+      '@rc-component/portal': 1.1.0
       classnames: 2.3.2
-      rc-motion: 2.6.3_biqbaboplfbrettd7655fr4n2y
-      rc-util: 5.27.2_biqbaboplfbrettd7655fr4n2y
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
+      rc-motion: 2.6.3
+      rc-util: 5.27.2
     dev: false
 
-  /rc-drawer/6.1.2_biqbaboplfbrettd7655fr4n2y:
+  /rc-drawer/6.1.2:
     resolution: {integrity: sha1-AykYohv6in2eUq2h57jtCMCuY0Y=}
     peerDependencies:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
       '@babel/runtime': 7.20.13
-      '@rc-component/portal': 1.1.0_biqbaboplfbrettd7655fr4n2y
+      '@rc-component/portal': 1.1.0
       classnames: 2.3.2
-      rc-motion: 2.6.3_biqbaboplfbrettd7655fr4n2y
-      rc-util: 5.27.2_biqbaboplfbrettd7655fr4n2y
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
+      rc-motion: 2.6.3
+      rc-util: 5.27.2
     dev: false
 
-  /rc-dropdown/4.0.1_biqbaboplfbrettd7655fr4n2y:
+  /rc-dropdown/4.0.1:
     resolution: {integrity: sha1-9l2dPYl1AkEFfbWdWnXkPNRXa2g=}
     peerDependencies:
       react: '>=16.11.0'
@@ -10474,13 +10376,11 @@ packages:
     dependencies:
       '@babel/runtime': 7.20.13
       classnames: 2.3.2
-      rc-trigger: 5.3.4_biqbaboplfbrettd7655fr4n2y
-      rc-util: 5.27.2_biqbaboplfbrettd7655fr4n2y
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
+      rc-trigger: 5.3.4
+      rc-util: 5.27.2
     dev: false
 
-  /rc-field-form/1.27.3_biqbaboplfbrettd7655fr4n2y:
+  /rc-field-form/1.27.3:
     resolution: {integrity: sha1-5SYnlrkcgISKQqPnpmm/RZ8I1j0=}
     engines: {node: '>=8.x'}
     peerDependencies:
@@ -10489,28 +10389,24 @@ packages:
     dependencies:
       '@babel/runtime': 7.20.13
       async-validator: 4.2.5
-      rc-util: 5.27.2_biqbaboplfbrettd7655fr4n2y
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
+      rc-util: 5.27.2
     dev: false
 
-  /rc-image/5.13.0_biqbaboplfbrettd7655fr4n2y:
+  /rc-image/5.13.0:
     resolution: {integrity: sha1-Htm4UqQLXv80eGun0vDp0m7quHQ=}
     peerDependencies:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
       '@babel/runtime': 7.20.13
-      '@rc-component/portal': 1.1.0_biqbaboplfbrettd7655fr4n2y
+      '@rc-component/portal': 1.1.0
       classnames: 2.3.2
-      rc-dialog: 9.0.2_biqbaboplfbrettd7655fr4n2y
-      rc-motion: 2.6.3_biqbaboplfbrettd7655fr4n2y
-      rc-util: 5.27.2_biqbaboplfbrettd7655fr4n2y
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
+      rc-dialog: 9.0.2
+      rc-motion: 2.6.3
+      rc-util: 5.27.2
     dev: false
 
-  /rc-input-number/7.4.0_biqbaboplfbrettd7655fr4n2y:
+  /rc-input-number/7.4.0:
     resolution: {integrity: sha1-uLT/qLvAQZjnnOi5YRdW0EbRKOw=}
     peerDependencies:
       react: '>=16.9.0'
@@ -10519,12 +10415,10 @@ packages:
       '@babel/runtime': 7.20.13
       '@rc-component/mini-decimal': 1.0.1
       classnames: 2.3.2
-      rc-util: 5.27.2_biqbaboplfbrettd7655fr4n2y
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
+      rc-util: 5.27.2
     dev: false
 
-  /rc-input/0.1.4_biqbaboplfbrettd7655fr4n2y:
+  /rc-input/0.1.4:
     resolution: {integrity: sha1-RctLogmubMg1oqy4Yp1PjwyzR+A=}
     peerDependencies:
       react: '>=16.0.0'
@@ -10532,12 +10426,10 @@ packages:
     dependencies:
       '@babel/runtime': 7.20.13
       classnames: 2.3.2
-      rc-util: 5.27.2_biqbaboplfbrettd7655fr4n2y
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
+      rc-util: 5.27.2
     dev: false
 
-  /rc-mentions/1.13.1_biqbaboplfbrettd7655fr4n2y:
+  /rc-mentions/1.13.1:
     resolution: {integrity: sha1-yIS3DhUFoZfxsyp8azkJDbaZKnI=}
     peerDependencies:
       react: '>=16.9.0'
@@ -10545,15 +10437,13 @@ packages:
     dependencies:
       '@babel/runtime': 7.20.13
       classnames: 2.3.2
-      rc-menu: 9.8.2_biqbaboplfbrettd7655fr4n2y
-      rc-textarea: 0.4.7_biqbaboplfbrettd7655fr4n2y
-      rc-trigger: 5.3.4_biqbaboplfbrettd7655fr4n2y
-      rc-util: 5.27.2_biqbaboplfbrettd7655fr4n2y
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
+      rc-menu: 9.8.2
+      rc-textarea: 0.4.7
+      rc-trigger: 5.3.4
+      rc-util: 5.27.2
     dev: false
 
-  /rc-menu/9.8.2_biqbaboplfbrettd7655fr4n2y:
+  /rc-menu/9.8.2:
     resolution: {integrity: sha1-F5306g/Eb/+3oh4Y083bkBzjWYY=}
     peerDependencies:
       react: '>=16.9.0'
@@ -10561,15 +10451,13 @@ packages:
     dependencies:
       '@babel/runtime': 7.20.13
       classnames: 2.3.2
-      rc-motion: 2.6.3_biqbaboplfbrettd7655fr4n2y
-      rc-overflow: 1.2.8_biqbaboplfbrettd7655fr4n2y
-      rc-trigger: 5.3.4_biqbaboplfbrettd7655fr4n2y
-      rc-util: 5.27.2_biqbaboplfbrettd7655fr4n2y
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
+      rc-motion: 2.6.3
+      rc-overflow: 1.2.8
+      rc-trigger: 5.3.4
+      rc-util: 5.27.2
     dev: false
 
-  /rc-motion/2.6.3_biqbaboplfbrettd7655fr4n2y:
+  /rc-motion/2.6.3:
     resolution: {integrity: sha1-5tjKBlkcLBvNM5Go56gi68TZTpw=}
     peerDependencies:
       react: '>=16.9.0'
@@ -10577,12 +10465,10 @@ packages:
     dependencies:
       '@babel/runtime': 7.20.13
       classnames: 2.3.2
-      rc-util: 5.27.2_biqbaboplfbrettd7655fr4n2y
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
+      rc-util: 5.27.2
     dev: false
 
-  /rc-notification/5.0.2_biqbaboplfbrettd7655fr4n2y:
+  /rc-notification/5.0.2:
     resolution: {integrity: sha1-MYEayQ6VFtiJkP0qk9vmHMFxLuw=}
     engines: {node: '>=8.x'}
     peerDependencies:
@@ -10591,13 +10477,11 @@ packages:
     dependencies:
       '@babel/runtime': 7.20.13
       classnames: 2.3.2
-      rc-motion: 2.6.3_biqbaboplfbrettd7655fr4n2y
-      rc-util: 5.27.2_biqbaboplfbrettd7655fr4n2y
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
+      rc-motion: 2.6.3
+      rc-util: 5.27.2
     dev: false
 
-  /rc-overflow/1.2.8_biqbaboplfbrettd7655fr4n2y:
+  /rc-overflow/1.2.8:
     resolution: {integrity: sha1-QPFA+rwkQRhUPmJ83R73UNlIGog=}
     peerDependencies:
       react: '>=16.9.0'
@@ -10605,13 +10489,11 @@ packages:
     dependencies:
       '@babel/runtime': 7.20.13
       classnames: 2.3.2
-      rc-resize-observer: 1.3.0_biqbaboplfbrettd7655fr4n2y
-      rc-util: 5.27.2_biqbaboplfbrettd7655fr4n2y
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
+      rc-resize-observer: 1.3.0
+      rc-util: 5.27.2
     dev: false
 
-  /rc-pagination/3.2.0_biqbaboplfbrettd7655fr4n2y:
+  /rc-pagination/3.2.0:
     resolution: {integrity: sha1-Ty/bqf2sD0jlyfsRQZc4GBOK9+E=}
     peerDependencies:
       react: '>=16.9.0'
@@ -10619,11 +10501,9 @@ packages:
     dependencies:
       '@babel/runtime': 7.20.13
       classnames: 2.3.2
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
     dev: false
 
-  /rc-picker/3.1.5_lejchghvacj3hhjkogy3eaalky:
+  /rc-picker/3.1.5_dayjs@1.11.7+moment@2.29.4:
     resolution: {integrity: sha1-SZU2Vaks2j3uWWePTLze5h9bDww=}
     engines: {node: '>=8.x'}
     peerDependencies:
@@ -10644,39 +10524,11 @@ packages:
       classnames: 2.3.2
       dayjs: 1.11.7
       moment: 2.29.4
-      rc-trigger: 5.3.4_biqbaboplfbrettd7655fr4n2y
-      rc-util: 5.27.2_biqbaboplfbrettd7655fr4n2y
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
+      rc-trigger: 5.3.4
+      rc-util: 5.27.2
     dev: false
 
-  /rc-picker/3.1.5_mlnkrlbros4rghcauwy625gk7y:
-    resolution: {integrity: sha1-SZU2Vaks2j3uWWePTLze5h9bDww=}
-    engines: {node: '>=8.x'}
-    peerDependencies:
-      date-fns: '>= 2.x'
-      dayjs: '>= 1.x'
-      moment: '>= 2.x'
-      react: '>=16.9.0'
-      react-dom: '>=16.9.0'
-    peerDependenciesMeta:
-      date-fns:
-        optional: true
-      dayjs:
-        optional: true
-      moment:
-        optional: true
-    dependencies:
-      '@babel/runtime': 7.20.13
-      classnames: 2.3.2
-      dayjs: 1.11.7
-      rc-trigger: 5.3.4_biqbaboplfbrettd7655fr4n2y
-      rc-util: 5.27.2_biqbaboplfbrettd7655fr4n2y
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-    dev: false
-
-  /rc-progress/3.4.1_biqbaboplfbrettd7655fr4n2y:
+  /rc-progress/3.4.1:
     resolution: {integrity: sha1-qf/gmeiKT8A6+wnYYDFivwdg10M=}
     peerDependencies:
       react: '>=16.9.0'
@@ -10684,12 +10536,10 @@ packages:
     dependencies:
       '@babel/runtime': 7.20.13
       classnames: 2.3.2
-      rc-util: 5.27.2_biqbaboplfbrettd7655fr4n2y
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
+      rc-util: 5.27.2
     dev: false
 
-  /rc-rate/2.9.2_biqbaboplfbrettd7655fr4n2y:
+  /rc-rate/2.9.2:
     resolution: {integrity: sha1-SliWXR7PkYluuuAdRYtZBW3wtOo=}
     engines: {node: '>=8.x'}
     peerDependencies:
@@ -10698,12 +10548,10 @@ packages:
     dependencies:
       '@babel/runtime': 7.20.13
       classnames: 2.3.2
-      rc-util: 5.27.2_biqbaboplfbrettd7655fr4n2y
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
+      rc-util: 5.27.2
     dev: false
 
-  /rc-resize-observer/1.3.0_biqbaboplfbrettd7655fr4n2y:
+  /rc-resize-observer/1.3.0:
     resolution: {integrity: sha1-ECF9YG7RKh42IzDxergcm2LTvpE=}
     peerDependencies:
       react: '>=16.9.0'
@@ -10711,13 +10559,11 @@ packages:
     dependencies:
       '@babel/runtime': 7.20.13
       classnames: 2.3.2
-      rc-util: 5.27.2_biqbaboplfbrettd7655fr4n2y
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
+      rc-util: 5.27.2
       resize-observer-polyfill: 1.5.1
     dev: false
 
-  /rc-segmented/2.1.0_biqbaboplfbrettd7655fr4n2y:
+  /rc-segmented/2.1.0:
     resolution: {integrity: sha1-Dgr+ZGwaDkSg4YeF9RjEJjPsjvw=}
     peerDependencies:
       react: '>=16.0.0'
@@ -10725,13 +10571,11 @@ packages:
     dependencies:
       '@babel/runtime': 7.20.13
       classnames: 2.3.2
-      rc-motion: 2.6.3_biqbaboplfbrettd7655fr4n2y
-      rc-util: 5.27.2_biqbaboplfbrettd7655fr4n2y
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
+      rc-motion: 2.6.3
+      rc-util: 5.27.2
     dev: false
 
-  /rc-select/14.2.0_biqbaboplfbrettd7655fr4n2y:
+  /rc-select/14.2.0:
     resolution: {integrity: sha1-YOg6fVpdrn/Z45GNmyCQdOosktQ=}
     engines: {node: '>=8.x'}
     peerDependencies:
@@ -10740,16 +10584,14 @@ packages:
     dependencies:
       '@babel/runtime': 7.20.13
       classnames: 2.3.2
-      rc-motion: 2.6.3_biqbaboplfbrettd7655fr4n2y
-      rc-overflow: 1.2.8_biqbaboplfbrettd7655fr4n2y
-      rc-trigger: 5.3.4_biqbaboplfbrettd7655fr4n2y
-      rc-util: 5.27.2_biqbaboplfbrettd7655fr4n2y
-      rc-virtual-list: 3.4.13_biqbaboplfbrettd7655fr4n2y
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
+      rc-motion: 2.6.3
+      rc-overflow: 1.2.8
+      rc-trigger: 5.3.4
+      rc-util: 5.27.2
+      rc-virtual-list: 3.4.13
     dev: false
 
-  /rc-slider/10.0.1_biqbaboplfbrettd7655fr4n2y:
+  /rc-slider/10.0.1:
     resolution: {integrity: sha1-cFjGj/Hhqk58NTbl4QEovbzLh/k=}
     engines: {node: '>=8.x'}
     peerDependencies:
@@ -10758,13 +10600,11 @@ packages:
     dependencies:
       '@babel/runtime': 7.20.13
       classnames: 2.3.2
-      rc-util: 5.27.2_biqbaboplfbrettd7655fr4n2y
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
+      rc-util: 5.27.2
       shallowequal: 1.1.0
     dev: false
 
-  /rc-steps/6.0.0_biqbaboplfbrettd7655fr4n2y:
+  /rc-steps/6.0.0:
     resolution: {integrity: sha1-9xSPgJfV0TXxm5bBtPS1CtYJN1M=}
     engines: {node: '>=8.x'}
     peerDependencies:
@@ -10773,12 +10613,10 @@ packages:
     dependencies:
       '@babel/runtime': 7.20.13
       classnames: 2.3.2
-      rc-util: 5.27.2_biqbaboplfbrettd7655fr4n2y
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
+      rc-util: 5.27.2
     dev: false
 
-  /rc-switch/4.0.0_biqbaboplfbrettd7655fr4n2y:
+  /rc-switch/4.0.0:
     resolution: {integrity: sha1-Vfv5n8LWgHkRdQN9N54XC6Ufvng=}
     peerDependencies:
       react: '>=16.9.0'
@@ -10786,12 +10624,10 @@ packages:
     dependencies:
       '@babel/runtime': 7.20.13
       classnames: 2.3.2
-      rc-util: 5.27.2_biqbaboplfbrettd7655fr4n2y
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
+      rc-util: 5.27.2
     dev: false
 
-  /rc-table/7.30.3_biqbaboplfbrettd7655fr4n2y:
+  /rc-table/7.30.3:
     resolution: {integrity: sha1-kzPk0LEGc42I4uFsiwZt+ynZMRQ=}
     engines: {node: '>=8.x'}
     peerDependencies:
@@ -10799,15 +10635,13 @@ packages:
       react-dom: '>=16.9.0'
     dependencies:
       '@babel/runtime': 7.20.13
-      '@rc-component/context': 1.3.0_biqbaboplfbrettd7655fr4n2y
+      '@rc-component/context': 1.3.0
       classnames: 2.3.2
-      rc-resize-observer: 1.3.0_biqbaboplfbrettd7655fr4n2y
-      rc-util: 5.27.2_biqbaboplfbrettd7655fr4n2y
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
+      rc-resize-observer: 1.3.0
+      rc-util: 5.27.2
     dev: false
 
-  /rc-tabs/12.5.6_biqbaboplfbrettd7655fr4n2y:
+  /rc-tabs/12.5.6:
     resolution: {integrity: sha1-YRcoV11fPvAQqOXnXSwbZ7tx6Go=}
     engines: {node: '>=8.x'}
     peerDependencies:
@@ -10816,16 +10650,14 @@ packages:
     dependencies:
       '@babel/runtime': 7.20.13
       classnames: 2.3.2
-      rc-dropdown: 4.0.1_biqbaboplfbrettd7655fr4n2y
-      rc-menu: 9.8.2_biqbaboplfbrettd7655fr4n2y
-      rc-motion: 2.6.3_biqbaboplfbrettd7655fr4n2y
-      rc-resize-observer: 1.3.0_biqbaboplfbrettd7655fr4n2y
-      rc-util: 5.27.2_biqbaboplfbrettd7655fr4n2y
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
+      rc-dropdown: 4.0.1
+      rc-menu: 9.8.2
+      rc-motion: 2.6.3
+      rc-resize-observer: 1.3.0
+      rc-util: 5.27.2
     dev: false
 
-  /rc-textarea/0.4.7_biqbaboplfbrettd7655fr4n2y:
+  /rc-textarea/0.4.7:
     resolution: {integrity: sha1-Yn9mLUb5ngBZ0cHryNtAxlM5/pA=}
     peerDependencies:
       react: '>=16.9.0'
@@ -10833,14 +10665,12 @@ packages:
     dependencies:
       '@babel/runtime': 7.20.13
       classnames: 2.3.2
-      rc-resize-observer: 1.3.0_biqbaboplfbrettd7655fr4n2y
-      rc-util: 5.27.2_biqbaboplfbrettd7655fr4n2y
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
+      rc-resize-observer: 1.3.0
+      rc-util: 5.27.2
       shallowequal: 1.1.0
     dev: false
 
-  /rc-tooltip/5.2.2_biqbaboplfbrettd7655fr4n2y:
+  /rc-tooltip/5.2.2:
     resolution: {integrity: sha1-5cr6js6/eBCJNqC8uTwVD6gayTs=}
     peerDependencies:
       react: '>=16.9.0'
@@ -10848,12 +10678,10 @@ packages:
     dependencies:
       '@babel/runtime': 7.20.13
       classnames: 2.3.2
-      rc-trigger: 5.3.4_biqbaboplfbrettd7655fr4n2y
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
+      rc-trigger: 5.3.4
     dev: false
 
-  /rc-tree-select/5.6.0_biqbaboplfbrettd7655fr4n2y:
+  /rc-tree-select/5.6.0:
     resolution: {integrity: sha1-80FH9MFDQUMLzs5IGARJbQq9M3E=}
     peerDependencies:
       react: '*'
@@ -10861,14 +10689,12 @@ packages:
     dependencies:
       '@babel/runtime': 7.20.13
       classnames: 2.3.2
-      rc-select: 14.2.0_biqbaboplfbrettd7655fr4n2y
-      rc-tree: 5.7.2_biqbaboplfbrettd7655fr4n2y
-      rc-util: 5.27.2_biqbaboplfbrettd7655fr4n2y
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
+      rc-select: 14.2.0
+      rc-tree: 5.7.2
+      rc-util: 5.27.2
     dev: false
 
-  /rc-tree/5.7.2_biqbaboplfbrettd7655fr4n2y:
+  /rc-tree/5.7.2:
     resolution: {integrity: sha1-Jw6n2eGy5egc02Weui+9AipIMfY=}
     engines: {node: '>=10.x'}
     peerDependencies:
@@ -10877,14 +10703,12 @@ packages:
     dependencies:
       '@babel/runtime': 7.20.13
       classnames: 2.3.2
-      rc-motion: 2.6.3_biqbaboplfbrettd7655fr4n2y
-      rc-util: 5.27.2_biqbaboplfbrettd7655fr4n2y
-      rc-virtual-list: 3.4.13_biqbaboplfbrettd7655fr4n2y
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
+      rc-motion: 2.6.3
+      rc-util: 5.27.2
+      rc-virtual-list: 3.4.13
     dev: false
 
-  /rc-trigger/5.3.4_biqbaboplfbrettd7655fr4n2y:
+  /rc-trigger/5.3.4:
     resolution: {integrity: sha1-a0sm4yglZ3yDfR601whQNe7PmmE=}
     engines: {node: '>=8.x'}
     peerDependencies:
@@ -10893,14 +10717,12 @@ packages:
     dependencies:
       '@babel/runtime': 7.20.13
       classnames: 2.3.2
-      rc-align: 4.0.15_biqbaboplfbrettd7655fr4n2y
-      rc-motion: 2.6.3_biqbaboplfbrettd7655fr4n2y
-      rc-util: 5.27.2_biqbaboplfbrettd7655fr4n2y
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
+      rc-align: 4.0.15
+      rc-motion: 2.6.3
+      rc-util: 5.27.2
     dev: false
 
-  /rc-upload/4.3.4_biqbaboplfbrettd7655fr4n2y:
+  /rc-upload/4.3.4:
     resolution: {integrity: sha1-g/99OGdjHDetv9cuo9H9fpfKhK8=}
     peerDependencies:
       react: '>=16.9.0'
@@ -10908,24 +10730,20 @@ packages:
     dependencies:
       '@babel/runtime': 7.20.13
       classnames: 2.3.2
-      rc-util: 5.27.2_biqbaboplfbrettd7655fr4n2y
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
+      rc-util: 5.27.2
     dev: false
 
-  /rc-util/5.27.2_biqbaboplfbrettd7655fr4n2y:
+  /rc-util/5.27.2:
     resolution: {integrity: sha1-Ryp7qyamKFbCwBbRjcY1bkbQEBI=}
     peerDependencies:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
       '@babel/runtime': 7.20.13
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
       react-is: 16.13.1
     dev: false
 
-  /rc-virtual-list/3.4.13_biqbaboplfbrettd7655fr4n2y:
+  /rc-virtual-list/3.4.13:
     resolution: {integrity: sha1-IKzJNLJjq897fBYfUO+CKBsvfo0=}
     engines: {node: '>=8.x'}
     peerDependencies:
@@ -10934,10 +10752,8 @@ packages:
     dependencies:
       '@babel/runtime': 7.20.13
       classnames: 2.3.2
-      rc-resize-observer: 1.3.0_biqbaboplfbrettd7655fr4n2y
-      rc-util: 5.27.2_biqbaboplfbrettd7655fr4n2y
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
+      rc-resize-observer: 1.3.0
+      rc-util: 5.27.2
     dev: false
 
   /react-app-polyfill/3.0.0:
@@ -10952,14 +10768,13 @@ packages:
       whatwg-fetch: 3.6.2
     dev: true
 
-  /react-copy-to-clipboard/5.1.0_react@18.2.0:
+  /react-copy-to-clipboard/5.1.0:
     resolution: {integrity: sha1-Carl7ExidQzLLmQhpYcl6rxBJVw=}
     peerDependencies:
       react: ^15.3.0 || 16 || 17 || 18
     dependencies:
       copy-to-clipboard: 3.3.3
       prop-types: 15.8.1
-      react: 18.2.0
     dev: false
 
   /react-dev-utils/12.0.1_nkwuvqep7k7zzhloz3wxbhr4hq:
@@ -11011,12 +10826,13 @@ packages:
       loose-envify: 1.4.0
       react: 18.2.0
       scheduler: 0.23.0
+    dev: false
 
   /react-error-overlay/6.0.11:
     resolution: {integrity: sha1-koNd5YQcXPCLoA3dLWd7bRf/mts=}
     dev: true
 
-  /react-highlight-words/0.18.0_react@18.2.0:
+  /react-highlight-words/0.18.0:
     resolution: {integrity: sha1-/zs+98tJf6Lo+k1UwaGpisY5DQ4=}
     peerDependencies:
       react: ^0.14.0 || ^15.0.0 || ^16.0.0-0 || ^17.0.0-0 || ^18.0.0-0
@@ -11024,7 +10840,6 @@ packages:
       highlight-words-core: 1.2.2
       memoize-one: 4.0.3
       prop-types: 15.8.1
-      react: 18.2.0
     dev: false
 
   /react-is/16.13.1:
@@ -11106,7 +10921,7 @@ packages:
       react: 18.2.0
     dev: false
 
-  /react-scripts/5.0.1_react@18.2.0:
+  /react-scripts/5.0.1:
     resolution: {integrity: sha1-YoXb1lqLpuScqNZRzjBkWm2YAAM=}
     engines: {node: '>=14.0.0'}
     hasBin: true
@@ -11149,7 +10964,6 @@ packages:
       postcss-normalize: 10.0.1_jrpp4geoaqu5dz2gragkckznb4
       postcss-preset-env: 7.8.3_postcss@8.4.21
       prompts: 2.4.2
-      react: 18.2.0
       react-app-polyfill: 3.0.0
       react-dev-utils: 12.0.1_nkwuvqep7k7zzhloz3wxbhr4hq
       react-refresh: 0.11.0
@@ -11201,17 +11015,16 @@ packages:
       - webpack-plugin-serve
     dev: true
 
-  /react-shallow-renderer/16.15.0_react@18.2.0:
+  /react-shallow-renderer/16.15.0:
     resolution: {integrity: sha1-SPss+bI9I83pZwj+UnOn00RvRFc=}
     peerDependencies:
       react: ^16.0.0 || ^17.0.0 || ^18.0.0
     dependencies:
       object-assign: 4.1.1
-      react: 18.2.0
       react-is: 18.2.0
     dev: true
 
-  /react-syntax-highlighter/15.5.0_react@18.2.0:
+  /react-syntax-highlighter/15.5.0:
     resolution: {integrity: sha1-Sz7MwjJfouyO/x4tbBj6Sp4HqyA=}
     peerDependencies:
       react: '>= 0.14.0'
@@ -11220,18 +11033,16 @@ packages:
       highlight.js: 10.7.3
       lowlight: 1.20.0
       prismjs: 1.29.0
-      react: 18.2.0
       refractor: 3.6.0
     dev: false
 
-  /react-test-renderer/18.2.0_react@18.2.0:
+  /react-test-renderer/18.2.0:
     resolution: {integrity: sha1-HdkSvZCP8m2lufyk/RxIm5Uj034=}
     peerDependencies:
       react: ^18.2.0
     dependencies:
-      react: 18.2.0
       react-is: 18.2.0
-      react-shallow-renderer: 16.15.0_react@18.2.0
+      react-shallow-renderer: 16.15.0
       scheduler: 0.23.0
     dev: true
 
@@ -11274,6 +11085,7 @@ packages:
     engines: {node: '>=0.10.0'}
     dependencies:
       loose-envify: 1.4.0
+    dev: false
 
   /read-cache/1.0.0:
     resolution: {integrity: sha1-5mTvMRYRZsl1HNvo28+GtftY93Q=}

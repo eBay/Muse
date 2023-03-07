@@ -4,13 +4,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 
 module.exports = () => {
   return {
-    plugins: [
-      { plugin: CracoLessPlugin },
-      {
-        plugin: MuseCracoPlugin,
-        options: { showJestConfig: false, skipMuseJestMocks: false },
-      },
-    ],
+    plugins: [{ plugin: CracoLessPlugin }, { plugin: MuseCracoPlugin }],
     webpack: {
       plugins: {
         add: [new BundleAnalyzerPlugin({ analyzerMode: 'static', openAnalyzer: false })],

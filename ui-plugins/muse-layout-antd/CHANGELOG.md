@@ -1,5 +1,11 @@
 # muse-layout-antd
 
+## 1.1.5
+
+### Patch Changes
+
+- craco clean up
+
 ## 1.1.4
 
 ### Patch Changes
