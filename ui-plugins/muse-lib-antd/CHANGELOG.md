@@ -1,5 +1,11 @@
 # @ebay/muse-lib-antd
 
+## 1.1.8
+
+### Patch Changes
+
+- clean code & update plugin registration name
+
 ## 1.1.7
 
 ### Patch Changes

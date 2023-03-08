@@ -15,7 +15,7 @@ export function setNiceModalVisible(id, visible, args) {
 
 export function useSetNiceModalVisible(id) {
   const dispatch = useDispatch();
-  const niceModalArgs = useSelector(state => state.pluginMuseAntd.common.niceModalArgs);
+  const niceModalArgs = useSelector(state => state.pluginEbayMuseLibAntd.common.niceModalArgs);
   const boundAction = useCallback(
     (visible, args) => dispatch(setNiceModalVisible(id, visible, args)),
     [dispatch, id],
