@@ -22,7 +22,10 @@ export default function PluginList({ app }) {
   const { data: latestReleases } = usePollingMuseData('muse.plugins.latest-releases');
   const { data: npmVersions } = usePollingMuseData('muse.npm.versions', { interval: 30000 });
   const searchValue = useSearchParam('search')?.toLowerCase() || '';
-  const scope = useSearchParam('scope') || config.get('pluginListDefaultScope');
+  const scope =
+    useSearchParam('scope') || (app ? 'deployed' : config.get('pluginListDefaultScope'));
+  const selectedEnvName = useSearchParam('env') || config.get('pluginListDefaultEnv');
+
   const { getEnvFilterConfig, envFilterMap } = useEnvFilter({});
   const deploymentInfoByPlugin = useMemo(() => {
     return (
@@ -44,16 +47,25 @@ export default function PluginList({ app }) {
   if (scope && pluginList) {
     switch (scope) {
       case 'deployed':
-        pluginList = pluginList.filter((p) => deploymentInfoByPlugin[p.name]);
+        pluginList = pluginList.filter((p) =>
+          selectedEnvName === 'all'
+            ? deploymentInfoByPlugin[p.name]
+            : deploymentInfoByPlugin[p.name]?.[selectedEnvName],
+        );
         break;
       case 'all':
         // no filter
         break;
       default:
-        console.warn('Unknown scope: ', scope);
-        break;
+    }
+    const filters = _.flatten(
+      jsPlugin.invoke('museManager.pm.getScopeFilterFns', { scope }),
+    ).filter(Boolean);
+    if (filters.length > 0) {
+      pluginList = _.flow(filters)(pluginList);
     }
   }
+
   const ctx = { pluginList };
   jsPlugin.invoke('museManager.pm.pluginList.processPluginList', ctx);
 
@@ -121,7 +133,7 @@ export default function PluginList({ app }) {
           <>
             <a
               onClick={() => {
-                NiceModal.show('muse-manager.edit-plugin-modal', { plugin });
+                NiceModal.show('muse-manager.edit-plugin-modal', { plugin, app });
               }}
             >
               <Highlighter search={searchValue} text={pluginName} />
@@ -131,27 +143,29 @@ export default function PluginList({ app }) {
         );
       },
     },
-    ...Object.values(app?.envs || {}).map((env, i) => {
-      return {
-        dataIndex: `${env.name}`,
-        title: _.capitalize(env.name),
-        order: i + 20,
-        width: 120,
-        ...getEnvFilterConfig(env.name),
-        render: (_, plugin) => {
-          const versionDeployed = deploymentInfoByPlugin?.[plugin.name]?.[env.name];
-          if (!versionDeployed) return <NA />;
-          const latestVersion = latestReleases?.[plugin.name]?.version;
-          if (!latestVersion) return versionDeployed;
-          const color = versionDiffColorMap[versionDiff(versionDeployed, latestVersion)];
-          return (
-            <Button type="link" style={{ textAlign: 'left', padding: 0, color }}>
-              v{versionDeployed}
-            </Button>
-          );
-        },
-      };
-    }),
+    ...Object.values(app?.envs || {})
+      .filter((envName) => selectedEnvName === 'all' || envName === selectedEnvName)
+      .map((env, i) => {
+        return {
+          dataIndex: `${env.name}`,
+          title: _.capitalize(env.name),
+          order: i + 20,
+          width: 120,
+          ...getEnvFilterConfig(env.name),
+          render: (_, plugin) => {
+            const versionDeployed = deploymentInfoByPlugin?.[plugin.name]?.[env.name];
+            if (!versionDeployed) return <NA />;
+            const latestVersion = latestReleases?.[plugin.name]?.version;
+            if (!latestVersion) return versionDeployed;
+            const color = versionDiffColorMap[versionDiff(versionDeployed, latestVersion)];
+            return (
+              <Button type="link" style={{ textAlign: 'left', padding: 0, color }}>
+                v{versionDeployed}
+              </Button>
+            );
+          },
+        };
+      }),
     {
       dataIndex: 'latestVersion',
       title: 'Latest',
@@ -210,10 +224,10 @@ export default function PluginList({ app }) {
   ].filter(Boolean);
 
   jsPlugin.invoke('museManager.pm.pluginList.processColumns', {
+    app,
     columns,
     plugins: pluginList,
     searchValue,
-    app,
   });
   jsPlugin.invoke('museManager.pm.pluginList.postProcessColumns', { columns, plugins: pluginList });
   jsPlugin.sort(columns);

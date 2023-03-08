@@ -11,9 +11,9 @@ function PluginStatus({ plugin, app }) {
     NiceModal.show('muse-manager.request-detail-modal', { request, status });
   };
   const defaulTags =
-    requests?.map(req => {
+    requests?.map((req) => {
       if (req?.payload?.pluginName === plugin.name) {
-        return req.statuses?.map(s => {
+        return req.statuses?.map((s) => {
           const color = {
             failure: 'error',
             success: 'success',

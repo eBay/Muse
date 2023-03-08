@@ -66,10 +66,25 @@ function PluginActions({ plugin, app }) {
             onOk: () => {
               (async () => {
                 const hide = message.loading(`Deleting plugin ${plugin.name}...`, 0);
-                await deletePlugin({ pluginName: plugin.name });
-                hide();
-                message.success('Delete plugin success.');
-                await syncStatus();
+                return deletePlugin({ pluginName: plugin.name })
+                  .then(async (res) => {
+                    hide();
+                    Modal.success({
+                      title: 'Success',
+                      content:
+                        'Delete plugin from registry succeeded. Note that you need to delete the plugin repo yourself.',
+                    });
+                    await syncStatus();
+                  })
+                  .catch((error) => {
+                    hide();
+                    Modal.error({
+                      title: 'Failed to Delete',
+                      content:
+                        (error.config && error.request && error.response && error.response.data) ||
+                        String(error),
+                    });
+                  });
               })();
             },
           });

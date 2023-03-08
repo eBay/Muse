@@ -75,13 +75,13 @@ const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
               });
             },
           },
-          {
-            key: 'delete',
-            label: 'Delete Plugin',
-            highlight: true,
-            order: 50,
-            icon: 'delete',
-          },
+          // {
+          //   key: 'delete',
+          //   label: 'Delete Release',
+          //   highlight: true,
+          //   order: 50,
+          //   icon: 'delete',
+          // },
         ].filter(Boolean);
         return <DropdownMenu extPoint="museManager.plugin.processReleaseActions" items={items} />;
       },
