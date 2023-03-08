@@ -1,5 +1,11 @@
 # @ebay/muse-manager
 
+## 1.1.12
+
+### Patch Changes
+
+- fill gap with muse v1
+
 ## 1.1.11
 
 ### Patch Changes
