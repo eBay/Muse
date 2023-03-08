@@ -3,7 +3,6 @@ import { combineReducers } from 'redux';
 import _ from 'lodash';
 import plugin from 'js-plugin';
 import NiceModal from '@ebay/nice-modal-react';
-import history from './history';
 import homeReducer from '../features/home/redux/reducer';
 import commonReducer from '../features/common/redux/reducer';
 import userReducer from '../features/user/redux/reducer';
@@ -24,7 +23,7 @@ const reducerMap = {
 };
 
 export default () => {
-  plugin.getPlugins('reducer').forEach((p) => {
+  plugin.getPlugins('reducer').forEach(p => {
     const k = _.camelCase(`plugin-${p.name}`);
     if (!reducerMap[k]) {
       reducerMap[k] = p.reducer;
@@ -33,8 +32,8 @@ export default () => {
     }
   });
 
-  plugin.getPlugins('reducers').forEach((p) => {
-    Object.keys(p.reducers).forEach((k) => {
+  plugin.getPlugins('reducers').forEach(p => {
+    Object.keys(p.reducers).forEach(k => {
       reducerMap[k] = p.reducers[k];
     });
   });

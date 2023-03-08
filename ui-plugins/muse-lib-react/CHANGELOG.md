@@ -1,5 +1,11 @@
 # @ebay/muse-lib-react
 
+## 1.1.5
+
+### Patch Changes
+
+- clean code & update plugin registration name
+
 ## 1.1.4
 
 ### Patch Changes

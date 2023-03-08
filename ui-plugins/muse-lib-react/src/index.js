@@ -10,7 +10,7 @@ import * as reactUse from 'react-use';
 import './styles/index.less';
 import * as reactRouterDom from 'react-router-dom';
 plugin.register({
-  name: 'muse-react', // reserve the plugin name
+  name: '@ebay/muse-lib-react', // reserve the plugin name
 });
 
 const renderApp = () => {
