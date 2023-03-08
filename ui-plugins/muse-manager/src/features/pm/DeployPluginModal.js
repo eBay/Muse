@@ -3,7 +3,6 @@ import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
 import { Modal, Button, Form, message } from 'antd';
 import utils from '@ebay/muse-lib-antd/src/utils';
 import NiceForm from '@ebay/nice-form-react';
-// import FormBuilder from 'antd-form-builder';
 import { useMuseApi, useSyncStatus } from '../../hooks';
 
 import PluginReleaseSelect from './PluginReleaseSelect';

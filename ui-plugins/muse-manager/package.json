@@ -1,6 +1,6 @@
 {
   "name": "@ebay/muse-manager",
-  "version": "1.1.10",
+  "version": "1.1.11",
   "private": false,
   "muse": {
     "devConfig": {
@@ -47,8 +47,8 @@
   },
   "dependencies": {
     "@ebay/muse-client": "1.0.19",
-    "@ebay/muse-lib-antd": "1.1.7",
-    "@ebay/muse-lib-react": "1.1.4",
+    "@ebay/muse-lib-antd": "1.1.8",
+    "@ebay/muse-lib-react": "1.1.5",
     "@ebay/muse-plugin-acl": "1.0.7",
     "@ebay/nice-form-react": "^1.0.7",
     "@headlessui/react": "1.7.0",

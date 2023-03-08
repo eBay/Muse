@@ -4,7 +4,6 @@ import { Modal, message, Form } from 'antd';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import utils from '@ebay/muse-lib-antd/src/utils';
 import NiceForm from '@ebay/nice-form-react';
-// import FormBuilder from 'antd-form-builder';
 import { useSyncStatus, useMuseApi } from '../../hooks';
 
 const EditAppVariablesModal = NiceModal.create(({ app, env }) => {

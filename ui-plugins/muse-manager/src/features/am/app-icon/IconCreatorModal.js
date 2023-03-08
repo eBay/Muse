@@ -1,14 +1,11 @@
 import React, { useCallback, useRef } from 'react';
 import { Form, Modal, message } from 'antd';
 import _ from 'lodash';
-
 import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import utils from '@ebay/muse-lib-antd/src/utils';
 import { useMuseApi, useSyncStatus } from '../../../hooks';
 import NiceForm from '@ebay/nice-form-react';
-// import FormBuilder from 'antd-form-builder';
-
 import IconCanvas from './IconCanvas';
 import ColorPicker from './ColorPicker';
 
