@@ -1,9 +1,7 @@
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import _ from 'lodash';
-import {
-  MUSE_LAYOUT$HOME_SET_LAYOUT_CONFIG,
-} from './constants';
+import { MUSE_LAYOUT$HOME_SET_LAYOUT_CONFIG } from './constants';
 
 export function setLayoutConfig(config) {
   return {
@@ -14,7 +12,7 @@ export function setLayoutConfig(config) {
 
 export function useSetLayoutConfig() {
   const dispatch = useDispatch();
-  const layoutConfig = useSelector(state => state.pluginMuseLayout.home.layoutConfig);
+  const layoutConfig = useSelector((state) => state.pluginEbayMuseLayoutAntd.home.layoutConfig);
   const boundAction = useCallback((...params) => dispatch(setLayoutConfig(...params)), [dispatch]);
   return { layoutConfig, setLayoutConfig: boundAction };
 }

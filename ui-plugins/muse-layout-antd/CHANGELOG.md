@@ -1,5 +1,11 @@
 # muse-layout-antd
 
+## 1.1.6
+
+### Patch Changes
+
+- upgrade plugin registration name
+
 ## 1.1.5
 
 ### Patch Changes

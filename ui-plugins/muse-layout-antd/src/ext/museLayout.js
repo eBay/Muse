@@ -47,7 +47,7 @@ export default {
           link: '/',
           // onClick: () => {
           //   seed++;
-          //   plugin.getPlugin('muse-layout').exports.updateMuseLayout();
+          //   plugin.getPlugin('@ebay/muse-layout-antd').exports.updateMuseLayout();
           // },
         },
         {

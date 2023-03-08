@@ -12,10 +12,11 @@ export function setSiderCollapsed(collapsed) {
 
 export function useSetSiderCollapsed() {
   const dispatch = useDispatch();
-  const siderCollapsed = useSelector(state => state.pluginMuseLayout.home.siderCollapsed);
-  const boundAction = useCallback((...params) => dispatch(setSiderCollapsed(...params)), [
-    dispatch,
-  ]);
+  const siderCollapsed = useSelector((state) => state.pluginEbayMuseLayoutAntd.home.siderCollapsed);
+  const boundAction = useCallback(
+    (...params) => dispatch(setSiderCollapsed(...params)),
+    [dispatch],
+  );
   return { siderCollapsed, setSiderCollapsed: boundAction };
 }
 

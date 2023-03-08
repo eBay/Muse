@@ -9,8 +9,8 @@ specifiers:
   '@ebay/muse-craco-plugin': 3.0.4
   '@ebay/muse-dev-utils': ^1.0.31
   '@ebay/muse-ebay-dev': 1.0.3
-  '@ebay/muse-lib-antd': 1.1.7
-  '@ebay/muse-lib-react': 1.1.4
+  '@ebay/muse-lib-antd': 1.1.8
+  '@ebay/muse-lib-react': 1.1.5
   '@zarconontol/enzyme-adapter-react-18': 0.7.3
   craco-less: 2.0.0
   cross-env: 7.0.3
@@ -23,8 +23,8 @@ specifiers:
 
 dependencies:
   '@ebay/muse-dev-utils': 1.0.31_@ebay+muse-core@1.0.28
-  '@ebay/muse-lib-antd': 1.1.7
-  '@ebay/muse-lib-react': 1.1.4
+  '@ebay/muse-lib-antd': 1.1.8
+  '@ebay/muse-lib-react': 1.1.5
   js-plugin: 1.1.0
   lodash: 4.17.21
   semver: 7.3.7
@@ -2030,11 +2030,11 @@ packages:
       multer: 1.4.5-lts.1
       request-ip: 3.3.0
 
-  /@ebay/muse-lib-antd/1.1.7:
-    resolution: {integrity: sha1-37nTjhh99sw4mkwEhbwTfp3CDzw=, tarball: '@ebay/muse-lib-antd/-/@ebay/muse-lib-antd-1.1.7.tgz'}
+  /@ebay/muse-lib-antd/1.1.8:
+    resolution: {integrity: sha1-xz90t++veP+t8a9HCuUOtATwmjY=, tarball: '@ebay/muse-lib-antd/-/@ebay/muse-lib-antd-1.1.8.tgz'}
     dependencies:
       '@ant-design/icons': 5.0.1
-      '@ebay/muse-lib-react': 1.1.4
+      '@ebay/muse-lib-react': 1.1.5
       '@ebay/nice-form-react': 1.0.7
       antd: 5.1.7_moment@2.29.4
       history: 5.3.0
@@ -2054,8 +2054,8 @@ packages:
       - react-native
     dev: false
 
-  /@ebay/muse-lib-react/1.1.4:
-    resolution: {integrity: sha1-zCGzYWsJT0niikamoEq+ECia1Ss=, tarball: '@ebay/muse-lib-react/-/@ebay/muse-lib-react-1.1.4.tgz'}
+  /@ebay/muse-lib-react/1.1.5:
+    resolution: {integrity: sha1-CPlZDRAT4I7Btssk+ZbE6rD201c=, tarball: '@ebay/muse-lib-react/-/@ebay/muse-lib-react-1.1.5.tgz'}
     dependencies:
       '@ebay/nice-modal-react': 1.2.8_biqbaboplfbrettd7655fr4n2y
       history: 5.3.0

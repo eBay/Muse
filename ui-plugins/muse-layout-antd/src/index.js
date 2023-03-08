@@ -11,5 +11,5 @@ plugin.register({
   route,
   reducer,
   exports: { updateMuseLayout },
-  name: 'muse-layout',
+  name: '@ebay/muse-layout-antd',
 });

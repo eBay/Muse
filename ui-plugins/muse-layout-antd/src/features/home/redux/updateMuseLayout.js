@@ -10,7 +10,7 @@ export function updateMuseLayout() {
 
 export function useUpdateMuseLayout() {
   const dispatch = useDispatch();
-  const seed = useSelector(state => state.pluginMuseLayout.home.seed);
+  const seed = useSelector((state) => state.pluginEbayMuseLayoutAntd.home.seed);
   const boundAction = useCallback((...params) => dispatch(updateMuseLayout(...params)), [dispatch]);
   return { seed, updateMuseLayout: boundAction };
 }

@@ -71,7 +71,7 @@ export default function Header() {
     !headerConfig.noUserMenu &&
     window.MUSE_CONFIG.getUser &&
     window.MUSE_CONFIG.getUser() &&
-    !plugin.getPlugin('muse-cc')
+    !plugin.getPlugin('@ebay/muse-lib-cc')
   ) {
     realHeaderItems.push(getUserMenuItem());
   }
