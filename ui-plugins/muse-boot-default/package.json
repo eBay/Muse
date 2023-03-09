@@ -6,7 +6,7 @@
   "muse": {
     "type": "boot",
     "devConfig": {
-      "app": "nateapp",
+      "app": "musemanager",
       "env": "staging",
       "remotePlugins": [
         "*"

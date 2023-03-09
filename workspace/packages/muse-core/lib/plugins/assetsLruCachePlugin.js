@@ -14,7 +14,6 @@ module.exports = (options = {}) => {
               return await assetsStorage.get(key, null, true); // force get the stroage data
             },
             diskLocation: path.join(os.homedir(), 'muse-storage/.assets-cache'),
-
             ...options,
           }),
         },
