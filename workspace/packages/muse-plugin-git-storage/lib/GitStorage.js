@@ -80,7 +80,7 @@ class GitStorage {
         logger.debug('Content Not Found.');
       } else if (
         err?.response?.status === 403 &&
-        err?.response?.data?.errors?.find(e => e.code === 'too_large')
+        err?.response?.data?.errors?.find((e) => e.code === 'too_large')
       ) {
         const data = await this.gitClient.getBigFile({
           keyPath,
@@ -119,22 +119,28 @@ class GitStorage {
   async list(keyPath) {
     logger.verbose(`List dir: ${keyPath}`);
 
-    const files = await this.gitClient.getRepoContent({
-      organizationName: this.organizationName,
-      projectName: this.projectName,
-      keyPath,
-    });
-    return files
-      ? files.map(({ name, path, type, size, sha }) => {
-          return {
-            name,
-            path,
-            type,
-            size,
-            sha,
-          };
-        })
-      : [];
+    try {
+      const files = await this.gitClient.getRepoContent({
+        organizationName: this.organizationName,
+        projectName: this.projectName,
+        keyPath,
+      });
+
+      return files
+        ? files.map(({ name, path, type, size, sha }) => {
+            return {
+              name,
+              path,
+              type,
+              size,
+              sha,
+            };
+          })
+        : [];
+    } catch (err) {
+      if (err.response?.status === 404) return [];
+      throw err;
+    }
   }
 }
 
