@@ -141,9 +141,9 @@ module.exports = async (params) => {
       if (pluginsToRemove.length) {
         const deployedPlugins = (await getDeployedPlugins(appName, envName)) || [];
         pluginsToRemove.forEach((p) => {
-          if (!find(deployedPlugins, (dp) => dp.name === p.name)) {
+          if (!find(deployedPlugins, (dp) => dp.name === p.pluginName)) {
             throw new Error(
-              `Can't remove plugin ${p.name} because it has not been deployed to ${appName}/${envName}.`,
+              `Can't remove plugin ${p.pluginName} because it has not been deployed to ${appName}/${envName}.`,
             );
           }
         });
@@ -161,11 +161,11 @@ module.exports = async (params) => {
         };
       });
     }),
-  ).sort((p1, p2) => {
-    if (p1.type === p2.type) {
-      return p1.pluginName.localeCompare(p2.pluginName);
+  ).sort(({ deployment: d1 }, { deployment: d2 }) => {
+    if (d1.type === d2.type) {
+      return d1.pluginName.localeCompare(d2.pluginName);
     }
-    if (p1.type === 'add') return -1;
+    if (d1.type === 'add') return -1;
     return 1;
   });
 
