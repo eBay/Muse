@@ -403,7 +403,8 @@ program
     const pkgJson = fs.readJSONSync(path.join(process.cwd(), 'package.json'), {
       throws: false,
     });
-    if (!plugins && pkgJson?.muse) {
+
+    if (!plugins?.length && pkgJson?.muse) {
       // pluginName = pkgJson?.name;
       plugins = [pkgJson.name];
     } else if (!plugins) {
@@ -422,6 +423,7 @@ program
 
     let confirmDeployment = true;
 
+    // TODO: move deps check to a plugin
     // if (
     //   dependencyCheckResult &&
     //   (Object.keys(dependencyCheckResult['dev']).length > 0 ||
