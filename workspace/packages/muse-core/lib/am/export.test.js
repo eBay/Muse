@@ -1,4 +1,5 @@
 const { vol } = require('memfs');
+const path = require('path');
 const plugin = require('js-plugin');
 const muse = require('../');
 const unzipper = require('unzipper');
@@ -19,6 +20,10 @@ plugin.register(testJsPlugin);
 describe('Export basic tests.', () => {
   beforeEach(() => {
     vol.reset();
+    vol.fromJSON({
+      [path.join(__dirname, '../../muse.png')]: '',
+      [path.join(__dirname, './sw.js')]: '',
+    });
   });
   it('Export should work', async () => {
     const appName = 'testapp';
@@ -42,15 +47,13 @@ describe('Export basic tests.', () => {
     });
 
     unzipper.Open.buffer.mockResolvedValue({
-      extract: ({ path }) => {
-        // console.log(`mock extract from ${path}`);
-      },
+      extract: () => {},
+      files: [],
     });
-    muse.storage.assets.get = jest.fn(assetsZipKey => {
-      // console.log(`mock asset get for ${assetsZipKey}`);
+    muse.storage.assets.get = jest.fn(() => {
       return 'test';
     });
-    await muse.am.export({ appName, envName, output: 'exportutonly' });
+    await muse.am.export({ appName, museGlobalProps: {}, envName, output: 'exportutonly' });
 
     // const app = await muse.am.getApp(appName);
     // expect(app.envs.feature).toMatchObject({ name: envName, createdBy: 'nate' });
