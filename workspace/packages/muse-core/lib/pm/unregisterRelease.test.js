@@ -38,7 +38,7 @@ describe('Unregister Release tests', () => {
       pluginName,
       version,
       author: 'nate',
-      buildDir: path.join(process.cwd(), 'build'),
+      projectRoot: process.cwd(),
     });
 
     await muse.pm.unregisterRelease({

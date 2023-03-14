@@ -45,7 +45,7 @@ async function archiveAssets(projectRoot) {
  * @returns {object} Release object.
  */
 
-module.exports = async params => {
+module.exports = async (params) => {
   validate(schema, params);
   const ctx = {};
   if (!params.author) params.author = osUsername;

@@ -52,7 +52,7 @@ describe('Get released plugin assets tests.', () => {
     await muse.pm.releasePlugin({
       pluginName,
       version,
-      buildDir: path.join(process.cwd(), 'build'),
+      projectRoot: process.cwd(),
       author: 'gling',
     });
 

@@ -25,7 +25,7 @@ const logger = require('../logger').createLogger('muse.pm.releasePlugin');
  * @returns {object} Release object.
  */
 
-module.exports = async params => {
+module.exports = async (params) => {
   validate(schema, params);
   const ctx = {};
   if (!params.author) params.author = osUsername;
@@ -47,7 +47,7 @@ module.exports = async params => {
   // Check if release exists
   const releases = await getReleases(pluginName);
 
-  if (releases?.find(r => r.version === version)) {
+  if (releases?.find((r) => r.version === version)) {
     throw new Error(`Version ${version} already exists for plugin ${pluginName}`);
   }
 
@@ -82,7 +82,7 @@ module.exports = async params => {
     await releasePluginAssets({ pluginName, version: newVersion, projectRoot, author });
     ctx.release.bundles = fs
       .readdirSync(path.join(projectRoot, 'build'))
-      .filter(name => fs.statSync(path.join(projectRoot, 'build', name)).isDirectory());
+      .filter((name) => fs.statSync(path.join(projectRoot, 'build', name)).isDirectory());
   }
 
   // Save releases to registry

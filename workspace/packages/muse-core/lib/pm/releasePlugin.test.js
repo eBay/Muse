@@ -3,6 +3,7 @@ const { vol } = require('memfs');
 const fs = require('fs-extra');
 const plugin = require('js-plugin');
 const { defaultAssetStorageLocation } = require('../utils');
+const { assets } = require('../storage');
 
 const testReleasePlugin = {
   name: 'test',
@@ -67,7 +68,7 @@ describe('release plugin basic tests.', () => {
     await muse.pm.releasePlugin({
       pluginName,
       version,
-      buildDir: path.join(process.cwd(), 'build'),
+      projectRoot: process.cwd(),
       author: 'nate',
     });
 

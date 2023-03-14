@@ -13,12 +13,12 @@ const testJsPlugin = {
   },
 };
 plugin.register(testJsPlugin);
-describe('Deploy plugin basic tests.', () => {
+describe('Get deployed plugins basic tests.', () => {
   beforeEach(() => {
     vol.reset();
   });
 
-  it('Deploy plugin should work', async () => {
+  it('getDeployedPlugins plugin should work', async () => {
     const appName = 'testapp';
     const envName = 'staging';
     const pluginName = 'test-plugin';
@@ -47,9 +47,9 @@ describe('Deploy plugin basic tests.', () => {
       prop1: 'prop1',
     });
 
-    expect(testJsPlugin.museCore.pm.getDeployedPlugins).toBeCalledTimes(4);
-    expect(testJsPlugin.museCore.pm.beforeGetDeployedPlugins).toBeCalledTimes(4);
-    expect(testJsPlugin.museCore.pm.afterGetDeployedPlugins).toBeCalledTimes(4);
+    expect(testJsPlugin.museCore.pm.getDeployedPlugins).toBeCalledTimes(2);
+    expect(testJsPlugin.museCore.pm.beforeGetDeployedPlugins).toBeCalledTimes(2);
+    expect(testJsPlugin.museCore.pm.afterGetDeployedPlugins).toBeCalledTimes(2);
   });
 
   it('It returns empty array if app not exists.', async () => {
