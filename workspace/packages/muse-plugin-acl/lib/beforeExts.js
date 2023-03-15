@@ -3,30 +3,35 @@ const defineAbilityFor = require('./defineAbilityFor');
 const museCore = require('@ebay/muse-core');
 const { getUser, assetPermission } = require('./utils');
 
-const checkAppPermission = action => async (ctx, { appName, author }) => {
+const checkAppPermission = (action) => async (ctx, { appName, author }) => {
   const ability = defineAbilityFor(await getUser(author));
   const app = await museCore.am.getApp(appName);
+  if (!app) throw new Error(`App not exist: ${appName}`);
   assetPermission(
     ability.can(action, subject('App', app)),
     `No permission to ${action} for app ${appName} by ${author}.`,
   );
 };
 
-const checkPluginPermission = action => async (ctx, { pluginName, author }) => {
+const checkPluginPermission = (action) => async (ctx, { pluginName, author }) => {
   const ability = defineAbilityFor(await getUser(author));
   const plugin = await museCore.pm.getPlugin(pluginName);
+  if (!plugin) throw new Error(`Plugin not exist: ${pluginName}`);
   assetPermission(
     ability.can(action, subject('Plugin', plugin)),
     `No permission to ${action} for plugin ${pluginName} by ${author}.`,
   );
 };
 
-const checkDeployedPluginPermission = action => async (ctx, { appName, pluginName, author }) => {
+const checkDeployedPluginPermission = (action) => async (ctx, { appName, pluginName, author }) => {
   const ability = defineAbilityFor(await getUser(author));
   const [app, plugin] = await Promise.all([
     museCore.am.getApp(appName),
     museCore.pm.getPlugin(pluginName),
   ]);
+  if (!app) throw new Error(`App not exist: ${appName}`);
+  if (!plugin) throw new Error(`Plugin not exist: ${pluginName}`);
+
   assetPermission(
     ability.can(action, subject('DeployedPlugin', { app, plugin })),
     `No permission to ${action} for plugin ${pluginName} by ${author}.`,
