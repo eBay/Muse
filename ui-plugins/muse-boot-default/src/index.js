@@ -100,7 +100,6 @@ async function start() {
     isE2eTest = false,
   } = mg;
   let { plugins = [] } = window.MUSE_GLOBAL;
-  window.MUSE_GLOBAL.appConfig = app.config;
 
   // MUSE_CONFIG is for backward compatability
   window.MUSE_CONFIG = mg;
