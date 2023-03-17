@@ -1,5 +1,11 @@
 # @ebay/muse-client
 
+## 1.0.21
+
+### Patch Changes
+
+- browser compatibility
+
 ## 1.0.20
 
 ### Patch Changes
