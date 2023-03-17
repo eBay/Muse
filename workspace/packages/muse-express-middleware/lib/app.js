@@ -102,11 +102,11 @@ module.exports = ({
 
     logger.info(`Getting full app data: ${appName}`);
     const app = await museCore.data.get(`muse.app.${appName}`);
-    cdn = app.cdn || cdn;
     if (!app) {
       res.send('No app found: ' + appName);
       return;
     }
+    cdn = app.cdn || cdn;
     const env = app.envs?.[envName];
     if (!env) {
       res.send('No env found: ' + envName);

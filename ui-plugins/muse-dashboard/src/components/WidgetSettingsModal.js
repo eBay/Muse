@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { Form, Modal } from 'antd';
-import FormBuilder from 'antd-form-builder';
+import NiceForm from '@ebay/nice-form-react';
 import NiceModal, { useModal, antdModal } from '@ebay/nice-modal-react';
 
 const WidgetSettingsModal = NiceModal.create(({ widgetMeta, settings }) => {
@@ -8,9 +8,9 @@ const WidgetSettingsModal = NiceModal.create(({ widgetMeta, settings }) => {
   const modal = useModal();
 
   const handleSaveSettings = useCallback(
-    evt => {
+    (evt) => {
       if (evt && evt.preventDefault) evt.preventDefault();
-      form.validateFields().then(values => {
+      form.validateFields().then((values) => {
         modal.resolve(values);
         modal.hide();
       });
@@ -32,7 +32,7 @@ const WidgetSettingsModal = NiceModal.create(({ widgetMeta, settings }) => {
       onOk={handleSaveSettings}
     >
       <Form form={form} onFinish={handleSaveSettings}>
-        <FormBuilder form={form} meta={formMeta} />
+        <NiceForm meta={formMeta} />
       </Form>
     </Modal>
   );

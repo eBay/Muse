@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { Form, Modal, message } from 'antd';
-import FormBuilder from 'antd-form-builder';
+import NiceForm from '@ebay/nice-form-react';
 import _ from 'lodash';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import NiceModal, { useModal, antdModal } from '@ebay/nice-modal-react';
@@ -18,9 +18,9 @@ const NewDashboardModal = NiceModal.create(
     } = useStorage('saveDashboard');
 
     const onOk = useCallback(
-      evt => {
+      (evt) => {
         if (evt && evt.preventDefault) evt.preventDefault();
-        form.validateFields().then(async values => {
+        form.validateFields().then(async (values) => {
           let layout = currentLayout;
           switch (values.layout) {
             case 'Empty':
@@ -80,7 +80,7 @@ const NewDashboardModal = NiceModal.create(
       >
         <RequestStatus pending={saveDashboardPending} error={saveDashboardError} />
         <Form form={form} onFinish={onOk}>
-          <FormBuilder form={form} meta={formMeta} />
+          <NiceForm meta={formMeta} />
         </Form>
       </Modal>
     );

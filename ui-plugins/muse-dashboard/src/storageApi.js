@@ -2,7 +2,7 @@ import jsPlugin from 'js-plugin';
 import _ from 'lodash';
 const ls = window.localStorage;
 
-const delay = (t) => new Promise((resolve) => setTimeout(resolve, t));
+// const delay = (t) => new Promise((resolve) => setTimeout(resolve, t));
 
 const getDashboardList = async (dashboardKey) => {
   // await delay(1000);

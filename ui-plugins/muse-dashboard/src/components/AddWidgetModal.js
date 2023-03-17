@@ -1,5 +1,5 @@
-import React, { useCallback, useState, useMemo } from 'react';
-import { Form, Modal } from 'antd';
+import React, { useCallback, useState } from 'react';
+import { Modal } from 'antd';
 
 import NiceModal, { antdModal, useModal } from '@ebay/nice-modal-react';
 import WidgetExplorer from './WidgetExplorer';
@@ -9,7 +9,7 @@ import './AddWidgetModal.less';
 export default NiceModal.create(function AddWidgetModal({ appId, onAdd = () => {} }) {
   const modal = useModal();
   const [widget, setWidget] = useState(null);
-  const handleWidgetChange = useCallback(item => {
+  const handleWidgetChange = useCallback((item) => {
     setWidget(item);
   }, []);
 
