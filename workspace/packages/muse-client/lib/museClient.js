@@ -6,13 +6,14 @@ const kebabCase = require('lodash/fp/kebabCase');
 
 module.exports = {
   create({ endpoint, token, axiosConfig }) {
+    const headers = axiosConfig && axiosConfig.headers ? axiosConfig.headers : {};
     const client = axios.create({
       baseURL: endpoint,
       timeout: 30000,
       ...axiosConfig,
       headers: {
         authorization: token || '',
-        ...axiosConfig?.headers,
+        ...headers,
       },
     });
     const post = async (apiPath, args) => {
@@ -26,12 +27,11 @@ module.exports = {
         } else {
           res = await client.post(apiPath, { args });
         }
-        return res.data?.data;
+        return res.data ? res.data.data : res.data;
       } catch (err) {
-        //
-        if (err?.response?.data?.error) {
-          const err2 = new Error(err?.response?.data?.error);
-          throw err2;
+        if (err && err.response && err.response.data && err.response.data.error) {
+          const errorResponse = new Error(err.response.data.error);
+          throw errorResponse;
         } else throw err;
       }
     };
