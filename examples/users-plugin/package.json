@@ -2,12 +2,11 @@
   "name": "users-plugin",
   "version": "1.0.0",
   "private": true,
-
   "devDependencies": {
     "@craco/craco": "7.0.0",
-    "@ebay/muse-core": "^1.0.28",
+    "@ebay/muse-core": "^1.0.29",
     "@ebay/muse-cra-patch": "^1.0.1",
-    "@ebay/muse-craco-plugin": "3.0.0",
+    "@ebay/muse-craco-plugin": "3.0.4",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -59,5 +58,5 @@
         }
       }
     }
-  }  
+  }
 }

@@ -2,9 +2,9 @@ lockfileVersion: 5.4
 
 specifiers:
   '@craco/craco': 7.0.0
-  '@ebay/muse-core': ^1.0.28
+  '@ebay/muse-core': ^1.0.29
   '@ebay/muse-cra-patch': ^1.0.1
-  '@ebay/muse-craco-plugin': 3.0.0
+  '@ebay/muse-craco-plugin': 3.0.4
   '@ebay/muse-lib-antd': 1.1.2
   '@ebay/muse-lib-react': 1.1.2
   '@testing-library/jest-dom': ^5.16.5
@@ -25,9 +25,9 @@ dependencies:
 
 devDependencies:
   '@craco/craco': 7.0.0_react-scripts@5.0.1
-  '@ebay/muse-core': 1.0.28
+  '@ebay/muse-core': 1.0.29
   '@ebay/muse-cra-patch': 1.0.1
-  '@ebay/muse-craco-plugin': 3.0.0_zn3b3rg7a76ksmoalqt6s3i4aq
+  '@ebay/muse-craco-plugin': 3.0.4_474glyoa6mp5jtgt2takkohx4m
   '@testing-library/jest-dom': 5.16.5
   '@testing-library/react': 13.4.0
   '@testing-library/user-event': 13.5.0
@@ -1677,8 +1677,8 @@ packages:
       kuler: 2.0.0
     dev: true
 
-  /@ebay/muse-core/1.0.28:
-    resolution: {integrity: sha1-16QaNOP0OO7F+X4ZL+5x7Y4ZCSs=, tarball: '@ebay/muse-core/-/@ebay/muse-core-1.0.28.tgz'}
+  /@ebay/muse-core/1.0.29:
+    resolution: {integrity: sha1-2q1Ndyx0HgrNXhnrr8REixFcmxE=, tarball: '@ebay/muse-core/-/@ebay/muse-core-1.0.29.tgz'}
     dependencies:
       ajv: 8.12.0
       archiver: 5.3.1
@@ -1711,13 +1711,13 @@ packages:
       resolve-cwd: 3.0.0
     dev: true
 
-  /@ebay/muse-craco-plugin/3.0.0_zn3b3rg7a76ksmoalqt6s3i4aq:
-    resolution: {integrity: sha1-c5cJuvAzKPKHCCOtXqavNM2ZNcs=, tarball: '@ebay/muse-craco-plugin/-/@ebay/muse-craco-plugin-3.0.0.tgz'}
+  /@ebay/muse-craco-plugin/3.0.4_474glyoa6mp5jtgt2takkohx4m:
+    resolution: {integrity: sha1-pPgehzVomDSQgiYmyhFjcLf92OE=, tarball: '@ebay/muse-craco-plugin/-/@ebay/muse-craco-plugin-3.0.4.tgz'}
     peerDependencies:
       '@craco/craco': 7.0.0
     dependencies:
       '@craco/craco': 7.0.0_react-scripts@5.0.1
-      '@ebay/muse-dev-utils': 1.0.30_@ebay+muse-core@1.0.28
+      '@ebay/muse-dev-utils': 1.0.34_@ebay+muse-core@1.0.29
       '@ebay/muse-webpack-plugin': 1.0.27
       resolve-cwd: 3.0.0
     transitivePeerDependencies:
@@ -1725,25 +1725,25 @@ packages:
       - express
     dev: true
 
-  /@ebay/muse-dev-utils/1.0.30_@ebay+muse-core@1.0.28:
-    resolution: {integrity: sha1-3lnB7Dd1IzE2wOUzEyrtTF3mJcM=, tarball: '@ebay/muse-dev-utils/-/@ebay/muse-dev-utils-1.0.30.tgz'}
+  /@ebay/muse-dev-utils/1.0.34_@ebay+muse-core@1.0.29:
+    resolution: {integrity: sha1-DxsQg/f5Bsv7frVH57kky1OCR/0=, tarball: '@ebay/muse-dev-utils/-/@ebay/muse-dev-utils-1.0.34.tgz'}
     peerDependencies:
-      '@ebay/muse-core': ^1.0.28
+      '@ebay/muse-core': ^1.0.29
       express: ^4.18.1
     dependencies:
-      '@ebay/muse-core': 1.0.28
-      '@ebay/muse-express-middleware': 1.0.30_@ebay+muse-core@1.0.28
+      '@ebay/muse-core': 1.0.29
+      '@ebay/muse-express-middleware': 1.0.32_@ebay+muse-core@1.0.29
       dotenv: 16.0.3
       lodash: 4.17.21
       resolve-cwd: 3.0.0
     dev: true
 
-  /@ebay/muse-express-middleware/1.0.30_@ebay+muse-core@1.0.28:
-    resolution: {integrity: sha1-zGV2PIQVZrBTqGiJjadoYpMxViY=, tarball: '@ebay/muse-express-middleware/-/@ebay/muse-express-middleware-1.0.30.tgz'}
+  /@ebay/muse-express-middleware/1.0.32_@ebay+muse-core@1.0.29:
+    resolution: {integrity: sha1-uI/sNC4toDarDYAL+KmwGa+DISs=, tarball: '@ebay/muse-express-middleware/-/@ebay/muse-express-middleware-1.0.32.tgz'}
     peerDependencies:
-      '@ebay/muse-core': ^1.0.28
+      '@ebay/muse-core': ^1.0.29
     dependencies:
-      '@ebay/muse-core': 1.0.28
+      '@ebay/muse-core': 1.0.29
       lodash: 4.17.21
       mime-types: 2.1.35
       multer: 1.4.5-lts.1

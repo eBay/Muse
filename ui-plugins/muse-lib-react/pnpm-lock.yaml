@@ -7,7 +7,7 @@ specifiers:
   '@ebay/muse-core': 1.0.29
   '@ebay/muse-cra-patch': ^1.0.1
   '@ebay/muse-craco-plugin': 3.0.4
-  '@ebay/muse-ebay-dev': 1.0.3
+  '@ebay/muse-ebay-dev': 1.0.5
   '@ebay/nice-modal-react': 1.2.8
   '@types/node': 18.11.9
   craco-less: 2.0.0
@@ -59,7 +59,7 @@ devDependencies:
   '@ebay/muse-core': 1.0.29
   '@ebay/muse-cra-patch': 1.0.1
   '@ebay/muse-craco-plugin': 3.0.4_474glyoa6mp5jtgt2takkohx4m
-  '@ebay/muse-ebay-dev': 1.0.3_@ebay+muse-core@1.0.29
+  '@ebay/muse-ebay-dev': 1.0.5_@ebay+muse-core@1.0.29
   '@types/node': 18.11.9
   craco-less: 2.0.0_ree3i5dki7r4uuqd7wpz37jhse
   cross-env: 7.0.3
@@ -1902,11 +1902,11 @@ packages:
       resolve-cwd: 3.0.0
     dev: true
 
-  /@ebay/muse-ebay-dev/1.0.3_@ebay+muse-core@1.0.29:
-    resolution: {integrity: sha1-k4u7ZmUj9vGwicqkoiuwP8YPSf4=, tarball: '@ebay/muse-ebay-dev/-/@ebay/muse-ebay-dev-1.0.3.tgz'}
+  /@ebay/muse-ebay-dev/1.0.5_@ebay+muse-core@1.0.29:
+    resolution: {integrity: sha1-cprDoc4QKDAxvZhW0SiMR+vlGyo=, tarball: '@ebay/muse-ebay-dev/-/@ebay/muse-ebay-dev-1.0.5.tgz'}
     hasBin: true
     peerDependencies:
-      '@ebay/muse-core': ^1.0.6
+      '@ebay/muse-core': ^1.0.28
     dependencies:
       '@ebay/muse-core': 1.0.29
       axios: 0.27.2
