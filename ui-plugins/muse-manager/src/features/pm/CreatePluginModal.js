@@ -4,6 +4,7 @@ import { Modal, message, Form } from 'antd';
 import NiceForm from '@ebay/nice-form-react';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import utils from '@ebay/muse-lib-antd/src/utils';
+import jsPlugin from 'js-plugin';
 import { useSyncStatus, useMuseApi } from '../../hooks';
 const user = window.MUSE_GLOBAL.getUser();
 
@@ -25,6 +26,7 @@ const CreatePluginModal = NiceModal.create(() => {
         key: 'pluginName',
         label: 'Plugin name',
         required: true,
+        order: 10,
       },
       {
         key: 'type',
@@ -38,23 +40,26 @@ const CreatePluginModal = NiceModal.create(() => {
         ],
         requried: true,
         initialValue: 'normal',
+        order: 20,
       },
-      {
-        key: 'repo',
-        label: 'Plugin Repo',
-        required: true,
-      },
+      // {
+      //   key: 'repo',
+      //   label: 'Plugin Repo',
+      //   required: true,
+      // },
       {
         key: 'description',
         label: 'Description',
         widget: 'textarea',
         widgetProps: { rows: 5 },
+        order: 100,
       },
     ],
   };
 
   const handleFinish = useCallback(() => {
     const values = form.getFieldsValue();
+    jsPlugin.invoke('museManager.pm.createPluginForm.processValues', { values, form });
     createPlugin({ ...values, author: user.username })
       .then(async () => {
         modal.hide();
@@ -66,7 +71,7 @@ const CreatePluginModal = NiceModal.create(() => {
       });
   }, [createPlugin, syncStatus, modal, form]);
 
-  const { watchingFields } = utils.extendFormMeta(meta, 'museManager.createPluginForm', {
+  const { watchingFields } = utils.extendFormMeta(meta, 'museManager.pm.createPluginForm', {
     meta,
     form,
   });
