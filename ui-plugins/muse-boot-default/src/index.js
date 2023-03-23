@@ -263,7 +263,7 @@ async function start() {
   }
 
   // Start the application
-  let entryName = app.entry;
+  let entryName = mg.appConfig.entry;
   if (!entryName) {
     // If there isn't entry defined and there's only one app entry from the plugins list.
     // Then just use the only one.
