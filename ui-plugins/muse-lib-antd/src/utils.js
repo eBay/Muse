@@ -10,7 +10,7 @@ import _ from 'lodash';
  */
 export const extendFormMeta = (meta, extBase, ...args) => {
   jsPlugin.invoke(`${extBase}.processMeta`, ...args);
-  const fields = _.flatten(jsPlugin.invoke(`${extBase}.getFields`, ...args));
+  const fields = _.flatten(jsPlugin.invoke(`${extBase}.getFields`, ...args)).filter(Boolean);
   meta.fields.push(...fields);
   jsPlugin.invoke(`${extBase}.postProcessMeta`, ...args);
   jsPlugin.sort(meta.fields);
