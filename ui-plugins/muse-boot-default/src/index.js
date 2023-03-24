@@ -22,7 +22,7 @@ async function start() {
   // Get the config from both app and env
   // That is, app.config is the default, env.config can override any value on app.config
   const appConfig = Object.assign({}, mg.app?.config);
-  Object.entries(mg.env?.config).forEach(([key, value]) => {
+  Object.entries(mg.env?.config || {}).forEach(([key, value]) => {
     if (value !== null && value !== undefined && value !== '') {
       appConfig[key] = value;
     }

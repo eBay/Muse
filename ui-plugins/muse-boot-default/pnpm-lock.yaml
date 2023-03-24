@@ -6,7 +6,7 @@ specifiers:
   '@ebay/muse-core': 1.0.29
   '@ebay/muse-cra-patch': ^1.0.1
   '@ebay/muse-craco-plugin': 3.0.4
-  '@ebay/muse-ebay-dev': 1.0.4
+  '@ebay/muse-ebay-dev': 1.0.5
   '@ebay/muse-modules': 1.0.22
   base64-inline-loader: ^2.0.1
   cross-env: ^7.0.3
@@ -24,7 +24,7 @@ devDependencies:
   '@ebay/muse-core': 1.0.29
   '@ebay/muse-cra-patch': 1.0.1
   '@ebay/muse-craco-plugin': 3.0.4_474glyoa6mp5jtgt2takkohx4m
-  '@ebay/muse-ebay-dev': 1.0.4_@ebay+muse-core@1.0.29
+  '@ebay/muse-ebay-dev': 1.0.5_@ebay+muse-core@1.0.29
   '@ebay/muse-modules': 1.0.22
   cross-env: 7.0.3
   eslint: 8.33.0
@@ -1869,8 +1869,8 @@ packages:
       resolve-cwd: 3.0.0
     dev: true
 
-  /@ebay/muse-ebay-dev/1.0.4_@ebay+muse-core@1.0.29:
-    resolution: {integrity: sha1-RzwB3mDWcpG654gLViEe6cOEb00=, tarball: '@ebay/muse-ebay-dev/-/@ebay/muse-ebay-dev-1.0.4.tgz'}
+  /@ebay/muse-ebay-dev/1.0.5_@ebay+muse-core@1.0.29:
+    resolution: {integrity: sha1-cprDoc4QKDAxvZhW0SiMR+vlGyo=, tarball: '@ebay/muse-ebay-dev/-/@ebay/muse-ebay-dev-1.0.5.tgz'}
     hasBin: true
     peerDependencies:
       '@ebay/muse-core': ^1.0.28
