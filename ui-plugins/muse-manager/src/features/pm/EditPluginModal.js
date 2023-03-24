@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
-import { Modal, message, Form } from 'antd';
+import { Modal, message, Select, Form } from 'antd';
 import NiceForm from '@ebay/nice-form-react';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import utils from '@ebay/muse-lib-antd/src/utils';
@@ -43,6 +43,21 @@ const EditPluginModal = NiceModal.create(({ plugin, app }) => {
         key: 'repo',
         label: 'Plugin Repo',
         required: true,
+      },
+      {
+        key: 'owners',
+        label: 'Owners',
+        order: 21,
+        initialValue: [window.MUSE_GLOBAL.getUser()?.username].filter(Boolean),
+        widget: Select,
+        widgetProps: {
+          mode: 'tags',
+          style: { width: '100%' },
+          popupClassName: 'hidden',
+          tokenSeparators: [' '],
+        },
+        tooltip:
+          'If ACL plugin enabled, only owners can manage the plugin. Seperated by whitespace.',
       },
       {
         key: 'description',

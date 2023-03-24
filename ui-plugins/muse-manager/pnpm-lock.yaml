@@ -10,7 +10,7 @@ specifiers:
   '@ebay/muse-dev-utils': 1.0.34
   '@ebay/muse-ebay-dev': 1.0.5
   '@ebay/muse-express-middleware': 1.0.32
-  '@ebay/muse-lib-antd': 1.2.0
+  '@ebay/muse-lib-antd': 1.2.1
   '@ebay/muse-lib-react': 1.2.0
   '@ebay/muse-plugin-acl': 1.0.7
   '@ebay/nice-form-react': ^1.0.7
@@ -41,7 +41,7 @@ specifiers:
 
 dependencies:
   '@ebay/muse-client': 1.0.21
-  '@ebay/muse-lib-antd': 1.2.0
+  '@ebay/muse-lib-antd': 1.2.1
   '@ebay/muse-lib-react': 1.2.0
   '@ebay/muse-plugin-acl': 1.0.7
   '@ebay/nice-form-react': 1.0.7
@@ -2029,12 +2029,12 @@ packages:
       request-ip: 3.3.0
     dev: true
 
-  /@ebay/muse-lib-antd/1.2.0:
-    resolution: {integrity: sha1-MujpZabMjbe0+rS8LrFqh/NpU+c=, tarball: '@ebay/muse-lib-antd/-/@ebay/muse-lib-antd-1.2.0.tgz'}
+  /@ebay/muse-lib-antd/1.2.1:
+    resolution: {integrity: sha1-XXikQRw82oq+6AVVRiz7ujjWn28=, tarball: '@ebay/muse-lib-antd/-/@ebay/muse-lib-antd-1.2.1.tgz'}
     dependencies:
       '@ant-design/icons': 5.0.1
       '@ebay/muse-lib-react': 1.2.0
-      '@ebay/nice-form-react': 1.0.7
+      '@ebay/nice-form-react': 1.0.8
       antd: 5.1.7_moment@2.29.4
       history: 5.3.0
       js-plugin: 1.1.0
@@ -2101,6 +2101,10 @@ packages:
 
   /@ebay/nice-form-react/1.0.7:
     resolution: {integrity: sha1-5W6uD4EQekglXeUgEaT8AwcnpuY=, tarball: '@ebay/nice-form-react/-/@ebay/nice-form-react-1.0.7.tgz'}
+    dev: false
+
+  /@ebay/nice-form-react/1.0.8:
+    resolution: {integrity: sha1-C/MjuR4b1k+DCXvvj9v2GSIbM/0=, tarball: '@ebay/nice-form-react/-/@ebay/nice-form-react-1.0.8.tgz'}
     dev: false
 
   /@ebay/nice-modal-react/1.2.8_biqbaboplfbrettd7655fr4n2y:

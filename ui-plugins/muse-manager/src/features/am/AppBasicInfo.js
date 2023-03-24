@@ -23,10 +23,10 @@ export default function AppBasicInfo({ app }) {
       },
       {
         key: 'config.entry',
-        label: 'Entry plugin',
+        label: 'App entry',
         order: 30,
-        tooltip: `Which plugin is used to start the Muse app.`,
-        initialValue: 'muse-lib-react',
+        tooltip: `Which plugin is used to start the Muse app. The default is the only found entry point.`,
+        initialValue: 'default',
       },
       {
         key: 'createdBy',
@@ -41,7 +41,10 @@ export default function AppBasicInfo({ app }) {
       {
         key: 'description',
         label: 'Description',
+        clear: 'left',
+        colSpan: 2,
         order: 1000,
+        initialValue: 'No description.',
       },
       {
         clear: 'left',
@@ -54,7 +57,7 @@ export default function AppBasicInfo({ app }) {
     ],
   };
 
-  utils.extendFormMeta(meta, 'museManager.appBasicInfo', { meta, app });
+  utils.extendFormMeta(meta, 'museManager.am.appBasicInfo', { meta, app });
 
   return (
     <Form>

@@ -75,7 +75,10 @@ export default function PluginListBar({ app }) {
       highlight: true,
       render: () => {
         return (
-          <Button type="primary" onClick={() => NiceModal.show('muse-manager.create-plugin-modal')}>
+          <Button
+            type="primary"
+            onClick={() => NiceModal.show('muse-manager.create-plugin-modal', { app: app.name })}
+          >
             Create Plugin
           </Button>
         );

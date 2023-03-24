@@ -15,22 +15,22 @@
           {
             name: 'muse-init-ebay',
             type: 'init',
-            url: 'https://musemanager.muse.qa.ebay.com/muse-assets/p/muse-init-ebay/v1.0.63/dist/main.js',
+            url: 'https://static2.muse.vip.ebay.com/p/muse-init-ebay/v1.0.63/dist/main.js',
           },
           {
             name: '@ebay/muse-lib-react',
             type: 'lib',
-            url: 'https://musemanager.muse.qa.ebay.com/muse-assets/p/@ebay.muse-lib-react/v1.0.30/dev/main.js',
+            url: 'https://static2.muse.vip.ebay.com/p/@ebay.muse-lib-react/v1.0.30/dev/main.js',
           },
           {
             name: '@ebay/muse-lib-antd',
             type: 'lib',
-            url: 'https://musemanager.muse.qa.ebay.com/muse-assets/p/@ebay.muse-lib-antd/v1.0.14/dev/main.js',
+            url: 'https://static2.muse.vip.ebay.com/p/@ebay.muse-lib-antd/v1.0.14/dev/main.js',
           },
           {
             name: '@ebay/muse-layout-antd',
             type: 'normal',
-            url: 'https://musemanager.muse.qa.ebay.com/muse-assets/p/@ebay.muse-layout-antd/v1.0.1/dev/main.js',
+            url: 'https://static2.muse.vip.ebay.com/p/@ebay.muse-layout-antd/v1.0.1/dev/main.js',
           },
         ],
         initEntries: [],
@@ -40,11 +40,11 @@
   </head>
   <body>
     <div id="app"></div>
-    <script src="https://musemanager.muse.qa.ebay.com/muse-assets/p/@ebay.muse-boot-default/v1.0.35/dist/boot.js"></script>
+    <script src="https://static2.muse.vip.ebay.com/p/@ebay.muse-boot-default/v1.0.1/dist/boot.js"></script>
     <script>
       MUSE_GLOBAL.waitFor(
         () =>
-          new Promise(resolve => {
+          new Promise((resolve) => {
             const s = document.createElement('script');
             s.type = 'module';
             document.body.appendChild(s);

@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import NiceModal, { useModal, antdModal } from '@ebay/nice-modal-react';
-import { Modal, message, Form } from 'antd';
+import { Modal, Select, message, Form } from 'antd';
 import NiceForm from '@ebay/nice-form-react';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import utils from '@ebay/muse-lib-antd/src/utils';
@@ -8,7 +8,7 @@ import jsPlugin from 'js-plugin';
 import { useSyncStatus, useMuseApi } from '../../hooks';
 const user = window.MUSE_GLOBAL.getUser();
 
-const CreatePluginModal = NiceModal.create(() => {
+const CreatePluginModal = NiceModal.create(({ app }) => {
   const modal = useModal();
   const [form] = Form.useForm();
   const syncStatus = useSyncStatus('muse.plugins');
@@ -22,15 +22,24 @@ const CreatePluginModal = NiceModal.create(() => {
   const meta = {
     columns: 1,
     fields: [
+      app && {
+        key: 'app',
+        label: 'App',
+        viewMode: true,
+        renderView: () => app,
+        order: 5,
+        tooltip: `You are creating a plugin under the app ${app}. The app owners have permission to edit, build and deploy this plugin as well.`,
+      },
       {
         key: 'pluginName',
-        label: 'Plugin name',
+        label: 'Name',
+        tooltip: 'The uniq name of the plugin. Recommend to follow same pattern with npm package.',
         required: true,
         order: 10,
       },
       {
         key: 'type',
-        label: 'Plugin Type',
+        label: 'Type',
         widget: 'radio-group',
         options: [
           ['normal', 'Normal'],
@@ -40,13 +49,24 @@ const CreatePluginModal = NiceModal.create(() => {
         ],
         required: true,
         initialValue: 'normal',
+        tooltip: 'The type of the plugin. See Muse docs for more details.',
         order: 20,
       },
-      // {
-      //   key: 'repo',
-      //   label: 'Plugin Repo',
-      //   required: true,
-      // },
+      {
+        key: 'owners',
+        label: 'Owners',
+        order: 21,
+        initialValue: [window.MUSE_GLOBAL.getUser()?.username].filter(Boolean),
+        widget: Select,
+        widgetProps: {
+          mode: 'tags',
+          style: { width: '100%' },
+          popupClassName: 'hidden',
+          tokenSeparators: [' '],
+        },
+        tooltip:
+          'If ACL plugin enabled, only owners can manage the plugin. Seperated by whitespace.',
+      },
       {
         key: 'description',
         label: 'Description',
@@ -54,12 +74,14 @@ const CreatePluginModal = NiceModal.create(() => {
         widgetProps: { rows: 5 },
         order: 100,
       },
-    ],
+    ].filter(Boolean),
   };
 
   const handleFinish = useCallback(() => {
     const values = form.getFieldsValue();
+    if (app) values.app = app;
     jsPlugin.invoke('museManager.pm.createPluginForm.processValues', { values, form });
+    console.log(values);
     createPlugin({ ...values, author: user.username })
       .then(async () => {
         modal.hide();
@@ -69,7 +91,7 @@ const CreatePluginModal = NiceModal.create(() => {
       .catch((err) => {
         console.log('failed to deploy', err);
       });
-  }, [createPlugin, syncStatus, modal, form]);
+  }, [createPlugin, syncStatus, modal, form, app]);
 
   const { watchingFields } = utils.extendFormMeta(meta, 'museManager.pm.createPluginForm', {
     meta,

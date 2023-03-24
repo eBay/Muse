@@ -29,13 +29,25 @@ const EditAppModal = NiceModal.create(({ app }) => {
         label: 'Site Title',
         required: true,
       },
+      {
+        key: 'config.entry',
+        order: 20,
+        label: 'App entry',
+        tooltip: "The entry function of the app. Usually you don't need to set it.",
+        initialValue: '',
+      },
     ],
   };
-  utils.extendFormMeta(meta, 'museManager.updateAppForm', { meta, app, form });
-
-  const watches = plugin.invoke('museManager.updateAppForm.watch', { meta, app, form });
-  Form.useWatch([], form);
-  Form.useWatch(_.flatten(watches), form);
+  // utils.extendFormMeta(meta, 'museManager.am.updateAppForm', { meta, app, form });
+  const { watchingFields } = utils.extendFormMeta(meta, 'museManager.am.editAppForm', {
+    meta,
+    form,
+    app,
+  });
+  const updateOnChange = NiceForm.useUpdateOnChange(watchingFields);
+  // const watches = plugin.invoke('museManager.updateAppForm.watch', { meta, app, form });
+  // Form.useWatch([], form);
+  // Form.useWatch(_.flatten(watches), form);
 
   const handleFinish = useCallback(() => {
     const values = form.getFieldsValue();
@@ -65,7 +77,7 @@ const EditAppModal = NiceModal.create(({ app }) => {
     <Modal
       {...antdModalV5(modal)}
       title={`Edit App: ${app.name}`}
-      width="700px"
+      width="800px"
       okText={updateAppPending ? 'Updating...' : 'Update'}
       maskClosable={false}
       onOk={() => {
@@ -73,7 +85,7 @@ const EditAppModal = NiceModal.create(({ app }) => {
       }}
     >
       <RequestStatus loading={updateAppPending} error={updateAppError} />
-      <Form layout="horizontal" form={form} onFinish={handleFinish}>
+      <Form layout="horizontal" form={form} onFinish={handleFinish} onValuesChange={updateOnChange}>
         <NiceForm meta={meta} />
       </Form>
     </Modal>
