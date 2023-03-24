@@ -63,9 +63,11 @@ export default function AppList() {
             columns={columns}
             dataSource={appList}
             loading={!apps}
+            size="small"
             pagination={{
               hideOnSinglePage: false,
               size: 'small',
+              showSizeChanger: true,
               showTotal: total => `Total ${total} items`,
               showQuickJumper: true,
             }}

@@ -5,7 +5,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Tabs, Alert } from 'antd';
 import {
   EyeOutlined,
-  AppstoreOutlined,
+  ControlOutlined,
   FunctionOutlined,
   FieldTimeOutlined,
 } from '@ant-design/icons';
@@ -36,7 +36,7 @@ export default function AppPage() {
       key: 'plugins',
       label: (
         <span>
-          <AppstoreOutlined />
+          <ControlOutlined />
           Plugins
         </span>
       ),

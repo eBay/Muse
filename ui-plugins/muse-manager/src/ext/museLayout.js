@@ -61,7 +61,7 @@ const museLayout = {
         },
         {
           key: 'plugins',
-          icon: 'StarOutlined',
+          icon: 'ControlOutlined',
           link: '/plugins',
           label: 'Plugins',
         },

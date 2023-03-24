@@ -248,6 +248,7 @@ export default function PluginList({ app }) {
             pagination={{
               hideOnSinglePage: false,
               size: 'small',
+              showSizeChanger: true,
               showTotal: (total) => `Total ${total} items`,
               showQuickJumper: true,
             }}

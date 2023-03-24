@@ -2,25 +2,16 @@ import React, { useState } from 'react';
 import { Radio } from 'antd';
 import AppVariables from './AppVariables';
 import PluginVariables from './PluginVariables';
-import { ApartmentOutlined, AppstoreOutlined } from '@ant-design/icons';
 
 export default function EnvironmentVariables({ app }) {
   const [environmentSelection, setEnvironmentSelection] = useState('App');
   const plainOptions = [
     {
-      label: (
-        <span>
-          <ApartmentOutlined /> App. Level
-        </span>
-      ),
+      label: <span>App. Level</span>,
       value: 'App',
     },
     {
-      label: (
-        <span>
-          <AppstoreOutlined /> Plugin Level
-        </span>
-      ),
+      label: <span>Plugin Level</span>,
       value: 'Plugin',
     },
   ];
