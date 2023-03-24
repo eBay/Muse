@@ -1,5 +1,11 @@
 # @ebay/muse-manager
 
+## 1.1.13
+
+### Patch Changes
+
+- cosmetic changes
+
 ## 1.1.12
 
 ### Patch Changes
