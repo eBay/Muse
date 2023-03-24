@@ -8,7 +8,6 @@ import msgEngine from './msgEngine';
 import './urlListener';
 
 import './style.css';
-
 const mg = window.MUSE_GLOBAL;
 
 if (!mg) {
@@ -19,8 +18,18 @@ loading.init();
 async function start() {
   loading.showMessage('Starting...');
   const waitForLoaders = [];
+
+  // Get the config from both app and env
+  // That is, app.config is the default, env.config can override any value on app.config
+  const appConfig = Object.assign({}, mg.app?.config);
+  Object.entries(mg.env?.config).forEach(([key, value]) => {
+    if (value !== null && value !== undefined && value !== '') {
+      appConfig[key] = value;
+    }
+  });
+
   Object.assign(mg, {
-    appConfig: Object.assign({}, mg.app?.config || {}, mg.env?.config),
+    appConfig,
     msgEngine,
     loading,
     error,
@@ -263,7 +272,7 @@ async function start() {
   }
 
   // Start the application
-  let entryName = mg.appConfig.entry;
+  let entryName = appConfig.entry;
   if (!entryName) {
     // If there isn't entry defined and there's only one app entry from the plugins list.
     // Then just use the only one.
