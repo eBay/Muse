@@ -86,7 +86,7 @@ const RequestDetailModal = NiceModal.create(({ request, status }) => {
     status,
     modal,
   });
-  const updateOnChange = NiceForm.useUpdateOnChange('*');
+
   return (
     <Modal
       {...antdModalV5(modal)}

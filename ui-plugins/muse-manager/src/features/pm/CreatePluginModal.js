@@ -38,7 +38,7 @@ const CreatePluginModal = NiceModal.create(() => {
           ['init', 'Init'],
           ['boot', 'Boot'],
         ],
-        requried: true,
+        required: true,
         initialValue: 'normal',
         order: 20,
       },

@@ -241,7 +241,7 @@ export default function PluginList({ app }) {
           <PluginListBar app={app} />
           <Table
             rowKey="name"
-            size="middle"
+            size="small"
             columns={columns}
             dataSource={pluginList}
             loading={pending || !data}

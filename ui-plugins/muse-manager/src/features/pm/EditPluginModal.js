@@ -36,7 +36,7 @@ const EditPluginModal = NiceModal.create(({ plugin, app }) => {
           ['init', 'Init'],
           ['boot', 'Boot'],
         ],
-        requried: true,
+        required: true,
         initialValue: 'normal',
       },
       {

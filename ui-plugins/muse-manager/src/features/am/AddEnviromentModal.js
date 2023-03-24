@@ -2,7 +2,6 @@ import { useCallback } from 'react';
 import { Modal, Form, Button, Alert } from 'antd';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import NiceForm from '@ebay/nice-form-react';
-import _ from 'lodash';
 import { useMuseApi, useSyncStatus } from '../../hooks';
 import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
 import utils from '@ebay/muse-lib-antd/src/utils';
