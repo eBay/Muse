@@ -1,15 +1,17 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
+import _ from 'lodash';
 import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
-import { Modal, message, Select, Form } from 'antd';
+import { Modal, message, Select, Form, Tag } from 'antd';
 import NiceForm from '@ebay/nice-form-react';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import utils from '@ebay/muse-lib-antd/src/utils';
 import { useSyncStatus, useMuseApi } from '../../hooks';
 const user = window.MUSE_GLOBAL.getUser();
 
-const EditPluginModal = NiceModal.create(({ plugin, app }) => {
+const PluginInfoModal = NiceModal.create(({ plugin, app }) => {
   const modal = useModal();
   const [form] = Form.useForm();
+  const [viewMode, setViewMode] = useState(true);
   const syncStatus = useSyncStatus('muse.plugins');
   const {
     action: updatePlugin,
@@ -20,11 +22,13 @@ const EditPluginModal = NiceModal.create(({ plugin, app }) => {
   const meta = {
     columns: 1,
     initialValues: { ...plugin, pluginName: plugin.name },
+    viewMode,
     fields: [
       {
         key: 'pluginName',
         label: 'Plugin name',
         required: true,
+        order: 10,
       },
       {
         key: 'type',
@@ -37,17 +41,28 @@ const EditPluginModal = NiceModal.create(({ plugin, app }) => {
           ['boot', 'Boot'],
         ],
         required: true,
+        viewMode: true,
+        renderView: (v) => {
+          return (
+            <Tag color="blue">
+              {{
+                normal: 'Normal',
+                lib: 'Library',
+                init: 'Init',
+                boot: 'Boot',
+              }[v] || v}
+            </Tag>
+          );
+        },
+        tooltip: 'Plugin type is readonly.',
         initialValue: 'normal',
+        order: 20,
       },
-      {
-        key: 'repo',
-        label: 'Plugin Repo',
-        required: true,
-      },
+
       {
         key: 'owners',
         label: 'Owners',
-        order: 21,
+        order: 30,
         initialValue: [window.MUSE_GLOBAL.getUser()?.username].filter(Boolean),
         widget: Select,
         widgetProps: {
@@ -56,21 +71,33 @@ const EditPluginModal = NiceModal.create(({ plugin, app }) => {
           popupClassName: 'hidden',
           tokenSeparators: [' '],
         },
+        renderView: (owners) => {
+          return owners?.map((o) => <Tag>{o}</Tag>);
+        },
         tooltip:
           'If ACL plugin enabled, only owners can manage the plugin. Seperated by whitespace.',
       },
       {
         key: 'description',
         label: 'Description',
+        order: 100,
         widget: 'textarea',
         widgetProps: { rows: 5 },
+        initialValue: '',
       },
     ],
   };
 
   const handleFinish = useCallback(() => {
     const values = form.getFieldsValue();
-    updatePlugin({ ...values, author: user.username })
+    const payload = {
+      pluginName: plugin.name,
+      changes: {
+        set: Object.entries(values).map(([key, value]) => ({ path: key, value })),
+      },
+    };
+
+    updatePlugin(payload)
       .then(async () => {
         modal.hide();
         message.success('Create plugin success.');
@@ -79,9 +106,9 @@ const EditPluginModal = NiceModal.create(({ plugin, app }) => {
       .catch((err) => {
         console.log('failed to deploy', err);
       });
-  }, [updatePlugin, syncStatus, modal, form]);
+  }, [updatePlugin, syncStatus, modal, plugin, form]);
 
-  const { watchingFields } = utils.extendFormMeta(meta, 'museManager.editPluginForm', {
+  const { watchingFields } = utils.extendFormMeta(meta, 'museManager.pm.pluginInfoForm', {
     meta,
     form,
     app,
@@ -91,12 +118,26 @@ const EditPluginModal = NiceModal.create(({ plugin, app }) => {
   return (
     <Modal
       {...antdModalV5(modal)}
-      title={`Edit Plugin`}
+      title={viewMode ? 'Plugin Detail' : `Edit Plugin`}
       width="600px"
-      okText="Update"
-      maskClosable={false}
+      maskClosable={viewMode}
+      okText={viewMode ? 'Edit' : 'Update'}
+      okButtonProps={{ type: viewMode ? 'default' : 'primary' }}
+      cancelText={viewMode ? 'Close Dialog' : 'Cancel'}
+      onCancel={() => {
+        if (viewMode) {
+          modal.hide();
+        } else {
+          form.resetFields();
+          setViewMode(true);
+        }
+      }}
       onOk={() => {
-        form.validateFields().then(() => form.submit());
+        if (viewMode) {
+          setViewMode(false);
+        } else {
+          form.validateFields().then(() => form.submit());
+        }
       }}
     >
       <RequestStatus loading={updatePluginPending} error={updatePluginError} />
@@ -107,4 +148,4 @@ const EditPluginModal = NiceModal.create(({ plugin, app }) => {
   );
 });
 
-export default EditPluginModal;
+export default PluginInfoModal;

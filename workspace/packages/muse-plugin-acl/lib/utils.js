@@ -37,11 +37,11 @@ function errorUnlessCan(allowed, authorizedRoles, object, operation, args = {}) 
   const roles =
     authorizedRoles.length === 1 && authorizedRoles[0] === 'admin'
       ? authorizedRoles
-      : authorizedRoles.filter(t => t !== 'admin');
+      : authorizedRoles.filter((t) => t !== 'admin');
   const err = new Error(
     `No permission. Only ${roles
       .map(
-        word => word,
+        (word) => word,
         // .toLowerCase()
         // .split('_')
         // .join(' '),
@@ -53,8 +53,9 @@ function errorUnlessCan(allowed, authorizedRoles, object, operation, args = {}) 
   throw err;
 }
 
-const getUser = async username => {
+const getUser = async (username) => {
   if (!username) return null;
+  console.log('get user');
   const admins = await museCore.data.get('muse.admins');
   return {
     username,

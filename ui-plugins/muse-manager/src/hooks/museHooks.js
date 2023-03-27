@@ -34,7 +34,7 @@ const invokeMuse = ({ apiPath, args, dispatch, setData, setPending, setError }) 
   setPending(true);
   setError(null);
   return _.invoke(museClient, apiPath, ...args)
-    .then(d => {
+    .then((d) => {
       if (apiPath === 'data.get') {
         dispatch(setMuseData(args[0], d));
       }
@@ -42,7 +42,7 @@ const invokeMuse = ({ apiPath, args, dispatch, setData, setPending, setError }) 
       setPending(false);
       setError(null);
     })
-    .catch(err => {
+    .catch((err) => {
       console.log('failed', err);
       setPending(false);
       setError(err);
@@ -87,7 +87,7 @@ const lastDataError = {};
 export function usePollingMuseData(dataKey, args = { interval: 10000 }) {
   const errorKey = dataKey + '.error';
   const { data, dataError } = useSelector(
-    state => ({
+    (state) => ({
       data: state.pluginEbayMuseManager.museData[dataKey],
       dataError: state.pluginEbayMuseManager.museData[errorKey],
     }),
@@ -112,10 +112,10 @@ export function usePollingMuseData(dataKey, args = { interval: 10000 }) {
           dispatch(setMuseData(errorKey, null));
         }
       },
-      onError: err => {
+      onError: (err) => {
         dispatch(setMuseData(errorKey, err.message || errorKey));
       },
-      interval: args.interval || 10000,
+      interval: 10000000000, //args.interval || 10000,
     });
   } else if (poller.stopped) {
     poller.start();

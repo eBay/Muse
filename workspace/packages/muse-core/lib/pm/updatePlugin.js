@@ -23,7 +23,7 @@ const logger = require('../logger').createLogger('muse.pm.updatePlugin');
  * @param {string} [params.msg] Action message.
  * @returns {object} Plugin object.
  */
-module.exports = async params => {
+module.exports = async (params) => {
   const updateRegistryKey = async ({ ctx, keyPath, params }) => {
     ctx.plugin = await registry.getJsonByYaml(keyPath);
     updateJson(ctx.plugin, params.changes || {});
@@ -49,8 +49,9 @@ module.exports = async params => {
     if (!plugin) {
       throw new Error(`Plugin ${pluginName} doesn't exist.`);
     }
-
+    ctx.plugin = plugin;
     const pid = getPluginId(pluginName);
+    await asyncInvoke('museCore.pm.updatePlugin', ctx, params);
 
     if (!appName) {
       const keyPath = `/plugins/${pid}.yaml`;

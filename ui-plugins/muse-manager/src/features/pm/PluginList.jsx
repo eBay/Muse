@@ -109,8 +109,11 @@ export default function PluginList({ app }) {
     {
       dataIndex: 'name',
       title: 'Name',
-      width: '320px',
+      width: '280px',
+      fixed: 'left',
       order: 10,
+      viewMode: true,
+      tooltip: 'Plugin name is readonly.',
       sorter: tableConfig.defaultSorter('name'),
       ...tableConfig.defaultFilter(pluginList, 'type'),
       render: (pluginName, plugin) => {
@@ -131,13 +134,15 @@ export default function PluginList({ app }) {
         }
         return (
           <>
-            <a
+            <Button
+              type="link"
+              style={{ padding: 0 }}
               onClick={() => {
-                NiceModal.show('muse-manager.edit-plugin-modal', { plugin, app });
+                NiceModal.show('muse-manager.plugin-info-modal', { plugin, app });
               }}
             >
               <Highlighter search={searchValue} text={pluginName} />
-            </a>
+            </Button>
             {tags}
           </>
         );
@@ -208,6 +213,7 @@ export default function PluginList({ app }) {
       dataIndex: 'status',
       title: 'Status',
       order: 60,
+      width: 300,
       render: (a, plugin) => {
         return <PluginStatus plugin={plugin} app={app} />;
       },
@@ -216,7 +222,8 @@ export default function PluginList({ app }) {
       dataIndex: 'actions',
       title: 'Actions',
       order: 100,
-      width: 260,
+      width: 160,
+      fixed: 'right',
       render: (a, item) => {
         return <PluginActions plugin={item} app={app} />;
       },
@@ -245,6 +252,7 @@ export default function PluginList({ app }) {
             columns={columns}
             dataSource={pluginList}
             loading={pending || !data}
+            scroll={{ x: 1300 }}
             pagination={{
               hideOnSinglePage: false,
               size: 'small',
