@@ -27,7 +27,7 @@ const PluginInfoModal = NiceModal.create(({ plugin, app }) => {
       {
         key: 'pluginName',
         label: 'Plugin name',
-        required: true,
+        viewMode: true,
         order: 10,
       },
       {
@@ -40,7 +40,6 @@ const PluginInfoModal = NiceModal.create(({ plugin, app }) => {
           ['init', 'Init'],
           ['boot', 'Boot'],
         ],
-        required: true,
         viewMode: true,
         renderView: (v) => {
           return (
@@ -119,7 +118,7 @@ const PluginInfoModal = NiceModal.create(({ plugin, app }) => {
     <Modal
       {...antdModalV5(modal)}
       title={viewMode ? 'Plugin Detail' : `Edit Plugin`}
-      width="600px"
+      width="700px"
       maskClosable={viewMode}
       okText={viewMode ? 'Edit' : 'Update'}
       okButtonProps={{ type: viewMode ? 'default' : 'primary' }}
