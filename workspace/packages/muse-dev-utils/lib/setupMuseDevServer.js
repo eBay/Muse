@@ -116,7 +116,6 @@ muse.plugin.register({
               .map((s) => _.trim(s)),
           );
         }
-        console.log('remotePlugins', remotePlugins);
         // if a plugin is defined by url like plugin-name#type:http://localhost:3030/main.js then it's loaded as a plugin
         // it could come from remotePlugins or MUSE_REMOTE_PLUGINS
         const urlPlugins = remotePlugins
@@ -229,7 +228,6 @@ muse.plugin.register({
         plugins.push(...realPluginsToLoad);
 
         // For a plugin included by url, keep the original meta too
-        console.log('urlPlugins:', urlPlugins);
         urlPlugins.forEach((up) => {
           if (pluginByName[up.name]) pluginByName[up.name].url = up.url;
           else plugins.push(up);
