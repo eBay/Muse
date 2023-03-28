@@ -30,24 +30,43 @@ export const reducer = (state = {}, action) => {
       return state;
   }
 };
+
+// If useMuseData is called in parrell, ensure only one api call for one kind of muse data.
+const ongoingGetApiCalls = {};
 const invokeMuse = ({ apiPath, args, dispatch, setData, setPending, setError }) => {
   setPending(true);
   setError(null);
-  return _.invoke(museClient, apiPath, ...args)
+
+  const isDataGet = apiPath === 'data.get';
+  const firstArg = args[0];
+  let promise;
+  if (isDataGet && ongoingGetApiCalls[firstArg]) {
+    promise = ongoingGetApiCalls[firstArg];
+  } else {
+    promise = _.invoke(museClient, apiPath, ...args);
+    if (isDataGet) {
+      ongoingGetApiCalls[firstArg] = promise;
+    }
+  }
+  promise
     .then((d) => {
-      if (apiPath === 'data.get') {
-        dispatch(setMuseData(args[0], d));
+      if (isDataGet) {
+        dispatch(setMuseData(firstArg, d));
       }
       setData(d);
       setPending(false);
       setError(null);
+      if (isDataGet) delete ongoingGetApiCalls[firstArg || ''];
     })
     .catch((err) => {
       console.log('failed', err);
       setPending(false);
       setError(err);
+      if (isDataGet) delete ongoingGetApiCalls[firstArg || ''];
       return Promise.reject(err);
     });
+
+  return promise;
 };
 
 export function useMuse(apiPath, ...args) {
