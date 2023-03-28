@@ -1,7 +1,6 @@
 import { useMemo } from 'react';
-import { Table, Button, Tag, Tooltip } from 'antd';
+import { Table, Button, Tooltip } from 'antd';
 import jsPlugin from 'js-plugin';
-import semver from 'semver';
 import TimeAgo from 'react-time-ago';
 import NiceModal from '@ebay/nice-modal-react';
 import { RequestStatus, Highlighter } from '@ebay/muse-lib-antd/src/features/common';
@@ -15,12 +14,13 @@ import PluginListBar from './PluginListBar';
 import { versionDiffColorMap } from './EnvFilterMenu';
 import config from '../../config';
 import { versionDiff } from '../../utils';
+import PluginBadges from './PluginBadges';
+import { extendArray } from '@ebay/muse-lib-antd/src/utils';
 
 const NA = () => <span style={{ color: 'gray', fontSize: '13px' }}>N/A</span>;
 export default function PluginList({ app }) {
   const { data, pending, error } = usePollingMuseData('muse.plugins');
   const { data: latestReleases } = usePollingMuseData('muse.plugins.latest-releases');
-  const { data: npmVersions } = usePollingMuseData('muse.npm.versions', { interval: 30000 });
   const searchValue = useSearchParam('search')?.toLowerCase() || '';
   const scope =
     useSearchParam('scope') || (app ? 'deployed' : config.get('pluginListDefaultScope'));
@@ -109,7 +109,7 @@ export default function PluginList({ app }) {
     {
       dataIndex: 'name',
       title: 'Name',
-      width: '280px',
+      width: '300px',
       fixed: 'left',
       order: 10,
       viewMode: true,
@@ -117,21 +117,21 @@ export default function PluginList({ app }) {
       sorter: tableConfig.defaultSorter('name'),
       ...tableConfig.defaultFilter(pluginList, 'type'),
       render: (pluginName, plugin) => {
-        const tags = [];
-        const npmVersion = npmVersions?.[pluginName];
-        const latestVersion = latestReleases?.[pluginName]?.version;
-        if (npmVersion && latestVersion) {
-          const color = semver.lt(npmVersion, latestVersion) ? 'orange' : 'green';
-          tags.push(
-            <Tag
-              key={'npm-' + npmVersion}
-              color={color}
-              style={{ marginLeft: '0px', transform: 'scale(0.8)' }}
-            >
-              npm v{npmVersion}
-            </Tag>,
-          );
-        }
+        // const tags = [];
+        // const npmVersion = npmVersions?.[pluginName];
+        // const latestVersion = latestReleases?.[pluginName]?.version;
+        // if (npmVersion && latestVersion) {
+        //   const color = semver.lt(npmVersion, latestVersion) ? 'orange' : 'green';
+        //   tags.push(
+        //     <Tag
+        //       key={'npm-' + npmVersion}
+        //       color={color}
+        //       style={{ marginLeft: '0px', marginRight: 0, transform: 'scale(0.8)' }}
+        //     >
+        //       npm v{npmVersion}
+        //     </Tag>,
+        //   );
+        // }
         return (
           <>
             <Button
@@ -143,13 +143,14 @@ export default function PluginList({ app }) {
             >
               <Highlighter search={searchValue} text={pluginName} />
             </Button>
-            {tags}
+
+            <PluginBadges app={app} plugin={plugin} />
           </>
         );
       },
     },
     ...Object.values(app?.envs || {})
-      .filter((envName) => selectedEnvName === 'all' || envName === selectedEnvName)
+      .filter((env) => selectedEnvName === 'all' || env.name === selectedEnvName)
       .map((env, i) => {
         return {
           dataIndex: `${env.name}`,
@@ -222,7 +223,7 @@ export default function PluginList({ app }) {
       dataIndex: 'actions',
       title: 'Actions',
       order: 100,
-      width: 160,
+      width: 180,
       fixed: 'right',
       render: (a, item) => {
         return <PluginActions plugin={item} app={app} />;
@@ -230,14 +231,20 @@ export default function PluginList({ app }) {
     },
   ].filter(Boolean);
 
-  jsPlugin.invoke('museManager.pm.pluginList.processColumns', {
+  extendArray(columns, 'columns', 'museManager.pm.pluginList', {
     app,
     columns,
     plugins: pluginList,
     searchValue,
   });
-  jsPlugin.invoke('museManager.pm.pluginList.postProcessColumns', { columns, plugins: pluginList });
-  jsPlugin.sort(columns);
+  // jsPlugin.invoke('museManager.pm.pluginList.processColumns', {
+  //   app,
+  //   columns,
+  //   plugins: pluginList,
+  //   searchValue,
+  // });
+  // jsPlugin.invoke('museManager.pm.pluginList.postProcessColumns', { columns, plugins: pluginList });
+  // jsPlugin.sort(columns);
 
   return (
     <div>

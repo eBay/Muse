@@ -21,6 +21,10 @@ export const extendFormMeta = (meta, extBase, ...args) => {
   };
 };
 
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 /**
  * @description Make an array extensible by js plugins.
  * @param {*} arr
@@ -29,7 +33,7 @@ export const extendFormMeta = (meta, extBase, ...args) => {
  * @param  {...any} args
  */
 export const extendArray = (arr, extName, extBase, ...args) => {
-  const capitalName = _.capitalize(extName);
+  const capitalName = capitalizeFirstLetter(extName);
   jsPlugin.invoke(`${extBase}.process${capitalName}`, ...args);
   const items = _.flatten(jsPlugin.invoke(`${extBase}.get${capitalName}`, ...args));
   arr.push(...items);

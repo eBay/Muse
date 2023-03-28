@@ -1,0 +1,42 @@
+import { extendArray } from '@ebay/muse-lib-antd/src/utils';
+import _ from 'lodash';
+import './PluginBadges.less';
+
+const PluginBadges = ({ app, plugin }) => {
+  if (!app || !plugin) return null;
+
+  const nodes = [];
+  if (app.pluginConfig?.[plugin.name]?.core || plugin.type !== 'normal') {
+    nodes.push({
+      order: 10,
+      node: (
+        <span
+          className="plugin-badge-core"
+          title="Core plugin, it will be always loaded for local development."
+        >
+          C
+        </span>
+      ),
+    });
+  }
+
+  if (!_.isEmpty(app.pluginConfig?.[plugin.name]?.allowlist)) {
+    nodes.push({
+      order: 20,
+      node: (
+        <span className="plugin-badge-allowlist" title="Allowlist defined.">
+          A
+        </span>
+      ),
+    });
+  }
+  // console.log(jsPlugin.invoke('museManager.pm.pluginList.getPluginBadges', {}));
+  extendArray(nodes, 'pluginBadges', 'museManager.pm.pluginList', { app, plugin, nodes });
+  return (
+    <span className="muse-manager_pm-plugin-badges">
+      {nodes.filter(Boolean).map((n) => n.node)}
+    </span>
+  );
+};
+
+export default PluginBadges;

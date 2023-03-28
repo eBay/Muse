@@ -139,7 +139,6 @@ module.exports = ({
       if (!appConfig.pluginVariables) appConfig.pluginVariables = {};
       Object.assign(appConfig.pluginVariables, pluginVariables[appName]);
     }
-    const clientIp = requestIp.getClientIp(req);
 
     const museGlobal = {
       app: appConfig,
@@ -157,13 +156,24 @@ module.exports = ({
         !app.noServiceWorker && serviceWorker
           ? path.join(req.baseUrl || '/', serviceWorker)
           : false,
-      museClientCode: crypto
-        .createHash('md5')
-        .update(clientIp)
-        .digest('hex'),
+      // museClientCode: crypto
+      //   .createHash('md5')
+      //   .update(clientIp)
+      //   .digest('hex'),
     };
 
-    logger.info(`Muse global: ${JSON.stringify(museGlobal)}`);
+    try {
+      // Sometimes this failed because clientIp not got
+      const clientIp = requestIp.getClientIp(req);
+
+      museGlobal.museClientCode = crypto
+        .createHash('md5')
+        .update(clientIp)
+        .digest('hex');
+    } catch (err) {
+      logger.error(`Failed to create muse client code: ${err?.message}`);
+    }
+
     museCore.plugin.invoke('museMiddleware.app.processMuseGlobal', museGlobal);
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
 

@@ -24,13 +24,13 @@ function PluginActions({ plugin, app }) {
         },
       },
       {
-        key: 'edit',
-        label: 'Edit',
+        key: 'config',
+        label: 'Config',
         order: 40,
-        icon: 'edit',
+        icon: 'setting',
         highlight: true,
         onClick: () => {
-          NiceModal.show('muse-manager.edit-plugin-modal', { plugin, app });
+          NiceModal.show('muse-manager.plugin-config-modal', { plugin, app });
         },
       },
       {

@@ -1,11 +1,9 @@
 import { useCallback } from 'react';
 import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
 import { Modal, message, Form } from 'antd';
-import _ from 'lodash';
 import NiceForm from '@ebay/nice-form-react';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import { useSyncStatus, useMuseApi } from '../../hooks';
-import plugin from 'js-plugin';
 import utils from '@ebay/muse-lib-antd/src/utils';
 
 const user = window.MUSE_GLOBAL.getUser();

@@ -26,6 +26,7 @@ specifiers:
   echarts: ^5.4.1
   echarts-for-react: ^3.0.2
   find-root: 1.1.0
+  flat: ^5.0.2
   lodash: 4.17.21
   postcss: ^8.4.16
   pretty-ms: 7.0.1
@@ -50,6 +51,7 @@ dependencies:
   echarts: 5.4.1
   echarts-for-react: 3.0.2_echarts@5.4.1
   find-root: 1.1.0
+  flat: 5.0.2
   lodash: 4.17.21
   pretty-ms: 7.0.1
   react-color: 2.19.3
@@ -6708,6 +6710,11 @@ packages:
       flatted: 3.2.7
       rimraf: 3.0.2
     dev: true
+
+  /flat/5.0.2:
+    resolution: {integrity: sha1-jKb+MyBp/6nTJMMnGYxZglnOskE=}
+    hasBin: true
+    dev: false
 
   /flatted/3.2.7:
     resolution: {integrity: sha1-YJ85IHy2FLidB2W0d8stQ3+/l4c=}

@@ -1,12 +1,10 @@
 import { useCallback, useState } from 'react';
-import _ from 'lodash';
 import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
 import { Modal, message, Select, Form, Tag } from 'antd';
 import NiceForm from '@ebay/nice-form-react';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import utils from '@ebay/muse-lib-antd/src/utils';
 import { useSyncStatus, useMuseApi } from '../../hooks';
-const user = window.MUSE_GLOBAL.getUser();
 
 const PluginInfoModal = NiceModal.create(({ plugin, app }) => {
   const modal = useModal();
@@ -114,13 +112,38 @@ const PluginInfoModal = NiceModal.create(({ plugin, app }) => {
     plugin,
   });
   const updateOnChange = NiceForm.useUpdateOnChange(watchingFields);
+
+  const nodes = [];
+  nodes.push({
+    order: 10,
+    node: (
+      <>
+        <RequestStatus loading={updatePluginPending} error={updatePluginError} />
+        <Form
+          layout="horizontal"
+          form={form}
+          onValuesChange={updateOnChange}
+          onFinish={handleFinish}
+        >
+          <NiceForm meta={meta} />
+        </Form>
+      </>
+    ),
+  });
+
+  utils.extendArray(nodes, 'nodes', 'museManager.pm.pluginInfoView', {
+    viewMode,
+    plugin,
+    app,
+  });
   return (
     <Modal
       {...antdModalV5(modal)}
       title={viewMode ? 'Plugin Detail' : `Edit Plugin`}
       width="700px"
       maskClosable={viewMode}
-      okText={viewMode ? 'Edit' : 'Update'}
+      className="muse-manager_pm-plugin-info-modal"
+      okText={viewMode ? 'Edit' : 'Save'}
       okButtonProps={{ type: viewMode ? 'default' : 'primary' }}
       cancelText={viewMode ? 'Close Dialog' : 'Cancel'}
       onCancel={() => {
@@ -139,10 +162,7 @@ const PluginInfoModal = NiceModal.create(({ plugin, app }) => {
         }
       }}
     >
-      <RequestStatus loading={updatePluginPending} error={updatePluginError} />
-      <Form layout="horizontal" form={form} onValuesChange={updateOnChange} onFinish={handleFinish}>
-        <NiceForm meta={meta} />
-      </Form>
+      {nodes.map((n) => n.node)}
     </Modal>
   );
 });

@@ -54,6 +54,7 @@
     "echarts": "^5.4.1",
     "echarts-for-react": "^3.0.2",
     "find-root": "1.1.0",
+    "flat": "^5.0.2",
     "lodash": "4.17.21",
     "pretty-ms": "7.0.1",
     "react-color": "^2.19.3",
