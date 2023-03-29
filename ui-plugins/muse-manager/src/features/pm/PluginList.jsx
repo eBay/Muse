@@ -16,6 +16,7 @@ import config from '../../config';
 import { versionDiff } from '../../utils';
 import PluginBadges from './PluginBadges';
 import { extendArray } from '@ebay/muse-lib-antd/src/utils';
+import OwnerList from '../common/OwnerList';
 
 const NA = () => <span style={{ color: 'gray', fontSize: '13px' }}>N/A</span>;
 export default function PluginList({ app }) {
@@ -149,6 +150,13 @@ export default function PluginList({ app }) {
         );
       },
     },
+    {
+      dataIndex: 'owners',
+      title: 'Owners',
+      width: 250,
+      order: 15,
+      render: (owners) => <OwnerList owners={owners} searchKey={searchValue} />,
+    },
     ...Object.values(app?.envs || {})
       .filter((env) => selectedEnvName === 'all' || env.name === selectedEnvName)
       .map((env, i) => {
@@ -236,6 +244,7 @@ export default function PluginList({ app }) {
     columns,
     plugins: pluginList,
     searchValue,
+    latestReleases,
   });
   // jsPlugin.invoke('museManager.pm.pluginList.processColumns', {
   //   app,
