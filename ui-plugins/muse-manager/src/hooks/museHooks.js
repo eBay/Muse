@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { message } from 'antd';
 import _ from 'lodash';
 import polling from '@ebay/muse-lib-react/src/features/common/polling';
@@ -70,10 +70,12 @@ const invokeMuse = ({ apiPath, args, dispatch, setData, setPending, setError }) 
 };
 
 export function useMuse(apiPath, ...args) {
-  const [data, setData] = useState(null);
+  const isGet = apiPath === 'data.get';
+  const [data, setData] = useState(apiPath === 'data.get' ? args[1] : null);
   const [error, setError] = useState(null);
   const [pending, setPending] = useState(false);
 
+  if (isGet) args.length = 1;
   const dispatch = useDispatch();
   useEffect(() => {
     if (!data) {
@@ -84,8 +86,15 @@ export function useMuse(apiPath, ...args) {
   return { data, error, pending };
 }
 
-export function useMuseData(...args) {
-  return useMuse('data.get', ...args);
+export function useMuseData(dataKey) {
+  const { data } = useSelector(
+    (state) => ({
+      data: state.pluginEbayMuseManager.museData[dataKey],
+    }),
+    shallowEqual,
+  );
+
+  return useMuse('data.get', dataKey, data || undefined);
 }
 
 export function useMuseApi(apiPath) {
