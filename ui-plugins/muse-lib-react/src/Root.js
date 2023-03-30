@@ -10,6 +10,18 @@ import store from './common/store';
 import routeConfig from './common/routeConfig';
 import history from './common/history';
 import SubAppContext from './features/sub-app/SubAppContext';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+// Create a client
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: Infinity,
+      retry: 0,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 function renderRouteConfigV3(routes, contextPath) {
   // Resolve route config object in React Router v3.
@@ -127,11 +139,13 @@ const Root = () => {
   }, [handleMsg]);
 
   return (
-    <Provider store={store.getStore()}>
-      <SubAppContext.Provider value={subAppContext}>
-        <WrappingComponent />
-      </SubAppContext.Provider>
-    </Provider>
+    <QueryClientProvider client={queryClient}>
+      <Provider store={store.getStore()}>
+        <SubAppContext.Provider value={subAppContext}>
+          <WrappingComponent />
+        </SubAppContext.Provider>
+      </Provider>
+    </QueryClientProvider>
   );
 };
 
