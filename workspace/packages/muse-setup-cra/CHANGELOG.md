@@ -1,5 +1,11 @@
 # @ebay/muse-setup-cra
 
+## 1.1.1
+
+### Patch Changes
+
+- add default ut test scripts for muse-setup-cra
+
 ## 1.1.0
 
 ### Minor Changes
