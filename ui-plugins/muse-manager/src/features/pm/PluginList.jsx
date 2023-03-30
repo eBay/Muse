@@ -20,7 +20,7 @@ import OwnerList from '../common/OwnerList';
 
 const NA = () => <span style={{ color: 'gray', fontSize: '13px' }}>N/A</span>;
 export default function PluginList({ app }) {
-  const { data, pending, error } = usePollingMuseData('muse.plugins');
+  const { data, isLoading, error } = usePollingMuseData('muse.plugins');
   const { data: latestReleases } = usePollingMuseData('muse.plugins.latest-releases');
   const searchValue = useSearchParam('search')?.toLowerCase() || '';
   const scope =
@@ -110,7 +110,7 @@ export default function PluginList({ app }) {
     {
       dataIndex: 'name',
       title: 'Name',
-      width: '300px',
+      width: '350px',
       fixed: 'left',
       order: 10,
       viewMode: true,
@@ -118,21 +118,6 @@ export default function PluginList({ app }) {
       sorter: tableConfig.defaultSorter('name'),
       ...tableConfig.defaultFilter(pluginList, 'type'),
       render: (pluginName, plugin) => {
-        // const tags = [];
-        // const npmVersion = npmVersions?.[pluginName];
-        // const latestVersion = latestReleases?.[pluginName]?.version;
-        // if (npmVersion && latestVersion) {
-        //   const color = semver.lt(npmVersion, latestVersion) ? 'orange' : 'green';
-        //   tags.push(
-        //     <Tag
-        //       key={'npm-' + npmVersion}
-        //       color={color}
-        //       style={{ marginLeft: '0px', marginRight: 0, transform: 'scale(0.8)' }}
-        //     >
-        //       npm v{npmVersion}
-        //     </Tag>,
-        //   );
-        // }
         return (
           <>
             <Button
@@ -144,7 +129,6 @@ export default function PluginList({ app }) {
             >
               <Highlighter search={searchValue} text={pluginName} />
             </Button>
-
             <PluginBadges app={app} plugin={plugin} />
           </>
         );
@@ -232,6 +216,7 @@ export default function PluginList({ app }) {
       title: 'Actions',
       order: 100,
       width: 180,
+      align: 'center',
       fixed: 'right',
       render: (a, item) => {
         return <PluginActions plugin={item} app={app} />;
@@ -246,19 +231,11 @@ export default function PluginList({ app }) {
     searchValue,
     latestReleases,
   });
-  // jsPlugin.invoke('museManager.pm.pluginList.processColumns', {
-  //   app,
-  //   columns,
-  //   plugins: pluginList,
-  //   searchValue,
-  // });
-  // jsPlugin.invoke('museManager.pm.pluginList.postProcessColumns', { columns, plugins: pluginList });
-  // jsPlugin.sort(columns);
 
   return (
     <div>
       {!app && <h1>Plugins</h1>}
-      <RequestStatus loading={!error && (pending || !data)} error={error} loadingMode="skeleton" />
+      <RequestStatus loading={isLoading} error={error} loadingMode="skeleton" />
       {data && (
         <div>
           <PluginListBar app={app} />
@@ -267,7 +244,7 @@ export default function PluginList({ app }) {
             size="small"
             columns={columns}
             dataSource={pluginList}
-            loading={pending || !data}
+            loading={isLoading}
             scroll={{ x: 1300 }}
             pagination={{
               hideOnSinglePage: false,

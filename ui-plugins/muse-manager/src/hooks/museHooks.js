@@ -3,7 +3,7 @@ import { message } from 'antd';
 import _ from 'lodash';
 import polling from '@ebay/muse-lib-react/src/features/common/polling';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
-
+import { useQuery, useMutation } from '@tanstack/react-query';
 import museClient from '../museClient';
 
 function setMuseData(key, value) {
@@ -86,15 +86,24 @@ export function useMuse(apiPath, ...args) {
   return { data, error, pending };
 }
 
-export function useMuseData(dataKey) {
-  const { data } = useSelector(
-    (state) => ({
-      data: state.pluginEbayMuseManager.museData[dataKey],
-    }),
-    shallowEqual,
-  );
+export function useMuseData(dataKey, queryArgs = {}) {
+  const query = useQuery({
+    queryKey: ['muse-data', dataKey],
+    queryFn: () => {
+      return museClient.data.get(dataKey);
+    },
+    retry: 0,
+    refetchOnWindowFocus: false,
+    ...queryArgs,
+  });
+  return query;
+}
 
-  return useMuse('data.get', dataKey, data || undefined);
+export function usePollingMuseData(dataKey, queryArgs = {}) {
+  return useMuseData(dataKey, {
+    refetchInterval: 8000,
+    ...queryArgs,
+  });
 }
 
 export function useMuseApi(apiPath) {
@@ -109,62 +118,62 @@ export function useMuseApi(apiPath) {
   return { data, action, error, pending };
 }
 
-const pollers = {}; // persist global uniq poller for one data key
-const lastData = {}; // cache last data so that we can update redux only if data is changed
-const lastDataError = {};
-export function usePollingMuseData(dataKey, args = { interval: 10000 }) {
-  const errorKey = dataKey + '.error';
-  const { data, dataError } = useSelector(
-    (state) => ({
-      data: state.pluginEbayMuseManager.museData[dataKey],
-      dataError: state.pluginEbayMuseManager.museData[errorKey],
-    }),
-    shallowEqual,
-  );
-  lastData[dataKey] = data;
-  lastDataError[errorKey] = dataError;
-  const dispatch = useDispatch();
+// const pollers = {}; // persist global uniq poller for one data key
+// const lastData = {}; // cache last data so that we can update redux only if data is changed
+// const lastDataError = {};
+// export function usePollingMuseData(dataKey, args = { interval: 10000 }) {
+//   const errorKey = dataKey + '.error';
+//   const { data, dataError } = useSelector(
+//     (state) => ({
+//       data: state.pluginEbayMuseManager.museData[dataKey],
+//       dataError: state.pluginEbayMuseManager.museData[errorKey],
+//     }),
+//     shallowEqual,
+//   );
+//   lastData[dataKey] = data;
+//   lastDataError[errorKey] = dataError;
+//   const dispatch = useDispatch();
 
-  const pollerKey = dataKey;
-  let poller = pollers[pollerKey];
-  if (!poller) {
-    poller = pollers[pollerKey] = polling({
-      retries: 5,
-      task: async () => {
-        const newData = await museClient.data.get(dataKey);
-        const oldData = lastData[dataKey];
-        if (!_.isEqual(oldData, newData)) {
-          dispatch(setMuseData(dataKey, newData));
-        }
-        if (lastDataError[errorKey]) {
-          dispatch(setMuseData(errorKey, null));
-        }
-      },
-      onError: (err) => {
-        dispatch(setMuseData(errorKey, err.message || errorKey));
-      },
-      interval: 10000000000, //args.interval || 10000,
-    });
-  } else if (poller.stopped) {
-    poller.start();
-  }
+//   const pollerKey = dataKey;
+//   let poller = pollers[pollerKey];
+//   if (!poller) {
+//     poller = pollers[pollerKey] = polling({
+//       retries: 5,
+//       task: async () => {
+//         const newData = await museClient.data.get(dataKey);
+//         const oldData = lastData[dataKey];
+//         if (!_.isEqual(oldData, newData)) {
+//           dispatch(setMuseData(dataKey, newData));
+//         }
+//         if (lastDataError[errorKey]) {
+//           dispatch(setMuseData(errorKey, null));
+//         }
+//       },
+//       onError: (err) => {
+//         dispatch(setMuseData(errorKey, err.message || errorKey));
+//       },
+//       interval: 10000000000, //args.interval || 10000,
+//     });
+//   } else if (poller.stopped) {
+//     poller.start();
+//   }
 
-  return {
-    data,
-    // if the last polling failed, there's error.
-    // The usage side should decide how to handle polling error if data already exists or not.
-    pollingError: dataError,
-    error: !data && dataError,
-    stopPolling: () => {
-      poller.stop();
-      delete pollers[pollerKey];
-    },
-    pollNow: () => poller.restart(),
-    syncStatus: async () => {
-      const hide = message.loading('Syncing status...', 0);
-      await museClient.data.syncCache();
-      await poller.restart();
-      hide();
-    },
-  };
-}
+//   return {
+//     data,
+//     // if the last polling failed, there's error.
+//     // The usage side should decide how to handle polling error if data already exists or not.
+//     pollingError: dataError,
+//     error: !data && dataError,
+//     stopPolling: () => {
+//       poller.stop();
+//       delete pollers[pollerKey];
+//     },
+//     pollNow: () => poller.restart(),
+//     syncStatus: async () => {
+//       const hide = message.loading('Syncing status...', 0);
+//       await museClient.data.syncCache();
+//       await poller.restart();
+//       hide();
+//     },
+//   };
+// }

@@ -1,9 +1,9 @@
-import { usePollingMuseData } from './museHooks';
+import { useMuseApi } from './museHooks';
 import { message } from 'antd';
 import museClient from '../museClient';
 
-const useSyncStatus = dataKey => {
-  const { pollNow } = usePollingMuseData(dataKey);
+const useSyncStatus = (dataKey) => {
+  const { pollNow } = useMuseApi(dataKey);
   return async () => {
     const hide = message.loading('Syncing status...', 0);
     await museClient.data.syncCache();

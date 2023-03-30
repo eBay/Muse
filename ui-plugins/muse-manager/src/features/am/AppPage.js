@@ -19,7 +19,7 @@ export default function AppPage() {
   //
   const navigate = useNavigate();
   const { appName, tabKey = 'overview' } = useParams();
-  const { data: app, error } = usePollingMuseData(`muse.app.${appName}`);
+  const { data: app, isLoading, error } = usePollingMuseData(`muse.app.${appName}`);
   const tabs = [
     {
       key: 'overview',
@@ -78,7 +78,7 @@ export default function AppPage() {
   return (
     <div>
       <h1>Muse App: {appName}</h1>
-      <RequestStatus loading={!error && !app} error={!app && error} loadingMode="skeleton" />
+      <RequestStatus loading={isLoading} error={error} loadingMode="skeleton" />
 
       {app && (
         <Tabs activeKey={tabKey} onChange={(k) => navigate(`/app/${appName}/${k}`)} items={tabs} />

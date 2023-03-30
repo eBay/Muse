@@ -20,7 +20,7 @@ const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
   const meta = {
     columns: 1,
     disabled: deployPluginPending,
-    elements: [
+    fields: [
       {
         key: 'appName',
         label: 'App',

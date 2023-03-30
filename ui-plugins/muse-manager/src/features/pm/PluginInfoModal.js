@@ -23,14 +23,8 @@ const PluginInfoModal = NiceModal.create(({ plugin, app }) => {
     viewMode,
     fields: [
       {
-        key: 'pluginName',
-        label: 'Plugin name',
-        viewMode: true,
-        order: 10,
-      },
-      {
         key: 'type',
-        label: 'Plugin Type',
+        label: 'Type',
         widget: 'radio-group',
         options: [
           ['normal', 'Normal'],
@@ -110,6 +104,7 @@ const PluginInfoModal = NiceModal.create(({ plugin, app }) => {
     form,
     app,
     plugin,
+    viewMode,
   });
   const updateOnChange = NiceForm.useUpdateOnChange(watchingFields);
 
@@ -139,7 +134,7 @@ const PluginInfoModal = NiceModal.create(({ plugin, app }) => {
   return (
     <Modal
       {...antdModalV5(modal)}
-      title={viewMode ? 'Plugin Detail' : `Edit Plugin`}
+      title={(viewMode ? 'Plugin Detail: ' : `Edit Plugin: `) + plugin.name}
       width="700px"
       maskClosable={viewMode}
       className="muse-manager_pm-plugin-info-modal"
