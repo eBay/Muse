@@ -65,24 +65,7 @@ const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
         return nodes;
       },
     },
-    // {
-    //   dataIndex: 'branch',
-    //   order: 20,
-    //   title: 'Build Branch',
-    // },
-    // {
-    //   dataIndex: 'duration',
-    //   order: 40,
-    //   title: 'Duration',
-    //   render: (d) => {
-    //     if (_.isObject(d)) {
-    //       const { build, installDeps, uploadAssets } = d;
-    //       const total = (build || 0) + (installDeps || 0) + (uploadAssets || 0);
-    //       return `${prettyMs(total)} `;
-    //     }
-    //     return d ? prettyMs(d) : 'N/A'; // compatible with old releases
-    //   },
-    // },
+
     {
       dataIndex: 'createdBy',
       order: 50,
