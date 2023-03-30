@@ -8,8 +8,8 @@ dependencies:
     specifier: 1.2.1
     version: 1.2.1(@types/react@18.0.27)(react-dom@18.2.0)(react@18.2.0)
   '@ebay/muse-lib-react':
-    specifier: 1.2.0
-    version: 1.2.0(@types/react@18.0.27)
+    specifier: 1.2.6
+    version: 1.2.6(@types/react@18.0.27)
   '@ebay/muse-plugin-acl':
     specifier: 1.0.7
     version: 1.0.7
@@ -2104,6 +2104,32 @@ packages:
     resolution: {integrity: sha1-wlxm7NAAg824wdwgpe3vvXqBBPw=, tarball: https://npm.corp.ebay.com/@ebay/muse-lib-react/-/@ebay/muse-lib-react-1.2.0.tgz}
     dependencies:
       '@ebay/nice-modal-react': 1.2.8(react-dom@18.2.0)(react@18.2.0)
+      history: 5.3.0
+      js-plugin: 1.1.0
+      lodash: 4.17.21
+      path-to-regexp: 6.2.1
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+      react-loadable: 5.5.0(react@18.2.0)
+      react-redux: 8.0.5(@types/react@18.0.27)(react-dom@18.2.0)(react@18.2.0)(redux@4.2.0)
+      react-router-dom: 6.4.3(react-dom@18.2.0)(react@18.2.0)
+      react-use: 17.4.0(react-dom@18.2.0)(react@18.2.0)
+      redux: 4.2.0
+      redux-logger: 3.0.6
+      redux-mock-store: 1.5.4
+      redux-thunk: 2.4.2(redux@4.2.0)
+      typescript: 4.9.3
+    transitivePeerDependencies:
+      - '@types/react'
+      - '@types/react-dom'
+      - react-native
+    dev: false
+
+  /@ebay/muse-lib-react@1.2.6(@types/react@18.0.27):
+    resolution: {integrity: sha1-q6yuG0SRbWSY/5mgoKGD/lRZ/8I=, tarball: https://npm.corp.ebay.com/@ebay/muse-lib-react/-/@ebay/muse-lib-react-1.2.6.tgz}
+    dependencies:
+      '@ebay/nice-modal-react': 1.2.8(react-dom@18.2.0)(react@18.2.0)
+      '@tanstack/react-query': 4.28.0(react-dom@18.2.0)(react@18.2.0)
       history: 5.3.0
       js-plugin: 1.1.0
       lodash: 4.17.21

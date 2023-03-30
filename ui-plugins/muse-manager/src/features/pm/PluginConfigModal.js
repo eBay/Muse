@@ -13,9 +13,9 @@ const PluginConfigModal = NiceModal.create(({ plugin, app }) => {
   const [form] = Form.useForm();
   const syncStatus = useSyncStatus(`muse.app.${app.name}`);
   const {
-    action: updateApp,
+    mutateAsync: updateApp,
     error: updateAppError,
-    pending: updateAppPending,
+    isLoading: updateAppPending,
   } = useMuseApi('am.updateApp');
 
   const initialValues = { ...app, appName: app.name };

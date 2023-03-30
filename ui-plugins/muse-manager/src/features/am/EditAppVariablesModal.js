@@ -12,9 +12,9 @@ const EditAppVariablesModal = NiceModal.create(({ app, env }) => {
   const syncStatus = useSyncStatus(`muse.app.${app.name}`);
 
   const {
-    action: updateApp,
+    mutateAsync: updateApp,
     error: updateAppError,
-    pending: updateAppPending,
+    isLoading: updateAppPending,
   } = useMuseApi('am.updateApp');
 
   const propertiesToJSON = (str) => {

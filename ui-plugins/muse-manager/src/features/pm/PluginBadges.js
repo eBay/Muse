@@ -11,6 +11,7 @@ const PluginBadges = ({ app, plugin }) => {
       order: 10,
       node: (
         <span
+          key="core"
           className="plugin-badge-core"
           title="Core plugin, it will be always loaded for local development."
         >
@@ -24,7 +25,7 @@ const PluginBadges = ({ app, plugin }) => {
     nodes.push({
       order: 20,
       node: (
-        <span className="plugin-badge-allowlist" title="Allowlist defined.">
+        <span key="allowlist" className="plugin-badge-allowlist" title="Allowlist defined.">
           A
         </span>
       ),

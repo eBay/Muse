@@ -11,9 +11,9 @@ export default NiceModal.create(function AddEnvModal({ app }) {
   const [form] = Form.useForm();
   const syncStatus = useSyncStatus(`muse.app.${app.name}`);
   const {
-    action: addAppEnv,
+    mutateAsync: addAppEnv,
     error: addAppEnvError,
-    pending: addAppEnvPending,
+    isLoading: addAppEnvPending,
   } = useMuseApi('am.createEnv');
 
   const hideModal = useCallback(() => {

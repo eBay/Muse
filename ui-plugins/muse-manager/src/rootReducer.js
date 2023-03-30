@@ -1,8 +1,6 @@
 import { combineReducers } from 'redux';
-import { reducer as museDataReducer } from './hooks/museHooks';
 
-const reducerMap = {
-  museData: museDataReducer,
-};
+const reducerMap = {};
 
 export default combineReducers(reducerMap);
+// export default s => s

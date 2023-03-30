@@ -8,7 +8,7 @@ import { useMuseApi, useSyncStatus } from '../../hooks';
 import _ from 'lodash';
 
 function PluginActions({ plugin, app }) {
-  const { action: deletePlugin } = useMuseApi('pm.deletePlugin');
+  const { mutateAsync: deletePlugin } = useMuseApi('pm.deletePlugin');
   const syncStatus = useSyncStatus('muse.plugins');
 
   let items = useMemo(() => {

@@ -4,7 +4,7 @@ import { message, Modal } from 'antd';
 import { useMuseApi, useSyncStatus } from '../../hooks';
 
 function PluginActions({ app }) {
-  const { action: deleteApp } = useMuseApi('am.deleteApp');
+  const { mutateAsync: deleteApp } = useMuseApi('am.deleteApp');
   const syncStatus = useSyncStatus('muse.apps');
   const items = useMemo(() => {
     return [

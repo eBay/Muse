@@ -14,9 +14,9 @@ const EditEnvironmentModal = NiceModal.create(({ env, app }) => {
   const [form] = Form.useForm();
 
   const {
-    action: updateEnv,
+    mutateAsync: updateEnv,
     error: updateEnvError,
-    pending: updateEnvPending,
+    isLoading: updateEnvPending,
   } = useMuseApi('am.updateEnv');
 
   const handleFinish = useCallback(() => {

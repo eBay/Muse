@@ -9,7 +9,7 @@ import { useMuseApi, useSyncStatus } from '../../hooks';
 import _ from 'lodash';
 
 function EnvActions({ env, app }) {
-  const { action: deleteEnv } = useMuseApi('am.deleteEnv');
+  const { mutateAsync: deleteEnv } = useMuseApi('am.deleteEnv');
   const syncStatus = useSyncStatus(`muse.app.${app.name}`);
   let items = useMemo(() => {
     return [
@@ -51,7 +51,7 @@ function EnvActions({ env, app }) {
                   0,
                 );
                 deleteEnv({ appName: app.name, envName: env.name })
-                  .then(res => {
+                  .then((res) => {
                     hide();
                     message.success(
                       <span>
@@ -60,7 +60,7 @@ function EnvActions({ env, app }) {
                     );
                     syncStatus();
                   })
-                  .catch(err => {
+                  .catch((err) => {
                     hide();
                     message.error(
                       'Delete environment failed, please ask help from slack channel: #muse.',

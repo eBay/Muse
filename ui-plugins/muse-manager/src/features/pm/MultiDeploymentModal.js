@@ -11,9 +11,9 @@ const MultiDeploymentModal = NiceModal.create(({ app }) => {
   const [form] = Form.useForm();
   const modal = useModal();
   const {
-    action: deployPlugin,
+    mutateAsync: deployPlugin,
     error: deployPluginError,
-    pending: deployPluginPending,
+    isLoading: deployPluginPending,
   } = useMuseApi('pm.deployPlugin');
   const syncStatus = useSyncStatus(`muse.app.${app.name}`);
   const deployedPlugins = uniq(

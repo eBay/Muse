@@ -12,9 +12,9 @@ const PluginInfoModal = NiceModal.create(({ plugin, app }) => {
   const [viewMode, setViewMode] = useState(true);
   const syncStatus = useSyncStatus('muse.plugins');
   const {
-    action: updatePlugin,
+    mutateAsync: updatePlugin,
     error: updatePluginError,
-    pending: updatePluginPending,
+    isLoading: updatePluginPending,
   } = useMuseApi('pm.updatePlugin');
 
   const meta = {

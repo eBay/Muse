@@ -11,7 +11,7 @@ import { extendArray } from '@ebay/muse-lib-antd/src/utils';
 
 const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
   const modal = useModal();
-  const { data: releases, error } = useMuseData(`muse.plugin-releases.${plugin.name}`);
+  const { data: releases, isLoading, error } = useMuseData(`muse.plugin-releases.${plugin.name}`);
   const deployedVersion = Object.values(app.envs).reduce((p, c) => {
     const found = c.plugins?.find((a) => a.name === plugin.name);
     if (found) p[c.name] = found.version;
@@ -19,7 +19,8 @@ const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
   }, {});
   const syncStatus = useSyncStatus(`muse.plugin-releases.${plugin.name}`);
 
-  const { action: deleteRelease, pending: deleteReleasePending } = useMuseApi('pm.deleteRelease');
+  const { mutateAsync: deleteRelease, isLoading: deleteReleasePending } =
+    useMuseApi('pm.deleteRelease');
   const handleDelete = useCallback(
     async (version) => {
       try {
@@ -160,11 +161,10 @@ const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
 
   extendArray(columns, 'columns', 'museManager.pm.releaseList', { plugin, app, releases });
 
-  const loading = !releases && releases !== null && !error;
   return (
     <Drawer {...antdDrawerV5(modal)} title={`Releases of ${plugin.name}`} width="1200px">
-      <RequestStatus loading={loading} error={error} loadingMode="skeleton" />
-      {!loading && (
+      <RequestStatus loading={isLoading} error={error} loadingMode="skeleton" />
+      {!isLoading && (
         <>
           <ReleaseDurationTrend plugin={plugin} />
           <Table

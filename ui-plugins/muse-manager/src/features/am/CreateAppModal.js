@@ -13,9 +13,9 @@ const CreateAppModal = NiceModal.create(() => {
   const syncStatus = useSyncStatus('muse.apps');
 
   const {
-    action: createApp,
+    mutateAsync: createApp,
     error: createAppError,
-    pending: createAppPending,
+    isLoading: createAppPending,
   } = useMuseApi('am.createApp');
 
   const meta = {
