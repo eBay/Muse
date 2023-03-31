@@ -9,6 +9,7 @@ import _ from 'lodash';
 import * as reactUse from 'react-use';
 import './styles/index.less';
 import * as reactRouterDom from 'react-router-dom';
+import * as reactQuery from '@tanstack/react-query';
 plugin.register({
   name: '@ebay/muse-lib-react', // reserve the plugin name
 });
@@ -33,4 +34,4 @@ window.MUSE_GLOBAL.appEntries.push({
   func: renderApp,
 });
 
-export default { Loadable, _, reactUse, reactRouterDom };
+export default { Loadable, _, reactUse, reactRouterDom, reactQuery };
