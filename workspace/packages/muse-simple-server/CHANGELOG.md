@@ -1,5 +1,14 @@
 # @ebay/muse-simple-server
 
+## 1.0.25
+
+### Patch Changes
+
+- Test
+- Updated dependencies
+  - @ebay/muse-core@1.0.30
+  - @ebay/muse-express-middleware@1.0.33
+
 ## 1.0.24
 
 ### Patch Changes

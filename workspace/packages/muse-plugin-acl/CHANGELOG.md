@@ -1,5 +1,13 @@
 # muse-acl-plugin
 
+## 1.0.8
+
+### Patch Changes
+
+- Test
+- Updated dependencies
+  - @ebay/muse-core@1.0.30
+
 ## 1.0.7
 
 ### Patch Changes
