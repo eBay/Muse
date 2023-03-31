@@ -5,11 +5,11 @@ import NiceModal from '@ebay/nice-modal-react';
 import jsPlugin from 'js-plugin';
 import { message, Modal } from 'antd';
 
-import { useMuseApi, useSyncStatus } from '../../hooks';
+import { useMuseMutate, useSyncStatus } from '../../hooks';
 import _ from 'lodash';
 
 function EnvActions({ env, app }) {
-  const { mutateAsync: deleteEnv } = useMuseApi('am.deleteEnv');
+  const { mutateAsync: deleteEnv } = useMuseMutate('am.deleteEnv');
   const syncStatus = useSyncStatus(`muse.app.${app.name}`);
   let items = useMemo(() => {
     return [

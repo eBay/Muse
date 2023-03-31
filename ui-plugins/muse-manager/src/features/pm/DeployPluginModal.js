@@ -3,7 +3,7 @@ import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
 import { Modal, Button, Form, message } from 'antd';
 import utils from '@ebay/muse-lib-antd/src/utils';
 import NiceForm from '@ebay/nice-form-react';
-import { useMuseApi, useSyncStatus } from '../../hooks';
+import { useMuseMutate, useSyncStatus } from '../../hooks';
 
 import PluginReleaseSelect from './PluginReleaseSelect';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
@@ -14,7 +14,7 @@ const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
     mutateAsync: deployPlugin,
     error: deployPluginError,
     isLoading: deployPluginPending,
-  } = useMuseApi('pm.deployPlugin');
+  } = useMuseMutate('pm.deployPlugin');
   const syncStatus = useSyncStatus(`muse.app.${app.name}`);
 
   const meta = {

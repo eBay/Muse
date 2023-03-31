@@ -1,10 +1,10 @@
 import React, { useMemo } from 'react';
 import { DropdownMenu } from '@ebay/muse-lib-antd/src/features/common';
 import { message, Modal } from 'antd';
-import { useMuseApi, useSyncStatus } from '../../hooks';
+import { useMuseMutate, useSyncStatus } from '../../hooks';
 
 function PluginActions({ app }) {
-  const { mutateAsync: deleteApp } = useMuseApi('am.deleteApp');
+  const { mutateAsync: deleteApp } = useMuseMutate('am.deleteApp');
   const syncStatus = useSyncStatus('muse.apps');
   const items = useMemo(() => {
     return [

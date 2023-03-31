@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { Modal, Form, Button, Alert } from 'antd';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import NiceForm from '@ebay/nice-form-react';
-import { useMuseApi, useSyncStatus } from '../../hooks';
+import { useMuseMutate, useSyncStatus } from '../../hooks';
 import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
 import utils from '@ebay/muse-lib-antd/src/utils';
 
@@ -14,7 +14,7 @@ export default NiceModal.create(function AddEnvModal({ app }) {
     mutateAsync: addAppEnv,
     error: addAppEnvError,
     isLoading: addAppEnvPending,
-  } = useMuseApi('am.createEnv');
+  } = useMuseMutate('am.createEnv');
 
   const hideModal = useCallback(() => {
     modal.hide();

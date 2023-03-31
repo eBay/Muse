@@ -1,12 +1,18 @@
-import { invoke } from 'lodash';
+import { invoke, isObject } from 'lodash';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import museClient from '../museClient';
 
-export function useMuseData(dataKey, queryArgs = {}) {
+export function useMuseQuery(apiPath, ...args) {
+  const last = args[args.length - 1];
+  let queryArgs = {};
+  if (isObject(last)) {
+    queryArgs = last;
+    args.pop();
+  }
   const query = useQuery({
-    queryKey: ['muse-data', dataKey],
+    queryKey: ['muse-query', apiPath, ...args],
     queryFn: () => {
-      return museClient.data.get(dataKey);
+      return invoke(museClient, apiPath, ...args);
     },
     retry: 0,
     refetchOnWindowFocus: false,
@@ -15,14 +21,28 @@ export function useMuseData(dataKey, queryArgs = {}) {
   return query;
 }
 
-export function usePollingMuseData(dataKey, queryArgs = {}) {
-  return useMuseData(dataKey, {
-    refetchInterval: 10000,
-    ...queryArgs,
-  });
+export function useMuseData(dataKey, queryArgs = {}) {
+  return useMuseQuery('data.get', dataKey, queryArgs);
 }
 
-export function useMuseApi(apiPath) {
+export function usePollingMuseQuery(...args) {
+  const last = args[args.length - 1];
+  const queryArgs = { refetchInterval: 10000 };
+
+  if (isObject(last)) {
+    args.pop();
+    Object.assign(queryArgs, last);
+  }
+  args.push(queryArgs);
+
+  return useMuseQuery(...args);
+}
+
+export function usePollingMuseData(...args) {
+  return usePollingMuseQuery('data.get', ...args);
+}
+
+export function useMuseMutate(apiPath) {
   const mutation = useMutation({
     mutationFn: (...args) => {
       return invoke(museClient, apiPath, ...args);

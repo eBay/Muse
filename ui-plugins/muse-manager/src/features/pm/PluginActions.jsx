@@ -4,11 +4,11 @@ import NiceModal from '@ebay/nice-modal-react';
 import jsPlugin from 'js-plugin';
 import { message, Modal } from 'antd';
 
-import { useMuseApi, useSyncStatus } from '../../hooks';
+import { useMuseMutate, useSyncStatus } from '../../hooks';
 import _ from 'lodash';
 
 function PluginActions({ plugin, app }) {
-  const { mutateAsync: deletePlugin } = useMuseApi('pm.deletePlugin');
+  const { mutateAsync: deletePlugin } = useMuseMutate('pm.deletePlugin');
   const syncStatus = useSyncStatus('muse.plugins');
 
   let items = useMemo(() => {
@@ -92,10 +92,12 @@ function PluginActions({ plugin, app }) {
       },
     ].filter(Boolean);
   }, [syncStatus, app, plugin, deletePlugin]);
-  items.push(..._.flatten(jsPlugin.invoke('museManager.pm.getPluginActions', { app, plugin })));
-  jsPlugin.invoke('museManager.pm.processPluginActions', { items, app, plugin });
+  items.push(
+    ..._.flatten(jsPlugin.invoke('museManager.pm.pluginList.getPluginActions', { app, plugin })),
+  );
+  jsPlugin.invoke('museManager.pm.pluginList.processPluginActions', { items, app, plugin });
   items = items.filter(Boolean);
   jsPlugin.sort(items);
-  return <DropdownMenu extPoint="museManager.plugin.processActions" items={items} />;
+  return <DropdownMenu extPoint="museManager.pm.pluginList.processActions" items={items} />;
 }
 export default PluginActions;

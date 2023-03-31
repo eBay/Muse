@@ -5,7 +5,7 @@ import NiceForm from '@ebay/nice-form-react';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import utils from '@ebay/muse-lib-antd/src/utils';
 import jsPlugin from 'js-plugin';
-import { useSyncStatus, useMuseApi } from '../../hooks';
+import { useSyncStatus, useMuseMutate } from '../../hooks';
 const user = window.MUSE_GLOBAL.getUser();
 
 const CreatePluginModal = NiceModal.create(({ app }) => {
@@ -17,7 +17,7 @@ const CreatePluginModal = NiceModal.create(({ app }) => {
     mutateAsync: createPlugin,
     error: createPluginError,
     isLoading: createPluginPending,
-  } = useMuseApi('pm.createPlugin');
+  } = useMuseMutate('pm.createPlugin');
 
   const meta = {
     columns: 1,

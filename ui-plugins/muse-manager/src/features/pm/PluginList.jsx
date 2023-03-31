@@ -60,7 +60,7 @@ export default function PluginList({ app }) {
       default:
     }
     const filters = _.flatten(
-      jsPlugin.invoke('museManager.pm.getScopeFilterFns', { scope }),
+      jsPlugin.invoke('museManager.pm.pluginList.getScopeFilterFns', { scope }),
     ).filter(Boolean);
     if (filters.length > 0) {
       pluginList = _.flow(filters)(pluginList);
@@ -98,7 +98,7 @@ export default function PluginList({ app }) {
       });
       // Execute extended filters one by one
       const filters = _.flatten(
-        jsPlugin.invoke('museManager.pm.getEnvFilterFns', { filterKey, app, envName }),
+        jsPlugin.invoke('museManager.pm.pluginList.getEnvFilterFns', { filterKey, app, envName }),
       ).filter(Boolean);
       if (filters.length > 0) {
         pluginList = _.flow(filters)(pluginList);
@@ -249,6 +249,7 @@ export default function PluginList({ app }) {
             pagination={{
               hideOnSinglePage: false,
               size: 'small',
+              pageSize: 50,
               showSizeChanger: true,
               showTotal: (total) => `Total ${total} items`,
               showQuickJumper: true,

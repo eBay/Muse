@@ -4,7 +4,7 @@ import { Modal, message, Form } from 'antd';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import utils from '@ebay/muse-lib-antd/src/utils';
 import NiceForm from '@ebay/nice-form-react';
-import { useSyncStatus, useMuseApi } from '../../hooks';
+import { useSyncStatus, useMuseMutate } from '../../hooks';
 
 const EditAppVariablesModal = NiceModal.create(({ app, env }) => {
   const modal = useModal();
@@ -15,7 +15,7 @@ const EditAppVariablesModal = NiceModal.create(({ app, env }) => {
     mutateAsync: updateApp,
     error: updateAppError,
     isLoading: updateAppPending,
-  } = useMuseApi('am.updateApp');
+  } = useMuseMutate('am.updateApp');
 
   const propertiesToJSON = (str) => {
     const sanitizedLines = str
