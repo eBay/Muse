@@ -1,6 +1,10 @@
 const { AbilityBuilder, Ability } = require('@casl/ability');
 const jsPlugin = require('js-plugin');
 
+// NOTE: "manage" and "all" are special keywords in CASL.
+// manage represents any action and all represents any subject.
+// See: https://casl.js.org/v6/en/guide/intro
+
 module.exports = function defineAbilityFor(user) {
   const { can: allow, cannot: forbid, build } = new AbilityBuilder(Ability);
   user = user || {};

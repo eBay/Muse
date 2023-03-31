@@ -2,10 +2,10 @@ lockfileVersion: '6.0'
 
 dependencies:
   '@casl/ability':
-    specifier: ^5.4.4
-    version: 5.4.4
+    specifier: ^6.3.3
+    version: 6.3.3
   '@ebay/muse-core':
-    specifier: workspace:^1.0.28
+    specifier: workspace:^1.0.30
     version: link:../muse-core
   js-plugin:
     specifier: ^1.1.0
@@ -357,8 +357,8 @@ packages:
     resolution: {integrity: sha1-daLotRy3WKdVPWgEpZMteqznXDk=}
     dev: true
 
-  /@casl/ability@5.4.4:
-    resolution: {integrity: sha1-++VDQMFWJI5zgElC7tNQkDsnufM=}
+  /@casl/ability@6.3.3:
+    resolution: {integrity: sha1-IZ6Vjxkc0hY0gqu2pRllk9MZ/Co=}
     dependencies:
       '@ucast/mongo2js': 1.3.3
     dev: false

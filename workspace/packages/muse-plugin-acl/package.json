@@ -13,7 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@casl/ability": "^5.4.4",
+    "@casl/ability": "^6.3.3",
     "@ebay/muse-core": "workspace:^1.0.30",
     "js-plugin": "^1.1.0",
     "lodash": "^4.17.21"
