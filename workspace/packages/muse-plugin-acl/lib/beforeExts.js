@@ -3,7 +3,7 @@ const defineAbilityFor = require('./defineAbilityFor');
 const museCore = require('@ebay/muse-core');
 const { getUser, assetPermission } = require('./utils');
 
-const checkAppPermission = (action) => async (ctx, { appName, author }) => {
+const checkAppPermission = (action) => async (ctx, { appName, author, changes }) => {
   const ability = defineAbilityFor(await getUser(author));
   const app = await museCore.am.getApp(appName);
   if (!app) throw new Error(`App not exist: ${appName}`);
