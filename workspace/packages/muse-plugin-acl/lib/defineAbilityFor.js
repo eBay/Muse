@@ -54,21 +54,21 @@ module.exports = function defineAbilityFor(user) {
     return isOwnerOf(plugin) || (isPluginDeployed({ app, plugin }) && isOwnerOf(app));
   });
 
-  // Plugin owners have permission to config the plugin
-  // Which means they can update specified fields of the app
-  // So it's an update app permission case.
-  allow(
-    'update',
-    'App',
-    [
-      'app.pluginConfig.pluginName',
-      'app.pluginVariables.pluginName',
-      'app.envs[].pluginVariables.pluginName',
-    ],
-    ({ app, plugin }) => {
-      return isOwnerOf(plugin);
-    },
-  );
+  // // Plugin owners have permission to config the plugin
+  // // Which means they can update specified fields of the app
+  // // So it's an update app permission case.
+  // allow(
+  //   'update',
+  //   'App',
+  //   [
+  //     'app.pluginConfig.pluginName',
+  //     'app.pluginVariables.pluginName',
+  //     'app.envs[].pluginVariables.pluginName',
+  //   ],
+  //   ({ app, plugin }) => {
+  //     return isOwnerOf(plugin);
+  //   },
+  // );
 
   jsPlugin.invoke('museAcl.defineAbility', { user, allow, forbid });
   jsPlugin.invoke('museAcl.afterDefineAbility', { user, allow, forbid });
