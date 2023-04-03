@@ -1,5 +1,11 @@
 # muse-acl-plugin
 
+## 1.0.9
+
+### Patch Changes
+
+- Test
+
 ## 1.0.8
 
 ### Patch Changes
