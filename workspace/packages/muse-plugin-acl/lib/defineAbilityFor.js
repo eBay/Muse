@@ -8,9 +8,9 @@ const jsPlugin = require('js-plugin');
 const lambdaMatcher = (matchConditions) => matchConditions;
 const fieldMatcher = (fields) => (field) => fields.includes(field);
 
-const isPluginDeployed = ({ app, plugin }) => {
-  return Object.values(app.envs).some((env) => env.plugins?.some((p) => p.name === plugin.name));
-};
+// const isPluginDeployed = ({ app, plugin }) => {
+//   return Object.values(app.envs).some((env) => env.plugins?.some((p) => p.name === plugin.name));
+// };
 
 module.exports = function defineAbilityFor(user) {
   const { can: allow, cannot: forbid, build } = new AbilityBuilder(PureAbility);
@@ -51,24 +51,52 @@ module.exports = function defineAbilityFor(user) {
   // For deployed plugin, app owners or plugin owners could manage them
   // manage means: 'edit-config', 'set-variables', ...
   allow('config', 'Plugin', ({ app, plugin }) => {
-    return isOwnerOf(plugin) || (isPluginDeployed({ app, plugin }) && isOwnerOf(app));
+    return isOwnerOf(plugin) || isOwnerOf(app);
   });
 
-  // // Plugin owners have permission to config the plugin
-  // // Which means they can update specified fields of the app
-  // // So it's an update app permission case.
-  // allow(
-  //   'update',
-  //   'App',
-  //   [
-  //     'app.pluginConfig.pluginName',
-  //     'app.pluginVariables.pluginName',
-  //     'app.envs[].pluginVariables.pluginName',
-  //   ],
-  //   ({ app, plugin }) => {
-  //     return isOwnerOf(plugin);
-  //   },
-  // );
+  // Plugin owners have permission to config the plugin
+  // Which means they can update specified fields of the app
+  // So it's an update app permission case.
+  // NOTE: this is usually for server side check, client side should check it with allow('config', 'Plugin') to have better performance
+  allow('update', 'App', ({ app, plugin, changes }) => {
+    if (isOwnerOf(app)) return true;
+    if (!isOwnerOf(plugin)) return false;
+    const paths = [...(changes?.set || []), ...(changes?.remove || []), ...(changes?.push || [])]
+      .map((item) => item.path)
+      .concat(changes?.unset || []);
+
+    return paths.every((path) => {
+      const arr = path.split('.');
+
+      // Allow to set env level plugin config and variables
+      if (
+        arr[0] === 'envs' &&
+        ['pluginConfig', 'pluginVariables'].includes(arr[2]) &&
+        arr[3] === plugin.name
+      ) {
+        return true;
+      }
+
+      // Allow to set app level plugin config and variables
+      if (['pluginConfig', 'pluginVariables'].includes(arr[0]) && arr[1] === plugin.name) {
+        return true;
+      }
+      return false;
+    });
+  });
+
+  //
+  // allow('manage', 'Request', ({ app, request }) => {
+  //   return isOwnerOf(app) && request.appName === app.name;
+  // });
+
+  // allow('create', 'Request', ({ plugin, app, request }) => {
+  //   return isOwnerOf(plugin) || isOwnerOf(app);
+  // });
+
+  // allow('create', 'RequestBuild', ({ plugin, app }) => {
+  //   return isOwnerOf(plugin) || isOwnerOf(app);
+  // });
 
   jsPlugin.invoke('museAcl.defineAbility', { user, allow, forbid });
   jsPlugin.invoke('museAcl.afterDefineAbility', { user, allow, forbid });

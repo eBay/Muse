@@ -2,7 +2,7 @@ lockfileVersion: '6.0'
 
 dependencies:
   '@ebay/muse-core':
-    specifier: workspace:^1.0.29
+    specifier: workspace:^1.0.30
     version: link:../muse-core
   lodash:
     specifier: ^4.17.21

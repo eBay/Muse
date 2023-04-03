@@ -10,7 +10,7 @@ dependencies:
 
 devDependencies:
   '@ebay/muse-core':
-    specifier: workspace:^1.0.29
+    specifier: workspace:^1.0.30
     version: link:../muse-core
   eslint:
     specifier: ^8.23.0

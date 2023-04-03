@@ -10,6 +10,20 @@ import JavascriptTimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
 import './modals';
 import './style.less';
+// import { useMuseData } from './hooks';
+import ability from './ability';
+// import defineAbilityFor from '@ebay/muse-plugin-acl/lib/defineAbilityFor';
+
+// const InitAbilityComp = () => {
+//   // Ensure there's muse admin property
+//   const user = window.MUSE_GLOBAL.getUser();
+//   const { data: admins } = useMuseData('muse.admins');
+//   if (admins && user && admins.includes(user.username)) {
+//     user.isMuseAdmin = true;
+//   }
+//   ability.__setAbility(defineAbilityFor(user || {}));
+//   return null;
+// };
 
 // Initialize the desired locales.
 JavascriptTimeAgo.locale(en);
@@ -18,5 +32,6 @@ plugin.register({
   name: '@ebay/muse-manager',
   route,
   // reducer,
-  exports: { hooks, utils, pm, common },
+  exports: { hooks, utils, pm, common, ability },
+  // rootComponent: InitAbilityComp,
 });

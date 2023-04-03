@@ -2,10 +2,10 @@ lockfileVersion: '6.0'
 
 dependencies:
   '@ebay/muse-core':
-    specifier: workspace:^1.0.28
+    specifier: workspace:^1.0.30
     version: link:../muse-core
   '@ebay/muse-express-middleware':
-    specifier: workspace:^1.0.30
+    specifier: workspace:^1.0.33
     version: link:../muse-express-middleware
   cors:
     specifier: ^2.8.5

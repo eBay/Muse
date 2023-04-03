@@ -2,10 +2,10 @@ lockfileVersion: '6.0'
 
 dependencies:
   '@ebay/muse-core':
-    specifier: workspace:^1.0.29
+    specifier: workspace:^1.0.30
     version: link:../muse-core
   '@ebay/muse-simple-server':
-    specifier: workspace:^1.0.24
+    specifier: workspace:^1.0.25
     version: link:../muse-simple-server
   chalk:
     specifier: 4.1.2

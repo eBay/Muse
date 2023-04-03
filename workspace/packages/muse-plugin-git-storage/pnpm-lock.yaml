@@ -10,8 +10,8 @@ dependencies:
 
 devDependencies:
   '@ebay/muse-core':
-    specifier: ^1.0.29
-    version: 1.0.29
+    specifier: ^1.0.30
+    version: 1.0.30
   eslint:
     specifier: ^8.23.0
     version: 8.23.0
@@ -367,8 +367,8 @@ packages:
       kuler: 2.0.0
     dev: true
 
-  /@ebay/muse-core@1.0.29:
-    resolution: {integrity: sha1-2q1Ndyx0HgrNXhnrr8REixFcmxE=, tarball: https://npm.corp.ebay.com/@ebay/muse-core/-/@ebay/muse-core-1.0.29.tgz}
+  /@ebay/muse-core@1.0.30:
+    resolution: {integrity: sha1-tBOPFAXRuanxxkv/FwyjGN0JPh0=, tarball: https://npm.corp.ebay.com/@ebay/muse-core/-/@ebay/muse-core-1.0.30.tgz}
     dependencies:
       ajv: 8.12.0
       archiver: 5.3.1

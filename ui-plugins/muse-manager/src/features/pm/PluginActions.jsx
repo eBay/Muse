@@ -1,16 +1,14 @@
 import { useMemo } from 'react';
 import { DropdownMenu } from '@ebay/muse-lib-antd/src/features/common';
 import NiceModal from '@ebay/nice-modal-react';
-import jsPlugin from 'js-plugin';
 import { message, Modal } from 'antd';
-
-import { useMuseMutate, useSyncStatus } from '../../hooks';
-import _ from 'lodash';
+import { useMuseMutate, useSyncStatus, useAbility } from '../../hooks';
+import { extendArray } from '@ebay/muse-lib-antd/src/utils';
 
 function PluginActions({ plugin, app }) {
   const { mutateAsync: deletePlugin } = useMuseMutate('pm.deletePlugin');
   const syncStatus = useSyncStatus('muse.plugins');
-
+  const ability = useAbility();
   let items = useMemo(() => {
     return [
       app && {
@@ -18,6 +16,8 @@ function PluginActions({ plugin, app }) {
         label: 'Deploy',
         order: 30,
         icon: 'rocket',
+        disabled: ability.cannot('deploy', 'App', app),
+        disabledText: 'Only app owners can deploy plugin.',
         highlight: true,
         onClick: () => {
           NiceModal.show('muse-manager.deploy-plugin-modal', { plugin, app });
@@ -28,6 +28,9 @@ function PluginActions({ plugin, app }) {
         label: 'Config',
         order: 40,
         icon: 'setting',
+        disabled:
+          ability.cannot('update', 'Plugin', plugin) && ability.cannot('update', 'App', app),
+        disabledText: 'Only app or plugin owners can config plugin.',
         highlight: true,
         onClick: () => {
           NiceModal.show('muse-manager.plugin-config-modal', { plugin, app });
@@ -91,13 +94,19 @@ function PluginActions({ plugin, app }) {
         },
       },
     ].filter(Boolean);
-  }, [syncStatus, app, plugin, deletePlugin]);
-  items.push(
-    ..._.flatten(jsPlugin.invoke('museManager.pm.pluginList.getPluginActions', { app, plugin })),
-  );
-  jsPlugin.invoke('museManager.pm.pluginList.processPluginActions', { items, app, plugin });
+  }, [syncStatus, app, plugin, deletePlugin, ability]);
+
+  extendArray(items, 'pluginActions', 'museManager.pm.pluginList', {
+    app,
+    plugin,
+    ability,
+  });
+  // items.push(
+  //   ..._.flatten(jsPlugin.invoke('museManager.pm.pluginList.getPluginActions', { app, plugin })),
+  // );
+  // jsPlugin.invoke('museManager.pm.pluginList.processPluginActions', { items, app, plugin });
   items = items.filter(Boolean);
-  jsPlugin.sort(items);
+  // jsPlugin.sort(items);
   return <DropdownMenu extPoint="museManager.pm.pluginList.processActions" items={items} />;
 }
 export default PluginActions;
