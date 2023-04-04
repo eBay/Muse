@@ -51,8 +51,8 @@ module.exports = ({
   jestConfig.setupFilesAfterEnv =
     jestConfig?.setupFilesAfterEnv?.length > 0
       ? pluginOptions?.skipMuseJestMocks
-        ? jestConfig.setupFilesAfterEnv
-        : jestConfig.setupFilesAfterEnv.push(defaultSetupAfterEnvPath)
+        ? [...jestConfig.setupFilesAfterEnv]
+        : [...jestConfig.setupFilesAfterEnv, defaultSetupAfterEnvPath]
       : [defaultSetupAfterEnvPath];
 
   // #3 optionally show Jest configuration for debugging purposes, if the plugin option "showJestConfig" gets passed along
