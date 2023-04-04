@@ -40,7 +40,7 @@ describe('Deploy plugin basic tests.', () => {
     expect(testJsPlugin.museCore.pm.afterDeployPlugin).toBeCalledTimes(1);
   });
 
-  it('Batch deploy plugins should work', async () => {
+  it('Group deploy plugins should work', async () => {
     const appName = 'testapp';
     const envName2 = 'ppe';
     const pluginName1 = 'test-plugin1';
@@ -52,7 +52,7 @@ describe('Deploy plugin basic tests.', () => {
     await muse.pm.createPlugin({ pluginName: pluginName2, type: 'init' });
     await muse.pm.releasePlugin({ pluginName: pluginName1 });
     await muse.pm.releasePlugin({ pluginName: pluginName2 });
-    await muse.pm.deployPlugin({
+    const res = await muse.pm.deployPlugin({
       appName,
       envMap: {
         staging: [
@@ -80,58 +80,118 @@ describe('Deploy plugin basic tests.', () => {
       { name: 'test-plugin2', version: '1.0.0', type: 'init' },
     ]);
 
+    expect(res.msg).toMatch('Deployed multiple changes to testapp by');
+
     expect(testJsPlugin.museCore.pm.deployPlugin).toBeCalledTimes(1);
     expect(testJsPlugin.museCore.pm.beforeDeployPlugin).toBeCalledTimes(1);
     expect(testJsPlugin.museCore.pm.afterDeployPlugin).toBeCalledTimes(1);
   });
 
-  it('Batch deployments including undeployment should work', async () => {
+  it('Group deployments including undeployment should work', async () => {
     const appName = 'testapp';
     const pluginName1 = 'test-plugin1';
     const pluginName2 = 'test-plugin2';
 
     await muse.am.createApp({ appName });
+    await muse.am.createEnv({ appName, envName: 'feature' });
 
     await muse.pm.createPlugin({ pluginName: pluginName1, type: 'init' });
     await muse.pm.releasePlugin({ pluginName: pluginName1 });
     await muse.pm.createPlugin({ pluginName: pluginName2, type: 'init' });
     await muse.pm.releasePlugin({ pluginName: pluginName2 });
 
-    await muse.pm.deployPlugin({
+    const res1 = await muse.pm.deployPlugin({
       appName,
       envMap: {
         staging: [
           {
             type: 'add',
-            pluginName: 'test-plugin1',
+            pluginName: pluginName1,
           },
         ],
       },
     });
     const plugins1 = await muse.pm.getDeployedPlugins(appName, 'staging');
     expect(plugins1).toEqual([{ name: 'test-plugin1', version: '1.0.0', type: 'init' }]);
+    expect(res1.msg).toMatch(`Submitted ${pluginName1}@1.0.0 to ${appName}/staging by`);
 
-    await muse.pm.deployPlugin({
+    const res2 = await muse.pm.deployPlugin({
       appName,
       envMap: {
         staging: [
           {
             type: 'remove',
-            pluginName: 'test-plugin1',
+            pluginName: pluginName1,
           },
           {
             type: 'add',
-            pluginName: 'test-plugin2',
+            pluginName: pluginName2,
           },
         ],
       },
     });
+    expect(res2.msg).toMatch(`Deployed multiple changes to ${appName} by`);
+
     const plugins2 = await muse.pm.getDeployedPlugins(appName, 'staging');
 
     expect(plugins2).toEqual([{ name: 'test-plugin2', version: '1.0.0', type: 'init' }]);
     expect(testJsPlugin.museCore.pm.deployPlugin).toBeCalledTimes(2);
     expect(testJsPlugin.museCore.pm.beforeDeployPlugin).toBeCalledTimes(2);
     expect(testJsPlugin.museCore.pm.afterDeployPlugin).toBeCalledTimes(2);
+
+    // Deploy same plugin to multiple envs
+    const res3 = await muse.pm.deployPlugin({
+      appName,
+      envMap: {
+        staging: [
+          {
+            type: 'add',
+            pluginName: pluginName1,
+          },
+        ],
+        feature: [
+          {
+            type: 'add',
+            pluginName: pluginName1,
+          },
+        ],
+      },
+    });
+    expect(res3.msg).toMatch(`Submitted ${pluginName1}@1.0.0 to ${appName}/staging, feature by`);
+
+    // Undeploy same plugin from multiple envs
+    const res4 = await muse.pm.deployPlugin({
+      appName,
+      envMap: {
+        staging: [
+          {
+            type: 'remove',
+            pluginName: pluginName1,
+          },
+        ],
+        feature: [
+          {
+            type: 'remove',
+            pluginName: pluginName1,
+          },
+        ],
+      },
+    });
+    expect(res4.msg).toMatch(`Undeployed ${pluginName1} from ${appName}/staging, feature by`);
+
+    // Undeploy one plugin from one env
+    const res5 = await muse.pm.deployPlugin({
+      appName,
+      envMap: {
+        staging: [
+          {
+            type: 'remove',
+            pluginName: pluginName2,
+          },
+        ],
+      },
+    });
+    expect(res5.msg).toMatch(`Undeployed ${pluginName2}@1.0.0 from ${appName}/staging by`);
   });
 
   it('Fail to Deploy Plugin should throw the error', async () => {

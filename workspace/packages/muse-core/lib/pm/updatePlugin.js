@@ -28,7 +28,6 @@ module.exports = async (params) => {
     ctx.plugin = await registry.getJsonByYaml(keyPath);
     updateJson(ctx.plugin, params.changes || {});
 
-    await asyncInvoke('museCore.pm.updatePlugin', ctx, params);
     await registry.setYaml(
       keyPath,
       ctx.plugin,

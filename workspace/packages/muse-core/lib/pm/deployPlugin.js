@@ -1,5 +1,6 @@
 const yaml = require('js-yaml');
-const { flatten, find } = require('lodash');
+
+const { flatten, find, uniq, castArray } = require('lodash');
 const schema = require('../schemas/pm/deployPlugin.json');
 const { asyncInvoke, getPluginId, osUsername, validate } = require('../utils');
 const { registry } = require('../storage');
@@ -91,27 +92,30 @@ const logger = require('../logger').createLogger('muse.pm.deployPlugin');
  */
 module.exports = async (params) => {
   if (!params.author) params.author = osUsername;
-  const { appName, envName, pluginName, author, options, msg } = params;
-  let version;
-  let envMap = params.envMap;
+  const { appName, envName, pluginName, version, author, options, msg } = params;
+  let theMsg = msg;
+
+  // If single plugin on one or multiple envs, this is a shortcut API
   if (envName && pluginName) {
-    envMap = {
-      [envName]: [
-        {
-          pluginName,
-          version: params.version,
-          type: 'add',
-        },
-      ],
-    };
-    envMap = { ...envMap, [envName]: [{ pluginName, type: 'add', version, options }] };
-    params.envMap = envMap;
+    params.envMap = castArray(envName).reduce((p, c) => {
+      return {
+        ...p,
+        [c]: [
+          {
+            pluginName,
+            version,
+            type: 'add',
+          },
+        ],
+      };
+    }, {});
   }
+
+  const envMap = params.envMap;
 
   if (!envMap) throw new Error('Invalid params: ' + JSON.stringify(params));
   validate(schema, params);
   const ctx = {};
-  // const allPlugins = flatten(Object.values(envMap));
   // if (!allPlugins.length) throw new Error('No plugins specified for deployment.');
   // const ctx = {
   //   // If only deployed one plugin to one env, then it's not group deploy
@@ -152,6 +156,12 @@ module.exports = async (params) => {
   );
 
   // Flattened deployments
+  // For example:
+  //  [
+  //    { envName: 'staging', deployment: { pluginName: 'muse-lib-react', type: 'add', version: '1.0.1' }},
+  //    { envName: 'production', deployment: { pluginName: 'muse-lib-react', type: 'add', version: null }},
+  //  ]
+  // Note: if version not provided or null, means latest
   const flattenedDeployments = flatten(
     Object.entries(envMap).map(([envName, pluginsToDeploy]) => {
       return pluginsToDeploy.map((ptd) => {
@@ -162,6 +172,7 @@ module.exports = async (params) => {
       });
     }),
   ).sort(({ deployment: d1 }, { deployment: d2 }) => {
+    // Sort deployments for friendly messages
     if (d1.type === d2.type) {
       return d1.pluginName.localeCompare(d2.pluginName);
     }
@@ -169,12 +180,13 @@ module.exports = async (params) => {
     return 1;
   });
 
-  // Check release versions if deploy a plugin:
+  // Normalize deployed versions if deploy a plugin:
   //  1. if version provided, check if it exists
   //  2. if version not provided, use the latest release version.
   await Promise.all(
     flattenedDeployments.map(async (d) => {
       if (d.deployment.type === 'remove') return;
+      // TODO(perf-improve) if same plugin on multiple envs, will do duplicated checkReleaseVersion
       d.deployment.version = await checkReleaseVersion({
         pluginName: d.deployment.pluginName,
         version: d.deployment.version,
@@ -185,8 +197,13 @@ module.exports = async (params) => {
   const messages = [];
   try {
     const items = await Promise.all(
-      flattenedDeployments.map(async ({ envName, deployment: { pluginName, version, type } }) => {
+      flattenedDeployments.map(async (fd) => {
+        const {
+          envName,
+          deployment: { pluginName, version, type },
+        } = fd;
         // Check if plugin name exist
+        // TODO(perf-improve): if same plugin on multiple envs, will do duplicated getPlugin
         const p = await getPlugin(pluginName);
         if (!p) {
           throw new Error(`Plugin ${pluginName} doesn't exist.`);
@@ -196,19 +213,25 @@ module.exports = async (params) => {
 
         let deployedPlugin = await getDeployedPlugin(appName, envName, pluginName);
 
+        if (!deployedPlugin) {
+          // First deployment, is used to generate messages
+          fd.deployment.isNew = true;
+        } else {
+          fd.deployment.deployedVersion = deployedPlugin.version;
+        }
         if (type === 'add') {
           // it means submit a new plugin
           messages.push(
             `${
               deployedPlugin ? 'Deployed ' : 'Submitted'
-            } plugin ${pluginName}@${version} to ${appName}/${envName} by ${author}.`,
+            } ${pluginName}@${version} to ${appName}/${envName} by ${author}.`,
           );
           deployedPlugin = {
             name: pluginName,
           };
         } else {
           messages.push(
-            `Undeployed plugin ${pluginName}@${deployedPlugin?.version} from ${appName}/${envName} by ${author}.`,
+            `Undeployed ${pluginName}@${deployedPlugin?.version} from ${appName}/${envName} by ${author}.`,
           );
         }
         const jsonContent =
@@ -226,13 +249,36 @@ module.exports = async (params) => {
         return obj;
       }),
     );
+
+    // All changes in items
     ctx.items = items;
 
     await asyncInvoke('museCore.pm.deployPlugin', ctx, params);
-    await registry.batchSet(
-      items,
-      messages.length > 1 ? `Deployed multiple plugins to ${appName} by ${author}.` : messages[0],
-    );
+    if (!theMsg) {
+      // If a plugin with same version same type on multiple envs
+      const pluginChanges = uniq(
+        flattenedDeployments.map(
+          ({ deployment: d }) =>
+            `${d.isNew ? 'add ' : 'updated '}${d.type} ${d.pluginName}@${d.version}.`,
+        ),
+      );
+      if (messages.length === 0) {
+        theMsg = 'No changes for deploy plugin.';
+      } else if (messages.length === 1) {
+        theMsg = messages[0];
+      } else if (pluginChanges.length === 1) {
+        // Means a single plugin deployed/undeployed to/from multiple envs
+        const d0 = flattenedDeployments[0].deployment;
+        theMsg = `${d0.type === 'add' ? (d0.isNew ? 'Submitted' : 'Deployed') : 'Undeployed'} ${
+          d0.pluginName
+        }${d0.version ? '@' + d0.version : ''} ${
+          d0.type === 'add' ? 'to' : 'from'
+        } ${appName}/${flattenedDeployments.map((fd) => fd.envName).join(', ')} by ${author}.`;
+      } else {
+        theMsg = `Deployed multiple changes to ${appName} by ${author}.`;
+      }
+    }
+    await registry.batchSet(items, theMsg);
   } catch (err) {
     ctx.error = err;
     await asyncInvoke('museCore.pm.failedDeployPlugin', ctx, params);
@@ -242,7 +288,7 @@ module.exports = async (params) => {
   await asyncInvoke('museCore.pm.afterDeployPlugin', ctx, params);
 
   logger.info(`Deployment succeeded to ${appName}:`);
-  messages.forEach((msg) => logger.info(msg));
+  messages.forEach((message) => logger.info(message));
 
   return {
     ctx,
@@ -252,5 +298,6 @@ module.exports = async (params) => {
     envName,
     pluginName,
     messages,
+    msg: theMsg,
   };
 };
