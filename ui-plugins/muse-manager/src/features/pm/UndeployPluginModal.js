@@ -7,19 +7,19 @@ import { useMuseMutate, useSyncStatus } from '../../hooks';
 
 import PluginReleaseSelect from './PluginReleaseSelect';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
-const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
+const UndeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
   const [form] = Form.useForm();
   const modal = useModal();
   const {
-    mutateAsync: deployPlugin,
-    error: deployPluginError,
-    isLoading: deployPluginPending,
-  } = useMuseMutate('pm.deployPlugin');
+    mutateAsync: undeployPlugin,
+    error: undeployPluginError,
+    isLoading: undeployPluginPending,
+  } = useMuseMutate('pm.undeployPlugin');
   const syncStatus = useSyncStatus(`muse.app.${app.name}`);
 
   const meta = {
     columns: 1,
-    disabled: deployPluginPending,
+    disabled: undeployPluginPending,
     fields: [
       {
         key: 'appName',
@@ -34,14 +34,6 @@ const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
         initialValue: plugin?.name,
       },
       {
-        key: 'version',
-        label: 'Version to deploy',
-        required: true,
-        widget: PluginReleaseSelect,
-        widgetProps: { plugin, app },
-        initialValue: version || undefined,
-      },
-      {
         key: 'envs',
         label: 'Environments',
         widget: 'checkbox-group',
@@ -52,34 +44,39 @@ const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
 
   const handleFinish = useCallback(() => {
     const values = form.getFieldsValue();
-    deployPlugin({
+    undeployPlugin({
       appName: app.name,
       pluginName: plugin.name,
       envName: values.envs,
-      version: values.version,
-      author: window.MUSE_GLOBAL.getUser().username,
     })
       .then(async () => {
         modal.hide();
-        message.success('Deploy plugin success.');
+        message.success('Undeploy plugin success.');
         await syncStatus();
+        // Modal.success({
+        //   title: 'Deploy Success!',
+        //   content: `Plugin ${plugin.name}@${values.version} was deployed to ${app.name} successfully. `,
+        //   onOk: () => {
+        //     modal.hide();
+        //   },
+        // });
       })
       .catch((err) => {
         console.log('failed to deploy', err);
       });
-  }, [app.name, plugin.name, modal, form, syncStatus, deployPlugin]);
+  }, [app.name, plugin.name, modal, form, syncStatus, undeployPlugin]);
 
   const footer = [
     {
-      disabled: deployPluginPending,
+      disabled: undeployPluginPending,
       children: 'Cancel',
       onClick: modal.hide,
     },
     {
       type: 'primary',
-      loading: deployPluginPending,
-      disabled: deployPluginPending,
-      children: deployPluginPending ? 'Deploying...' : 'Deploy',
+      loading: undeployPluginPending,
+      disabled: undeployPluginPending,
+      children: undeployPluginPending ? 'Deploying...' : 'Deploy',
 
       onClick: () => {
         form.validateFields().then(() => {
@@ -89,14 +86,14 @@ const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
             width: 550,
             content: (
               <>
-                Are you sure to apply below change to <b>{app.name}</b>?
+                Are you sure to apply below changes to <b>{app.name}</b>?
                 <ul>
                   <li>
                     Deploy{' '}
                     <b>
                       {plugin.name}@{values.version}
                     </b>{' '}
-                    to <b>{values.envs.join(', ')}.</b>
+                    to <b>{values.envs}</b>
                   </li>
                 </ul>
               </>
@@ -109,7 +106,7 @@ const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
       },
     },
   ];
-  const { watchingFields } = utils.extendFormMeta(meta, 'museManager.deployPluginForm', {
+  const { watchingFields } = utils.extendFormMeta(meta, 'museManager.undeployPluginForm', {
     meta,
     form,
     app,
@@ -120,15 +117,15 @@ const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
   return (
     <Modal
       {...antdModalV5(modal)}
-      title={`Deploy Plugin`}
+      title={`Undeploy Plugin`}
       maskClosable={false}
       width="600px"
-      closable={!deployPluginPending}
+      closable={!undeployPluginPending}
       footer={footer.map((props, i) => (
         <Button key={i} {...props} />
       ))}
     >
-      <RequestStatus loading={deployPluginPending} error={deployPluginError} />
+      <RequestStatus loading={undeployPluginPending} error={undeployPluginError} />
       <Form layout="horizontal" form={form} onValuesChange={updateOnChange} onFinish={handleFinish}>
         <NiceForm meta={meta} />
       </Form>
@@ -136,4 +133,4 @@ const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
   );
 });
 
-export default DeployPluginModal;
+export default UndeployPluginModal;

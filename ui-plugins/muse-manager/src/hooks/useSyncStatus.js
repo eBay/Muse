@@ -8,7 +8,7 @@ const useSyncStatus = (dataKey) => {
     const hide = message.loading('Syncing status...', 0);
     await museClient.data.syncCache();
     await queryClient.refetchQueries({
-      queryKey: ['muse-data', dataKey],
+      queryKey: ['muse-query', 'data.get', dataKey],
       exact: true,
     });
     hide();

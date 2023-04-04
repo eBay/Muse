@@ -1,7 +1,7 @@
 import { subject } from '@casl/ability';
 import defineAbilityFor from '@ebay/muse-plugin-acl/lib/defineAbilityFor';
 import { useMuseData } from '../hooks';
-const user = window.MUSE_GLOBAL.getUser();
+const user = window.MUSE_GLOBAL?.getUser();
 
 // Permission check based on @casl/ability
 // NOTE: if no user, then it means the Muse system hasn't enabled permission check.

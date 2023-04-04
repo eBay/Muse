@@ -27,7 +27,7 @@ export function useMuseData(dataKey, queryArgs = {}) {
 
 export function usePollingMuseQuery(...args) {
   const last = args[args.length - 1];
-  const queryArgs = { refetchInterval: 10000 };
+  const queryArgs = { refetchInterval: 1000000 };
 
   if (isObject(last)) {
     args.pop();

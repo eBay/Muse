@@ -111,7 +111,8 @@ const PluginConfigModal = NiceModal.create(({ plugin, app }) => {
     >
       <RequestStatus loading={updateAppPending} error={updateAppError} />
       <div className="muse-simple-tip">
-        Plugin config on the app <b>{app.name}</b>.
+        Plugin config on the app <b>{app.name}</b>. Note that you can config plugins before
+        deploying.
       </div>
 
       <Form layout="horizontal" form={form} onValuesChange={updateOnChange} onFinish={handleFinish}>

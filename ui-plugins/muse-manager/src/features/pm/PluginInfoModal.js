@@ -4,13 +4,14 @@ import { Modal, message, Select, Form, Tag } from 'antd';
 import NiceForm from '@ebay/nice-form-react';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import utils from '@ebay/muse-lib-antd/src/utils';
-import { useSyncStatus, useMuseMutate } from '../../hooks';
+import { useSyncStatus, useMuseMutate, useAbility } from '../../hooks';
 
 const PluginInfoModal = NiceModal.create(({ plugin, app }) => {
   const modal = useModal();
   const [form] = Form.useForm();
   const [viewMode, setViewMode] = useState(true);
   const syncStatus = useSyncStatus('muse.plugins');
+  const ability = useAbility();
   const {
     mutateAsync: updatePlugin,
     error: updatePluginError,
@@ -131,6 +132,8 @@ const PluginInfoModal = NiceModal.create(({ plugin, app }) => {
     plugin,
     app,
   });
+
+  const cannotEdit = ability.cannot('edit', 'Plugin', { app, plugin });
   return (
     <Modal
       {...antdModalV5(modal)}
@@ -139,7 +142,11 @@ const PluginInfoModal = NiceModal.create(({ plugin, app }) => {
       maskClosable={viewMode}
       className="muse-manager_pm-plugin-info-modal"
       okText={viewMode ? 'Edit' : 'Save'}
-      okButtonProps={{ type: viewMode ? 'default' : 'primary' }}
+      okButtonProps={{
+        type: viewMode ? 'default' : 'primary',
+        disabled: cannotEdit,
+        title: cannotEdit ? 'No permission to edit.' : '',
+      }}
       cancelText={viewMode ? 'Close Dialog' : 'Cancel'}
       onCancel={() => {
         if (viewMode) {

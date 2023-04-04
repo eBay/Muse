@@ -5,20 +5,22 @@ import { Drawer, Table, Tag, Popconfirm, Modal, Button, message } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
 import ReactMarkdown from 'react-markdown';
 import { RequestStatus, DropdownMenu } from '@ebay/muse-lib-antd/src/features/common';
-import { useMuseData, useMuseMutate, useSyncStatus } from '../../hooks';
+import { useAbility, useMuseData, useMuseMutate, useSyncStatus } from '../../hooks';
 import ReleaseDurationTrend from './ReleaseDurationTrend';
 import { extendArray } from '@ebay/muse-lib-antd/src/utils';
 
 const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
   const modal = useModal();
   const { data: releases, isLoading, error } = useMuseData(`muse.plugin-releases.${plugin.name}`);
-  const deployedVersion = Object.values(app.envs).reduce((p, c) => {
-    const found = c.plugins?.find((a) => a.name === plugin.name);
-    if (found) p[c.name] = found.version;
-    return p;
-  }, {});
+  const deployedVersion = app
+    ? Object.values(app.envs || {}).reduce((p, c) => {
+        const found = c.plugins?.find((a) => a.name === plugin.name);
+        if (found) p[c.name] = found.version;
+        return p;
+      }, {})
+    : {};
   const syncStatus = useSyncStatus(`muse.plugin-releases.${plugin.name}`);
-
+  const ability = useAbility();
   const { mutateAsync: deleteRelease, isLoading: deleteReleasePending } =
     useMuseMutate('pm.deleteRelease');
   const handleDelete = useCallback(
@@ -51,16 +53,17 @@ const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
       title: 'Version',
       render: (v, release) => {
         const tags = [];
-        Object.values(app.envs).forEach((env) => {
-          const color = env.name === 'production' ? 'green' : 'orange';
-          if (deployedVersion[env.name] === v) {
-            tags.push(
-              <Tag style={{ margin: 0, transform: 'scale(0.9)' }} color={color}>
-                {env.name}
-              </Tag>,
-            );
-          }
-        });
+        app &&
+          Object.values(app.envs || {}).forEach((env) => {
+            const color = env.name === 'production' ? 'green' : 'orange';
+            if (deployedVersion[env.name] === v) {
+              tags.push(
+                <Tag style={{ margin: 0, transform: 'scale(0.9)' }} color={color}>
+                  {env.name}
+                </Tag>,
+              );
+            }
+          });
         const nodes = [v, ...tags];
         return nodes;
       },
@@ -84,6 +87,8 @@ const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
       order: 70,
       title: 'Actions',
       render: (k, release) => {
+        const canDelete = ability.can('delete-release', 'Plugin', { app, plugin, release });
+
         const items = [
           app && {
             key: 'deploy',
@@ -91,6 +96,8 @@ const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
             order: 10,
             icon: 'rocket',
             highlight: true,
+            disabled: ability.cannot('deploy', 'App', { app, plugin }),
+            disabledText: 'No permission to deploy.',
             onClick: () => {
               modal.hide();
               NiceModal.show('muse-manager.deploy-plugin-modal', {
@@ -105,9 +112,10 @@ const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
             label: 'Delete Release',
             highlight: true,
             order: 50,
+            disabled: !canDelete,
+            disabledText: 'No permission.',
             icon: 'delete',
             render: () => {
-              console.log(release);
               return (
                 <Popconfirm
                   title="Delete the release"
@@ -121,7 +129,9 @@ const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
                   <Button
                     size="small"
                     className=""
-                    icon={<DeleteOutlined style={{ color: 'red' }} />}
+                    disabled={!canDelete}
+                    title={canDelete ? '' : 'No permission.'}
+                    icon={<DeleteOutlined style={canDelete ? { color: 'red' } : {}} />}
                   ></Button>
                 </Popconfirm>
               );

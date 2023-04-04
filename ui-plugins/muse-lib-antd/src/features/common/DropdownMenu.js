@@ -1,6 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { Dropdown, Menu, Button, Tooltip } from 'antd';
+import { Dropdown, Button, Tooltip } from 'antd';
 import _ from 'lodash';
 import plugin from 'js-plugin';
 import history from '../../common/history';
