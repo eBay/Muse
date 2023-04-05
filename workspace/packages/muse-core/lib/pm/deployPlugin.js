@@ -15,67 +15,6 @@ const logger = require('../logger').createLogger('muse.pm.deployPlugin');
  * @module muse-core/pm/deployPlugin
  */
 
-// const getFileObj = async ({ appName, envName, type, pluginName, version, options }) => {
-//   // Check if plugin name exist
-//   const p = await getPlugin(pluginName);
-//   if (!p) {
-//     throw new Error(`Plugin ${pluginName} doesn't exist.`);
-//   }
-//   const versionToDeploy = await checkReleaseVersion({ pluginName, version });
-//   const pid = getPluginId(pluginName);
-//   const keyPath = `/apps/${appName}/${envName}/${pid}.yaml`;
-
-//   const plugin = (await getDeployedPlugin(appName, envName, pluginName)) || {
-//     name: pluginName,
-//   };
-//   const jsonContent =
-//     type === 'remove'
-//       ? null
-//       : Object.assign(plugin, {
-//           version: versionToDeploy,
-//           type: p.type || 'normal',
-//           ...options,
-//         });
-//   const obj = {
-//     keyPath,
-//     value: (jsonContent && Buffer.from(yaml.dump(jsonContent))) || null,
-//   };
-//   return obj;
-// };
-
-// const getAllFilesByEnv = async ({ appName, envName, deployments = [] }) => {
-//   // const newDeployments = deployments?.map((d) => ({ ...d, appName, envName }));
-//   return await Promise.all(
-//     deployments.map((d) => {
-//       const p = await getPlugin(pluginName);
-//   if (!p) {
-//     throw new Error(`Plugin ${pluginName} doesn't exist.`);
-//   }
-//   const versionToDeploy = await checkReleaseVersion({ pluginName, version });
-//   const pid = getPluginId(pluginName);
-//   const keyPath = `/apps/${appName}/${envName}/${pid}.yaml`;
-
-//   const plugin = (await getDeployedPlugin(appName, envName, pluginName)) || {
-//     name: pluginName,
-//   };
-//   const jsonContent =
-//     type === 'remove'
-//       ? null
-//       : Object.assign(plugin, {
-//           version: versionToDeploy,
-//           type: p.type || 'normal',
-//           ...options,
-//         });
-//   const obj = {
-//     keyPath,
-//     value: (jsonContent && Buffer.from(yaml.dump(jsonContent))) || null,
-//   };
-//   return obj;
-//       getFileObj({ appName, envName, ...d });
-//     }),
-//   );
-// };
-
 /**
  * Compatible with single and multiple deployments
  * @param {object} params args to deploy a plugin
@@ -116,13 +55,6 @@ module.exports = async (params) => {
   if (!envMap) throw new Error('Invalid params: ' + JSON.stringify(params));
   validate(schema, params);
   const ctx = {};
-  // if (!allPlugins.length) throw new Error('No plugins specified for deployment.');
-  // const ctx = {
-  //   // If only deployed one plugin to one env, then it's not group deploy
-  //   isSingleDeploy: allPlugins.length === 1,
-  // };
-  // ctx.isSingleAdd = ctx.isSingleDeploy && allPlugins[0].type === 'add';
-  // ctx.isSingleRemove = ctx.isSingleDeploy && allPlugins[0].type === 'remove';
 
   logger.info(`Deploying plugin(s): ${JSON.stringify(envMap)}`);
 
@@ -252,7 +184,6 @@ module.exports = async (params) => {
 
     // All changes in items
     ctx.items = items;
-
     await asyncInvoke('museCore.pm.deployPlugin', ctx, params);
     if (!theMsg) {
       // If a plugin with same version same type on multiple envs

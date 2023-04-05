@@ -1,8 +1,10 @@
+const { castArray } = require('lodash');
 const { asyncInvoke, getPluginId, osUsername, validate } = require('../utils');
 const { registry } = require('../storage');
 const { getApp } = require('../am');
 const schema = require('../schemas/pm/undeployPlugin.json');
 const logger = require('../logger').createLogger('muse.pm.undeployPlugin');
+const deployPlugin = require('./deployPlugin');
 /**
  * @module muse-core/pm/undeployPlugin
  */
@@ -21,41 +23,49 @@ const logger = require('../logger').createLogger('muse.pm.undeployPlugin');
  * @property {string} pluginName
  */
 
-module.exports = async params => {
+module.exports = async (params) => {
   validate(schema, params);
-  const ctx = {};
+  // const ctx = {};
   if (!params.author) params.author = osUsername;
-  const { appName, envName, pluginName, author, msg } = params;
-  logger.verbose(`Undeploying plugin ${pluginName}@${appName}/${envName}...`);
-  await asyncInvoke('museCore.pm.beforeUndeployPlugin', ctx, params);
+  const { envName, pluginName } = params;
 
-  const app = await getApp(appName);
-  if (!app) {
-    throw new Error(`App ${appName} doesn't exist.`);
-  }
+  const envMap = castArray(envName).reduce((p, c) => {
+    p[c] = [{ type: 'remove', pluginName }];
+    return p;
+  }, {});
 
-  if (!app.envs?.[envName]) {
-    throw new Error(`Env ${appName}/${envName} doesn't exist.`);
-  }
+  return await deployPlugin({ ...params, envMap, envName: null, pluginName: null });
 
-  try {
-    const pid = getPluginId(pluginName);
-    const keyPath = `/apps/${appName}/${envName}/${pid}.yaml`;
+  // logger.verbose(`Undeploying plugin ${pluginName}@${appName}/${envName}...`);
+  // await asyncInvoke('museCore.pm.beforeUndeployPlugin', ctx, params);
 
-    await asyncInvoke('museCore.pm.undeployPlugin', ctx, params);
-    await registry.del(keyPath, msg || `Undeploy plugin ${pluginName} by ${author}`);
-  } catch (err) {
-    console.log(err);
-    ctx.error = err;
-    await asyncInvoke('museCore.pm.failedUndeployPlugin', ctx, params);
-    throw err;
-  }
-  await asyncInvoke('museCore.pm.afterUndeployPlugin', ctx, params);
-  logger.verbose(`Succeeded to undeploy plugin: ${pluginName}@${appName}/${envName}.`);
+  // const app = await getApp(appName);
+  // if (!app) {
+  //   throw new Error(`App ${appName} doesn't exist.`);
+  // }
 
-  return {
-    appName,
-    envName,
-    pluginName,
-  };
+  // if (!app.envs?.[envName]) {
+  //   throw new Error(`Env ${appName}/${envName} doesn't exist.`);
+  // }
+
+  // try {
+  //   const pid = getPluginId(pluginName);
+  //   const keyPath = `/apps/${appName}/${envName}/${pid}.yaml`;
+
+  //   await asyncInvoke('museCore.pm.undeployPlugin', ctx, params);
+  //   await registry.del(keyPath, msg || `Undeploy plugin ${pluginName} by ${author}`);
+  // } catch (err) {
+  //   console.log(err);
+  //   ctx.error = err;
+  //   await asyncInvoke('museCore.pm.failedUndeployPlugin', ctx, params);
+  //   throw err;
+  // }
+  // await asyncInvoke('museCore.pm.afterUndeployPlugin', ctx, params);
+  // logger.verbose(`Succeeded to undeploy plugin: ${pluginName}@${appName}/${envName}.`);
+
+  // return {
+  //   appName,
+  //   envName,
+  //   pluginName,
+  // };
 };

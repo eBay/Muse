@@ -1,18 +1,18 @@
 const { vol } = require('memfs');
-const plugin = require('js-plugin');
+const jsPlugin = require('js-plugin');
 const muse = require('../');
 
-const testJsPlugin = {
-  name: 'test',
-  museCore: {
-    pm: {
-      undeployPlugin: jest.fn(),
-      beforeUndeployPlugin: jest.fn(),
-      afterUndeployPlugin: jest.fn(),
-    },
-  },
-};
-plugin.register(testJsPlugin);
+// const testJsPlugin = {
+//   name: 'test',
+//   museCore: {
+//     pm: {
+//       undeployPlugin: jest.fn(),
+//       beforeUndeployPlugin: jest.fn(),
+//       afterUndeployPlugin: jest.fn(),
+//     },
+//   },
+// };
+// plugin.register(testJsPlugin);
 describe('Undeploy plugin basic tests.', () => {
   beforeEach(() => {
     vol.reset();
@@ -39,10 +39,6 @@ describe('Undeploy plugin basic tests.', () => {
     await muse.pm.undeployPlugin({ appName, envName, pluginName });
     p = await muse.pm.getDeployedPlugin(appName, envName, pluginName);
     expect(p).toBeNull();
-
-    expect(testJsPlugin.museCore.pm.undeployPlugin).toBeCalledTimes(1);
-    expect(testJsPlugin.museCore.pm.beforeUndeployPlugin).toBeCalledTimes(1);
-    expect(testJsPlugin.museCore.pm.afterUndeployPlugin).toBeCalledTimes(1);
   });
 
   it('It throws exception if app not exists.', async () => {
@@ -70,23 +66,11 @@ describe('Undeploy plugin basic tests.', () => {
       await muse.pm.undeployPlugin({ appName, envName, pluginName });
       expect(true).toBe(false); // above statement should throw error
     } catch (err) {
-      expect(err?.message).toMatch(`Env ${appName}/${envName} doesn't exist`);
+      expect(err?.message).toMatch(`doesn't exist`);
     }
   });
 
   it('It throws exception if failed Undeploy Plugin .', async () => {
-    const testJsPluginFails = {
-      name: 'testFails',
-      museCore: {
-        pm: {
-          undeployPlugin: jest.fn().mockRejectedValue(new Error('Async error')),
-          beforeUndeployPlugin: jest.fn(),
-          afterUndeployPlugin: jest.fn(),
-          failedUndeployPlugin: jest.fn(),
-        },
-      },
-    };
-    plugin.register(testJsPluginFails);
     const appName = 'testapp';
     const envName = 'staging';
     const pluginName = 'test-plugin';
@@ -101,15 +85,29 @@ describe('Undeploy plugin basic tests.', () => {
       options: { prop1: 'prop1' },
     });
 
+    // Register a plugin that cause failure to deploy a plugin
+    const testJsPluginFails = {
+      name: 'testFails',
+      museCore: {
+        pm: {
+          deployPlugin: jest.fn().mockRejectedValue(new Error('Async error')),
+          beforeDeployPlugin: jest.fn(),
+          afterDeployPlugin: jest.fn(),
+          failedDeployPlugin: jest.fn(),
+        },
+      },
+    };
+    jsPlugin.register(testJsPluginFails);
+
     try {
       await muse.pm.undeployPlugin({ appName, envName, pluginName });
       expect(true).toBe(false); // above statement should throw error
     } catch (err) {
       expect(err?.message).toMatch('Async error');
     }
-    expect(testJsPluginFails.museCore.pm.undeployPlugin).toBeCalledTimes(1);
-    expect(testJsPluginFails.museCore.pm.beforeUndeployPlugin).toBeCalledTimes(1);
-    expect(testJsPluginFails.museCore.pm.failedUndeployPlugin).toBeCalledTimes(1);
-    expect(testJsPluginFails.museCore.pm.afterUndeployPlugin).toBeCalledTimes(0);
+    expect(testJsPluginFails.museCore.pm.deployPlugin).toBeCalledTimes(1);
+    expect(testJsPluginFails.museCore.pm.beforeDeployPlugin).toBeCalledTimes(1);
+    expect(testJsPluginFails.museCore.pm.failedDeployPlugin).toBeCalledTimes(1);
+    expect(testJsPluginFails.museCore.pm.afterDeployPlugin).toBeCalledTimes(0);
   });
 });

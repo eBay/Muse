@@ -6,9 +6,6 @@
     "appName": {
       "type": "string"
     },
-    "envName": {
-      "type": "string"
-    },
     "pluginName": {
       "type": "string"
     },
