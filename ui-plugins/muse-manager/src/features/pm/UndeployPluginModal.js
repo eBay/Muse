@@ -5,7 +5,6 @@ import utils from '@ebay/muse-lib-antd/src/utils';
 import NiceForm from '@ebay/nice-form-react';
 import { useMuseMutate, useSyncStatus } from '../../hooks';
 
-import PluginReleaseSelect from './PluginReleaseSelect';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 const UndeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
   const [form] = Form.useForm();
@@ -76,24 +75,24 @@ const UndeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
       type: 'primary',
       loading: undeployPluginPending,
       disabled: undeployPluginPending,
-      children: undeployPluginPending ? 'Deploying...' : 'Deploy',
+      children: undeployPluginPending ? 'Undeploying...' : 'Undeploy',
 
       onClick: () => {
         form.validateFields().then(() => {
           const values = form.getFieldsValue();
           Modal.confirm({
-            title: 'Confirm Deployment',
+            title: 'Confirm Undeployment',
             width: 550,
             content: (
               <>
                 Are you sure to apply below changes to <b>{app.name}</b>?
                 <ul>
                   <li>
-                    Deploy{' '}
+                    Undeploy{' '}
                     <b>
                       {plugin.name}@{values.version}
                     </b>{' '}
-                    to <b>{values.envs}</b>
+                    from <b>{values.envs.join(', ')}.</b>
                   </li>
                 </ul>
               </>
