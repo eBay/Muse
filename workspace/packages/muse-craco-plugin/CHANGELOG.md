@@ -1,5 +1,11 @@
 # @ebay/muse-craco-plugin
 
+## 3.0.7
+
+### Patch Changes
+
+- fix muse global mock and add additional mocks
+
 ## 3.0.6
 
 ### Patch Changes
