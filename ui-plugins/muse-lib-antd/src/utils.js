@@ -34,9 +34,10 @@ function capitalizeFirstLetter(string) {
  */
 export const extendArray = (arr, extName, extBase, ...args) => {
   const capitalName = capitalizeFirstLetter(extName);
-  jsPlugin.invoke(`${extBase}.process${capitalName}`, ...args);
+  jsPlugin.invoke(`${extBase}.preProcess${capitalName}`, ...args);
   const items = _.flatten(jsPlugin.invoke(`${extBase}.get${capitalName}`, ...args));
   arr.push(...items);
+  jsPlugin.invoke(`${extBase}.process${capitalName}`, ...args);
   jsPlugin.invoke(`${extBase}.postProcess${capitalName}`, ...args);
   jsPlugin.sort(arr);
   return arr;

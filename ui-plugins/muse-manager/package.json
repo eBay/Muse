@@ -26,7 +26,7 @@
     "@craco/craco": "^7.0.0",
     "@ebay/muse-core": "^1.0.30",
     "@ebay/muse-cra-patch": "^1.0.1",
-    "@ebay/muse-craco-plugin": "^3.0.5",
+    "@ebay/muse-craco-plugin": "^3.0.7",
     "@ebay/muse-dev-utils": "^1.0.35",
     "@ebay/muse-ebay-dev": "^1.0.9",
     "@ebay/muse-express-middleware": "^1.0.33",
