@@ -1,5 +1,11 @@
 # @ebay/muse-express-middleware
 
+## 1.0.34
+
+### Patch Changes
+
+- Dev.
+
 ## 1.0.33
 
 ### Patch Changes
