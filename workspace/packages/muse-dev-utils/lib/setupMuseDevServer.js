@@ -155,6 +155,7 @@ muse.plugin.register({
               p.core ||
               p.type === 'boot' ||
               p.type === 'init' ||
+              p.type === 'lib' ||
               remotePlugins.includes('*') ||
               remotePlugins.includes(p.name) ||
               localNames.includes(p.name) ||
