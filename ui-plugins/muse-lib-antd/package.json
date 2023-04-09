@@ -5,7 +5,7 @@
   "muse": {
     "type": "lib",
     "devConfig": {
-      "app": "app1",
+      "app": "musemanager",
       "env": "staging"
     }
   },
@@ -43,10 +43,10 @@
   "devDependencies": {
     "@changesets/cli": "^2.23.2",
     "@craco/craco": "7.0.0",
-    "@ebay/muse-core": "1.0.29",
+    "@ebay/muse-core": "1.0.30",
     "@ebay/muse-cra-patch": "^1.0.1",
-    "@ebay/muse-craco-plugin": "3.0.4",
-    "@ebay/muse-ebay-dev": "1.0.5",
+    "@ebay/muse-craco-plugin": "3.0.7",
+    "@ebay/muse-ebay-dev": "1.0.9",
     "craco-less": "2.0.0",
     "cross-env": "7.0.3",
     "react-scripts": "^5.0.1",
@@ -54,8 +54,8 @@
   },
   "dependencies": {
     "@ant-design/icons": "5.0.1",
-    "@ebay/muse-lib-react": "1.2.0",
-    "@ebay/nice-form-react": "1.0.9",
+    "@ebay/muse-lib-react": "1.2.8",
+    "@ebay/nice-form-react": "1.0.10",
     "antd": "5.1.7",
     "history": "5.3.0",
     "js-plugin": "1.1.0",

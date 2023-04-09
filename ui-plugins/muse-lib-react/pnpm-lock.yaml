@@ -2,10 +2,10 @@ lockfileVersion: '6.0'
 
 dependencies:
   '@ebay/nice-modal-react':
-    specifier: 1.2.8
-    version: 1.2.8(react-dom@18.2.0)(react@18.2.0)
+    specifier: 1.2.10
+    version: 1.2.10(react-dom@18.2.0)(react@18.2.0)
   '@tanstack/react-query':
-    specifier: ^4.28.0
+    specifier: 4.28.0
     version: 4.28.0(react-dom@18.2.0)(react@18.2.0)
   history:
     specifier: 5.3.0
@@ -64,17 +64,17 @@ devDependencies:
     specifier: 7.0.0
     version: 7.0.0(@types/node@18.11.9)(postcss@8.4.21)(react-scripts@5.0.1)(typescript@4.9.3)
   '@ebay/muse-core':
-    specifier: 1.0.29
-    version: 1.0.29
+    specifier: 1.0.30
+    version: 1.0.30
   '@ebay/muse-cra-patch':
     specifier: ^1.0.1
     version: 1.0.1
   '@ebay/muse-craco-plugin':
-    specifier: 3.0.4
-    version: 3.0.4(@craco/craco@7.0.0)(@ebay/muse-core@1.0.29)(express@4.18.2)
+    specifier: 3.0.7
+    version: 3.0.7(@craco/craco@7.0.0)(@ebay/muse-core@1.0.30)(express@4.18.2)
   '@ebay/muse-ebay-dev':
-    specifier: 1.0.5
-    version: 1.0.5(@ebay/muse-core@1.0.29)
+    specifier: 1.0.9
+    version: 1.0.9(@ebay/muse-core@1.0.30)
   '@types/node':
     specifier: 18.11.9
     version: 18.11.9
@@ -1874,8 +1874,8 @@ packages:
     engines: {node: '>=10.0.0'}
     dev: true
 
-  /@ebay/muse-core@1.0.29:
-    resolution: {integrity: sha1-2q1Ndyx0HgrNXhnrr8REixFcmxE=, tarball: https://npm.corp.ebay.com/@ebay/muse-core/-/@ebay/muse-core-1.0.29.tgz}
+  /@ebay/muse-core@1.0.30:
+    resolution: {integrity: sha1-tBOPFAXRuanxxkv/FwyjGN0JPh0=, tarball: https://npm.corp.ebay.com/@ebay/muse-core/-/@ebay/muse-core-1.0.30.tgz}
     dependencies:
       ajv: 8.12.0
       archiver: 5.3.1
@@ -1908,41 +1908,41 @@ packages:
       resolve-cwd: 3.0.0
     dev: true
 
-  /@ebay/muse-craco-plugin@3.0.4(@craco/craco@7.0.0)(@ebay/muse-core@1.0.29)(express@4.18.2):
-    resolution: {integrity: sha1-pPgehzVomDSQgiYmyhFjcLf92OE=, tarball: https://npm.corp.ebay.com/@ebay/muse-craco-plugin/-/@ebay/muse-craco-plugin-3.0.4.tgz}
+  /@ebay/muse-craco-plugin@3.0.7(@craco/craco@7.0.0)(@ebay/muse-core@1.0.30)(express@4.18.2):
+    resolution: {integrity: sha1-/JTeZCRaCy2Jp3f3vxmzRc/Uim4=, tarball: https://npm.corp.ebay.com/@ebay/muse-craco-plugin/-/@ebay/muse-craco-plugin-3.0.7.tgz}
     peerDependencies:
       '@craco/craco': 7.0.0
     dependencies:
       '@craco/craco': 7.0.0(@types/node@18.11.9)(postcss@8.4.21)(react-scripts@5.0.1)(typescript@4.9.3)
-      '@ebay/muse-dev-utils': 1.0.32(@ebay/muse-core@1.0.29)(express@4.18.2)
-      '@ebay/muse-webpack-plugin': 1.0.27
+      '@ebay/muse-dev-utils': 1.0.35(@ebay/muse-core@1.0.30)(express@4.18.2)
+      '@ebay/muse-webpack-plugin': 1.0.28
       resolve-cwd: 3.0.0
     transitivePeerDependencies:
       - '@ebay/muse-core'
       - express
     dev: true
 
-  /@ebay/muse-dev-utils@1.0.32(@ebay/muse-core@1.0.29)(express@4.18.2):
-    resolution: {integrity: sha1-iV/BVD6Wk19ItqibOuaPlco1IGk=, tarball: https://npm.corp.ebay.com/@ebay/muse-dev-utils/-/@ebay/muse-dev-utils-1.0.32.tgz}
+  /@ebay/muse-dev-utils@1.0.35(@ebay/muse-core@1.0.30)(express@4.18.2):
+    resolution: {integrity: sha1-VDgNu05TaMg8w7AYBlgxY9+sq4U=, tarball: https://npm.corp.ebay.com/@ebay/muse-dev-utils/-/@ebay/muse-dev-utils-1.0.35.tgz}
     peerDependencies:
-      '@ebay/muse-core': ^1.0.28
+      '@ebay/muse-core': ^1.0.30
       express: ^4.18.1
     dependencies:
-      '@ebay/muse-core': 1.0.29
-      '@ebay/muse-express-middleware': 1.0.30(@ebay/muse-core@1.0.29)
+      '@ebay/muse-core': 1.0.30
+      '@ebay/muse-express-middleware': 1.0.33(@ebay/muse-core@1.0.30)
       dotenv: 16.0.3
       express: 4.18.2
       lodash: 4.17.21
       resolve-cwd: 3.0.0
     dev: true
 
-  /@ebay/muse-ebay-dev@1.0.5(@ebay/muse-core@1.0.29):
-    resolution: {integrity: sha1-cprDoc4QKDAxvZhW0SiMR+vlGyo=, tarball: https://npm.corp.ebay.com/@ebay/muse-ebay-dev/-/@ebay/muse-ebay-dev-1.0.5.tgz}
+  /@ebay/muse-ebay-dev@1.0.9(@ebay/muse-core@1.0.30):
+    resolution: {integrity: sha1-526Wn19myyVqqr/dTm/OWRxwZ3A=, tarball: https://npm.corp.ebay.com/@ebay/muse-ebay-dev/-/@ebay/muse-ebay-dev-1.0.9.tgz}
     hasBin: true
     peerDependencies:
-      '@ebay/muse-core': ^1.0.28
+      '@ebay/muse-core': ^1.0.30
     dependencies:
-      '@ebay/muse-core': 1.0.29
+      '@ebay/muse-core': 1.0.30
       axios: 0.27.2
       chalk: 4.1.2
       cross-spawn: 7.0.3
@@ -1952,12 +1952,12 @@ packages:
       - debug
     dev: true
 
-  /@ebay/muse-express-middleware@1.0.30(@ebay/muse-core@1.0.29):
-    resolution: {integrity: sha1-zGV2PIQVZrBTqGiJjadoYpMxViY=, tarball: https://npm.corp.ebay.com/@ebay/muse-express-middleware/-/@ebay/muse-express-middleware-1.0.30.tgz}
+  /@ebay/muse-express-middleware@1.0.33(@ebay/muse-core@1.0.30):
+    resolution: {integrity: sha1-kMkrHn2Wbqpfmg32k6R6URKCi/4=, tarball: https://npm.corp.ebay.com/@ebay/muse-express-middleware/-/@ebay/muse-express-middleware-1.0.33.tgz}
     peerDependencies:
-      '@ebay/muse-core': ^1.0.28
+      '@ebay/muse-core': ^1.0.30
     dependencies:
-      '@ebay/muse-core': 1.0.29
+      '@ebay/muse-core': 1.0.30
       lodash: 4.17.21
       mime-types: 2.1.35
       multer: 1.4.5-lts.1
@@ -1968,16 +1968,16 @@ packages:
     resolution: {integrity: sha1-hj8so86V1MKrbqG/1r//0AkzZgE=, tarball: https://npm.corp.ebay.com/@ebay/muse-modules/-/@ebay/muse-modules-1.0.22.tgz}
     dev: true
 
-  /@ebay/muse-webpack-plugin@1.0.27:
-    resolution: {integrity: sha1-gfv2JV3EIbwyvGkTDzTdXN+Ghh0=, tarball: https://npm.corp.ebay.com/@ebay/muse-webpack-plugin/-/@ebay/muse-webpack-plugin-1.0.27.tgz}
+  /@ebay/muse-webpack-plugin@1.0.28:
+    resolution: {integrity: sha1-7jVfQz0doCAMnyXwHoPTs8on+Qg=, tarball: https://npm.corp.ebay.com/@ebay/muse-webpack-plugin/-/@ebay/muse-webpack-plugin-1.0.28.tgz}
     dependencies:
       '@ebay/muse-modules': 1.0.22
       json-parse-better-errors: 1.0.2
       resolve-cwd: 3.0.0
     dev: true
 
-  /@ebay/nice-modal-react@1.2.8(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha1-Mwm82OpsDlwKrfnDVg9qwLlhzx8=}
+  /@ebay/nice-modal-react@1.2.10(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha1-ayQGv85KXa/8Q/W4X18jgxHN/pM=}
     peerDependencies:
       react: '>16.8.0'
       react-dom: '>16.8.0'

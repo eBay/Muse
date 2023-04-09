@@ -150,9 +150,9 @@ muse.plugin.register({
 
         let realPluginsToLoad = [
           ...plugins.filter(
-            // boot/init plugin is always loaded for an app
+            // boot/init/lib plugins are always loaded for an app
             (p) =>
-              p.core ||
+              app?.pluginConfig?.[p.name]?.core || // if configured as core plugins, always load
               p.type === 'boot' ||
               p.type === 'init' ||
               p.type === 'lib' ||
