@@ -5,8 +5,8 @@ dependencies:
     specifier: ^1.0.22
     version: 1.0.22
   '@ebay/muse-lib-antd':
-    specifier: ^1.2.2
-    version: 1.2.2(@types/react@18.0.27)(react-dom@18.2.0)(react@18.2.0)
+    specifier: ^1.2.3
+    version: 1.2.3(@types/react@18.0.27)(react-dom@18.2.0)(react@18.2.0)
   '@ebay/muse-lib-react':
     specifier: ^1.2.8
     version: 1.2.8(@types/react@18.0.27)
@@ -2067,8 +2067,8 @@ packages:
       request-ip: 3.3.0
     dev: true
 
-  /@ebay/muse-lib-antd@1.2.2(@types/react@18.0.27)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha1-YIqqdCLfrI5pi8fr+L5hP7WEU5E=, tarball: https://npm.corp.ebay.com/@ebay/muse-lib-antd/-/@ebay/muse-lib-antd-1.2.2.tgz}
+  /@ebay/muse-lib-antd@1.2.3(@types/react@18.0.27)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha1-WYWWk9vCyAxNVoV4PP/zyzhXRj8=, tarball: https://npm.corp.ebay.com/@ebay/muse-lib-antd/-/@ebay/muse-lib-antd-1.2.3.tgz}
     dependencies:
       '@ant-design/icons': 5.0.1(react-dom@18.2.0)(react@18.2.0)
       '@ebay/muse-lib-react': 1.2.0(@types/react@18.0.27)
