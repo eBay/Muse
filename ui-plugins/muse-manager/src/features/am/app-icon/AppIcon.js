@@ -29,7 +29,7 @@ export default function AppIcon({ app, form }) {
   const [uploading, setUploading] = useState(false);
 
   const handleUploadChange = useCallback(
-    info => {
+    (info) => {
       if (info.file.status === 'uploading') {
         setUploading(true);
         return;
@@ -55,7 +55,7 @@ export default function AppIcon({ app, form }) {
     : defaultIcon;
   return (
     <>
-      <div className="fixed -left-full hidden">
+      <div className="fixed -left-full">
         <span className="font-['Leckerli_One']">a</span>
         <span className="font-['Aclonica']">a</span>
         <span className="font-['Asap']">a</span>
