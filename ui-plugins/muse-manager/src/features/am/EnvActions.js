@@ -2,15 +2,15 @@ import React from 'react';
 import { useMemo } from 'react';
 import { DropdownMenu } from '@ebay/muse-lib-antd/src/features/common';
 import NiceModal from '@ebay/nice-modal-react';
-import jsPlugin from 'js-plugin';
 import { message, Modal } from 'antd';
-
-import { useMuseMutate, useSyncStatus } from '../../hooks';
-import _ from 'lodash';
+import { extendArray } from '@ebay/muse-lib-antd/src/utils';
+import { useMuseMutate, useSyncStatus, useAbility } from '../../hooks';
 
 function EnvActions({ env, app }) {
   const { mutateAsync: deleteEnv } = useMuseMutate('am.deleteEnv');
   const syncStatus = useSyncStatus(`muse.app.${app.name}`);
+  const ability = useAbility();
+  const canUpdateApp = ability.can('update', 'App', app);
   let items = useMemo(() => {
     return [
       {
@@ -18,6 +18,8 @@ function EnvActions({ env, app }) {
         label: 'Edit',
         order: 40,
         icon: 'edit',
+        disabled: !canUpdateApp,
+        disabledText: 'No permission to update environment.',
         highlight: true,
         onClick: () => {
           NiceModal.show('muse-manager.edit-environment-modal', { env, app });
@@ -28,12 +30,14 @@ function EnvActions({ env, app }) {
         label: 'Delete Environment',
         order: 70,
         icon: 'delete',
+        disabled: !canUpdateApp,
+        disabledText: 'No permission to delete environment',
         menuItemProps: {
-          style: {
+          style: canUpdateApp && {
             color: '#ff4d4f',
           },
         },
-        highlight: false,
+        highlight: true,
         onClick: async () => {
           Modal.confirm({
             title: 'Confirm Delete',
@@ -72,11 +76,10 @@ function EnvActions({ env, app }) {
         },
       },
     ].filter(Boolean);
-  }, [syncStatus, app, env, deleteEnv]);
-  items.push(..._.flatten(jsPlugin.invoke('museManager.getEnvironmentActions', { app, env })));
-  jsPlugin.invoke('museManager.processEnvironmentActions', { items, app, env });
+  }, [syncStatus, app, env, deleteEnv, canUpdateApp]);
+
+  extendArray(items, 'environmentActions', 'museManager.am');
   items = items.filter(Boolean);
-  jsPlugin.sort(items);
-  return <DropdownMenu extPoint="museManager.env.processActions" items={items} />;
+  return <DropdownMenu items={items} />;
 }
 export default EnvActions;

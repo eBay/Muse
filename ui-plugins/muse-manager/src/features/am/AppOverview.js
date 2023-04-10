@@ -6,14 +6,15 @@ import Environments from './Environments';
 import { useAbility } from '../../hooks';
 
 export default function AppOverview({ app }) {
-  const ability = useAbility('App');
+  const ability = useAbility();
+  const canUpdateApp = ability.can('update', 'App', app);
 
   return (
     <div>
       <section>
         <h3>
           Basic Information
-          {ability.can('update', app) && (
+          {canUpdateApp && (
             <Button
               type="link"
               onClick={() => NiceModal.show('muse-manager.edit-app-modal', { app })}
@@ -31,7 +32,7 @@ export default function AppOverview({ app }) {
       <section>
         <h3>
           Environments
-          {ability.can('update', app) && (
+          {canUpdateApp && (
             <Button
               type="link"
               onClick={() => NiceModal.show('muse-manager.add-env-modal', { app })}
