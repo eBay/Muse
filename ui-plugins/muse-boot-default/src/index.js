@@ -100,7 +100,7 @@ async function start() {
   });
 
   const {
-    app,
+    // app,
     cdn = '',
     initEntries,
     pluginEntries,
@@ -180,6 +180,7 @@ async function start() {
   } else {
     console.warn(`ClientCode is invalid.`);
   }
+
   console.log(`Plugins(${plugins.length}):`);
   // If a plugin has isLocal, it means its bundle is loaded somewhere else.
   // The registered plugin item is used to provide configurations. e.g plugin variables.
