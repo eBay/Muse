@@ -8,6 +8,8 @@ import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import utils from '@ebay/muse-lib-antd/src/utils';
 import { useSyncStatus, useMuseMutate } from '../../hooks';
 
+const user = window.MUSE_GLOBAL.getUser();
+
 const PluginConfigModal = NiceModal.create(({ plugin, app }) => {
   const modal = useModal();
   const [form] = Form.useForm();
@@ -33,14 +35,6 @@ const PluginConfigModal = NiceModal.create(({ plugin, app }) => {
         initialValue: plugin.type !== 'normal' || _.get(app, `pluginConfig.${plugin.name}.core`),
         tooltip:
           'Core plugins will always be loaded as remote plugins for local development. Boot, init and library plugins are always core plugins.',
-      },
-      {
-        key: `pluginConfig.${plugin.name}.allowlist`,
-        label: 'Allow list',
-        widget: 'tag',
-        order: 20,
-        tooltip: 'Restrict who can use the plugin. Leave empty if no restriction.',
-        // widget: 'checkbox',
       },
     ],
   };
@@ -78,6 +72,7 @@ const PluginConfigModal = NiceModal.create(({ plugin, app }) => {
       changes: {
         set: Object.entries(flat(values)).map(([key, value]) => ({ path: key, value })),
       },
+      msg: `Updated plugin config of ${plugin.name} by ${user.username}.`,
     };
 
     updateApp(payload)
@@ -89,7 +84,7 @@ const PluginConfigModal = NiceModal.create(({ plugin, app }) => {
       .catch((err) => {
         console.log('failed to update plugin config', err);
       });
-  }, [updateApp, syncStatus, modal, app, form]);
+  }, [updateApp, syncStatus, modal, app, form, plugin.name]);
 
   const { watchingFields } = utils.extendFormMeta(meta, 'museManager.pm.pluginConfigForm', {
     meta,
