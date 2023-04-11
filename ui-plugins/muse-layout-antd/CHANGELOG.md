@@ -1,5 +1,11 @@
 # muse-layout-antd
 
+## 1.1.7
+
+### Patch Changes
+
+- upgrade craco config
+
 ## 1.1.6
 
 ### Patch Changes

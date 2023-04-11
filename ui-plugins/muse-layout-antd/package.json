@@ -1,14 +1,11 @@
 {
   "name": "@ebay/muse-layout-antd",
-  "version": "1.1.6",
+  "version": "1.1.7",
   "repository": "",
   "muse": {
     "devConfig": {
-      "app": "nateapp",
-      "env": "staging",
-      "remotePlugins": [
-        "@ebay/muse-boot-default#boot:http://localhost:3000/boot.js"
-      ]
+      "app": "musemanager",
+      "env": "staging"
     }
   },
   "publishConfig": {
@@ -27,6 +24,7 @@
     "test:config": "muse-cra-patch && cross-env NODE_PATH=./node_modules MUSE_TEST_BUILD=true craco test --showConfig",
     "prestart": "muse-ebay-dev check-updates",
     "prebuild": "muse-ebay-dev check-updates",
+    "e2e-test": "muse-ebay-dev e2e-test",
     "deploy": "pnpm build && pnpm build:dev && muse release && muse deploy nateapp staging"
   },
   "browserslist": {
@@ -45,21 +43,20 @@
     "@babel/preset-react": "7.18.6",
     "@changesets/cli": "^2.23.2",
     "@craco/craco": "7.0.0",
-    "@ebay/muse-core": "1.0.29",
+    "@ebay/muse-core": "1.0.30",
     "@ebay/muse-cra-patch": "^1.0.1",
-    "@ebay/muse-craco-plugin": "3.0.4",
-    "@ebay/muse-ebay-dev": "1.0.5",
+    "@ebay/muse-craco-plugin": "3.0.8",
+    "@ebay/muse-ebay-craco-plugin": "^1.1.0",
+    "@ebay/muse-ebay-dev": "1.0.11",
     "@zarconontol/enzyme-adapter-react-18": "0.7.3",
     "craco-less": "2.0.0",
     "cross-env": "7.0.3",
     "enzyme": "3.11.0",
-    "react-scripts": "^5.0.1",
-    "webpack-bundle-analyzer": "^4.8.0"
+    "react-scripts": "^5.0.1"
   },
   "dependencies": {
-    "@ebay/muse-dev-utils": "^1.0.34",
-    "@ebay/muse-lib-antd": "1.2.1",
-    "@ebay/muse-lib-react": "1.2.0",
+    "@ebay/muse-lib-antd": "1.2.4",
+    "@ebay/muse-lib-react": "1.2.9",
     "js-plugin": "1.1.0",
     "lodash": "4.17.21",
     "semver": "7.3.7"
