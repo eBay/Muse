@@ -1,5 +1,11 @@
 # @ebay/muse-dashboard
 
+## 1.1.2
+
+### Patch Changes
+
+- upgrade craco config
+
 ## 1.1.1
 
 ### Patch Changes
