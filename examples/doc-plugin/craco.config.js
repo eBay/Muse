@@ -1,9 +1,13 @@
-const MuseCracoPlugin = require('@ebay/muse-craco-plugin');
 const CracoLessPlugin = require('craco-less');
+const MuseCracoPlugin = require('@ebay/muse-craco-plugin');
+const MuseEbayCracoPlugin = require('@ebay/muse-ebay-craco-plugin');
 
 module.exports = () => {
   return {
-    // NOTE: craco less plugin should be before muse craco plugin
-    plugins: [{ plugin: CracoLessPlugin }, { plugin: MuseCracoPlugin }],
+    plugins: [
+      { plugin: CracoLessPlugin },
+      { plugin: MuseCracoPlugin },
+      { plugin: MuseEbayCracoPlugin },
+    ],
   };
 };
