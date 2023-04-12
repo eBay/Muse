@@ -3,10 +3,10 @@ import _ from 'lodash';
 import './PluginBadges.less';
 
 const PluginBadges = ({ app, plugin }) => {
-  if (!app || !plugin) return null;
+  if (!plugin) return null;
 
   const nodes = [];
-  if (app.pluginConfig?.[plugin.name]?.core || plugin.type !== 'normal') {
+  if ((app && app.pluginConfig?.[plugin.name]?.core) || plugin.type !== 'normal') {
     nodes.push({
       order: 10,
       node: (
@@ -21,7 +21,7 @@ const PluginBadges = ({ app, plugin }) => {
     });
   }
 
-  if (!_.isEmpty(app.pluginConfig?.[plugin.name]?.allowlist)) {
+  if (app && !_.isEmpty(app.pluginConfig?.[plugin.name]?.allowlist)) {
     nodes.push({
       order: 20,
       node: (
