@@ -1,6 +1,6 @@
 {
   "name": "@ebay/muse-manager",
-  "version": "1.1.13",
+  "version": "1.1.14",
   "private": false,
   "muse": {
     "devConfig": {
@@ -23,13 +23,14 @@
   ],
   "devDependencies": {
     "@changesets/cli": "^2.23.2",
-    "@craco/craco": "^7.0.0",
+    "@craco/craco": "7.0.0",
     "@ebay/muse-core": "^1.0.30",
     "@ebay/muse-cra-patch": "^1.0.1",
-    "@ebay/muse-craco-plugin": "^3.0.7",
-    "@ebay/muse-dev-utils": "^1.0.35",
-    "@ebay/muse-ebay-dev": "^1.0.9",
-    "@ebay/muse-express-middleware": "^1.0.33",
+    "@ebay/muse-craco-plugin": "^3.0.8",
+    "@ebay/muse-dev-utils": "^1.0.36",
+    "@ebay/muse-ebay-craco-plugin": "^1.1.0",
+    "@ebay/muse-ebay-dev": "^1.0.11",
+    "@ebay/muse-express-middleware": "^1.0.34",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
@@ -40,14 +41,13 @@
     "postcss": "^8.4.16",
     "react-scripts": "^5.0.1",
     "tailwindcss": "^3.1.8",
-    "vite": "^3.2.4",
-    "webpack-bundle-analyzer": "^4.8.0"
+    "vite": "^3.2.4"
   },
   "dependencies": {
     "@ebay/muse-client": "^1.0.22",
-    "@ebay/muse-lib-antd": "^1.2.3",
-    "@ebay/muse-lib-react": "^1.2.8",
-    "@ebay/muse-plugin-acl": "^1.0.9",
+    "@ebay/muse-lib-antd": "^1.2.4",
+    "@ebay/muse-lib-react": "^1.2.9",
+    "@ebay/muse-plugin-acl": "^1.0.10",
     "@tanstack/react-query": "^4.28.0",
     "echarts": "^5.4.1",
     "echarts-for-react": "^3.0.2",
