@@ -6,7 +6,7 @@ const PluginBadges = ({ app, plugin }) => {
   if (!plugin) return null;
 
   const nodes = [];
-  if ((app && app.pluginConfig?.[plugin.name]?.core) || plugin.type !== 'normal') {
+  if (app && (app.pluginConfig?.[plugin.name]?.core || plugin.type !== 'normal')) {
     nodes.push({
       order: 10,
       node: (
