@@ -1,5 +1,11 @@
 # @ebay/muse-craco-plugin
 
+## 3.0.9
+
+### Patch Changes
+
+- add cobertura to default jest coverage reporters
+
 ## 3.0.8
 
 ### Patch Changes
