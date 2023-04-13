@@ -6,7 +6,6 @@ import { DeleteOutlined } from '@ant-design/icons';
 import ReactMarkdown from 'react-markdown';
 import { RequestStatus, DropdownMenu } from '@ebay/muse-lib-antd/src/features/common';
 import { useAbility, useMuseData, useMuseMutate, useSyncStatus } from '../../hooks';
-import ReleaseDurationTrend from './ReleaseDurationTrend';
 import { extendArray } from '@ebay/muse-lib-antd/src/utils';
 
 const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
@@ -143,6 +142,26 @@ const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
     },
   ];
 
+  const sections = [
+    {
+      key: 'releaseList',
+      order: 50,
+      render: () => (
+        <Table
+          rowKey={'version'}
+          dataSource={releases}
+          columns={columns}
+          expandedRowRender={renderBody}
+          rowExpandable={(item) => item.description}
+          pagination={{
+            showTotal: (total) => `Total ${total} items`,
+            pageSize: 100,
+          }}
+        />
+      ),
+    },
+  ];
+
   const renderBody = useCallback(
     (item) => (
       <div className="markdown-wrapper">
@@ -153,23 +172,20 @@ const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
   );
 
   extendArray(columns, 'columns', 'museManager.pm.releaseList', { plugin, app, releases });
+  extendArray(sections, 'sections', 'museManager.pm.releaseList', { plugin, app, releases });
 
   return (
     <Drawer {...antdDrawerV5(modal)} title={`Releases of ${plugin.name}`} width="1200px">
       <RequestStatus loading={isLoading} error={error} loadingMode="skeleton" />
-      {!isLoading && (
-        <>
-          <ReleaseDurationTrend plugin={plugin} />
-          <Table
-            rowKey={'version'}
-            dataSource={releases}
-            pagination={false}
-            columns={columns}
-            expandedRowRender={renderBody}
-            rowExpandable={(item) => item.description}
-          />
-        </>
-      )}
+      {!isLoading &&
+        sections.map(({ title, render, key, ...props }) => {
+          return (
+            <section key={key} {...props}>
+              {title ? <h3>{title}</h3> : null}
+              {typeof render === 'function' ? render() : null}
+            </section>
+          );
+        })}
     </Drawer>
   );
 });
