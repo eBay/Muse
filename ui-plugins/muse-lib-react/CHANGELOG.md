@@ -1,5 +1,11 @@
 # @ebay/muse-lib-react
 
+## 1.2.7
+
+### Patch Changes
+
+- update craco config
+
 ## 1.1.5
 
 ### Patch Changes

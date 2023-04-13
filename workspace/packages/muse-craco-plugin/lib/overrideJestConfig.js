@@ -55,7 +55,17 @@ module.exports = ({
         : [...jestConfig.setupFilesAfterEnv, defaultSetupAfterEnvPath]
       : [defaultSetupAfterEnvPath];
 
-  // #3 optionally show Jest configuration for debugging purposes, if the plugin option "showJestConfig" gets passed along
+  // #3 add "cobertura" coverage report if not configured already
+  if (
+    jestConfig.coverageReporters?.length > 0 &&
+    !jestConfig.coverageReporters.includes('cobertura')
+  ) {
+    jestConfig.coverageReporters.push('cobertura');
+  } else {
+    jestConfig.coverageReporters = ['clover', 'json', 'lcov', 'text', 'cobertura'];
+  }
+
+  // #4 optionally show Jest configuration for debugging purposes, if the plugin option "showJestConfig" gets passed along
   if (pluginOptions?.showJestConfig) {
     console.log(JSON.stringify(jestConfig, null, 4));
   }

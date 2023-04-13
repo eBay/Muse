@@ -1,5 +1,11 @@
 # @ebay/muse-manager
 
+## 1.1.14
+
+### Patch Changes
+
+- upgrade craco config
+
 ## 1.1.13
 
 ### Patch Changes
