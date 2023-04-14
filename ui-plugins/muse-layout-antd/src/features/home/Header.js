@@ -45,6 +45,7 @@ export default function Header() {
   function getDynamicThemeSwitch() {
     const handleSwitchThemeClick = () => {
       setIsDarkMode(!isDarkMode);
+      localStorage.setItem('muse-layout-antd.theme.dark', !isDarkMode ? 'true' : 'false');
     };
 
     return {
@@ -53,10 +54,12 @@ export default function Header() {
       position: 'right',
       order: 9999998,
       render: () => {
-        <DynamicThemeIcon
-          onClick={handleSwitchThemeClick}
-          title={`Swith between dark / light themes`}
-        />;
+        return (
+          <DynamicThemeIcon
+            onClick={handleSwitchThemeClick}
+            title={`Swith between dark / light themes`}
+          />
+        );
       },
     };
   }
@@ -96,6 +99,8 @@ export default function Header() {
     !plugin.getPlugin('@ebay/muse-lib-cc')
   ) {
     realHeaderItems.push(getUserMenuItem());
+    realHeaderItems.push(getDynamicThemeSwitch());
+  } else {
     realHeaderItems.push(getDynamicThemeSwitch());
   }
 

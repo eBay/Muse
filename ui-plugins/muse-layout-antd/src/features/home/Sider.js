@@ -3,10 +3,11 @@ import { Drawer } from 'antd';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import plugin from 'js-plugin';
 import { MetaMenu } from '@ebay/muse-lib-antd/src/features/common';
-import { useSetSiderCollapsed } from './redux/hooks';
+import { useSetSiderCollapsed, useSetIsDarkMode } from './redux/hooks';
 
 export default function Sider() {
   let { siderCollapsed, setSiderCollapsed } = useSetSiderCollapsed();
+  const { isDarkMode } = useSetIsDarkMode();
   const siderConfig = {
     mode: 'collapsable',
     homeMenu: true,
@@ -46,7 +47,7 @@ export default function Sider() {
     menuProps: siderConfig.menuProps || {},
     autoActive: true,
     mode: 'inline',
-    theme: siderConfig.theme || 'light',
+    theme: siderConfig.theme || isDarkMode ? 'dark' : 'light',
     collapsed:
       siderConfig.mode === 'collapsed' ||
       (siderConfig.mode === 'collapsable' ? siderCollapsed : false),
@@ -81,7 +82,7 @@ export default function Sider() {
   const ele = (
     <div
       className={`muse-layout_home-sider ${
-        meta.theme === 'dark' ? 'muse-layout_home-sider-dark' : ''
+        meta.theme === 'dark' || isDarkMode ? 'muse-layout_home-sider-dark' : ''
       }`}
       style={style}
     >
