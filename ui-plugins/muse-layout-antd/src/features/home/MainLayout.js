@@ -2,13 +2,18 @@ import React from 'react';
 import { Header, Sider } from './';
 import plugin from 'js-plugin';
 import { ErrorBoundary } from '@ebay/muse-lib-react/src/features/common';
-import { useSetSiderCollapsed, useUpdateMuseLayout } from './redux/hooks';
+import { useSetSiderCollapsed, useUpdateMuseLayout, useSetIsDarkMode } from './redux/hooks';
+import { ConfigProvider, theme } from 'antd';
+
+const { defaultAlgorithm, darkAlgorithm } = theme;
 
 export default function MainLayout({ children }) {
   const siderConfig = plugin.invoke('museLayout.sider.getConfig')[0] || {
     mode: 'collapsable',
   };
   let { siderCollapsed } = useSetSiderCollapsed();
+  const { isDarkMode } = useSetIsDarkMode();
+
   if (siderCollapsed === null) {
     if (typeof siderConfig.siderDefaultCollapsed !== 'undefined') {
       siderCollapsed = !!siderConfig.siderDefaultCollapsed;
@@ -34,12 +39,21 @@ export default function MainLayout({ children }) {
   }
 
   return (
-    <div className={`muse-layout_home-main-layout ${noHeader ? 'no-muse-layout-header ' : ''}`}>
-      {!noHeader && <Header />}
-      <Sider />
-      <div className="muse-layout_home-main-layout-page-container" style={pageContainerStyle}>
-        <ErrorBoundary>{children}</ErrorBoundary>
+    <ConfigProvider
+      theme={{
+        algorithm: isDarkMode ? darkAlgorithm : defaultAlgorithm,
+        token: {
+          borderRadius: 0,
+        },
+      }}
+    >
+      <div className={`muse-layout_home-main-layout ${noHeader ? 'no-muse-layout-header ' : ''}`}>
+        {!noHeader && <Header />}
+        <Sider />
+        <div className="muse-layout_home-main-layout-page-container" style={pageContainerStyle}>
+          <ErrorBoundary>{children}</ErrorBoundary>
+        </div>
       </div>
-    </div>
+    </ConfigProvider>
   );
 }

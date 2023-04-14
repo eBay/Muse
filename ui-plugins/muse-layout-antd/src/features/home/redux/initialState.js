@@ -17,6 +17,11 @@ if (persistedSiderCollapsed === 'true') {
 
 const initialState = {
   siderCollapsed,
+  isDarkMode: localStorage.getItem('muse-layout-antd.theme.dark')
+    ? localStorage.getItem('muse-layout-antd.theme.dark') === 'false'
+      ? false
+      : true
+    : false,
   // siderDrawerVisible: false,
   layoutConfig: {
     // headerColor: '#039be5',

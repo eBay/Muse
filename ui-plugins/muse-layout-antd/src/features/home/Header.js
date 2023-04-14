@@ -4,7 +4,8 @@ import { Modal } from 'antd';
 import _ from 'lodash';
 import plugin from 'js-plugin';
 import { HeaderItem } from './';
-import { useSetSiderCollapsed } from './redux/hooks';
+import { useSetSiderCollapsed, useSetIsDarkMode } from './redux/hooks';
+import { DynamicThemeIcon } from './';
 import museIcon from '../../images/muse.png';
 
 function getUserMenuItem() {
@@ -39,6 +40,27 @@ function getUserMenuItem() {
 }
 
 export default function Header() {
+  const { setIsDarkMode, isDarkMode } = useSetIsDarkMode();
+
+  function getDynamicThemeSwitch() {
+    const handleSwitchThemeClick = () => {
+      setIsDarkMode(!isDarkMode);
+    };
+
+    return {
+      key: 'switch-theme',
+      type: 'switch',
+      position: 'right',
+      order: 9999998,
+      render: () => {
+        <DynamicThemeIcon
+          onClick={handleSwitchThemeClick}
+          title={`Swith between dark / light themes`}
+        />;
+      },
+    };
+  }
+
   const headerConfig = plugin.invoke('museLayout.header.getConfig')[0] || {
     backgroundColor: '#039be5',
     icon: museIcon,
@@ -74,6 +96,7 @@ export default function Header() {
     !plugin.getPlugin('@ebay/muse-lib-cc')
   ) {
     realHeaderItems.push(getUserMenuItem());
+    realHeaderItems.push(getDynamicThemeSwitch());
   }
 
   // Support set parent menu item, allow to set parentMenu to add menu items to header

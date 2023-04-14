@@ -10,11 +10,13 @@ import initialState from './initialState';
 import { reducer as setSiderCollapsedReducer } from './setSiderCollapsed';
 import { reducer as setLayoutConfigReducer } from './setLayoutConfig';
 import { reducer as updateMuseLayoutReducer } from './updateMuseLayout';
+import { reducer as setIsDarkModeReducer } from './setIsDarkMode';
 
 const reducers = [
   setSiderCollapsedReducer,
   setLayoutConfigReducer,
   updateMuseLayoutReducer,
+  setIsDarkModeReducer,
 ];
 
 export default function reducer(state = initialState, action) {
