@@ -58,6 +58,8 @@ export default function Header() {
           <DynamicThemeIcon
             onClick={handleSwitchThemeClick}
             title={`Swith between dark / light themes`}
+            className="header-switch-theme"
+            style={{ fill: isDarkMode ? 'black' : 'white' }}
           />
         );
       },
