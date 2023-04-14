@@ -46,6 +46,11 @@ export default function Header() {
     const handleSwitchThemeClick = () => {
       setIsDarkMode(!isDarkMode);
       localStorage.setItem('muse-layout-antd.theme.dark', !isDarkMode ? 'true' : 'false');
+      if (!isDarkMode) {
+        document.body.classList.add('muse-theme-dark');
+      } else {
+        document.body.classList.remove('muse-theme-dark');
+      }
     };
 
     return {
