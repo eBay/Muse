@@ -5,9 +5,8 @@ import { ErrorBoundary } from '@ebay/muse-lib-react/src/features/common';
 import { useSetSiderCollapsed, useUpdateMuseLayout, useSetIsDarkMode } from './redux/hooks';
 import { ConfigProvider, theme } from 'antd';
 
-const { defaultAlgorithm, darkAlgorithm } = theme;
-
 export default function MainLayout({ children }) {
+  const { defaultAlgorithm, darkAlgorithm } = theme;
   const siderConfig = plugin.invoke('museLayout.sider.getConfig')[0] || {
     mode: 'collapsable',
   };
