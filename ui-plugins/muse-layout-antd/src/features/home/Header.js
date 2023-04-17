@@ -45,7 +45,8 @@ export default function Header() {
   function getDynamicThemeSwitch() {
     const handleSwitchThemeClick = () => {
       setIsDarkMode(!isDarkMode);
-      localStorage.setItem('muse-layout-antd.theme.dark', !isDarkMode ? 'true' : 'false');
+      // set localStorage on hook itself, so it can be fully reused on any plugin
+      //localStorage.setItem('muse-layout-antd.theme.dark', !isDarkMode ? 'true' : 'false');
       if (!isDarkMode && !document.body.classList.contains('muse-theme-dark')) {
         document.body.classList.add('muse-theme-dark');
       } else {

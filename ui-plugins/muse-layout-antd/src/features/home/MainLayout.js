@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Header, Sider } from './';
 import plugin from 'js-plugin';
 import { ErrorBoundary } from '@ebay/muse-lib-react/src/features/common';
@@ -36,6 +36,14 @@ export default function MainLayout({ children }) {
   if (['drawer', 'none'].includes(siderConfig.mode)) {
     pageContainerStyle.marginLeft = 0;
   }
+
+  useEffect(() => {
+    if (isDarkMode && !document.body.classList.contains('muse-theme-dark')) {
+      document.body.classList.add('muse-theme-dark');
+    } else if (!isDarkMode) {
+      document.body.classList.remove('muse-theme-dark');
+    }
+  }, [isDarkMode]);
 
   return (
     <ConfigProvider
