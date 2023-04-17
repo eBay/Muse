@@ -47,7 +47,7 @@ export default function Sider() {
     menuProps: siderConfig.menuProps || {},
     autoActive: true,
     mode: 'inline',
-    theme: siderConfig.theme || isDarkMode ? 'dark' : 'light',
+    theme: isDarkMode ? 'dark' : 'light',
     collapsed:
       siderConfig.mode === 'collapsed' ||
       (siderConfig.mode === 'collapsable' ? siderCollapsed : false),
@@ -81,9 +81,7 @@ export default function Sider() {
 
   const ele = (
     <div
-      className={`muse-layout_home-sider ${
-        meta.theme === 'dark' || isDarkMode ? 'muse-layout_home-sider-dark' : ''
-      }`}
+      className={`muse-layout_home-sider ${isDarkMode ? 'muse-layout_home-sider-dark' : ''}`}
       style={style}
     >
       <div className="sider-menu-wrapper" style={wrapperStyle}>
