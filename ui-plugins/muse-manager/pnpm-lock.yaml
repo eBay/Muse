@@ -64,8 +64,8 @@ devDependencies:
     specifier: ^1.0.1
     version: 1.0.1
   '@ebay/muse-craco-plugin':
-    specifier: ^3.0.8
-    version: 3.0.8(@craco/craco@7.0.0)(@ebay/muse-core@1.0.30)(express@4.18.2)
+    specifier: ^3.0.9
+    version: 3.0.9(@craco/craco@7.0.0)(@ebay/muse-core@1.0.30)(express@4.18.2)
   '@ebay/muse-dev-utils':
     specifier: ^1.0.36
     version: 1.0.36(@ebay/muse-core@1.0.30)(express@4.18.2)
@@ -2011,8 +2011,8 @@ packages:
       resolve-cwd: 3.0.0
     dev: true
 
-  /@ebay/muse-craco-plugin@3.0.8(@craco/craco@7.0.0)(@ebay/muse-core@1.0.30)(express@4.18.2):
-    resolution: {integrity: sha1-eReLtjrEAgWaPV8lkJuz2qm3kZk=, tarball: https://npm.corp.ebay.com/@ebay/muse-craco-plugin/-/@ebay/muse-craco-plugin-3.0.8.tgz}
+  /@ebay/muse-craco-plugin@3.0.9(@craco/craco@7.0.0)(@ebay/muse-core@1.0.30)(express@4.18.2):
+    resolution: {integrity: sha1-iSDQ4+WN7UmU/6f0oPlmZoYMUKQ=, tarball: https://npm.corp.ebay.com/@ebay/muse-craco-plugin/-/@ebay/muse-craco-plugin-3.0.9.tgz}
     peerDependencies:
       '@craco/craco': 7.0.0
     dependencies:
