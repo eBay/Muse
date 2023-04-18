@@ -19,7 +19,9 @@ export default function MainLayout({ children }) {
 
   const headerConfig = plugin.invoke('museLayout.header.getConfig')[0] || {};
 
-  const noHeader = headerConfig.mode === 'none';
+  const noHeader =
+    headerConfig.mode === 'none' ||
+    (headerConfig?.mode !== 'show-in-sub-app' && window.MUSE_GLOBAL.isSubApp);
   // Used to force update muse layout
   const { seed } = useUpdateMuseLayout(); // eslint-disable-line
   const pageContainerStyle = {
