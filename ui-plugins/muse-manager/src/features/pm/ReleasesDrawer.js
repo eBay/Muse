@@ -5,12 +5,16 @@ import { Drawer, Table, Tag, Popconfirm, Modal, Button, message } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
 import ReactMarkdown from 'react-markdown';
 import { RequestStatus, DropdownMenu } from '@ebay/muse-lib-antd/src/features/common';
-import { useAbility, useMuseData, useMuseMutate, useSyncStatus } from '../../hooks';
+import { useAbility, usePollingMuseData, useMuseMutate, useSyncStatus } from '../../hooks';
 import { extendArray } from '@ebay/muse-lib-antd/src/utils';
 
 const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
   const modal = useModal();
-  const { data: releases, isLoading, error } = useMuseData(`muse.plugin-releases.${plugin.name}`);
+  const {
+    data: releases,
+    isLoading,
+    error,
+  } = usePollingMuseData(`muse.plugin-releases.${plugin.name}`);
   const deployedVersion = app
     ? Object.values(app.envs || {}).reduce((p, c) => {
         const found = c.plugins?.find((a) => a.name === plugin.name);

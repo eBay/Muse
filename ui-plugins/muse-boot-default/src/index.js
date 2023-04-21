@@ -33,7 +33,7 @@ async function start() {
     msgEngine,
     loading,
     error,
-    // isSubApp: window.parent !== window,
+    isSubApp: window.parent !== window,
     getUser: () => null,
     appEntries: [], // entries to start the app
     initEntries: [], // entries from init plugins

@@ -45,7 +45,7 @@ const museLayout = {
   sider: {
     getConfig() {
       return {
-        mode: 'collapsable', // fixed | drawer | collapsable | collapsed | none
+        mode: window.MUSE_GLOBAL.isSubApp ? 'none' : 'collapsable', // fixed | drawer | collapsable | collapsed | none
         siderDefaultCollapsed: true,
         homeMenu: true,
         theme: 'light', // dark | light
