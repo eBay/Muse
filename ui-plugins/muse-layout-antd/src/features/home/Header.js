@@ -4,7 +4,7 @@ import { Modal } from 'antd';
 import _ from 'lodash';
 import plugin from 'js-plugin';
 import { HeaderItem } from './';
-import { useSetSiderCollapsed, useSetIsDarkMode } from './redux/hooks';
+import { useSetIsDarkMode } from './redux/hooks';
 import { DynamicThemeIcon } from './';
 import museIcon from '../../images/muse.png';
 
@@ -45,13 +45,6 @@ export default function Header() {
   function getDynamicThemeSwitch() {
     const handleSwitchThemeClick = () => {
       setIsDarkMode(!isDarkMode);
-      // set localStorage on hook itself, so it can be fully reused on any plugin
-      //localStorage.setItem('muse-layout-antd.theme.dark', !isDarkMode ? 'true' : 'false');
-      if (!isDarkMode && !document.body.classList.contains('muse-theme-dark')) {
-        document.body.classList.add('muse-theme-dark');
-      } else {
-        document.body.classList.remove('muse-theme-dark');
-      }
     };
 
     return {
@@ -80,18 +73,7 @@ export default function Header() {
     subTitle: 'Build UI apps with ease!',
   };
 
-  const siderConfig = plugin.invoke('museLayout.sider.getConfig')[0] || {
-    mode: 'collapsable',
-  };
   const navigate = useNavigate();
-  let { siderCollapsed, setSiderCollapsed } = useSetSiderCollapsed();
-  if (siderCollapsed === null) {
-    if (typeof siderConfig.siderDefaultCollapsed !== 'undefined') {
-      siderCollapsed = !!siderConfig.siderDefaultCollapsed;
-    } else {
-      siderCollapsed = true;
-    }
-  }
   const headerItems = [];
 
   let realHeaderItems = [
@@ -112,25 +94,6 @@ export default function Header() {
     realHeaderItems.push(getDynamicThemeSwitch());
   }
 
-  // Support set parent menu item, allow to set parentMenu to add menu items to header
-  // const parentItems = _.groupBy(realHeaderItems.filter(item => !!item.parentMenu), 'parentMenu');
-  // realHeaderItems = realHeaderItems
-  //   .filter(item => !item.parentMenu)
-  //   .map(item => {
-  //     if (item.type === 'menu' && item.menuMeta && item.menuMeta.items && parentItems[item.key]) {
-  //       return {
-  //         ...item,
-  //         menuMeta: {
-  //           ...item.menuMeta,
-  //           items: [...item.menuMeta.items, ...parentItems[item.key]],
-  //         },
-  //       };
-  //       return item;
-  //     } else {
-  //       return item;
-  //     }
-  //   });
-
   plugin.sort(realHeaderItems);
   plugin.invoke('museLayout.header.processItems', realHeaderItems);
 
@@ -150,16 +113,6 @@ export default function Header() {
     navigate('/');
   }, [navigate]);
 
-  const handleHeaderClick = useCallback(() => {
-    if (siderConfig.mode === 'drawer' && !siderCollapsed) {
-      setSiderCollapsed(true);
-    }
-  }, [siderConfig.mode, siderCollapsed, setSiderCollapsed]);
-
-  const handleToggleSiderCollapsed = useCallback(() => {
-    setSiderCollapsed(!siderCollapsed);
-  }, [siderCollapsed, setSiderCollapsed]);
-
   const headerStyle = {};
   if (headerConfig.backgroundColor) headerStyle.backgroundColor = headerConfig.backgroundColor;
 
@@ -173,16 +126,7 @@ export default function Header() {
   }
   const noTitle = !headerConfig.title && !headerConfig.icon;
   return (
-    <div className="muse-layout_home-header" style={headerStyle} onClick={handleHeaderClick}>
-      {siderConfig.mode === 'drawer' && (
-        <HeaderItem
-          meta={{
-            icon: 'MenuOutlined',
-            className: 'header-item-menu header-item-toggle-drawer',
-            onClick: handleToggleSiderCollapsed,
-          }}
-        />
-      )}
+    <>
       {!noTitle && (
         <span className="header-item header-item-title">
           {headerConfig.icon && <img src={headerConfig.icon} alt="" onClick={gotoHome} />}
@@ -199,6 +143,6 @@ export default function Header() {
         </div>
       )}
       {renderItems(rightItems)}
-    </div>
+    </>
   );
 }

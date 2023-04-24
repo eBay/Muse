@@ -1,49 +1,20 @@
-import React, { useEffect } from 'react';
-import { Header, Sider } from './';
+import React from 'react';
+import { Header as HeaderLayout, Sider as SiderLayout } from './';
 import plugin from 'js-plugin';
 import { ErrorBoundary } from '@ebay/muse-lib-react/src/features/common';
 import { useSetSiderCollapsed, useUpdateMuseLayout, useSetIsDarkMode } from './redux/hooks';
-import { ConfigProvider, theme } from 'antd';
+import { ConfigProvider, Layout, theme, Card } from 'antd';
+
+const { Header, Content, Sider } = Layout;
 
 export default function MainLayout({ children }) {
   const { defaultAlgorithm, darkAlgorithm } = theme;
-  const siderConfig = plugin.invoke('museLayout.sider.getConfig')[0] || {
-    mode: 'collapsable',
-  };
-  let { siderCollapsed } = useSetSiderCollapsed();
+  const { siderCollapsed, setSiderCollapsed } = useSetSiderCollapsed();
   const { isDarkMode } = useSetIsDarkMode();
-
-  if (siderCollapsed === null) {
-    if (typeof siderConfig.siderDefaultCollapsed !== 'undefined') {
-      siderCollapsed = !!siderConfig.siderDefaultCollapsed;
-    } else {
-      siderCollapsed = true;
-    }
-  }
-
   const headerConfig = plugin.invoke('museLayout.header.getConfig')[0] || {};
-
   const noHeader = headerConfig.mode === 'none';
   // Used to force update muse layout
   const { seed } = useUpdateMuseLayout(); // eslint-disable-line
-  const pageContainerStyle = {
-    marginLeft: siderConfig.width || 250,
-  };
-
-  if ((siderCollapsed && siderConfig.mode === 'collapsable') || siderConfig.mode === 'collapsed') {
-    pageContainerStyle.marginLeft = 60;
-  }
-  if (['drawer', 'none'].includes(siderConfig.mode)) {
-    pageContainerStyle.marginLeft = 0;
-  }
-
-  useEffect(() => {
-    if (isDarkMode && !document.body.classList.contains('muse-theme-dark')) {
-      document.body.classList.add('muse-theme-dark');
-    } else if (!isDarkMode) {
-      document.body.classList.remove('muse-theme-dark');
-    }
-  }, [isDarkMode]);
 
   return (
     <ConfigProvider
@@ -54,13 +25,41 @@ export default function MainLayout({ children }) {
         },
       }}
     >
-      <div className={`muse-layout_home-main-layout ${noHeader ? 'no-muse-layout-header ' : ''}`}>
-        {!noHeader && <Header />}
-        <Sider />
-        <div className="muse-layout_home-main-layout-page-container" style={pageContainerStyle}>
-          <ErrorBoundary>{children}</ErrorBoundary>
-        </div>
-      </div>
+      <Layout
+        style={{
+          minHeight: '100vh',
+        }}
+      >
+        {!noHeader && (
+          <Header>
+            <HeaderLayout />
+          </Header>
+        )}
+        <Layout hasSider={true}>
+          <Sider
+            collapsible
+            collapsed={siderCollapsed}
+            onCollapse={(value) => setSiderCollapsed(value)}
+            collapsedWidth={60}
+            width={200}
+            theme={isDarkMode ? 'dark' : 'light'}
+          >
+            <SiderLayout />
+          </Sider>
+          <Layout>
+            <Content
+              style={{
+                margin: 0,
+                padding: 0,
+              }}
+            >
+              <ErrorBoundary>
+                <Card style={{ width: '100%', height: '100%' }}>{children}</Card>
+              </ErrorBoundary>
+            </Content>
+          </Layout>
+        </Layout>
+      </Layout>
     </ConfigProvider>
   );
 }
