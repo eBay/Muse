@@ -58,7 +58,7 @@ export default function MainLayout({ children }) {
           <Layout
             className="muse-layout-content-wrapper"
             style={{
-              marginLeft: siderCollapsed ? 0 : 200,
+              marginLeft: siderCollapsed ? 60 : 200,
             }}
           >
             <Content className="muse-layout-content">
