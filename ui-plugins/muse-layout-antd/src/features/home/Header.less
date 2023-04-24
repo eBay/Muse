@@ -1,10 +1,10 @@
 @import '../../styles/mixins';
 
-.ant-layout-header {  
+.ant-layout-header {
   z-index: 10 !important;
   height: 50px !important;
   line-height: 50px !important;
-  background-color: #039be5 !important;
+  background-color: rgb(55, 71, 79) !important;
   width: 100% !important;
   top: 0 !important;
   left: 0 !important;
@@ -103,4 +103,8 @@
     display: grid;
     place-items: center;
   }
+}
+
+[data-theme='dark'] .ant-layout-header {
+  background-color: #2d2e2e !important;
 }

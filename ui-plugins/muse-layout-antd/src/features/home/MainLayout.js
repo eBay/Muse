@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Header as HeaderLayout, Sider as SiderLayout } from './';
 import plugin from 'js-plugin';
 import { ErrorBoundary } from '@ebay/muse-lib-react/src/features/common';
@@ -15,6 +15,14 @@ export default function MainLayout({ children }) {
   const noHeader = headerConfig.mode === 'none';
   // Used to force update muse layout
   const { seed } = useUpdateMuseLayout(); // eslint-disable-line
+
+  useEffect(() => {
+    if (isDarkMode) {
+      document.body.setAttribute('data-theme', 'dark');
+    } else {
+      document.body.setAttribute('data-theme', 'light');
+    }
+  }, [isDarkMode]);
 
   return (
     <ConfigProvider
