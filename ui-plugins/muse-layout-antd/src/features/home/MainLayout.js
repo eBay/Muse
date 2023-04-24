@@ -51,16 +51,12 @@ export default function MainLayout({ children }) {
             collapsedWidth={60}
             width={200}
             theme={isDarkMode ? 'dark' : 'light'}
+            className="muse-layout-sider"
           >
             <SiderLayout />
           </Sider>
           <Layout>
-            <Content
-              style={{
-                margin: 0,
-                padding: 0,
-              }}
-            >
+            <Content className="muse-layout-content">
               <ErrorBoundary>
                 <Card style={{ width: '100%', height: '100%' }}>{children}</Card>
               </ErrorBoundary>
