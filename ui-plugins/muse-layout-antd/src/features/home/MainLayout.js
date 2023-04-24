@@ -55,10 +55,15 @@ export default function MainLayout({ children }) {
           >
             <SiderLayout />
           </Sider>
-          <Layout>
+          <Layout
+            className="muse-layout-content-wrapper"
+            style={{
+              marginLeft: siderCollapsed ? 0 : 200,
+            }}
+          >
             <Content className="muse-layout-content">
               <ErrorBoundary>
-                <Card style={{ width: '100%', height: '100%' }}>{children}</Card>
+                <Card className="muse-content-card">{children}</Card>
               </ErrorBoundary>
             </Content>
           </Layout>

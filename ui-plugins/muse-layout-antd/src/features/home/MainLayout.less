@@ -1,7 +1,17 @@
 @import '../../styles/mixins';
 
+.muse-layout-content-wrapper {
+  transition: all 0.2s;
+}
+
 .muse-layout-content {
   margin: 0;
   padding: 0;
-  padding-top: @header-height;
+  margin-top: @header-height;
+
+  .muse-content-card {
+    width: 100%;
+    height: 100%;
+    border-width: 0px;
+  }
 }

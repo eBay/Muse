@@ -1,8 +1,12 @@
 @import '../../styles/mixins';
 
 .muse-layout-sider {
-  padding-top: @header-height;
-  left: 50;
+  top: @header-height !important;
+  overflow: auto !important;
+  position: fixed !important;
+  left: 0px !important;
+  bottom: 0px !important;
+  z-index: 1;
 
   .muse-antd_common-meta-menu {
     padding-top: 0px !important;
