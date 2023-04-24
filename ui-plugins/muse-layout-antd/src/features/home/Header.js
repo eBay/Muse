@@ -58,7 +58,7 @@ export default function Header() {
             onClick={handleSwitchThemeClick}
             title={`Swith between dark / light themes`}
             className="header-switch-theme"
-            style={{ fill: isDarkMode ? 'black' : 'white' }}
+            style={{ fill: isDarkMode ? 'white' : 'white' }}
           />
         );
       },
