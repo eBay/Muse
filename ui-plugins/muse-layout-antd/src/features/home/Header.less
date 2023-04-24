@@ -1,9 +1,10 @@
 @import '../../styles/mixins';
 
 .ant-layout-header {
+  position: fixed;
   z-index: 10 !important;
-  height: 50px !important;
-  line-height: 50px !important;
+  height: @header-height !important;
+  line-height: @header-height !important;
   background-color: rgb(55, 71, 79) !important;
   width: 100% !important;
   top: 0 !important;
@@ -19,7 +20,7 @@
   }
 
   .header-item {
-    line-height: 50px;
+    line-height: @header-height;
     display: inline-block;
     padding: 0 12px;
     position: relative;
