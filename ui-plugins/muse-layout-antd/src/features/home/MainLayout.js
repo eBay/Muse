@@ -21,8 +21,10 @@ export default function MainLayout({ children }) {
   useEffect(() => {
     if (isDarkMode) {
       document.body.setAttribute('data-theme', 'dark');
+      document.body.classList.add('muse-theme-dark');
     } else {
       document.body.setAttribute('data-theme', 'light');
+      document.body.classList.remove('muse-theme-dark');
     }
   }, [isDarkMode]);
 
