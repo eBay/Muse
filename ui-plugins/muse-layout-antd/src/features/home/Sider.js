@@ -42,10 +42,10 @@ export default function Sider({ siderConfig }) {
   if (siderConfig.mode === 'drawer') {
     return (
       <Drawer
-        mask={false}
+        mask={true}
         maskStyle={{ opacity: '0' }}
         bodyStyle={{ padding: '0' }}
-        contentWrapperStyle={{ top: '50px' }}
+        rootStyle={{ top: '50px' }}
         open={!siderCollapsed}
         closable={false}
         onClose={() => setSiderCollapsed(true)}
