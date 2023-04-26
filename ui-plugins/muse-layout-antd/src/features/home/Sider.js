@@ -1,17 +1,11 @@
 import React, { useRef } from 'react';
-import plugin from 'js-plugin';
+import { Drawer } from 'antd';
 import { MetaMenu } from '@ebay/muse-lib-antd/src/features/common';
 import { useSetSiderCollapsed, useSetIsDarkMode } from './redux/hooks';
 
-export default function Sider() {
+export default function Sider({ siderConfig }) {
   const { isDarkMode } = useSetIsDarkMode();
-  const { siderCollapsed } = useSetSiderCollapsed();
-
-  const siderConfig = {
-    mode: 'collapsable',
-    homeMenu: true,
-    ...(plugin.invoke('museLayout.sider.getConfig')[0] || {}),
-  };
+  const { siderCollapsed, setSiderCollapsed } = useSetSiderCollapsed();
 
   const ref = useRef(false);
   if (!ref.current) {
@@ -20,14 +14,19 @@ export default function Sider() {
     ref.current = true;
   }
 
+  if (siderConfig.mode === 'none') return null;
+
   const meta = {
     menuProps: siderConfig.menuProps || {},
     autoActive: true,
     mode: 'inline',
     theme: isDarkMode ? 'dark' : 'light',
-    collapsed: siderCollapsed,
+    collapsed:
+      siderConfig.mode === 'collapsed' ||
+      (siderConfig.mode === 'collapsable' ? siderCollapsed : false),
     items: [],
   };
+
   if (siderConfig.homeMenu) {
     meta.items.push({
       key: 'home',
@@ -39,5 +38,25 @@ export default function Sider() {
   }
 
   const ele = <MetaMenu meta={meta} baseExtPoint="museLayout.sider" />;
+
+  if (siderConfig.mode === 'drawer') {
+    return (
+      <Drawer
+        mask={false}
+        maskStyle={{ opacity: '0' }}
+        bodyStyle={{ padding: '0' }}
+        contentWrapperStyle={{ top: '50px' }}
+        open={!siderCollapsed}
+        closable={false}
+        onClose={() => setSiderCollapsed(true)}
+        placement="left"
+        width={siderConfig.width || 250}
+        className="muse-layout_side-drawer"
+      >
+        {ele}
+      </Drawer>
+    );
+  }
+
   return ele;
 }

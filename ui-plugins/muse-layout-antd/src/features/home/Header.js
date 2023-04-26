@@ -4,7 +4,7 @@ import { Modal } from 'antd';
 import _ from 'lodash';
 import plugin from 'js-plugin';
 import { HeaderItem } from './';
-import { useSetIsDarkMode } from './redux/hooks';
+import { useSetIsDarkMode, useSetSiderCollapsed } from './redux/hooks';
 import { DynamicThemeIcon } from './';
 import museIcon from '../../images/muse.png';
 
@@ -39,7 +39,7 @@ function getUserMenuItem() {
   };
 }
 
-export default function Header() {
+export default function Header({ siderConfig }) {
   const { setIsDarkMode, isDarkMode } = useSetIsDarkMode();
 
   function getDynamicThemeSwitch() {
@@ -74,6 +74,7 @@ export default function Header() {
   };
 
   const navigate = useNavigate();
+  const { siderCollapsed, setSiderCollapsed } = useSetSiderCollapsed();
   const headerItems = [];
 
   let realHeaderItems = [
@@ -113,6 +114,10 @@ export default function Header() {
     navigate('/');
   }, [navigate]);
 
+  const handleToggleSiderCollapsed = useCallback(() => {
+    setSiderCollapsed(!siderCollapsed);
+  }, [siderCollapsed, setSiderCollapsed]);
+
   const headerStyle = {};
   if (headerConfig.backgroundColor) headerStyle.backgroundColor = headerConfig.backgroundColor;
 
@@ -127,6 +132,15 @@ export default function Header() {
   const noTitle = !headerConfig.title && !headerConfig.icon;
   return (
     <>
+      {siderConfig.mode === 'drawer' && (
+        <HeaderItem
+          meta={{
+            icon: 'MenuOutlined',
+            className: 'header-item-menu header-item-toggle-drawer',
+            onClick: handleToggleSiderCollapsed,
+          }}
+        />
+      )}
       {!noTitle && (
         <span className="header-item header-item-title">
           {headerConfig.icon && <img src={headerConfig.icon} alt="" onClick={gotoHome} />}
