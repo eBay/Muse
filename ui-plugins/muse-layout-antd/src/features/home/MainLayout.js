@@ -57,22 +57,14 @@ export default function MainLayout({ children }) {
         )}
 
         {siderConfig.mode === 'drawer' && (
-          <Layout
-            className="muse-layout-content-wrapper"
-            style={{
-              marginLeft: 0,
-              height: '100%',
-            }}
-          >
+          <>
             <Content className="muse-layout-content">
               <ErrorBoundary>
-                <Card className="muse-content-card">
-                  <SiderLayout siderConfig={siderConfig} />
-                  {children}
-                </Card>
+                <SiderLayout siderConfig={siderConfig} />
+                <Card className="muse-content-card">{children}</Card>
               </ErrorBoundary>
             </Content>
-          </Layout>
+          </>
         )}
 
         {siderConfig.mode !== 'drawer' && (
