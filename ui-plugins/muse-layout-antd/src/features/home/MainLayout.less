@@ -4,6 +4,14 @@
   transition: all 0.2s;
 }
 
+.muse-layout-wrapper {
+  background-color: @light-background-color !important;
+}
+
+[data-theme='dark'] .muse-layout-wrapper {
+  background-color: @dark-background-color !important;
+}
+
 .muse-layout-content {
   margin: 0;
   padding: 0;
@@ -17,5 +25,12 @@
     width: 100%;
     height: 100%;
     border-width: 0px;
+    background-color: @light-background-color !important;
+  }
+}
+
+[data-theme='dark'] .muse-layout-content {
+  .muse-content-card {
+    background-color: @dark-background-color !important;
   }
 }

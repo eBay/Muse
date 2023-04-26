@@ -21,7 +21,7 @@ export default function MainLayout({ children }) {
   const { seed } = useUpdateMuseLayout(); // eslint-disable-line
 
   const siderConfig = {
-    mode: 'drawer',
+    mode: 'collapsable',
     homeMenu: true,
     ...(plugin.invoke('museLayout.sider.getConfig')[0] || {}),
   };
@@ -46,6 +46,7 @@ export default function MainLayout({ children }) {
       }}
     >
       <Layout
+        className="muse-layout-wrapper"
         style={{
           minHeight: '100vh',
         }}
