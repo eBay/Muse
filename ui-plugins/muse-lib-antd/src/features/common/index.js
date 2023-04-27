@@ -17,3 +17,4 @@ export { default as Icon } from './Icon';
 export { default as RequestStatus } from './RequestStatus';
 export { default as GlobalErrorBox } from './GlobalErrorBox';
 export { default as StatusLabel } from './StatusLabel';
+export { default as ConfigProviderWrapper } from './ConfigProviderWrapper';

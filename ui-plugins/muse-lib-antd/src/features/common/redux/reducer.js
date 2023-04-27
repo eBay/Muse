@@ -8,10 +8,9 @@
 
 import initialState from './initialState';
 import { reducer as setNiceModalVisibleReducer } from './setNiceModalVisible';
+import { reducer as setIsDarkModeReducer } from './setIsDarkMode';
 
-const reducers = [
-  setNiceModalVisibleReducer,
-];
+const reducers = [setNiceModalVisibleReducer, setIsDarkModeReducer];
 
 export default function reducer(state = initialState, action) {
   let newState;
