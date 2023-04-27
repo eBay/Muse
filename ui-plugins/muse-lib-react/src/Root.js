@@ -11,6 +11,7 @@ import routeConfig from './common/routeConfig';
 import history from './common/history';
 import SubAppContext from './features/sub-app/SubAppContext';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { extendArray } from './utils';
 
 // Create a client
 const queryClient = new QueryClient({
@@ -104,25 +105,25 @@ const routerMap = {
   memory: MemoryRouter,
 };
 
-const WrappingComponent = () => {
-  const children = renderRouteConfigV3(routeConfig(), '/');
-  const dispatch = useDispatch();
-  const modals = useSelector(s => s.modals);
-  const { routerType = 'browser', basePath } = window.MUSE_GLOBAL.getAppVariables() || {};
-  const Router = routerMap[routerType];
-  const routerProps = plugin.invoke('!routerProps')[0] || {};
+// const WrappingComponent = () => {
+//   const children = renderRouteConfigV3(routeConfig(), '/');
+//   const dispatch = useDispatch();
+//   const modals = useSelector(s => s.modals);
+//   const { routerType = 'browser', basePath } = window.MUSE_GLOBAL.getAppVariables() || {};
+//   const Router = routerMap[routerType];
+//   const routerProps = plugin.invoke('!routerProps')[0] || {};
 
-  if (routerType === 'browser') {
-    routerProps.navigator = history;
-  }
-  return (
-    <NiceModal.Provider dispatch={dispatch} modals={modals}>
-      <Router basename={basePath} {...routerProps}>
-        {renderChildren(<Routes>{children}</Routes>)}
-      </Router>
-    </NiceModal.Provider>
-  );
-};
+//   if (routerType === 'browser') {
+//     routerProps.navigator = history;
+//   }
+//   return (
+//     <NiceModal.Provider dispatch={dispatch} modals={modals}>
+//       <Router basename={basePath} {...routerProps}>
+//         {renderChildren(<Routes>{children}</Routes>)}
+//       </Router>
+//     </NiceModal.Provider>
+//   );
+// };
 
 const Root = () => {
   const [subAppContext, setSubAppContext] = useState(null);
@@ -137,16 +138,62 @@ const Root = () => {
     window.MUSE_CONFIG?.msgEngine?.addListener(k, handleMsg);
     return () => window.MUSE_CONFIG?.msgEngine?.removeListener(k);
   }, [handleMsg]);
+  // const dispatch = useDispatch();
+  // const modals = useSelector(s => s.modals);
+  const children = renderRouteConfigV3(routeConfig(), '/');
 
-  return (
-    <QueryClientProvider client={queryClient}>
-      <Provider store={store.getStore()}>
-        <SubAppContext.Provider value={subAppContext}>
-          <WrappingComponent />
-        </SubAppContext.Provider>
-      </Provider>
-    </QueryClientProvider>
-  );
+  const { routerType = 'browser', basePath } = window.MUSE_GLOBAL.getAppVariables() || {};
+  const Router = routerMap[routerType];
+  const routerProps = plugin.invoke('!routerProps')[0] || {};
+  if (routerType === 'browser') {
+    routerProps.navigator = history;
+  }
+  const providers = [
+    {
+      order: 10,
+      key: 'react-query',
+      provider: QueryClientProvider,
+      props: { client: queryClient },
+      renderProvider: null,
+    },
+    {
+      order: 20,
+      key: 'redux-provider',
+      provider: Provider,
+      props: { store: store.getStore() },
+    },
+    {
+      order: 30,
+      key: 'muse-sub-app',
+      provider: SubAppContext.Provider,
+      props: { value: subAppContext },
+    },
+    {
+      order: 40,
+      key: 'nice-modal',
+      provider: NiceModal.Provider,
+    },
+    {
+      order: 50,
+      key: 'react-router',
+      provider: Router,
+      props: { basename: basePath, ...routerProps },
+    },
+  ];
+
+  extendArray(providers, 'providers', 'root', { providers });
+
+  const ele = renderChildren(<Routes>{children}</Routes>);
+  return providers.filter(Boolean).reduceRight((p, c) => {
+    if (c.provider)
+      return (
+        <c.provider key={p.key} {...c.props}>
+          {p}
+        </c.provider>
+      );
+    else if (c.renderProvider) return c.renderProvider(p);
+    return p;
+  }, ele);
 };
 
 export default Root;
