@@ -7,6 +7,7 @@ const museLayout = {
         icon: '',
         title: 'Muse Manager',
         subTitle: 'Muse app and plugin manager.',
+        themeSwitcher: true,
       };
     },
     getItems() {
