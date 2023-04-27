@@ -11,7 +11,7 @@ export default function PluginVariables({ app }) {
   return (
     <>
       <div>
-        <h3 className="bg-gray-100 p-2 px-3 my-2">
+        <h3 className="p-2 px-3 my-2">
           [Default] Plugin variables
           {ability.can('update', app) && (
             <Button
@@ -32,7 +32,7 @@ export default function PluginVariables({ app }) {
           labelStyle={{ width: '30%' }}
           contentStyle={{ width: '70%' }}
         >
-          {defaultPluginVars.map(defPluginVar => {
+          {defaultPluginVars.map((defPluginVar) => {
             return (
               <Descriptions.Item
                 label={defPluginVar}
@@ -41,7 +41,7 @@ export default function PluginVariables({ app }) {
                 key={defPluginVar}
               >
                 <Descriptions column={1} bordered>
-                  {Object.keys(app.pluginVariables[defPluginVar]).map(defPluginVarValue => {
+                  {Object.keys(app.pluginVariables[defPluginVar]).map((defPluginVarValue) => {
                     return (
                       <Descriptions.Item
                         contentStyle={{ width: '70%', padding: '5px 10px' }}
@@ -59,13 +59,13 @@ export default function PluginVariables({ app }) {
           })}
         </Descriptions>
       </div>
-      {envs.map(env => {
+      {envs.map((env) => {
         const currentEnvVariables = app.envs[env].pluginVariables
           ? Object.keys(app.envs[env].pluginVariables)
           : [];
         return (
           <div key={env}>
-            <h3 className="bg-gray-100 p-2 px-3 my-2">
+            <h3 className="p-2 px-3 my-2">
               [{env}] Plugin variables
               {ability.can('update', app) && (
                 <Button
@@ -86,7 +86,7 @@ export default function PluginVariables({ app }) {
               labelStyle={{ width: '30%' }}
               contentStyle={{ width: '70%' }}
             >
-              {currentEnvVariables.map(defPluginVar => {
+              {currentEnvVariables.map((defPluginVar) => {
                 return (
                   <Descriptions.Item
                     labelStyle={{ width: '30%' }}
@@ -101,7 +101,7 @@ export default function PluginVariables({ app }) {
                       contentStyle={{ width: '70%' }}
                     >
                       {Object.keys(app.envs[env].pluginVariables[defPluginVar]).map(
-                        defPluginVarValue => {
+                        (defPluginVarValue) => {
                           return (
                             <Descriptions.Item
                               label={defPluginVarValue}
