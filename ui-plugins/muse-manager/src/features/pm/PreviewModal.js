@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
-import { Modal, Form } from 'antd';
+import { Modal, Form, Alert } from 'antd';
 import utils from '@ebay/muse-lib-antd/src/utils';
 import NiceForm from '@ebay/nice-form-react';
 import MultiPluginSelector from './MultiPluginSelector';
@@ -114,13 +114,16 @@ const PreviewModal = NiceModal.create(({ app }) => {
       okText="Close"
       cancelButtonProps={{ style: { display: 'none' } }}
     >
-      <p className="p-5 bg-gray-50 text-neutral-500">
-        If you want to verify a release (usually for new release) manually, or send other for
-        review, you can use the generated link to load plugins with specific versions.
-      </p>
-      <Form layout="horizontal" form={form} onValuesChange={updateOnChange}>
-        <NiceForm meta={meta} />
-      </Form>
+      <div style={{ display: 'flex', rowGap: '30px', flexFlow: 'column wrap' }}>
+        <Alert
+          message="If you want to verify a release (usually for new release) manually, or send other for
+          review, you can use the generated link to load plugins with specific versions."
+          type="info"
+        />
+        <Form layout="horizontal" form={form} onValuesChange={updateOnChange}>
+          <NiceForm meta={meta} />
+        </Form>
+      </div>
     </Modal>
   );
 });

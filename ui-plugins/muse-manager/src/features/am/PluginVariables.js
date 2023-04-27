@@ -65,7 +65,7 @@ export default function PluginVariables({ app }) {
           : [];
         return (
           <div key={env}>
-            <h3 className="bg-gray-100 p-2 px-3 my-2">
+            <h3 className="p-2 px-3 my-2">
               [{env}] Plugin variables
               {ability.can('update', app) && (
                 <Button

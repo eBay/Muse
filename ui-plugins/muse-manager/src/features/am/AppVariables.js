@@ -11,7 +11,7 @@ export default function AppVariables({ app }) {
   return (
     <>
       <div>
-        <h3 className="bg-gray-100 p-2 px-3 my-2">
+        <h3 className="p-2 px-3 my-2">
           [Default] Application variables
           {ability.can('update', app) && (
             <Button
