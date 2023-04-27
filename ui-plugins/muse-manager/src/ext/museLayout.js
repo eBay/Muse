@@ -49,6 +49,7 @@ const museLayout = {
         mode: 'collapsable', // fixed | drawer | collapsable | collapsed | none
         siderDefaultCollapsed: true,
         homeMenu: true,
+        width: 200,
         theme: 'light', // dark | light
       };
     },
