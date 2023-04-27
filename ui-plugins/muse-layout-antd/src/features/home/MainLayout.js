@@ -71,21 +71,32 @@ export default function MainLayout({ children }) {
         {siderConfig.mode !== 'drawer' && (
           <Layout hasSider={true}>
             <Sider
-              collapsible={siderConfig.mode !== 'fixed' && siderConfig.mode !== 'none'}
+              collapsible={siderConfig.mode === 'collapsable'}
               collapsed={siderCollapsed}
               onCollapse={(value) => setSiderCollapsed(value)}
               collapsedWidth={60}
-              width={siderConfig.width || 250}
+              width={siderConfig.mode === 'collapsed' ? 60 : siderConfig.width || 250}
               theme={isDarkMode ? 'dark' : 'light'}
               className="muse-layout-sider"
-              trigger={siderCollapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+              trigger={
+                siderConfig.mode === 'collapsed' ? null : siderCollapsed ? (
+                  <MenuUnfoldOutlined />
+                ) : (
+                  <MenuFoldOutlined />
+                )
+              }
             >
               <SiderLayout siderConfig={siderConfig} />
             </Sider>
             <Layout
               className="muse-layout-content-wrapper"
               style={{
-                marginLeft: siderCollapsed ? 60 : siderConfig.width || 250,
+                marginLeft:
+                  siderConfig.mode === 'collapsed'
+                    ? 60
+                    : siderCollapsed
+                    ? 60
+                    : siderConfig.width || 250,
               }}
             >
               <Content className="muse-layout-content">
