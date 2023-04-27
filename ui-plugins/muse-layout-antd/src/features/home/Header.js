@@ -4,7 +4,8 @@ import { Modal } from 'antd';
 import _ from 'lodash';
 import plugin from 'js-plugin';
 import { HeaderItem } from './';
-import { useSetIsDarkMode, useSetSiderCollapsed } from './redux/hooks';
+import { useSetSiderCollapsed } from './redux/hooks';
+import { useSetIsDarkMode } from '@ebay/muse-lib-antd/src/features/common/redux/hooks';
 import { DynamicThemeIcon } from './';
 import museIcon from '../../images/muse.png';
 

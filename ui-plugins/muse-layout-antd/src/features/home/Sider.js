@@ -1,7 +1,8 @@
 import React, { useRef, useCallback } from 'react';
 import { Drawer } from 'antd';
 import { MetaMenu } from '@ebay/muse-lib-antd/src/features/common';
-import { useSetSiderCollapsed, useSetIsDarkMode } from './redux/hooks';
+import { useSetSiderCollapsed } from './redux/hooks';
+import { useSetIsDarkMode } from '@ebay/muse-lib-antd/src/features/common/redux/hooks';
 
 export default function Sider({ siderConfig }) {
   const { isDarkMode } = useSetIsDarkMode();

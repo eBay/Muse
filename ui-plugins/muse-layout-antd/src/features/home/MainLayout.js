@@ -2,7 +2,8 @@ import React, { useEffect } from 'react';
 import { Header as HeaderLayout, Sider as SiderLayout } from './';
 import plugin from 'js-plugin';
 import { ErrorBoundary } from '@ebay/muse-lib-react/src/features/common';
-import { useSetSiderCollapsed, useUpdateMuseLayout, useSetIsDarkMode } from './redux/hooks';
+import { useSetSiderCollapsed, useUpdateMuseLayout } from './redux/hooks';
+import { useSetIsDarkMode } from '@ebay/muse-lib-antd/src/features/common/redux/hooks';
 import { ConfigProvider, Layout, theme, Card } from 'antd';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 

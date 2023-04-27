@@ -55,8 +55,8 @@
     "react-scripts": "^5.0.1"
   },
   "dependencies": {
-    "@ebay/muse-lib-antd": "1.2.4",
-    "@ebay/muse-lib-react": "1.2.9",
+    "@ebay/muse-lib-antd": "1.2.4-dynamic-1",
+    "@ebay/muse-lib-react": "1.2.11",
     "js-plugin": "1.1.0",
     "lodash": "4.17.21",
     "semver": "7.3.7"
