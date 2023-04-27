@@ -20,8 +20,8 @@ export default {
     loadingDiv.id = 'muse-loading-node';
     if (
       app.config?.theme === 'dark' ||
-      (localStorage.getItem('muse-layout-antd.theme.dark') &&
-        localStorage.getItem('muse-layout-antd.theme.dark') === 'true')
+      (localStorage.getItem('muse-lib-antd.theme.dark') &&
+        localStorage.getItem('muse-lib-antd.theme.dark') === 'true')
     ) {
       document.body.classList.add('muse-theme-dark');
     }
