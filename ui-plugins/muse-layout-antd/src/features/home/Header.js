@@ -70,6 +70,7 @@ export default function Header({ siderConfig }) {
     icon: museIcon,
     title: 'Muse App',
     noUserMenu: false,
+    themeSwitcher: false,
     subTitle: 'Build UI apps with ease!',
   };
 
@@ -90,9 +91,13 @@ export default function Header({ siderConfig }) {
     !plugin.getPlugin('@ebay/muse-lib-cc')
   ) {
     realHeaderItems.push(getUserMenuItem());
-    realHeaderItems.push(getDynamicThemeSwitch());
+    if (headerConfig.themeSwitcher) {
+      realHeaderItems.push(getDynamicThemeSwitch());
+    }
   } else {
-    realHeaderItems.push(getDynamicThemeSwitch());
+    if (headerConfig.themeSwitcher) {
+      realHeaderItems.push(getDynamicThemeSwitch());
+    }
   }
 
   plugin.sort(realHeaderItems);
