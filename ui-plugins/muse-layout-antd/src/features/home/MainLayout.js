@@ -36,6 +36,12 @@ export default function MainLayout({ children }) {
     }
   }, [isDarkMode]);
 
+  useEffect(() => {
+    if (typeof siderConfig.siderDefaultCollapsed !== 'undefined') {
+      setSiderCollapsed(!!siderConfig.siderDefaultCollapsed);
+    }
+  }, [setSiderCollapsed, siderConfig.siderDefaultCollapsed]);
+
   return (
     <ConfigProvider
       theme={{
