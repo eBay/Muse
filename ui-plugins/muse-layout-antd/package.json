@@ -1,6 +1,6 @@
 {
   "name": "@ebay/muse-layout-antd",
-  "version": "1.1.7",
+  "version": "1.1.8",
   "repository": "",
   "muse": {
     "devConfig": {
@@ -55,7 +55,7 @@
     "react-scripts": "^5.0.1"
   },
   "dependencies": {
-    "@ebay/muse-lib-antd": "1.2.5-dynamic",
+    "@ebay/muse-lib-antd": "1.2.5",
     "@ebay/muse-lib-react": "1.2.11",
     "js-plugin": "1.1.0",
     "lodash": "4.17.21",
