@@ -1,9 +1,15 @@
 import { ConfigProvider, theme } from 'antd';
-import { useSetIsDarkMode } from './redux/hooks';
 
 export default function ConfigProviderWrapper({ children }) {
   const { defaultAlgorithm, darkAlgorithm } = theme;
-  const { isDarkMode } = useSetIsDarkMode();
+  const { app } = window.MUSE_GLOBAL;
+  const isDarkMode =
+    app?.config?.theme === 'dark' || localStorage.getItem('muse-lib-antd.theme.dark')
+      ? localStorage.getItem('muse-lib-antd.theme.dark') === 'false'
+        ? false
+        : true
+      : false;
+
   return (
     <ConfigProvider
       theme={{
