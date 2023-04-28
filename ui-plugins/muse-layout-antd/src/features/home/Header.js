@@ -57,7 +57,7 @@ export default function Header({ siderConfig }) {
         return (
           <DynamicThemeIcon
             onClick={handleSwitchThemeClick}
-            title={`Swith between dark / light themes`}
+            title={`Switch between dark / light themes`}
             className="header-switch-theme"
             style={{ fill: isDarkMode ? 'white' : 'white' }}
           />
