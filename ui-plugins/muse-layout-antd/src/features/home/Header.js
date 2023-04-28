@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Modal, ConfigProvider, theme } from 'antd';
+import { Modal } from 'antd';
 import _ from 'lodash';
 import plugin from 'js-plugin';
 import { HeaderItem } from './';
@@ -8,8 +8,6 @@ import { useSetSiderCollapsed } from './redux/hooks';
 import { useSetIsDarkMode } from '@ebay/muse-lib-antd/src/features/common/redux/hooks';
 import { DynamicThemeIcon } from './';
 import museIcon from '../../images/muse.png';
-
-const { defaultAlgorithm, darkAlgorithm } = theme;
 
 function getUserMenuItem() {
   const mc = window.MUSE_CONFIG;
@@ -48,9 +46,6 @@ export default function Header({ siderConfig }) {
   function getDynamicThemeSwitch() {
     const handleSwitchThemeClick = () => {
       setIsDarkMode(!isDarkMode);
-      ConfigProvider.config({
-        theme: { algorithm: isDarkMode ? darkAlgorithm : defaultAlgorithm },
-      });
     };
 
     return {
