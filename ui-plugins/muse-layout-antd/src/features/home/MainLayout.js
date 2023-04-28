@@ -50,7 +50,7 @@ export default function MainLayout({ children }) {
       }}
     >
       {!noHeader && (
-        <Header>
+        <Header className="muse-layout-header">
           <HeaderLayout siderConfig={siderConfig} />
         </Header>
       )}
