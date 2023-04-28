@@ -64,8 +64,8 @@ devDependencies:
     specifier: ^1.0.1
     version: 1.0.1
   '@ebay/muse-craco-plugin':
-    specifier: ^3.0.8
-    version: 3.0.8(@craco/craco@7.0.0)(@ebay/muse-core@1.0.30)(express@4.18.2)
+    specifier: ^3.0.9
+    version: 3.0.9(@craco/craco@7.0.0)(@ebay/muse-core@1.0.30)(express@4.18.2)
   '@ebay/muse-dev-utils':
     specifier: ^1.0.36
     version: 1.0.36(@ebay/muse-core@1.0.30)(express@4.18.2)
@@ -73,8 +73,8 @@ devDependencies:
     specifier: ^1.1.0
     version: 1.1.0(@craco/craco@7.0.0)(assert@2.0.0)(browserify-zlib@0.2.0)(buffer@6.0.3)(console-browserify@1.2.0)(constants-browserify@1.0.0)(crypto-browserify@3.12.0)(domain-browser@4.22.0)(events@3.3.0)(https-browserify@1.0.0)(os-browserify@0.3.0)(path-browserify@1.0.1)(process@0.11.10)(punycode@2.3.0)(querystring-es3@0.2.1)(readable-stream@4.3.0)(stream-browserify@3.0.0)(stream-http@3.2.0)(string_decoder@1.3.0)(timers-browserify@2.0.12)(tty-browserify@0.0.1)(url@0.11.0)(util@0.12.5)(vm-browserify@1.1.2)(webpack-bundle-analyzer@4.8.0)
   '@ebay/muse-ebay-dev':
-    specifier: ^1.0.11
-    version: 1.0.11(@ebay/muse-core@1.0.30)
+    specifier: ^1.0.15
+    version: 1.0.15(@ebay/muse-core@1.0.30)
   '@ebay/muse-express-middleware':
     specifier: ^1.0.34
     version: 1.0.34(@ebay/muse-core@1.0.30)
@@ -2011,8 +2011,8 @@ packages:
       resolve-cwd: 3.0.0
     dev: true
 
-  /@ebay/muse-craco-plugin@3.0.8(@craco/craco@7.0.0)(@ebay/muse-core@1.0.30)(express@4.18.2):
-    resolution: {integrity: sha1-eReLtjrEAgWaPV8lkJuz2qm3kZk=, tarball: https://npm.corp.ebay.com/@ebay/muse-craco-plugin/-/@ebay/muse-craco-plugin-3.0.8.tgz}
+  /@ebay/muse-craco-plugin@3.0.9(@craco/craco@7.0.0)(@ebay/muse-core@1.0.30)(express@4.18.2):
+    resolution: {integrity: sha1-iSDQ4+WN7UmU/6f0oPlmZoYMUKQ=, tarball: https://npm.corp.ebay.com/@ebay/muse-craco-plugin/-/@ebay/muse-craco-plugin-3.0.9.tgz}
     peerDependencies:
       '@craco/craco': 7.0.0
     dependencies:
@@ -2095,14 +2095,15 @@ packages:
       webpack-bundle-analyzer: 4.8.0
     dev: true
 
-  /@ebay/muse-ebay-dev@1.0.11(@ebay/muse-core@1.0.30):
-    resolution: {integrity: sha1-gcMTyop2YMbZ+DyVLUo8CybJgmU=, tarball: https://npm.corp.ebay.com/@ebay/muse-ebay-dev/-/@ebay/muse-ebay-dev-1.0.11.tgz}
+  /@ebay/muse-ebay-dev@1.0.15(@ebay/muse-core@1.0.30):
+    resolution: {integrity: sha1-vpUeJVlhgPLgwKoEUL2Gy3UzULM=, tarball: https://npm.corp.ebay.com/@ebay/muse-ebay-dev/-/@ebay/muse-ebay-dev-1.0.15.tgz}
     hasBin: true
     peerDependencies:
       '@ebay/muse-core': ^1.0.30
     dependencies:
       '@ebay/muse-core': 1.0.30
       axios: 0.27.2
+      axios-retry: 3.3.1
       chalk: 4.1.2
       cross-spawn: 7.0.3
       global-modules: 2.0.0
@@ -4158,6 +4159,13 @@ packages:
   /axe-core@4.6.3:
     resolution: {integrity: sha1-/A22/bZcx6gMz4UobZHWSrq6Ps4=}
     engines: {node: '>=4'}
+    dev: true
+
+  /axios-retry@3.3.1:
+    resolution: {integrity: sha1-R2JGRhOK7e+60qwy8ib07pS23Ks=}
+    dependencies:
+      '@babel/runtime': 7.20.13
+      is-retry-allowed: 2.2.0
     dev: true
 
   /axios@0.27.2:
@@ -8143,6 +8151,11 @@ packages:
   /is-retry-allowed@1.2.0:
     resolution: {integrity: sha1-13hIi9CkZmo76KFIK58rqv7eqLQ=}
     engines: {node: '>=0.10.0'}
+
+  /is-retry-allowed@2.2.0:
+    resolution: {integrity: sha1-iPNMvSNuBD5xtpMtCbDGX7e01x0=}
+    engines: {node: '>=10'}
+    dev: true
 
   /is-root@2.1.0:
     resolution: {integrity: sha1-gJ4YEpzxEpZEMCpPhUQDXVGYSpw=}

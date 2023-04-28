@@ -31,6 +31,17 @@ plugin.register({
   ...ext,
   name: '@ebay/muse-manager',
   route,
+  // root: {
+  //   getProviders: () => {
+  //     return {
+  //       order: 5,
+  //       key: 'test',
+  //       provider: () => {
+  //         return 'hssi';
+  //       },
+  //     };
+  //   },
+  // },
   // reducer,
   exports: { hooks, utils, pm, common, ability },
   // rootComponent: InitAbilityComp,
