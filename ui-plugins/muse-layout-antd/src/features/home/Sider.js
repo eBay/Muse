@@ -1,4 +1,4 @@
-import React, { useRef, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { Drawer } from 'antd';
 import { MetaMenu } from '@ebay/muse-lib-antd/src/features/common';
 import { useSetSiderCollapsed } from './redux/hooks';
@@ -7,13 +7,6 @@ import { useSetIsDarkMode } from '@ebay/muse-lib-antd/src/features/common/redux/
 export default function Sider({ siderConfig }) {
   const { isDarkMode } = useSetIsDarkMode();
   const { siderCollapsed, setSiderCollapsed } = useSetSiderCollapsed();
-
-  const ref = useRef(false);
-  if (!ref.current) {
-    // Act as constructor of the component.
-    // Use this trick to re-use sider collapsed in different mode
-    ref.current = true;
-  }
 
   const closeDrawer = useCallback(() => {
     if (siderConfig.mode === 'drawer') setSiderCollapsed(true);
@@ -42,7 +35,7 @@ export default function Sider({ siderConfig }) {
     });
   }
 
-  const ele = <MetaMenu meta={meta} onClick={closeDrawer} baseExtPoint="museLayout.sider" />;
+  const siderMenu = <MetaMenu meta={meta} onClick={closeDrawer} baseExtPoint="museLayout.sider" />;
 
   if (siderConfig.mode === 'drawer') {
     return (
@@ -58,10 +51,10 @@ export default function Sider({ siderConfig }) {
         width={siderConfig.width || 250}
         className="muse-layout_side-drawer"
       >
-        {ele}
+        {siderMenu}
       </Drawer>
     );
   }
 
-  return ele;
+  return siderMenu;
 }
