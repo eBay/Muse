@@ -108,6 +108,7 @@ const msgEngine = {
     return promise;
   },
 
+  // assert the app in iframe is a muse app
   assertMuseApp(iframe) {
     return new Promise((resolve, reject) => {
       this.sendToChild({ type: 'assert-muse-app' }, this.getIframe(iframe), true).then(resolve);
