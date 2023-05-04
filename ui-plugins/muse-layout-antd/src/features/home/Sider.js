@@ -3,10 +3,15 @@ import { Drawer } from 'antd';
 import { MetaMenu } from '@ebay/muse-lib-antd/src/features/common';
 import { useSetSiderCollapsed } from './redux/hooks';
 import { useSetIsDarkMode } from '@ebay/muse-lib-antd/src/features/common/redux/hooks';
+import plugin from 'js-plugin';
 
 export default function Sider({ siderConfig }) {
   const { isDarkMode } = useSetIsDarkMode();
   const { siderCollapsed, setSiderCollapsed } = useSetSiderCollapsed();
+  const headerConfig = plugin.invoke('museLayout.header.getConfig')[0] || {};
+  const noHeader =
+    headerConfig.mode === 'none' ||
+    (headerConfig?.mode !== 'show-in-sub-app' && window.MUSE_GLOBAL.isSubApp);
 
   const closeDrawer = useCallback(() => {
     if (siderConfig.mode === 'drawer') setSiderCollapsed(true);
@@ -49,7 +54,11 @@ export default function Sider({ siderConfig }) {
         onClose={() => setSiderCollapsed(true)}
         placement="left"
         width={siderConfig.width || 250}
-        className="muse-layout_side-drawer"
+        className={
+          noHeader
+            ? `muse-layout_side-drawer muse-layout-sider-noheader`
+            : `muse-layout_side-drawer`
+        }
       >
         {siderMenu}
       </Drawer>

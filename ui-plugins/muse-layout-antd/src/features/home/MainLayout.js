@@ -16,7 +16,7 @@ export default function MainLayout({ children }) {
   const noHeader =
     headerConfig.mode === 'none' ||
     (headerConfig?.mode !== 'show-in-sub-app' && window.MUSE_GLOBAL.isSubApp);
-    
+
   // Used to force update muse layout
   const { seed } = useUpdateMuseLayout(); // eslint-disable-line
 
@@ -75,7 +75,9 @@ export default function MainLayout({ children }) {
             collapsedWidth={60}
             width={siderConfig.mode === 'collapsed' ? 60 : siderConfig.width || 250}
             theme={isDarkMode ? 'dark' : 'light'}
-            className="muse-layout-sider"
+            className={
+              noHeader ? `muse-layout-sider muse-layout-sider-noheader` : `muse-layout-sider`
+            }
             trigger={
               siderConfig.mode === 'collapsed' ? null : siderCollapsed ? (
                 <MenuUnfoldOutlined />
@@ -97,7 +99,13 @@ export default function MainLayout({ children }) {
                   : siderConfig.width || 250,
             }}
           >
-            <Content className="muse-layout-content">
+            <Content
+              className={
+                noHeader
+                  ? `muse-layout-content muse-layout-content-noheader`
+                  : `muse-layout-content`
+              }
+            >
               <ErrorBoundary>
                 <Card className="muse-content-card">{children}</Card>
               </ErrorBoundary>
