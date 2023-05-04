@@ -10,6 +10,9 @@ import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 const { Header, Content, Sider } = Layout;
 
 export default function MainLayout({ children }) {
+  const defaultSiderCollapsedWidth = 60;
+  const defaultSiderExpandedWidth = 250;
+
   const { siderCollapsed, setSiderCollapsed } = useSetSiderCollapsed();
   const { isDarkMode } = useSetIsDarkMode();
   const headerConfig = plugin.invoke('museLayout.header.getConfig')[0] || {};
@@ -43,37 +46,38 @@ export default function MainLayout({ children }) {
   }, [setSiderCollapsed, siderConfig.siderDefaultCollapsed]);
 
   return (
-    <Layout
-      className="muse-layout-wrapper"
-      style={{
-        minHeight: '100vh',
-      }}
-    >
+    <Layout className="muse-layout-wrapper">
       {!noHeader && (
         <Header className="muse-layout-header">
           <HeaderLayout siderConfig={siderConfig} />
         </Header>
       )}
 
-      {siderConfig.mode === 'drawer' && (
+      {siderConfig.mode === 'drawer' || siderConfig.mode === 'none' ? (
         <>
-          <Content className="muse-layout-content">
+          <Content
+            className={
+              noHeader ? `muse-layout-content muse-layout-content-noheader` : `muse-layout-content`
+            }
+          >
             <ErrorBoundary>
-              <SiderLayout siderConfig={siderConfig} />
+              {siderConfig.mode === 'drawer' && <SiderLayout siderConfig={siderConfig} />}
               <Card className="muse-content-card">{children}</Card>
             </ErrorBoundary>
           </Content>
         </>
-      )}
-
-      {siderConfig.mode !== 'drawer' && (
+      ) : (
         <Layout hasSider={true}>
           <Sider
             collapsible={siderConfig.mode === 'collapsable'}
             collapsed={siderConfig.mode !== 'fixed' && siderCollapsed}
             onCollapse={(value) => setSiderCollapsed(value)}
-            collapsedWidth={60}
-            width={siderConfig.mode === 'collapsed' ? 60 : siderConfig.width || 250}
+            collapsedWidth={defaultSiderCollapsedWidth}
+            width={
+              siderConfig.mode === 'collapsed'
+                ? defaultSiderCollapsedWidth
+                : siderConfig.width || defaultSiderExpandedWidth
+            }
             theme={isDarkMode ? 'dark' : 'light'}
             className={
               noHeader ? `muse-layout-sider muse-layout-sider-noheader` : `muse-layout-sider`
@@ -92,11 +96,13 @@ export default function MainLayout({ children }) {
             className="muse-layout-content-wrapper"
             style={{
               marginLeft:
-                siderConfig.mode === 'collapsed'
-                  ? 60
+                siderConfig.mode === 'none'
+                  ? 0
+                  : siderConfig.mode === 'collapsed'
+                  ? defaultSiderCollapsedWidth
                   : siderCollapsed
-                  ? 60
-                  : siderConfig.width || 250,
+                  ? defaultSiderCollapsedWidth
+                  : siderConfig.width || defaultSiderExpandedWidth,
             }}
           >
             <Content

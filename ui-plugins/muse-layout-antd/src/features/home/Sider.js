@@ -48,7 +48,7 @@ export default function Sider({ siderConfig }) {
         mask={true}
         maskStyle={{ opacity: '0' }}
         bodyStyle={{ padding: '0' }}
-        rootStyle={{ top: '50px' }}
+        rootStyle={{ top: noHeader ? '0px' : '50px' }}
         open={!siderCollapsed}
         closable={false}
         onClose={() => setSiderCollapsed(true)}

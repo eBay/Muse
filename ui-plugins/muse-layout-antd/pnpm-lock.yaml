@@ -2,8 +2,8 @@ lockfileVersion: '6.0'
 
 dependencies:
   '@ebay/muse-lib-antd':
-    specifier: 1.2.5-dynamic
-    version: 1.2.5-dynamic(react-dom@18.2.0)(react@18.2.0)
+    specifier: 1.2.5
+    version: 1.2.5(react-dom@18.2.0)(react@18.2.0)
   '@ebay/muse-lib-react':
     specifier: 1.2.11
     version: 1.2.11
@@ -2023,8 +2023,8 @@ packages:
       request-ip: 3.3.0
     dev: true
 
-  /@ebay/muse-lib-antd@1.2.5-dynamic(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha1-7+5cxRL9MeW3NOks/ZnsRdWwYq4=, tarball: https://npm.corp.ebay.com/@ebay/muse-lib-antd/-/@ebay/muse-lib-antd-1.2.5-dynamic.tgz}
+  /@ebay/muse-lib-antd@1.2.5(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha1-YRISENsjCm1qSlfpykxAG7HUXpQ=, tarball: https://npm.corp.ebay.com/@ebay/muse-lib-antd/-/@ebay/muse-lib-antd-1.2.5.tgz}
     dependencies:
       '@ant-design/icons': 5.0.1(react-dom@18.2.0)(react@18.2.0)
       '@ebay/muse-lib-react': 1.2.11
@@ -2447,7 +2447,7 @@ packages:
   /@manypkg/find-root@1.1.0:
     resolution: {integrity: sha1-pi2O0c1+fUwR2dUqg5dGC11K0p8=}
     dependencies:
-      '@babel/runtime': 7.20.13
+      '@babel/runtime': 7.21.0
       '@types/node': 12.20.55
       find-up: 4.1.0
       fs-extra: 8.1.0
