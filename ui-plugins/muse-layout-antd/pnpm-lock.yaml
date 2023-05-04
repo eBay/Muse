@@ -2447,7 +2447,7 @@ packages:
   /@manypkg/find-root@1.1.0:
     resolution: {integrity: sha1-pi2O0c1+fUwR2dUqg5dGC11K0p8=}
     dependencies:
-      '@babel/runtime': 7.20.13
+      '@babel/runtime': 7.21.0
       '@types/node': 12.20.55
       find-up: 4.1.0
       fs-extra: 8.1.0
