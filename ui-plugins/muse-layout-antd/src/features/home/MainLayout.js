@@ -70,7 +70,7 @@ export default function MainLayout({ children }) {
         <Layout hasSider={true}>
           <Sider
             collapsible={siderConfig.mode === 'collapsable'}
-            collapsed={siderCollapsed}
+            collapsed={siderConfig.mode !== 'fixed' && siderCollapsed}
             onCollapse={(value) => setSiderCollapsed(value)}
             collapsedWidth={60}
             width={siderConfig.mode === 'collapsed' ? 60 : siderConfig.width || 250}
