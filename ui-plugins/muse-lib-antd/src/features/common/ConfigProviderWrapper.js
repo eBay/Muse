@@ -8,9 +8,6 @@ export default function ConfigProviderWrapper({ children }) {
     <ConfigProvider
       theme={{
         algorithm: isDarkMode ? darkAlgorithm : defaultAlgorithm,
-        token: {
-          borderRadius: 0,
-        },
       }}
     >
       {children}
