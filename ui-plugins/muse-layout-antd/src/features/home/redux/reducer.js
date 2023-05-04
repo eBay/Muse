@@ -11,11 +11,7 @@ import { reducer as setSiderCollapsedReducer } from './setSiderCollapsed';
 import { reducer as setLayoutConfigReducer } from './setLayoutConfig';
 import { reducer as updateMuseLayoutReducer } from './updateMuseLayout';
 
-const reducers = [
-  setSiderCollapsedReducer,
-  setLayoutConfigReducer,
-  updateMuseLayoutReducer,
-];
+const reducers = [setSiderCollapsedReducer, setLayoutConfigReducer, updateMuseLayoutReducer];
 
 export default function reducer(state = initialState, action) {
   let newState;

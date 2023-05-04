@@ -7,6 +7,7 @@ const museLayout = {
         icon: '',
         title: 'Muse Manager',
         subTitle: 'Muse app and plugin manager.',
+        themeSwitcher: true,
       };
     },
     getItems() {
@@ -48,6 +49,7 @@ const museLayout = {
         mode: window.MUSE_GLOBAL.isSubApp ? 'none' : 'collapsable', // fixed | drawer | collapsable | collapsed | none
         siderDefaultCollapsed: true,
         homeMenu: true,
+        width: 200,
         theme: 'light', // dark | light
       };
     },

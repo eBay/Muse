@@ -5,6 +5,8 @@ import _ from 'lodash';
 import plugin from 'js-plugin';
 import { HeaderItem } from './';
 import { useSetSiderCollapsed } from './redux/hooks';
+import { useSetIsDarkMode } from '@ebay/muse-lib-antd/src/features/common/redux/hooks';
+import { DynamicThemeIcon } from './';
 import museIcon from '../../images/muse.png';
 
 function getUserMenuItem() {
@@ -38,27 +40,43 @@ function getUserMenuItem() {
   };
 }
 
-export default function Header() {
+export default function Header({ siderConfig }) {
+  const { setIsDarkMode, isDarkMode } = useSetIsDarkMode();
+
+  function getDynamicThemeSwitch() {
+    const handleSwitchThemeClick = () => {
+      setIsDarkMode(!isDarkMode);
+    };
+
+    return {
+      key: 'switch-theme',
+      type: 'switch',
+      position: 'right',
+      order: 9999998,
+      render: () => {
+        return (
+          <DynamicThemeIcon
+            onClick={handleSwitchThemeClick}
+            title={`Switch between dark / light themes`}
+            className="header-switch-theme"
+            style={{ fill: isDarkMode ? 'white' : 'white' }}
+          />
+        );
+      },
+    };
+  }
+
   const headerConfig = plugin.invoke('museLayout.header.getConfig')[0] || {
     backgroundColor: '#039be5',
     icon: museIcon,
     title: 'Muse App',
     noUserMenu: false,
+    themeSwitcher: false,
     subTitle: 'Build UI apps with ease!',
   };
 
-  const siderConfig = plugin.invoke('museLayout.sider.getConfig')[0] || {
-    mode: 'collapsable',
-  };
   const navigate = useNavigate();
-  let { siderCollapsed, setSiderCollapsed } = useSetSiderCollapsed();
-  if (siderCollapsed === null) {
-    if (typeof siderConfig.siderDefaultCollapsed !== 'undefined') {
-      siderCollapsed = !!siderConfig.siderDefaultCollapsed;
-    } else {
-      siderCollapsed = true;
-    }
-  }
+  const { siderCollapsed, setSiderCollapsed } = useSetSiderCollapsed();
   const headerItems = [];
 
   let realHeaderItems = [
@@ -74,26 +92,14 @@ export default function Header() {
     !plugin.getPlugin('@ebay/muse-lib-cc')
   ) {
     realHeaderItems.push(getUserMenuItem());
+    if (headerConfig.themeSwitcher) {
+      realHeaderItems.push(getDynamicThemeSwitch());
+    }
+  } else {
+    if (headerConfig.themeSwitcher) {
+      realHeaderItems.push(getDynamicThemeSwitch());
+    }
   }
-
-  // Support set parent menu item, allow to set parentMenu to add menu items to header
-  // const parentItems = _.groupBy(realHeaderItems.filter(item => !!item.parentMenu), 'parentMenu');
-  // realHeaderItems = realHeaderItems
-  //   .filter(item => !item.parentMenu)
-  //   .map(item => {
-  //     if (item.type === 'menu' && item.menuMeta && item.menuMeta.items && parentItems[item.key]) {
-  //       return {
-  //         ...item,
-  //         menuMeta: {
-  //           ...item.menuMeta,
-  //           items: [...item.menuMeta.items, ...parentItems[item.key]],
-  //         },
-  //       };
-  //       return item;
-  //     } else {
-  //       return item;
-  //     }
-  //   });
 
   plugin.sort(realHeaderItems);
   plugin.invoke('museLayout.header.processItems', realHeaderItems);
@@ -114,12 +120,6 @@ export default function Header() {
     navigate('/');
   }, [navigate]);
 
-  const handleHeaderClick = useCallback(() => {
-    if (siderConfig.mode === 'drawer' && !siderCollapsed) {
-      setSiderCollapsed(true);
-    }
-  }, [siderConfig.mode, siderCollapsed, setSiderCollapsed]);
-
   const handleToggleSiderCollapsed = useCallback(() => {
     setSiderCollapsed(!siderCollapsed);
   }, [siderCollapsed, setSiderCollapsed]);
@@ -137,7 +137,7 @@ export default function Header() {
   }
   const noTitle = !headerConfig.title && !headerConfig.icon;
   return (
-    <div className="muse-layout_home-header" style={headerStyle} onClick={handleHeaderClick}>
+    <>
       {siderConfig.mode === 'drawer' && (
         <HeaderItem
           meta={{
@@ -163,6 +163,6 @@ export default function Header() {
         </div>
       )}
       {renderItems(rightItems)}
-    </div>
+    </>
   );
 }
