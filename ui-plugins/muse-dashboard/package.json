@@ -16,8 +16,8 @@
     "build"
   ],
   "dependencies": {
-    "@ebay/muse-lib-antd": "1.2.4",
-    "@ebay/muse-lib-react": "1.2.9",
+    "@ebay/muse-lib-antd": "1.2.5",
+    "@ebay/muse-lib-react": "1.2.11",
     "@ebay/nice-form-react": "^1.0.7"
   },
   "devDependencies": {
