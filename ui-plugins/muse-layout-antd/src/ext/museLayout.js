@@ -8,6 +8,7 @@ export default {
         icon: '',
         title: 'Muse App',
         subTitle: 'Build UI apps with ease!',
+        themeSwitcher: true,
       };
     },
     userAvatar: {
@@ -70,7 +71,7 @@ export default {
   sider: {
     getConfig() {
       return {
-        mode: 'fixed', // fixed | drawer | collapsable | collapsed | none
+        mode: 'collapsable', // fixed | drawer | collapsable | collapsed | none
         siderDefaultCollapsed: true,
         homeMenu: true,
         theme: 'light', // dark | light

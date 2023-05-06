@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { Modal, Button, Form, message } from 'antd';
+import { Modal, Button, Form, Alert, message } from 'antd';
 import NiceForm from '@ebay/nice-form-react';
 import { flatten, uniq, concat } from 'lodash';
 import NiceModal, { useModal, antdModal } from '@ebay/nice-modal-react';
@@ -25,12 +25,6 @@ const MultiDeploymentModal = NiceModal.create(({ app }) => {
   const meta = {
     columns: 1,
     fields: [
-      {
-        key: 'appName',
-        label: 'App',
-        viewMode: true,
-        initialValue: app?.name,
-      },
       {
         key: 'pluginToAdd',
         label: 'Plugins to deploy',
@@ -142,7 +136,7 @@ const MultiDeploymentModal = NiceModal.create(({ app }) => {
   return (
     <Modal
       {...antdModal(modal)}
-      title={`Advanced Deployment`}
+      title={`Advanced Deployment for application : ${app?.name}`}
       maskClosable={false}
       width="800px"
       closable={!deployPluginPending}
@@ -150,14 +144,17 @@ const MultiDeploymentModal = NiceModal.create(({ app }) => {
         <Button key={i} {...props} />
       ))}
     >
-      <RequestStatus loading={deployPluginPending} error={deployPluginError} />
-      <p className="p-5 bg-gray-50 text-neutral-500">
-        With advanced deployment, you can deploy/undeploy multiple plugins in one release process.
-        Note only app owners can undeploy plugins.
-      </p>
-      <Form layout="horizontal" form={form}>
-        <NiceForm disabled={deployPluginPending} meta={meta} />
-      </Form>
+      <div style={{ display: 'flex', rowGap: '30px', flexFlow: 'column wrap' }}>
+        <RequestStatus loading={deployPluginPending} error={deployPluginError} />
+        <Alert
+          message="With advanced deployment, you can deploy/undeploy multiple plugins in one release process.
+        Note only app owners can undeploy plugins."
+          type="info"
+        />
+        <Form layout="horizontal" form={form}>
+          <NiceForm disabled={deployPluginPending} meta={meta} />
+        </Form>
+      </div>
     </Modal>
   );
 });

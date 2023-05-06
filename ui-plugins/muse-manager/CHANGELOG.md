@@ -1,5 +1,11 @@
 # @ebay/muse-manager
 
+## 1.1.15
+
+### Patch Changes
+
+- improve support for dynamic theme
+
 ## 1.1.14
 
 ### Patch Changes

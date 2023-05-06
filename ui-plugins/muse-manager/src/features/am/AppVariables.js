@@ -11,7 +11,7 @@ export default function AppVariables({ app }) {
   return (
     <>
       <div>
-        <h3 className="bg-gray-100 p-2 px-3 my-2">
+        <h3 className="p-2 px-3 my-2">
           [Default] Application variables
           {ability.can('update', app) && (
             <Button
@@ -32,7 +32,7 @@ export default function AppVariables({ app }) {
           labelStyle={{ width: '30%' }}
           contentStyle={{ width: '70%' }}
         >
-          {defaultAppVars.map(defAppVar => {
+          {defaultAppVars.map((defAppVar) => {
             return (
               <Descriptions.Item
                 labelStyle={{ width: '30%' }}
@@ -46,13 +46,13 @@ export default function AppVariables({ app }) {
           })}
         </Descriptions>
       </div>
-      {envs.map(env => {
+      {envs.map((env) => {
         const currentEnvVariables = app.envs[env].variables
           ? Object.keys(app.envs[env].variables)
           : [];
         return (
           <div key={env}>
-            <h3 className="bg-gray-100 p-2 px-3 my-2">
+            <h3 className="p-2 px-3 my-2">
               [{env}] Application variables
               {ability.can('update', app) && (
                 <Button
@@ -73,7 +73,7 @@ export default function AppVariables({ app }) {
               labelStyle={{ width: '30%' }}
               contentStyle={{ width: '70%' }}
             >
-              {currentEnvVariables.map(envVar => {
+              {currentEnvVariables.map((envVar) => {
                 return (
                   <Descriptions.Item
                     labelStyle={{ width: '30%' }}

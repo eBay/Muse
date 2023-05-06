@@ -1,5 +1,11 @@
 # @ebay/muse-boot-default
 
+## 2.0.9
+
+### Patch Changes
+
+- support dynamic themes
+
 ## 2.0.8
 
 ### Patch Changes

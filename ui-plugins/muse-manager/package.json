@@ -1,6 +1,6 @@
 {
   "name": "@ebay/muse-manager",
-  "version": "1.1.14",
+  "version": "1.1.15",
   "private": false,
   "muse": {
     "devConfig": {
@@ -31,7 +31,7 @@
     "@ebay/muse-craco-plugin": "^3.0.9",
     "@ebay/muse-dev-utils": "^1.0.36",
     "@ebay/muse-ebay-craco-plugin": "^1.1.0",
-    "@ebay/muse-ebay-dev": "^1.0.11",
+    "@ebay/muse-ebay-dev": "1.0.15",
     "@ebay/muse-express-middleware": "^1.0.34",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
@@ -47,8 +47,8 @@
   },
   "dependencies": {
     "@ebay/muse-client": "^1.0.22",
-    "@ebay/muse-lib-antd": "^1.2.4",
-    "@ebay/muse-lib-react": "^1.2.9",
+    "@ebay/muse-lib-antd": "1.2.6",
+    "@ebay/muse-lib-react": "1.2.11",
     "@ebay/muse-plugin-acl": "^1.0.10",
     "@tanstack/react-query": "^4.28.0",
     "find-root": "^1.1.0",

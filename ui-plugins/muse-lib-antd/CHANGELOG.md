@@ -1,5 +1,11 @@
 # @ebay/muse-lib-antd
 
+## 1.2.5
+
+### Patch Changes
+
+- support dynamic theme
+
 ## 1.2.4
 
 ### Patch Changes
