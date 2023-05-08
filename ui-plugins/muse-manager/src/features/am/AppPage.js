@@ -10,10 +10,12 @@ import {
   FieldTimeOutlined,
 } from '@ant-design/icons';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
+import { extendArray } from '@ebay/muse-lib-antd/src/utils';
 import { usePollingMuseData } from '../../hooks';
 import PluginList from '../pm/PluginList';
 import AppOverview from './AppOverview';
 import EnvironmentVariables from './EnvironmentVariables';
+import './AppPage.less';
 
 export default function AppPage() {
   //
@@ -72,12 +74,18 @@ export default function AppPage() {
   jsPlugin.invoke('museManager.appPage.postProcessTabs', tabs);
   jsPlugin.sort(tabs);
 
+  const appNameActions = [];
+  extendArray(appNameActions, 'appNameActions', 'museManager.am.appPage', { appName, tabKey });
+
   if (!tabs.map((t) => t.key).includes(tabKey)) {
     return <Alert type="error" message={`Unknown tab: ${tabKey}`} showIcon />;
   }
   return (
     <div>
-      <h1>Muse App: {appName}</h1>
+      <span className="muse-manager-app-page">
+        <h1 style={{ marginBottom: '0px' }}>Muse App: {appName}</h1>
+        {appNameActions?.length > 0 && appNameActions.map((appNameAct) => appNameAct)}
+      </span>
       <RequestStatus loading={isLoading} error={error} loadingMode="skeleton" />
 
       {app && (
