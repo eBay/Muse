@@ -7,7 +7,9 @@ import { useMuseMutate, useMuseData, useSyncStatus, useAbility } from '../../hoo
 import { extendArray } from '@ebay/muse-lib-antd/src/utils';
 
 const isPluginDeployed = ({ app, plugin }) => {
-  return Object.values(app.envs).some((env) => env.plugins?.some((p) => p.name === plugin.name));
+  return Object.values(app.envs || {}).some((env) =>
+    env.plugins?.some((p) => p.name === plugin.name),
+  );
 };
 function PluginActions({ plugin, app }) {
   const { mutateAsync: deletePlugin } = useMuseMutate('pm.deletePlugin');
