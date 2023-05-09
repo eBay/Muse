@@ -1,5 +1,11 @@
 # @ebay/muse-manager
 
+## 1.1.16
+
+### Patch Changes
+
+- add ext point for app title actions
+
 ## 1.1.15
 
 ### Patch Changes
