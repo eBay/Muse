@@ -91,7 +91,7 @@ export default function AppPage() {
   ) : (
     <div>
       <span className="muse-manager-app-page-title">
-        <h1 style={{ marginBottom: '0px' }}>Muse App: {appName}</h1>
+        <h1 style={{ marginBottom: '0.3em' }}>Muse App: {appName}</h1>
         {appNameActions?.length > 0 && appNameActions.map((appNameAct) => appNameAct.node)}
       </span>
       <RequestStatus loading={isLoading} error={error} loadingMode="skeleton" />
