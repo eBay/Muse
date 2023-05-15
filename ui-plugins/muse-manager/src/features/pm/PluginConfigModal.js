@@ -2,11 +2,12 @@ import { useCallback } from 'react';
 import flat from 'flat';
 import _ from 'lodash';
 import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
-import { Modal, message, Form } from 'antd';
+import { Modal, message, Form, Alert } from 'antd';
 import NiceForm from '@ebay/nice-form-react';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import utils from '@ebay/muse-lib-antd/src/utils';
 import { useSyncStatus, useMuseMutate } from '../../hooks';
+import { LightOnIcon } from './';
 
 const user = window.MUSE_GLOBAL.getUser();
 
@@ -38,32 +39,6 @@ const PluginConfigModal = NiceModal.create(({ plugin, app }) => {
       },
     ],
   };
-
-  // Object.values(app.envs).forEach((env) => {
-  //   meta.fields.push(
-  //     {
-  //       key: env.name,
-  //       render: () => (
-  //         <h3 style={{ color: 'gray', paddingBottom: '10px', borderBottom: '1px solid #ddd' }}>
-  //           {env.name}
-  //         </h3>
-  //       ),
-  //     },
-  //     {
-  //       key: `${env.name}.pluginConfig.${plugin.name}.core`,
-  //       label: 'Core',
-  //       widget: 'checkbox',
-  //       tooltip: 'Core plugins will always be loaded as remote plugins for local development.',
-  //     },
-  //     {
-  //       key: `${env.name}.pluginConfig.${plugin.name}.allowList`,
-  //       label: 'Allow list',
-  //       widget: 'tag',
-  //       tooltip: 'Restrict who can use the plugin. Leave empty if no restriction.',
-  //       // widget: 'checkbox',
-  //     },
-  //   );
-  // });
 
   const handleFinish = useCallback(() => {
     const values = form.getFieldsValue();
@@ -105,11 +80,19 @@ const PluginConfigModal = NiceModal.create(({ plugin, app }) => {
       }}
     >
       <RequestStatus loading={updateAppPending} error={updateAppError} />
-      <div className="muse-simple-tip">
-        Plugin config on the app <b>{app.name}</b>. Note that you can config plugins before
-        deploying.
-      </div>
 
+      <Alert
+        style={{ padding: '1.25rem', marginBottom: '1em' }}
+        icon={<LightOnIcon />}
+        message={
+          <>
+            Plugin config on the app <b>{app.name}</b>. Note that you can config plugins before
+            deploying.
+          </>
+        }
+        type="info"
+        showIcon
+      />
       <Form layout="horizontal" form={form} onValuesChange={updateOnChange} onFinish={handleFinish}>
         <NiceForm meta={meta} />
       </Form>
