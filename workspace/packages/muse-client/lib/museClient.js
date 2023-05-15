@@ -16,6 +16,8 @@ module.exports = {
         ...headers,
       },
     });
+
+    // Post data to the Muse API service
     const post = async (apiPath, args) => {
       try {
         let res;
@@ -25,6 +27,7 @@ module.exports = {
             'Content-Type': 'multipart/form-data',
           });
         } else {
+          // The server always receives args property
           res = await client.post(apiPath, { args });
         }
         return res.data ? res.data.data : res.data;
@@ -39,7 +42,9 @@ module.exports = {
     // Construct the API path by a javascript proxy
     const handler = {
       get(target, prop, receiver) {
+        // apply and call are reserved
         if (['_api_path_', 'apply', 'call'].includes(prop)) return target[prop] || '';
+        // you can always get the api endpoint by client.am.createApp._url
         if (prop === '_url') return `${endpoint}${receiver._api_path_ || ''}`;
         const apiPath = (receiver._api_path_ || '') + '/' + kebabCase(prop);
         const func = async (...args) => {

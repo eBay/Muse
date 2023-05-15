@@ -67,7 +67,7 @@ module.exports = async (params) => {
 
   // Validate if envs in envMap exist
   Object.keys(envMap).forEach((envName) => {
-    if (!app.envs[envName]) throw new Error(`Env ${envName} doesn't exist on app ${appName}.`);
+    if (!app.envs?.[envName]) throw new Error(`Env ${envName} doesn't exist on app ${appName}.`);
   });
 
   // Validate only existing plugin could be removed

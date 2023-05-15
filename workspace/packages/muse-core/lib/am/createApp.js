@@ -21,7 +21,7 @@ module.exports = async (params = {}) => {
   validate(schema, params);
   const ctx = {};
   if (!params.author) params.author = osUsername;
-  const { appName, envName = 'staging', author, options } = params;
+  const { appName, envName = 'staging', author, owners, options } = params;
   logger.info(`Creating app ${appName}...`);
   await asyncInvoke('museCore.am.beforeCreateApp', ctx, params);
 
@@ -34,7 +34,7 @@ module.exports = async (params = {}) => {
     name: appName,
     createdBy: author,
     createdAt: new Date().toJSON(),
-    owners: [author],
+    owners: owners || [author],
     ...options,
   };
 
