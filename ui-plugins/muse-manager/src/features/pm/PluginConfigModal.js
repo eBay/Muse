@@ -83,7 +83,7 @@ const PluginConfigModal = NiceModal.create(({ plugin, app }) => {
 
       <Alert
         style={{ padding: '1.25rem', marginBottom: '1em' }}
-        icon={<LightOnIcon />}
+        icon={<LightOnIcon style={{ fill: 'currentColor' }} />}
         message={
           <>
             Plugin config on the app <b>{app.name}</b>. Note that you can config plugins before
