@@ -1,6 +1,6 @@
 {
   "name": "@ebay/muse-lib-antd",
-  "version": "1.2.5",
+  "version": "1.2.7",
   "repository": "",
   "muse": {
     "type": "lib",
@@ -55,9 +55,9 @@
   },
   "dependencies": {
     "@ant-design/icons": "5.0.1",
-    "@ebay/muse-lib-react": "1.2.11",
+    "@ebay/muse-lib-react": "1.2.12",
     "@ebay/nice-form-react": "1.0.10",
-    "antd": "5.4.6",
+    "antd": "5.5.0",
     "history": "5.3.0",
     "js-plugin": "1.1.0",
     "lodash": "4.17.21",
