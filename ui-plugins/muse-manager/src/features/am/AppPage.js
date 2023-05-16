@@ -57,17 +57,17 @@ export default function AppPage() {
       order: 30,
       children: <EnvironmentVariables app={app} />,
     },
-    {
-      key: 'activities',
-      label: (
-        <span>
-          <FieldTimeOutlined />
-          Activities
-        </span>
-      ),
-      order: 40,
-      children: 'Activites',
-    },
+    // {
+    //   key: 'activities',
+    //   label: (
+    //     <span>
+    //       <FieldTimeOutlined />
+    //       Activities
+    //     </span>
+    //   ),
+    //   order: 40,
+    //   children: 'Activites',
+    // },
   ];
 
   tabs.push(..._.flatten(jsPlugin.invoke('museManager.appPage.getTabs', tabs)));

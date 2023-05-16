@@ -34,7 +34,7 @@ module.exports = async (params = {}) => {
     name: appName,
     createdBy: author,
     createdAt: new Date().toJSON(),
-    owners: owners || [author],
+    owners: [author],
     ...options,
   };
 
