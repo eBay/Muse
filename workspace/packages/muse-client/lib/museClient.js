@@ -17,6 +17,10 @@ module.exports = {
       },
     });
 
+    client.interceptors.response.use((response) => {
+      return response;
+    }, window.MUSE_GLOBAL.axiosErrorResponseHandle);
+
     // Post data to the Muse API service
     const post = async (apiPath, args) => {
       try {
