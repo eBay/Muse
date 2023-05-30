@@ -89,9 +89,8 @@ export default function AppPage() {
   const nodes = [
     {
       order: 10,
-      key: 'header',
       node: (
-        <span className="muse-manager-app-page-title">
+        <span className="muse-manager-app-page-title" key="header">
           <h1 style={{ marginBottom: '0.3em' }}>Muse App: {appName}</h1>
           {appNameActions?.length > 0 && appNameActions.map((appNameAct) => appNameAct.node)}
         </span>
@@ -99,14 +98,19 @@ export default function AppPage() {
     },
     {
       order: 15,
-      key: 'loading',
-      node: <RequestStatus loading={isLoading} error={error} loadingMode="skeleton" />,
+      node: (
+        <RequestStatus loading={isLoading} error={error} loadingMode="skeleton" key="loading" />
+      ),
     },
     {
       order: 20,
-      key: 'tabs',
       node: app && (
-        <Tabs activeKey={tabKey} onChange={(k) => navigate(`/app/${appName}/${k}`)} items={tabs} />
+        <Tabs
+          activeKey={tabKey}
+          onChange={(k) => navigate(`/app/${appName}/${k}`)}
+          items={tabs}
+          key="tabs"
+        />
       ),
     },
   ];
