@@ -1,5 +1,6 @@
 const axios = require('axios');
 const kebabCase = require('lodash/fp/kebabCase');
+
 // A muse-core API wrapper to use an existing Muse API service.
 // It uses post method for all requests.
 
@@ -15,10 +16,6 @@ module.exports = {
         ...headers,
       },
     });
-
-    client.interceptors.response.use((response) => {
-      return response;
-    }, window.MUSE_GLOBAL.axiosErrorResponseHandle);
 
     // Post data to the Muse API service
     const post = async (apiPath, args) => {
