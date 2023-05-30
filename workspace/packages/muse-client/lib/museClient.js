@@ -1,6 +1,5 @@
 const axios = require('axios');
 const kebabCase = require('lodash/fp/kebabCase');
-
 // A muse-core API wrapper to use an existing Muse API service.
 // It uses post method for all requests.
 
