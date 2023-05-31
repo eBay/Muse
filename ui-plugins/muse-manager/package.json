@@ -13,7 +13,8 @@
         }
       },
       "remotePlugins": [
-        "*"
+        "*",
+        "muse-manager-ebay#normal:http://local.cloud.ebay.com:3031/main.js"
       ]
     }
   },
@@ -47,8 +48,8 @@
   },
   "dependencies": {
     "@ebay/muse-client": "^1.0.22",
-    "@ebay/muse-lib-antd": "1.2.6",
-    "@ebay/muse-lib-react": "1.2.11",
+    "@ebay/muse-lib-antd": "1.2.7",
+    "@ebay/muse-lib-react": "1.2.12",
     "@ebay/muse-plugin-acl": "^1.0.10",
     "@tanstack/react-query": "^4.28.0",
     "find-root": "^1.1.0",
