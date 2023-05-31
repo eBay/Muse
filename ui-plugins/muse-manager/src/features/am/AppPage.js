@@ -86,18 +86,40 @@ export default function AppPage() {
     }
   }, [app]);
 
+  const nodes = [
+    {
+      order: 10,
+      node: (
+        <span className="muse-manager-app-page-title" key="header">
+          <h1 style={{ marginBottom: '0.3em' }}>Muse App: {appName}</h1>
+          {appNameActions?.length > 0 && appNameActions.map((appNameAct) => appNameAct.node)}
+        </span>
+      ),
+    },
+    {
+      order: 15,
+      node: (
+        <RequestStatus loading={isLoading} error={error} loadingMode="skeleton" key="loading" />
+      ),
+    },
+    {
+      order: 20,
+      node: app && (
+        <Tabs
+          activeKey={tabKey}
+          onChange={(k) => navigate(`/app/${appName}/${k}`)}
+          items={tabs}
+          key="tabs"
+        />
+      ),
+    },
+  ];
+
+  extendArray(nodes, 'nodes', 'museManager.am.appPage', { nodes });
+
   return !tabs.map((t) => t.key).includes(tabKey) ? (
     <Alert type="error" message={`Unknown tab: ${tabKey}`} showIcon />
   ) : (
-    <div>
-      <span className="muse-manager-app-page-title">
-        <h1 style={{ marginBottom: '0.3em' }}>Muse App: {appName}</h1>
-        {appNameActions?.length > 0 && appNameActions.map((appNameAct) => appNameAct.node)}
-      </span>
-      <RequestStatus loading={isLoading} error={error} loadingMode="skeleton" />
-      {app && (
-        <Tabs activeKey={tabKey} onChange={(k) => navigate(`/app/${appName}/${k}`)} items={tabs} />
-      )}
-    </div>
+    <div>{nodes.map((n) => n.node)}</div>
   );
 }
