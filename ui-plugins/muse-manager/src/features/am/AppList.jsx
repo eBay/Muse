@@ -10,7 +10,6 @@ import AppActions from './AppActions';
 import AppListBar from './AppListBar';
 
 export default function AppList() {
-  //
   const searchValue = useSearchParam('search')?.toLowerCase() || '';
   const { data: apps, error } = usePollingMuseData('muse.apps');
   const columns = [
@@ -19,7 +18,7 @@ export default function AppList() {
       title: 'Name',
       width: '220px',
       sorter: tableConfig.defaultSorter('name'),
-      render: name => (
+      render: (name) => (
         <Link to={`/app/${name}`}>
           <Highlighter search={searchValue} text={name} />
         </Link>
@@ -46,9 +45,9 @@ export default function AppList() {
   appList = ctx.appList;
 
   appList = appList?.filter(
-    a =>
+    (a) =>
       a.name.toLowerCase().includes(searchValue) ||
-      a.owners?.some(o => o.toLowerCase().includes(searchValue)),
+      a.owners?.some((o) => o.toLowerCase().includes(searchValue)),
   );
 
   return (
@@ -68,7 +67,7 @@ export default function AppList() {
               hideOnSinglePage: false,
               size: 'small',
               showSizeChanger: true,
-              showTotal: total => `Total ${total} items`,
+              showTotal: (total) => `Total ${total} items`,
               showQuickJumper: true,
             }}
           />
