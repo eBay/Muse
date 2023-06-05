@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
 import { Modal, message, Form } from 'antd';
 import NiceForm from '@ebay/nice-form-react';
@@ -11,6 +11,8 @@ const EditAppModal = NiceModal.create(({ app }) => {
   const modal = useModal();
   const [form] = Form.useForm();
   const syncStatus = useSyncStatus(`muse.app.${app.name}`);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const {
     mutateAsync: updateApp,
@@ -23,7 +25,7 @@ const EditAppModal = NiceModal.create(({ app }) => {
     fields: [
       {
         key: 'title',
-        order: 20,
+        order: 10,
         label: 'Site Title',
         required: true,
       },
@@ -41,6 +43,8 @@ const EditAppModal = NiceModal.create(({ app }) => {
     meta,
     form,
     app,
+    setLoading,
+    setError,
   });
   const updateOnChange = NiceForm.useUpdateOnChange(watchingFields);
   // const watches = plugin.invoke('museManager.updateAppForm.watch', { meta, app, form });
@@ -83,6 +87,7 @@ const EditAppModal = NiceModal.create(({ app }) => {
       }}
     >
       <RequestStatus loading={updateAppPending} error={updateAppError} />
+      <RequestStatus loading={loading} error={error} />
       <Form layout="horizontal" form={form} onFinish={handleFinish} onValuesChange={updateOnChange}>
         <NiceForm meta={meta} />
       </Form>

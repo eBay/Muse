@@ -55,7 +55,6 @@ function errorUnlessCan(allowed, authorizedRoles, object, operation, args = {}) 
 
 const getUser = async (username) => {
   if (!username) return null;
-  console.log('get user');
   const admins = await museCore.data.get('muse.admins');
   return {
     username,
