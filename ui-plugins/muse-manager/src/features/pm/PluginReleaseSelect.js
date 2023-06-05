@@ -18,20 +18,25 @@ export default function PluginReleaseSelect({ value, onChange, plugin, app, filt
         placeholder={releases ? `Select a version to deploy` : 'Loading...'}
         onChange={onChange}
         {...rest}
-        dropdownMatchSelectWidth={false}
+        popupMatchSelectWidth={false}
         disabled={!releases}
       >
         {releases &&
-          releases.map(r => {
+          releases.map((r) => {
             const tags = [];
             if (app) {
               Object.entries(app.envs).forEach(([envName, env]) => {
                 // const onEnv = env.plugins && env.plugins.find(a => 'v' + a.meta.version === r.tag_name)
-                if (env.plugins?.find(a => a.name === plugin.name && a.version === r.version)) {
+                if (env.plugins?.find((a) => a.name === plugin.name && a.version === r.version)) {
                   // on env
                   tags.push(
                     <Tooltip key={envName} title={`Already on ${envName}`}>
-                      <Tag color={envName === 'production' ? 'green' : 'orange'}>{envName}</Tag>
+                      <Tag
+                        color={envName === 'production' ? 'green' : 'orange'}
+                        style={{ verticalAlign: 'middle', lineHeight: '20px' }}
+                      >
+                        {envName}
+                      </Tag>
                     </Tooltip>,
                   );
                 }
@@ -40,9 +45,9 @@ export default function PluginReleaseSelect({ value, onChange, plugin, app, filt
 
             return (
               <Option key={r.version} value={r.version.replace('v', '')}>
-                <span style={{ marginRight: '15px' }}>{r.version}</span>
+                <span style={{ marginRight: '15px', verticalAlign: 'middle' }}>{r.version}</span>
                 {tags}
-                <span style={{ color: '#999', marginLeft: '5px' }}>
+                <span style={{ color: '#999', marginLeft: '5px', verticalAlign: 'middle' }}>
                   built from <Tag>{r.branch || 'unknown'}</Tag>
                   by {r.createdBy} <TimeAgo date={new Date(r.createdAt)} />
                 </span>

@@ -29,32 +29,32 @@ export default function MultiPluginSelector({ value, onChange, app }) {
     const newValue = _.cloneDeep(rows);
     newValue[index].name = value;
     newValue[index].version = latest ? latest.replace('v', '') : undefined;
-    onChange(newValue.filter(v => v.name));
+    onChange(newValue.filter((v) => v.name));
   };
 
   const handleVersionChange = (value, index) => {
     const newValue = _.cloneDeep(rows);
     newValue[index].version = value;
-    onChange(newValue.filter(v => v.name));
+    onChange(newValue.filter((v) => v.name));
   };
 
   const handleAdd = useCallback(() => {
-    if (value.some(v => !v.name || !v.version)) {
+    if (value.some((v) => !v.name || !v.version)) {
       message.warn('Select version first.');
       return;
     }
     setAdding(true);
   }, [setAdding, value]);
 
-  const handleRemove = index => {
+  const handleRemove = (index) => {
     const newValue = _.cloneDeep(rows);
     newValue.splice(index, 1);
 
-    onChange(newValue.filter(v => v.name));
+    onChange(newValue.filter((v) => v.name));
   };
 
   const leftPlugins = allPlugins?.filter(
-    p => latestReleases?.[p?.name] && !_.find(rows, { name: p.name }),
+    (p) => latestReleases?.[p?.name] && !_.find(rows, { name: p.name }),
   );
   leftPlugins?.sort((a, b) => a.name.localeCompare(b.name));
 
@@ -67,12 +67,12 @@ export default function MultiPluginSelector({ value, onChange, app }) {
             <Col span="12">
               <Select
                 showSearch
-                dropdownMatchSelectWidth={false}
+                popupMatchSelectWidth={false}
                 placeholder="Select a plugin"
                 value={item.name}
-                onChange={v => handlePluginChange(v, i)}
+                onChange={(v) => handlePluginChange(v, i)}
               >
-                {leftPlugins?.map(p => (
+                {leftPlugins?.map((p) => (
                   <Option key={p.name} value={p.name}>
                     {p.name}
                   </Option>
@@ -85,12 +85,14 @@ export default function MultiPluginSelector({ value, onChange, app }) {
                 plugin={p || {}}
                 placeholder="Select a version"
                 value={item.version}
-                onChange={v => handleVersionChange(v, i)}
+                onChange={(v) => handleVersionChange(v, i)}
                 disabled={!item.name}
               />
             </Col>
             <Col span={2} style={{ textAlign: 'right' }}>
-              {item.name && <MinusCircleOutlined onClick={() => handleRemove(i)} />}
+              {item.name && (
+                <MinusCircleOutlined style={{ color: '#ff4d4f' }} onClick={() => handleRemove(i)} />
+              )}
             </Col>
           </Row>
         );

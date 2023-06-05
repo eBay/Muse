@@ -3,12 +3,7 @@ import _ from 'lodash';
 import jsPlugin from 'js-plugin';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Tabs, Alert } from 'antd';
-import {
-  EyeOutlined,
-  ControlOutlined,
-  FunctionOutlined,
-  FieldTimeOutlined,
-} from '@ant-design/icons';
+import { EyeOutlined, ControlOutlined, FunctionOutlined } from '@ant-design/icons';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import { extendArray } from '@ebay/muse-lib-antd/src/utils';
 import { usePollingMuseData } from '../../hooks';
@@ -57,17 +52,6 @@ export default function AppPage() {
       order: 30,
       children: <EnvironmentVariables app={app} />,
     },
-    // {
-    //   key: 'activities',
-    //   label: (
-    //     <span>
-    //       <FieldTimeOutlined />
-    //       Activities
-    //     </span>
-    //   ),
-    //   order: 40,
-    //   children: 'Activites',
-    // },
   ];
 
   tabs.push(..._.flatten(jsPlugin.invoke('museManager.appPage.getTabs', tabs)));

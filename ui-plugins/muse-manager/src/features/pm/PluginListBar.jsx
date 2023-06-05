@@ -3,11 +3,14 @@ import { Radio, Button, Select } from 'antd';
 import _ from 'lodash';
 import jsPlugin from 'js-plugin';
 import SearchBox from '../common/SearchBox';
-import { useSearchState } from '../../hooks';
+import { useSearchState, useAbility } from '../../hooks';
 import { DropdownMenu } from '@ebay/muse-lib-antd/src/features/common';
+import { extendArray } from '@ebay/muse-lib-antd/src/utils';
+
 import config from '../../config';
 
 export default function PluginListBar({ app }) {
+  const ability = useAbility();
   const [scope, setScope] = useSearchState(
     'scope',
     app ? 'deployed' : config.get('pluginListDefaultScope'),
@@ -31,7 +34,7 @@ export default function PluginListBar({ app }) {
             value={envName}
             onChange={setEnv}
             style={{ width: '160px', textAlign: 'left', marginRight: '8px' }}
-            dropdownMatchSelectWidth={false}
+            popupMatchSelectWidth={false}
             options={options}
           />
         );
@@ -100,10 +103,14 @@ export default function PluginListBar({ app }) {
     },
   ];
 
-  dropdownItems.push(
-    ..._.flatten(jsPlugin.invoke('museManager.pluginListBar.getDropdownItems', { app })),
-  );
   jsPlugin.invoke('museManager.pluginListBar.processDropdownItems', { dropdownItems, app });
+
+  extendArray(dropdownItems, 'dropdownItems', 'museManager.pluginListBar', {
+    app,
+    ability,
+    dropdownItems,
+  });
+
   dropdownItems = dropdownItems.filter(Boolean);
 
   return (
