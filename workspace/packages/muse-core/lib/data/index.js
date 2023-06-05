@@ -31,7 +31,7 @@ const setCache = async (key, value) => {
     // If it's nil, seems should delete it from cache
     // Don't delete a muse data cache because it's important
     // To delete a cache item, just manually delete it
-    // await asyncInvokeFirst('museCore.data.cache.del', key);
+    await asyncInvokeFirst('museCore.data.cache.del', key);
   }
 };
 
@@ -53,7 +53,7 @@ const refreshCache = async (key) => {
 };
 
 const syncCache = async () => {
-  // allows plugins to provide logic to sync all cache to muse data cace
+  // allows plugins to provide logic to sync all cache to muse data cache
   await asyncInvokeFirst('museCore.data.syncCache');
 };
 
