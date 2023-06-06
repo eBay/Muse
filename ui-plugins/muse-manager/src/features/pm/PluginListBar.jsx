@@ -17,7 +17,7 @@ export default function PluginListBar({ app }) {
   );
   const [envName, setEnv] = useSearchState('env', config.get('pluginListDefaultEnv'));
 
-  let dropdownItems = [
+  let items = [
     app && {
       key: 'env',
       highlight: true,
@@ -103,15 +103,13 @@ export default function PluginListBar({ app }) {
     },
   ];
 
-  jsPlugin.invoke('museManager.pluginListBar.processDropdownItems', { dropdownItems, app });
-
-  extendArray(dropdownItems, 'dropdownItems', 'museManager.pluginListBar', {
+  extendArray(items, 'dropdownItems', 'museManager.pluginListBar', {
     app,
     ability,
-    dropdownItems,
+    items,
   });
 
-  dropdownItems = dropdownItems.filter(Boolean);
+  items = items.filter(Boolean);
 
   return (
     <div className="flex mb-4 justify-end gap-2 whitespace-nowrap">
@@ -120,7 +118,7 @@ export default function PluginListBar({ app }) {
         className="min-w-[100px] max-w-[400px] mr-auto"
         allowClear={true}
       />
-      {dropdownItems.length > 0 && <DropdownMenu items={dropdownItems} size="default" />}
+      {items.length > 0 && <DropdownMenu items={items} size="default" />}
     </div>
   );
 }
