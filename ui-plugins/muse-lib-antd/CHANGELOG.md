@@ -1,5 +1,11 @@
 # @ebay/muse-lib-antd
 
+## 1.2.8
+
+### Patch Changes
+
+- upgrade antd to 5.5.2
+
 ## 1.2.7
 
 ### Patch Changes

@@ -57,7 +57,7 @@
     "@ant-design/icons": "5.0.1",
     "@ebay/muse-lib-react": "1.2.12",
     "@ebay/nice-form-react": "1.0.10",
-    "antd": "5.5.0",
+    "antd": "5.5.2",
     "history": "5.3.0",
     "js-plugin": "1.1.0",
     "lodash": "4.17.21",
