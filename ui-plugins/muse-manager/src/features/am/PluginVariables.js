@@ -6,14 +6,15 @@ import NiceModal from '@ebay/nice-modal-react';
 export default function PluginVariables({ app }) {
   const envs = app.envs ? Object.keys(app.envs) : [];
   const defaultPluginVars = app.pluginVariables ? Object.keys(app.pluginVariables) : [];
-  const ability = useAbility('App');
+  const ability = useAbility();
+  const canUpdateApp = ability.can('update', 'App', app);
 
   return (
     <>
       <div>
         <h3 className="p-2 px-3 my-2">
           [Default] Plugin variables
-          {ability.can('update', app) && (
+          {canUpdateApp && (
             <Button
               type="link"
               onClick={() =>
@@ -67,7 +68,7 @@ export default function PluginVariables({ app }) {
           <div key={env}>
             <h3 className="p-2 px-3 my-2">
               [{env}] Plugin variables
-              {ability.can('update', app) && (
+              {canUpdateApp && (
                 <Button
                   type="link"
                   onClick={() =>
