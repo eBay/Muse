@@ -15,15 +15,11 @@ const EditPluginVariablesModal = NiceModal.create(({ app, env }) => {
   const syncStatus = useSyncStatus(`muse.app.${app.name}`);
   const { data } = usePollingMuseData('muse.plugins');
   const isAppOwner = app?.owners?.includes(user.username);
-  const pluginList = isAppOwner
-    ? data?.map((pl) => {
-        return { label: pl.name, value: pl.name };
-      })
-    : data
-        ?.filter((pl) => pl.owners?.includes(user?.username))
-        .map((pl) => {
-          return { label: pl.name, value: pl.name };
-        });
+  const pluginList = data
+    ?.filter((pl) => isAppOwner || pl.owners?.includes(user?.username))
+    .map((pl) => {
+      return { label: pl.name, value: pl.name };
+    });
 
   const {
     mutateAsync: updateApp,
