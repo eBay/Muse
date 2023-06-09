@@ -3,18 +3,21 @@ import { Radio, Button, Select } from 'antd';
 import _ from 'lodash';
 import jsPlugin from 'js-plugin';
 import SearchBox from '../common/SearchBox';
-import { useSearchState } from '../../hooks';
+import { useSearchState, useAbility } from '../../hooks';
 import { DropdownMenu } from '@ebay/muse-lib-antd/src/features/common';
+import { extendArray } from '@ebay/muse-lib-antd/src/utils';
+
 import config from '../../config';
 
 export default function PluginListBar({ app }) {
+  const ability = useAbility();
   const [scope, setScope] = useSearchState(
     'scope',
     app ? 'deployed' : config.get('pluginListDefaultScope'),
   );
   const [envName, setEnv] = useSearchState('env', config.get('pluginListDefaultEnv'));
 
-  let dropdownItems = [
+  let items = [
     app && {
       key: 'env',
       highlight: true,
@@ -31,7 +34,7 @@ export default function PluginListBar({ app }) {
             value={envName}
             onChange={setEnv}
             style={{ width: '160px', textAlign: 'left', marginRight: '8px' }}
-            dropdownMatchSelectWidth={false}
+            popupMatchSelectWidth={false}
             options={options}
           />
         );
@@ -100,11 +103,13 @@ export default function PluginListBar({ app }) {
     },
   ];
 
-  dropdownItems.push(
-    ..._.flatten(jsPlugin.invoke('museManager.pluginListBar.getDropdownItems', { app })),
-  );
-  jsPlugin.invoke('museManager.pluginListBar.processDropdownItems', { dropdownItems, app });
-  dropdownItems = dropdownItems.filter(Boolean);
+  extendArray(items, 'dropdownItems', 'museManager.pluginListBar', {
+    app,
+    ability,
+    items,
+  });
+
+  items = items.filter(Boolean);
 
   return (
     <div className="flex mb-4 justify-end gap-2 whitespace-nowrap">
@@ -113,7 +118,7 @@ export default function PluginListBar({ app }) {
         className="min-w-[100px] max-w-[400px] mr-auto"
         allowClear={true}
       />
-      {dropdownItems.length > 0 && <DropdownMenu items={dropdownItems} size="default" />}
+      {items.length > 0 && <DropdownMenu items={items} size="default" />}
     </div>
   );
 }

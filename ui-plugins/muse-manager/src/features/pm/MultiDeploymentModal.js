@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { Modal, Button, Form, Alert, message } from 'antd';
 import NiceForm from '@ebay/nice-form-react';
 import { flatten, uniq, concat } from 'lodash';
-import NiceModal, { useModal, antdModal } from '@ebay/nice-modal-react';
+import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import { useMuseMutate, useSyncStatus } from '../../hooks';
 import MultiPluginSelector from './MultiPluginSelector';
@@ -89,6 +89,7 @@ const MultiDeploymentModal = NiceModal.create(({ app }) => {
             const removeList = pluginsToRemove?.map((pluginName) => ({
               type: 'remove',
               pluginName,
+              verion: null,
             }));
 
             const args = {
@@ -135,7 +136,7 @@ const MultiDeploymentModal = NiceModal.create(({ app }) => {
 
   return (
     <Modal
-      {...antdModal(modal)}
+      {...antdModalV5(modal)}
       title={`Advanced Deployment for application : ${app?.name}`}
       maskClosable={false}
       width="800px"
