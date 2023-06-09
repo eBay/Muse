@@ -1,5 +1,11 @@
 # muse-layout-antd
 
+## 1.1.9
+
+### Patch Changes
+
+- update libs
+
 ## 1.1.8
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @ebay/muse-manager
 
+## 1.2.17
+
+### Patch Changes
+
+- update lock file and muse-lib-antd
+
 ## 1.1.16
 
 ### Patch Changes

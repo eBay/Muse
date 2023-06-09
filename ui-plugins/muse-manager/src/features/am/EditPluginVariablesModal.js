@@ -1,21 +1,25 @@
 import { useCallback } from 'react';
 import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
-import { Modal, message, Form, Input, Button, Select, Tooltip, Divider } from 'antd';
+import { Modal, Alert, message, Form, Input, Button, Select, Tooltip, Divider } from 'antd';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
-import { useSyncStatus, useMuseMutate } from '../../hooks';
-import { usePollingMuseData } from '../../hooks';
+import { useSyncStatus, useMuseMutate, useAbility, usePollingMuseData } from '../../hooks';
 import { DeleteOutlined, PlusOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 
 const { TextArea } = Input;
 
 const EditPluginVariablesModal = NiceModal.create(({ app, env }) => {
+  const user = window.MUSE_GLOBAL?.getUser();
+  const ability = useAbility();
   const modal = useModal();
   const [form] = Form.useForm();
   const syncStatus = useSyncStatus(`muse.app.${app.name}`);
   const { data } = usePollingMuseData('muse.plugins');
-  const pluginList = data?.map((pl) => {
-    return { label: pl.name, value: pl.name };
-  });
+  const isAppOwner = app?.owners?.includes(user.username);
+  const pluginList = data
+    ?.filter((pl) => ability.can('config', 'Plugin', { app, plugin: pl }))
+    .map((pl) => {
+      return { label: pl.name, value: pl.name };
+    });
 
   const {
     mutateAsync: updateApp,
@@ -140,6 +144,14 @@ const EditPluginVariablesModal = NiceModal.create(({ app, env }) => {
         }}
       >
         <RequestStatus loading={updateAppPending} error={updateAppError} />
+        {!isAppOwner && (
+          <Alert
+            showIcon
+            message="Only plugins you are owner of can be selected for editing variables"
+            type="info"
+            style={{ marginBottom: '20px' }}
+          />
+        )}
         <Form
           layout="horizontal"
           form={form}
