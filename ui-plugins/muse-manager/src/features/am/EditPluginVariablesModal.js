@@ -103,15 +103,19 @@ const EditPluginVariablesModal = NiceModal.create(({ app, env }) => {
           ? populatePluginVarsForUpdate(variablesForEnv)
           : null);
 
-    updateApp({
-      appName: app.name,
-      changes: {
-        set: Object.entries(values).map(([k, v]) => {
+    const updateSet = values.pluginVariables
+      ? Object.entries(values).map(([k, v]) => {
           return {
             path: k,
             value: v,
           };
-        }),
+        })
+      : { path: `envs.${env}.pluginVariables`, value: values.envs[env].pluginVariables };
+
+    updateApp({
+      appName: app.name,
+      changes: {
+        set: updateSet,
       },
     })
       .then(async () => {
