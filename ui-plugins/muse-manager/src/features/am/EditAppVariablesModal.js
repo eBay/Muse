@@ -84,15 +84,19 @@ const EditAppVariablesModal = NiceModal.create(({ app, env }) => {
       ? (values.envs[env].variables = variablesForEnv ? propertiesToJSON(variablesForEnv) : null)
       : (values.variables = variablesForEnv ? propertiesToJSON(variablesForEnv) : null);
 
-    updateApp({
-      appName: app.name,
-      changes: {
-        set: Object.entries(values).map(([k, v]) => {
+    const updateSet = values.variables
+      ? Object.entries(values).map(([k, v]) => {
           return {
             path: k,
             value: v,
           };
-        }),
+        })
+      : { path: `envs.${env}.variables`, value: values.envs[env].variables };
+
+    updateApp({
+      appName: app.name,
+      changes: {
+        set: updateSet,
       },
     })
       .then(async () => {
