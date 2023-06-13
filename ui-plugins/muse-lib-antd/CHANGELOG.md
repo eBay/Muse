@@ -1,5 +1,12 @@
 # @ebay/muse-lib-antd
 
+## 1.2.9
+
+### Patch Changes
+
+- cosmetic change
+- ca455dc: update antd to 5.5.2
+
 ## 1.2.8
 
 ### Patch Changes
