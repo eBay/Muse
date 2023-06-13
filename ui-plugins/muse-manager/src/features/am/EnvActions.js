@@ -78,7 +78,7 @@ function EnvActions({ env, app }) {
     ].filter(Boolean);
   }, [syncStatus, app, env, deleteEnv, canUpdateApp]);
 
-  extendArray(items, 'environmentActions', 'museManager.am');
+  extendArray(items, 'environmentActions', 'museManager.am', { app, env });
   items = items.filter(Boolean);
   return <DropdownMenu items={items} />;
 }
