@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 import { DropdownMenu } from '@ebay/muse-lib-antd/src/features/common';
 import NiceModal from '@ebay/nice-modal-react';
 import { message, Modal } from 'antd';
+import { DeleteOutlined } from '@ant-design/icons';
 import { extendArray } from '@ebay/muse-lib-antd/src/utils';
 import { useMuseMutate, useSyncStatus, useAbility } from '../../hooks';
 
@@ -10,7 +11,7 @@ function EnvActions({ env, app }) {
   const { mutateAsync: deleteEnv } = useMuseMutate('am.deleteEnv');
   const syncStatus = useSyncStatus(`muse.app.${app.name}`);
   const ability = useAbility();
-  const canUpdateApp = ability.can('update', 'App', app);
+  const canUpdateApp = true || ability.can('update', 'App', app);
   let items = useMemo(() => {
     return [
       {
@@ -29,14 +30,9 @@ function EnvActions({ env, app }) {
         key: 'delete',
         label: 'Delete Environment',
         order: 70,
-        icon: 'delete',
+        icon: <DeleteOutlined style={{ color: canUpdateApp ? '#ff4d4f' : '' }} />,
         disabled: !canUpdateApp,
         disabledText: 'No permission to delete environment',
-        menuItemProps: {
-          style: canUpdateApp && {
-            color: '#ff4d4f',
-          },
-        },
         highlight: true,
         onClick: async () => {
           Modal.confirm({

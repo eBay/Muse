@@ -91,7 +91,7 @@ export default function PluginList({ app }) {
             const diff = versionDiff(latestVersion, deploymentInfoByPlugin?.[p.name]?.[envName]);
             return diff === filterKey;
           case 'core':
-            return p.type === 'core';
+            return app.pluginConfig?.[p.name]?.core || p.type !== 'normal';
           default:
             return true;
         }

@@ -1,22 +1,24 @@
 import React, { useMemo } from 'react';
 import { DropdownMenu } from '@ebay/muse-lib-antd/src/features/common';
 import { message, Modal } from 'antd';
-import { useMuseMutate, useSyncStatus } from '../../hooks';
+import { useMuseMutate, useSyncStatus, useAbility } from '../../hooks';
 
-function PluginActions({ app }) {
+function AppActions({ app }) {
   const { mutateAsync: deleteApp } = useMuseMutate('am.deleteApp');
   const syncStatus = useSyncStatus('muse.apps');
+  const ability = useAbility();
+  const canDeleteApp = ability.can('delete', 'App', app);
   const items = useMemo(() => {
     return [
       {
         key: 'delete',
         label: 'Delete App',
-        // disabled: !canDelete,
+        disabled: !canDeleteApp,
         order: 70,
         icon: 'delete',
         menuItemProps: {
           style: {
-            color: '#ff4d4f',
+            color: canDeleteApp ? '#ff4d4f' : '',
           },
         },
         highlight: false,
@@ -49,7 +51,7 @@ function PluginActions({ app }) {
         },
       },
     ].filter(Boolean);
-  }, [syncStatus, deleteApp, app]);
+  }, [canDeleteApp, app.name, deleteApp, syncStatus]);
   return <DropdownMenu extPoint="museManager.app.processActions" items={items} />;
 }
-export default PluginActions;
+export default AppActions;
