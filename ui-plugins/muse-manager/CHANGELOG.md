@@ -1,5 +1,11 @@
 # @ebay/muse-manager
 
+## 1.2.19
+
+### Patch Changes
+
+- refactor AppPage to ensure we get app object on extended arrays
+
 ## 1.2.18
 
 ### Patch Changes
