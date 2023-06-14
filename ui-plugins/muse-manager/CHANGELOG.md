@@ -1,5 +1,11 @@
 # @ebay/muse-manager
 
+## 1.2.18
+
+### Patch Changes
+
+- pass app param to getNodes for app
+
 ## 1.2.17
 
 ### Patch Changes
