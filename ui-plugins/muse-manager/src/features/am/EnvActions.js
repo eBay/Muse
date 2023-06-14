@@ -11,7 +11,7 @@ function EnvActions({ env, app }) {
   const { mutateAsync: deleteEnv } = useMuseMutate('am.deleteEnv');
   const syncStatus = useSyncStatus(`muse.app.${app.name}`);
   const ability = useAbility();
-  const canUpdateApp = true || ability.can('update', 'App', app);
+  const canUpdateApp = ability.can('update', 'App', app);
   let items = useMemo(() => {
     return [
       {
