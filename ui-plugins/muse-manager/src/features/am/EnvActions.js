@@ -2,9 +2,11 @@ import React from 'react';
 import { useMemo } from 'react';
 import { DropdownMenu } from '@ebay/muse-lib-antd/src/features/common';
 import NiceModal from '@ebay/nice-modal-react';
-import { message, Modal } from 'antd';
+import { Modal, Form } from 'antd';
+import jsPlugin from 'js-plugin';
+import NiceForm from '@ebay/nice-form-react';
 import { DeleteOutlined } from '@ant-design/icons';
-import { extendArray } from '@ebay/muse-lib-antd/src/utils';
+import { extendArray, extendFormMeta } from '@ebay/muse-lib-antd/src/utils';
 import { useMuseMutate, useSyncStatus, useAbility } from '../../hooks';
 
 function EnvActions({ env, app }) {
@@ -12,6 +14,15 @@ function EnvActions({ env, app }) {
   const syncStatus = useSyncStatus(`muse.app.${app.name}`);
   const ability = useAbility();
   const canUpdateApp = ability.can('update', 'App', app);
+  const [deleteForm] = Form.useForm();
+  const [confirmModal, contextHolder] = Modal.useModal();
+  const deleteMeta = useMemo(
+    () => ({
+      columns: 1,
+      fields: [],
+    }),
+    [],
+  );
   let items = useMemo(() => {
     return [
       {
@@ -35,47 +46,74 @@ function EnvActions({ env, app }) {
         disabledText: 'No permission to delete environment',
         highlight: true,
         onClick: async () => {
-          Modal.confirm({
+          extendFormMeta(deleteMeta, 'museManager.deleteEnvForm', {
+            meta: deleteMeta,
+            form: deleteForm,
+            env,
+            app,
+          });
+          const deletConfirm = confirmModal.confirm({
             title: 'Confirm Delete',
             content: (
               <>
                 Are you sure to delete the Environment <b>{env.name}</b>?
+                {deleteMeta.fields.length > 0 && (
+                  <Form form={deleteForm} preserve={false}>
+                    <NiceForm meta={deleteMeta}></NiceForm>
+                  </Form>
+                )}
               </>
             ),
+            width: 480,
             onOk: () => {
-              (async () => {
-                const hide = message.loading(
-                  <span>
-                    Deleting <strong>{env.name}</strong> environment ...
-                  </span>,
-                  0,
-                );
-                deleteEnv({ appName: app.name, envName: env.name })
-                  .then((res) => {
-                    hide();
-                    message.success(
-                      <span>
-                        The <strong>{env.name}</strong> environment was successfully deleted
-                      </span>,
-                    );
-                    syncStatus();
-                  })
-                  .catch((err) => {
-                    hide();
-                    message.error(
-                      'Delete environment failed, please ask help from slack channel: #muse.',
-                    );
-                  });
-              })();
+              return deleteForm
+                .validateFields()
+                .then((values) => {
+                  const payload = { appName: app.name, envName: env.name };
+                  jsPlugin.invoke('museManager.deleteEnvForm.processPayload', { payload, values });
+                  return deleteEnv(payload)
+                    .then((res) => {
+                      syncStatus();
+                      Modal.success({
+                        title: 'Success',
+                        content: (
+                          <span>
+                            The <strong>{env.name}</strong> environment was successfully deleted
+                          </span>
+                        ),
+                        onOk() {
+                          deletConfirm.destroy();
+                        },
+                      });
+                    })
+                    .catch((err) => {
+                      Modal.error({
+                        title: 'Error',
+                        content: err.message,
+                        onOk() {
+                          deletConfirm.destroy();
+                        },
+                      });
+                    });
+                })
+                .catch((err) => {
+                  return;
+                });
             },
           });
         },
       },
     ].filter(Boolean);
-  }, [syncStatus, app, env, deleteEnv, canUpdateApp]);
+  }, [canUpdateApp, env, app, deleteMeta, deleteForm, confirmModal, deleteEnv, syncStatus]);
 
   extendArray(items, 'environmentActions', 'museManager.am', { app, env });
   items = items.filter(Boolean);
-  return <DropdownMenu items={items} />;
+
+  return (
+    <>
+      {contextHolder}
+      <DropdownMenu items={items} />
+    </>
+  );
 }
 export default EnvActions;

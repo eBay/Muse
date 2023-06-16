@@ -4,6 +4,7 @@ import { Form, Modal, message } from 'antd';
 import utils from '@ebay/muse-lib-antd/src/utils';
 import NiceForm from '@ebay/nice-form-react';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
+import jsPlugin from 'js-plugin';
 import { useSyncStatus, useMuseMutate } from '../../hooks';
 
 const user = window.MUSE_GLOBAL.getUser();
@@ -21,8 +22,7 @@ const EditEnvironmentModal = NiceModal.create(({ env, app }) => {
 
   const handleFinish = useCallback(() => {
     const values = form.getFieldsValue();
-
-    updateEnv({
+    const payload = {
       changes: {
         set: Object.entries({ ...values }).map((item) => {
           return { path: item[0], value: item[1] };
@@ -31,7 +31,9 @@ const EditEnvironmentModal = NiceModal.create(({ env, app }) => {
       appName: app.name,
       envName: env.name,
       author: user.username,
-    })
+    };
+    jsPlugin.invoke('museManager.editEnvForm.processPayload', { payload, values });
+    updateEnv(payload)
       .then(async () => {
         modal.hide();
         message.success('Update environment success.');

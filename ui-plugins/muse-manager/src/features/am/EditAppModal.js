@@ -5,6 +5,7 @@ import NiceForm from '@ebay/nice-form-react';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import { useSyncStatus, useMuseMutate } from '../../hooks';
 import utils from '@ebay/muse-lib-antd/src/utils';
+import jsPlugin from 'js-plugin';
 
 const user = window.MUSE_GLOBAL.getUser();
 const EditAppModal = NiceModal.create(({ app }) => {
@@ -38,7 +39,6 @@ const EditAppModal = NiceModal.create(({ app }) => {
       },
     ],
   };
-  // utils.extendFormMeta(meta, 'museManager.am.updateAppForm', { meta, app, form });
   const { watchingFields } = utils.extendFormMeta(meta, 'museManager.am.editAppForm', {
     meta,
     form,
@@ -47,13 +47,10 @@ const EditAppModal = NiceModal.create(({ app }) => {
     setError,
   });
   const updateOnChange = NiceForm.useUpdateOnChange(watchingFields);
-  // const watches = plugin.invoke('museManager.updateAppForm.watch', { meta, app, form });
-  // Form.useWatch([], form);
-  // Form.useWatch(_.flatten(watches), form);
 
   const handleFinish = useCallback(() => {
     const values = form.getFieldsValue();
-    updateApp({
+    const payload = {
       appName: app.name,
       changes: {
         set: Object.entries(values).map(([k, v]) => {
@@ -64,7 +61,9 @@ const EditAppModal = NiceModal.create(({ app }) => {
         }),
       },
       author: user.username,
-    })
+    };
+    jsPlugin.invoke('museManager.am.editAppForm.processPayload', { payload, values });
+    updateApp(payload)
       .then(async () => {
         modal.hide();
         message.success('Update app success.');
