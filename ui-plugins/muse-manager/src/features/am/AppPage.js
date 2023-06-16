@@ -16,7 +16,6 @@ export default function AppPage() {
   //
   const navigate = useNavigate();
   const [appNameActions, setAppNameActions] = useState([]);
-  const [appNodes, setAppNodes] = useState([]);
   const { appName, tabKey = 'overview' } = useParams();
   const { data: app, isLoading, error } = usePollingMuseData(`muse.app.${appName}`);
   const tabs = [
@@ -68,13 +67,6 @@ export default function AppPage() {
         appNameActions: appNameActionsExtended,
       });
       setAppNameActions(appNameActionsExtended);
-
-      const appNodesExtended = [];
-      extendArray(appNodesExtended, 'nodes', 'museManager.am.appPage', {
-        app,
-        nodes: appNodesExtended,
-      });
-      setAppNodes(appNodesExtended);
     }
   }, [app]);
 
@@ -107,9 +99,11 @@ export default function AppPage() {
     },
   ];
 
+  extendArray(nodes, 'nodes', 'museManager.am.appPage', { app, nodes });
+
   return !tabs.map((t) => t.key).includes(tabKey) ? (
     <Alert type="error" message={`Unknown tab: ${tabKey}`} showIcon />
   ) : (
-    <div>{appNodes.concat(nodes).map((n) => n.node)}</div>
+    <div>{nodes.map((n) => n.node)}</div>
   );
 }
