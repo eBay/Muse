@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import _ from 'lodash';
-import jsPlugin from 'js-plugin';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Tabs, Alert } from 'antd';
 import { EyeOutlined, ControlOutlined, FunctionOutlined } from '@ant-design/icons';
