@@ -54,10 +54,7 @@ export default function AppPage() {
     },
   ];
 
-  tabs.push(..._.flatten(jsPlugin.invoke('museManager.appPage.getTabs', tabs)));
-  jsPlugin.invoke('museManager.appPage.processTabs', tabs);
-  jsPlugin.invoke('museManager.appPage.postProcessTabs', tabs);
-  jsPlugin.sort(tabs);
+  extendArray(tabs, 'tabs', 'museManager.appPage', { tabs, app });
 
   useEffect(() => {
     if (app) {
