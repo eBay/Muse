@@ -28,7 +28,7 @@ export default function MultiPluginSelector({ value, onChange, app }) {
     const latest = latestReleases[value] && latestReleases[value].version;
     const newValue = _.cloneDeep(rows);
     newValue[index].name = value;
-    newValue[index].version = latest ? latest.replace('v', '') : undefined;
+    newValue[index].version = latest ? latest.startsWith('v') ? latest.substring(1) : latest : undefined;
     onChange(newValue.filter((v) => v.name));
   };
 

@@ -44,7 +44,10 @@ export default function PluginReleaseSelect({ value, onChange, plugin, app, filt
             }
 
             return (
-              <Option key={r.version} value={r.version.replace('v', '')}>
+              <Option
+                key={r.version}
+                value={r.version.startsWith('v') ? r.version.substring(1) : r.version}
+              >
                 <span style={{ marginRight: '15px', verticalAlign: 'middle' }}>{r.version}</span>
                 {tags}
                 <span style={{ color: '#999', marginLeft: '5px', verticalAlign: 'middle' }}>

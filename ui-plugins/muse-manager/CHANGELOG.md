@@ -1,5 +1,11 @@
 # @ebay/muse-manager
 
+## 1.2.20
+
+### Patch Changes
+
+- fix replacing all 'v's on a version
+
 ## 1.2.19
 
 ### Patch Changes
