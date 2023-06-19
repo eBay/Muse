@@ -5,6 +5,7 @@ import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import utils from '@ebay/muse-lib-antd/src/utils';
 import NiceForm from '@ebay/nice-form-react';
 import { useSyncStatus, useMuseMutate } from '../../hooks';
+import jsPlugin from 'js-plugin';
 
 const EditAppVariablesModal = NiceModal.create(({ app, env }) => {
   const modal = useModal();
@@ -92,13 +93,14 @@ const EditAppVariablesModal = NiceModal.create(({ app, env }) => {
           };
         })
       : { path: `envs.${env}.variables`, value: values.envs[env].variables };
-
-    updateApp({
+    const payload = {
       appName: app.name,
       changes: {
         set: updateSet,
       },
-    })
+    };
+    jsPlugin.invoke('museManager.editAppVariablesForm.processPayload', { payload, form, env });
+    updateApp(payload)
       .then(async () => {
         modal.hide();
         message.success('Update app success.');
@@ -112,6 +114,7 @@ const EditAppVariablesModal = NiceModal.create(({ app, env }) => {
   const { watchingFields } = utils.extendFormMeta(sectionMeta, 'museManager.editAppVariablesForm', {
     meta: sectionMeta,
     form,
+    env,
   });
   const updateOnChange = NiceForm.useUpdateOnChange(watchingFields);
 
@@ -130,7 +133,7 @@ const EditAppVariablesModal = NiceModal.create(({ app, env }) => {
       <div
         id="scrollableDiv"
         style={{
-          height: '40vh',
+          height: '45vh',
           overflowY: 'auto',
           overflowX: 'hidden',
         }}

@@ -4,7 +4,9 @@ import { Modal, Alert, message, Form, Input, Button, Select, Tooltip, Divider } 
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import { useSyncStatus, useMuseMutate, useAbility, usePollingMuseData } from '../../hooks';
 import { DeleteOutlined, PlusOutlined, QuestionCircleOutlined } from '@ant-design/icons';
-
+import jsPlugin from 'js-plugin';
+import NiceForm from '@ebay/nice-form-react';
+import utils from '@ebay/muse-lib-antd/src/utils';
 const { TextArea } = Input;
 
 const EditPluginVariablesModal = NiceModal.create(({ app, env }) => {
@@ -111,13 +113,14 @@ const EditPluginVariablesModal = NiceModal.create(({ app, env }) => {
           };
         })
       : { path: `envs.${env}.pluginVariables`, value: values.envs[env].pluginVariables };
-
-    updateApp({
+    const payload = {
       appName: app.name,
       changes: {
         set: updateSet,
       },
-    })
+    };
+    jsPlugin.invoke('museManager.editAppVariablesForm.processPayload', { payload, form, env });
+    updateApp(payload)
       .then(async () => {
         modal.hide();
         message.success('Update app success.');
@@ -127,6 +130,16 @@ const EditPluginVariablesModal = NiceModal.create(({ app, env }) => {
         console.log('failed to update', err);
       });
   }, [updateApp, syncStatus, modal, form, app, env]);
+
+  const meta = {
+    fields: [],
+  };
+  const { watchingFields } = utils.extendFormMeta(meta, 'museManager.editPluginVariablesForm', {
+    meta: meta,
+    form,
+    env,
+  });
+  const updateOnChange = NiceForm.useUpdateOnChange(watchingFields);
 
   return (
     <Modal
@@ -161,6 +174,7 @@ const EditPluginVariablesModal = NiceModal.create(({ app, env }) => {
           form={form}
           onFinish={handleFinish}
           initialValues={initialPluginVariableValues}
+          onValuesChange={updateOnChange}
         >
           <Form.List name="pluginVariables">
             {(fields, { add, remove }) => (
@@ -246,6 +260,7 @@ const EditPluginVariablesModal = NiceModal.create(({ app, env }) => {
               </>
             )}
           </Form.List>
+          <NiceForm meta={meta}></NiceForm>
         </Form>
       </div>
     </Modal>
