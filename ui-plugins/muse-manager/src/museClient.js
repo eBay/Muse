@@ -4,7 +4,7 @@ const g = window.MUSE_GLOBAL;
 
 const museClient = mClient.create({
   endpoint:
-    import.meta?.env?.REACT_APP_MUSE_API_ENDPOINT ||
+    process.env.REACT_APP_MUSE_API_ENDPOINT ||
     g.getPluginVariables('@ebay/muse-manager')?.museApiEndpoint ||
     g.getAppVariables()?.museApiEndpoint ||
     'https://musenextsvc.vip.qa.ebay.com/api/v2',
