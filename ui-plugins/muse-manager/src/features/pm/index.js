@@ -3,4 +3,4 @@ export { default as PluginReleaseSelect } from './PluginReleaseSelect';
 export { default as EnvFilterMenu } from './EnvFilterMenu';
 export { default as LightOnIcon } from './LightOnIcon';
 export { default as MultiPluginSelector } from './MultiPluginSelector';
-export { default as PluginList } from './PluginList';
+export { default as PluginStatus } from './PluginStatus';
