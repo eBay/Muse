@@ -29,6 +29,7 @@ const getPluginByUrl = (s) => {
     name: nameArr[0] || url,
     type: nameArr[1] || 'normal',
     url,
+    esModule: url.includes('/src/'),
   };
 };
 
@@ -108,7 +109,7 @@ muse.plugin.register({
         const pkgJson = getPkgJson();
         const museConfig = pkgJson.muse;
         // Handle remote plugins defined in package.json or .env
-        const remotePlugins = _.castArray(museConfig?.devConfig?.remotePlugins || []);
+        const remotePlugins = _.clone(_.castArray(museConfig?.devConfig?.remotePlugins || []));
         if (process.env.MUSE_REMOTE_PLUGINS) {
           remotePlugins.push(
             ...process.env.MUSE_REMOTE_PLUGINS.split(';')
@@ -199,14 +200,16 @@ muse.plugin.register({
           // boot plugin is loaded directly by Muse app middleware
           // here define the dev bundle as a plugin loaded by url
           // This support also support init plugins
-          realPluginsToLoad.push({
+          const pluginForLocal = {
             // Show plugin name in browser console
             name: 'LOCAL: ' + localNames.join(','),
             localPlugins: localNames,
             type: museConfig.type || 'normal',
             url: '/main.js',
             dev: true,
-          });
+          };
+          // if ()
+          realPluginsToLoad.push(pluginForLocal);
 
           // If plugins are installed locally, use the local version and url
           // NOTE: Boot plugin should not depends on libs
@@ -230,8 +233,9 @@ muse.plugin.register({
 
         // For a plugin included by url, keep the original meta too
         urlPlugins.forEach((up) => {
-          if (pluginByName[up.name]) pluginByName[up.name].url = up.url;
-          else plugins.push(up);
+          if (pluginByName[up.name]) {
+            Object.assign(pluginByName[up.name], up);
+          } else plugins.push(up);
         });
       },
       processMuseGlobal: (museGlobal) => {
@@ -269,7 +273,7 @@ module.exports = (middlewares) => {
     const i = _.findIndex(middlewares, (m) => m.name === 'webpack-dev-middleware');
 
     if (i < 0) {
-      throw new Error('Can not find webpack-dev-middleware.');
+      // throw new Error('Can not find webpack-dev-middleware.');
     }
     middlewares.splice(
       i + 1,

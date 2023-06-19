@@ -100,6 +100,6 @@ export default function AppPage() {
   return !tabs.map((t) => t.key).includes(tabKey) ? (
     <Alert type="error" message={`Unknown tab: ${tabKey}`} showIcon />
   ) : (
-    <div>{nodes.map((n) => n.node)}</div>
+    <div>{nodes.map((n) => n.node || null)}</div>
   );
 }

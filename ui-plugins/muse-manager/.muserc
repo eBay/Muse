@@ -1,3 +1,4 @@
 {
-  "extends": "@ebay/muse-ebay-dev/config"
+  "extends": "@ebay/muse-ebay-dev/config",
+  "plugins": []
 }
