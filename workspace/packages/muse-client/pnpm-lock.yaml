@@ -4,9 +4,6 @@ dependencies:
   axios:
     specifier: ^0.27.2
     version: 0.27.2
-  lodash:
-    specifier: ^4.17.21
-    version: 4.17.21
 
 devDependencies:
   eslint:
@@ -451,10 +448,6 @@ packages:
   /lodash.merge@4.6.2:
     resolution: {integrity: sha1-VYqlO0O2YeGSWgr9+japoQhf5Xo=}
     dev: true
-
-  /lodash@4.17.21:
-    resolution: {integrity: sha1-Z5WRxWTDv/quhFTPCz3zcMPWkRw=}
-    dev: false
 
   /mime-db@1.52.0:
     resolution: {integrity: sha1-u6vNwChZ9JhzAchW4zh85exDv3A=}
