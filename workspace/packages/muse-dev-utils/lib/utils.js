@@ -32,11 +32,12 @@ module.exports = {
         const depPkgJson = require(resolveCwd(`${dep}/package.json`));
         return depPkgJson?.muse?.type === 'lib';
       } catch (error) {
+        // NOTE: a lib plugin must exports package.json
         /* if we can't read the package.json (maybe due to an "exports" section that does not explicitly export ./package.json), 
            we just ignore it to avoid a monumental crash */
-        console.error(
-          `Error while reading ${dep}/package.json file. Either the module is not available, or the 'exports' section does not explicitly export ./package.json`,
-        );
+        // console.error(
+        //   `Error while reading ${dep}/package.json file. Either the module is not available, or the 'exports' section does not explicitly export ./package.json`,
+        // );
         return false;
       }
     });

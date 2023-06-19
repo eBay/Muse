@@ -1,0 +1,54 @@
+lockfileVersion: '6.0'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+dependencies:
+  '@ebay/muse-core':
+    specifier: workspace:^
+    version: link:../muse-core
+  '@ebay/muse-dev-utils':
+    specifier: workspace:^
+    version: link:../muse-dev-utils
+  '@ebay/muse-modules':
+    specifier: workspace:^
+    version: link:../muse-modules
+  find-root:
+    specifier: ^1.1.0
+    version: 1.1.0
+  fs-extra:
+    specifier: ^10.1.0
+    version: 10.1.0
+
+packages:
+
+  /find-root@1.1.0:
+    resolution: {integrity: sha1-q8/Iunb3CMQql7PWhbfpRQv7nOQ=}
+    dev: false
+
+  /fs-extra@10.1.0:
+    resolution: {integrity: sha1-Aoc8+8QITd4SfqpfmQXu8jJdGr8=}
+    engines: {node: '>=12'}
+    dependencies:
+      graceful-fs: 4.2.11
+      jsonfile: 6.1.0
+      universalify: 2.0.0
+    dev: false
+
+  /graceful-fs@4.2.11:
+    resolution: {integrity: sha1-QYPk6L8Iu24Fu7L30uDI9xLKQOM=}
+    dev: false
+
+  /jsonfile@6.1.0:
+    resolution: {integrity: sha1-vFWyY0eTxnnsZAMJTrE2mKbsCq4=}
+    dependencies:
+      universalify: 2.0.0
+    optionalDependencies:
+      graceful-fs: 4.2.11
+    dev: false
+
+  /universalify@2.0.0:
+    resolution: {integrity: sha1-daSYTv7cSwiXXFrrc/Uw0C3yVxc=}
+    engines: {node: '>= 10.0.0'}
+    dev: false

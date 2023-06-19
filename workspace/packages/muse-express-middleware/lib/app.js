@@ -17,7 +17,7 @@ const defaultTemplate = `
   </script>
 </head>
 <body></body>
-<script src="<%= bootPluginUrl %>"></script>
+<script src="<%= bootPluginUrl %>" type="<%= bootType %>"></script>
 </html>
 `;
 
@@ -148,7 +148,7 @@ module.exports = ({
       plugins,
       isDev,
       isLocal,
-      isE2eTest: req.headers['user-agent'].includes('MuseE2eTest'),
+      isE2eTest: req.headers['user-agent']?.includes('MuseE2eTest'),
       cdn,
       bootPlugin: bootPlugin.name,
       // If app disabled service worker, or it's not confiugred for the app
@@ -183,10 +183,13 @@ module.exports = ({
     const ctx = {
       app,
       env,
+      req,
+      res,
       bootPlugin,
       indexHtml: _.template(template)({
         title: app.title || 'Muse App',
         favicon,
+        bootType: bootPlugin.esModule ? 'module' : '',
         bootPluginUrl:
           bootPlugin.url ||
           `${cdn}/p/${museCore.utils.getPluginId(bootPlugin.name)}/v${
@@ -195,7 +198,7 @@ module.exports = ({
         museGlobal: JSON.stringify(museGlobal, null, 2),
       }),
     };
-    museCore.plugin.invoke('museMiddleware.app.processIndexHtml', ctx);
+    await museCore.utils.asyncInvoke('museMiddleware.app.processIndexHtml', ctx);
     res.write(ctx.indexHtml);
     res.end();
   };

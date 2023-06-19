@@ -53,6 +53,7 @@ export default function AppIcon({ app, form }) {
   const imgUrl = app.iconId
     ? `${window.MUSE_GLOBAL.cdn}/p/app-icon.${app.name}/v0.0.${app.iconId}/dist/icon.png`
     : defaultIcon;
+
   return (
     <>
       <div className="fixed -left-full">

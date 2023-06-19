@@ -2,11 +2,11 @@ const path = require('path');
 const muse = require('@ebay/muse-core');
 const mimeTypes = require('mime-types');
 
-module.exports = options => async (req, res, next) => {
+module.exports = (options) => async (req, res, next) => {
   const { basePath = '/muse-assets' } = options;
-  if (!req.path.startsWith(basePath)) return next();
+  if (!req?.originalUrl?.startsWith(basePath)) return next();
 
-  const assetKeyPath = req.path.replace(basePath, '');
+  const assetKeyPath = req.originalUrl.replace(basePath, '');
 
   try {
     const result = await muse.storage.assets.get(decodeURIComponent(assetKeyPath));

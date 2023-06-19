@@ -30,26 +30,27 @@ export function xhr(url, options = {}) {
   });
 }
 
-export function load(resource, callback) {
+export function load(plugin, callback) {
   callback = callback || noop;
-  if (resource.then && resource.catch) {
-    resource.then(callback);
+  if (plugin.then && plugin.catch) {
+    plugin.then(callback);
     return;
   }
 
-  if (resource.endsWith('.js')) {
+  if (plugin.url && plugin.url.endsWith('.js')) {
     return new Promise((resolve, reject) => {
       const head = document.querySelector('head');
       const script = document.createElement('script');
+      script.src = plugin.url;
+      if (plugin.esModule) script.type = 'module';
       head.appendChild(script);
-      script.src = resource;
       script.onload = () => {
         callback();
         resolve();
       };
       script.onerror = () => {
         // fatalError('Failed to load resource: ' + resource);
-        error.showMessage(`Failed to load resource: ${resource} .`);
+        error.showMessage(`Failed to load resource: ${plugin.url} .`);
         reject();
       };
     });

@@ -11,5 +11,12 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@ebay/muse-core": "workspace:^",
+    "@ebay/muse-dev-utils": "workspace:^",
+    "@ebay/muse-modules": "workspace:^",
+    "find-root": "^1.1.0",
+    "fs-extra": "^10.1.0"
+  }
 }

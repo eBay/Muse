@@ -198,20 +198,25 @@ async function start() {
   });
   // Load init plugins
   // Init plugins should be small and not depend on each other
-  const initPluginUrls = plugins
+  const initPluginsToLoad = plugins
     .filter((p) => p.type === 'init')
-    .map((p) =>
-      p.isLocal ? false : p.url || `${cdn}/p/${getPluginId(p.name)}/v${p.version}/dist/main.js`,
-    )
+    .map((p) => {
+      return {
+        url: p.isLocal
+          ? false
+          : p.url || `${cdn}/p/${getPluginId(p.name)}/v${p.version}/dist/main.js`,
+        ...p,
+      };
+    })
     .filter(Boolean);
 
   // Load init plugins
-  if (initPluginUrls.length > 0) {
-    loading.showMessage(`Loading init plugins 1/${initPluginUrls.length}...`);
-    await loadInParallel(initPluginUrls, (loadedCount) =>
+  if (initPluginsToLoad.length > 0) {
+    loading.showMessage(`Loading init plugins 1/${initPluginsToLoad.length}...`);
+    await loadInParallel(initPluginsToLoad, (loadedCount) =>
       loading.showMessage(
-        `Loading init plugins ${Math.min(loadedCount + 1, initPluginUrls.length)}/${
-          initPluginUrls.length
+        `Loading init plugins ${Math.min(loadedCount + 1, initPluginsToLoad.length)}/${
+          initPluginsToLoad.length
         }...`,
       ),
     );
@@ -231,21 +236,38 @@ async function start() {
 
   // Load normal and lib plugins
   const bundleDir = isDev ? 'dev' : isE2eTest ? 'test' : 'dist';
-  const pluginUrls = plugins
+  const pluginsToLoad = plugins
     .filter((p) => p.type !== 'boot' && p.type !== 'init')
-    .map((p) =>
-      p.isLocal
-        ? false
-        : p.url || `${cdn}/p/${getPluginId(p.name)}/v${p.version}/${bundleDir}/main.js`,
-    )
+    .map((p) => {
+      return {
+        url: p.isLocal
+          ? false
+          : p.url || `${cdn}/p/${getPluginId(p.name)}/v${p.version}/${bundleDir}/main.js`,
+        ...p,
+      };
+    })
     .filter(Boolean);
 
   // Load plugin bundles
-  loading.showMessage(`Loading plugins 1/${pluginUrls.length}...`);
-  await loadInParallel(pluginUrls, (loadedCount) =>
-    loading.showMessage(
-      `Loading plugins ${Math.min(loadedCount + 1, pluginUrls.length)}/${pluginUrls.length}...`,
-    ),
+  loading.showMessage(`Loading plugins 1/${pluginsToLoad.length}...`);
+  await loadInParallel(
+    pluginsToLoad.filter((p) => !p.esModule),
+    (loadedCount) =>
+      loading.showMessage(
+        `Loading plugins ${Math.min(loadedCount + 1, pluginsToLoad.length)}/${
+          pluginsToLoad.length
+        }...`,
+      ),
+  );
+
+  await loadInParallel(
+    pluginsToLoad.filter((p) => p.esModule),
+    (loadedCount) =>
+      loading.showMessage(
+        `Loading plugins ${Math.min(loadedCount + 1, pluginsToLoad.length)}/${
+          pluginsToLoad.length
+        }...`,
+      ),
   );
 
   // Exec plugin entries
@@ -295,6 +317,7 @@ async function start() {
   if (entryApp) {
     console.log(`Starting the app from ${entryName}...`);
     loading.showMessage(`Starting the app...`);
+    // await new Promise((resolve) => setTimeout(resolve, 5000));
     await entryApp.func();
   } else {
     throw new Error(`The specified app entry was not found: ${entryName}.`);

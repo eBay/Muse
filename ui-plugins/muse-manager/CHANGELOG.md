@@ -1,5 +1,23 @@
 # @ebay/muse-manager
 
+## 1.2.20
+
+### Patch Changes
+
+- fix replacing all 'v's on a version
+
+## 1.2.19
+
+### Patch Changes
+
+- refactor AppPage to ensure we get app object on extended arrays
+
+## 1.2.18
+
+### Patch Changes
+
+- pass app param to getNodes for app
+
 ## 1.2.17
 
 ### Patch Changes

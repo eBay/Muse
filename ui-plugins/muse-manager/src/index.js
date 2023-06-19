@@ -1,6 +1,6 @@
-import plugin from 'js-plugin';
 import * as ext from './ext';
 import route from './route';
+import plugin from 'js-plugin';
 // import reducer from './rootReducer';
 import * as hooks from './hooks';
 import * as utils from './utils';
@@ -12,6 +12,7 @@ import './modals';
 import './style.less';
 // import { useMuseData } from './hooks';
 import ability from './ability';
+// import '../../../../muse-manager-ebay/src/index.js';
 // import defineAbilityFor from '@ebay/muse-plugin-acl/lib/defineAbilityFor';
 
 // const InitAbilityComp = () => {

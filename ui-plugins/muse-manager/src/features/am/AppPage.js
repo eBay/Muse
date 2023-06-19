@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import _ from 'lodash';
-import jsPlugin from 'js-plugin';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Tabs, Alert } from 'antd';
 import { EyeOutlined, ControlOutlined, FunctionOutlined } from '@ant-design/icons';
@@ -54,10 +53,7 @@ export default function AppPage() {
     },
   ];
 
-  tabs.push(..._.flatten(jsPlugin.invoke('museManager.appPage.getTabs', tabs)));
-  jsPlugin.invoke('museManager.appPage.processTabs', tabs);
-  jsPlugin.invoke('museManager.appPage.postProcessTabs', tabs);
-  jsPlugin.sort(tabs);
+  extendArray(tabs, 'tabs', 'museManager.appPage', { tabs, app });
 
   useEffect(() => {
     if (app) {
@@ -99,11 +95,11 @@ export default function AppPage() {
     },
   ];
 
-  extendArray(nodes, 'nodes', 'museManager.am.appPage', { nodes });
+  extendArray(nodes, 'nodes', 'museManager.am.appPage', { app, nodes });
 
   return !tabs.map((t) => t.key).includes(tabKey) ? (
     <Alert type="error" message={`Unknown tab: ${tabKey}`} showIcon />
   ) : (
-    <div>{nodes.map((n) => n.node)}</div>
+    <div>{nodes.map((n) => n.node || null)}</div>
   );
 }
