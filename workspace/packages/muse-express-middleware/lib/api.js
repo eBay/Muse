@@ -80,7 +80,6 @@ module.exports = ({ basePath = '/api/v2' } = {}) => {
     const apiKey = apiPath
       .split('/')
       .filter(Boolean)
-      .map((s) => _.camelCase(s))
       .join('.');
 
     // If not a defined api or it doesn't exist, then just say 404
