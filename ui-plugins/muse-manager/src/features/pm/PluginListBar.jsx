@@ -59,9 +59,8 @@ export default function PluginListBar({ app }) {
           ..._.flatten(jsPlugin.invoke('museManager.pluginListBar.getScopes', { setScope, scope })),
         );
         jsPlugin.sort(scopes);
-
         return scopes.length > 1 ? (
-          <Radio.Group value={scope}>
+          <Radio.Group value={scope} key="scope">
             {scopes.map((s) => {
               return (
                 <Radio.Button value={s.key} key={s.key} onClick={() => s.onClick()}>
@@ -79,6 +78,7 @@ export default function PluginListBar({ app }) {
       render: () => {
         return (
           <Button
+            key="createPlugin"
             type="primary"
             onClick={() => NiceModal.show('muse-manager.create-plugin-modal', { app: app.name })}
           >

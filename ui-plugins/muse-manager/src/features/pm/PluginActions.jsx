@@ -81,11 +81,7 @@ function PluginActions({ plugin, app }) {
         order: 70,
         icon: 'delete',
         menuItemProps: {
-          style: canDeletePlugin
-            ? {
-                color: '#ff4d4f',
-              }
-            : {},
+          style: { color: canDeletePlugin ? '#ff4d4f' : '' },
         },
         highlight: false,
         onClick: async () => {

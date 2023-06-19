@@ -42,7 +42,7 @@ export default function useEnvFilter(props = {}) {
         filterIcon: (
           <FilterOutlined style={{ color: envFilterMap[envName] ? '#1890ff' : '#aaa' }} />
         ),
-        filterDropdownVisible: envFilterDropdownOpenMap[envName],
+        filterDropdownOpen: envFilterDropdownOpenMap[envName],
         onFilterDropdownOpenChange: (visible) => onFilterOpenChange(envName, visible),
       };
     },
