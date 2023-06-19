@@ -47,7 +47,7 @@
   },
   "dependencies": {
     "@ebay/muse-client": "^1.0.22",
-    "@ebay/muse-lib-antd": "1.2.8",
+    "@ebay/muse-lib-antd": "1.2.9",
     "@ebay/muse-lib-react": "1.2.12",
     "@ebay/muse-plugin-acl": "^1.0.10",
     "@tanstack/react-query": "^4.28.0",
