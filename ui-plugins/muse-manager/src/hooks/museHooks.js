@@ -50,3 +50,5 @@ export function useMuseMutate(apiPath) {
   });
   return mutation;
 }
+
+export const useMuseMutation = useMuseMutate;
