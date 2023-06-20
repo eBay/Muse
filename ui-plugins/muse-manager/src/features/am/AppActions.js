@@ -1,10 +1,10 @@
 import React, { useMemo } from 'react';
 import { DropdownMenu } from '@ebay/muse-lib-antd/src/features/common';
 import { message, Modal } from 'antd';
-import { useMuseMutate, useSyncStatus, useAbility } from '../../hooks';
+import { useMuseMutation, useSyncStatus, useAbility } from '../../hooks';
 
 function AppActions({ app }) {
-  const { mutateAsync: deleteApp } = useMuseMutate('am.deleteApp');
+  const { mutateAsync: deleteApp } = useMuseMutation('am.deleteApp');
   const syncStatus = useSyncStatus('muse.apps');
   const ability = useAbility();
   const canDeleteApp = ability.can('delete', 'App', app);

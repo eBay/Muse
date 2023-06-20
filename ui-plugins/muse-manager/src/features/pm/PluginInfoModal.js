@@ -4,7 +4,7 @@ import { Modal, message, Select, Form, Tag } from 'antd';
 import NiceForm from '@ebay/nice-form-react';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import utils from '@ebay/muse-lib-antd/src/utils';
-import { useSyncStatus, useMuseMutate, useAbility } from '../../hooks';
+import { useSyncStatus, useMuseMutation, useAbility } from '../../hooks';
 
 const PluginInfoModal = NiceModal.create(({ plugin, app }) => {
   const modal = useModal();
@@ -16,7 +16,7 @@ const PluginInfoModal = NiceModal.create(({ plugin, app }) => {
     mutateAsync: updatePlugin,
     error: updatePluginError,
     isLoading: updatePluginPending,
-  } = useMuseMutate('pm.updatePlugin');
+  } = useMuseMutation('pm.updatePlugin');
 
   const meta = {
     columns: 1,

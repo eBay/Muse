@@ -4,7 +4,7 @@ import NiceForm from '@ebay/nice-form-react';
 import { flatten, uniq, concat } from 'lodash';
 import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
-import { useMuseMutate, useSyncStatus } from '../../hooks';
+import { useMuseMutation, useSyncStatus } from '../../hooks';
 import MultiPluginSelector from './MultiPluginSelector';
 
 const MultiDeploymentModal = NiceModal.create(({ app }) => {
@@ -14,7 +14,7 @@ const MultiDeploymentModal = NiceModal.create(({ app }) => {
     mutateAsync: deployPlugin,
     error: deployPluginError,
     isLoading: deployPluginPending,
-  } = useMuseMutate('pm.deployPlugin');
+  } = useMuseMutation('pm.deployPlugin');
   const syncStatus = useSyncStatus(`muse.app.${app.name}`);
   const deployedPlugins = uniq(
     flatten(

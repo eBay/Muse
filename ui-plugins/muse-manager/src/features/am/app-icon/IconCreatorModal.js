@@ -4,7 +4,7 @@ import _ from 'lodash';
 import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import utils from '@ebay/muse-lib-antd/src/utils';
-import { useMuseMutate, useSyncStatus } from '../../../hooks';
+import { useMuseMutation, useSyncStatus } from '../../../hooks';
 import NiceForm from '@ebay/nice-form-react';
 import IconCanvas from './IconCanvas';
 import ColorPicker from './ColorPicker';
@@ -20,7 +20,7 @@ export default NiceModal.create(({ app }) => {
     mutateAsync: setAppIcon,
     error: setAppIconError,
     isLoading: setAppIconPending,
-  } = useMuseMutate('am.setAppIcon');
+  } = useMuseMutation('am.setAppIcon');
   const syncStatus = useSyncStatus(`muse.app.${app.name}`);
 
   const [form] = Form.useForm();

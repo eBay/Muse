@@ -5,10 +5,10 @@ import NiceModal from '@ebay/nice-modal-react';
 import { message, Modal } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
 import { extendArray } from '@ebay/muse-lib-antd/src/utils';
-import { useMuseMutate, useSyncStatus, useAbility } from '../../hooks';
+import { useMuseMutation, useSyncStatus, useAbility } from '../../hooks';
 
 function EnvActions({ env, app }) {
-  const { mutateAsync: deleteEnv } = useMuseMutate('am.deleteEnv');
+  const { mutateAsync: deleteEnv } = useMuseMutation('am.deleteEnv');
   const syncStatus = useSyncStatus(`muse.app.${app.name}`);
   const ability = useAbility();
   const canUpdateApp = ability.can('update', 'App', app);
