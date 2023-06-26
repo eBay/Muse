@@ -7,10 +7,10 @@ import jsPlugin from 'js-plugin';
 import NiceForm from '@ebay/nice-form-react';
 import { DeleteOutlined } from '@ant-design/icons';
 import { extendArray, extendFormMeta } from '@ebay/muse-lib-antd/src/utils';
-import { useMuseMutate, useSyncStatus, useAbility } from '../../hooks';
+import { useMuseMutation, useSyncStatus, useAbility } from '../../hooks';
 
 function EnvActions({ env, app }) {
-  const { mutateAsync: deleteEnv } = useMuseMutate('am.deleteEnv');
+  const { mutateAsync: deleteEnv } = useMuseMutation('am.deleteEnv');
   const syncStatus = useSyncStatus(`muse.app.${app.name}`);
   const ability = useAbility();
   const canUpdateApp = ability.can('update', 'App', app);
@@ -106,7 +106,7 @@ function EnvActions({ env, app }) {
     ].filter(Boolean);
   }, [canUpdateApp, env, app, deleteMeta, deleteForm, confirmModal, deleteEnv, syncStatus]);
 
-  extendArray(items, 'environmentActions', 'museManager.am', { app, env });
+  extendArray(items, 'environmentActions', 'museManager.am', { app, env, ability });
   items = items.filter(Boolean);
 
   return (

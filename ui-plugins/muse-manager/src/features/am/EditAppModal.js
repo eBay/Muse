@@ -3,7 +3,7 @@ import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
 import { Modal, message, Form } from 'antd';
 import NiceForm from '@ebay/nice-form-react';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
-import { useSyncStatus, useMuseMutate } from '../../hooks';
+import { useSyncStatus, useMuseMutation } from '../../hooks';
 import utils from '@ebay/muse-lib-antd/src/utils';
 import jsPlugin from 'js-plugin';
 
@@ -19,7 +19,7 @@ const EditAppModal = NiceModal.create(({ app }) => {
     mutateAsync: updateApp,
     error: updateAppError,
     isLoading: updateAppPending,
-  } = useMuseMutate('am.updateApp');
+  } = useMuseMutation('am.updateApp');
 
   const meta = {
     initialValues: app,

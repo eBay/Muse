@@ -5,7 +5,7 @@ import { Drawer, Table, Tag, Popconfirm, Modal, Button, message } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
 import ReactMarkdown from 'react-markdown';
 import { RequestStatus, DropdownMenu } from '@ebay/muse-lib-antd/src/features/common';
-import { useAbility, usePollingMuseData, useMuseMutate, useSyncStatus } from '../../hooks';
+import { useAbility, usePollingMuseData, useMuseMutation, useSyncStatus } from '../../hooks';
 import { extendArray } from '@ebay/muse-lib-antd/src/utils';
 
 const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
@@ -25,7 +25,7 @@ const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
   const syncStatus = useSyncStatus(`muse.plugin-releases.${plugin.name}`);
   const ability = useAbility();
   const { mutateAsync: deleteRelease, isLoading: deleteReleasePending } =
-    useMuseMutate('pm.deleteRelease');
+    useMuseMutation('pm.deleteRelease');
   const handleDelete = useCallback(
     async (version) => {
       try {

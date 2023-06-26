@@ -4,7 +4,7 @@ import { Modal, message, Form } from 'antd';
 import NiceForm from '@ebay/nice-form-react';
 import utils from '@ebay/muse-lib-antd/src/utils';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
-import { useSyncStatus, useMuseMutate } from '../../hooks';
+import { useSyncStatus, useMuseMutation } from '../../hooks';
 
 const user = window.MUSE_GLOBAL.getUser();
 const CreateAppModal = NiceModal.create(() => {
@@ -16,7 +16,7 @@ const CreateAppModal = NiceModal.create(() => {
     mutateAsync: createApp,
     error: createAppError,
     isLoading: createAppPending,
-  } = useMuseMutate('am.createApp');
+  } = useMuseMutation('am.createApp');
 
   const meta = {
     columns: 1,

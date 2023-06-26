@@ -2,12 +2,15 @@ import { invoke, isObject } from 'lodash';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import museClient from '../museClient';
 
+/**
+ compatible with: useMuseQuery(queryArgs, apiPath, ...args)
+ */
 export function useMuseQuery(apiPath, ...args) {
-  const last = args[args.length - 1];
   let queryArgs = {};
-  if (isObject(last)) {
-    queryArgs = last;
-    args.pop();
+
+  if (isObject(apiPath)) {
+    queryArgs = apiPath;
+    apiPath = args.shift();
   }
   const query = useQuery({
     queryKey: ['muse-query', apiPath, ...args],
@@ -21,8 +24,13 @@ export function useMuseQuery(apiPath, ...args) {
   return query;
 }
 
-export function useMuseData(dataKey, queryArgs = {}) {
-  return useMuseQuery('data.get', dataKey, queryArgs);
+export function useMuseData(dataKey, args) {
+  let queryArgs = {};
+  if (isObject(dataKey)) {
+    queryArgs = dataKey;
+    dataKey = args;
+  }
+  return useMuseQuery(queryArgs, 'data.get', dataKey);
 }
 
 export function usePollingMuseQuery(...args) {
@@ -33,7 +41,7 @@ export function usePollingMuseQuery(...args) {
     args.pop();
     Object.assign(queryArgs, last);
   }
-  args.push(queryArgs);
+  args.unshift(queryArgs);
 
   return useMuseQuery(...args);
 }
@@ -42,7 +50,7 @@ export function usePollingMuseData(...args) {
   return usePollingMuseQuery('data.get', ...args);
 }
 
-export function useMuseMutate(apiPath) {
+export function useMuseMutation(apiPath) {
   const mutation = useMutation({
     mutationFn: (...args) => {
       return invoke(museClient, apiPath, ...args);

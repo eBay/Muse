@@ -5,7 +5,7 @@ import utils from '@ebay/muse-lib-antd/src/utils';
 import NiceForm from '@ebay/nice-form-react';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import jsPlugin from 'js-plugin';
-import { useSyncStatus, useMuseMutate } from '../../hooks';
+import { useSyncStatus, useMuseMutation } from '../../hooks';
 
 const user = window.MUSE_GLOBAL.getUser();
 
@@ -18,7 +18,7 @@ const EditEnvironmentModal = NiceModal.create(({ env, app }) => {
     mutateAsync: updateEnv,
     error: updateEnvError,
     isLoading: updateEnvPending,
-  } = useMuseMutate('am.updateEnv');
+  } = useMuseMutation('am.updateEnv');
 
   const handleFinish = useCallback(() => {
     const values = form.getFieldsValue();

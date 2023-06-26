@@ -6,7 +6,7 @@ import { Modal, message, Form, Alert } from 'antd';
 import NiceForm from '@ebay/nice-form-react';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import utils from '@ebay/muse-lib-antd/src/utils';
-import { useSyncStatus, useMuseMutate } from '../../hooks';
+import { useSyncStatus, useMuseMutation } from '../../hooks';
 import { LightOnIcon } from './';
 import jsPlugin from 'js-plugin';
 
@@ -20,7 +20,7 @@ const PluginConfigModal = NiceModal.create(({ plugin, app }) => {
     mutateAsync: updateApp,
     error: updateAppError,
     isLoading: updateAppPending,
-  } = useMuseMutate('am.updateApp');
+  } = useMuseMutation('am.updateApp');
 
   const initialValues = { ...app, appName: app.name };
   _.unset(initialValues, `pluginConfig.${plugin.name}.core`);

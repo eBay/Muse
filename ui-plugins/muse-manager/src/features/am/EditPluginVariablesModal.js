@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
 import { Modal, Alert, message, Form, Input, Button, Select, Tooltip, Divider } from 'antd';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
-import { useSyncStatus, useMuseMutate, useAbility, usePollingMuseData } from '../../hooks';
+import { useSyncStatus, useMuseMutation, useAbility, usePollingMuseData } from '../../hooks';
 import { DeleteOutlined, PlusOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import jsPlugin from 'js-plugin';
 import NiceForm from '@ebay/nice-form-react';
@@ -27,7 +27,7 @@ const EditPluginVariablesModal = NiceModal.create(({ app, env }) => {
     mutateAsync: updateApp,
     error: updateAppError,
     isLoading: updateAppPending,
-  } = useMuseMutate('am.updateApp');
+  } = useMuseMutation('am.updateApp');
 
   const populateEnvVariablesInputField = (environmentVars) => {
     let propertyVariables = '';

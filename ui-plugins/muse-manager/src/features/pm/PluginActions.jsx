@@ -3,7 +3,7 @@ import { DropdownMenu } from '@ebay/muse-lib-antd/src/features/common';
 import NiceModal from '@ebay/nice-modal-react';
 import _ from 'lodash';
 import { message, Modal } from 'antd';
-import { useMuseMutate, useMuseData, useSyncStatus, useAbility } from '../../hooks';
+import { useMuseMutation, useMuseData, useSyncStatus, useAbility } from '../../hooks';
 import { extendArray } from '@ebay/muse-lib-antd/src/utils';
 
 const isPluginDeployed = ({ app, plugin }) => {
@@ -12,7 +12,7 @@ const isPluginDeployed = ({ app, plugin }) => {
   );
 };
 function PluginActions({ plugin, app }) {
-  const { mutateAsync: deletePlugin } = useMuseMutate('pm.deletePlugin');
+  const { mutateAsync: deletePlugin } = useMuseMutation('pm.deletePlugin');
   const syncStatus = useSyncStatus('muse.plugins');
   const ability = useAbility();
   // All apps necessary here for permission check
