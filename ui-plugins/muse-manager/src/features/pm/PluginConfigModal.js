@@ -8,6 +8,7 @@ import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import utils from '@ebay/muse-lib-antd/src/utils';
 import { useSyncStatus, useMuseMutation } from '../../hooks';
 import { LightOnIcon } from './';
+import jsPlugin from 'js-plugin';
 
 const user = window.MUSE_GLOBAL.getUser();
 
@@ -49,7 +50,7 @@ const PluginConfigModal = NiceModal.create(({ plugin, app }) => {
       },
       msg: `Updated plugin config of ${plugin.name} by ${user.username}.`,
     };
-
+    jsPlugin.invoke('museManager.pm.pluginConfigForm.processPayload', { payload, values });
     updateApp(payload)
       .then(async () => {
         modal.hide();
@@ -76,7 +77,12 @@ const PluginConfigModal = NiceModal.create(({ plugin, app }) => {
       maskClosable={false}
       okText="Save"
       onOk={() => {
-        form.validateFields().then(() => form.submit());
+        form
+          .validateFields()
+          .then(() => form.submit())
+          .catch((err) => {
+            return;
+          });
       }}
     >
       <RequestStatus loading={updateAppPending} error={updateAppError} />
