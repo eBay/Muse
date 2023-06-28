@@ -61,7 +61,7 @@ const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
             const color = env.name === 'production' ? 'green' : 'orange';
             if (deployedVersion[env.name] === v) {
               tags.push(
-                <Tag style={{ margin: 0, transform: 'scale(0.9)' }} color={color}>
+                <Tag style={{ margin: 0, transform: 'scale(0.9)' }} color={color} key={env.name}>
                   {env.name}
                 </Tag>,
               );
@@ -99,7 +99,7 @@ const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
             order: 10,
             icon: 'rocket',
             highlight: true,
-            disabled: ability.cannot('deploy', 'App', { app, plugin }),
+            disabled: ability.cannot('deploy', 'App', app),
             disabledText: 'No permission to deploy.',
             onClick: () => {
               modal.hide();
@@ -128,6 +128,8 @@ const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
                   showCancel={!deleteReleasePending}
                   onConfirm={() => handleDelete(release.version)}
                   okButtonProps={{ danger: true }}
+                  disabled={!canDelete}
+                  key="delete-confirm-btn"
                 >
                   <Button
                     size="small"
@@ -141,6 +143,13 @@ const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
             },
           },
         ].filter(Boolean);
+
+        extendArray(items, 'releaseActions', 'museManager.pm.releaseList', {
+          app,
+          plugin,
+          ability,
+          items,
+        });
         return <DropdownMenu extPoint="museManager.plugin.processReleaseActions" items={items} />;
       },
     },
