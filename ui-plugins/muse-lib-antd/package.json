@@ -1,6 +1,6 @@
 {
   "name": "@ebay/muse-lib-antd",
-  "version": "1.2.9",
+  "version": "1.2.10",
   "repository": "",
   "muse": {
     "type": "lib",
@@ -44,20 +44,20 @@
   "devDependencies": {
     "@changesets/cli": "^2.23.2",
     "@craco/craco": "7.0.0",
-    "@ebay/muse-core": "1.0.30",
+    "@ebay/muse-core": "^1.0.31",
     "@ebay/muse-cra-patch": "^1.0.1",
-    "@ebay/muse-craco-plugin": "3.0.9",
+    "@ebay/muse-craco-plugin": "^3.0.9",
     "@ebay/muse-ebay-craco-plugin": "^1.1.0",
-    "@ebay/muse-ebay-dev": "1.0.15",
+    "@ebay/muse-ebay-dev": "^1.0.15",
     "craco-less": "2.0.0",
-    "cross-env": "7.0.3",
+    "cross-env": "^7.0.3",
     "react-scripts": "^5.0.1"
   },
   "dependencies": {
     "@ant-design/icons": "5.0.1",
     "@ebay/muse-lib-react": "1.2.12",
     "@ebay/nice-form-react": "1.0.10",
-    "antd": "5.5.2",
+    "antd": "5.6.3",
     "history": "5.3.0",
     "js-plugin": "1.1.0",
     "lodash": "4.17.21",
