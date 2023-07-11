@@ -209,7 +209,8 @@ module.exports = async (params) => {
         theMsg = `Deployed multiple changes to ${appName} by ${author}.`;
       }
     }
-    await registry.batchSet(items, theMsg);
+    const res = await registry.batchSet(items, theMsg);
+    ctx.response = res?.data;
   } catch (err) {
     ctx.error = err;
     await asyncInvoke('museCore.pm.failedDeployPlugin', ctx, params);

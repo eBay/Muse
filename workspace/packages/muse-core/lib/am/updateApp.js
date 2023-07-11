@@ -20,7 +20,7 @@ const logger = require('../logger').createLogger('muse.am.updateApp');
  * @param {string} params.msg Action messsage.
  * @returns {object} App object.
  */
-module.exports = async params => {
+module.exports = async (params) => {
   validate(schema, params);
   const { appName, changes, author = osUsername, msg } = params;
   logger.info(`Updating app ${appName}...`);
@@ -36,7 +36,12 @@ module.exports = async params => {
     updateJson(ctx.app, changes);
     const keyPath = `/apps/${appName}/${appName}.yaml`;
     await asyncInvoke('museCore.am.updateApp', ctx, params);
-    await registry.setYaml(keyPath, ctx.app, msg || `Updated app ${appName} by ${author}`);
+    const res = await registry.setYaml(
+      keyPath,
+      ctx.app,
+      msg || `Updated app ${appName} by ${author}`,
+    );
+    ctx.response = res?.data;
   } catch (err) {
     ctx.error = err;
     await asyncInvoke('museCore.am.failedUpdateApp', ctx, params);

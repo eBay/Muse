@@ -67,7 +67,7 @@ module.exports = class GitClient {
       committer,
       sha,
     };
-    await this.axiosGit.put(`/repos/${repo}/contents${keyPath}`, payload);
+    return await this.axiosGit.put(`/repos/${repo}/contents${keyPath}`, payload);
   }
 
   async batchCommit(params) {
@@ -123,13 +123,13 @@ module.exports = class GitClient {
       latestCommitSha = response.data.sha;
 
       logger.info(`Updating branch ${branch} head...`);
-      await this.axiosGit.patch(`/repos/${repo}/git/refs/heads/${branch}`, {
+      return await this.axiosGit.patch(`/repos/${repo}/git/refs/heads/${branch}`, {
         sha: latestCommitSha,
       });
     } else if (items.length === 1) {
       const { keyPath, value } = items[0];
       if (value === null) {
-        await this.deleteFile({
+        return await this.deleteFile({
           organizationName,
           projectName,
           keyPath,
@@ -137,7 +137,7 @@ module.exports = class GitClient {
           message,
         });
       } else {
-        await this.commitFile({
+        return await this.commitFile({
           ...params,
           keyPath: keyPath,
           value,
