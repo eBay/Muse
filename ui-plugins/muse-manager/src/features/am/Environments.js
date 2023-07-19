@@ -1,17 +1,21 @@
 import React from 'react';
-import { Table } from 'antd';
+import { Table, Button } from 'antd';
 import EnvActions from '../am/EnvActions';
+import { useAbility } from '../../hooks';
+import NiceModal from '@ebay/nice-modal-react';
 import jsPlugin from 'js-plugin';
 import _ from 'lodash';
 
 export default function Environments({ app }) {
+  const ability = useAbility();
+
   let columns = [
     {
       dataIndex: 'name',
       title: 'Env name',
       width: '150px',
       order: 10,
-      render: env => {
+      render: (env) => {
         return <>{env}</>;
       },
     },
@@ -29,14 +33,25 @@ export default function Environments({ app }) {
   jsPlugin.invoke('museManager.processEnvironmentsColumns', { columns, app });
   columns = columns.filter(Boolean);
   jsPlugin.sort(columns);
+
   return (
-    <Table
-      bordered
-      pagination={false}
-      rowKey="name"
-      size="middle"
-      columns={columns}
-      dataSource={_.toArray(app.envs)}
-    />
+    <>
+      <Table
+        pagination={false}
+        rowKey="name"
+        size="small"
+        columns={columns}
+        dataSource={_.toArray(app.envs)}
+      />
+      {ability.can('update', 'App', app) && (
+        <Button
+          onClick={() => NiceModal.show('muse-manager.add-env-modal', { app })}
+          type="link"
+          style={{ marginTop: '20px', padding: 0 }}
+        >
+          + Add Environment
+        </Button>
+      )}
+    </>
   );
 }

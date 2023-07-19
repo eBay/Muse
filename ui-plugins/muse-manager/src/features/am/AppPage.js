@@ -6,6 +6,7 @@ import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import { extendArray } from '@ebay/muse-lib-antd/src/utils';
 import { usePollingMuseData } from '../../hooks';
 import PluginList from '../pm/PluginList';
+import Environments from './Environments';
 import AppOverview from './AppOverview';
 import EnvironmentVariables from './EnvironmentVariables';
 import './AppPage.less';
@@ -19,34 +20,29 @@ export default function AppPage() {
   const tabs = [
     {
       key: 'overview',
-      label: (
-        <span>
-          <EyeOutlined />
-          Overview
-        </span>
-      ),
+      label: 'Overview',
       order: 10,
       children: <AppOverview app={app} />,
     },
+    // {
+    //   key: 'envs',
+    //   order: 12,
+    //   label: 'Environments',
+    //   children: (
+    //     <section key="envs">
+    //       <Environments app={app} />
+    //     </section>
+    //   ),
+    // },
     {
       key: 'plugins',
-      label: (
-        <span>
-          <ControlOutlined />
-          Plugins
-        </span>
-      ),
+      label: 'Plugins',
       order: 20,
       children: <PluginList app={app} />,
     },
     {
       key: 'variables',
-      label: (
-        <span>
-          <FunctionOutlined />
-          Variables
-        </span>
-      ),
+      label: 'Variables',
       order: 30,
       children: <EnvironmentVariables app={app} />,
     },
