@@ -1,9 +1,9 @@
 #!/usr/bin/env node
+
 const _ = require('lodash');
 const os = require('os');
 const path = require('path');
 const timeStart = Date.now();
-
 if (!process.env.MUSE_CLI_CONFIG_FILE) {
   process.env.MUSE_CLI_CONFIG_FILE = path.join(os.homedir(), 'muse-cli.config.js');
 }
@@ -12,6 +12,7 @@ process.env.MUSE_CONFIG_FILE = process.env.MUSE_CLI_CONFIG_FILE;
 const commander = require('commander');
 const { Command } = commander;
 const chalk = require('chalk');
+
 const muse = require('@ebay/muse-core');
 const fs = require('fs-extra');
 const readline = require('node:readline');
