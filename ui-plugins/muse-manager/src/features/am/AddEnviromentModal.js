@@ -121,7 +121,7 @@ export default NiceModal.create(function AddEnvModal({ app }) {
       className="muse-app-manager_home-add-env-modal"
       title={`Add Environment for: ${app.name}`}
       width="600px"
-      okText="Submit"
+      okText="Create"
       footer={footer}
     >
       <RequestStatus

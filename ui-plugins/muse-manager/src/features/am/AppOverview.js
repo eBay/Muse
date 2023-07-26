@@ -37,19 +37,7 @@ export default function AppOverview({ app }) {
       order: 20,
       node: (
         <section key="envs">
-          <h3>
-            Environments
-            {canUpdateApp && (
-              <Button
-                type="link"
-                onClick={() => NiceModal.show('muse-manager.add-env-modal', { app })}
-                size="small"
-                className="float-right"
-              >
-                Add Environment
-              </Button>
-            )}
-          </h3>
+          <h3>Environments</h3>
           <div className="p-3">
             <Environments app={app} />
           </div>
