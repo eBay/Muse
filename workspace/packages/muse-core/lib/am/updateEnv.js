@@ -22,7 +22,7 @@ syncInvoke('museCore.am.processUpdateEnvSchema', schema);
  * @param {string} params.msg Action messsage.
  * @returns {object} Env object.
  */
-module.exports = async params => {
+module.exports = async (params) => {
   validate(schema, params);
   if (!params.author) params.author = osUsername;
   const { appName, envName, changes, author, msg } = params;
@@ -44,7 +44,7 @@ module.exports = async params => {
     ctx.env = ctx.app.envs[envName];
     updateJson(ctx.env, changes);
     await asyncInvoke('museCore.am.updateEnv', ctx, params);
-    await updateApp({
+    const res = await updateApp({
       appName,
       changes: {
         set: {
@@ -55,6 +55,7 @@ module.exports = async params => {
       author,
       msg: msg || `Updated env ${appName}/${envName} by ${author}.`,
     });
+    ctx.response = res?.data;
   } catch (err) {
     ctx.error = err;
     await asyncInvoke('museCore.am.failedUpdateEnv', ctx, params);
