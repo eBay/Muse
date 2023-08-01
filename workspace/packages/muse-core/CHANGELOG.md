@@ -1,5 +1,11 @@
 # @ebay/muse-core
 
+## 1.0.32
+
+### Patch Changes
+
+- Refine api response
+
 ## 1.0.31
 
 ### Patch Changes

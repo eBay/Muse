@@ -1,26 +1,29 @@
-lockfileVersion: 5.4
-
-specifiers:
-  '@ebay/muse-core': workspace:^
-  '@ebay/muse-dev-utils': workspace:^
-  '@ebay/muse-modules': workspace:^
-  find-root: ^1.1.0
-  fs-extra: ^10.1.0
+lockfileVersion: '6.0'
 
 dependencies:
-  '@ebay/muse-core': link:../muse-core
-  '@ebay/muse-dev-utils': link:../muse-dev-utils
-  '@ebay/muse-modules': link:../muse-modules
-  find-root: 1.1.0
-  fs-extra: 10.1.0
+  '@ebay/muse-core':
+    specifier: workspace:^
+    version: link:../muse-core
+  '@ebay/muse-dev-utils':
+    specifier: workspace:^
+    version: link:../muse-dev-utils
+  '@ebay/muse-modules':
+    specifier: workspace:^
+    version: link:../muse-modules
+  find-root:
+    specifier: ^1.1.0
+    version: 1.1.0
+  fs-extra:
+    specifier: ^10.1.0
+    version: 10.1.0
 
 packages:
 
-  /find-root/1.1.0:
+  /find-root@1.1.0:
     resolution: {integrity: sha512-NKfW6bec6GfKc0SGx1e07QZY9PE99u0Bft/0rzSD5k3sO/vwkVUpDUKVm5Gpp5Ue3YfShPFTX2070tDs5kB9Ng==}
     dev: false
 
-  /fs-extra/10.1.0:
+  /fs-extra@10.1.0:
     resolution: {integrity: sha512-oRXApq54ETRj4eMiFzGnHWGy+zo5raudjuxN0b8H7s/RU2oW0Wvsx9O0ACRN/kRq9E8Vu/ReskGB5o3ji+FzHQ==}
     engines: {node: '>=12'}
     dependencies:
@@ -29,19 +32,27 @@ packages:
       universalify: 2.0.0
     dev: false
 
-  /graceful-fs/4.2.11:
+  /graceful-fs@4.2.11:
     resolution: {integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==}
     dev: false
 
-  /jsonfile/6.1.0:
+  /jsonfile@6.1.0:
     resolution: {integrity: sha512-5dgndWOriYSm5cnYaJNhalLNDKOqFwyDB/rr1E9ZsGciGvKPs8R2xYGCacuf3z6K1YKDz182fd+fY3cn3pMqXQ==}
     dependencies:
       universalify: 2.0.0
     optionalDependencies:
-      graceful-fs: 4.2.11
+      graceful-fs: artifactory.corp.ebay.com/graceful-fs@4.2.11
     dev: false
 
-  /universalify/2.0.0:
+  /universalify@2.0.0:
     resolution: {integrity: sha512-hAZsKq7Yy11Zu1DE0OzWjw7nnLZmJZYTDZZyEFHZdUhV8FkH5MCfoU1XMaxXovpyW5nq5scPqq0ZDP9Zyl04oQ==}
     engines: {node: '>= 10.0.0'}
     dev: false
+
+  artifactory.corp.ebay.com/graceful-fs@4.2.11:
+    resolution: {integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/graceful-fs/-/graceful-fs-4.2.11.tgz}
+    name: graceful-fs
+    version: 4.2.11
+    requiresBuild: true
+    dev: false
+    optional: true
