@@ -138,8 +138,8 @@ We use [pnpm changesets](https://pnpm.io/using-changesets) to publish packages i
 
 Simple steps as below:
 1. Go to workspace folder.
-2. Run `pnpm changesets`, select which packages to publish
-3. Run `pnpm changesets version` to update versions.
+2. Run `pnpm changeset`, select which packages to publish
+3. Run `pnpm changeset version` to update versions.
 4. Commit changes
 5. Run `pnpm publish -r` to publish updated packages.
 
