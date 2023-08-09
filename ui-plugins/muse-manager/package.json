@@ -12,9 +12,7 @@
           "museApiEndpoint": "https://musenextsvc.vip.qa.ebay.com/api/v2"
         }
       },
-      "remotePlugins": [
-        "*"
-      ]
+      "remotePlugins": []
     }
   },
   "publishConfig": {
