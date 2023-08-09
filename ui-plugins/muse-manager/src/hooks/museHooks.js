@@ -33,17 +33,18 @@ export function useMuseData(dataKey, args) {
   return useMuseQuery(queryArgs, 'data.get', dataKey);
 }
 
-export function usePollingMuseQuery(...args) {
-  const last = args[args.length - 1];
-  const queryArgs = { refetchInterval: 10000 };
+export function usePollingMuseQuery(apiPath, ...args) {
+  let queryArgs = {};
 
-  if (isObject(last)) {
-    args.pop();
-    Object.assign(queryArgs, last);
+  if (isObject(apiPath)) {
+    queryArgs = apiPath;
+    apiPath = args.shift();
   }
-  args.unshift(queryArgs);
+  if (!queryArgs.refetchInterval) {
+    queryArgs.refetchInterval = 10000;
+  }
 
-  return useMuseQuery(...args);
+  return useMuseQuery(queryArgs, apiPath, ...args);
 }
 
 export function usePollingMuseData(...args) {
