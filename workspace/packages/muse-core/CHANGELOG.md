@@ -1,5 +1,11 @@
 # @ebay/muse-core
 
+## 1.0.33
+
+### Patch Changes
+
+- Support plugin default variables.
+
 ## 1.0.32
 
 ### Patch Changes
