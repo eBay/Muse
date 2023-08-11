@@ -58,10 +58,12 @@ async function start() {
       return mergedAppVariables;
     },
     getPluginVariables: (pluginName) => {
-      const pluginDefaultVars = mg.app?.pluginVariables?.[pluginName] || {};
+      const pluginDefaultVars = mg.env?.plugins?.find((p) => p.name === pluginName).variables || {};
+      const pluginAppVars = mg.app?.pluginVariables?.[pluginName] || {};
       const pluginCurrentEnvVars = mg.env?.pluginVariables?.[pluginName] || {};
       const mergedPluginVariables = {
         ...pluginDefaultVars,
+        ...pluginAppVars,
         ...pluginCurrentEnvVars,
       };
       return mergedPluginVariables;
