@@ -32,7 +32,7 @@ module.exports = {
     await Promise.all(
       Object.keys(allPlugins).map(async (pluginName) => {
         const pluginMeta = await getPlugin(pluginName);
-        if (pluginMeta.variables) {
+        if (pluginMeta?.variables) {
           pluginVariablesByName[pluginName] = pluginMeta.variables;
         }
       }),
