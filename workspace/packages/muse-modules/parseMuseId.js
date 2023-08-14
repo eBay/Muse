@@ -5,7 +5,7 @@
  */
 function parseMuseId(museId) {
   try {
-    const m = /((^@[^/]+\/)?([^@/]+))@(\d+)\.(\d+)\.(\d)([^./][^/]*)?\/(.+)$/.exec(museId);
+    const m = /((^@[^/]+\/)?([^@/]+))@(\d+)\.(\d+)\.(\d+)([^./][^/]*)?\/(.+)$/.exec(museId);
     if (!m) return null;
     return {
       name: m[1],
