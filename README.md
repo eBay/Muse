@@ -1,4 +1,4 @@
-# muse-next
+# muse-next2
 
 Next generation of Muse.
 
