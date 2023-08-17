@@ -45,15 +45,51 @@ function checkLibDeps(type = 'dev') {
       if (customLibs.includes(name)) return;
       if (libs[name] && !libs[name].find((o) => o.version === version.replace(/^[^0-9]*/, ''))) {
         throw new Error(
-          `Failed to check Muse dependencies: all specified dependencies in package.json \
+          `Invalid Muse dependencies: all specified dependencies in package.json \
 should not be different with which in lib plugins. \
 Found ${name}@${version} in package.json but it should be ${libs[name]
             ?.map((o) => `${o.version} from ${o.from}`)
-            .join(' or ')}.
+            .join(' or ')}./
           `,
         );
       }
     });
   });
 }
-checkLibDeps();
+
+// All deps in lib plugins should use fixed versions.
+// This check should be used after build.
+function ensureAllLibDepsUseFixedVersions(type = 'dev') {
+  const libs = {};
+
+  const libManifest = fs.readJsonSync(resolveCwd(`build/${type}/lib-manifest.json`));
+  Object.keys(libManifest.content).forEach((mid) => {
+    const m = parseMuseId(mid);
+    libs[m.name] = true;
+  });
+
+  console.log(libs);
+  const pkgJson = utils.getPkgJson();
+
+  const invalidDeps = {};
+  [(pkgJson.dependencies, pkgJson.devDependencies, pkgJson.peerDependencies)].forEach((deps) => {
+    Object.keys(libs).forEach((name) => {
+      if (!deps[name].test(/^\d/)) {
+        invalidDeps[name] = deps[name];
+      }
+    });
+  });
+
+  if (Object.keys(invalidDeps).length) {
+    throw new Error(
+      `Invalid Muse lib dependencies: all lib dependencies should be fixed versions. Please fix:\n ${JSON.stringify(
+        invalidDeps,
+        null,
+        2,
+      )}`,
+    );
+  }
+}
+
+ensureAllLibDepsUseFixedVersions();
+module.exports = { checkLibDeps, ensureAllLibDepsUseFixedVersions };
