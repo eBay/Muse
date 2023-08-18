@@ -1,5 +1,6 @@
 const fs = require('fs-extra');
 const _ = require('lodash');
+const path = require('path');
 const resolveCwd = require('resolve-cwd');
 const utils = require('./utils');
 
@@ -45,7 +46,7 @@ function checkLibDeps(type = 'dev') {
       if (customLibs.includes(name)) return;
       if (libs[name] && !libs[name].find((o) => o.version === version.replace(/^[^0-9]*/, ''))) {
         throw new Error(
-          `Invalid Muse dependencies: all specified dependencies in package.json \
+          `Invalid Muse dependencies: all specified dependencies versions in package.json \
 should not be different with which in lib plugins. \
 Found ${name}@${version} in package.json but it should be ${libs[name]
             ?.map((o) => `${o.version} from ${o.from}`)
@@ -55,26 +56,27 @@ Found ${name}@${version} in package.json but it should be ${libs[name]
       }
     });
   });
+  console.log('✅ Lib deps check passed.');
 }
 
 // All deps in lib plugins should use fixed versions.
 // This check should be used after build.
 function ensureAllLibDepsUseFixedVersions(type = 'dev') {
   const libs = {};
-
-  const libManifest = fs.readJsonSync(resolveCwd(`build/${type}/lib-manifest.json`));
+  const libManifest = fs.readJsonSync(
+    path.join(process.cwd(), `./build/${type}/lib-manifest.json`),
+  );
   Object.keys(libManifest.content).forEach((mid) => {
     const m = parseMuseId(mid);
     libs[m.name] = true;
   });
 
-  console.log(libs);
   const pkgJson = utils.getPkgJson();
 
   const invalidDeps = {};
   [(pkgJson.dependencies, pkgJson.devDependencies, pkgJson.peerDependencies)].forEach((deps) => {
     Object.keys(libs).forEach((name) => {
-      if (!deps[name].test(/^\d/)) {
+      if (deps && !deps[name].test(/^\d/)) {
         invalidDeps[name] = deps[name];
       }
     });
@@ -89,7 +91,7 @@ function ensureAllLibDepsUseFixedVersions(type = 'dev') {
       )}`,
     );
   }
+  console.log('✅ Deps versions check passed.');
 }
 
-ensureAllLibDepsUseFixedVersions();
 module.exports = { checkLibDeps, ensureAllLibDepsUseFixedVersions };
