@@ -12,6 +12,8 @@ import './modals';
 import './style.less';
 // import { useMuseData } from './hooks';
 import ability from './ability';
+import museClient from './museClient';
+
 // import '../../../../muse-manager-ebay/src/index.js';
 // import defineAbilityFor from '@ebay/muse-plugin-acl/lib/defineAbilityFor';
 
@@ -44,6 +46,6 @@ plugin.register({
   //   },
   // },
   // reducer,
-  exports: { hooks, utils, pm, common, ability },
+  exports: { hooks, utils, pm, common, ability, museClient },
   // rootComponent: InitAbilityComp,
 });
