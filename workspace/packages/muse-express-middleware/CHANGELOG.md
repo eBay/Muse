@@ -1,5 +1,11 @@
 # @ebay/muse-express-middleware
 
+## 1.0.36
+
+### Patch Changes
+
+- Async ext points.
+
 ## 1.0.35
 
 ### Patch Changes
