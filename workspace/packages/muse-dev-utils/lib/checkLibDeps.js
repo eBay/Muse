@@ -37,7 +37,7 @@ function checkLibDeps(type = 'dev') {
     });
   });
 
-  console.log(libs);
+  // console.log(libs);
 
   const pkgJson = utils.getPkgJson();
   const customLibs = pkgJson.muse?.customLibs || [];
@@ -70,13 +70,13 @@ function ensureAllLibDepsUseFixedVersions(type = 'dev') {
     const m = parseMuseId(mid);
     libs[m.name] = true;
   });
-
+  // console.log(libs);
   const pkgJson = utils.getPkgJson();
 
   const invalidDeps = {};
-  [(pkgJson.dependencies, pkgJson.devDependencies, pkgJson.peerDependencies)].forEach((deps) => {
+  [pkgJson.dependencies, pkgJson.devDependencies, pkgJson.peerDependencies].forEach((deps) => {
     Object.keys(libs).forEach((name) => {
-      if (deps && !deps[name].test(/^\d/)) {
+      if (deps && deps[name] && !/^\d/.test(deps[name])) {
         invalidDeps[name] = deps[name];
       }
     });
@@ -84,7 +84,7 @@ function ensureAllLibDepsUseFixedVersions(type = 'dev') {
 
   if (Object.keys(invalidDeps).length) {
     throw new Error(
-      `Invalid Muse lib dependencies: all lib dependencies should be fixed versions. Please fix:\n ${JSON.stringify(
+      `Invalid Muse lib dependencies: all lib dependencies should be fixed versions. Please fix:\n\r ${JSON.stringify(
         invalidDeps,
         null,
         2,
@@ -94,4 +94,6 @@ function ensureAllLibDepsUseFixedVersions(type = 'dev') {
   console.log('✅ Deps versions check passed.');
 }
 
+// checkLibDeps();
+ensureAllLibDepsUseFixedVersions();
 module.exports = { checkLibDeps, ensureAllLibDepsUseFixedVersions };

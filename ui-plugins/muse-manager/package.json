@@ -57,6 +57,7 @@
     "lodash": "^4.17.21",
     "pretty-ms": "^7.0.1",
     "react-color": "^2.19.3",
+    "react": "1.0.0",
     "react-markdown": "^6.0.3",
     "react-time-ago": "^7.2.1",
     "semver": "^7.3.7",
