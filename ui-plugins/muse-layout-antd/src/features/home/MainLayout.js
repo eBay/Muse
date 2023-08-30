@@ -7,7 +7,7 @@ import { useSetIsDarkMode } from '@ebay/muse-lib-antd/src/features/common/redux/
 import { Layout, Card } from 'antd';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 
-const { Header, Content, Sider } = Layout;
+const { Content, Sider } = Layout;
 
 export default function MainLayout({ children }) {
   const defaultSiderCollapsedWidth = 60;
@@ -47,11 +47,7 @@ export default function MainLayout({ children }) {
 
   return (
     <Layout className="muse-layout-wrapper">
-      {!noHeader && (
-        <Header className="muse-layout-header">
-          <HeaderLayout siderConfig={siderConfig} />
-        </Header>
-      )}
+      {!noHeader && <HeaderLayout siderConfig={siderConfig} />}
 
       {siderConfig.mode === 'drawer' || siderConfig.mode === 'none' ? (
         <>

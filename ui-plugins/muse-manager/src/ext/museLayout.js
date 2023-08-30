@@ -5,7 +5,7 @@ const museLayout = {
       return {
         backgroundColor: '#37474F',
         icon: '',
-        title: 'Muse Manager2s',
+        title: 'Muse Managers',
         subTitle: 'Muse app and plugin manager.',
         themeSwitcher: true,
       };
