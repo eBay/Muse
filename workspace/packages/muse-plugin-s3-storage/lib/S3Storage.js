@@ -8,8 +8,8 @@ const logger = require('@ebay/muse-core').logger.createLogger('s3-storage-plugin
 function streamToBuffer(stream) {
   const chunks = [];
   return new Promise((resolve, reject) => {
-    stream.on('data', chunk => chunks.push(Buffer.from(chunk)));
-    stream.on('error', err => reject(err));
+    stream.on('data', (chunk) => chunks.push(Buffer.from(chunk)));
+    stream.on('error', (err) => reject(err));
     stream.on('end', () => resolve(Buffer.concat(chunks)));
   });
 }
@@ -61,7 +61,7 @@ class S3Storage {
   }
 
   async batchSet(items, msg) {
-    await Promise.all(items.map(async item => await this.set(item.keyPath, item.value)));
+    await Promise.all(items.map(async (item) => await this.set(item.keyPath, item.value)));
   }
 
   async delDir(key) {
@@ -78,7 +78,7 @@ class S3Storage {
   async list(key) {
     logger.verbose(`Listing data: ${key}`);
     const objectsList = await this.listBucketFolder(key);
-    return objectsList.map(o => {
+    return objectsList.map((o) => {
       return {
         name: o?.name?.replace(this.basePath + key, ''),
         path: o?.name,
@@ -100,8 +100,8 @@ class S3Storage {
       true,
     );
     await new Promise((resolve, reject) => {
-      objectsStream.on('data', chunk => objectsList.push(chunk));
-      objectsStream.on('error', err => reject(err));
+      objectsStream.on('data', (chunk) => objectsList.push(chunk));
+      objectsStream.on('error', (err) => reject(err));
       objectsStream.on('end', () => resolve(objectsList.concat(objectsList)));
     });
     return objectsList;
