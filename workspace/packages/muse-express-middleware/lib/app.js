@@ -103,7 +103,7 @@ module.exports = ({
     logger.info(`Getting full app data: ${appName}`);
     const app = await museCore.data.get(`muse.app.${appName}`);
     if (!app) {
-      res.send('No app found: ' + appName);
+      res.send('Muse app not found: ' + appName);
       return;
     }
     cdn = app.cdn || cdn;
