@@ -66,6 +66,7 @@ export default function AppList() {
             pagination={{
               hideOnSinglePage: false,
               size: 'small',
+              pageSize: 50,
               showSizeChanger: true,
               showTotal: (total) => `Total ${total} items`,
               showQuickJumper: true,

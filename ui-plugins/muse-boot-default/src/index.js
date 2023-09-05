@@ -186,13 +186,13 @@ async function start() {
   console.log(`Plugins(${plugins.length}):`);
   // If a plugin has isLocal, it means its bundle is loaded somewhere else.
   // The registered plugin item is used to provide configurations. e.g plugin variables.
-  plugins.forEach((p) =>
+  plugins.forEach((p) => {
     console.log(
       `  * ${p.name}@${p.version || 'local'}${p.url ? ' (' + p.url + ') ' : ''}${
-        p.isLocal ? ' (Local)' : ''
+        p.linkedTo ? ' (Linked to: ' + p.linkedTo + ')' : ''
       }`,
-    ),
-  );
+    );
+  });
   msgEngine.sendToParent({
     type: 'app-state-change',
     state: 'app-loading',
@@ -204,9 +204,10 @@ async function start() {
     .filter((p) => p.type === 'init')
     .map((p) => {
       return {
-        url: p.isLocal
-          ? false
-          : p.url || `${cdn}/p/${getPluginId(p.name)}/v${p.version}/dist/main.js`,
+        url:
+          p.isLocal || p.linkedTo
+            ? false
+            : p.url || `${cdn}/p/${getPluginId(p.name)}/v${p.version}/dist/main.js`,
         ...p,
       };
     })
@@ -242,9 +243,10 @@ async function start() {
     .filter((p) => p.type !== 'boot' && p.type !== 'init')
     .map((p) => {
       return {
-        url: p.isLocal
-          ? false
-          : p.url || `${cdn}/p/${getPluginId(p.name)}/v${p.version}/${bundleDir}/main.js`,
+        url:
+          p.isLocal || p.linkedTo
+            ? false
+            : p.url || `${cdn}/p/${getPluginId(p.name)}/v${p.version}/${bundleDir}/main.js`,
         ...p,
       };
     })

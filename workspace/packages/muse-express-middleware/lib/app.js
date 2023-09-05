@@ -81,7 +81,7 @@ module.exports = ({
       res.end();
       return;
     }
-    const appInfo = museCore.plugin.invoke('museMiddleware.app.getAppInfo', req)[0];
+    const appInfo = await museCore.utils.asyncInvokeFirst('museMiddleware.app.getAppInfo', req);
     if (appInfo) {
       appName = appInfo.appName;
       envName = appInfo.envName;
@@ -113,7 +113,7 @@ module.exports = ({
       return;
     }
     // Have the opportunity to modify app, env and plugins
-    museCore.plugin.invoke('museMiddleware.app.processAppInfo', { app, env });
+    await museCore.utils.asyncInvoke('museMiddleware.app.processAppInfo', { app, env });
 
     const plugins = env.plugins;
     const bootPlugins = plugins.filter((p) => p.type === 'boot');

@@ -43,11 +43,11 @@
     "@babel/preset-react": "7.18.6",
     "@changesets/cli": "^2.23.2",
     "@craco/craco": "7.0.0",
-    "@ebay/muse-core": "1.0.30",
+    "@ebay/muse-core": "1.0.33",
     "@ebay/muse-cra-patch": "^1.0.1",
     "@ebay/muse-craco-plugin": "3.0.9",
     "@ebay/muse-ebay-craco-plugin": "^1.1.0",
-    "@ebay/muse-ebay-dev": "1.0.15",
+    "@ebay/muse-ebay-dev": "1.0.16",
     "@zarconontol/enzyme-adapter-react-18": "0.7.3",
     "craco-less": "2.0.0",
     "cross-env": "7.0.3",
@@ -55,7 +55,7 @@
     "react-scripts": "^5.0.1"
   },
   "dependencies": {
-    "@ebay/muse-lib-antd": "1.2.8",
+    "@ebay/muse-lib-antd": "1.2.10",
     "@ebay/muse-lib-react": "1.2.12",
     "js-plugin": "1.1.0",
     "lodash": "4.17.21",
