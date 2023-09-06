@@ -80,8 +80,8 @@ devDependencies:
     specifier: ^1.0.17
     version: artifactory.corp.ebay.com/@ebay/muse-ebay-dev@1.0.17(@ebay/muse-core@1.0.33)
   '@ebay/muse-express-middleware':
-    specifier: ^1.0.36
-    version: artifactory.corp.ebay.com/@ebay/muse-express-middleware@1.0.36(@ebay/muse-core@1.0.33)
+    specifier: ^1.0.37
+    version: artifactory.corp.ebay.com/@ebay/muse-express-middleware@1.0.37(@ebay/muse-core@1.0.33)
   '@testing-library/jest-dom':
     specifier: ^5.16.4
     version: 5.16.5
@@ -4061,7 +4061,7 @@ packages:
       on-finished: 2.4.1
       qs: 6.11.0
       raw-body: 2.5.1
-      type-is: 1.6.18
+      type-is: artifactory.corp.ebay.com/type-is@1.6.18
       unpipe: 1.0.0
     transitivePeerDependencies:
       - supports-color
@@ -5970,7 +5970,7 @@ packages:
     dependencies:
       asynckit: 0.4.0
       combined-stream: 1.0.8
-      mime-types: 2.1.35
+      mime-types: artifactory.corp.ebay.com/mime-types@2.1.35
     dev: false
 
   /format@0.2.2:
@@ -7924,11 +7924,6 @@ packages:
     resolution: {integrity: sha1-/oWy7HWlkDfyrf7BAP1sYBdhFS4=}
     dev: false
 
-  /media-typer@0.3.0:
-    resolution: {integrity: sha1-hxDXrwqmJvj/+hzgAWhUUmMlV0g=}
-    engines: {node: '>= 0.6'}
-    dev: true
-
   /memfs@3.5.1:
     resolution: {integrity: sha1-8M0eK/rvWPb+Cb+5wiiPB/6gmew=}
     engines: {node: '>= 4.0.0'}
@@ -7996,18 +7991,6 @@ packages:
       picomatch: 2.3.1
     dev: true
 
-  /mime-db@1.52.0:
-    resolution: {integrity: sha1-u6vNwChZ9JhzAchW4zh85exDv3A=}
-    engines: {node: '>= 0.6'}
-    dev: false
-
-  /mime-types@2.1.35:
-    resolution: {integrity: sha1-OBqHG2KnNEUGYK497uRIE/cNlZo=}
-    engines: {node: '>= 0.6'}
-    dependencies:
-      mime-db: 1.52.0
-    dev: false
-
   /mimic-fn@2.1.0:
     resolution: {integrity: sha1-ftLCzMyvhNP/y3pptXcR/CCDQBs=}
     engines: {node: '>=6'}
@@ -8060,13 +8043,6 @@ packages:
   /mixme@0.5.9:
     resolution: {integrity: sha1-paWOFzVGMhef885bD8EwiZyLqBw=}
     engines: {node: '>= 8.0.0'}
-    dev: true
-
-  /mkdirp@0.5.6:
-    resolution: {integrity: sha1-fe8D0kMtyuS6HWEURcSDlgYiVfY=}
-    hasBin: true
-    dependencies:
-      minimist: 1.2.8
     dev: true
 
   /moment@2.29.4:
@@ -10423,7 +10399,7 @@ packages:
     peerDependencies:
       react: '*'
     dependencies:
-      lodash: 4.17.21
+      lodash: artifactory.corp.ebay.com/lodash@4.17.21
       react: artifactory.corp.ebay.com/react@18.2.0
     dev: false
 
@@ -11429,7 +11405,7 @@ packages:
       css-tree: 1.0.0-alpha.37
       csso: 4.2.0
       js-yaml: artifactory.corp.ebay.com/js-yaml@3.14.1
-      mkdirp: 0.5.6
+      mkdirp: artifactory.corp.ebay.com/mkdirp@0.5.6
       object.values: 1.1.6
       sax: 1.2.4
       stable: 0.1.8
@@ -11794,7 +11770,7 @@ packages:
     resolution: {integrity: sha1-TlUs0F3wlGfcvE73Od6J8s83wTE=}
     engines: {node: '>= 0.6'}
     dependencies:
-      media-typer: 0.3.0
+      media-typer: artifactory.corp.ebay.com/media-typer@0.3.0
       mime-types: artifactory.corp.ebay.com/mime-types@2.1.35
     dev: true
 
@@ -13072,11 +13048,11 @@ packages:
       request-ip: artifactory.corp.ebay.com/request-ip@3.3.0
     dev: false
 
-  artifactory.corp.ebay.com/@ebay/muse-express-middleware@1.0.36(@ebay/muse-core@1.0.33):
-    resolution: {integrity: sha512-wME/Mk0wmrDE+8dFX1GeQXXEw3VhRJTNlMMRxRaj8dz2o4BhTaefkEr0PoAT7WoMKicMuVUzEj3hE4VGaJ8F3Q==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-express-middleware/-/@ebay/muse-express-middleware-1.0.36.tgz}
-    id: artifactory.corp.ebay.com/@ebay/muse-express-middleware/1.0.36
+  artifactory.corp.ebay.com/@ebay/muse-express-middleware@1.0.37(@ebay/muse-core@1.0.33):
+    resolution: {integrity: sha512-YMAY4GnuDJgLGBJxhN9pNDoZuJNbu7nuJBg1O+I2I2TOXk5/cEKHYLkKFOD/ekHQC6NiPblpt93W4w4FcCXmVQ==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-express-middleware/-/@ebay/muse-express-middleware-1.0.37.tgz}
+    id: artifactory.corp.ebay.com/@ebay/muse-express-middleware/1.0.37
     name: '@ebay/muse-express-middleware'
-    version: 1.0.36
+    version: 1.0.37
     peerDependencies:
       '@ebay/muse-core': ^1.0.31
     dependencies:
