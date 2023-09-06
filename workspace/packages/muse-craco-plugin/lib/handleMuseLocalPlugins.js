@@ -14,7 +14,7 @@ function handleMuseLocalPlugins(webpackConfig) {
   // Read local plugins from env variable
   const localPlugins = (process.env.MUSE_LOCAL_PLUGINS || '')
     .split(';')
-    .map(s => s.trim())
+    .map((s) => s.trim())
     .filter(Boolean);
   const babelInclude = [];
   const localPluginNames = [];
@@ -22,8 +22,8 @@ function handleMuseLocalPlugins(webpackConfig) {
   if (!Array.isArray(webpackConfig.entry)) webpackConfig.entry = [webpackConfig.entry];
 
   localPlugins
-    .map(p => (path.isAbsolute(p) ? p : path.join(process.cwd(), p)))
-    .forEach(p => {
+    .map((p) => (path.isAbsolute(p) ? p : path.join(process.cwd(), p)))
+    .forEach((p) => {
       // forced to src folder
       babelInclude.push(path.join(p, 'src'));
       const localPluginPkgJson = require(path.join(p, 'package.json'));
@@ -55,7 +55,7 @@ function handleMuseLocalPlugins(webpackConfig) {
   // TODO: maybe keep it by the similar mechanism expandPluginsScope at:
   // https://github.com/oklas/react-app-alias/blob/80c8a062b37df8411bc148dd42f485d014e96d3f/packages/react-app-alias/src/index.js#L26
   const foundIndex = webpackConfig.resolve.plugins
-    .map(x => x.constructor.name)
+    .map((x) => x.constructor.name)
     .indexOf('ModuleScopePlugin');
   if (foundIndex >= 0) {
     webpackConfig.resolve.plugins.splice(foundIndex, 1);

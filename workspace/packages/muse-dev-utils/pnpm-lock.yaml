@@ -1,5 +1,9 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 dependencies:
   '@ebay/muse-core':
     specifier: workspace:*
@@ -16,6 +20,9 @@ dependencies:
   resolve-cwd:
     specifier: ^3.0.0
     version: 3.0.0
+  resolve-from:
+    specifier: ^5.0.0
+    version: artifactory.corp.ebay.com/resolve-from@5.0.0
 
 devDependencies:
   eslint:
@@ -573,7 +580,7 @@ packages:
     engines: {node: '>=6'}
     dependencies:
       parent-module: 1.0.1
-      resolve-from: 4.0.0
+      resolve-from: artifactory.corp.ebay.com/resolve-from@4.0.0
     dev: true
 
   /imurmurhash@0.1.4:
@@ -807,17 +814,7 @@ packages:
     resolution: {integrity: sha1-DwB18bslRHZs9zumpuKt/ryxPy0=}
     engines: {node: '>=8'}
     dependencies:
-      resolve-from: 5.0.0
-    dev: false
-
-  /resolve-from@4.0.0:
-    resolution: {integrity: sha1-SrzYUq0y3Xuqv+m0DgCjbbXzkuY=}
-    engines: {node: '>=4'}
-    dev: true
-
-  /resolve-from@5.0.0:
-    resolution: {integrity: sha1-w1IlhD3493bfIcV1V7wIfp39/Gk=}
-    engines: {node: '>=8'}
+      resolve-from: artifactory.corp.ebay.com/resolve-from@5.0.0
     dev: false
 
   /rimraf@3.0.2:
@@ -986,3 +983,17 @@ packages:
   /wrappy@1.0.2:
     resolution: {integrity: sha1-tSQ9jz7BqjXxNkYFvA0QNuMKtp8=}
     dev: true
+
+  artifactory.corp.ebay.com/resolve-from@4.0.0:
+    resolution: {integrity: sha512-pb/MYmXstAkysRFx8piNI1tGFNQIFA3vkE3Gq4EuA1dF6gHp/+vgZqsCGJapvy8N3Q+4o7FwvquPJcnZ7RYy4g==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/resolve-from/-/resolve-from-4.0.0.tgz}
+    name: resolve-from
+    version: 4.0.0
+    engines: {node: '>=4'}
+    dev: true
+
+  artifactory.corp.ebay.com/resolve-from@5.0.0:
+    resolution: {integrity: sha512-qYg9KP24dD5qka9J47d0aVky0N+b4fTU89LN9iDnjB5waksiC49rvMB0PrUJQGoTmH50XPiqOvAjDfaijGxYZw==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/resolve-from/-/resolve-from-5.0.0.tgz}
+    name: resolve-from
+    version: 5.0.0
+    engines: {node: '>=8'}
+    dev: false
