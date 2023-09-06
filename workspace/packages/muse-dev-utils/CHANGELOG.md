@@ -1,5 +1,11 @@
 # @ebay/muse-dev-utils
 
+## 1.0.42
+
+### Patch Changes
+
+- API refine.
+
 ## 1.0.41
 
 ### Patch Changes
