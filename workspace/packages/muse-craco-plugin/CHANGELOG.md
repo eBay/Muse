@@ -1,5 +1,14 @@
 # @ebay/muse-craco-plugin
 
+## 3.0.10
+
+### Patch Changes
+
+- Enhance local plugins support.
+- Updated dependencies
+  - @ebay/muse-dev-utils@1.0.41
+  - @ebay/muse-webpack-plugin@1.0.29
+
 ## 3.0.9
 
 ### Patch Changes

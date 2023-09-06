@@ -1,5 +1,13 @@
 # @ebay/muse-dev-utils
 
+## 1.0.41
+
+### Patch Changes
+
+- Enhance local plugins support.
+- Updated dependencies
+  - @ebay/muse-express-middleware@1.0.37
+
 ## 1.0.40
 
 ### Patch Changes
