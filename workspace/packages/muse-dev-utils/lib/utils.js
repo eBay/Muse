@@ -50,11 +50,11 @@ const getLocalPlugins = () => {
 
 // Get all installed libs, including which from MUSE_LOCAL_PLUGINS if isDev.
 // Note that local plugins order matters, it decides which lib version has higher priority
-const getMuseLibs = () => {
+const getMuseLibs = (folder, includeLocal) => {
   const localPlugins = getLocalPlugins();
-  const museLibs = getMuseLibsByFolder();
+  const museLibs = getMuseLibsByFolder(folder || process.cwd());
 
-  if (isDev) {
+  if (isDev || includeLocal) {
     // Only at dev time, it handles MUSE_LOCAL_PLUGINS
     localPlugins.forEach((lp) => {
       const lpMuseLibs = getMuseLibsByFolder(lp.path);
