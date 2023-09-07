@@ -1,6 +1,6 @@
 {
   "name": "@ebay/muse-craco-plugin",
-  "version": "3.0.10",
+  "version": "3.0.11",
   "main": "lib/index.js",
   "license": "MIT",
   "publishConfig": {
