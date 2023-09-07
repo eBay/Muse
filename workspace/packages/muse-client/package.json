@@ -16,6 +16,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "axios-mock-adapter": "^1.21.5",
     "eslint": "^8.20.0"
   },
   "dependencies": {

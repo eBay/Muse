@@ -4,7 +4,7 @@ const axios = require('axios');
 // It uses post method for all requests.
 
 module.exports = {
-  create({ endpoint, token, axiosConfig }) {
+  create({ endpoint, token, axiosConfig, interceptors = {} }) {
     const headers = axiosConfig && axiosConfig.headers ? axiosConfig.headers : {};
     const client = axios.create({
       baseURL: endpoint,
@@ -29,7 +29,7 @@ module.exports = {
           // The server always receives args property
           res = await client.post(apiPath, { args });
         }
-        return res.data ? res.data.data : res.data;
+        return res.data?.data || res.data;
       } catch (err) {
         if (err && err.response && err.response.data && err.response.data.error) {
           const errorResponse = new Error(err.response.data.error);
@@ -46,6 +46,12 @@ module.exports = {
         // you can always get the api endpoint by client.am.createApp._url
         if (prop === '_url') return `${endpoint}${receiver._api_path_ || ''}`;
         const apiPath = (receiver._api_path_ || '') + '/' + prop;
+
+        // Allow interceptors to override the api path
+        const propPath = apiPath.replace(/\//g, '.').replace(/^\./, '');
+        if (interceptors?.[propPath]) {
+          return interceptors[propPath];
+        }
         const func = async (...args) => {
           return await post(apiPath, args);
         };
