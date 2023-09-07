@@ -68,8 +68,8 @@ devDependencies:
     specifier: ^1.0.1
     version: 1.0.1
   '@ebay/muse-craco-plugin':
-    specifier: ^3.0.10
-    version: artifactory.corp.ebay.com/@ebay/muse-craco-plugin@3.0.10(@craco/craco@7.0.0)(@ebay/muse-core@1.0.33)(express@4.18.2)
+    specifier: ^3.0.11
+    version: artifactory.corp.ebay.com/@ebay/muse-craco-plugin@3.0.11(@craco/craco@7.0.0)(@ebay/muse-core@1.0.33)(express@4.18.2)
   '@ebay/muse-dev-utils':
     specifier: ^1.0.42
     version: artifactory.corp.ebay.com/@ebay/muse-dev-utils@1.0.42(@ebay/muse-core@1.0.33)(express@4.18.2)
@@ -12982,11 +12982,11 @@ packages:
       winston: artifactory.corp.ebay.com/winston@3.8.2
       winston-transport: artifactory.corp.ebay.com/winston-transport@4.5.0
 
-  artifactory.corp.ebay.com/@ebay/muse-craco-plugin@3.0.10(@craco/craco@7.0.0)(@ebay/muse-core@1.0.33)(express@4.18.2):
-    resolution: {integrity: sha512-IELtYgFUwcB3oO6lB5Yi2RrR7eBv/2/fZwR/1o/h7ofzBXhX3LMrxl+ktc51bQg2l8SOX4UtjrZ+pELK0/I+lw==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-craco-plugin/-/@ebay/muse-craco-plugin-3.0.10.tgz}
-    id: artifactory.corp.ebay.com/@ebay/muse-craco-plugin/3.0.10
+  artifactory.corp.ebay.com/@ebay/muse-craco-plugin@3.0.11(@craco/craco@7.0.0)(@ebay/muse-core@1.0.33)(express@4.18.2):
+    resolution: {integrity: sha512-PijUTWeCYyIPpsyZnzXhz72eh3o3LcIbzHjEMO5qBiNQ375RGK2Hvm871dBkXcHKiQn2puJ1Jesk63FoN6mocQ==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-craco-plugin/-/@ebay/muse-craco-plugin-3.0.11.tgz}
+    id: artifactory.corp.ebay.com/@ebay/muse-craco-plugin/3.0.11
     name: '@ebay/muse-craco-plugin'
-    version: 3.0.10
+    version: 3.0.11
     peerDependencies:
       '@craco/craco': 7.0.0
     dependencies:

@@ -1,4 +1,9 @@
 import mClient from '@ebay/muse-client';
+import axios from 'axios';
+
+const apiClient = axios.create({
+  baseURL: 'https://api.muse.vip.ebay.com/v2',
+});
 
 const g = window.MUSE_GLOBAL;
 
@@ -14,7 +19,9 @@ const museClient = mClient.create({
   },
   interceptors: {
     // Use prod api to get muse cache data
-    'data.get': async () => {},
+    'data.get': async (key) => {
+      return (await apiClient.get(`/muse-data/${key}`)).data;
+    },
   },
 });
 
