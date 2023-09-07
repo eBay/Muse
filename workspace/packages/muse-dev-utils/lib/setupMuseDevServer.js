@@ -220,6 +220,7 @@ muse.plugin.register({
               const localP = {
                 name: lib.name,
                 version: lib.version,
+                isLocalLib: true,
                 url: `/muse-assets/local/p/${muse.utils.getPluginId(lib.name)}/dev/main.js`,
               };
               const p = realPluginsToLoad.find((p) => p.name === lib.name);

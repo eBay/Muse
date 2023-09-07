@@ -247,7 +247,7 @@ async function start() {
           p.isLocal || p.linkedTo
             ? false
             : p.url || `${cdn}/p/${getPluginId(p.name)}/v${p.version}/${bundleDir}/main.js`,
-        ...p,
+        ...p, // if a plugin already has url, always use it
       };
     })
     .filter(Boolean);
