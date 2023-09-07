@@ -12,5 +12,10 @@ const museClient = mClient.create({
   axiosConfig: {
     timeout: 120000,
   },
+  interceptors: {
+    // Use prod api to get muse cache data
+    'data.get': async () => {},
+  },
 });
+
 export default museClient;

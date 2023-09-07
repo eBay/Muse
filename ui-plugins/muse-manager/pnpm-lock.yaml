@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   '@ebay/muse-client':
-    specifier: ^1.0.23
-    version: 1.0.23
+    specifier: ^1.0.24
+    version: artifactory.corp.ebay.com/@ebay/muse-client@1.0.24
   '@ebay/muse-lib-antd':
     specifier: ^1.2.10
     version: 1.2.10(@types/react@18.2.5)(react-dom@18.2.0)(react@18.2.0)
@@ -1959,14 +1959,6 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
-  /@ebay/muse-client@1.0.23:
-    resolution: {integrity: sha1-Rw31e9D7ghc72H5hKF/ZQ9JV5zk=, tarball: https://npm.corp.ebay.com/@ebay/muse-client/-/@ebay/muse-client-1.0.23.tgz}
-    dependencies:
-      axios: 0.27.2
-    transitivePeerDependencies:
-      - debug
-    dev: false
-
   /@ebay/muse-cra-patch@1.0.1:
     resolution: {integrity: sha1-mTBdU2iyz+ZU7nM+f7Af9D31rjk=, tarball: https://npm.corp.ebay.com/@ebay/muse-cra-patch/-/@ebay/muse-cra-patch-1.0.1.tgz}
     hasBin: true
@@ -3791,6 +3783,7 @@ packages:
 
   /asynckit@0.4.0:
     resolution: {integrity: sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==}
+    dev: true
 
   /at-least-node@1.0.0:
     resolution: {integrity: sha1-YCzUtG6EStTv/JKoARo8RuAjjcI=}
@@ -3822,15 +3815,6 @@ packages:
     resolution: {integrity: sha1-NLpaSKi1ZPZ+ED8KpXaNduFbu78=}
     engines: {node: '>=4'}
     dev: true
-
-  /axios@0.27.2:
-    resolution: {integrity: sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==}
-    dependencies:
-      follow-redirects: 1.15.2
-      form-data: 4.0.0
-    transitivePeerDependencies:
-      - debug
-    dev: false
 
   /axobject-query@3.1.1:
     resolution: {integrity: sha1-O25cbU5DynulHFur+Z0iqcaEheE=}
@@ -4381,6 +4365,7 @@ packages:
     engines: {node: '>= 0.8'}
     dependencies:
       delayed-stream: 1.0.0
+    dev: true
 
   /comma-separated-tokens@1.0.8:
     resolution: {integrity: sha1-YyuAthF4Z6FY8QgK1Jiy++fj9eo=}
@@ -4985,6 +4970,7 @@ packages:
   /delayed-stream@1.0.0:
     resolution: {integrity: sha512-ZySD7Nf91aLB0RxL4KGrKHBXl7Eds1DAmEdcoVawXnLD7SDhpNgtuII2aAkg7a7QS41jxPSZ17p4VdGnMHk3MQ==}
     engines: {node: '>=0.4.0'}
+    dev: true
 
   /depd@1.1.2:
     resolution: {integrity: sha1-m81S4UwJd2PnSbJ0xDRu0uVgtak=}
@@ -5916,6 +5902,7 @@ packages:
     peerDependenciesMeta:
       debug:
         optional: true
+    dev: true
 
   /for-each@0.3.3:
     resolution: {integrity: sha1-abRH6IoKXTLD5whPPxcQA0shN24=}
@@ -5963,15 +5950,6 @@ packages:
       combined-stream: 1.0.8
       mime-types: artifactory.corp.ebay.com/mime-types@2.1.35
     dev: true
-
-  /form-data@4.0.0:
-    resolution: {integrity: sha512-ETEklSGi5t0QMZuiXoA/Q6vcnxcLQP5vdugSpuAyi6SVGi2clPPp+xgEhuMaHC+zGgn31Kd235W35f7Hykkaww==}
-    engines: {node: '>= 6'}
-    dependencies:
-      asynckit: 0.4.0
-      combined-stream: 1.0.8
-      mime-types: artifactory.corp.ebay.com/mime-types@2.1.35
-    dev: false
 
   /format@0.2.2:
     resolution: {integrity: sha512-wzsgA6WOq+09wrU1tsJ09udeR/YZRaeArL9e1wPbFg3GG2yDnC2ldKpxs4xunpFF9DgqCqOIra3bc1HWrJ37Ww==}
@@ -12967,6 +12945,16 @@ packages:
     engines: {node: '>=10.0.0'}
     dev: true
 
+  artifactory.corp.ebay.com/@ebay/muse-client@1.0.24:
+    resolution: {integrity: sha512-//wLs5ehENzcb3r229Rhde3zAeD1Xzpb5u3nL1srhjgwrI2XBCkg45kXAovl4elg3vXQYfxAsG4sWgXsZPbZlQ==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-client/-/@ebay/muse-client-1.0.24.tgz}
+    name: '@ebay/muse-client'
+    version: 1.0.24
+    dependencies:
+      axios: artifactory.corp.ebay.com/axios@0.27.2
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
   artifactory.corp.ebay.com/@ebay/muse-core@1.0.33:
     resolution: {integrity: sha512-uKIi92GFKIQE4TZ4SyNgtsQ3idd7SCJdiL2D0Nt7CxtwRVHd80JKo2015pyBC0gO62QknQKm2LlwFLVj6SqhrQ==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-core/-/@ebay/muse-core-1.0.33.tgz}
     name: '@ebay/muse-core'
@@ -13979,7 +13967,6 @@ packages:
     resolution: {integrity: sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/asynckit/-/asynckit-0.4.0.tgz}
     name: asynckit
     version: 0.4.0
-    dev: true
 
   artifactory.corp.ebay.com/available-typed-arrays@1.0.5:
     resolution: {integrity: sha512-DMD0KiN46eipeziST1LPP/STfDU0sufISXmjSgvVsoU2tqxctQeASejWcfNtxYKqETM1UxQ8sp2OrSBWpHY6sw==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/available-typed-arrays/-/available-typed-arrays-1.0.5.tgz}
@@ -14006,7 +13993,6 @@ packages:
       form-data: artifactory.corp.ebay.com/form-data@4.0.0
     transitivePeerDependencies:
       - debug
-    dev: true
 
   artifactory.corp.ebay.com/balanced-match@1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/balanced-match/-/balanced-match-1.0.2.tgz}
@@ -14448,7 +14434,6 @@ packages:
     engines: {node: '>= 0.8'}
     dependencies:
       delayed-stream: artifactory.corp.ebay.com/delayed-stream@1.0.0
-    dev: true
 
   artifactory.corp.ebay.com/commander@2.20.3:
     resolution: {integrity: sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/commander/-/commander-2.20.3.tgz}
@@ -14804,7 +14789,6 @@ packages:
     name: delayed-stream
     version: 1.0.0
     engines: {node: '>=0.4.0'}
-    dev: true
 
   artifactory.corp.ebay.com/depd@2.0.0:
     resolution: {integrity: sha512-g7nH6P6dyDioJogAAGprGpCtVImJhpPk/roCzdb3fIh61/s/nPsfR6onyMwkCAR/OlC3yBC0lESvUoQEAssIrw==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/depd/-/depd-2.0.0.tgz}
@@ -15415,7 +15399,6 @@ packages:
     peerDependenciesMeta:
       debug:
         optional: true
-    dev: true
 
   artifactory.corp.ebay.com/for-each@0.3.3:
     resolution: {integrity: sha512-jqYfLp7mo9vIyQf8ykW2v7A+2N4QjeCeI5+Dz9XraiO1ign81wjiH7Fb9vSOWvQfNtmSa4H2RoQTrrXivdUZmw==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/for-each/-/for-each-0.3.3.tgz}
@@ -15434,7 +15417,6 @@ packages:
       asynckit: artifactory.corp.ebay.com/asynckit@0.4.0
       combined-stream: artifactory.corp.ebay.com/combined-stream@1.0.8
       mime-types: artifactory.corp.ebay.com/mime-types@2.1.35
-    dev: true
 
   artifactory.corp.ebay.com/forwarded@0.2.0:
     resolution: {integrity: sha512-buRG0fpBtRHSTCOASe6hD258tEubFoRLb4ZNA6NxMVHNw2gOcwHo9wyablzMzOA5z9xA9L1KNjk/Nt6MT9aYow==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/forwarded/-/forwarded-0.2.0.tgz}
