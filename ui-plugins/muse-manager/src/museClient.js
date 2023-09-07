@@ -20,7 +20,7 @@ const museClient = mClient.create({
   interceptors: {
     // Use prod api to get muse cache data
     'data.get': async (key) => {
-      return (await apiClient.get(`/muse-data/${key}`)).data;
+      return (await apiClient.get(`/muse-data/${encodeURIComponent(key)}`)).data;
     },
   },
 });
