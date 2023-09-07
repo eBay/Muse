@@ -52,7 +52,10 @@ module.exports = async ({ cracoConfig }) => {
             name: lib.name,
             version: lib.version,
             manifest: fs.readJsonSync(
-              path.join(lib.path, `build/${isDev ? 'dev' : 'dist'}/lib-manifest.json`),
+              path.join(
+                lib.path,
+                `build/${isDev || isDevBuild ? 'dev' : 'dist'}/lib-manifest.json`,
+              ),
             ).content,
           })),
           museConfig,
