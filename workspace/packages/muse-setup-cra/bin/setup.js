@@ -129,15 +129,16 @@ const mapFile = (p) => path.join(__dirname, '..', p);
     Object.assign(pkgJson.scripts, {
       start: 'muse-cra-patch && craco start',
       build:
-        'muse-cra-patch && craco build && cross-env NODE_ENV=development MUSE_DEV_BUILD=true FAST_REFRESH=false craco build ',
+        'muse-cra-patch && craco build && cross-env NODE_ENV=development  FAST_REFRESH=false craco build ',
       'build:dist': 'muse-cra-patch && craco build',
       'build:dev':
-        'muse-cra-patch && cross-env NODE_ENV=development MUSE_DEV_BUILD=true FAST_REFRESH=false craco build',
+        'muse-cra-patch && cross-env NODE_ENV=development  FAST_REFRESH=false craco build',
       'build:test':
-        'muse-cra-patch && cross-env MUSE_TEST_BUILD=true FAST_REFRESH=false craco build',
+        'muse-cra-patch && cross-env NODE_ENV=development MUSE_TEST_BUILD=true FAST_REFRESH=false craco build',
       test:
-        'muse-cra-patch && cross-env MUSE_TEST_BUILD=true craco test --ci --watchAll=false --passWithNoTests --coverage',
-      'test:dev': 'muse-cra-patch && cross-env MUSE_TEST_BUILD=true craco test --coverage',
+        'muse-cra-patch && cross-env NODE_ENV=development MUSE_TEST_BUILD=true craco test --ci --watchAll=false --passWithNoTests --coverage',
+      'test:dev':
+        'muse-cra-patch && cross-env NODE_ENV=development MUSE_TEST_BUILD=true craco test --coverage',
     });
     fs.writeJsonSync('./package.json', pkgJson, { spaces: 2 });
 
