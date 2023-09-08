@@ -7,16 +7,9 @@ export default class ErrorBoundary extends Component {
     this.state = { hasError: false };
   }
 
-  componentWillReceiveProps() {
-    this.setState({ hasError: false });
-  }
-
-  componentDidCatch(error, info) {
-    // Display fallback UI
-    this.setState({ hasError: true, error, info });
-    // You can also log the error to an error reporting service
-    // logErrorToMyService(error, info);
-    console.error(error, info);
+  static getDerivedStateFromError(error) {
+    // Update state so the next render will show the fallback UI.
+    return { hasError: true };
   }
 
   renderDefaultError() {
