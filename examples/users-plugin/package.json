@@ -26,7 +26,7 @@
   "scripts": {
     "start": "muse-cra-patch && craco start",
     "build": "muse-cra-patch && craco build",
-    "build:dev": "muse-cra-patch && cross-env NODE_ENV=development  FAST_REFRESH=false craco build",
+    "build:dev": "muse-cra-patch && cross-env NODE_ENV=development FAST_REFRESH=false craco build",
     "test": "muse-cra-patch && cross-env NODE_ENV=development MUSE_TEST_BUILD=true craco test --ci --watchAll=false --passWithNoTests --coverage",
     "test:dev": "muse-cra-patch && cross-env NODE_ENV=development MUSE_TEST_BUILD=true craco test --coverage"
   },

@@ -132,7 +132,7 @@ const mapFile = (p) => path.join(__dirname, '..', p);
         'muse-cra-patch && craco build && cross-env NODE_ENV=development  FAST_REFRESH=false craco build ',
       'build:dist': 'muse-cra-patch && craco build',
       'build:dev':
-        'muse-cra-patch && cross-env NODE_ENV=development  FAST_REFRESH=false craco build',
+        'muse-cra-patch && cross-env NODE_ENV=development FAST_REFRESH=false craco build',
       'build:test':
         'muse-cra-patch && cross-env NODE_ENV=development MUSE_TEST_BUILD=true FAST_REFRESH=false craco build',
       test:
