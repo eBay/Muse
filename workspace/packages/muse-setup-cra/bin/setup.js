@@ -99,7 +99,7 @@ const mapFile = (p) => path.join(__dirname, '..', p);
 
     const devDeps = [
       'cross-env',
-      '@craco/craco@7.0.0',
+      '@craco/craco@7.1.0',
       '@ebay/muse-core',
       '@ebay/muse-cra-patch',
       '@ebay/muse-craco-plugin',
