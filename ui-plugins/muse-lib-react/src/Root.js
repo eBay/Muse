@@ -2,7 +2,19 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { Provider, useDispatch, useSelector } from 'react-redux';
-import { Routes, Route, BrowserRouter, HashRouter, MemoryRouter, Outlet } from 'react-router-dom';
+import {
+  Routes,
+  Route,
+  BrowserRouter,
+  HashRouter,
+  MemoryRouter,
+  Outlet,
+  RouterProvider,
+  createBrowserRouter,
+  createHashRouter,
+  createMemoryRouter,
+  createRoutesFromElements,
+} from 'react-router-dom';
 import _ from 'lodash';
 import NiceModal from '@ebay/nice-modal-react';
 import plugin from 'js-plugin';
@@ -29,44 +41,47 @@ function renderRouteConfigV3(routes, contextPath) {
   const children = []; // children component list
 
   const renderRoute = (item, routeContextPath) => {
+    const { path, exact, render, component: RouteComponent, childRoutes, ...restRouteProps } = item;
     let newContextPath;
-    if (/^\//.test(item.path)) {
-      newContextPath = item.path;
+    if (/^\//.test(path)) {
+      newContextPath = path;
     } else {
-      newContextPath = `${routeContextPath}/${item.path}`;
+      newContextPath = `${routeContextPath}/${path}`;
     }
     newContextPath = newContextPath.replace(/\/+/g, '/');
-    if ((item.render || item.component) && item.childRoutes) {
-      const childRoutes = renderRouteConfigV3(item.childRoutes, newContextPath);
+    if ((render || RouteComponent) && childRoutes) {
+      const descendantRoutes = renderRouteConfigV3(childRoutes, newContextPath);
       children.push(
         <Route
           exact={false}
           key={newContextPath.toString()}
           element={
-            item.render ? (
-              item.render()
+            render ? (
+              render()
             ) : (
-              <item.component>
+              <RouteComponent>
                 <Outlet />
-              </item.component>
+              </RouteComponent>
             )
           }
           path={newContextPath}
+          {...restRouteProps}
         >
-          {childRoutes}
+          {descendantRoutes}
         </Route>,
       );
-    } else if (item.component || item.render) {
+    } else if (RouteComponent || render) {
       children.push(
         <Route
           key={newContextPath.toString()}
-          element={item.render ? item.render() : <item.component />}
+          element={render ? render() : <RouteComponent />}
           path={newContextPath}
-          exact={'exact' in item ? item.exact : true}
+          exact={'exact' in item ? exact : true}
+          {...restRouteProps}
         />,
       );
-    } else if (item.childRoutes) {
-      item.childRoutes.forEach(r => renderRoute(r, newContextPath));
+    } else if (childRoutes) {
+      childRoutes.forEach(r => renderRoute(r, newContextPath));
     }
   };
 
@@ -100,9 +115,9 @@ const renderChildren = children => {
 };
 
 const routerMap = {
-  browser: BrowserRouter,
-  hash: HashRouter,
-  memory: MemoryRouter,
+  browser: createBrowserRouter,
+  hash: createHashRouter,
+  memory: createMemoryRouter,
 };
 
 // const WrappingComponent = () => {
@@ -141,9 +156,10 @@ const Root = () => {
   // const dispatch = useDispatch();
   // const modals = useSelector(s => s.modals);
   const children = renderRouteConfigV3(routeConfig(), '/');
+  const ele = renderChildren(children);
 
   const { routerType = 'browser', basePath } = window.MUSE_GLOBAL.getAppVariables() || {};
-  const Router = routerMap[routerType];
+  const Router = routerMap[routerType](createRoutesFromElements(ele));
   const routerProps = plugin.invoke('!routerProps')[0] || {};
   if (routerType === 'browser') {
     routerProps.navigator = history;
@@ -176,24 +192,28 @@ const Root = () => {
     {
       order: 50,
       key: 'react-router',
-      provider: Router,
-      props: { basename: basePath, ...routerProps },
+      provider: RouterProvider,
+      props: {
+        basename: basePath,
+        router: Router,
+        ...routerProps,
+      },
     },
   ];
 
   extendArray(providers, 'providers', 'root', { providers });
 
-  const ele = renderChildren(<Routes>{children}</Routes>);
+  // const ele = renderChildren(<Routes>{children}</Routes>);
   return providers.filter(Boolean).reduceRight((p, c) => {
     if (c.provider)
       return (
-        <c.provider key={p.key} {...c.props}>
+        <c.provider key={p?.key} {...c.props}>
           {p}
         </c.provider>
       );
     else if (c.renderProvider) return c.renderProvider(p);
     return p;
-  }, ele);
+  }, <></>);
 };
 
 export default Root;

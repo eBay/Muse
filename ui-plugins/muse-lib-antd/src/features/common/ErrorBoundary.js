@@ -7,16 +7,9 @@ export default class ErrorBoundary extends Component {
     this.state = { hasError: false };
   }
 
-  componentWillReceiveProps() {
-    this.setState({ hasError: false });
-  }
-
-  componentDidCatch(error, info) {
-    // Display fallback UI
-    this.setState({ hasError: true, error, info });
-    // You can also log the error to an error reporting service
-    // logErrorToMyService(error, info);
-    console.error(error, info);
+  static getDerivedStateFromError(error) {
+    // Update state so the next render will show the fallback UI.
+    return { hasError: true, error };
   }
 
   renderDefaultError() {
@@ -26,20 +19,11 @@ export default class ErrorBoundary extends Component {
         error={this.state.error}
         title="Something went wrong"
         preDescription={
-          <span>
-            The current page is not able to render. Please refresh to retry or{' '}
-            <a
-              href="https://jirap.corp.ebay.com/projects/ALTUSADMIN"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              contact Altus support
-            </a>
-            .
-            <br />
-            --------
-            <br />
-          </span>
+          <div>
+            The current page is not able to render. Please refresh to retry or contact the app
+            owner.
+            <p>--------</p>
+          </div>
         }
       />
     );
@@ -49,7 +33,7 @@ export default class ErrorBoundary extends Component {
     if (this.state.hasError) {
       // You can render any custom fallback UI
       return (
-        <div className="muse-antd_common-error-boundary">
+        <div className="muse-lib-antd_common-error-boundary">
           {this.props.message || this.renderDefaultError()}
         </div>
       );
