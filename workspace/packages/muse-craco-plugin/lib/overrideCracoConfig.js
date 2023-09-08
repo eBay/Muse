@@ -1,3 +1,6 @@
+const fs = require('fs-extra');
+const path = require('path');
+const _ = require('lodash');
 const { museContext, utils } = require('@ebay/muse-dev-utils');
 const { MusePlugin, MuseReferencePlugin } = require('@ebay/muse-webpack-plugin');
 const { isDev, isDevBuild, museConfig } = museContext;
@@ -18,13 +21,13 @@ module.exports = async ({ cracoConfig }) => {
 
   if (museConfig.type !== 'boot') {
     // for non-boot plugins, we gather a list of muse library plugins to be used by the MuseReferencePlugin
-    let museLibs = utils.getMuseLibs();
+    const localPlugins = utils.getLocalPlugins();
+    // Get all installed libs, including which from MUSE_LOCAL_PLUGINS if isDev.
+    const museLibs = utils.getMuseLibs();
+
     if (isDev) {
       // At dev time, should exclude local lib plugins
-      const localPlugins = utils.getLocalPlugins();
-      museLibs = museLibs.filter((libName) => !localPlugins.find((p) => p.pkg.name === libName));
-
-      // TODO: should also include lib plugins from other local plugins
+      _.remove(museLibs, (lib) => localPlugins.find((p) => p.name === lib.name));
     }
 
     // main webpack plugin for compiling the current muse plugin called from CLI (as a Dll bundle)
@@ -45,7 +48,16 @@ module.exports = async ({ cracoConfig }) => {
       cracoConfig.webpack.plugins.add.push([
         new MuseReferencePlugin({
           isDev: isDev || isDevBuild,
-          museLibs,
+          museLibs: museLibs.map((lib) => ({
+            name: lib.name,
+            version: lib.version,
+            manifest: fs.readJsonSync(
+              path.join(
+                lib.path,
+                `build/${isDev || isDevBuild ? 'dev' : 'dist'}/lib-manifest.json`,
+              ),
+            ).content,
+          })),
           museConfig,
         }),
         'prepend',

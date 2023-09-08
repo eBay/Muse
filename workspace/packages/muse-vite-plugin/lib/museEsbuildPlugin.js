@@ -8,10 +8,12 @@ module.exports = () => {
     name: 'muse-esbuild',
     setup(build) {
       const allMuseModules = {};
-      getMuseLibs().forEach((libName) => {
+      getMuseLibs().forEach((lib) => {
         Object.assign(
           allMuseModules,
-          fs.readJsonSync(require.resolve(libName + '/build/dev/lib-manifest.json')).content,
+          fs.readJsonSync(
+            fs.readJsonSync(path.join(lib.path, 'build/dev/lib-manifest.json')).content,
+          ),
         );
       });
       build.onLoad({ filter: /\.m?[jt]sx?$/ }, async (args) => {

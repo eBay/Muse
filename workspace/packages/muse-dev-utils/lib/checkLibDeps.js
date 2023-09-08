@@ -26,16 +26,19 @@ function parseMuseId(museId) {
 function checkLibDeps(type = 'dev') {
   // get all lib plugins
   const libs = {};
-  utils.getMuseLibs().forEach((lib) => {
-    const libManifest = fs.readJsonSync(resolveCwd(`${lib}/build/${type}/lib-manifest.json`));
-    Object.keys(libManifest.content).forEach((mid) => {
-      const m = parseMuseId(mid);
-      const vObj = { from: lib, version: m.version.join('.') };
-      if (libs[m.name]) libs[m.name].push(vObj);
-      else libs[m.name] = [vObj];
-      libs[m.name] = _.uniqBy(libs[m.name], (o) => o.version);
+  utils
+    .getMuseLibs()
+    .map((lib) => lib.name)
+    .forEach((lib) => {
+      const libManifest = fs.readJsonSync(resolveCwd(`${lib}/build/${type}/lib-manifest.json`));
+      Object.keys(libManifest.content).forEach((mid) => {
+        const m = parseMuseId(mid);
+        const vObj = { from: lib, version: m.version.join('.') };
+        if (libs[m.name]) libs[m.name].push(vObj);
+        else libs[m.name] = [vObj];
+        libs[m.name] = _.uniqBy(libs[m.name], (o) => o.version);
+      });
     });
-  });
 
   // console.log(libs);
 

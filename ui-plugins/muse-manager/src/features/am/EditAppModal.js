@@ -37,6 +37,18 @@ const EditAppModal = NiceModal.create(({ app }) => {
         tooltip: "The entry function of the app. Usually you don't need to set it.",
         initialValue: '',
       },
+
+      {
+        key: 'description',
+        order: 1000,
+        colSpan: 2,
+        label: 'Description',
+        widget: 'textarea',
+        widgetProps: {
+          rows: 8,
+        },
+        required: false,
+      },
     ],
   };
   const { watchingFields } = utils.extendFormMeta(meta, 'museManager.am.editAppForm', {

@@ -28,11 +28,11 @@
     "@craco/craco": "7.0.0",
     "@ebay/muse-core": "^1.0.33",
     "@ebay/muse-cra-patch": "^1.0.1",
-    "@ebay/muse-craco-plugin": "^3.0.9",
-    "@ebay/muse-dev-utils": "^1.0.39",
+    "@ebay/muse-craco-plugin": "^3.0.11",
+    "@ebay/muse-dev-utils": "^1.0.42",
     "@ebay/muse-ebay-craco-plugin": "^1.1.0",
-    "@ebay/muse-ebay-dev": "^1.0.16",
-    "@ebay/muse-express-middleware": "^1.0.35",
+    "@ebay/muse-ebay-dev": "^1.0.17",
+    "@ebay/muse-express-middleware": "^1.0.37",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
@@ -46,7 +46,7 @@
     "vite": "^4.3.9"
   },
   "dependencies": {
-    "@ebay/muse-client": "^1.0.23",
+    "@ebay/muse-client": "^1.0.24",
     "@ebay/muse-lib-antd": "^1.2.10",
     "@ebay/muse-lib-react": "1.2.12",
     "@ebay/muse-plugin-acl": "^1.0.10",
@@ -56,8 +56,8 @@
     "flat": "^5.0.2",
     "lodash": "^4.17.21",
     "pretty-ms": "^7.0.1",
-    "react-color": "^2.19.3",
     "react": "18.2.0",
+    "react-color": "^2.19.3",
     "react-markdown": "^6.0.3",
     "react-time-ago": "^7.2.1",
     "semver": "^7.3.7",
@@ -65,7 +65,7 @@
   },
   "pnpm2": {
     "overrides": {
-      "@ebay/muse-dev-utils": "link:../../workspace/packages/muse-dev-utils"
+      "@ebay/muse-craco-plugin": "link:../../workspace/packages/muse-craco-plugin"
     }
   },
   "scripts": {

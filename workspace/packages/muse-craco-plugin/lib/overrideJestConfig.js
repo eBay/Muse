@@ -14,7 +14,7 @@ module.exports = ({
   let intermediatePath = null;
   const excludedModules = [];
 
-  const libModules = utils.getMuseLibs();
+  const libModules = utils.getMuseLibs().map((lib) => lib.name);
 
   for (const libraryPlugin of libModules) {
     const resolvedPath = require.resolve(`${libraryPlugin}/package.json`);

@@ -4,7 +4,6 @@ const ExternalModuleFactoryPlugin = require('webpack/lib/ExternalModuleFactoryPl
 const DelegatedSourceDependency = require('webpack/lib/dependencies/DelegatedSourceDependency');
 const MuseDelegatedModuleFactoryPlugin = require('./MuseDelegatedModuleFactoryPlugin');
 const MuseDepsManifestPlugin = require('./MuseDepsManifestPlugin');
-const resolveCwd = require('resolve-cwd');
 
 /**
  * Based on webpack's DllReferencePlugin here: https://github.com/webpack/webpack/blob/main/lib/DllReferencePlugin.js
@@ -21,16 +20,13 @@ class MuseReferencePlugin {
     const mergedLibManifestContent = {};
 
     if ('museLibs' in this.options) {
-      for (const museLib of this.options.museLibs) {
-        const currentMuseLibManifestContent = require(resolveCwd(
-          `${museLib}/build/${this.options.isDev ? 'dev' : 'dist'}/lib-manifest.json`,
-        )).content;
-        libsManifestContent[`${museLib}`] = {
-          version: require(resolveCwd(`${museLib}/package.json`)).version,
-          content: currentMuseLibManifestContent,
+      for (const lib of this.options.museLibs) {
+        libsManifestContent[`${lib.name}`] = {
+          version: lib.version,
+          content: lib.manifest,
         };
 
-        Object.assign(mergedLibManifestContent, currentMuseLibManifestContent);
+        Object.assign(mergedLibManifestContent, lib.manifest);
       }
 
       // the plugin that will generate deps-manifest.json gets an object with each lib's lib-manifest.json content and lib version.
@@ -44,7 +40,7 @@ class MuseReferencePlugin {
       },
     );
 
-    compiler.hooks.compile.tap('MuseReferencePlugin', params => {
+    compiler.hooks.compile.tap('MuseReferencePlugin', (params) => {
       /** @type {Externals} */
       const externals = {};
       const source = 'muse-shared-modules';

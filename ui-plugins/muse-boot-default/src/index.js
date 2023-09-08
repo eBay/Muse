@@ -187,11 +187,16 @@ async function start() {
   // If a plugin has isLocal, it means its bundle is loaded somewhere else.
   // The registered plugin item is used to provide configurations. e.g plugin variables.
   plugins.forEach((p) => {
-    console.log(
-      `  * ${p.name}@${p.version || 'local'}${p.url ? ' (' + p.url + ') ' : ''}${
-        p.linkedTo ? ' (Linked to: ' + p.linkedTo + ')' : ''
-      }`,
-    );
+    let source = '';
+    if (p.linkedTo) source = 'Linked to: ' + p.linkedTo;
+    else if (p.isLocalLib) source = 'Local:' + /\d{4,}/.exec(p.url)[0]; // find port number
+    else if (p.url) source = p.url;
+    if (source) source = ` (${source})`;
+
+    let version = '';
+    if (p.version) version = p.version;
+    else version = 'local';
+    console.log(`  * ${p.name}@${version}${source}`);
   });
   msgEngine.sendToParent({
     type: 'app-state-change',
@@ -247,7 +252,7 @@ async function start() {
           p.isLocal || p.linkedTo
             ? false
             : p.url || `${cdn}/p/${getPluginId(p.name)}/v${p.version}/${bundleDir}/main.js`,
-        ...p,
+        ...p, // if a plugin already has url, always use it
       };
     })
     .filter(Boolean);
