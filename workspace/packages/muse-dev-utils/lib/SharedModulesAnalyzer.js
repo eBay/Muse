@@ -41,7 +41,19 @@ class SharedModulesAnalyzer {
     const libManifest = (
       await muse.storage.assets.getJson(`/p/${pid}/v${version}/${mode}/deps-manifest.json`)
     ).content;
-    return libManifest;
+    console.log(libManifest);
+    const result = {};
+    Object.entries(libManifest).forEach(([name, children]) => {
+      const arr = _.compact(name.split(/@/));
+      const pkgName = '@' + arr[0];
+      const version = arr[1];
+      result[name] = {
+        name: pkgName,
+        version,
+        children,
+      };
+    });
+    return result;
   }
 
   // Verify if all depending shared libs are included in the depending plugin, with the accurate version
@@ -71,7 +83,29 @@ class SharedModulesAnalyzer {
     }
   }
 
-  async verifyApp(appName, mode = 'dist') {}
+  async verifyApp(appName, envName, mode) {}
+
+  // Verfies if deploying plugins are compatible with the current app:
+  // required shared modules of deploying plugins should be included by existing lib plugins on the app.
+  async verifyDeployment(appName, envName, deployment, mode) {
+    const modes = mode ? [mode] : ['dist', 'dev'];
+    const app = await muse.data.get(`muse.app.${appName}`);
+
+    for (const mode of modes) {
+      const sharedModules = {};
+
+      const pluginByName = _.keyBy(app.envs[envName].plugins, 'name');
+      await Promise.all(
+        app.envs[envName].plugins.map(async (p) => {
+          if (p.type === 'lib') {
+            sharedModules[p.name] = await this.getSharedModules(p.name, p.version, mode);
+          }
+        }),
+      );
+
+      console.log('mode', sharedModules);
+    }
+  }
 }
 
 module.exports = SharedModulesAnalyzer;
