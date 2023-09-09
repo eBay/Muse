@@ -11,6 +11,9 @@ dependencies:
   '@ebay/muse-express-middleware':
     specifier: workspace:*
     version: link:../muse-express-middleware
+  '@ebay/muse-modules':
+    specifier: workspace:*
+    version: link:../muse-modules
   dotenv:
     specifier: ^16.0.1
     version: 16.0.1
