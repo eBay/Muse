@@ -695,6 +695,10 @@ program
     // TODO://
   });
 
+program.command('analyze-modules').action(async () => {
+  await require('@ebay/muse-dev-utils/lib/test')();
+});
+
 // let other plugins add their own cli program commands
 muse.plugin.invoke('museCli.processProgram', program, { commander, chalk, timeAgo });
 

@@ -1,9 +1,16 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 dependencies:
   '@ebay/muse-core':
     specifier: workspace:^1.0.30
     version: link:../muse-core
+  '@ebay/muse-dev-utils':
+    specifier: workspace:^1.0.42
+    version: link:../muse-dev-utils
   '@ebay/muse-simple-server':
     specifier: workspace:^1.0.25
     version: link:../muse-simple-server
