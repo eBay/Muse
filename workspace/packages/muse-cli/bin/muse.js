@@ -738,18 +738,42 @@ program
     const SharedModulesAnalyzer = require('@ebay/muse-modules-analyzer');
     const analyzer = new SharedModulesAnalyzer();
     const diff = await analyzer.getLibDiff(pluginName, baseVersion, currentVersion, mode);
-    console.log(diff);
 
-    console.log('Total modules: ');
-    console.log(`v${baseVersion}: ${diff.baseIds.length}`);
-    console.log(`v${currentVersion}: ${diff.currentIds.length}`);
+    console.log();
+    console.log('Total modules: ', diff.baseIds.length, ' -> ', diff.currentIds.length);
+    console.log();
+
+    console.log('Added packages:');
+    if (_.isEmpty(diff.addedPkgs)) console.log(chalk.gray('None.'));
+
+    Object.entries(diff.addedPkgs).forEach(([name, version]) => {
+      console.log(chalk.green('  + ' + name + '@' + version));
+    });
+    console.log();
+
+    console.log('Removed packages:');
+    if (_.isEmpty(diff.removedPkgs)) console.log(chalk.gray('None.'));
+    Object.entries(diff.removedPkgs).forEach(([name, version]) => {
+      console.log(chalk.green('  + ' + name + '@' + version));
+    });
+    console.log();
+
+    console.log('Updated packages:');
+    if (_.isEmpty(diff.updatedPkgs)) console.log(chalk.gray('None.'));
+    Object.entries(diff.updatedPkgs).forEach(([name, { from, to }]) => {
+      console.log(chalk.cyan('  * ' + name + '@' + from + ' -> ' + to));
+    });
+    console.log();
+
+    console.log('Added modules:');
+    if (_.isEmpty(diff.addedIds)) console.log(chalk.gray('None.'));
+    diff.addedIds.forEach((d) => console.log(chalk.green('  + ' + d)));
     console.log();
 
     console.log('Removed modules:');
+    if (_.isEmpty(diff.removedIds)) console.log(chalk.gray('None.'));
     diff.removedIds.forEach((d) => console.log(chalk.red('  - ' + d)));
     console.log();
-    console.log('Added modules:');
-    diff.addedIds.forEach((d) => console.log(chalk.green('  + ' + d)));
   });
 
 // let other plugins add their own cli program commands

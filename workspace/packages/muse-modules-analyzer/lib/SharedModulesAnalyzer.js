@@ -29,15 +29,65 @@ class SharedModulesAnalyzer {
 
     const baseIds = _.keys(baseOne);
     const currentIds = _.keys(currentOne);
-    const removedIds = _.difference(baseIds, currentIds);
-    const addedIds = _.difference(currentIds, baseIds);
+    const removedIds = _.differenceBy(baseIds, currentIds, (id) => {
+      const { name, path } = parseMuseId(id);
+      return name + '@' + path;
+    });
+    const addedIds = _.differenceBy(currentIds, baseIds, (id) => {
+      const { name, path } = parseMuseId(id);
+      return name + '@' + path;
+    });
+
+    const basePkgs = {};
+    const currentPkgs = {};
+
+    baseIds.forEach((id) => {
+      const { name, version } = parseMuseId(id);
+      basePkgs[name] = version.join('.');
+    });
+
+    currentIds.forEach((id) => {
+      const { name, version } = parseMuseId(id);
+      currentPkgs[name] = version.join('.');
+    });
+
+    const addedPkgs = {};
+    const removedPkgs = {};
+    const updatedPkgs = {};
+
+    Object.keys(currentPkgs).forEach((name) => {
+      if (!basePkgs[name]) {
+        addedPkgs[name] = currentPkgs[name];
+      } else if (basePkgs[name] !== currentPkgs[name]) {
+        updatedPkgs[name] = {
+          from: basePkgs[name],
+          to: currentPkgs[name],
+        };
+      }
+    });
+
+    Object.keys(basePkgs).forEach((name) => {
+      if (!currentPkgs[name]) {
+        removedPkgs[name] = basePkgs[name];
+      }
+    });
 
     return {
       baseIds,
       currentIds,
-      removedIds,
-      addedIds,
-      updatedPackages: null,
+      removedIds: removedIds.filter((id) => {
+        const { name } = parseMuseId(id);
+        if (name === pluginName) return false;
+        return !removedPkgs[name];
+      }),
+      addedIds: addedIds.filter((id) => {
+        const { name } = parseMuseId(id);
+        if (name === pluginName) return false;
+        return !addedPkgs[name];
+      }),
+      addedPkgs,
+      removedPkgs,
+      updatedPkgs,
     };
   }
   // Get detailed shared modules from a lib plugin
