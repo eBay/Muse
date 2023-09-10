@@ -2,13 +2,14 @@
   "name": "@ebay/muse-modules-analyzer",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "lib/SharedModulesAnalyzer.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
     "@ebay/muse-core": "workspace:*",
     "@ebay/muse-modules": "workspace:*",
+    "fs-extra": "^10.1.0",
     "lodash": "^4.17.21"
   },
   "keywords": [],

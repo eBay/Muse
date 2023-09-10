@@ -699,6 +699,59 @@ program.command('analyze-modules').action(async () => {
   await require('@ebay/muse-modules-analyzer/lib/test')();
 });
 
+program
+  .command('show-libs')
+  .description('Show all shared modules of a lib plugin.')
+  .argument('<pluginName>', 'Plugin name')
+  .argument('<version>', 'Plugin version')
+  .argument('[mode]', 'The build mode.', 'dist')
+  .action(async (pluginName, version, mode) => {
+    const pid = muse.utils.getPluginId(pluginName);
+    const libManifest = await muse.storage.assets.getJson(
+      `/p/${pid}/v${version}/${mode}/lib-manifest.json`,
+    );
+    console.log(JSON.stringify(Object.keys(libManifest.content), null, 2));
+  });
+
+program
+  .command('show-lib-deps')
+  .description('Show all depending modules of a plugin.')
+  .argument('<pluginName>', 'Plugin name')
+  .argument('<version>', 'Plugin version')
+  .argument('[mode]', 'The build mode.', 'dist')
+  .action(async (pluginName, version, mode) => {
+    const pid = muse.utils.getPluginId(pluginName);
+    const depsManifest = await muse.storage.assets.getJson(
+      `/p/${pid}/v${version}/${mode}/deps-manifest.json`,
+    );
+    console.log(JSON.stringify(depsManifest.content, null, 2));
+  });
+
+program
+  .command('show-lib-diff')
+  .description('Show the shared modules changes between two versions of a lib plugin.')
+  .argument('<pluginName>', 'Plugin name')
+  .argument('<baseVersion>', 'The base version to compare.')
+  .argument('<currentVersion>', 'The current version comparing to base version.')
+  .argument('[mode]', 'The mode to show the diff. Default is "dist".', 'dist')
+  .action(async (pluginName, baseVersion, currentVersion, mode) => {
+    const SharedModulesAnalyzer = require('@ebay/muse-modules-analyzer');
+    const analyzer = new SharedModulesAnalyzer();
+    const diff = await analyzer.getLibDiff(pluginName, baseVersion, currentVersion, mode);
+    console.log(diff);
+
+    console.log('Total modules: ');
+    console.log(`v${baseVersion}: ${diff.baseIds.length}`);
+    console.log(`v${currentVersion}: ${diff.currentIds.length}`);
+    console.log();
+
+    console.log('Removed modules:');
+    diff.removedIds.forEach((d) => console.log(chalk.red('  - ' + d)));
+    console.log();
+    console.log('Added modules:');
+    diff.addedIds.forEach((d) => console.log(chalk.green('  + ' + d)));
+  });
+
 // let other plugins add their own cli program commands
 muse.plugin.invoke('museCli.processProgram', program, { commander, chalk, timeAgo });
 

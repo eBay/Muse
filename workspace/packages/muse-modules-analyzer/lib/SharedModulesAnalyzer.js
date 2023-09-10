@@ -1,4 +1,5 @@
 const muse = require('@ebay/muse-core');
+const fs = require('fs-extra');
 const _ = require('lodash');
 const { parseMuseId, findMuseModule } = require('@ebay/muse-modules');
 
@@ -9,7 +10,36 @@ const parseNameVersion = (nameVersion) => {
   return { name, version };
 };
 
+const getLibManifest = async (pluginName, version, mode) => {
+  const pid = muse.utils.getPluginId(pluginName);
+
+  if (/\d+\.\d+\.\d+/.test(version)) {
+    return (await muse.storage.assets.getJson(`/p/${pid}/v${version}/${mode}/lib-manifest.json`))
+      .content;
+  } else {
+    //It's a local folder
+    return fs.readJsonSync(`${version}/${mode}/lib-manifest.json`).content;
+  }
+};
+
 class SharedModulesAnalyzer {
+  async getLibDiff(pluginName, baseVersion, currentVersion, mode = 'dist') {
+    const baseOne = await getLibManifest(pluginName, baseVersion, mode);
+    const currentOne = await getLibManifest(pluginName, currentVersion, mode);
+
+    const baseIds = _.keys(baseOne);
+    const currentIds = _.keys(currentOne);
+    const removedIds = _.difference(baseIds, currentIds);
+    const addedIds = _.difference(currentIds, baseIds);
+
+    return {
+      baseIds,
+      currentIds,
+      removedIds,
+      addedIds,
+      updatedPackages: null,
+    };
+  }
   // Get detailed shared modules from a lib plugin
   async getSharedModules(pluginName, version, mode = 'dist') {
     const pid = muse.utils.getPluginId(pluginName);
@@ -45,20 +75,25 @@ class SharedModulesAnalyzer {
 
   async getLibDeps(pluginName, version, mode = 'dist') {
     const pid = muse.utils.getPluginId(pluginName);
-    const libManifest = (
-      await muse.storage.assets.getJson(`/p/${pid}/v${version}/${mode}/deps-manifest.json`)
-    ).content;
-    const result = {};
-    Object.entries(libManifest).forEach(([libNameVersion, children]) => {
-      const { name, version } = parseNameVersion(libNameVersion);
+    try {
+      const depsManifest = (
+        await muse.storage.assets.getJson(`/p/${pid}/v${version}/${mode}/deps-manifest.json`)
+      ).content;
+      const result = {};
+      Object.entries(depsManifest).forEach(([libNameVersion, children]) => {
+        const { name, version } = parseNameVersion(libNameVersion);
 
-      result[libNameVersion] = {
-        name,
-        version,
-        children,
-      };
-    });
-    return result;
+        result[libNameVersion] = {
+          name,
+          version,
+          children,
+        };
+      });
+      return result;
+    } catch (e) {
+      // Allow deps-manifest not exist.
+      return {};
+    }
   }
 
   // Verify if all depending shared libs are included in the depending plugin, with the accurate version

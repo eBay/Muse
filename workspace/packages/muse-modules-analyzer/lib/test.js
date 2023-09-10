@@ -18,11 +18,11 @@ module.exports = async () => {
     [
       {
         pluginName: '@ebay/muse-lib-react',
-        // version: '1.1.11',
-        type: 'remove',
+        version: '1.2.13',
+        // type: 'remove',
       },
     ],
     'dist',
   );
-  console.log(result);
+  console.log(result.missingModules);
 };
