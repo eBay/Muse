@@ -12,6 +12,16 @@ module.exports = async () => {
 
   // await analyzer.verifyPlugin('@ebay/muse-layout-antd', '1.1.11');
 
-  const result = await analyzer.verifyDeployment('musemanager', 'staging');
+  const result = await analyzer.verifyDeployment(
+    'musemanager',
+    'staging',
+    [
+      {
+        pluginName: '@ebay/muse-layout-antd',
+        version: '1.1.11',
+      },
+    ],
+    'dist',
+  );
   console.log(result);
 };

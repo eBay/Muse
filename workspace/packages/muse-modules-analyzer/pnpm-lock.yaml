@@ -1,0 +1,24 @@
+lockfileVersion: '6.0'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+dependencies:
+  '@ebay/muse-core':
+    specifier: workspace:*
+    version: link:../muse-core
+  '@ebay/muse-modules':
+    specifier: workspace:*
+    version: link:../muse-modules
+  lodash:
+    specifier: ^4.17.21
+    version: artifactory.corp.ebay.com/lodash@4.17.21
+
+packages:
+
+  artifactory.corp.ebay.com/lodash@4.17.21:
+    resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/lodash/-/lodash-4.17.21.tgz}
+    name: lodash
+    version: 4.17.21
+    dev: false

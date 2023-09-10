@@ -696,7 +696,7 @@ program
   });
 
 program.command('analyze-modules').action(async () => {
-  await require('@ebay/muse-dev-utils/lib/test')();
+  await require('@ebay/muse-modules-analyzer/lib/test')();
 });
 
 // let other plugins add their own cli program commands

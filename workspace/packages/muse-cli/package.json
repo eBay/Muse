@@ -15,7 +15,7 @@
   ],
   "dependencies": {
     "@ebay/muse-core": "workspace:^1.0.30",
-    "@ebay/muse-dev-utils": "workspace:^1.0.42",
+    "@ebay/muse-modules-analyzer": "workspace:^1.0.0",
     "@ebay/muse-simple-server": "workspace:^1.0.25",
     "chalk": "4.1.2",
     "commander": "9.3.0",

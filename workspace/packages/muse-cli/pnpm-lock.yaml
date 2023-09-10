@@ -8,9 +8,9 @@ dependencies:
   '@ebay/muse-core':
     specifier: workspace:^1.0.30
     version: link:../muse-core
-  '@ebay/muse-dev-utils':
-    specifier: workspace:^1.0.42
-    version: link:../muse-dev-utils
+  '@ebay/muse-modules-analyzer':
+    specifier: workspace:^1.0.0
+    version: link:../muse-modules-analyzer
   '@ebay/muse-simple-server':
     specifier: workspace:^1.0.25
     version: link:../muse-simple-server
