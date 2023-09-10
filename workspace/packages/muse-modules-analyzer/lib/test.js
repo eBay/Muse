@@ -17,8 +17,9 @@ module.exports = async () => {
     'staging',
     [
       {
-        pluginName: '@ebay/muse-layout-antd',
-        version: '1.1.11',
+        pluginName: '@ebay/muse-lib-react',
+        // version: '1.1.11',
+        type: 'remove',
       },
     ],
     'dist',

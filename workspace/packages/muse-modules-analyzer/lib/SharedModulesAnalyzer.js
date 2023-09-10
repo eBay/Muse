@@ -48,7 +48,6 @@ class SharedModulesAnalyzer {
     const libManifest = (
       await muse.storage.assets.getJson(`/p/${pid}/v${version}/${mode}/deps-manifest.json`)
     ).content;
-    console.log(libManifest);
     const result = {};
     Object.entries(libManifest).forEach(([libNameVersion, children]) => {
       const { name, version } = parseNameVersion(libNameVersion);
@@ -147,14 +146,16 @@ class SharedModulesAnalyzer {
           ([
             name,
             {
-              packages: { version },
+              packages: {
+                [name]: { version },
+              },
               byId,
             },
           ]) => {
             if (byId[id]) {
               // result[name] = byId[id];
               result.pkgName = name;
-              result.pkgVersion = version;
+              result.pkgVersion = version[0];
               result.id = id;
             }
           },
@@ -169,7 +170,6 @@ class SharedModulesAnalyzer {
 
       const result = {
         foundModules: [],
-        missingPackages: [],
         missingModules: [],
         updatedModules: [],
         changedModules: [], // changed from one pakcage to another
@@ -177,17 +177,22 @@ class SharedModulesAnalyzer {
       await Promise.all(
         pluginsToVerify.map(async (pluginName) => {
           const p = pluginByName[pluginName];
-
           // No need to verify boot and init plugins
           if (!p.type || p.type === 'lib' || p.type === 'normal') {
-            // deps: { plugin@version: { name, version, children } }
+            // deps: { libPlugin@version: { name, version, children: [] } }
             const deps = await this.getLibDeps(p.name, p.version, mode);
             Object.values(deps).forEach(({ name, version, children }) => {
               children.forEach((id) => {
+                // If the module is found in shared modules
                 const foundModule = findMuseModule(id, { modules: moduleById });
+
                 if (foundModule) {
+                  // Shared module info means which lib plugin/version provides it
+                  // It should be able to always find the shared module info
                   const sharedModuleInfo = getSharedModuleInfo(foundModule.id);
+
                   if (id !== foundModule.id) {
+                    // Module found but the id is changed, means the package version is changed:
                     result.updatedModules.push({
                       pluginName: p.name,
                       pluginVersion: p.version,
@@ -205,8 +210,21 @@ class SharedModulesAnalyzer {
                       moduleId: id,
                     });
                   }
+
+                  if (sharedModuleInfo.pkgName !== name) {
+                    // Means the shared module is provided by another lib plugin
+                    result.changedModules.push({
+                      pluginName: p.name,
+                      pluginVersion: p.version,
+                      newLibPlugin: sharedModuleInfo.pkgName,
+                      newLibVersion: sharedModuleInfo.pkgVersion,
+                      oldLibPlugin: name,
+                      oldLibVersion: version,
+                      requiredModuleId: id,
+                      actualModuleId: foundModule.id,
+                    });
+                  }
                 } else {
-                  console.log('Not found: ', id);
                   result.missingModules.push({
                     pluginName: p.name,
                     pluginVersion: p.version,
@@ -214,31 +232,13 @@ class SharedModulesAnalyzer {
                     moduleId: id,
                   });
                 }
-
-                // if (!sharedModuleInfo) {
-
-                // } else {
-                //   // Check if the version of shared module is compatible
-                //   if (!sharedModuleInfo.pkgVersion.includes(moduleById[id])) {
-                //     result.changedModules.push({
-                //       pluginName: p.name,
-                //       pluginVersion: p.version,
-                //       moduleName: id,
-                //       moduleVersion: moduleById[id],
-                //       sharedModuleInfo,
-                //     });
-                //   }
-                // }
               });
             });
-            // const sharedModules = await this.getSharedModules(p.name, p.version, mode);
-            // console.log('sharedModules', sharedModules);
           }
         }),
       );
 
       return result;
-      console.log('mode', sharedModules);
     }
   }
 }
