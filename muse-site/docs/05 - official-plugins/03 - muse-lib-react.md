@@ -355,6 +355,7 @@ All shared modules in a lib plugins use fixed version in `package.json`. So when
 
 ```json
 "@babel/core": "7.20.5",
+"@craco/craco": "^7.1.0",
 "@ebay/nice-modal-react": "1.2.8",
 "axios": "1.2.0",
 "craco-less": "^3.0.1",

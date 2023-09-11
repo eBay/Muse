@@ -181,7 +181,7 @@ Remote plugins are loaded as “dev” bundles so that they can work with your l
 
 ```json
   "scripts": {
-    "build": "muse-cra-patch && craco build && cross-env NODE_ENV=development craco build"
+    "build": "muse-cra-patch && craco build"
     //...
   },
 ```
