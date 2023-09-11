@@ -731,8 +731,11 @@ program
   .command('show-lib-diff')
   .description('Show the shared modules changes between two versions of a lib plugin.')
   .argument('<pluginName>', 'Plugin name')
-  .argument('<baseVersion>', 'The base version to compare.')
-  .argument('<currentVersion>', 'The current version comparing to base version.')
+  .argument('<baseVersion>', 'The base version to compare. Could be a local build folder.')
+  .argument(
+    '<currentVersion>',
+    'The current version comparing to base version. Could be a local build folder.',
+  )
   .argument('[mode]', 'The mode to show the diff. Default is "dist".', 'dist')
   .action(async (pluginName, baseVersion, currentVersion, mode) => {
     const SharedModulesAnalyzer = require('@ebay/muse-modules-analyzer');
