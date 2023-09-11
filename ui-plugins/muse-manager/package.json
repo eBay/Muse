@@ -29,7 +29,7 @@
     "@ebay/muse-core": "^1.0.33",
     "@ebay/muse-cra-patch": "^1.0.2",
     "@ebay/muse-craco-plugin": "^3.0.12",
-    "@ebay/muse-dev-utils": "^1.0.43",
+    "@ebay/muse-dev-utils": "^1.0.42",
     "@ebay/muse-ebay-craco-plugin": "^1.1.0",
     "@ebay/muse-ebay-dev": "^1.0.17",
     "@ebay/muse-express-middleware": "^1.0.37",

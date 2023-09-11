@@ -10,7 +10,7 @@
     "lib"
   ],
   "dependencies": {
-    "@ebay/muse-dev-utils": "^1.0.43",
+    "@ebay/muse-dev-utils": "^1.0.42",
     "@ebay/muse-webpack-plugin": "^1.0.29",
     "resolve-cwd": "^3.0.0"
   },
