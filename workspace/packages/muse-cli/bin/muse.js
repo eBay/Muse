@@ -695,6 +695,90 @@ program
     // TODO://
   });
 
+program.command('analyze-modules').action(async () => {
+  await require('@ebay/muse-modules-analyzer/lib/test')();
+});
+
+program
+  .command('show-libs')
+  .description('Show all shared modules of a lib plugin.')
+  .argument('<pluginName>', 'Plugin name')
+  .argument('<version>', 'Plugin version')
+  .argument('[mode]', 'The build mode.', 'dist')
+  .action(async (pluginName, version, mode) => {
+    const pid = muse.utils.getPluginId(pluginName);
+    const libManifest = await muse.storage.assets.getJson(
+      `/p/${pid}/v${version}/${mode}/lib-manifest.json`,
+    );
+    console.log(JSON.stringify(Object.keys(libManifest.content), null, 2));
+  });
+
+program
+  .command('show-lib-deps')
+  .description('Show all depending modules of a plugin.')
+  .argument('<pluginName>', 'Plugin name')
+  .argument('<version>', 'Plugin version')
+  .argument('[mode]', 'The build mode.', 'dist')
+  .action(async (pluginName, version, mode) => {
+    const pid = muse.utils.getPluginId(pluginName);
+    const depsManifest = await muse.storage.assets.getJson(
+      `/p/${pid}/v${version}/${mode}/deps-manifest.json`,
+    );
+    console.log(JSON.stringify(depsManifest.content, null, 2));
+  });
+
+program
+  .command('show-lib-diff')
+  .description('Show the shared modules changes between two versions of a lib plugin.')
+  .argument('<pluginName>', 'Plugin name')
+  .argument('<baseVersion>', 'The base version to compare. Could be a local build folder.')
+  .argument(
+    '<currentVersion>',
+    'The current version comparing to base version. Could be a local build folder.',
+  )
+  .argument('[mode]', 'The mode to show the diff. Default is "dist".', 'dist')
+  .action(async (pluginName, baseVersion, currentVersion, mode) => {
+    const SharedModulesAnalyzer = require('@ebay/muse-modules-analyzer');
+    const analyzer = new SharedModulesAnalyzer();
+    const diff = await analyzer.getLibDiff(pluginName, baseVersion, currentVersion, mode);
+
+    console.log();
+    console.log('Total modules: ', diff.baseIds.length, ' -> ', diff.currentIds.length);
+    console.log();
+
+    console.log('Added packages:');
+    if (_.isEmpty(diff.addedPkgs)) console.log(chalk.gray('None.'));
+
+    Object.entries(diff.addedPkgs).forEach(([name, version]) => {
+      console.log(chalk.green('  + ' + name + '@' + version));
+    });
+    console.log();
+
+    console.log('Removed packages:');
+    if (_.isEmpty(diff.removedPkgs)) console.log(chalk.gray('None.'));
+    Object.entries(diff.removedPkgs).forEach(([name, version]) => {
+      console.log(chalk.green('  + ' + name + '@' + version));
+    });
+    console.log();
+
+    console.log('Updated packages:');
+    if (_.isEmpty(diff.updatedPkgs)) console.log(chalk.gray('None.'));
+    Object.entries(diff.updatedPkgs).forEach(([name, { from, to }]) => {
+      console.log(chalk.cyan('  * ' + name + '@' + from + ' -> ' + to));
+    });
+    console.log();
+
+    console.log('Added modules:');
+    if (_.isEmpty(diff.addedIds)) console.log(chalk.gray('None.'));
+    diff.addedIds.forEach((d) => console.log(chalk.green('  + ' + d)));
+    console.log();
+
+    console.log('Removed modules:');
+    if (_.isEmpty(diff.removedIds)) console.log(chalk.gray('None.'));
+    diff.removedIds.forEach((d) => console.log(chalk.red('  - ' + d)));
+    console.log();
+  });
+
 // let other plugins add their own cli program commands
 muse.plugin.invoke('museCli.processProgram', program, { commander, chalk, timeAgo });
 

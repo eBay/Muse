@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Button } from 'antd';
+import { Table, Button, Tooltip } from 'antd';
 import EnvActions from '../am/EnvActions';
 import { useAbility } from '../../hooks';
 import NiceModal from '@ebay/nice-modal-react';
@@ -33,7 +33,7 @@ export default function Environments({ app }) {
   jsPlugin.invoke('museManager.processEnvironmentsColumns', { columns, app });
   columns = columns.filter(Boolean);
   jsPlugin.sort(columns);
-
+  const canUpdateApp = ability.can('update', 'App', app);
   return (
     <>
       <Table
@@ -43,15 +43,16 @@ export default function Environments({ app }) {
         columns={columns}
         dataSource={_.toArray(app.envs)}
       />
-      {ability.can('update', 'App', app) && (
+      <Tooltip title={canUpdateApp ? '' : 'Only app owners have permission'}>
         <Button
           onClick={() => NiceModal.show('muse-manager.add-env-modal', { app })}
           type="link"
           style={{ marginTop: '20px', padding: 0 }}
+          disabled={!canUpdateApp}
         >
           + Add Environment
         </Button>
-      )}
+      </Tooltip>
     </>
   );
 }
