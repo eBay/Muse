@@ -29,7 +29,8 @@ if (!content.startsWith(markPatched)) {
     .replace(
       "process.env.NODE_ENV = 'production';",
       `process.env.NODE_ENV = process.env.NODE_ENV || 'production';
-       process.env.BABEL_ENV = process.env.NODE_ENV;`,
+process.env.BABEL_ENV = process.env.NODE_ENV;
+process.env.MUSE_DEV_BUILD = true;`,
     )
     .replace('if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {', 'if (false) {')
     .replace(
