@@ -3,7 +3,7 @@ const path = require('path');
 const _ = require('lodash');
 const { museContext, utils } = require('@ebay/muse-dev-utils');
 const { MusePlugin, MuseReferencePlugin } = require('@ebay/muse-webpack-plugin');
-const { isDev, museConfig } = museContext;
+const { isDev, isDevBuild, museConfig } = museContext;
 
 /**
  * Main Craco Configuration plugin.
@@ -33,6 +33,7 @@ module.exports = async ({ cracoConfig }) => {
     // main webpack plugin for compiling the current muse plugin called from CLI (as a Dll bundle)
     cracoConfig.webpack.plugins.add.push([
       new MusePlugin({
+        isDevBuild,
         isDev,
         type: museConfig.type,
         museConfig,
@@ -46,12 +47,15 @@ module.exports = async ({ cracoConfig }) => {
       // deps-manifest.json : shows which delegated dependencies are coming from which library plugins.
       cracoConfig.webpack.plugins.add.push([
         new MuseReferencePlugin({
-          isDev: isDev,
+          isDev: isDev || isDevBuild,
           museLibs: museLibs.map((lib) => ({
             name: lib.name,
             version: lib.version,
             manifest: fs.readJsonSync(
-              path.join(lib.path, `build/${isDev ? 'dev' : 'dist'}/lib-manifest.json`),
+              path.join(
+                lib.path,
+                `build/${isDev || isDevBuild ? 'dev' : 'dist'}/lib-manifest.json`,
+              ),
             ).content,
           })),
           museConfig,

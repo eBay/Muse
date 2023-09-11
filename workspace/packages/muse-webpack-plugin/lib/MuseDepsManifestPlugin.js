@@ -58,7 +58,9 @@ class MuseDepsManifestPlugin {
       const targetPath = compilation.getPath(
         path.join(
           process.cwd(),
-          `build/${this.options?.isDev ? 'dev' : 'dist'}/deps-manifest.json`,
+          `build/${
+            this.options?.isDev || this.options?.isDevBuild ? 'dev' : 'dist'
+          }/deps-manifest.json`,
         ),
       );
 
