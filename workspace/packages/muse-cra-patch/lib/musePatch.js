@@ -30,7 +30,7 @@ if (!content.startsWith(markPatched)) {
       "process.env.NODE_ENV = 'production';",
       `process.env.NODE_ENV = process.env.NODE_ENV || 'production';
 process.env.BABEL_ENV = process.env.NODE_ENV;
-process.env.MUSE_DEV_BUILD = true;`,
+if (process.env.NODE_ENV === 'development') { process.env.MUSE_DEV_BUILD = true; }`,
     )
     .replace('if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {', 'if (false) {')
     .replace(
