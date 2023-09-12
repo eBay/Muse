@@ -1,5 +1,11 @@
 # @ebay/muse-dev-utils
 
+## 1.0.44
+
+### Patch Changes
+
+- Include scripts.
+
 ## 1.0.43
 
 ### Patch Changes
