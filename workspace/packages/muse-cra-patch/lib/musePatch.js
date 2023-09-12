@@ -59,8 +59,9 @@ content = fs.readFileSync(p).toString('utf-8');
 
 if (!content.startsWith(markPatched)) {
   content = content.replace(
-    `process.env.NODE_ENV = process.env.NODE_ENV || 'production'`,
-    `process.env.NODE_ENV = process.env.MUSE_DEV_BUILD ? 'development' : process.env.NODE_ENV || 'production'`,
+    `process.env.NODE_ENV = process.env.NODE_ENV || 'production';`,
+    `process.env.NODE_ENV = process.env.NODE_ENV || 'production';
+process.env.MUSE_DEV_BUILD = process.env.NODE_ENV === 'development' ? true : false;`,
   );
 
   content = `${markPatched}${content}`;
