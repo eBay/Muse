@@ -40,6 +40,7 @@ if (Object.keys(invalidDeps).length) {
     error(` - ${name}: ${version} -> ${libs[name]}`);
   });
   error('✖ Deps versions check failed.');
+  process.exit(1);
 } else {
   console.log('✔ Deps versions check passed: all sharing deps use correct fixed versions.');
 }
