@@ -10,8 +10,9 @@ const { parseMuseId } = require('@ebay/muse-modules');
 
 console.log('Checking deps versions...');
 const libs = {};
-const libManifest = fs.readJsonSync(path.join(process.cwd(), `./build/dist/lib-manifest.json`));
-Object.keys(libManifest.content).forEach((mid) => {
+const distLibManifest = fs.readJsonSync(path.join(process.cwd(), `./build/dist/lib-manifest.json`));
+const devLibManifest = fs.readJsonSync(path.join(process.cwd(), `./build/dev/lib-manifest.json`));
+Object.keys({ ...distLibManifest.content, ...devLibManifest.content }).forEach((mid) => {
   const m = parseMuseId(mid);
   libs[m.name] = m.version.join('.');
 });
