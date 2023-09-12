@@ -52,17 +52,3 @@ if (process.env.MUSE_DEV_BUILD) {
   content = `${markPatched}${content}`;
   fs.writeFileSync(p, content);
 }
-
-// Patch @craco/craco/scripts/build.js
-p = resolveCwd('@craco/craco/dist/scripts/build.js');
-content = fs.readFileSync(p).toString('utf-8');
-
-if (!content.startsWith(markPatched)) {
-  content = content.replace(
-    `process.env.NODE_ENV = process.env.NODE_ENV || 'production'`,
-    `process.env.NODE_ENV = process.env.MUSE_DEV_BUILD ? 'development' : process.env.NODE_ENV || 'production'`,
-  );
-
-  content = `${markPatched}${content}`;
-  fs.writeFileSync(p, content);
-}
