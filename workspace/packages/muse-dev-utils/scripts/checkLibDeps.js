@@ -56,5 +56,7 @@ if (invalidDeps.length > 0) {
   error('✖ Muse deps check failed.');
   process.exit(1);
 } else {
-  console.log('✔ Muse deps check passed.');
+  console.log(
+    '✔ Muse deps check passed: all sharing deps are compatible with the ones in lib plugins.',
+  );
 }

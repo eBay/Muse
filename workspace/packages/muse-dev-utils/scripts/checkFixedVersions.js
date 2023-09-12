@@ -40,5 +40,5 @@ if (Object.keys(invalidDeps).length) {
   });
   error('✖ Deps versions check failed.');
 } else {
-  console.log('✔ Deps versions check passed.');
+  console.log('✔ Deps versions check passed: all sharing deps use correct fixed versions.');
 }
