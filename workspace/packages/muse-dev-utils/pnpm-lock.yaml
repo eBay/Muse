@@ -29,6 +29,9 @@ dependencies:
   resolve-from:
     specifier: ^5.0.0
     version: artifactory.corp.ebay.com/resolve-from@5.0.0
+  semver:
+    specifier: ^7.3.7
+    version: artifactory.corp.ebay.com/semver@7.5.4
 
 devDependencies:
   eslint:
@@ -988,6 +991,15 @@ packages:
     version: 4.0.0
     engines: {node: '>=8'}
 
+  artifactory.corp.ebay.com/lru-cache@6.0.0:
+    resolution: {integrity: sha512-Jo6dJ04CmSjuznwJSS3pUeWmd/H0ffTlkXXgwZi+eq1UCmqQwCh+eLsYOYCwY991i2Fah4h1BEMCx4qThGbsiA==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/lru-cache/-/lru-cache-6.0.0.tgz}
+    name: lru-cache
+    version: 6.0.0
+    engines: {node: '>=10'}
+    dependencies:
+      yallist: artifactory.corp.ebay.com/yallist@4.0.0
+    dev: false
+
   artifactory.corp.ebay.com/resolve-from@4.0.0:
     resolution: {integrity: sha512-pb/MYmXstAkysRFx8piNI1tGFNQIFA3vkE3Gq4EuA1dF6gHp/+vgZqsCGJapvy8N3Q+4o7FwvquPJcnZ7RYy4g==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/resolve-from/-/resolve-from-4.0.0.tgz}
     name: resolve-from
@@ -1002,6 +1014,16 @@ packages:
     engines: {node: '>=8'}
     dev: false
 
+  artifactory.corp.ebay.com/semver@7.5.4:
+    resolution: {integrity: sha512-1bCSESV6Pv+i21Hvpxp3Dx+pSD8lIPt8uVjRrxAUt/nbswYc+tK6Y2btiULjd4+fnq15PX+nqQDC7Oft7WkwcA==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/semver/-/semver-7.5.4.tgz}
+    name: semver
+    version: 7.5.4
+    engines: {node: '>=10'}
+    hasBin: true
+    dependencies:
+      lru-cache: artifactory.corp.ebay.com/lru-cache@6.0.0
+    dev: false
+
   artifactory.corp.ebay.com/supports-color@7.2.0:
     resolution: {integrity: sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/supports-color/-/supports-color-7.2.0.tgz}
     name: supports-color
@@ -1009,3 +1031,9 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       has-flag: artifactory.corp.ebay.com/has-flag@4.0.0
+
+  artifactory.corp.ebay.com/yallist@4.0.0:
+    resolution: {integrity: sha512-3wdGidZyq5PB084XLES5TpOSRA3wjXAlIWMhum2kRcv/41Sn2emQ0dycQW4uZXLejwKvg6EsvbdlVL+FYEct7A==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/yallist/-/yallist-4.0.0.tgz}
+    name: yallist
+    version: 4.0.0
+    dev: false
