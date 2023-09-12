@@ -1,5 +1,17 @@
 # @ebay/muse-dev-utils
 
+## 1.0.44
+
+### Patch Changes
+
+- Include scripts.
+
+## 1.0.43
+
+### Patch Changes
+
+- Deps check utility.
+
 ## 1.0.42
 
 ### Patch Changes

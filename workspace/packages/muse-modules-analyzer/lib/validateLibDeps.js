@@ -2,27 +2,40 @@ const fs = require('fs-extra');
 const _ = require('lodash');
 const path = require('path');
 const resolveCwd = require('resolve-cwd');
-const utils = require('./utils');
+// const utils = require('./utils');
+const devUtils = require('@ebay/muse-dev-utils');
 
-function parseMuseId(museId) {
-  try {
-    const m = /((^@[^/]+\/)?([^@/]+))@(\d+)\.(\d+)\.(\d+)([^./][^/]*)?\/(.+)$/.exec(museId);
-    if (!m) return null;
-    return {
-      name: m[1],
-      path: m[8],
-      id: `${m[1]}/${m[8]}`,
-      museId,
-      version: m.slice(4, 7).map(Number),
-    };
-  } catch (err) {
-    return null;
+// function parseMuseId(museId) {
+//   try {
+//     const m = /((^@[^/]+\/)?([^@/]+))@(\d+)\.(\d+)\.(\d+)([^./][^/]*)?\/(.+)$/.exec(museId);
+//     if (!m) return null;
+//     return {
+//       name: m[1],
+//       path: m[8],
+//       id: `${m[1]}/${m[8]}`,
+//       museId,
+//       version: m.slice(4, 7).map(Number),
+//     };
+//   } catch (err) {
+//     return null;
+//   }
+// }
+
+module.exports = function validateLibDeps(folder = process.cwd()) {
+  const pkgJson = fs.readJsonSync(path.join(folder, 'package.json'));
+
+  if (pkgJson.muse?.type === 'lib') {
+    ensureAllLibDepsUseFixedVersions();
   }
-}
+};
 
-// A plugin project should not specify a different version
-// of some dep which is already specified in some lib plugin.
-// This function checks if there is any such case.
+/**
+ *
+ * A plugin project should not specify a different version
+ * of some dep which is already specified in some lib plugin.
+ * This function checks if there is any such case.
+ * @param {*} type
+ */
 function checkLibDeps(type = 'dev') {
   // get all lib plugins
   const libs = {};
@@ -62,13 +75,15 @@ Found ${name}@${version} in package.json but it should be ${libs[name]
   console.log('✅ Lib deps check passed.');
 }
 
-// All deps in lib plugins should use fixed versions.
-// This check should be used after build.
-function ensureAllLibDepsUseFixedVersions(type = 'dev') {
+/**
+ * All deps in lib plugins should use fixed versions.
+ * This check should be used after build so that the build folder exists.
+ *
+ * @param {*} folder - The plugin folder.
+ */
+function getUnfixedVersions(folder = process.cwd()) {
   const libs = {};
-  const libManifest = fs.readJsonSync(
-    path.join(process.cwd(), `./build/${type}/lib-manifest.json`),
-  );
+  const libManifest = fs.readJsonSync(path.join(folder, `./build/dist/lib-manifest.json`));
   Object.keys(libManifest.content).forEach((mid) => {
     const m = parseMuseId(mid);
     libs[m.name] = true;
@@ -98,5 +113,5 @@ function ensureAllLibDepsUseFixedVersions(type = 'dev') {
 }
 
 // checkLibDeps();
-ensureAllLibDepsUseFixedVersions();
-module.exports = { checkLibDeps, ensureAllLibDepsUseFixedVersions };
+// ensureAllLibDepsUseFixedVersions();
+// module.exports = { checkLibDeps, ensureAllLibDepsUseFixedVersions };
