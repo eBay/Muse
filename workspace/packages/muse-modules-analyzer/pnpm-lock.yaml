@@ -6,13 +6,10 @@ settings:
 
 dependencies:
   '@ebay/muse-core':
-    specifier: workspace:*
+    specifier: workspace:^*
     version: link:../muse-core
-  '@ebay/muse-dev-utils':
-    specifier: workspace:*
-    version: link:../muse-dev-utils
   '@ebay/muse-modules':
-    specifier: workspace:*
+    specifier: workspace:^*
     version: link:../muse-modules
   fs-extra:
     specifier: ^10.1.0

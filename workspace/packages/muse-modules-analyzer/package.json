@@ -1,6 +1,6 @@
 {
   "name": "@ebay/muse-modules-analyzer",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "",
   "main": "lib/SharedModulesAnalyzer.js",
   "scripts": {
@@ -13,8 +13,8 @@
     "lib"
   ],
   "dependencies": {
-    "@ebay/muse-core": "workspace:*",
-    "@ebay/muse-modules": "workspace:*",
+    "@ebay/muse-core": "workspace:^*",
+    "@ebay/muse-modules": "workspace:^*",
     "fs-extra": "^10.1.0",
     "lodash": "^4.17.21"
   },
