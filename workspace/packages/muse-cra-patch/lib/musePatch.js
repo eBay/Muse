@@ -61,7 +61,7 @@ if (!content.startsWith(markPatched)) {
   content = content.replace(
     `process.env.NODE_ENV = process.env.NODE_ENV || 'production';`,
     `process.env.NODE_ENV = process.env.NODE_ENV || 'production';
-process.env.MUSE_DEV_BUILD = process.env.NODE_ENV === 'development' ? true : false;`,
+if (process.env.NODE_ENV === 'development') { process.env.MUSE_DEV_BUILD = true; }`,
   );
 
   content = `${markPatched}${content}`;
