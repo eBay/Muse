@@ -29,11 +29,11 @@ devDependencies:
     specifier: 3.0.11
     version: artifactory.corp.ebay.com/@ebay/muse-craco-plugin@3.0.11(@craco/craco@7.0.0)(@ebay/muse-core@1.0.33)(express@4.18.2)
   '@ebay/muse-ebay-dev':
-    specifier: 1.0.17
-    version: artifactory.corp.ebay.com/@ebay/muse-ebay-dev@1.0.17(@ebay/muse-core@1.0.33)
-  '@ebay/muse-modules':
     specifier: 1.0.22
-    version: 1.0.22
+    version: artifactory.corp.ebay.com/@ebay/muse-ebay-dev@1.0.22(@ebay/muse-core@1.0.33)(@ebay/muse-dev-utils@1.0.47)
+  '@ebay/muse-modules':
+    specifier: 1.0.23
+    version: artifactory.corp.ebay.com/@ebay/muse-modules@1.0.23
   cross-env:
     specifier: ^7.0.3
     version: 7.0.3
@@ -1819,10 +1819,6 @@ packages:
     dependencies:
       cross-spawn: 7.0.3
       resolve-cwd: 3.0.0
-    dev: true
-
-  /@ebay/muse-modules@1.0.22:
-    resolution: {integrity: sha1-hj8so86V1MKrbqG/1r//0AkzZgE=, tarball: https://npm.corp.ebay.com/@ebay/muse-modules/-/@ebay/muse-modules-1.0.22.tgz}
     dev: true
 
   /@eslint/eslintrc@1.4.1:
@@ -11369,16 +11365,18 @@ packages:
       resolve-from: artifactory.corp.ebay.com/resolve-from@5.0.0
       semver: artifactory.corp.ebay.com/semver@7.3.8
 
-  artifactory.corp.ebay.com/@ebay/muse-ebay-dev@1.0.17(@ebay/muse-core@1.0.33):
-    resolution: {integrity: sha512-VD0dD+uWCD2NMJL9t0DxV8rd2wguthskszFGOrPm6jKAOW5ft+RJ+BVtVL3f2JhGZ++l0M9788t/nVjB/sixCQ==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-ebay-dev/-/@ebay/muse-ebay-dev-1.0.17.tgz}
-    id: artifactory.corp.ebay.com/@ebay/muse-ebay-dev/1.0.17
+  artifactory.corp.ebay.com/@ebay/muse-ebay-dev@1.0.22(@ebay/muse-core@1.0.33)(@ebay/muse-dev-utils@1.0.47):
+    resolution: {integrity: sha512-V83ZG+5Eg0TnXOiW9PR1boMJ5eM7Zten0RqQEx0SYcH5Vs5dGy+FL4g6Do7Qzr5SD4HevMwDx/i/D6w5FzvwtA==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-ebay-dev/-/@ebay/muse-ebay-dev-1.0.22.tgz}
+    id: artifactory.corp.ebay.com/@ebay/muse-ebay-dev/1.0.22
     name: '@ebay/muse-ebay-dev'
-    version: 1.0.17
+    version: 1.0.22
     hasBin: true
     peerDependencies:
       '@ebay/muse-core': ^1.0.31
+      '@ebay/muse-dev-utils': ^1.0.44
     dependencies:
       '@ebay/muse-core': artifactory.corp.ebay.com/@ebay/muse-core@1.0.33
+      '@ebay/muse-dev-utils': artifactory.corp.ebay.com/@ebay/muse-dev-utils@1.0.47(@ebay/muse-core@1.0.33)(express@4.18.2)
       axios: artifactory.corp.ebay.com/axios@0.27.2
       axios-retry: artifactory.corp.ebay.com/axios-retry@3.3.1
       chalk: artifactory.corp.ebay.com/chalk@4.1.2
