@@ -189,14 +189,11 @@ async function start() {
   plugins.forEach((p) => {
     let source = '';
     if (p.linkedTo) source = 'Linked to: ' + p.linkedTo;
-    else if (p.isLocalLib) source = 'Local:' + /\d{4,}/.exec(p.url)[0]; // find port number
+    else if (p.isLocalLib) source = 'Local:' + /\d{4,}/.exec(p.url)?.[0]; // find port number
     else if (p.url) source = p.url;
     if (source) source = ` (${source})`;
 
-    let version = '';
-    if (p.version) version = p.version;
-    else version = 'local';
-    console.log(`  * ${p.name}@${version}${source}`);
+    console.log(`  * ${p.name}@${p.version || 'local'}${source}`);
   });
   msgEngine.sendToParent({
     type: 'app-state-change',

@@ -35,8 +35,8 @@
     "@ebay/muse-core": "1.0.33",
     "@ebay/muse-cra-patch": "^1.0.2",
     "@ebay/muse-craco-plugin": "^3.0.12",
-    "@ebay/muse-ebay-dev": "1.0.17",
-    "@ebay/muse-modules": "1.0.22",
+    "@ebay/muse-ebay-dev": "1.0.22",
+    "@ebay/muse-modules": "1.0.23",
     "cross-env": "^7.0.3",
     "eslint": "^8.20.0",
     "react": "^18.2.0",
@@ -56,6 +56,7 @@
     ]
   },
   "dependencies": {
+    "@ebay/muse-dev-utils": "^1.0.47",
     "base64-inline-loader": "^2.0.1"
   }
 }

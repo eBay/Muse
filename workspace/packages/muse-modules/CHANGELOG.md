@@ -1,5 +1,11 @@
 # @ebay/muse-modules
 
+## 1.0.23
+
+### Patch Changes
+
+- Fix parse muse id.
+
 ## 1.0.22
 
 ### Patch Changes
