@@ -46,7 +46,7 @@
     "@ebay/muse-core": "1.0.33",
     "@ebay/muse-cra-patch": "^1.0.2",
     "@ebay/muse-craco-plugin": "^3.0.12",
-    "@ebay/muse-ebay-craco-plugin": "^1.1.0",
+    "@ebay/muse-ebay-craco-plugin": "^1.1.1",
     "@ebay/muse-ebay-dev": "1.0.17",
     "@zarconontol/enzyme-adapter-react-18": "0.7.3",
     "craco-less": "^3.0.1",
