@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Tabs, Alert } from 'antd';
-import { EyeOutlined, ControlOutlined, FunctionOutlined } from '@ant-design/icons';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import { extendArray } from '@ebay/muse-lib-antd/src/utils';
 import { usePollingMuseData } from '../../hooks';
 import PluginList from '../pm/PluginList';
-import Environments from './Environments';
 import AppOverview from './AppOverview';
 import EnvironmentVariables from './EnvironmentVariables';
 import './AppPage.less';
