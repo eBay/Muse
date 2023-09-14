@@ -59,7 +59,11 @@ class MuseDepsManifestPlugin {
         path.join(
           process.cwd(),
           `build/${
-            this.options?.isDev || this.options?.isDevBuild ? 'dev' : 'dist'
+            this.options?.isDev || this.options?.isDevBuild
+              ? 'dev'
+              : this.options?.isTestBuild
+              ? 'test'
+              : 'dist'
           }/deps-manifest.json`,
         ),
       );
