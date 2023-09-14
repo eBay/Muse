@@ -61,6 +61,7 @@ if (!content.startsWith(markPatched)) {
   content = content.replace(
     `process.env.NODE_ENV = process.env.NODE_ENV || 'production';`,
     `process.env.NODE_ENV = process.env.NODE_ENV || 'production';
+if (process.env.MUSE_DEV_BUILD) { process.env.NODE_ENV = 'development'; } // remove this line after official muse v2 launch
 if (process.env.NODE_ENV === 'development') { process.env.MUSE_DEV_BUILD = true; }`,
   );
 
