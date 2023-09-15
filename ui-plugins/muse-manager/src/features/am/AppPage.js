@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState, useCallback } from 'react';
+import { useParams, useNavigate, useLocation, matchRoutes } from 'react-router-dom';
 import { Tabs, Alert } from 'antd';
-import { EyeOutlined, ControlOutlined, FunctionOutlined } from '@ant-design/icons';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import { extendArray } from '@ebay/muse-lib-antd/src/utils';
 import { usePollingMuseData } from '../../hooks';
 import PluginList from '../pm/PluginList';
-import Environments from './Environments';
 import AppOverview from './AppOverview';
 import EnvironmentVariables from './EnvironmentVariables';
+import AppSelect from './AppSelect';
 import './AppPage.less';
 
 export default function AppPage() {
-  //
   const navigate = useNavigate();
+  const location = useLocation();
+  const matchedRoutes = matchRoutes([{ path: '/app/:appName/:tabKey?/:scope?' }], location);
   const [appNameActions, setAppNameActions] = useState([]);
   const { appName, tabKey = 'overview' } = useParams();
   const { data: app, isLoading, error } = usePollingMuseData(`muse.app.${appName}`);
@@ -24,16 +24,6 @@ export default function AppPage() {
       order: 10,
       children: <AppOverview app={app} />,
     },
-    // {
-    //   key: 'envs',
-    //   order: 12,
-    //   label: 'Environments',
-    //   children: (
-    //     <section key="envs">
-    //       <Environments app={app} />
-    //     </section>
-    //   ),
-    // },
     {
       key: 'plugins',
       label: 'Plugins',
@@ -61,12 +51,26 @@ export default function AppPage() {
     }
   }, [app]);
 
+  const handleAppChange = useCallback(
+    (value) => {
+      navigate(`/app/${value}/${tabKey}${window.location.search}`);
+    },
+    [navigate, tabKey],
+  );
+
   const nodes = [
     {
       order: 10,
       node: (
         <span className="muse-manager-app-page-title" key="header">
-          <h1 style={{ marginBottom: '0.3em' }}>Muse App: {appName}</h1>
+          <h1 style={{ marginBottom: '0.3em' }}>
+            Muse App:{' '}
+            {matchedRoutes?.length ? (
+              <AppSelect value={appName} onChange={handleAppChange} />
+            ) : (
+              appName
+            )}
+          </h1>
           {appNameActions?.length > 0 && appNameActions.map((appNameAct) => appNameAct.node)}
         </span>
       ),

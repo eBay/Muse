@@ -12,15 +12,7 @@ const route = {
       component: AppList,
     },
     {
-      path: '/app/:appName/:tabKey',
-      component: AppPage,
-    },
-    {
-      path: '/app/:appName/:tabKey/:scope',
-      component: AppPage,
-    },
-    {
-      path: '/app/:appName',
+      path: '/app/:appName/:tabKey?/:scope?',
       component: AppPage,
     },
   ],

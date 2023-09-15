@@ -26,11 +26,11 @@ devDependencies:
     specifier: 3.0.11
     version: artifactory.corp.ebay.com/@ebay/muse-craco-plugin@3.0.11(@craco/craco@7.0.0)(@ebay/muse-core@1.0.33)(express@4.18.2)
   '@ebay/muse-ebay-dev':
-    specifier: 1.0.17
-    version: artifactory.corp.ebay.com/@ebay/muse-ebay-dev@1.0.17(@ebay/muse-core@1.0.33)
-  '@ebay/muse-modules':
     specifier: 1.0.22
-    version: 1.0.22
+    version: artifactory.corp.ebay.com/@ebay/muse-ebay-dev@1.0.22(@ebay/muse-core@1.0.33)(@ebay/muse-dev-utils@1.0.47)
+  '@ebay/muse-modules':
+    specifier: 1.0.23
+    version: artifactory.corp.ebay.com/@ebay/muse-modules@1.0.23
   cross-env:
     specifier: ^7.0.3
     version: 7.0.3
@@ -197,7 +197,7 @@ packages:
       debug: 4.3.4
       lodash.debounce: 4.0.8
       resolve: 1.22.1
-      semver: 6.3.0
+      semver: artifactory.corp.ebay.com/semver@6.3.0
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -1818,10 +1818,6 @@ packages:
       resolve-cwd: 3.0.0
     dev: true
 
-  /@ebay/muse-modules@1.0.22:
-    resolution: {integrity: sha1-hj8so86V1MKrbqG/1r//0AkzZgE=, tarball: https://npm.corp.ebay.com/@ebay/muse-modules/-/@ebay/muse-modules-1.0.22.tgz}
-    dev: true
-
   /@eslint/eslintrc@1.4.1:
     resolution: {integrity: sha1-r1h3IBmi0nG34tTCP/Tdy6PM+z4=}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
@@ -1881,7 +1877,7 @@ packages:
     dependencies:
       '@jest/types': 27.5.1
       '@types/node': 18.13.0
-      chalk: 4.1.2
+      chalk: artifactory.corp.ebay.com/chalk@4.1.2
       jest-message-util: 27.5.1
       jest-util: 27.5.1
       slash: 3.0.0
@@ -1893,7 +1889,7 @@ packages:
     dependencies:
       '@jest/types': 28.1.3
       '@types/node': 18.13.0
-      chalk: 4.1.2
+      chalk: artifactory.corp.ebay.com/chalk@4.1.2
       jest-message-util: 28.1.3
       jest-util: 28.1.3
       slash: 3.0.0
@@ -1990,7 +1986,7 @@ packages:
       '@jest/transform': 27.5.1
       '@jest/types': 27.5.1
       '@types/node': 18.13.0
-      chalk: 4.1.2
+      chalk: artifactory.corp.ebay.com/chalk@4.1.2
       collect-v8-coverage: 1.0.1
       exit: 0.1.2
       glob: 7.2.3
@@ -2104,7 +2100,7 @@ packages:
       '@types/istanbul-reports': 3.0.1
       '@types/node': 18.13.0
       '@types/yargs': 17.0.22
-      chalk: 4.1.2
+      chalk: artifactory.corp.ebay.com/chalk@4.1.2
     dev: true
 
   /@jridgewell/gen-mapping@0.1.1:
@@ -2831,7 +2827,7 @@ packages:
       debug: 4.3.4
       globby: 11.1.0
       is-glob: 4.0.3
-      semver: 7.3.8
+      semver: artifactory.corp.ebay.com/semver@7.3.8
       tsutils: 3.21.0(typescript@5.1.6)
       typescript: artifactory.corp.ebay.com/typescript@5.1.6
     transitivePeerDependencies:
@@ -2852,7 +2848,7 @@ packages:
       eslint: 8.33.0
       eslint-scope: 5.1.1
       eslint-utils: 3.0.0(eslint@8.33.0)
-      semver: 7.3.8
+      semver: artifactory.corp.ebay.com/semver@7.3.8
     transitivePeerDependencies:
       - supports-color
       - typescript
@@ -3809,7 +3805,7 @@ packages:
     engines: {node: '>= 4.0'}
     dependencies:
       '@types/q': 1.5.5
-      chalk: 2.4.2
+      chalk: artifactory.corp.ebay.com/chalk@2.4.2
       q: 1.5.1
     dev: true
 
@@ -5170,7 +5166,7 @@ packages:
     resolution: {integrity: sha1-+ArZy/Qpj3vR1MlVXCHpN0HEEd0=}
     engines: {node: '>=10'}
     dependencies:
-      cross-spawn: 7.0.3
+      cross-spawn: artifactory.corp.ebay.com/cross-spawn@7.0.3
       get-stream: 6.0.1
       human-signals: 2.1.0
       is-stream: 2.0.1
@@ -5438,15 +5434,6 @@ packages:
       tapable: 1.1.3
       typescript: artifactory.corp.ebay.com/typescript@5.1.6
       webpack: 5.75.0
-    dev: true
-
-  /form-data@3.0.1:
-    resolution: {integrity: sha1-69U3kbeDVqma+aMA1CgsTV65dV8=}
-    engines: {node: '>= 6'}
-    dependencies:
-      asynckit: 0.4.0
-      combined-stream: 1.0.8
-      mime-types: 2.1.35
     dev: true
 
   /forwarded@0.2.0:
@@ -6309,7 +6296,7 @@ packages:
     hasBin: true
     dependencies:
       async: 3.2.4
-      chalk: 4.1.2
+      chalk: artifactory.corp.ebay.com/chalk@4.1.2
       filelist: 1.0.4
       minimatch: 3.1.2
     dev: true
@@ -6331,7 +6318,7 @@ packages:
       '@jest/test-result': 27.5.1
       '@jest/types': 27.5.1
       '@types/node': 18.13.0
-      chalk: 4.1.2
+      chalk: artifactory.corp.ebay.com/chalk@4.1.2
       co: 4.6.0
       dedent: 0.7.0
       expect: 27.5.1
@@ -6393,7 +6380,7 @@ packages:
       '@jest/test-sequencer': 27.5.1
       '@jest/types': 27.5.1
       babel-jest: 27.5.1(@babel/core@7.20.12)
-      chalk: 4.1.2
+      chalk: artifactory.corp.ebay.com/chalk@4.1.2
       ci-info: 3.7.1
       deepmerge: 4.3.0
       glob: 7.2.3
@@ -6424,7 +6411,7 @@ packages:
     resolution: {integrity: sha1-oH9QEayeZkPPipWkYrex7PZoDe8=}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     dependencies:
-      chalk: 4.1.2
+      chalk: artifactory.corp.ebay.com/chalk@4.1.2
       diff-sequences: 27.5.1
       jest-get-type: 27.5.1
       pretty-format: 27.5.1
@@ -6442,7 +6429,7 @@ packages:
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     dependencies:
       '@jest/types': 27.5.1
-      chalk: 4.1.2
+      chalk: artifactory.corp.ebay.com/chalk@4.1.2
       jest-get-type: 27.5.1
       jest-util: 27.5.1
       pretty-format: 27.5.1
@@ -6512,7 +6499,7 @@ packages:
       '@jest/test-result': 27.5.1
       '@jest/types': 27.5.1
       '@types/node': 18.13.0
-      chalk: 4.1.2
+      chalk: artifactory.corp.ebay.com/chalk@4.1.2
       co: 4.6.0
       expect: 27.5.1
       is-generator-fn: 2.1.0
@@ -6540,7 +6527,7 @@ packages:
     resolution: {integrity: sha1-nAzb2oJFvCLSMxcp0QkTCLQM+Ks=}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     dependencies:
-      chalk: 4.1.2
+      chalk: artifactory.corp.ebay.com/chalk@4.1.2
       jest-diff: 27.5.1
       jest-get-type: 27.5.1
       pretty-format: 27.5.1
@@ -6553,7 +6540,7 @@ packages:
       '@babel/code-frame': 7.18.6
       '@jest/types': 27.5.1
       '@types/stack-utils': 2.0.1
-      chalk: 4.1.2
+      chalk: artifactory.corp.ebay.com/chalk@4.1.2
       graceful-fs: artifactory.corp.ebay.com/graceful-fs@4.2.10
       micromatch: 4.0.5
       pretty-format: 27.5.1
@@ -6568,7 +6555,7 @@ packages:
       '@babel/code-frame': 7.18.6
       '@jest/types': 28.1.3
       '@types/stack-utils': 2.0.1
-      chalk: 4.1.2
+      chalk: artifactory.corp.ebay.com/chalk@4.1.2
       graceful-fs: artifactory.corp.ebay.com/graceful-fs@4.2.10
       micromatch: 4.0.5
       pretty-format: 28.1.3
@@ -6643,7 +6630,7 @@ packages:
       '@jest/transform': 27.5.1
       '@jest/types': 27.5.1
       '@types/node': 18.13.0
-      chalk: 4.1.2
+      chalk: artifactory.corp.ebay.com/chalk@4.1.2
       emittery: 0.8.1
       graceful-fs: artifactory.corp.ebay.com/graceful-fs@4.2.10
       jest-docblock: 27.5.1
@@ -6676,7 +6663,7 @@ packages:
       '@jest/test-result': 27.5.1
       '@jest/transform': 27.5.1
       '@jest/types': 27.5.1
-      chalk: 4.1.2
+      chalk: artifactory.corp.ebay.com/chalk@4.1.2
       cjs-module-lexer: 1.2.2
       collect-v8-coverage: 1.0.1
       execa: 5.1.1
@@ -6717,7 +6704,7 @@ packages:
       '@types/babel__traverse': 7.18.3
       '@types/prettier': 2.7.2
       babel-preset-current-node-syntax: 1.0.1(@babel/core@7.20.12)
-      chalk: 4.1.2
+      chalk: artifactory.corp.ebay.com/chalk@4.1.2
       expect: 27.5.1
       graceful-fs: artifactory.corp.ebay.com/graceful-fs@4.2.10
       jest-diff: 27.5.1
@@ -6728,7 +6715,7 @@ packages:
       jest-util: 27.5.1
       natural-compare: 1.4.0
       pretty-format: 27.5.1
-      semver: 7.3.8
+      semver: artifactory.corp.ebay.com/semver@7.3.8
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -6751,7 +6738,7 @@ packages:
     dependencies:
       '@jest/types': 28.1.3
       '@types/node': 18.13.0
-      chalk: 4.1.2
+      chalk: artifactory.corp.ebay.com/chalk@4.1.2
       ci-info: 3.7.1
       graceful-fs: artifactory.corp.ebay.com/graceful-fs@4.2.10
       picomatch: 2.3.1
@@ -6793,7 +6780,7 @@ packages:
       '@jest/types': 27.5.1
       '@types/node': 18.13.0
       ansi-escapes: 4.3.2
-      chalk: 4.1.2
+      chalk: artifactory.corp.ebay.com/chalk@4.1.2
       jest-util: 27.5.1
       string-length: 4.0.2
     dev: true
@@ -6901,7 +6888,7 @@ packages:
       decimal.js: 10.4.3
       domexception: 2.0.1
       escodegen: 2.0.0
-      form-data: 3.0.1
+      form-data: artifactory.corp.ebay.com/form-data@3.0.1
       html-encoding-sniffer: 2.0.1
       http-proxy-agent: 4.0.1
       https-proxy-agent: 5.0.1
@@ -7436,7 +7423,7 @@ packages:
     resolution: {integrity: sha1-t+zR5e1T2o43pV4cImnguX7XSOo=}
     engines: {node: '>=8'}
     dependencies:
-      path-key: 3.1.1
+      path-key: artifactory.corp.ebay.com/path-key@3.1.1
     dev: true
 
   /nth-check@1.0.2:
@@ -8621,7 +8608,7 @@ packages:
     dependencies:
       '@jest/schemas': 28.1.3
       ansi-regex: 5.0.1
-      ansi-styles: 5.2.0
+      ansi-styles: artifactory.corp.ebay.com/ansi-styles@5.2.0
       react-is: 18.2.0
     dev: true
 
@@ -9787,7 +9774,7 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       has-flag: 4.0.0
-      supports-color: 7.2.0
+      supports-color: artifactory.corp.ebay.com/supports-color@7.2.0
     dev: true
 
   /supports-preserve-symlinks-flag@1.0.0:
@@ -11370,16 +11357,39 @@ packages:
       resolve-from: artifactory.corp.ebay.com/resolve-from@5.0.0
     dev: true
 
-  artifactory.corp.ebay.com/@ebay/muse-ebay-dev@1.0.17(@ebay/muse-core@1.0.33):
-    resolution: {integrity: sha512-VD0dD+uWCD2NMJL9t0DxV8rd2wguthskszFGOrPm6jKAOW5ft+RJ+BVtVL3f2JhGZ++l0M9788t/nVjB/sixCQ==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-ebay-dev/-/@ebay/muse-ebay-dev-1.0.17.tgz}
-    id: artifactory.corp.ebay.com/@ebay/muse-ebay-dev/1.0.17
+  artifactory.corp.ebay.com/@ebay/muse-dev-utils@1.0.47(@ebay/muse-core@1.0.33)(express@4.18.2):
+    resolution: {integrity: sha512-MzOuZiJV2rNOm/+J9M6peQl1f+SkLbiA8F2H1vXSTx8N8f4ksdlbYU60QbsZY/KdN3NyxvMNgjwdUzDPUyBsYA==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-dev-utils/-/@ebay/muse-dev-utils-1.0.47.tgz}
+    id: artifactory.corp.ebay.com/@ebay/muse-dev-utils/1.0.47
+    name: '@ebay/muse-dev-utils'
+    version: 1.0.47
+    peerDependencies:
+      '@ebay/muse-core': 1.0.33
+      express: ^4.18.1
+    dependencies:
+      '@ebay/muse-core': artifactory.corp.ebay.com/@ebay/muse-core@1.0.33
+      '@ebay/muse-express-middleware': artifactory.corp.ebay.com/@ebay/muse-express-middleware@1.0.37(@ebay/muse-core@1.0.33)
+      '@ebay/muse-modules': artifactory.corp.ebay.com/@ebay/muse-modules@1.0.23
+      chalk: artifactory.corp.ebay.com/chalk@4.1.2
+      dotenv: artifactory.corp.ebay.com/dotenv@16.0.3
+      express: artifactory.corp.ebay.com/express@4.18.2
+      lodash: artifactory.corp.ebay.com/lodash@4.17.21
+      resolve-cwd: artifactory.corp.ebay.com/resolve-cwd@3.0.0
+      resolve-from: artifactory.corp.ebay.com/resolve-from@5.0.0
+      semver: artifactory.corp.ebay.com/semver@7.3.8
+    dev: true
+
+  artifactory.corp.ebay.com/@ebay/muse-ebay-dev@1.0.22(@ebay/muse-core@1.0.33)(@ebay/muse-dev-utils@1.0.47):
+    resolution: {integrity: sha512-V83ZG+5Eg0TnXOiW9PR1boMJ5eM7Zten0RqQEx0SYcH5Vs5dGy+FL4g6Do7Qzr5SD4HevMwDx/i/D6w5FzvwtA==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-ebay-dev/-/@ebay/muse-ebay-dev-1.0.22.tgz}
+    id: artifactory.corp.ebay.com/@ebay/muse-ebay-dev/1.0.22
     name: '@ebay/muse-ebay-dev'
-    version: 1.0.17
+    version: 1.0.22
     hasBin: true
     peerDependencies:
       '@ebay/muse-core': ^1.0.31
+      '@ebay/muse-dev-utils': ^1.0.44
     dependencies:
       '@ebay/muse-core': artifactory.corp.ebay.com/@ebay/muse-core@1.0.33
+      '@ebay/muse-dev-utils': artifactory.corp.ebay.com/@ebay/muse-dev-utils@1.0.47(@ebay/muse-core@1.0.33)(express@4.18.2)
       axios: artifactory.corp.ebay.com/axios@0.27.2
       axios-retry: artifactory.corp.ebay.com/axios-retry@3.3.1
       chalk: artifactory.corp.ebay.com/chalk@4.1.2
@@ -11407,10 +11417,10 @@ packages:
       request-ip: artifactory.corp.ebay.com/request-ip@3.3.0
     dev: true
 
-  artifactory.corp.ebay.com/@ebay/muse-modules@1.0.22:
-    resolution: {integrity: sha1-hj8so86V1MKrbqG/1r//0AkzZgE=, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-modules/-/@ebay/muse-modules-1.0.22.tgz}
+  artifactory.corp.ebay.com/@ebay/muse-modules@1.0.23:
+    resolution: {integrity: sha512-9UY/0l7hcEgdI45QA8zk1cPqnasYpEw/LiUO9dk/l6mWN6DxqJkwTmqSFiw6JDZ77Sf6jsQCZGGxr5fHZUjx2Q==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-modules/-/@ebay/muse-modules-1.0.23.tgz}
     name: '@ebay/muse-modules'
-    version: 1.0.22
+    version: 1.0.23
     dev: true
 
   artifactory.corp.ebay.com/@ebay/muse-webpack-plugin@1.0.29:
@@ -11418,7 +11428,7 @@ packages:
     name: '@ebay/muse-webpack-plugin'
     version: 1.0.29
     dependencies:
-      '@ebay/muse-modules': artifactory.corp.ebay.com/@ebay/muse-modules@1.0.22
+      '@ebay/muse-modules': artifactory.corp.ebay.com/@ebay/muse-modules@1.0.23
       json-parse-better-errors: artifactory.corp.ebay.com/json-parse-better-errors@1.0.2
       resolve-cwd: artifactory.corp.ebay.com/resolve-cwd@3.0.0
     dev: true
@@ -11626,6 +11636,13 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       color-convert: artifactory.corp.ebay.com/color-convert@2.0.1
+    dev: true
+
+  artifactory.corp.ebay.com/ansi-styles@5.2.0:
+    resolution: {integrity: sha512-Cxwpt2SfTzTtXcfOlzGEee8O+c+MmUgGrNiBcXnuWxuFJHe6a5Hz7qwhwe5OgaSYI0IJvkLqWX1ASG+cJOkEiA==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/ansi-styles/-/ansi-styles-5.2.0.tgz}
+    name: ansi-styles
+    version: 5.2.0
+    engines: {node: '>=10'}
     dev: true
 
   artifactory.corp.ebay.com/append-field@1.0.0:
@@ -12638,6 +12655,17 @@ packages:
     peerDependenciesMeta:
       debug:
         optional: true
+    dev: true
+
+  artifactory.corp.ebay.com/form-data@3.0.1:
+    resolution: {integrity: sha512-RHkBKtLWUVwd7SqRIvCZMEvAMoGUp0XU+seQiZejj0COz3RI3hWP4sCv3gZWWLjJTd7rGwcsF5eKZGii0r/hbg==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/form-data/-/form-data-3.0.1.tgz}
+    name: form-data
+    version: 3.0.1
+    engines: {node: '>= 6'}
+    dependencies:
+      asynckit: 0.4.0
+      combined-stream: 1.0.8
+      mime-types: 2.1.35
     dev: true
 
   artifactory.corp.ebay.com/form-data@4.0.0:
