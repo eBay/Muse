@@ -1,5 +1,11 @@
 # @ebay/muse-dev-utils
 
+## 1.0.47
+
+### Patch Changes
+
+- Fix deps check
+
 ## 1.0.46
 
 ### Patch Changes

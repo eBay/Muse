@@ -44,7 +44,9 @@ class MuseManifestPlugin {
           const targetPath = compilation.getPath(
             path.join(
               process.cwd(),
-              `build/${this.options.isDevBuild ? 'dev' : 'dist'}/lib-manifest.json`,
+              `build/${
+                this.options?.isDevBuild ? 'dev' : this.options?.isTestBuild ? 'test' : 'dist'
+              }/lib-manifest.json`,
             ),
             {
               chunk,
@@ -64,7 +66,7 @@ class MuseManifestPlugin {
 
             // ////////  exclude modules from sharedLibs.exclude configuration  ///////////////////
             const moduleName = parseMuseId(module.buildInfo.museData.id).name;
-            if (sharedLibs.some(cl => moduleName === cl)) continue;
+            if (sharedLibs.some((cl) => moduleName === cl)) continue;
             // ////////////////////////////////////////////////////////////////////////////////////
 
             const ident = module.libIdent({
@@ -99,7 +101,7 @@ class MuseManifestPlugin {
           mkdirp(
             compiler.intermediateFileSystem,
             dirname(compiler.intermediateFileSystem, targetPath),
-            err => {
+            (err) => {
               if (err) return callback(err);
               compiler.intermediateFileSystem.writeFile(targetPath, buffer, callback);
             },
