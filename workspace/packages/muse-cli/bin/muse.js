@@ -779,6 +779,20 @@ program
     console.log();
   });
 
+program
+  .command('show-lib-version')
+  .description('Show the package version(s) in a lib plugin.')
+  .argument('<pluginName>', 'The lib plugin name')
+  .argument('<version>', 'The plugin version.')
+  .argument('<packageName>', 'Which package to show the name.')
+  .argument('[mode]', 'The build mode of lib plugin.', 'dist')
+  .action(async (pluginName, version, packageName, mode) => {
+    const SharedModulesAnalyzer = require('@ebay/muse-modules-analyzer');
+    const analyzer = new SharedModulesAnalyzer();
+    const versions = await analyzer.getLibVersion(pluginName, version, packageName, mode);
+    console.log(packageName + ':', versions.join(', '));
+  });
+
 // let other plugins add their own cli program commands
 muse.plugin.invoke('museCli.processProgram', program, { commander, chalk, timeAgo });
 

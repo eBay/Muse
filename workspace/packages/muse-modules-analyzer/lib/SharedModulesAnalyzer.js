@@ -145,6 +145,20 @@ class SharedModulesAnalyzer {
   }
 
   /**
+   * Get version(s) of a pakcage in a lib plugins shared modules.
+   *
+   * @param {*} pluginName
+   * @param {*} version
+   * @param {*} pkgName
+   * @param {*} mode
+   * @returns
+   */
+  async getLibVersion(pluginName, version, pkgName, mode = 'dist') {
+    const libs = await this.getLibs(pluginName, version, mode);
+    return libs.packages[pkgName].version;
+  }
+
+  /**
    * Get duplicated shared modules of plugins.
    *
    * @param {*} plugins
