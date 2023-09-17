@@ -46,6 +46,8 @@ if (['lib'].includes(pluginType)) {
     error('✖ Deps versions check failed.');
     process.exit(1);
   } else {
-    console.log('✔ Deps versions check passed: all sharing deps use correct fixed versions.');
+    console.log(
+      chalk.green('✔ Deps versions check passed: all sharing deps use correct fixed versions.'),
+    );
   }
 }

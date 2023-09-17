@@ -62,7 +62,9 @@ if (['lib', 'normal'].includes(pluginType)) {
     process.exit(1);
   } else {
     console.log(
-      '✔ Muse deps check passed: all sharing deps are compatible with the ones in lib plugins.',
+      chalk.green(
+        '✔ Muse deps check passed: all sharing deps are compatible with the ones in lib plugins.',
+      ),
     );
   }
 }
