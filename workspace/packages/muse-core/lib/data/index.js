@@ -50,6 +50,7 @@ const refreshCache = async (key) => {
   await setCache(key, value);
 
   plugin.invoke(`museCore.data.afterRefreshCache`, key);
+  return value;
 };
 
 const syncCache = async () => {
