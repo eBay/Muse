@@ -19,7 +19,7 @@ export default {
     `;
     loadingDiv.id = 'muse-loading-node';
     if (
-      app.config?.theme === 'dark' ||
+      (app.config?.theme === 'dark' && !localStorage.getItem('muse-lib-antd.theme.dark')) ||
       (localStorage.getItem('muse-lib-antd.theme.dark') &&
         localStorage.getItem('muse-lib-antd.theme.dark') === 'true')
     ) {
