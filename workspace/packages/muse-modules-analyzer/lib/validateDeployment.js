@@ -1,4 +1,5 @@
-const { parseNameVersion, getDepsManifest } = require('./utils');
+const muse = require('@ebay/muse-core');
+const utils = require('./utils');
 /**
  * Get depeding shared modules of a plugin
  * @param {*} pluginName
@@ -7,11 +8,14 @@ const { parseNameVersion, getDepsManifest } = require('./utils');
  * @returns
  */
 async function getDeps(pluginName, version, mode = 'dist') {
+  const pid = muse.utils.getPluginId(pluginName);
   // Allow deps-manifest not exist.
-  const depsManifest = await getDepsManifest(pluginName, version, mode);
+  const depsManifest =
+    (await muse.storage.assets.getJson(`/p/${pid}/v${version}/${mode}/deps-manifest.json`))
+      ?.content || {};
   const result = {};
   Object.entries(depsManifest).forEach(([libNameVersion, modules]) => {
-    const { name, version } = parseNameVersion(libNameVersion);
+    const { name, version } = utils.parseNameVersion(libNameVersion);
 
     result[libNameVersion] = {
       name,

@@ -1,4 +1,3 @@
-const muse = require('@ebay/muse-core');
 const { parseMuseId } = require('@ebay/muse-modules');
 const utils = require('./utils');
 

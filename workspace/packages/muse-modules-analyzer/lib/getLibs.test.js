@@ -33,7 +33,7 @@ describe('basic tests', () => {
     fs.outputJsonSync('./build/dist/lib-manifest.json', manifest);
   });
 
-  it('gets modules diff of two versions of a lib plugin', async () => {
+  it('gets correct shared packages and modules of a lib plugin', async () => {
     const libs = await getLibs(pluginName, '1.0.0');
     console.log(libs);
     expect(libs).toEqual({

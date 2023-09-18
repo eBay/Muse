@@ -10,14 +10,35 @@ const utils = {
    * @returns
    */
   parseNameVersion: (nameVersion) => {
-    const arr = _.compact(nameVersion.split(/@/));
-    const name = '@' + arr[0];
-    const version = arr[1];
-    return { name, version };
+    const lastIndex = nameVersion.lastIndexOf('@');
+    return {
+      name: nameVersion.substring(0, lastIndex),
+      version: nameVersion.substring(lastIndex + 1),
+    };
   },
 
   /**
-   * Get the lib manifest of a lib plugin, in which shared modules are described.
+   * Get the asset of a  plugin
+   *
+   * @param {*} pluginName
+   * @param {*} version - version can be a local folder (e.g: ./build) or a version number
+   * @param {*} assetPath - the asset path in the build result
+   * @param {*} mode
+   * @returns
+   */
+  getJsonAsset: async (pluginName, version, assetPath, mode) => {
+    const pid = muse.utils.getPluginId(pluginName);
+
+    if (/\d+\.\d+\.\d+/.test(version)) {
+      return await muse.storage.assets.getJson(`/p/${pid}/v${version}/${mode}/${assetPath}`);
+    } else {
+      //It's a local folder
+      return fs.readJsonSync(`${version}/${mode}/${assetPath}`);
+    }
+  },
+
+  /**
+   * Get the deps manifest of a plugin, in which the depending shared modules are described.
    *
    * @param {*} pluginName
    * @param {*} version - version can be a local folder (e.g: ./build) or a version number
@@ -25,15 +46,15 @@ const utils = {
    * @returns
    */
   getLibManifest: async (pluginName, version, mode) => {
-    const pid = muse.utils.getPluginId(pluginName);
+    return (
+      (await utils.getJsonAsset(pluginName, version, 'lib-manifest.json', mode))?.content || {}
+    );
+  },
 
-    if (/\d+\.\d+\.\d+/.test(version)) {
-      return (await muse.storage.assets.getJson(`/p/${pid}/v${version}/${mode}/lib-manifest.json`))
-        .content;
-    } else {
-      //It's a local folder
-      return fs.readJsonSync(`${version}/${mode}/lib-manifest.json`).content;
-    }
+  getDepsManifest: async (pluginName, version, mode) => {
+    return (
+      (await utils.getJsonAsset(pluginName, version, 'deps-manifest.json', mode))?.content || {}
+    );
   },
 };
 module.exports = utils;
