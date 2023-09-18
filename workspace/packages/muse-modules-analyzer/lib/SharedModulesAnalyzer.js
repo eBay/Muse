@@ -267,7 +267,7 @@ class SharedModulesAnalyzer {
    * required shared modules of deploying plugins should be included by existing lib plugins on the app.
    * @param {*} appName
    * @param {*} envName
-   * @param {*} deployment
+   * @param {*} deployment - [{pluginName, version, type}]
    * @param {*} mode
    * @returns
    */
