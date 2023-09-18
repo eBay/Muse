@@ -31,7 +31,8 @@ async function getLibs(pluginName, version, mode = 'dist') {
     pkg.modules.push(key.replace(name + '@' + v, ''));
   });
   return {
-    pluginName: pluginName,
+    name: pluginName,
+    version: version, // note that version may be a local folder path
     packages,
     byId: libManifest,
   };

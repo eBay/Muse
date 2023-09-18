@@ -18,7 +18,7 @@ async function getDuplicatedLibs(plugins, mode = 'dist') {
     Object.entries(lib.packages).forEach(([name, { version }]) => {
       if (!pkgs[name]) pkgs[name] = [];
       pkgs[name].push({
-        name: lib.pluginName,
+        name: lib.name,
         version,
       });
     });

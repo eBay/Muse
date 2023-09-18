@@ -2,34 +2,21 @@ const path = require('path');
 const fs = require('fs-extra');
 const { vol } = require('memfs');
 const muse = require('@ebay/muse-core');
-const validateDeployment = require('./validateDeployment');
+const validateApp = require('./validateApp');
 
 const { defaultAssetStorageLocation } = muse.utils;
 
 describe('basic tests', () => {
   const appName = 'testapp';
   const libPluginName = 'test-lib-plugin';
-  const libPluginName2 = 'test-lib-plugin-2';
   const normalPluginName = 'test-normal-plugin';
-  const normalPluginName2 = 'test-normal-plugin-2';
   const bootPluginName = 'test-boot-plugin';
-  const bootPluginName2 = 'test-boot-plugin-2';
   const initPluginName = 'test-init-plugin';
-  const initPluginName2 = 'test-init-plugin-2';
 
   beforeEach(async () => {
     vol.reset();
 
-    const plugins = [
-      libPluginName,
-      libPluginName2,
-      normalPluginName,
-      normalPluginName2,
-      bootPluginName,
-      bootPluginName2,
-      initPluginName,
-      initPluginName2,
-    ];
+    const plugins = [libPluginName, normalPluginName, bootPluginName, initPluginName];
     for (let pluginName of plugins) {
       let pluginType;
       if (pluginName.includes('-lib-')) pluginType = 'lib';
@@ -41,11 +28,6 @@ describe('basic tests', () => {
       await muse.pm.releasePlugin({
         pluginName,
         version: '1.0.0',
-      });
-
-      await muse.pm.releasePlugin({
-        pluginName,
-        version: '1.0.1',
       });
     }
 
@@ -80,38 +62,18 @@ describe('basic tests', () => {
     fs.outputJsonSync(
       path.join(
         defaultAssetStorageLocation,
-        `/p/${normalPluginName2}/v1.0.0/dist/deps-manifest.json`,
+        `/p/${normalPluginName}/v1.0.0/dist/deps-manifest.json`,
       ),
       {
         content: {
           [`${libPluginName}@1.0.0`]: ['@ebay/pkg-1@1.0.0/src/m1.js', 'pkg-4@1.0.0/src/m1.js'],
-          'unknow-lib-plugin@1.0.0': ['somepkg@1.0.0/src/m1.js'],
         },
       },
     );
   });
 
   it('validates one plugin deployment', async () => {
-    await validateDeployment(appName, 'staging', []);
-    const result = await validateDeployment(appName, 'staging', [
-      {
-        pluginName: normalPluginName2,
-        version: '1.0.0',
-      },
-    ]);
-    expect(result.dist.missingModules).toEqual([
-      {
-        plugin: 'test-normal-plugin-2',
-        version: '1.0.0',
-        sharedFrom: 'unknow-lib-plugin@1.0.0',
-        moduleId: 'somepkg@1.0.0/src/m1.js',
-      },
-    ]);
+    const result = await validateApp(appName, 'staging');
+    expect(result.dist.missingModules).toEqual([]);
   });
-  it('validates multiple plugins(lib, normal) deployment', async () => {});
-  it('validates one plugin undeployment', async () => {});
-  it('validates mixed deployment and undeployment', async () => {});
-  it('validates multiple boot plugins deployment', async () => {});
-  it('validate no boot plugin deployment', async () => {});
-  it('is always passed when deploy/undeploy init plugins', async () => {});
 });

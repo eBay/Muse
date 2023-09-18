@@ -3,12 +3,13 @@ const muse = require('@ebay/muse-core');
 const { findMuseModule } = require('@ebay/muse-modules');
 const getLibs = require('./getLibs');
 const getDeps = require('./getDeps');
+
 /**
  * Verfies if deploying plugins are compatible with the current app:
  * required shared modules of deploying plugins should be included by existing lib plugins on the app.
  * @param {*} appName
  * @param {*} envName
- * @param {*} deployment - [{pluginName, version, type}]
+ * @param {*} deployment - [{pluginName, version, type: 'add|remove'}]
  * @param {*} mode
  * @returns
  */
@@ -58,7 +59,7 @@ async function validateDeployment(appName, envName, deployment, mode) {
       newPlugins.map(async (p) => {
         if (p.type === 'lib') {
           sharedModules[p.name] = await getLibs(p.name, p.version, mode);
-          Object.entries(sharedModules[p.name].byId).forEach(([id, value]) => {
+          Object.keys(sharedModules[p.name].byId).forEach((id) => {
             if (!allModules[id]) allModules[id] = { id };
             allModules[id][p.name] = true;
           });
@@ -66,27 +67,16 @@ async function validateDeployment(appName, envName, deployment, mode) {
       }),
     );
 
+    // Get the shared module info, from which lib plugin
     const getSharedModuleInfo = (id) => {
       const result = {};
 
-      Object.entries(sharedModules).forEach(
-        ([
-          name,
-          {
-            packages: {
-              [name]: { version },
-            },
-            byId,
-          },
-        ]) => {
-          if (byId[id]) {
-            // result[name] = byId[id];
-            result.pkgName = name;
-            result.pkgVersion = version[0];
-            result.id = id;
-          }
-        },
-      );
+      Object.entries(sharedModules).forEach(([name, { byId, version }]) => {
+        if (byId[id]) {
+          result.libPluginName = name;
+          result.libPluginVersion = version;
+        }
+      });
       return _.isEmpty(result) ? null : result;
     };
 
@@ -124,8 +114,8 @@ async function validateDeployment(appName, envName, deployment, mode) {
                   result.updatedModules.push({
                     pluginName: p.name,
                     pluginVersion: p.version,
-                    fromLibPlugin: sharedModuleInfo.pkgName,
-                    fromLibVersion: sharedModuleInfo.pkgVersion,
+                    fromLibPlugin: sharedModuleInfo.libPluginName,
+                    fromLibVersion: sharedModuleInfo.libPluginVersion,
                     requiredModuleId: id,
                     actualModuleId: foundModule.id,
                   });
@@ -133,19 +123,19 @@ async function validateDeployment(appName, envName, deployment, mode) {
                   result.foundModules.push({
                     pluginName: p.name,
                     pluginVersion: p.version,
-                    fromLibPlugin: sharedModuleInfo.pkgName,
-                    fromLibVersion: sharedModuleInfo.pkgVersion,
+                    fromLibPlugin: sharedModuleInfo.libPluginName,
+                    fromLibVersion: sharedModuleInfo.libPluginVersion,
                     moduleId: id,
                   });
                 }
 
-                if (sharedModuleInfo.pkgName !== name) {
+                if (sharedModuleInfo.libPluginName !== name) {
                   // Means the shared module is provided by another lib plugin
                   result.changedModules.push({
                     pluginName: p.name,
                     pluginVersion: p.version,
-                    newLibPlugin: sharedModuleInfo.pkgName,
-                    newLibVersion: sharedModuleInfo.pkgVersion,
+                    newLibPlugin: sharedModuleInfo.libPluginName,
+                    newLibVersion: sharedModuleInfo.libPluginVersion,
                     oldLibPlugin: name,
                     oldLibVersion: version,
                     requiredModuleId: id,
