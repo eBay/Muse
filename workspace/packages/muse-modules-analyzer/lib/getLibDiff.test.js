@@ -6,17 +6,11 @@ const getLibDiff = require('./getLibDiff');
 
 const { defaultAssetStorageLocation } = muse.utils;
 
-const fsJson = {};
-for (let i = 0; i < 10; i++) {
-  fsJson[`./build/file${i}.js`] = String(i);
-}
-
 describe('basic tests', () => {
   const pluginName = 'test-plugin';
 
   beforeEach(async () => {
     vol.reset();
-    vol.fromJSON(fsJson, process.cwd());
 
     await muse.pm.createPlugin({ pluginName });
     await muse.pm.releasePlugin({
@@ -58,7 +52,7 @@ describe('basic tests', () => {
     fs.outputJsonSync('./build2/dist/lib-manifest.json', manifest2);
   });
 
-  it('should get diff of shared modules between two versions of a lib plugin', async () => {
+  it('gets modules diff of two versions of a lib plugin', async () => {
     const diff = await getLibDiff(pluginName, '1.0.0', '1.0.1', 'dist');
     expect(diff.removedIds).toEqual(['@ebay/pkg-1@1.0.0/src/m2.js']);
     expect(diff.addedIds).toEqual(['@ebay/pkg-1@1.0.0/src/m3.js']);
