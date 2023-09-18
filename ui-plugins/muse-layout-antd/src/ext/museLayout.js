@@ -64,6 +64,7 @@ export default {
         mode: 'collapsable', // fixed | drawer | collapsable | collapsed | none
         siderDefaultCollapsed: true,
         homeMenu: true,
+        theme: 'light'
       };
     },
     getItems: () => {
