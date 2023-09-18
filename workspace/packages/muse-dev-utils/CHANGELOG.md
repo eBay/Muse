@@ -1,5 +1,13 @@
 # @ebay/muse-dev-utils
 
+## 1.0.48
+
+### Patch Changes
+
+- module analyzer
+- Updated dependencies
+  - @ebay/muse-modules@1.0.24
+
 ## 1.0.47
 
 ### Patch Changes
