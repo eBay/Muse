@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const { parseMuseId } = require('@ebay/muse-modules');
+
 const utils = require('./utils');
 /**
  * Get difference of shared modules between two versions of a lib plugin
