@@ -35,7 +35,6 @@ describe('basic tests', () => {
 
   it('gets correct shared packages and modules of a lib plugin', async () => {
     const libs = await getLibs(pluginName, '1.0.0');
-    console.log(libs);
     expect(libs).toEqual({
       pluginName: 'test-plugin',
       packages: {

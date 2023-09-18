@@ -1,29 +1,173 @@
+const _ = require('lodash');
 const muse = require('@ebay/muse-core');
-const utils = require('./utils');
+const { findMuseModule } = require('@ebay/muse-modules');
+const getLibs = require('./getLibs');
+const getDeps = require('./getDeps');
 /**
- * Get depeding shared modules of a plugin
- * @param {*} pluginName
- * @param {*} version
+ * Verfies if deploying plugins are compatible with the current app:
+ * required shared modules of deploying plugins should be included by existing lib plugins on the app.
+ * @param {*} appName
+ * @param {*} envName
+ * @param {*} deployment - [{pluginName, version, type}]
  * @param {*} mode
  * @returns
  */
-async function getDeps(pluginName, version, mode = 'dist') {
-  const pid = muse.utils.getPluginId(pluginName);
-  // Allow deps-manifest not exist.
-  const depsManifest =
-    (await muse.storage.assets.getJson(`/p/${pid}/v${version}/${mode}/deps-manifest.json`))
-      ?.content || {};
-  const result = {};
-  Object.entries(depsManifest).forEach(([libNameVersion, modules]) => {
-    const { name, version } = utils.parseNameVersion(libNameVersion);
+async function validateDeployment(appName, envName, deployment, mode) {
+  const modes = mode ? [mode] : ['dist', 'dev', 'test'];
+  const app = await muse.data.get(`muse.app.${appName}`);
 
-    result[libNameVersion] = {
-      name,
-      version,
-      modules,
+  const returnValue = {};
+  for (const mode of modes) {
+    const pluginByName = _.keyBy(app.envs[envName].plugins, 'name');
+
+    // Whether to validate all plugins on the app:
+    //  1. Deployment is empty
+    //  2. Deployment contains a lib plugin
+    let validateAll = deployment.length === 0;
+
+    // Generate new plugin list after deployment
+    await Promise.all(
+      deployment.map(async (d) => {
+        const p = pluginByName[d.pluginName];
+        if (p) {
+          if (p.type === 'lib') {
+            validateAll = true;
+          }
+          if (d.type === 'remove') {
+            delete pluginByName[d.pluginName];
+          } else {
+            p.version = d.version;
+          }
+        } else {
+          const pluginMeta = await muse.data.get(`muse.plugin.${d.pluginName}`);
+          pluginByName[d.pluginName] = {
+            name: d.pluginName,
+            version: d.version,
+            type: pluginMeta.type,
+          };
+        }
+      }),
+    );
+    // New plugins after deployment on the env
+    const newPlugins = Object.values(pluginByName);
+
+    // All shared modules on the app/env
+    const sharedModules = {};
+    const allModules = {};
+    await Promise.all(
+      newPlugins.map(async (p) => {
+        if (p.type === 'lib') {
+          sharedModules[p.name] = await getLibs(p.name, p.version, mode);
+          Object.entries(sharedModules[p.name].byId).forEach(([id, value]) => {
+            if (!allModules[id]) allModules[id] = { id };
+            allModules[id][p.name] = true;
+          });
+        }
+      }),
+    );
+
+    const getSharedModuleInfo = (id) => {
+      const result = {};
+
+      Object.entries(sharedModules).forEach(
+        ([
+          name,
+          {
+            packages: {
+              [name]: { version },
+            },
+            byId,
+          },
+        ]) => {
+          if (byId[id]) {
+            // result[name] = byId[id];
+            result.pkgName = name;
+            result.pkgVersion = version[0];
+            result.id = id;
+          }
+        },
+      );
+      return _.isEmpty(result) ? null : result;
     };
-  });
-  return result;
+
+    // Which plugins to validate
+    const pluginsToValidate = validateAll
+      ? newPlugins.map((p) => p.name)
+      : deployment.map((d) => d.pluginName);
+
+    const result = {
+      foundModules: [], // found in shared modules
+      missingModules: [], // required by some plugins but not found
+      updatedModules: [], // changed from one version to another
+      changedModules: [], // changed from one pakcage to another
+      missingPackages: [], // if a package is totally missing
+    };
+    await Promise.all(
+      pluginsToValidate.map(async (pluginName) => {
+        const p = pluginByName[pluginName];
+        // No need to validate boot and init plugins
+        if (!p.type || p.type === 'lib' || p.type === 'normal') {
+          // deps: { libPlugin@version: { name, version, modules: [] } }
+          const deps = await getDeps(p.name, p.version, mode);
+          Object.values(deps).forEach(({ name, version, modules }) => {
+            modules.forEach((id) => {
+              // If the module is found in shared modules
+              const foundModule = findMuseModule(id, { modules: allModules });
+
+              if (foundModule) {
+                // Shared module info means which lib plugin/version provides it
+                // It should be able to always find the shared module info
+                const sharedModuleInfo = getSharedModuleInfo(foundModule.id);
+
+                if (id !== foundModule.id) {
+                  // Module found but the id is changed, means the package version is changed:
+                  result.updatedModules.push({
+                    pluginName: p.name,
+                    pluginVersion: p.version,
+                    fromLibPlugin: sharedModuleInfo.pkgName,
+                    fromLibVersion: sharedModuleInfo.pkgVersion,
+                    requiredModuleId: id,
+                    actualModuleId: foundModule.id,
+                  });
+                } else {
+                  result.foundModules.push({
+                    pluginName: p.name,
+                    pluginVersion: p.version,
+                    fromLibPlugin: sharedModuleInfo.pkgName,
+                    fromLibVersion: sharedModuleInfo.pkgVersion,
+                    moduleId: id,
+                  });
+                }
+
+                if (sharedModuleInfo.pkgName !== name) {
+                  // Means the shared module is provided by another lib plugin
+                  result.changedModules.push({
+                    pluginName: p.name,
+                    pluginVersion: p.version,
+                    newLibPlugin: sharedModuleInfo.pkgName,
+                    newLibVersion: sharedModuleInfo.pkgVersion,
+                    oldLibPlugin: name,
+                    oldLibVersion: version,
+                    requiredModuleId: id,
+                    actualModuleId: foundModule.id,
+                  });
+                }
+              } else {
+                result.missingModules.push({
+                  plugin: p.name,
+                  version: p.version,
+                  sharedFrom: `${name}@${version}`,
+                  moduleId: id,
+                });
+              }
+            });
+          });
+        }
+      }),
+    );
+    returnValue[mode] = result;
+  }
+  return returnValue;
 }
 
-module.exports = getDeps;
+module.exports = validateDeployment;
