@@ -1,8 +1,12 @@
 // Expose Muse APIs via express
 const muse = require('@ebay/muse-core');
+const analyzer = require('@ebay/muse-modules-analyzer');
 const _ = require('lodash');
+
 const multer = require('multer');
+
 const logger = muse.logger.createLogger('@ebay/muse-express-middleware.api');
+
 const upload = multer({ storage: multer.memoryStorage() });
 // All exposed APIs are predefined and they are able to convert to API path from museCore
 const exposedApis = [
@@ -54,6 +58,18 @@ const exposedApis = [
   'req.updateStatus',
 ];
 
+// TODO: should we put analyzer in muse-core? or a seperate package?
+muse.analyzer = analyzer;
+exposedApis.push(
+  'analyzer.validateApp',
+  'analyzer.validatePlugin',
+  'analyzer.validateDeployment',
+  'analyzer.getLibDiff',
+  'analyzer.getLibs',
+  'analyzer.getDeps',
+  'analyzer.getLibVersion',
+  'analyzer.getDuplicatedLibs',
+);
 const fileFields = {
   'am.setAppIcon': { name: 'icon', maxCount: 1 },
 };

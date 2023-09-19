@@ -11,7 +11,7 @@ async function server(args) {
     appName,
     envName = 'staging',
     serveApi = false,
-    serveStatic = true,
+    serveStatic = false,
     isDev,
     byUrl = false,
     port = 6070,
@@ -27,7 +27,7 @@ async function server(args) {
   plugin.invoke('museSimpleServer.processApp', { app, args });
   if (serveApi) app.use(museApiMiddleware({}));
   if (serveStatic) app.use(museAssetsMiddleware({}));
-  if (appName) {
+  if (appName || byUrl) {
     app.use(
       museAppMiddleware({
         appName,
