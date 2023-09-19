@@ -4,6 +4,7 @@ module.exports = {
   getLibs: require('./getLibs'),
   getLibDiff: require('./getLibDiff'),
   getDuplicatedLibs: require('./getDuplicatedLibs'),
+  validatePlugin: require('./validatePlugin'),
   validateApp: require('./validateApp'),
   validateDeployment: require('./validateDeployment'),
 };
