@@ -78,6 +78,29 @@ describe('basic tests', () => {
     );
 
     fs.outputJsonSync(
+      path.join(defaultAssetStorageLocation, `/p/${libPluginName2}/v1.0.0/dist/lib-manifest.json`),
+      {
+        content: {
+          'somepkg@1.0.0/src/m1.js': {},
+          '@ebay/pkg-1@1.0.0/src/m1.js': {},
+          '@ebay/pkg-2@1.0.0/src/m1.js': {},
+        },
+      },
+    );
+
+    fs.outputJsonSync(
+      path.join(
+        defaultAssetStorageLocation,
+        `/p/${normalPluginName}/v1.0.0/dist/deps-manifest.json`,
+      ),
+      {
+        content: {
+          [`${libPluginName}@1.0.0`]: ['@ebay/pkg-2@1.0.0/src/m1.js', 'pkg-4@1.0.0/src/m1.js'],
+        },
+      },
+    );
+
+    fs.outputJsonSync(
       path.join(
         defaultAssetStorageLocation,
         `/p/${normalPluginName2}/v1.0.0/dist/deps-manifest.json`,
@@ -85,33 +108,143 @@ describe('basic tests', () => {
       {
         content: {
           [`${libPluginName}@1.0.0`]: ['@ebay/pkg-1@1.0.0/src/m1.js', 'pkg-4@1.0.0/src/m1.js'],
-          'unknow-lib-plugin@1.0.0': ['somepkg@1.0.0/src/m1.js'],
+          'some-lib-plugin@1.0.0': ['somepkg@1.0.0/src/m1.js'],
         },
       },
     );
   });
 
-  it('validates one plugin deployment', async () => {
-    await validateDeployment(appName, 'staging', []);
+  it('validates one plugin deployment with missing modules', async () => {
+    // normal plugin 2 has a missing module from lib plugin 2
     const result = await validateDeployment(appName, 'staging', [
       {
         pluginName: normalPluginName2,
         version: '1.0.0',
       },
     ]);
+    expect(result.success).toBe(false);
     expect(result.dist.missingModules).toEqual([
       {
         plugin: 'test-normal-plugin-2',
         version: '1.0.0',
-        sharedFrom: 'unknow-lib-plugin@1.0.0',
+        sharedFrom: 'some-lib-plugin@1.0.0',
         moduleId: 'somepkg@1.0.0/src/m1.js',
       },
     ]);
   });
-  it('validates multiple plugins(lib, normal) deployment', async () => {});
-  it('validates one plugin undeployment', async () => {});
-  it('validates mixed deployment and undeployment', async () => {});
-  it('validates multiple boot plugins deployment', async () => {});
-  it('validate no boot plugin deployment', async () => {});
-  it('is always passed when deploy/undeploy init plugins', async () => {});
+  it('validates multiple plugins(lib, normal) deployment', async () => {
+    // normal plugin 2 can be deployed together with lib plugin 2 together
+    const result = await validateDeployment(appName, 'staging', [
+      {
+        pluginName: normalPluginName2,
+        version: '1.0.0',
+      },
+      {
+        pluginName: libPluginName2,
+        version: '1.0.0',
+      },
+    ]);
+    expect(result.success).toBe(true);
+    expect(result.dist.missingModules).toEqual([]);
+  });
+  it('validates one normal plugin undeployment', async () => {
+    // normal plugin 1 can be undeployed
+    const result = await validateDeployment(appName, 'staging', [
+      {
+        pluginName: normalPluginName,
+        version: '1.0.0',
+        type: 'remove',
+      },
+    ]);
+    expect(result.success).toBe(true);
+    expect(result.dist.missingModules).toEqual([]);
+  });
+
+  it('validates one lib plugin undeployment', async () => {
+    // undeploy lib plugin will cause missing modules
+    const result = await validateDeployment(appName, 'staging', [
+      {
+        pluginName: libPluginName,
+        version: '1.0.0',
+        type: 'remove',
+      },
+    ]);
+    expect(result.success).toBe(false);
+
+    expect(result.dist.missingModules).toEqual([
+      {
+        plugin: 'test-normal-plugin',
+        version: '1.0.0',
+        sharedFrom: 'test-lib-plugin@1.0.0',
+        moduleId: '@ebay/pkg-2@1.0.0/src/m1.js',
+      },
+      {
+        plugin: 'test-normal-plugin',
+        version: '1.0.0',
+        sharedFrom: 'test-lib-plugin@1.0.0',
+        moduleId: 'pkg-4@1.0.0/src/m1.js',
+      },
+    ]);
+  });
+  it('validates mixed deployment and undeployment', async () => {
+    const result = await validateDeployment(appName, 'staging', [
+      {
+        pluginName: libPluginName2,
+        version: '1.0.0',
+        type: 'add',
+      },
+      {
+        pluginName: libPluginName,
+        version: '1.0.0',
+        type: 'remove',
+      },
+    ]);
+    expect(result.success).toBe(false);
+    expect(result.dist.missingModules).toEqual([
+      {
+        plugin: 'test-normal-plugin',
+        version: '1.0.0',
+        sharedFrom: 'test-lib-plugin@1.0.0',
+        moduleId: 'pkg-4@1.0.0/src/m1.js',
+      },
+    ]);
+  });
+  it('validates multiple boot plugins deployment', async () => {
+    const result = await validateDeployment(appName, 'staging', [
+      {
+        pluginName: bootPluginName2,
+        version: '1.0.0',
+        type: 'add',
+      },
+    ]);
+    expect(result.success).toBe(false);
+    expect(result.dist.multipleBootPlugins).toEqual([bootPluginName, bootPluginName2]);
+  });
+  it('validate no boot plugin deployment', async () => {
+    const result = await validateDeployment(appName, 'staging', [
+      {
+        pluginName: bootPluginName,
+        version: '1.0.0',
+        type: 'remove',
+      },
+    ]);
+
+    expect(result.success).toBe(false);
+    expect(result.dist.missingBootPlugin).toBe(true);
+  });
+  it('is always passed when deploy/undeploy init plugins', async () => {
+    const result = await validateDeployment(appName, 'staging', [
+      {
+        pluginName: initPluginName,
+        version: '1.0.0',
+        type: 'remove',
+      },
+      {
+        pluginName: initPluginName2,
+        version: '1.0.0',
+        type: 'add',
+      },
+    ]);
+    expect(result.success).toBe(true);
+  });
 });

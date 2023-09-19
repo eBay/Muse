@@ -1,8 +1,7 @@
 const _ = require('lodash');
 const muse = require('@ebay/muse-core');
 const { findMuseModule } = require('@ebay/muse-modules');
-const getLibs = require('./getLibs');
-const getDeps = require('./getDeps');
+const { getLibs, getDeps } = require('./');
 
 /**
  * Verfies if deploying plugins are compatible with the current app:
@@ -83,7 +82,7 @@ async function validateDeployment(appName, envName, deployment, mode) {
     // Which plugins to validate
     const pluginsToValidate = validateAll
       ? newPlugins.map((p) => p.name)
-      : deployment.map((d) => d.pluginName);
+      : deployment.filter((d) => d.type !== 'remove').map((d) => d.pluginName);
 
     const result = {
       foundModules: [], // found in shared modules
@@ -91,6 +90,8 @@ async function validateDeployment(appName, envName, deployment, mode) {
       updatedModules: [], // changed from one version to another
       changedModules: [], // changed from one pakcage to another
       missingPackages: [], // if a package is totally missing
+      multipleBootPlugins: false, // if there are multiple boot plugins
+      missingBootPlugin: false, // if there is no boot plugin
     };
     await Promise.all(
       pluginsToValidate.map(async (pluginName) => {
@@ -155,8 +156,23 @@ async function validateDeployment(appName, envName, deployment, mode) {
         }
       }),
     );
+
+    // If there're multiple boot plugins
+    const bootPlugins = Object.values(pluginByName).filter((p) => p.type === 'boot');
+    result.missingBootPlugin = bootPlugins.length === 0;
+    if (bootPlugins.length > 1) {
+      result.multipleBootPlugins = Object.values(pluginByName)
+        .filter((p) => p.type === 'boot')
+        .map((p) => p.name);
+    }
+    result.success =
+      result.missingModules.length === 0 &&
+      result.missingBootPlugin === false &&
+      result.multipleBootPlugins === false;
     returnValue[mode] = result;
   }
+
+  returnValue.success = Object.values(returnValue).every((r) => r.success);
   return returnValue;
 }
 
