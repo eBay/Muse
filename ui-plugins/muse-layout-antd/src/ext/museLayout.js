@@ -46,6 +46,10 @@ export default {
           icon: 'ClockCircleOutlined',
           position: 'right',
           link: '/',
+          // onClick: () => {
+          //   seed++;
+          //   plugin.getPlugin('@ebay/muse-layout-antd').exports.updateMuseLayout();
+          // },
         },
         {
           key: 'item6',
@@ -54,6 +58,12 @@ export default {
           order: 1,
           link: '/bes',
         },
+        // {
+        //   key: 'item7',
+        //   icon: 'ClockCircleOutlined',
+        //   position: 'right',
+        //   link: '/page1',
+        // },
       ];
     },
   },
@@ -73,6 +83,7 @@ export default {
           key: 'side1',
           icon: 'DashboardOutlined',
           label: 'Dashboard',
+
           children: [
             {
               key: 'ana',
@@ -228,6 +239,19 @@ export default {
               icon: 'file',
               link: '/muse-demo/components/muse-antd/niceModal',
             },
+            // {
+            //   key: 'k14',
+            //   icon: 'CodeOutlined',
+            //   label: 'Web Terminal',
+            //   link: '/muse-demo/components/muse-antd/webTer',
+            // },
+
+            // {
+            //   key: 'k4',
+            //   icon: 'FormOutlined',
+            //   label: 'Ecr Repo Input',
+            //   link: '/muse-demo/components/muse-cc/ecr-repo-input',
+            // },
           ],
         },
         {
