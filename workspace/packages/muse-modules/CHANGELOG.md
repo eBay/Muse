@@ -1,5 +1,11 @@
 # @ebay/muse-modules
 
+## 1.0.25
+
+### Patch Changes
+
+- analyzer apis
+
 ## 1.0.24
 
 ### Patch Changes
