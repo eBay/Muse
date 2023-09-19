@@ -738,9 +738,8 @@ program
   )
   .argument('[mode]', 'The mode to show the diff. Default is "dist".', 'dist')
   .action(async (pluginName, baseVersion, currentVersion, mode) => {
-    const SharedModulesAnalyzer = require('@ebay/muse-modules-analyzer');
-    const analyzer = new SharedModulesAnalyzer();
-    const diff = await analyzer.getLibDiff(pluginName, baseVersion, currentVersion, mode);
+    const { getLibDiff } = require('@ebay/muse-modules-analyzer');
+    const diff = await getLibDiff(pluginName, baseVersion, currentVersion, mode);
 
     console.log();
     console.log('Total modules: ', diff.baseIds.length, ' -> ', diff.currentIds.length);
@@ -787,9 +786,8 @@ program
   .argument('<packageName>', 'Which package to show the name.')
   .argument('[mode]', 'The build mode of lib plugin.', 'dist')
   .action(async (pluginName, version, packageName, mode) => {
-    const SharedModulesAnalyzer = require('@ebay/muse-modules-analyzer');
-    const analyzer = new SharedModulesAnalyzer();
-    const versions = await analyzer.getLibVersion(pluginName, version, packageName, mode);
+    const { getLibVersion } = require('@ebay/muse-modules-analyzer');
+    const versions = await getLibVersion(pluginName, version, packageName, mode);
     console.log(packageName + ':', versions.join(', '));
   });
 
