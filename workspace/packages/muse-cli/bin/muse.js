@@ -154,7 +154,7 @@ program
   .option('-p, --port <port>', 'port', 6070)
   .option('-d, --is-dev', 'Start the server to load dev bundles.')
   .option('-u, --by-url', 'Detect app by url.')
-  .option('-a, --serve-api', 'Detect app by url.')
+  .option('-a, --serve-api', 'Serve api server.')
   .option('-s, --serve-static', 'Serve static content.')
   .action((appName, envName, options) => {
     require('@ebay/muse-simple-server/lib/server')({ appName, envName, ...options });
