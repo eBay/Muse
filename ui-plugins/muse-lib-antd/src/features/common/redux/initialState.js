@@ -11,9 +11,9 @@ const { app } = window.MUSE_GLOBAL;
 const initialState = {
   niceModalArgs: {},
   isDarkMode: localStorage.getItem('muse.theme')
-    ? localStorage.getItem('muse.theme') === 'light'
-      ? false
-      : true
+    ? localStorage.getItem('muse.theme') === 'dark'
+      ? true
+      : false
     : app?.config?.theme === 'dark'
     ? true
     : false,
