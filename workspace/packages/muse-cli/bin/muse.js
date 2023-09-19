@@ -791,6 +791,18 @@ program
     console.log(packageName + ':', versions.join(', '));
   });
 
+program
+  .command('validate-app')
+  .description('Validate if all plugins have all required shared modules.')
+  .argument('<appName>', 'The app name')
+  .argument('<envName>', 'The env name')
+  .action(async (appName, envName) => {
+    const { validateApp } = require('@ebay/muse-modules-analyzer');
+    const result = await validateApp(appName, envName);
+    console.log(JSON.stringify(result, null, 2));
+    console.log(result.success ? chalk.green('Success.') : chalk.red('Failed.'));
+  });
+
 // let other plugins add their own cli program commands
 muse.plugin.invoke('museCli.processProgram', program, { commander, chalk, timeAgo });
 
