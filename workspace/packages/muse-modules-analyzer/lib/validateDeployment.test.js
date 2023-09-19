@@ -2,7 +2,7 @@ const path = require('path');
 const fs = require('fs-extra');
 const { vol } = require('memfs');
 const muse = require('@ebay/muse-core');
-const validateDeployment = require('./validateDeployment');
+const { validateDeployment } = require('./');
 
 const { defaultAssetStorageLocation } = muse.utils;
 

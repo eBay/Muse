@@ -1,7 +1,8 @@
 const _ = require('lodash');
 const muse = require('@ebay/muse-core');
 const { findMuseModule } = require('@ebay/muse-modules');
-const { getLibs, getDeps } = require('./');
+const getLibs = require('./getLibs');
+const getDeps = require('./getDeps');
 
 /**
  * Verfies if deploying plugins are compatible with the current app:
