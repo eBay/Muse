@@ -19,7 +19,7 @@ export function useSetIsDarkMode() {
 export function reducer(state, action) {
   switch (action.type) {
     case EBAY_MUSE_LIB_ANTD$COMMON_SET_IS_DARK_MODE:
-      localStorage.setItem('muse-lib-antd.theme.dark', action.isDarkMode ? 'true' : 'false');
+      localStorage.setItem('muse.theme', action.isDarkMode ? 'dark' : 'light');
       return {
         ...state,
         isDarkMode: action.isDarkMode,

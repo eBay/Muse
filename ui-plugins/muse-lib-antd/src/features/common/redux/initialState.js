@@ -5,12 +5,17 @@
 // a quick view about what data is used for the feature, at any time.
 
 // NOTE: initialState constant is necessary so that Rekit could auto add initial state when creating async actions.
+
+const { app } = window.MUSE_GLOBAL;
+
 const initialState = {
   niceModalArgs: {},
-  isDarkMode: localStorage.getItem('muse-lib-antd.theme.dark')
-    ? localStorage.getItem('muse-lib-antd.theme.dark') === 'false'
-      ? false
-      : true
+  isDarkMode: localStorage.getItem('muse.theme')
+    ? localStorage.getItem('muse.theme') === 'dark'
+      ? true
+      : false
+    : app?.config?.theme === 'dark'
+    ? true
     : false,
 };
 
