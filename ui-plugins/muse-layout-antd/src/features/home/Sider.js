@@ -23,7 +23,7 @@ export default function Sider({ siderConfig }) {
     menuProps: siderConfig.menuProps || {},
     autoActive: true,
     mode: 'inline',
-    theme: siderConfig.theme ? siderConfig.theme : isDarkMode ? 'dark' : 'light',
+    theme: isDarkMode ? 'dark' : 'light',
     collapsed:
       siderConfig.mode === 'collapsed' ||
       (siderConfig.mode === 'collapsable' ? siderCollapsed : false),
