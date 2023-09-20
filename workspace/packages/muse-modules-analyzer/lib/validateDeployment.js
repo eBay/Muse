@@ -16,43 +16,50 @@ const getDeps = require('./getDeps');
 async function validateDeployment(appName, envName, deployment, mode) {
   const modes = mode ? [mode] : ['dist', 'dev', 'test'];
   const app = await muse.data.get(`muse.app.${appName}`);
+  const pluginByName = _.keyBy(app.envs[envName].plugins, 'name');
 
-  const returnValue = {};
+  // Whether to validate all plugins on the app:
+  //  1. Deployment is empty
+  //  2. Deployment contains a lib plugin
+  let validateAll = deployment.length === 0;
+
+  // Generate new plugin list after deployment
+  await Promise.all(
+    deployment.map(async (d) => {
+      const p = pluginByName[d.pluginName];
+      if (p) {
+        if (p.type === 'lib') {
+          // Validate all plugins if a lib plugin is added/updated
+          validateAll = true;
+        }
+        if (d.type === 'remove') {
+          delete pluginByName[d.pluginName];
+        } else {
+          p.version = d.version;
+        }
+      } else {
+        const pluginMeta = await muse.data.get(`muse.plugin.${d.pluginName}`);
+        if (pluginMeta.type === 'lib') {
+          validateAll = true;
+        }
+        pluginByName[d.pluginName] = {
+          name: d.pluginName,
+          version: d.version,
+          type: pluginMeta.type,
+        };
+      }
+    }),
+  );
+  // New plugins after deployment on the env
+  const newPlugins = Object.values(pluginByName);
+
+  const returnValue = {
+    multipleBootPlugins: false,
+    missingBootPlugin: false,
+  };
   await Promise.all(
     modes.map(async (mode) => {
       // for (const mode of modes) {
-      const pluginByName = _.keyBy(app.envs[envName].plugins, 'name');
-
-      // Whether to validate all plugins on the app:
-      //  1. Deployment is empty
-      //  2. Deployment contains a lib plugin
-      let validateAll = deployment.length === 0;
-
-      // Generate new plugin list after deployment
-      await Promise.all(
-        deployment.map(async (d) => {
-          const p = pluginByName[d.pluginName];
-          if (p) {
-            if (p.type === 'lib') {
-              validateAll = true;
-            }
-            if (d.type === 'remove') {
-              delete pluginByName[d.pluginName];
-            } else {
-              p.version = d.version;
-            }
-          } else {
-            const pluginMeta = await muse.data.get(`muse.plugin.${d.pluginName}`);
-            pluginByName[d.pluginName] = {
-              name: d.pluginName,
-              version: d.version,
-              type: pluginMeta.type,
-            };
-          }
-        }),
-      );
-      // New plugins after deployment on the env
-      const newPlugins = Object.values(pluginByName);
 
       // All shared modules on the app/env
       const sharedModules = {};
@@ -92,9 +99,6 @@ async function validateDeployment(appName, envName, deployment, mode) {
         missingModules: [], // required by some plugins but not found
         updatedModules: [], // changed from one version to another
         changedModules: [], // changed from one pakcage to another
-        missingPackages: [], // if a package is totally missing
-        multipleBootPlugins: false, // if there are multiple boot plugins
-        missingBootPlugin: false, // if there is no boot plugin
       };
 
       await Promise.all(
@@ -124,15 +128,6 @@ async function validateDeployment(appName, envName, deployment, mode) {
                       requiredModuleId: id,
                       gotModuleId: foundModule.id,
                     });
-                  } else {
-                    // TODO: do we need to return all found modules
-                    // result.foundModules.push({
-                    //   pluginName: p.name,
-                    //   pluginVersion: p.version,
-                    //   fromLibPlugin: sharedModuleInfo.libPluginName,
-                    //   fromLibVersion: sharedModuleInfo.libPluginVersion,
-                    //   moduleId: id,
-                    // });
                   }
 
                   if (sharedModuleInfo.libPluginName !== name) {
@@ -162,23 +157,24 @@ async function validateDeployment(appName, envName, deployment, mode) {
         }),
       );
 
-      // If there're multiple boot plugins
-      const bootPlugins = Object.values(pluginByName).filter((p) => p.type === 'boot');
-      result.missingBootPlugin = bootPlugins.length === 0;
-      if (bootPlugins.length > 1) {
-        result.multipleBootPlugins = Object.values(pluginByName)
-          .filter((p) => p.type === 'boot')
-          .map((p) => p.name);
-      }
-      result.success =
-        result.missingModules.length === 0 &&
-        result.missingBootPlugin === false &&
-        result.multipleBootPlugins === false;
       returnValue[mode] = result;
     }),
   );
 
-  returnValue.success = Object.values(returnValue).every((r) => r.success);
+  const bootPlugins = Object.values(pluginByName).filter((p) => p.type === 'boot');
+  // If no boot plugin
+  returnValue.missingBootPlugin = bootPlugins.length === 0;
+  // If there're multiple boot plugins
+  if (bootPlugins.length > 1) {
+    returnValue.multipleBootPlugins = bootPlugins.map((p) => p.name);
+  }
+
+  // Overall validation result
+  returnValue.success =
+    returnValue.missingBootPlugin === false &&
+    returnValue.multipleBootPlugins === false &&
+    modes.every((mode) => returnValue[mode].missingModules.length === 0);
+
   return returnValue;
 }
 

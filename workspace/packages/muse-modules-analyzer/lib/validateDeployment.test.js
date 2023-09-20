@@ -144,6 +144,7 @@ describe('basic tests', () => {
         version: '1.0.0',
       },
     ]);
+    console.log(result);
     expect(result.success).toBe(true);
     expect(result.dist.missingModules).toEqual([]);
   });
@@ -218,7 +219,7 @@ describe('basic tests', () => {
       },
     ]);
     expect(result.success).toBe(false);
-    expect(result.dist.multipleBootPlugins).toEqual([bootPluginName, bootPluginName2]);
+    expect(result.multipleBootPlugins).toEqual([bootPluginName, bootPluginName2]);
   });
   it('validate no boot plugin deployment', async () => {
     const result = await validateDeployment(appName, 'staging', [
@@ -230,7 +231,7 @@ describe('basic tests', () => {
     ]);
 
     expect(result.success).toBe(false);
-    expect(result.dist.missingBootPlugin).toBe(true);
+    expect(result.missingBootPlugin).toBe(true);
   });
   it('is always passed when deploy/undeploy init plugins', async () => {
     const result = await validateDeployment(appName, 'staging', [
