@@ -136,15 +136,6 @@ export default function PluginList({ app }) {
     },
 
     {
-      dataIndex: 'status',
-      title: 'Status',
-      order: 16,
-      width: 300,
-      render: (a, plugin) => {
-        return <PluginStatus plugin={plugin} app={app} />;
-      },
-    },
-    {
       dataIndex: 'latestVersion',
       title: 'Latest',
       width: 120,
@@ -205,6 +196,15 @@ export default function PluginList({ app }) {
           },
         };
       }),
+    {
+      dataIndex: 'status',
+      title: 'Status',
+      order: 50,
+      width: 300,
+      render: (a, plugin) => {
+        return <PluginStatus plugin={plugin} app={app} />;
+      },
+    },
     {
       dataIndex: 'owners',
       title: 'Owners',
