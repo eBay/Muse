@@ -1,5 +1,11 @@
 # @ebay/muse-modules-analyzer
 
+## 1.0.7
+
+### Patch Changes
+
+- Refine validate api
+
 ## 1.0.6
 
 ### Patch Changes

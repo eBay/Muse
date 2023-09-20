@@ -1,6 +1,6 @@
 {
   "name": "@ebay/muse-express-middleware",
-  "version": "1.0.38",
+  "version": "1.0.39",
   "main": "index.js",
   "license": "MIT",
   "publishConfig": {
@@ -20,6 +20,6 @@
   },
   "peerDependencies": {
     "@ebay/muse-core": "workspace:^1.0.31",
-    "@ebay/muse-modules-analyzer": "workspace:^1.0.6"
+    "@ebay/muse-modules-analyzer": "workspace:^1.0.7"
   }
 }
