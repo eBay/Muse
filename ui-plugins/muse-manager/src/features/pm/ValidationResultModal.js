@@ -8,7 +8,7 @@ const MissingModulesView = ({ missingModules, type }) => {
   }
   const missingModulesByPlugin = _.groupBy(
     missingModules || {},
-    (m) => `${m.plugin}@${m.version} expected below modules from ${m.sharedFrom}:`,
+    (m) => `${m.plugin}@${m.version} -> ${m.sharedFrom}:`,
   );
 
   if (_.isEmpty(missingModulesByPlugin)) return null;
@@ -45,7 +45,12 @@ const MissingModulesView = ({ missingModules, type }) => {
       <dl>
         {Object.entries(missingModulesByPlugin).map(([plugin, modules]) => (
           <>
-            <dt className="font-normal">{plugin}</dt>
+            <dt className="font-normal">
+              <strong>
+                {modules[0].plugin}@{modules[0].version}
+              </strong>{' '}
+              expected below modules from <strong>{modules[0].sharedFrom}</strong>:
+            </dt>
             {modules.slice(0, 10).map((m) => (
               <dd key={m.moduleId} className="ml-3 flex text-gray-500">
                 <span className="mr-1">-</span>
@@ -104,7 +109,7 @@ const ValidationResultModal = NiceModal.create(({ result = {} }) => {
     <Modal
       {...antdModalV5(modal)}
       title={<span className="text-red-500">Deployment Validation Failed</span>}
-      width="700px"
+      width="800px"
       okText="I understand the danger, but continue the deployment."
       onOk={() => {
         modal.resolve(true);
