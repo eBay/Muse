@@ -74,7 +74,7 @@ export default function MainLayout({ children }) {
                 ? defaultSiderCollapsedWidth
                 : siderConfig.width || defaultSiderExpandedWidth
             }
-            theme={siderConfig.theme ? siderConfig.theme : isDarkMode ? 'dark' : 'light'}
+            theme={isDarkMode ? 'dark' : 'light'}
             className={
               noHeader ? `muse-layout-sider muse-layout-sider-noheader` : `muse-layout-sider`
             }
