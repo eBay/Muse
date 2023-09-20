@@ -144,7 +144,6 @@ describe('basic tests', () => {
         version: '1.0.0',
       },
     ]);
-    console.log(result);
     expect(result.success).toBe(true);
     expect(result.dist.missingModules).toEqual([]);
   });
