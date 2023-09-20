@@ -5,8 +5,9 @@
   overflow: auto;
   position: fixed !important;
   left: 0px;
-  bottom: 0px;
+  bottom: 48px;
   z-index: 1;
+  border-inline-end: 1px solid rgba(5, 5, 5, 0.06);
 
   .muse-antd_common-meta-menu {
     padding-top: 0px;
@@ -17,56 +18,15 @@
   }
 }
 
-[data-theme='dark'] .muse-layout-sider {
-  .ant-menu-dark {
-    background-color: #17191a;
-  }
-
-  .ant-layout-sider-trigger {
-    background-color: #2d3134;
-  }
-
-  .ant-layout .ant-layout-sider {
-    background-color: #161616;
+.ant-menu {
+  &.ant-menu-light {
+    border-right: 1px solid #f0f0f0;
   }
 }
 
 .muse-layout_side-drawer {
-  top: @header-height;
-
-  .ant-menu {
-    &.ant-menu-light {
-      background: #fff;
-      border-right: 1px solid #f0f0f0;
-      color: rgba(0, 0, 0, 0.85);
-
-      .ant-menu-item a {
-        color: rgba(0, 0, 0, 0.85);
-      }
-    }
-
-    &.ant-menu-dark {
-      background: #17191a;
-      border-right: 1px solid #1d2021;
-      color: rgba(255, 255, 255, 0.85);
-
-      .ant-menu-item a {
-        color: rgba(255, 255, 255, 0.85);
-      }
-    }
-
-    &.ant-menu-light:not(.ant-menu-horizontal) .ant-menu-item-selected,
-    &.ant-menu-light .ant-menu-item:active,
-    &.ant-menu-light .ant-menu-submenu-title:active,
-    &.ant-menu-light .ant-menu-item:focus-visible,
-    &.ant-menu-light .ant-menu-submenu-title:focus-visible {
-      background-color: #e6f7ff;
-    }
-
-    &.ant-menu-dark:not(.ant-menu-horizontal) .ant-menu-item-selected,
-    &.ant-menu-dark .ant-menu-item-selected {
-      background-color: lighten(#001529, 8%);
-    }
+  .ant-menu-inline {
+    padding-top: 0px !important;
   }
 }
 
