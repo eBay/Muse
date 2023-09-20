@@ -3,7 +3,7 @@ import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
 import { Modal, Button, Form, message } from 'antd';
 import utils from '@ebay/muse-lib-antd/src/utils';
 import NiceForm from '@ebay/nice-form-react';
-import { useMuseMutation, useSyncStatus } from '../../hooks';
+import { useMuseMutation, useSyncStatus, useValidateDeployment } from '../../hooks';
 
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 const UndeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
@@ -15,7 +15,8 @@ const UndeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
     isLoading: undeployPluginPending,
   } = useMuseMutation('pm.undeployPlugin');
   const syncStatus = useSyncStatus(`muse.app.${app.name}`);
-
+  const { validateDeployment, validateDeploymentError, validateDeploymentPending } =
+    useValidateDeployment();
   const meta = {
     columns: 1,
     disabled: undeployPluginPending,
@@ -41,8 +42,17 @@ const UndeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
     ],
   };
 
-  const handleFinish = useCallback(() => {
+  const handleFinish = useCallback(async () => {
     const values = form.getFieldsValue();
+    if (
+      !(await validateDeployment({
+        deployment: [{ pluginName: plugin.name, version: values.version, type: 'remove' }],
+        appName: app.name,
+        envs: values.envs,
+      }))
+    ) {
+      return;
+    }
     undeployPlugin({
       appName: app.name,
       pluginName: plugin.name,
@@ -124,7 +134,10 @@ const UndeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
         <Button key={i} {...props} />
       ))}
     >
-      <RequestStatus loading={undeployPluginPending} error={undeployPluginError} />
+      <RequestStatus
+        loading={undeployPluginPending || validateDeploymentPending}
+        error={validateDeploymentError || undeployPluginError}
+      />
       <Form layout="horizontal" form={form} onValuesChange={updateOnChange} onFinish={handleFinish}>
         <NiceForm meta={meta} />
       </Form>
