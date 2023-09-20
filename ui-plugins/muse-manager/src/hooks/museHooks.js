@@ -54,6 +54,7 @@ export function usePollingMuseData(...args) {
 export function useMuseMutation(apiPath) {
   const mutation = useMutation({
     mutationFn: (args) => {
+      // _museParams to support multiple arguments: https://github.com/TanStack/query/discussions/1226
       if (args._museParams) return invoke(museClient, apiPath, ...args._museParams);
       return invoke(museClient, apiPath, args);
     },
