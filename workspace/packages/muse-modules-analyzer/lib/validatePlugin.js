@@ -12,6 +12,9 @@ const getLibs = require('./getLibs');
  * @returns
  */
 async function validatePlugin(pluginName, version, mode) {
+  if (typeof pluginName === 'object') {
+    ({ pluginName, version, mode } = pluginName);
+  }
   const modes = mode ? [mode] : ['dist', 'dev'];
 
   const result = {

@@ -8,6 +8,9 @@ const validateDeployment = require('./validateDeployment');
  * @returns
  */
 async function validateApp(appName, envName, mode) {
+  if (typeof appName === 'object') {
+    ({ appName, envName, mode } = appName);
+  }
   // Use a tricky to validate all plugins on app by empty deployment.
   return await validateDeployment(appName, envName, [], mode);
 }

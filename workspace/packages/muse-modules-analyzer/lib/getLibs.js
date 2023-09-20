@@ -9,6 +9,9 @@ const utils = require('./utils');
  * @returns
  */
 async function getLibs(pluginName, version, mode = 'dist') {
+  if (typeof pluginName === 'object') {
+    ({ pluginName, version, mode = 'dist' } = pluginName);
+  }
   // This api caches result itself (when assetsCache is true).
   const libManifest = await utils.getLibManifest(pluginName, version, mode);
 

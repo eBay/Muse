@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const getLibs = require('./getLibs');
 /**
  * Get duplicated shared pkgs of plugins. If a plugin has multiple lib plugins dependencies, it
@@ -7,6 +8,9 @@ const getLibs = require('./getLibs');
  * @param {*} mode
  */
 async function getDuplicatedLibs(plugins, mode = 'dist') {
+  if (!_.isArray(plugins)) {
+    ({ plugins, mode = 'dist' } = plugins);
+  }
   const pkgs = {};
   const allLibs = await Promise.all(
     plugins.map(async (p) => {

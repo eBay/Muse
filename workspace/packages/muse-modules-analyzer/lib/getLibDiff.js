@@ -11,6 +11,9 @@ const utils = require('./utils');
  * @returns {{baseIds: string[], currentIds: string[], removedIds: string[], addedIds: string[], addedPkgs: {}, removedPkgs: {}, updatedPkgs: {}}}
  */
 async function getLibDiff(pluginName, baseVersion, currentVersion, mode = 'dist') {
+  if (typeof pluginName === 'object') {
+    ({ pluginName, baseVersion, currentVersion, mode = 'dist' } = pluginName);
+  }
   const baseOne = await utils.getLibManifest(pluginName, baseVersion, mode);
   const currentOne = await utils.getLibManifest(pluginName, currentVersion, mode);
 

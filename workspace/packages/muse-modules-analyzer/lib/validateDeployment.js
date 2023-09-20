@@ -14,6 +14,9 @@ const getDeps = require('./getDeps');
  * @returns
  */
 async function validateDeployment(appName, envName, deployment, mode) {
+  if (typeof appName === 'object') {
+    ({ appName, envName, deployment, mode } = appName);
+  }
   const modes = mode ? [mode] : ['dist', 'dev', 'test'];
   const app = await muse.data.get(`muse.app.${appName}`);
   const pluginByName = _.keyBy(app.envs[envName].plugins, 'name');

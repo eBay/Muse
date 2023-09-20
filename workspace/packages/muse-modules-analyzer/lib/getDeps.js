@@ -7,6 +7,9 @@ const { parseNameVersion, getDepsManifest } = require('./utils');
  * @returns
  */
 async function getDeps(pluginName, version, mode = 'dist') {
+  if (typeof pluginName === 'object') {
+    ({ pluginName, version, mode = 'dist' } = pluginName);
+  }
   // Allow deps-manifest not exist.
   const depsManifest = await getDepsManifest(pluginName, version, mode);
   const result = {};
