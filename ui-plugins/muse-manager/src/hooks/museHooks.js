@@ -53,8 +53,9 @@ export function usePollingMuseData(...args) {
 
 export function useMuseMutation(apiPath) {
   const mutation = useMutation({
-    mutationFn: (...args) => {
-      return invoke(museClient, apiPath, ...args);
+    mutationFn: (args) => {
+      if (args._museParams) return invoke(museClient, apiPath, ...args._museParams);
+      return invoke(museClient, apiPath, args);
     },
   });
   return mutation;

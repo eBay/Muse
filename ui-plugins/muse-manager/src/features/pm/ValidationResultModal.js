@@ -18,6 +18,14 @@ const MissingModulesView = ({ missingModules, type }) => {
       <h4 className="font-bold text-red-500">
         Missing shared modules {type !== 'dist' ? <Tag color="orange">@{type}</Tag> : ''}:
       </h4>
+      {type === 'dist' && (
+        <Alert
+          className="mb-3"
+          message="Plugins which miss modules will fail to load."
+          type="error"
+          showIcon
+        />
+      )}
       {type === 'dev' && (
         <Alert
           className="mb-3"

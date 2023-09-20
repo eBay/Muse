@@ -9,6 +9,7 @@ import { useMuseMutation, useSyncStatus } from '../../hooks';
 import PluginReleaseSelect from './PluginReleaseSelect';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
+  const [messageApi, contextHolder] = message.useMessage();
   const [form] = Form.useForm();
   const modal = useModal();
   const {
@@ -17,6 +18,12 @@ const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
     isLoading: deployPluginPending,
   } = useMuseMutation('pm.deployPlugin');
   const syncStatus = useSyncStatus(`muse.app.${app.name}`);
+
+  const {
+    mutateAsync: validateDeployment,
+    error: validateDeploymentError,
+    isLoading: validateDeploymentPending,
+  } = useMuseMutation('analyzer.validateDeployment');
 
   const meta = {
     columns: 1,
@@ -54,15 +61,24 @@ const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
   const handleFinish = useCallback(async () => {
     const values = form.getFieldsValue();
     const validationResult = {};
-    await Promise.all(
-      values.envs.map(async (env) => {
-        validationResult[env] = null; // to keep the order
-        const res = await axios.post('http://localhost:6070/api/v2/analyzer/validateDeployment', {
-          args: [app.name, env, [{ pluginName: plugin.name, version: values.version }]],
-        });
-        validationResult[env] = res.data.data;
-      }),
-    );
+    messageApi.loading({ key: 'deployment-msg', content: 'Validating deployment...', duration: 0 });
+    try {
+      await Promise.all(
+        values.envs.map(async (env) => {
+          validationResult[env] = null; // to keep the order
+          const result = await validateDeployment({
+            _museParams: [app.name, env, [{ pluginName: plugin.name, version: values.version }]],
+          });
+          validationResult[env] = result;
+        }),
+      );
+    } catch (e) {
+      console.error(e);
+      Modal.error({ title: 'Error', content: 'Failed to validate deployment, please retry.' });
+      return;
+    } finally {
+      messageApi.destroy('deployment-msg');
+    }
 
     const success = Object.values(validationResult).every((r) => r.success);
     let continueDeploy = success; // if continue deployment after validation failed
@@ -72,6 +88,7 @@ const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
       });
     }
     if (!continueDeploy) return;
+    messageApi.loading({ key: 'deployment-msg', content: 'Deploying plugins...', duration: 0 });
     await deployPlugin({
       appName: app.name,
       pluginName: plugin.name,
@@ -79,10 +96,20 @@ const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
       version: values.version,
       author: window.MUSE_GLOBAL.getUser().username,
     });
+    messageApi.destroy('deployment-msg');
     modal.hide();
-    message.success('Deploy plugin success.');
+    message.success('Deploy plugin succeeded.');
     await syncStatus();
-  }, [app.name, plugin.name, modal, form, syncStatus, deployPlugin]);
+  }, [
+    app.name,
+    plugin.name,
+    modal,
+    form,
+    syncStatus,
+    messageApi,
+    validateDeployment,
+    deployPlugin,
+  ]);
 
   const footer = [
     {
@@ -143,7 +170,11 @@ const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
         <Button key={i} {...props} />
       ))}
     >
-      <RequestStatus loading={deployPluginPending} error={deployPluginError} />
+      {contextHolder}
+      <RequestStatus
+        loading={deployPluginPending || validateDeploymentPending}
+        error={deployPluginError || validateDeploymentError}
+      />
       <Form layout="horizontal" form={form} onValuesChange={updateOnChange} onFinish={handleFinish}>
         <NiceForm meta={meta} />
       </Form>
