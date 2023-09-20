@@ -1,5 +1,11 @@
 # @ebay/muse-modules-analyzer
 
+## 1.0.8
+
+### Patch Changes
+
+- refine api
+
 ## 1.0.7
 
 ### Patch Changes
