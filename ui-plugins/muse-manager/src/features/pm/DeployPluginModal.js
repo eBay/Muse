@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import axios from 'axios';
 import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
 import { Modal, Button, Form, message } from 'antd';
 import utils from '@ebay/muse-lib-antd/src/utils';
@@ -25,13 +26,13 @@ const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
         key: 'appName',
         label: 'App',
         viewMode: true,
-        initialValue: app?.name,
+        initialValue: app.name,
       },
       {
         key: 'pluginName',
         label: 'Plugin',
         viewMode: true,
-        initialValue: plugin?.name,
+        initialValue: plugin.name,
       },
       {
         key: 'version',
@@ -50,23 +51,37 @@ const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
     ],
   };
 
-  const handleFinish = useCallback(() => {
+  const handleFinish = useCallback(async () => {
     const values = form.getFieldsValue();
-    deployPlugin({
+    const validationResult = {};
+    await Promise.all(
+      values.envs.map(async (env) => {
+        validationResult[env] = null; // to keep the order
+        const res = await axios.post('http://localhost:6070/api/v2/analyzer/validateDeployment', {
+          args: [app.name, env, [{ pluginName: plugin.name, version: values.version }]],
+        });
+        validationResult[env] = res.data.data;
+      }),
+    );
+
+    const success = Object.values(validationResult).every((r) => r.success);
+    let continueDeploy = success; // if continue deployment after validation failed
+    if (!success) {
+      continueDeploy = await NiceModal.show('muse-manager.validation-result-modal', {
+        result: validationResult,
+      });
+    }
+    if (!continueDeploy) return;
+    await deployPlugin({
       appName: app.name,
       pluginName: plugin.name,
       envName: values.envs,
       version: values.version,
       author: window.MUSE_GLOBAL.getUser().username,
-    })
-      .then(async () => {
-        modal.hide();
-        message.success('Deploy plugin success.');
-        await syncStatus();
-      })
-      .catch((err) => {
-        console.log('failed to deploy', err);
-      });
+    });
+    modal.hide();
+    message.success('Deploy plugin success.');
+    await syncStatus();
   }, [app.name, plugin.name, modal, form, syncStatus, deployPlugin]);
 
   const footer = [
@@ -122,7 +137,7 @@ const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
       {...antdModalV5(modal)}
       title={`Deploy Plugin`}
       maskClosable={false}
-      width="600px"
+      width="700px"
       closable={!deployPluginPending}
       footer={footer.map((props, i) => (
         <Button key={i} {...props} />

@@ -14,6 +14,7 @@ import EditEnvironmentModal from './features/am/EditEnvironmentModal';
 import AddEnvironmentModal from './features/am/AddEnviromentModal';
 import PreviewModal from './features/pm/PreviewModal';
 import MultiDeploymentModal from './features/pm/MultiDeploymentModal';
+import ValidationResultModal from './features/pm/ValidationResultModal';
 // import PluginInfoModal from './features/pm/PluginInfoModal';
 
 register('muse-manager.create-app-modal', CreateAppModal);
@@ -31,3 +32,4 @@ register('muse-manager.add-env-modal', AddEnvironmentModal);
 register('muse-manager.edit-app-variables-modal', EditAppVariablesModal);
 register('muse-manager.edit-plugin-variables-modal', EditPluginVariablesModal);
 register('muse-manager.multi-deployment-modal', MultiDeploymentModal);
+register('muse-manager.validation-result-modal', ValidationResultModal);
