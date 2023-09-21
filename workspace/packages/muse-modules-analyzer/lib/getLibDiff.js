@@ -63,8 +63,8 @@ async function getLibDiff(pluginName, baseVersion, currentVersion, mode = 'dist'
   });
 
   return {
-    // baseIds,
-    // currentIds,
+    baseIds,
+    currentIds,
     removedIds: removedIds.filter((id) => {
       const { name } = parseMuseId(id);
       if (name === pluginName) return false;
