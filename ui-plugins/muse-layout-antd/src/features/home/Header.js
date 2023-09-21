@@ -61,12 +61,10 @@ export default function Header({ siderConfig }) {
             onClick={handleSwitchThemeClick}
             title={`Switch between dark / light themes`}
             className="header-switch-theme"
-            style={{ fill: 'white' }}
           /> :  <DarkThemeIcon
           onClick={handleSwitchThemeClick}
           title={`Switch between dark / light themes`}
           className="header-switch-theme"
-          style={{ fill: 'black' }}
         />
         );
       },
