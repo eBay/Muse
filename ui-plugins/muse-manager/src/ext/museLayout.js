@@ -3,7 +3,7 @@ const museLayout = {
   header: {
     getConfig() {
       return {
-        backgroundColor: '#37474F',
+        backgroundColor: '#000000',
         icon: '',
         title: 'Muse Managers',
         subTitle: 'Muse app and plugin manager.',
@@ -50,7 +50,6 @@ const museLayout = {
         siderDefaultCollapsed: true,
         homeMenu: true,
         width: 200,
-        theme: 'light', // dark | light
       };
     },
     getItems: () => {
