@@ -4,7 +4,6 @@ export default {
     getConfig() {
       return {
         // mode: 'none',
-        backgroundColor: '#039be5',
         icon: '',
         title: 'Muse App',
         subTitle: 'Build UI apps with ease!',
