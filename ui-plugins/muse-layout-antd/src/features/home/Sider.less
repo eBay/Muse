@@ -40,9 +40,33 @@
   top: 0px;
 }
 
-[data-theme='dark'] .muse-layout-sider,
-  &.ant-layout .ant-layout-sider-trigger,
+[data-theme='dark'] .ant-layout-sider-dark.muse-layout-sider {
+  background: #0e0e0e;
+}
+
+[data-theme='dark'] .muse-layout-sider
+  &.ant-menu-dark .ant-layout.ant-layout-sider-trigger,
   &.ant-menu-dark .ant-menu-item-group-list,
+  &.ant-menu-dark.ant-menu-inline .ant-menu-sub.ant-menu-inline,
+  &.ant-menu-dark .ant-menu-item-group,
+  &.ant-menu-dark .ant-menu-item-group-title {
+    background: #0e0e0e;
+  } 
+
+[data-theme='dark'] .muse-layout-wrapper
+  &.ant-layout-sider.ant-layout-sider-dark .ant-layout-sider-trigger {
+    background: #0e0e0e;
+  }
+
+[data-theme='dark'] .ant-drawer-content.muse-layout_side-drawer {
+  background: #0e0e0e;
+}
+
+[data-theme='dark'] .muse-layout_side-drawer
+  &.ant-menu-dark.muse-antd_common-meta-menu,
+  &.ant-menu-dark .ant-layout .ant-layout-sider-trigger,
+  &.ant-menu-dark .ant-menu-item-group-list,
+  &.ant-menu-dark .ant-menu-submenu-title,
   &.ant-menu-dark.ant-menu-inline .ant-menu-sub.ant-menu-inline,
   &.ant-menu-dark .ant-menu-item-group,
   &.ant-menu-dark .ant-menu-item-group-title {
