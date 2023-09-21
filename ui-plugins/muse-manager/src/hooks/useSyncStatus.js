@@ -8,11 +8,21 @@ const useSyncStatus = (dataKey) => {
   const queryClient = useQueryClient();
   return async () => {
     const hide = message.loading('Syncing status...', 0);
-    await museClient.data.syncCache();
-    await queryClient.refetchQueries({
-      queryKey: ['muse-query', 'data.get', dataKey],
-      exact: true,
-    });
+    try {
+      await museClient.data.syncCache();
+    } catch (e) {
+      console.warn('Failed to sync cache: ', e);
+      // if sync cache fails, we can still continue
+    }
+    try {
+      await queryClient.refetchQueries({
+        queryKey: ['muse-query', 'data.get', dataKey],
+        exact: true,
+      });
+    } catch (err) {
+      console.error(err);
+      message.error('Failed to sync status, please refresh the page to see update.');
+    }
     hide();
   };
 };
