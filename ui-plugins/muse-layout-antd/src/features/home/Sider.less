@@ -22,6 +22,12 @@
       border-right: 1px solid #f0f0f0;
     }
   }
+
+  .ant-menu {
+    &.ant-menu-dark {
+      background: #0e0e0e;
+    }
+  }
 }
 
 .muse-layout_side-drawer {
@@ -33,3 +39,11 @@
 .muse-layout-sider-noheader {
   top: 0px;
 }
+
+[data-theme='dark'] .muse-layout-sider,
+  &.ant-menu-dark .ant-menu-item-group-list,
+  &.ant-menu-dark.ant-menu-inline .ant-menu-sub.ant-menu-inline,
+  &.ant-menu-dark .ant-menu-item-group,
+  &.ant-menu-dark .ant-menu-item-group-title {
+    background: #0e0e0e;
+  } 
