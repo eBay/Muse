@@ -95,10 +95,10 @@ export default function PluginListBar({ app }) {
       },
     },
     app && {
-      key: 'multi-deployment',
-      label: 'Multi-Deployment',
+      key: 'group-deployment',
+      label: 'Group Deployment',
       onClick: () => {
-        NiceModal.show('muse-manager.multi-deployment-modal', { app });
+        NiceModal.show('muse-manager.group-deployment-modal', { app });
       },
     },
   ];

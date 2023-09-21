@@ -53,27 +53,16 @@ const UndeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
     ) {
       return;
     }
-    undeployPlugin({
+    await undeployPlugin({
       appName: app.name,
       pluginName: plugin.name,
       envName: values.envs,
-    })
-      .then(async () => {
-        modal.hide();
-        message.success('Undeploy plugin success.');
-        await syncStatus();
-        // Modal.success({
-        //   title: 'Deploy Success!',
-        //   content: `Plugin ${plugin.name}@${values.version} was deployed to ${app.name} successfully. `,
-        //   onOk: () => {
-        //     modal.hide();
-        //   },
-        // });
-      })
-      .catch((err) => {
-        console.log('failed to deploy', err);
-      });
-  }, [app.name, plugin.name, modal, form, syncStatus, undeployPlugin]);
+    });
+
+    modal.hide();
+    message.success('Undeploy plugin success.');
+    await syncStatus();
+  }, [app.name, plugin.name, modal, form, syncStatus, validateDeployment, undeployPlugin]);
 
   const footer = [
     {
