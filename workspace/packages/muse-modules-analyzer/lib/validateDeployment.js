@@ -30,6 +30,11 @@ async function validateDeployment(appName, envName, deployment, mode) {
   await Promise.all(
     deployment.map(async (d) => {
       const p = pluginByName[d.pluginName];
+
+      // If undeploy a plugin not on the app/env, ignore it.
+      if (d.type === 'remove' && !pluginByName[d.pluginName]) {
+        return;
+      }
       if (p) {
         if (p.type === 'lib') {
           // Validate all plugins if a lib plugin is added/updated
