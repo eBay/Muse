@@ -147,7 +147,8 @@ const UndeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
       },
     },
   ];
-  utils.extendArray(footerItems, 'items', 'museManager.pm.deployPluginModal.footer', {
+  utils.extendArray(footerItems, 'items', 'museManager.pm.undeployPluginModal.footer', {
+    items: footerItems,
     meta,
     form,
     app,
@@ -159,6 +160,7 @@ const UndeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
     error,
     syncStatus,
     confirmUndeployment,
+    modal,
   });
 
   const { watchingFields } = utils.extendFormMeta(meta, 'museManager.undeployPluginModal.form', {
@@ -173,6 +175,7 @@ const UndeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
     error,
     syncStatus,
     confirmUndeployment,
+    modal,
   });
   const updateOnChange = NiceForm.useUpdateOnChange(watchingFields);
   return (
