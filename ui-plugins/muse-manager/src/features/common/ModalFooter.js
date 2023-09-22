@@ -3,9 +3,9 @@ import { Button } from 'antd';
 
 const FooterItem = ({ item }) => {
   const ele = item.content || <Button {...item.props} />;
-  // if (item.position !== 'left') {
-  //   return <span className="align-self-end">{ele}</span>;
-  // }
+  if (item.position !== 'left') {
+    return <span className="justify-self-end">{ele}</span>;
+  }
   return <span>{ele}</span>;
 };
 export default function ModalFooter({
@@ -22,6 +22,7 @@ export default function ModalFooter({
     items = [
       {
         key: 'cancel-btn',
+        order: 10,
         props: {
           children: cancelText || 'Cancel',
           onClick: onCancel,
@@ -31,6 +32,7 @@ export default function ModalFooter({
 
       {
         key: 'ok-btn',
+        order: 20,
         props: {
           children: okText || 'Ok',
           onClick: onOk,
@@ -40,20 +42,30 @@ export default function ModalFooter({
       },
     ];
   }
+
   const startItems = items.filter((item) => item.position === 'left');
   const endItems = items.filter((item) => item.position !== 'left');
+
+  const arr = [];
+  if (startItems.length > 0) {
+    arr.push(startItems.length - 1, '1fr', endItems.length);
+  } else if (endItems.length > 0) {
+    arr.push('1fr', endItems.length - 1);
+  }
+
+  const gridTemplateColumns = arr
+    .filter(Boolean)
+    .map((a) => (a === '1fr' ? '1fr' : `repeat(${a}, auto)`))
+    .join(' ');
+
   return (
     <div
       className="grid gap-2"
       style={{
-        gridTemplateColumns: `repeat(${startItems.length}, auto) 1fr repeat(${endItems.length}, auto)`,
+        gridTemplateColumns,
       }}
     >
-      {startItems.map((item) => (
-        <FooterItem key={item.key} item={item} />
-      ))}
-      <span />
-      {endItems.map((item) => (
+      {[...startItems, ...endItems].map((item) => (
         <FooterItem key={item.key} item={item} />
       ))}
     </div>
