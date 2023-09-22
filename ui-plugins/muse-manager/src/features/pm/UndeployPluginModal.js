@@ -1,6 +1,6 @@
 import { useCallback, useState, useEffect } from 'react';
 import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
-import { Modal, Button, Form, message } from 'antd';
+import { Modal, Form, message } from 'antd';
 import utils from '@ebay/muse-lib-antd/src/utils';
 import NiceForm from '@ebay/nice-form-react';
 import { useMuseMutation, useSyncStatus, useValidateDeployment } from '../../hooks';
@@ -63,6 +63,41 @@ const UndeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
     ],
   };
 
+  const confirmUndeployment = useCallback(async () => {
+    try {
+      await form.validateFields();
+    } catch (e) {
+      return false;
+    }
+    const values = form.getFieldsValue();
+    return await new Promise((resolve) => {
+      Modal.confirm({
+        title: 'Confirm Undeployment',
+        width: 550,
+        content: (
+          <>
+            Are you sure to apply below changes to <b>{app.name}</b>?
+            <ul>
+              <li>
+                Undeploy{' '}
+                <b>
+                  {plugin.name}@{values.version}
+                </b>{' '}
+                from <b>{values.envs.join(', ')}.</b>
+              </li>
+            </ul>
+          </>
+        ),
+        onOk: () => {
+          resolve(true);
+        },
+        onCancel: () => {
+          resolve(false);
+        },
+      });
+    });
+  }, [app.name, form, plugin.name]);
+
   const handleFinish = useCallback(async () => {
     const values = form.getFieldsValue();
     if (
@@ -85,7 +120,7 @@ const UndeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
     await syncStatus();
   }, [app.name, plugin.name, modal, form, syncStatus, validateDeployment, undeployPlugin]);
 
-  const footer = [
+  const footerItems = [
     {
       key: 'cancel-btn',
       order: 10,
@@ -104,41 +139,40 @@ const UndeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
         disabled: pending,
         children: pending ? 'Undeploying...' : 'Undeploy',
 
-        onClick: () => {
-          form.validateFields().then(() => {
-            const values = form.getFieldsValue();
-            Modal.confirm({
-              title: 'Confirm Undeployment',
-              width: 550,
-              content: (
-                <>
-                  Are you sure to apply below changes to <b>{app.name}</b>?
-                  <ul>
-                    <li>
-                      Undeploy{' '}
-                      <b>
-                        {plugin.name}@{values.version}
-                      </b>{' '}
-                      from <b>{values.envs.join(', ')}.</b>
-                    </li>
-                  </ul>
-                </>
-              ),
-              onOk: () => {
-                form.submit();
-              },
-            });
-          });
+        onClick: async () => {
+          if (await confirmUndeployment()) {
+            form.submit();
+          }
         },
       },
     },
   ];
-  const { watchingFields } = utils.extendFormMeta(meta, 'museManager.undeployPluginForm', {
+  utils.extendArray(footerItems, 'items', 'museManager.pm.deployPluginModal.footer', {
     meta,
     form,
     app,
     plugin,
     version,
+    setPending,
+    setError,
+    pending,
+    error,
+    syncStatus,
+    confirmUndeployment,
+  });
+
+  const { watchingFields } = utils.extendFormMeta(meta, 'museManager.undeployPluginModal.form', {
+    meta,
+    form,
+    app,
+    plugin,
+    version,
+    setPending,
+    setError,
+    pending,
+    error,
+    syncStatus,
+    confirmUndeployment,
   });
   const updateOnChange = NiceForm.useUpdateOnChange(watchingFields);
   return (
@@ -154,7 +188,7 @@ const UndeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
       <Form layout="horizontal" form={form} onValuesChange={updateOnChange} onFinish={handleFinish}>
         <NiceForm meta={meta} />
       </Form>
-      <ModalFooter items={footer} />
+      <ModalFooter items={footerItems} />
     </Modal>
   );
 });

@@ -133,20 +133,6 @@ const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
     await syncStatus();
   }, [app.name, plugin.name, modal, form, syncStatus, validateDeployment, deployPlugin]);
 
-  const { watchingFields } = utils.extendFormMeta(meta, 'museManager.pm.deployPluginModal.form', {
-    meta,
-    form,
-    app,
-    plugin,
-    version,
-    setPending,
-    setError,
-    pending,
-    error,
-    syncStatus,
-    confirmDeployment,
-  });
-
   const footerItems = [
     {
       key: 'cancel-btn',
@@ -173,7 +159,6 @@ const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
       },
     },
   ];
-
   utils.extendArray(footerItems, 'items', 'museManager.pm.deployPluginModal.footer', {
     app,
     form,
@@ -188,7 +173,22 @@ const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
     syncStatus,
     confirmDeployment,
   });
+
+  const { watchingFields } = utils.extendFormMeta(meta, 'museManager.pm.deployPluginModal.form', {
+    meta,
+    form,
+    app,
+    plugin,
+    version,
+    setPending,
+    setError,
+    pending,
+    error,
+    syncStatus,
+    confirmDeployment,
+  });
   const updateOnChange = NiceForm.useUpdateOnChange(watchingFields);
+
   return (
     <Modal
       {...antdModalV5(modal)}
