@@ -143,11 +143,14 @@ const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
     setError,
     pending,
     error,
+    syncStatus,
+    confirmDeployment,
   });
 
   const footerItems = [
     {
       key: 'cancel-btn',
+      order: 10,
       props: {
         disabled: pending,
         children: 'Cancel',
@@ -156,6 +159,7 @@ const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
     },
     {
       key: 'deploy-btn',
+      order: 20,
       props: {
         type: 'primary',
         loading: pending,

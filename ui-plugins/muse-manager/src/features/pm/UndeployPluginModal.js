@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
 import { Modal, Button, Form, message } from 'antd';
 import utils from '@ebay/muse-lib-antd/src/utils';
@@ -6,7 +6,10 @@ import NiceForm from '@ebay/nice-form-react';
 import { useMuseMutation, useSyncStatus, useValidateDeployment } from '../../hooks';
 
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
+import ModalFooter from '../common/ModalFooter';
 const UndeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
+  const [pending, setPending] = useState(false);
+  const [error, setError] = useState(null);
   const [form] = Form.useForm();
   const modal = useModal();
   const {
@@ -14,9 +17,27 @@ const UndeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
     error: undeployPluginError,
     isLoading: undeployPluginPending,
   } = useMuseMutation('pm.undeployPlugin');
+
+  useEffect(() => {
+    setPending((p) => p || undeployPluginPending);
+  }, [undeployPluginPending]);
+
+  useEffect(() => {
+    setError((e) => e || undeployPluginError);
+  }, [undeployPluginError]);
+
   const syncStatus = useSyncStatus(`muse.app.${app.name}`);
   const { validateDeployment, validateDeploymentError, validateDeploymentPending } =
     useValidateDeployment();
+
+  useEffect(() => {
+    setPending((p) => p || validateDeploymentPending);
+  }, [validateDeploymentPending]);
+
+  useEffect(() => {
+    setError((e) => e || validateDeploymentError);
+  }, [validateDeploymentError]);
+
   const meta = {
     columns: 1,
     disabled: undeployPluginPending,
@@ -66,41 +87,49 @@ const UndeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
 
   const footer = [
     {
-      disabled: undeployPluginPending,
-      children: 'Cancel',
-      onClick: modal.hide,
+      key: 'cancel-btn',
+      order: 10,
+      props: {
+        disabled: pending,
+        children: 'Cancel',
+        onClick: modal.hide,
+      },
     },
     {
-      type: 'primary',
-      loading: undeployPluginPending,
-      disabled: undeployPluginPending,
-      children: undeployPluginPending ? 'Undeploying...' : 'Undeploy',
+      key: 'undeploy-btn',
+      order: 20,
+      props: {
+        type: 'primary',
+        loading: pending,
+        disabled: pending,
+        children: pending ? 'Undeploying...' : 'Undeploy',
 
-      onClick: () => {
-        form.validateFields().then(() => {
-          const values = form.getFieldsValue();
-          Modal.confirm({
-            title: 'Confirm Undeployment',
-            width: 550,
-            content: (
-              <>
-                Are you sure to apply below changes to <b>{app.name}</b>?
-                <ul>
-                  <li>
-                    Undeploy{' '}
-                    <b>
-                      {plugin.name}@{values.version}
-                    </b>{' '}
-                    from <b>{values.envs.join(', ')}.</b>
-                  </li>
-                </ul>
-              </>
-            ),
-            onOk: () => {
-              form.submit();
-            },
+        onClick: () => {
+          form.validateFields().then(() => {
+            const values = form.getFieldsValue();
+            Modal.confirm({
+              title: 'Confirm Undeployment',
+              width: 550,
+              content: (
+                <>
+                  Are you sure to apply below changes to <b>{app.name}</b>?
+                  <ul>
+                    <li>
+                      Undeploy{' '}
+                      <b>
+                        {plugin.name}@{values.version}
+                      </b>{' '}
+                      from <b>{values.envs.join(', ')}.</b>
+                    </li>
+                  </ul>
+                </>
+              ),
+              onOk: () => {
+                form.submit();
+              },
+            });
           });
-        });
+        },
       },
     },
   ];
@@ -118,18 +147,14 @@ const UndeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
       title={`Undeploy Plugin`}
       maskClosable={false}
       width="600px"
-      closable={!undeployPluginPending}
-      footer={footer.map((props, i) => (
-        <Button key={i} {...props} />
-      ))}
+      closable={!pending}
+      footer={false}
     >
-      <RequestStatus
-        loading={undeployPluginPending || validateDeploymentPending}
-        error={validateDeploymentError || undeployPluginError}
-      />
+      <RequestStatus loading={pending} error={error} />
       <Form layout="horizontal" form={form} onValuesChange={updateOnChange} onFinish={handleFinish}>
         <NiceForm meta={meta} />
       </Form>
+      <ModalFooter items={footer} />
     </Modal>
   );
 });
