@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useEffect } from 'react';
 import { DropdownMenu } from '@ebay/muse-lib-antd/src/features/common';
 import NiceModal from '@ebay/nice-modal-react';
 import _ from 'lodash';
@@ -24,6 +24,12 @@ function PluginActions({ plugin, app }) {
     // This is just for UI usage pattern, providing full data to avoid async check.
     app: plugin.app && appByName?.[plugin.app],
   });
+
+  // useEffect(() => {
+  //   if (plugin?.name === '@ebay/muse-lib-react') {
+  //     NiceModal.show('muse-manager.deploy-plugin-modal', { plugin, app });
+  //   }
+  // }, [plugin, app]);
   let actions = useMemo(() => {
     return [
       app && {

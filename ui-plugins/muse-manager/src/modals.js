@@ -15,7 +15,6 @@ import AddEnvironmentModal from './features/am/AddEnviromentModal';
 import PreviewModal from './features/pm/PreviewModal';
 import GroupDeploymentModal from './features/pm/GroupDeploymentModal';
 import ValidationResultModal from './features/pm/ValidationResultModal';
-// import PluginInfoModal from './features/pm/PluginInfoModal';
 
 register('muse-manager.create-app-modal', CreateAppModal);
 register('muse-manager.edit-app-modal', EditAppModal);
