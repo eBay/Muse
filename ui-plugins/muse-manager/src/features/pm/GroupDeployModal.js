@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, useMemo } from 'react';
 import { Modal, Form, Alert, message } from 'antd';
 import NiceForm from '@ebay/nice-form-react';
 import { flatten, uniq, concat } from 'lodash';
@@ -10,8 +10,9 @@ import MultiPluginSelector from './MultiPluginSelector';
 import ModalFooter from '../common/ModalFooter';
 
 const GroupDeployModal = NiceModal.create(({ app }) => {
-  const [pending, setPending] = useState(false);
-  const [error, setError] = useState(null);
+  const [pendingMap, setPendingMap] = useState({});
+  const [errorMap, setErrorMap] = useState({});
+
   const [form] = Form.useForm();
   const modal = useModal();
   const {
@@ -20,16 +21,24 @@ const GroupDeployModal = NiceModal.create(({ app }) => {
     isLoading: deployPluginPending,
   } = useMuseMutation('pm.deployPlugin');
 
+  useEffect(() => {
+    setPendingMap((m) => ({ ...m, deployPluginPending }));
+  }, [deployPluginPending]);
+
+  useEffect(() => {
+    setErrorMap((m) => ({ ...m, deployPluginError }));
+  }, [deployPluginError]);
+
   const { validateDeployment, validateDeploymentError, validateDeploymentPending } =
     useValidateDeployment();
 
   useEffect(() => {
-    setPending(deployPluginPending || validateDeploymentPending);
-  }, [validateDeploymentPending, deployPluginPending]);
+    setPendingMap((m) => ({ ...m, validateDeploymentPending }));
+  }, [validateDeploymentPending]);
 
   useEffect(() => {
-    setError(validateDeploymentError || deployPluginError);
-  }, [deployPluginError, validateDeploymentError]);
+    setErrorMap((m) => ({ ...m, validateDeploymentError }));
+  }, [validateDeploymentError]);
 
   const syncStatus = useSyncStatus(`muse.app.${app.name}`);
   const deployedPlugins = uniq(
@@ -38,8 +47,20 @@ const GroupDeployModal = NiceModal.create(({ app }) => {
     ),
   );
 
+  useEffect(() => {
+    setPendingMap((m) => ({ ...m, validateDeploymentPending }));
+  }, [validateDeploymentPending]);
+
+  useEffect(() => {
+    setErrorMap((m) => ({ ...m, validateDeploymentError }));
+  }, [validateDeploymentError]);
+
+  const pending = useMemo(() => Object.values(pendingMap).some(Boolean), [pendingMap]);
+  const error = useMemo(() => Object.values(errorMap).filter(Boolean)[0] || null, [errorMap]);
+
   const meta = {
     columns: 1,
+    disabled: pending,
     fields: [
       {
         key: 'pluginToAdd',
@@ -171,7 +192,7 @@ const GroupDeployModal = NiceModal.create(({ app }) => {
     {
       key: 'cancel-btn',
       props: {
-        disabled: deployPluginPending,
+        disabled: pending,
         children: 'Cancel',
         onClick: modal.hide,
       },
@@ -180,9 +201,9 @@ const GroupDeployModal = NiceModal.create(({ app }) => {
       key: 'deploy-btn',
       props: {
         type: 'primary',
-        loading: deployPluginPending,
-        disabled: deployPluginPending,
-        children: deployPluginPending ? 'Deploying...' : 'Deploy',
+        loading: pending,
+        disabled: pending,
+        children: pending ? 'Deploying...' : 'Deploy',
         onClick: async () => {
           if (await confirmDeployment()) {
             handleFinish();
@@ -197,8 +218,8 @@ const GroupDeployModal = NiceModal.create(({ app }) => {
     meta,
     form,
     app,
-    setPending,
-    setError,
+    setPendingMap,
+    setErrorMap,
     pending,
     error,
     syncStatus,
@@ -215,8 +236,8 @@ const GroupDeployModal = NiceModal.create(({ app }) => {
     meta,
     form,
     app,
-    setPending,
-    setError,
+    setPendingMap,
+    setErrorMap,
     pending,
     error,
     syncStatus,
@@ -246,7 +267,7 @@ const GroupDeployModal = NiceModal.create(({ app }) => {
         className="mb-5"
       />
       <Form layout="horizontal" form={form} onValuesChange={updateOnChange}>
-        <NiceForm disabled={deployPluginPending} meta={meta} />
+        <NiceForm meta={meta} />
       </Form>
       <ModalFooter items={footerItems} />
     </Modal>

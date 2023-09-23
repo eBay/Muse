@@ -1,4 +1,4 @@
-import { useCallback, useState, useEffect } from 'react';
+import { useCallback, useState, useEffect, useMemo } from 'react';
 import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
 import { Modal, Form, message } from 'antd';
 import utils from '@ebay/muse-lib-antd/src/utils';
@@ -8,8 +8,9 @@ import { useMuseMutation, useSyncStatus, useValidateDeployment } from '../../hoo
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import ModalFooter from '../common/ModalFooter';
 const UndeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
-  const [pending, setPending] = useState(false);
-  const [error, setError] = useState(null);
+  const [pendingMap, setPendingMap] = useState({});
+  const [errorMap, setErrorMap] = useState({});
+
   const [form] = Form.useForm();
   const modal = useModal();
   const {
@@ -18,21 +19,33 @@ const UndeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
     isLoading: undeployPluginPending,
   } = useMuseMutation('pm.undeployPlugin');
 
-  const syncStatus = useSyncStatus(`muse.app.${app.name}`);
+  useEffect(() => {
+    setPendingMap((m) => ({ ...m, undeployPluginPending }));
+  }, [undeployPluginPending]);
+
+  useEffect(() => {
+    setErrorMap((m) => ({ ...m, undeployPluginError }));
+  }, [undeployPluginError]);
+
   const { validateDeployment, validateDeploymentError, validateDeploymentPending } =
     useValidateDeployment();
 
   useEffect(() => {
-    setPending(undeployPluginPending || validateDeploymentPending);
-  }, [validateDeploymentPending, undeployPluginPending]);
+    setPendingMap((m) => ({ ...m, validateDeploymentPending }));
+  }, [validateDeploymentPending]);
 
   useEffect(() => {
-    setError(validateDeploymentError || undeployPluginError);
-  }, [validateDeploymentError, undeployPluginError]);
+    setErrorMap((m) => ({ ...m, validateDeploymentError }));
+  }, [validateDeploymentError]);
+
+  const syncStatus = useSyncStatus(`muse.app.${app.name}`);
+
+  const pending = useMemo(() => Object.values(pendingMap).some(Boolean), [pendingMap]);
+  const error = useMemo(() => Object.values(errorMap).filter(Boolean)[0] || null, [errorMap]);
 
   const meta = {
     columns: 1,
-    disabled: undeployPluginPending,
+    disabled: pending,
     fields: [
       {
         key: 'appName',
@@ -153,8 +166,8 @@ const UndeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
     app,
     plugin,
     version,
-    setPending,
-    setError,
+    setPendingMap,
+    setErrorMap,
     pending,
     error,
     syncStatus,
@@ -168,8 +181,8 @@ const UndeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
     app,
     plugin,
     version,
-    setPending,
-    setError,
+    setPendingMap,
+    setErrorMap,
     pending,
     error,
     syncStatus,

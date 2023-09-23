@@ -14,12 +14,12 @@ const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
   const [pendingMap, setPendingMap] = useState({});
   const [errorMap, setErrorMap] = useState({});
   const modal = useModal();
+  const syncStatus = useSyncStatus(`muse.app.${app.name}`);
   const {
     mutateAsync: deployPlugin,
     error: deployPluginError,
     isLoading: deployPluginPending,
   } = useMuseMutation('pm.deployPlugin');
-  const syncStatus = useSyncStatus(`muse.app.${app.name}`);
 
   useEffect(() => {
     setPendingMap((m) => ({ ...m, deployPluginPending }));
@@ -42,6 +42,7 @@ const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
 
   const pending = useMemo(() => Object.values(pendingMap).some(Boolean), [pendingMap]);
   const error = useMemo(() => Object.values(errorMap).filter(Boolean)[0] || null, [errorMap]);
+
   const meta = {
     columns: 1,
     disabled: pending,
@@ -77,11 +78,14 @@ const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
   };
 
   const confirmDeployment = useCallback(async () => {
+    // Validate form
     try {
       await form.validateFields();
     } catch (e) {
       return false;
     }
+
+    // User confirm deployment
     const values = form.getFieldValue();
     if (
       !(await new Promise((resolve) => {
@@ -114,6 +118,7 @@ const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
       return false;
     }
 
+    // Validate shared modules
     if (
       !(await validateDeployment({
         deployment: [{ pluginName: plugin.name, version: values.version }],
