@@ -112,8 +112,14 @@ const ValidationResultModal = NiceModal.create(({ result = {} }) => {
       width="800px"
       okText="I understand the danger, but continue the deployment."
       onOk={() => {
-        modal.resolve(true);
-        modal.hide();
+        Modal.confirm({
+          title: 'Confirm',
+          content: 'Are you sure to continue?',
+          onOk: () => {
+            modal.resolve(true);
+            modal.hide();
+          },
+        });
       }}
       okButtonProps={{
         type: 'primary',
