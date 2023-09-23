@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
-
+import { useModal } from '@ebay/nice-modal-react';
+import Nodes from './Nodes';
 /**
  * A common UI logic that handles a form/modal with extensible header, body and footer.
  * Also it handles pending, error status with extensibility.
@@ -38,5 +39,11 @@ export default function ExtModal({}) {
   const pending = useMemo(() => Object.values(pendingMap).some(Boolean), [pendingMap]);
   const error = useMemo(() => Object.values(errorMap).filter(Boolean)[0] || null, [errorMap]);
 
-  return null;
+  return (
+    <>
+      <Nodes nodes={[]} />
+      <Nodes nodes={[]} />
+      <Nodes nodes={[]} />
+    </>
+  );
 }
