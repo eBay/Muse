@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
 import { Modal, Form, message } from 'antd';
 import utils from '@ebay/muse-lib-antd/src/utils';
@@ -11,8 +11,8 @@ import ModalFooter from '../common/ModalFooter';
 
 const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
   const [form] = Form.useForm();
-  const [pending, setPending] = useState(false);
-  const [error, setError] = useState(null);
+  const [pendingMap, setPendingMap] = useState({});
+  const [errorMap, setErrorMap] = useState({});
   const modal = useModal();
   const {
     mutateAsync: deployPlugin,
@@ -21,20 +21,30 @@ const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
   } = useMuseMutation('pm.deployPlugin');
   const syncStatus = useSyncStatus(`muse.app.${app.name}`);
 
+  useEffect(() => {
+    setPendingMap((m) => ({ ...m, deployPluginPending }));
+  }, [deployPluginPending]);
+
+  useEffect(() => {
+    setErrorMap((m) => ({ ...m, deployPluginError }));
+  }, [deployPluginError]);
+
   const { validateDeployment, validateDeploymentError, validateDeploymentPending } =
     useValidateDeployment();
 
   useEffect(() => {
-    setPending(deployPluginPending || validateDeploymentPending);
-  }, [validateDeploymentPending, deployPluginPending]);
+    setPendingMap((m) => ({ ...m, validateDeploymentPending }));
+  }, [validateDeploymentPending]);
 
   useEffect(() => {
-    setError(validateDeploymentError || deployPluginError);
-  }, [validateDeploymentError, deployPluginError]);
+    setErrorMap((m) => ({ ...m, validateDeploymentError }));
+  }, [validateDeploymentError]);
 
+  const pending = useMemo(() => Object.values(pendingMap).some(Boolean), [pendingMap]);
+  const error = useMemo(() => Object.values(errorMap).filter(Boolean)[0] || null, [errorMap]);
   const meta = {
     columns: 1,
-    disabled: deployPluginPending,
+    disabled: pending,
     fields: [
       {
         key: 'appName',
@@ -69,8 +79,12 @@ const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
   const confirmDeployment = useCallback(async () => {
     try {
       await form.validateFields();
-      const values = form.getFieldValue();
-      return await new Promise((resolve) => {
+    } catch (e) {
+      return false;
+    }
+    const values = form.getFieldValue();
+    if (
+      !(await new Promise((resolve) => {
         Modal.confirm({
           title: 'Confirm Deployment',
           width: 550,
@@ -95,13 +109,11 @@ const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
             resolve(false);
           },
         });
-      });
-    } catch (e) {
+      }))
+    ) {
       return false;
     }
-  }, [form, app.name, plugin.name]);
-  const handleFinish = useCallback(async () => {
-    const values = form.getFieldsValue();
+
     if (
       !(await validateDeployment({
         deployment: [{ pluginName: plugin.name, version: values.version }],
@@ -111,6 +123,11 @@ const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
     ) {
       return;
     }
+    return true;
+  }, [form, app.name, plugin.name, validateDeployment]);
+  const handleFinish = useCallback(async () => {
+    if (!(await confirmDeployment())) return;
+    const values = form.getFieldsValue();
 
     await deployPlugin({
       appName: app.name,
@@ -123,7 +140,7 @@ const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
     modal.hide();
     message.success('Deploy plugin succeeded.');
     await syncStatus();
-  }, [app.name, plugin.name, modal, form, syncStatus, validateDeployment, deployPlugin]);
+  }, [app.name, plugin.name, modal, form, syncStatus, deployPlugin, confirmDeployment]);
 
   const footerItems = [
     {
@@ -144,9 +161,8 @@ const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
         disabled: pending,
         children: pending ? 'Deploying...' : 'Deploy',
 
-        onClick: async () => {
-          if (!(await confirmDeployment())) return;
-          form.submit();
+        onClick: () => {
+          handleFinish();
         },
       },
     },
@@ -157,8 +173,8 @@ const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
     plugin,
     version,
     items: footerItems,
-    setPending,
-    setError,
+    setPendingMap,
+    setErrorMap,
     pending,
     error,
     modal,
@@ -173,8 +189,8 @@ const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
     app,
     plugin,
     version,
-    setPending,
-    setError,
+    setPendingMap,
+    setErrorMap,
     pending,
     error,
     syncStatus,
@@ -189,7 +205,7 @@ const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
       title={`Deploy Plugin`}
       maskClosable={false}
       width="700px"
-      closable={!deployPluginPending}
+      closable={!pending}
       footer={false}
     >
       <RequestStatus loading={pending} error={error} />

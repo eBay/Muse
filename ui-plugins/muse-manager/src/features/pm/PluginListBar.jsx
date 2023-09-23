@@ -98,7 +98,7 @@ export default function PluginListBar({ app }) {
       key: 'group-deployment',
       label: 'Group Deployment',
       onClick: () => {
-        NiceModal.show('muse-manager.group-deployment-modal', { app });
+        NiceModal.show('muse-manager.group-deploy-modal', { app });
       },
     },
   ];

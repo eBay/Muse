@@ -9,7 +9,7 @@ import { useMuseMutation, useSyncStatus, useValidateDeployment } from '../../hoo
 import MultiPluginSelector from './MultiPluginSelector';
 import ModalFooter from '../common/ModalFooter';
 
-const GroupDeploymentModal = NiceModal.create(({ app }) => {
+const GroupDeployModal = NiceModal.create(({ app }) => {
   const [pending, setPending] = useState(false);
   const [error, setError] = useState(null);
   const [form] = Form.useForm();
@@ -62,6 +62,7 @@ const GroupDeploymentModal = NiceModal.create(({ app }) => {
         label: 'Environments',
         widget: 'checkbox-group',
         options: Object.keys(app.envs),
+        required: true,
       },
     ],
   };
@@ -75,6 +76,11 @@ const GroupDeploymentModal = NiceModal.create(({ app }) => {
 
     const values = form.getFieldsValue();
     const { pluginToAdd = [], pluginsToRemove = [], envs } = values;
+
+    if (pluginToAdd.length < 1 && pluginsToRemove.length < 1) {
+      message.warning('Please choose plugin(s) to deploy or undeploy.');
+      return false;
+    }
     const deployMsg =
       pluginToAdd.length > 0 ? (
         <>
@@ -171,12 +177,12 @@ const GroupDeploymentModal = NiceModal.create(({ app }) => {
       },
     },
     {
-      key: 'apply-btn',
+      key: 'deploy-btn',
       props: {
         type: 'primary',
         loading: deployPluginPending,
         disabled: deployPluginPending,
-        children: deployPluginPending ? 'Applying...' : 'Apply',
+        children: deployPluginPending ? 'Deploying...' : 'Deploy',
         onClick: async () => {
           if (await confirmDeployment()) {
             handleFinish();
@@ -186,7 +192,7 @@ const GroupDeploymentModal = NiceModal.create(({ app }) => {
     },
   ];
 
-  utils.extendArray(footerItems, 'items', 'museManager.pm.groupDeploymentModal.footer', {
+  utils.extendArray(footerItems, 'items', 'museManager.pm.groupDeployModal.footer', {
     items: footerItems,
     meta,
     form,
@@ -198,17 +204,30 @@ const GroupDeploymentModal = NiceModal.create(({ app }) => {
     syncStatus,
     confirmDeployment,
     modal,
+    validateDeployment,
+    validateDeploymentPending,
+    deployPluginPending,
+    deployPluginError,
+    validateDeploymentError,
   });
 
-  const { watchingFields } = utils.extendFormMeta(
+  const { watchingFields } = utils.extendFormMeta(meta, 'museManager.pm.groupDeployModal.form', {
     meta,
-    'museManager.pm.groupDeploymentModal.form',
-    {
-      meta,
-      form,
-      app,
-    },
-  );
+    form,
+    app,
+    setPending,
+    setError,
+    pending,
+    error,
+    syncStatus,
+    confirmDeployment,
+    modal,
+    validateDeployment,
+    validateDeploymentPending,
+    deployPluginPending,
+    deployPluginError,
+    validateDeploymentError,
+  });
   const updateOnChange = NiceForm.useUpdateOnChange(watchingFields);
   return (
     <Modal
@@ -234,4 +253,4 @@ const GroupDeploymentModal = NiceModal.create(({ app }) => {
   );
 });
 
-export default GroupDeploymentModal;
+export default GroupDeployModal;

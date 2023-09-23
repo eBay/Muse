@@ -51,6 +51,7 @@ const UndeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
         label: 'Environments',
         widget: 'checkbox-group',
         options: Object.keys(app.envs),
+        required: true,
       },
     ],
   };
@@ -62,36 +63,37 @@ const UndeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
       return false;
     }
     const values = form.getFieldsValue();
-    return await new Promise((resolve) => {
-      Modal.confirm({
-        title: 'Confirm Undeployment',
-        width: 550,
-        content: (
-          <>
-            Are you sure to apply below changes to <b>{app.name}</b>?
-            <ul>
-              <li>
-                Undeploy{' '}
-                <b>
-                  {plugin.name}@{values.version}
-                </b>{' '}
-                from <b>{values.envs.join(', ')}.</b>
-              </li>
-            </ul>
-          </>
-        ),
-        onOk: () => {
-          resolve(true);
-        },
-        onCancel: () => {
-          resolve(false);
-        },
-      });
-    });
-  }, [app.name, form, plugin.name]);
+    if (
+      !(await new Promise((resolve) => {
+        Modal.confirm({
+          title: 'Confirm Undeployment',
+          width: 550,
+          content: (
+            <>
+              Are you sure to apply below changes to <b>{app.name}</b>?
+              <ul>
+                <li>
+                  Undeploy{' '}
+                  <b>
+                    {plugin.name}@{values.version}
+                  </b>{' '}
+                  from <b>{values.envs.join(', ')}.</b>
+                </li>
+              </ul>
+            </>
+          ),
+          onOk: () => {
+            resolve(true);
+          },
+          onCancel: () => {
+            resolve(false);
+          },
+        });
+      }))
+    ) {
+      return false;
+    }
 
-  const handleFinish = useCallback(async () => {
-    const values = form.getFieldsValue();
     if (
       !(await validateDeployment({
         deployment: [{ pluginName: plugin.name, version: values.version, type: 'remove' }],
@@ -99,8 +101,15 @@ const UndeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
         envs: values.envs,
       }))
     ) {
-      return;
+      return false;
     }
+    return true;
+  }, [app.name, form, plugin.name, validateDeployment]);
+
+  const handleFinish = useCallback(async () => {
+    if (!(await confirmUndeployment())) return;
+
+    const values = form.getFieldsValue();
     await undeployPlugin({
       appName: app.name,
       pluginName: plugin.name,
@@ -109,8 +118,8 @@ const UndeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
 
     modal.hide();
     message.success('Undeploy plugin success.');
-    await syncStatus();
-  }, [app.name, plugin.name, modal, form, syncStatus, validateDeployment, undeployPlugin]);
+    syncStatus();
+  }, [app.name, plugin.name, modal, form, syncStatus, undeployPlugin, confirmUndeployment]);
 
   const footerItems = [
     {
@@ -131,10 +140,8 @@ const UndeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
         disabled: pending,
         children: pending ? 'Undeploying...' : 'Undeploy',
 
-        onClick: async () => {
-          if (await confirmUndeployment()) {
-            form.submit();
-          }
+        onClick: () => {
+          handleFinish();
         },
       },
     },

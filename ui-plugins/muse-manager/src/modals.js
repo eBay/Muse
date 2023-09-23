@@ -13,7 +13,7 @@ import ReleasesDrawer from './features/pm/ReleasesDrawer';
 import EditEnvironmentModal from './features/am/EditEnvironmentModal';
 import AddEnvironmentModal from './features/am/AddEnviromentModal';
 import PreviewModal from './features/pm/PreviewModal';
-import GroupDeploymentModal from './features/pm/GroupDeploymentModal';
+import GroupDeployModal from './features/pm/GroupDeployModal';
 import ValidationResultModal from './features/pm/ValidationResultModal';
 
 register('muse-manager.create-app-modal', CreateAppModal);
@@ -30,5 +30,5 @@ register('muse-manager.preview-modal', PreviewModal);
 register('muse-manager.add-env-modal', AddEnvironmentModal);
 register('muse-manager.edit-app-variables-modal', EditAppVariablesModal);
 register('muse-manager.edit-plugin-variables-modal', EditPluginVariablesModal);
-register('muse-manager.group-deployment-modal', GroupDeploymentModal);
+register('muse-manager.group-deploy-modal', GroupDeployModal);
 register('muse-manager.validation-result-modal', ValidationResultModal);
