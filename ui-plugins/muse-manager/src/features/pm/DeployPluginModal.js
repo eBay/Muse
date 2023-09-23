@@ -60,6 +60,7 @@ const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
         key: 'envs',
         label: 'Environments',
         widget: 'checkbox-group',
+        required: true,
         options: Object.keys(app.envs),
       },
     ],
@@ -69,7 +70,7 @@ const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
     try {
       await form.validateFields();
       const values = form.getFieldValue();
-      await new Promise((resolve) => {
+      return await new Promise((resolve) => {
         Modal.confirm({
           title: 'Confirm Deployment',
           width: 550,
@@ -95,7 +96,6 @@ const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
           },
         });
       });
-      return true;
     } catch (e) {
       return false;
     }
