@@ -28,7 +28,11 @@ export default function MultiPluginSelector({ value, onChange, app }) {
     const latest = latestReleases[value] && latestReleases[value].version;
     const newValue = _.cloneDeep(rows);
     newValue[index].name = value;
-    newValue[index].version = latest ? latest.startsWith('v') ? latest.substring(1) : latest : undefined;
+    newValue[index].version = latest
+      ? latest.startsWith('v')
+        ? latest.substring(1)
+        : latest
+      : undefined;
     onChange(newValue.filter((v) => v.name));
   };
 
@@ -39,8 +43,8 @@ export default function MultiPluginSelector({ value, onChange, app }) {
   };
 
   const handleAdd = useCallback(() => {
-    if (value.some((v) => !v.name || !v.version)) {
-      message.warn('Select version first.');
+    if (!value || value.some((v) => !v.name || !v.version)) {
+      message.warning('Select plugin/version first.');
       return;
     }
     setAdding(true);
@@ -82,7 +86,7 @@ export default function MultiPluginSelector({ value, onChange, app }) {
             <Col span="10">
               <PluginReleaseSelect
                 app={app}
-                plugin={p || {}}
+                plugin={p}
                 placeholder="Select a version"
                 value={item.version}
                 onChange={(v) => handleVersionChange(v, i)}
