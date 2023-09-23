@@ -42,6 +42,6 @@ function PluginStatus({ plugin, app }) {
 
   const allTags = _.flatten([...defaulTags, ...customizedTags]).filter(Boolean);
   jsPlugin.invoke('museManager.pluginStatus.processStatusTags', { allTags, requests, plugin, app });
-  return allTags;
+  return <div className="grid gap-1 justify-items-start">{allTags}</div>;
 }
 export default PluginStatus;
