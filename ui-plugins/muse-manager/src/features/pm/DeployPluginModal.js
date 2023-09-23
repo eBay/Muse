@@ -172,6 +172,7 @@ const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
     modal,
     syncStatus,
     confirmDeployment,
+    validateDeployment,
   });
 
   const { watchingFields } = utils.extendFormMeta(meta, 'museManager.pm.deployPluginModal.form', {
@@ -186,6 +187,7 @@ const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
     error,
     syncStatus,
     confirmDeployment,
+    validateDeployment,
   });
   const updateOnChange = NiceForm.useUpdateOnChange(watchingFields);
 

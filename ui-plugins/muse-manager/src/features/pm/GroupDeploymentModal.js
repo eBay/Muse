@@ -1,5 +1,5 @@
-import { useCallback } from 'react';
-import { Modal, Button, Form, Alert, message } from 'antd';
+import { useCallback, useEffect, useState } from 'react';
+import { Modal, Form, Alert, message } from 'antd';
 import NiceForm from '@ebay/nice-form-react';
 import { flatten, uniq, concat } from 'lodash';
 import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
@@ -7,8 +7,11 @@ import utils from '@ebay/muse-lib-antd/src/utils';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import { useMuseMutation, useSyncStatus, useValidateDeployment } from '../../hooks';
 import MultiPluginSelector from './MultiPluginSelector';
+import ModalFooter from '../common/ModalFooter';
 
 const GroupDeploymentModal = NiceModal.create(({ app }) => {
+  const [pending, setPending] = useState(false);
+  const [error, setError] = useState(null);
   const [form] = Form.useForm();
   const modal = useModal();
   const {
@@ -19,6 +22,14 @@ const GroupDeploymentModal = NiceModal.create(({ app }) => {
 
   const { validateDeployment, validateDeploymentError, validateDeploymentPending } =
     useValidateDeployment();
+
+  useEffect(() => {
+    setPending(deployPluginPending || validateDeploymentPending);
+  }, [validateDeploymentPending, deployPluginPending]);
+
+  useEffect(() => {
+    setError(validateDeploymentError || deployPluginError);
+  }, [deployPluginError, validateDeploymentError]);
 
   const syncStatus = useSyncStatus(`muse.app.${app.name}`);
   const deployedPlugins = uniq(
@@ -55,9 +66,48 @@ const GroupDeploymentModal = NiceModal.create(({ app }) => {
     ],
   };
 
-  const handleFinish = useCallback(async () => {
+  const confirmDeployment = useCallback(async () => {
+    try {
+      await form.validateFields();
+    } catch (e) {
+      return false;
+    }
+
     const values = form.getFieldsValue();
     const { pluginToAdd = [], pluginsToRemove = [], envs } = values;
+    const deployMsg =
+      pluginToAdd.length > 0 ? (
+        <>
+          deploy <b>{pluginToAdd.map((p) => `${p.name}@${p.version}`).join(', ')}</b>
+        </>
+      ) : null;
+    const undeployMsg =
+      pluginsToRemove.length > 0 ? (
+        <>
+          undeploy <b>{pluginsToRemove.join(', ')}</b>
+        </>
+      ) : null;
+    if (
+      !(await new Promise((resolve) => {
+        Modal.confirm({
+          title: 'Confirm Deployment',
+          okText: 'Yes',
+          cancelText: 'No',
+          content: (
+            <>
+              Are you sure to {deployMsg}
+              {deployMsg && undeployMsg ? ' and ' : ''}
+              {undeployMsg} to <b> {envs.join(', ')}</b> environment of application
+              <b> {app.name}</b>?
+            </>
+          ),
+          onOk: () => resolve(true),
+          onCancel: () => resolve(false),
+        });
+      }))
+    ) {
+      return false;
+    }
 
     const addList = pluginToAdd?.map((item) => ({
       type: 'add',
@@ -74,15 +124,32 @@ const GroupDeploymentModal = NiceModal.create(({ app }) => {
       !(await validateDeployment({
         deployment: [...addList, ...removeList],
         appName: app.name,
-        envs: values.envs,
+        envs: envs,
       }))
     ) {
-      return;
+      return false;
     }
+    return true;
+  }, [app.name, form, validateDeployment]);
+
+  const handleFinish = useCallback(async () => {
+    const values = form.getFieldsValue();
+    const { pluginToAdd = [], pluginsToRemove = [], envs } = values;
+
+    const addList = pluginToAdd?.map((item) => ({
+      type: 'add',
+      pluginName: item.name,
+      version: item.version,
+    }));
+    const removeList = pluginsToRemove?.map((pluginName) => ({
+      type: 'remove',
+      pluginName,
+      verion: null,
+    }));
 
     const args = {
       appName: app.name,
-      envMap: values.envs.reduce((map, envName) => {
+      envMap: envs.reduce((map, envName) => {
         map[envName] = concat(addList, removeList);
         return map;
       }, {}),
@@ -92,59 +159,56 @@ const GroupDeploymentModal = NiceModal.create(({ app }) => {
     modal.hide();
     message.success('Group deployment succeeded.');
     await syncStatus();
-  }, [app.name, deployPlugin, form, modal, validateDeployment, syncStatus]);
+  }, [app.name, deployPlugin, form, modal, syncStatus]);
 
-  const footer = [
+  const footerItems = [
     {
-      disabled: deployPluginPending,
-      children: 'Cancel',
-      onClick: modal.hide,
+      key: 'cancel-btn',
+      props: {
+        disabled: deployPluginPending,
+        children: 'Cancel',
+        onClick: modal.hide,
+      },
     },
     {
-      type: 'primary',
-      loading: deployPluginPending,
-      disabled: deployPluginPending,
-      children: deployPluginPending ? 'Deploying...' : 'Deploy',
-      onClick: () => {
-        form.validateFields().then((values) => {
-          const { pluginToAdd = [], pluginsToRemove = [], envs } = values;
-          const deployMsg =
-            pluginToAdd.length > 0 ? (
-              <>
-                deploy <b>{pluginToAdd.map((p) => `${p.name}@${p.version}`).join(', ')}</b>
-              </>
-            ) : null;
-          const undeployMsg =
-            pluginsToRemove.length > 0 ? (
-              <>
-                undeploy <b>{pluginsToRemove.join(', ')}</b>
-              </>
-            ) : null;
-          Modal.confirm({
-            title: 'Confirm Deployment',
-            okText: 'Yes',
-            cancelText: 'No',
-            content: (
-              <>
-                Are you sure to {deployMsg}
-                {deployMsg && undeployMsg ? ' and ' : ''}
-                {undeployMsg} to <b> {envs.join(', ')}</b> environment of application
-                <b> {app.name}</b>?
-              </>
-            ),
-            onOk: () => {
-              form.submit();
-            },
-          });
-        });
+      key: 'apply-btn',
+      props: {
+        type: 'primary',
+        loading: deployPluginPending,
+        disabled: deployPluginPending,
+        children: deployPluginPending ? 'Applying...' : 'Apply',
+        onClick: async () => {
+          if (await confirmDeployment()) {
+            handleFinish();
+          }
+        },
       },
     },
   ];
-  const { watchingFields } = utils.extendFormMeta(meta, 'museManager.GroupDeploymentForm', {
+
+  utils.extendArray(footerItems, 'items', 'museManager.pm.groupDeploymentModal.footer', {
+    items: footerItems,
     meta,
     form,
     app,
+    setPending,
+    setError,
+    pending,
+    error,
+    syncStatus,
+    confirmDeployment,
+    modal,
   });
+
+  const { watchingFields } = utils.extendFormMeta(
+    meta,
+    'museManager.pm.groupDeploymentModal.form',
+    {
+      meta,
+      form,
+      app,
+    },
+  );
   const updateOnChange = NiceForm.useUpdateOnChange(watchingFields);
   return (
     <Modal
@@ -152,30 +216,20 @@ const GroupDeploymentModal = NiceModal.create(({ app }) => {
       title={`Group deployment for application : ${app?.name}`}
       maskClosable={false}
       width="800px"
-      closable={!deployPluginPending}
-      footer={footer.map((props, i) => (
-        <Button key={i} {...props} />
-      ))}
+      closable={!pending}
+      footer={false}
     >
-      <div style={{ display: 'flex', rowGap: '30px', flexFlow: 'column wrap' }}>
-        <RequestStatus
-          loading={deployPluginPending || validateDeploymentPending}
-          error={validateDeploymentError || deployPluginError}
-        />
-        <Alert
-          message="With group deployment, you can deploy/undeploy multiple plugins in one release process.
+      <RequestStatus loading={pending} error={error} />
+      <Alert
+        message="With group deployment, you can deploy/undeploy multiple plugins in one release process.
         Note only app owners can undeploy plugins."
-          type="info"
-        />
-        <Form
-          layout="horizontal"
-          form={form}
-          onValuesChange={updateOnChange}
-          onFinish={handleFinish}
-        >
-          <NiceForm disabled={deployPluginPending} meta={meta} />
-        </Form>
-      </div>
+        type="info"
+        className="mb-5"
+      />
+      <Form layout="horizontal" form={form} onValuesChange={updateOnChange}>
+        <NiceForm disabled={deployPluginPending} meta={meta} />
+      </Form>
+      <ModalFooter items={footerItems} />
     </Modal>
   );
 });
