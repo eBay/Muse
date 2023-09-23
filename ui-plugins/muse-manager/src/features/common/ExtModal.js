@@ -39,11 +39,14 @@ export default function ExtModal({}) {
   const pending = useMemo(() => Object.values(pendingMap).some(Boolean), [pendingMap]);
   const error = useMemo(() => Object.values(errorMap).filter(Boolean)[0] || null, [errorMap]);
 
+  const headerNodes = [];
+  const bodyNodes = [];
+  const footerNodes = [];
   return (
     <>
-      <Nodes nodes={[]} />
-      <Nodes nodes={[]} />
-      <Nodes nodes={[]} />
+      <Nodes nodes={headerNodes} />
+      <Nodes nodes={bodyNodes} />
+      <Nodes nodes={footerNodes} />
     </>
   );
 }
