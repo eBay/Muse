@@ -18,25 +18,17 @@ const UndeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
     isLoading: undeployPluginPending,
   } = useMuseMutation('pm.undeployPlugin');
 
-  useEffect(() => {
-    setPending((p) => p || undeployPluginPending);
-  }, [undeployPluginPending]);
-
-  useEffect(() => {
-    setError((e) => e || undeployPluginError);
-  }, [undeployPluginError]);
-
   const syncStatus = useSyncStatus(`muse.app.${app.name}`);
   const { validateDeployment, validateDeploymentError, validateDeploymentPending } =
     useValidateDeployment();
 
   useEffect(() => {
-    setPending((p) => p || validateDeploymentPending);
-  }, [validateDeploymentPending]);
+    setPending(undeployPluginPending || validateDeploymentPending);
+  }, [validateDeploymentPending, undeployPluginPending]);
 
   useEffect(() => {
-    setError((e) => e || validateDeploymentError);
-  }, [validateDeploymentError]);
+    setError(validateDeploymentError || undeployPluginError);
+  }, [validateDeploymentError, undeployPluginError]);
 
   const meta = {
     columns: 1,

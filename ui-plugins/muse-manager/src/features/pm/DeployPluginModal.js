@@ -21,24 +21,16 @@ const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
   } = useMuseMutation('pm.deployPlugin');
   const syncStatus = useSyncStatus(`muse.app.${app.name}`);
 
-  useEffect(() => {
-    setPending((p) => p || deployPluginPending);
-  }, [deployPluginPending]);
-
-  useEffect(() => {
-    setError((e) => e || deployPluginError);
-  }, [deployPluginError]);
-
   const { validateDeployment, validateDeploymentError, validateDeploymentPending } =
     useValidateDeployment();
 
   useEffect(() => {
-    setPending((p) => p || validateDeploymentPending);
-  }, [validateDeploymentPending]);
+    setPending(deployPluginPending || validateDeploymentPending);
+  }, [validateDeploymentPending, deployPluginPending]);
 
   useEffect(() => {
-    setError((e) => e || validateDeploymentError);
-  }, [validateDeploymentError]);
+    setError(validateDeploymentError || deployPluginError);
+  }, [validateDeploymentError, deployPluginError]);
 
   const meta = {
     columns: 1,
