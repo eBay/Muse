@@ -1,6 +1,7 @@
 import { usePollingMuseData } from '../../hooks';
 import _ from 'lodash';
 import { Tag } from 'antd';
+import jsPlugin from 'js-plugin';
 import { Loading3QuartersOutlined } from '@ant-design/icons';
 import NiceModal from '@ebay/nice-modal-react';
 import Nodes from '../common/Nodes';
@@ -11,8 +12,15 @@ function PluginStatus({ plugin, app }) {
     NiceModal.show('muse-manager.request-detail-modal', { request, status });
   };
   const tags = [];
+
   requests
-    ?.filter((req) => req?.payload?.pluginName === plugin.name)
+    ?.filter(
+      (req) =>
+        req?.payload?.pluginName === plugin.name ||
+        jsPlugin
+          .invoke('museManager.pm.pluginStatus.relatedToPlugin', { plugin, app, request: req })
+          .some((b) => b),
+    )
     .forEach((req) => {
       req.statuses?.forEach((s, i) => {
         const color = {
