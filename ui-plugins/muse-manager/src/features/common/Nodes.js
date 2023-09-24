@@ -5,7 +5,6 @@ import { extendArray } from '@ebay/muse-lib-antd/src/utils';
  * @param {Array} nodes - The list of nodes to render.
  */
 export default function Nodes({ items, extName = 'items', extBase, extArgs }) {
-  console.log(items, extName, extBase, extArgs);
   items = items.filter(Boolean);
   extendArray(items, extName, extBase, extArgs);
   const nodes = [];
