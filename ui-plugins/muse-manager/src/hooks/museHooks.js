@@ -12,7 +12,7 @@ export function useMuseQuery(apiPath, ...args) {
     queryArgs = apiPath;
     apiPath = args.shift();
   }
-  if (args[0] === 'muse.requests') console.log(apiPath, args);
+
   const query = useQuery({
     queryKey: ['muse-query', apiPath, ...args],
     queryFn: () => {

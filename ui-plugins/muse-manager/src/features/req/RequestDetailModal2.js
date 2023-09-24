@@ -27,6 +27,7 @@ const RequestStatuses = ({ request }) => {
 
 const RequestDetailModal = NiceModal.create(({ request, retry = true }) => {
   console.log(request);
+
   const modal = useModal();
   const [form] = Form.useForm();
   const syncStatus = useSyncStatus('muse.requests');

@@ -7,7 +7,7 @@ import NiceModal from '@ebay/nice-modal-react';
 import Nodes from '../common/Nodes';
 
 function PluginStatus({ plugin, app }) {
-  const { data: requests = [] } = usePollingMuseData('muse.requests', { interval: 10000 });
+  const { data: requests = [] } = usePollingMuseData({ interval: 10000 }, 'muse.requests');
   const onTagClick = (request, status) => {
     NiceModal.show('muse-manager.request-detail-modal', { request, status });
   };
