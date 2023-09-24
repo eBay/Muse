@@ -29,7 +29,7 @@ const RequestDetailModal = NiceModal.create(({ request, retry = true }) => {
   console.log(request);
   const modal = useModal();
   const [form] = Form.useForm();
-  const syncStatus = useSyncStatus(`muse.requests`);
+  const syncStatus = useSyncStatus('muse.requests');
 
   const {
     mutateAsync: deleteRequest,
@@ -37,9 +37,15 @@ const RequestDetailModal = NiceModal.create(({ request, retry = true }) => {
     isLoading: deleteRequestPending,
   } = useMuseMutation('req.deleteRequest');
 
+  const {
+    mutateAsync: createRequest,
+    error: createRequestError,
+    isLoading: createRequestPending,
+  } = useMuseMutation('req.createRequest');
+
   const { setPending, setError, pending, error } = usePendingError(
-    [deleteRequestPending],
-    [deleteRequestError],
+    [deleteRequestPending, createRequestPending],
+    [deleteRequestError, createRequestError],
   );
 
   const meta = {
@@ -138,6 +144,24 @@ const RequestDetailModal = NiceModal.create(({ request, retry = true }) => {
           disabled: pending,
           type: 'primary',
           children: 'Retry',
+          onClick: () => {
+            Modal.confirm({
+              title: 'Confirm',
+              content: 'Are you sure to retry this request?',
+              onOk: () => {
+                (async () => {
+                  await createRequest({
+                    id: request.id,
+                    type: request.type,
+                    payload: request.payload,
+                  });
+                  message.success('Request created.');
+                  syncStatus();
+                  modal.hide();
+                })();
+              },
+            });
+          },
         },
       },
     {
