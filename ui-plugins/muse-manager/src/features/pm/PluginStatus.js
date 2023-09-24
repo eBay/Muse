@@ -2,7 +2,7 @@ import { usePollingMuseData } from '../../hooks';
 import _ from 'lodash';
 import { Tag } from 'antd';
 import jsPlugin from 'js-plugin';
-import { Loading3QuartersOutlined } from '@ant-design/icons';
+import { Loading3QuartersOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import NiceModal from '@ebay/nice-modal-react';
 import Nodes from '../common/Nodes';
 
@@ -27,9 +27,14 @@ function PluginStatus({ plugin, app }) {
           failure: 'error',
           success: 'success',
           pending: 'processing',
+          waiting: 'warning',
         }[s.state];
 
-        const icon = color === 'processing' ? <Loading3QuartersOutlined spin /> : null;
+        const icon =
+          { processing: <Loading3QuartersOutlined spin />, waiting: <ClockCircleOutlined /> }[
+            s.state
+          ] || null;
+
         tags.push({
           key: `${req.id}_${s.name}`,
           order: i * 10 + 10,

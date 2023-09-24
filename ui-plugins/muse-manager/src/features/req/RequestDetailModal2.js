@@ -7,7 +7,6 @@ import utils from '@ebay/muse-lib-antd/src/utils';
 import ModalFooter from '../common/ModalFooter';
 import usePendingError from '../../hooks/usePendingError';
 import { useMuseMutation, useSyncStatus } from '../../hooks';
-import { useEffect } from 'react';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 
 const RequestStatuses = ({ request }) => {
@@ -15,22 +14,21 @@ const RequestStatuses = ({ request }) => {
     success: 'success',
     failure: 'error',
     pending: 'processing',
+    waiting: 'warning',
   };
   return (
     <div className="grid gap-1 justify-items-start">
       {request.statuses.map((s) => (
-        <Tag color={colorMap[s.state]}>
-          {s.name}: {s.state}
-        </Tag>
+        <Tag color={colorMap[s.state]}>{s.message || s.name + ': ' + s.state}</Tag>
       ))}
     </div>
   );
 };
 
-const RequestDetailModal = NiceModal.create(({ request }) => {
+const RequestDetailModal = NiceModal.create(({ request, retry = true }) => {
+  console.log(request);
   const modal = useModal();
   const [form] = Form.useForm();
-  const { setPending, setError, pending, error } = usePendingError();
   const syncStatus = useSyncStatus(`muse.requests`);
 
   const {
@@ -39,13 +37,10 @@ const RequestDetailModal = NiceModal.create(({ request }) => {
     isLoading: deleteRequestPending,
   } = useMuseMutation('req.deleteRequest');
 
-  useEffect(() => {
-    setPending('deleteReqestPending', deleteRequestPending);
-  }, [setPending, deleteRequestPending]);
-
-  useEffect(() => {
-    setError('deleteRequestError', deleteRequestError);
-  }, [setError, deleteRequestError]);
+  const { setPending, setError, pending, error } = usePendingError(
+    [deleteRequestPending],
+    [deleteRequestError],
+  );
 
   const meta = {
     columns: 2,
@@ -54,7 +49,7 @@ const RequestDetailModal = NiceModal.create(({ request }) => {
     fields: [
       {
         key: 'id',
-        label: 'Id',
+        label: 'Request id',
         colSpan: 2,
         order: 10,
       },
@@ -67,18 +62,9 @@ const RequestDetailModal = NiceModal.create(({ request }) => {
         key: 'statuses',
         label: 'Status',
         order: 30,
-
         renderView: () => {
           return <RequestStatuses request={request} />;
         },
-        // renderView: (status) => {
-        //   const color = {
-        //     success: 'success',
-        //     failure: 'error',
-        //     pending: 'processing',
-        //   }[status.state];
-        //   return <Tag color={color}>{status?.message || status.state}</Tag>;
-        // },
       },
       {
         key: 'createdBy',
@@ -144,17 +130,26 @@ const RequestDetailModal = NiceModal.create(({ request }) => {
         },
       },
     },
+    retry &&
+      request.statuses.some((s) => s.state === 'failure') && {
+        key: 'retry-btn',
+        order: 20,
+        props: {
+          disabled: pending,
+          type: 'primary',
+          children: 'Retry',
+        },
+      },
     {
       key: 'close-btn',
-      order: 20,
-      disabled: pending,
+      order: 30,
       props: {
         disabled: pending,
         children: 'Close Dialog',
         onClick: modal.hide,
       },
     },
-  ];
+  ].filter(Boolean);
 
   utils.extendArray(footerItems, 'items', 'museManager.pm.requestDetailModal.footer', {
     items: footerItems,

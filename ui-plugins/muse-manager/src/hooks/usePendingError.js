@@ -2,8 +2,10 @@ import { useState, useMemo, useCallback } from 'react';
 
 /**
  * A hook to manage multiple pending and error status.
- * @param {*} pendings
- * @param {*} errors
+ * It allows to be extended by passing setPending, setError to ext points.
+ *
+ * @param {*} pendings - array of known of pending status
+ * @param {*} errors - array of known of error status
  * @returns
  */
 export default function usePendingError(pendings = [], errors = []) {
@@ -19,12 +21,12 @@ export default function usePendingError(pendings = [], errors = []) {
     null;
 
   const setPending = useCallback(
-    () => (key, value) => setPendingMap((prev) => ({ ...prev, [key]: value })),
+    (key, value) => setPendingMap((prev) => ({ ...prev, [key]: value })),
     [],
   );
 
   const setError = useCallback(
-    () => (key, value) => setErrorMap((prev) => ({ ...prev, [key]: value })),
+    (key, value) => setErrorMap((prev) => ({ ...prev, [key]: value })),
     [],
   );
 
