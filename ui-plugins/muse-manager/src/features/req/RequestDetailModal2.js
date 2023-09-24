@@ -121,7 +121,7 @@ const RequestDetailModal = NiceModal.create(({ request }) => {
       key: 'cancel-btn',
       order: 10,
       position: 'left',
-      disabled: pending,
+      tooltip: 'This will delete the request.',
       props: {
         disabled: pending,
         type: 'primary',

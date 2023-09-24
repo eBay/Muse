@@ -1,12 +1,14 @@
-import _ from 'lodash';
-import { Button } from 'antd';
+import { Button, Tooltip } from 'antd';
 
 const FooterItem = ({ item }) => {
-  const ele = item.content || <Button {...item.props} />;
+  let ele = item.content || <Button {...item.props} />;
+  if (item.tooltip) ele = <Tooltip title={item.tooltip}>{ele}</Tooltip>;
+
   if (item.position !== 'left') {
-    return <span className="justify-self-end">{ele}</span>;
+    ele = <span className="justify-self-end">{ele}</span>;
   }
-  return <span>{ele}</span>;
+  ele = <span>{ele}</span>;
+  return ele;
 };
 export default function ModalFooter({
   okText,
