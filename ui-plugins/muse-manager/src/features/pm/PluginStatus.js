@@ -1,5 +1,4 @@
 import { usePollingMuseData } from '../../hooks';
-import _ from 'lodash';
 import { Tag } from 'antd';
 import jsPlugin from 'js-plugin';
 import { Loading3QuartersOutlined, ClockCircleOutlined } from '@ant-design/icons';
@@ -31,7 +30,7 @@ function PluginStatus({ plugin, app }) {
         }[s.state];
 
         const icon =
-          { processing: <Loading3QuartersOutlined spin />, waiting: <ClockCircleOutlined /> }[
+          { pending: <Loading3QuartersOutlined spin />, waiting: <ClockCircleOutlined /> }[
             s.state
           ] || null;
 
