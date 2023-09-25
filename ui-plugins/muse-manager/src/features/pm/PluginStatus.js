@@ -4,6 +4,7 @@ import _ from 'lodash';
 import jsPlugin from 'js-plugin';
 import { Loading3QuartersOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import NiceModal from '@ebay/nice-modal-react';
+import RequestDetailModal from '../req/RequestDetailModal2';
 import Nodes from '../common/Nodes';
 
 const StatusTag = ({ message, state, ...rest }) => {
@@ -32,9 +33,6 @@ const stateOrder = { failure: 1, pending: 2, waiting: 3, success: 4 };
 
 function PluginStatus({ plugin, app }) {
   const { data: requests = [] } = usePollingMuseData({ interval: 10000 }, 'muse.requests');
-  const onTagClick = (request, status) => {
-    NiceModal.show('muse-manager.request-detail-modal', { request, status });
-  };
 
   const tags = requests
     ?.filter(
@@ -56,15 +54,21 @@ function PluginStatus({ plugin, app }) {
 
       const state = req.status?.state || statuses[0]?.state;
 
+      const tagProps = {
+        message,
+        state,
+        onClick: () => NiceModal.show('req__' + req.id),
+      };
+
       return {
         key: req.id,
         order: i * 10 + 10,
-        component: StatusTag,
-        props: {
-          message,
-          state,
-          onClick: () => onTagClick(req),
-        },
+        node: (
+          <span>
+            <RequestDetailModal id={'req__' + req.id} request={req} />
+            <StatusTag {...tagProps} />
+          </span>
+        ),
       };
     });
 
