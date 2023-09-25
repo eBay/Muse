@@ -5,14 +5,32 @@ import { Loading3QuartersOutlined, ClockCircleOutlined } from '@ant-design/icons
 import NiceModal from '@ebay/nice-modal-react';
 import Nodes from '../common/Nodes';
 
+const StatusTag = ({ message, state, ...rest }) => {
+  const color = {
+    failure: 'error',
+    success: 'success',
+    pending: 'processing',
+    waiting: 'warning',
+  }[state];
+
+  const icon =
+    { pending: <Loading3QuartersOutlined spin />, waiting: <ClockCircleOutlined /> }[state] || null;
+  return (
+    <Tag color={color} style={{ cursor: 'pointer' }} icon={icon} {...rest}>
+      {message}
+    </Tag>
+  );
+};
+
+const stateOrder = { failure: 1, pending: 2, waiting: 3, success: 4 };
+
 function PluginStatus({ plugin, app }) {
   const { data: requests = [] } = usePollingMuseData({ interval: 10000 }, 'muse.requests');
   const onTagClick = (request, status) => {
     NiceModal.show('muse-manager.request-detail-modal', { request, status });
   };
-  const tags = [];
 
-  requests
+  const tags = requests
     ?.filter(
       (req) =>
         req?.payload?.pluginName === plugin.name ||
@@ -20,33 +38,26 @@ function PluginStatus({ plugin, app }) {
           .invoke('museManager.pm.pluginStatus.relatedToPlugin', { plugin, app, request: req })
           .some((b) => b),
     )
-    .forEach((req) => {
-      req.statuses?.forEach((s, i) => {
-        const color = {
-          failure: 'error',
-          success: 'success',
-          pending: 'processing',
-          waiting: 'warning',
-        }[s.state];
+    .map((req, i) => {
+      const statuses = req.statuses || [];
+      statuses.sort((a, b) => (stateOrder[a.state] || 1000) - (stateOrder[b.state] || 1000));
+      console.log(statuses.map((s) => s.state));
+      const message =
+        req.status?.message ||
+        `${req.type}: ${statuses?.map((s) => s.message || s.name + ' ' + s.state).join(', ')}.`;
 
-        const icon =
-          { pending: <Loading3QuartersOutlined spin />, waiting: <ClockCircleOutlined /> }[
-            s.state
-          ] || null;
+      const state = req.status?.state || statuses[0]?.state;
 
-        tags.push({
-          key: `${req.id}_${s.name}`,
-          order: i * 10 + 10,
-          component: Tag,
-          props: {
-            icon,
-            style: { cursor: 'pointer' },
-            color,
-            onClick: () => onTagClick(req, s),
-            children: s.message || s.name + ' ' + s.state,
-          },
-        });
-      });
+      return {
+        key: req.id,
+        order: i * 10 + 10,
+        component: StatusTag,
+        props: {
+          message,
+          state,
+          onClick: () => onTagClick(req),
+        },
+      };
     });
 
   return (
