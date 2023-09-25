@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
 import { Modal, message, Form, Tag } from 'antd';
+import jsPlugin from 'js-plugin';
 import NiceForm from '@ebay/nice-form-react';
 import TimeAgo from 'react-time-ago';
 import utils from '@ebay/muse-lib-antd/src/utils';
@@ -14,6 +15,7 @@ const RequestStatuses = ({ request }) => {
     success: 'success',
     failure: 'error',
     pending: 'processing',
+    running: 'processing',
     waiting: 'cyan',
   };
   return (
@@ -176,7 +178,7 @@ const RequestDetailModal = NiceModal.create(({ request, retry = true }) => {
     },
   ].filter(Boolean);
 
-  utils.extendArray(footerItems, 'items', 'museManager.pm.requestDetailModal.footer', {
+  utils.extendArray(footerItems, 'items', 'museManager.req.requestDetailModal.footer', {
     items: footerItems,
     request,
     form,
@@ -187,14 +189,26 @@ const RequestDetailModal = NiceModal.create(({ request, retry = true }) => {
     error,
   });
 
+  const modalProps = {
+    title: _.startCase(request.type),
+    width: '800px',
+    maskClosable: false,
+    footer: false,
+  };
+
+  jsPlugin.invoke('museManager.req.requestDetailModal.processModalProps', {
+    modalProps,
+    request,
+    form,
+    modal,
+    setPending,
+    setError,
+    pending,
+    error,
+  });
+
   return (
-    <Modal
-      {...antdModalV5(modal)}
-      title={_.startCase(request.type)}
-      width="800px"
-      maskClosable={false}
-      footer={false}
-    >
+    <Modal {...antdModalV5(modal)} {...modalProps}>
       <RequestStatus loading={pending} error={error} />
       <Form form={form}>
         <NiceForm meta={meta} />

@@ -11,11 +11,16 @@ const StatusTag = ({ message, state, ...rest }) => {
     failure: 'error',
     success: 'success',
     pending: 'processing',
+    running: 'processing',
     waiting: 'cyan',
   }[state];
 
   const icon =
-    { pending: <Loading3QuartersOutlined spin />, waiting: <ClockCircleOutlined /> }[state] || null;
+    {
+      pending: <Loading3QuartersOutlined spin />,
+      running: <Loading3QuartersOutlined spin />,
+      waiting: <ClockCircleOutlined />,
+    }[state] || null;
   return (
     <Tag color={color} style={{ cursor: 'pointer' }} icon={icon} {...rest}>
       {message}
