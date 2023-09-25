@@ -14,7 +14,7 @@ const RequestStatuses = ({ request }) => {
     success: 'success',
     failure: 'error',
     pending: 'processing',
-    waiting: 'warning',
+    waiting: 'cyan',
   };
   return (
     <div className="grid gap-1 justify-items-start">

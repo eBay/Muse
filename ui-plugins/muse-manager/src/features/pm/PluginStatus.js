@@ -1,5 +1,6 @@
 import { usePollingMuseData } from '../../hooks';
 import { Tag } from 'antd';
+import _ from 'lodash';
 import jsPlugin from 'js-plugin';
 import { Loading3QuartersOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import NiceModal from '@ebay/nice-modal-react';
@@ -10,7 +11,7 @@ const StatusTag = ({ message, state, ...rest }) => {
     failure: 'error',
     success: 'success',
     pending: 'processing',
-    waiting: 'warning',
+    waiting: 'cyan',
   }[state];
 
   const icon =
@@ -39,9 +40,11 @@ function PluginStatus({ plugin, app }) {
           .some((b) => b),
     )
     .map((req, i) => {
+      req = _.clone(req);
+      jsPlugin.invoke('museManager.pm.pluginStatus.processRequest', { request: req, app, plugin });
       const statuses = req.statuses || [];
       statuses.sort((a, b) => (stateOrder[a.state] || 1000) - (stateOrder[b.state] || 1000));
-      console.log(statuses.map((s) => s.state));
+
       const message =
         req.status?.message ||
         `${req.type}: ${statuses?.map((s) => s.message || s.name + ' ' + s.state).join(', ')}.`;
