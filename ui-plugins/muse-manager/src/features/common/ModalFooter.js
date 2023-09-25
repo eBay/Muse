@@ -2,7 +2,13 @@ import { Button, Tooltip } from 'antd';
 
 const FooterItem = ({ item }) => {
   let ele = item.content || <Button {...item.props} />;
-  if (item.tooltip) ele = <Tooltip title={item.tooltip}>{ele}</Tooltip>;
+  if (item.tooltip) {
+    ele = (
+      <Tooltip title={item.tooltip}>
+        <span>{ele}</span>
+      </Tooltip>
+    );
+  }
 
   if (item.position !== 'left') {
     ele = <span className="justify-self-end">{ele}</span>;
@@ -62,7 +68,7 @@ export default function ModalFooter({
 
   return (
     <div
-      className="grid gap-2"
+      className="grid gap-2 mt-5"
       style={{
         gridTemplateColumns,
       }}

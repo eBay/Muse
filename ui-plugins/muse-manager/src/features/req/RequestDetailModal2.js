@@ -102,6 +102,7 @@ const RequestDetailModal = NiceModal.create(({ request, retry = true }) => {
   };
 
   utils.extendFormMeta(meta, 'museManager.req.requestDetailModal.form', {
+    meta,
     request,
     form,
     modal,

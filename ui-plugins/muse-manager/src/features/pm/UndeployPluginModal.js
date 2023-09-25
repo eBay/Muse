@@ -43,32 +43,6 @@ const UndeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
   const pending = useMemo(() => Object.values(pendingMap).some(Boolean), [pendingMap]);
   const error = useMemo(() => Object.values(errorMap).filter(Boolean)[0] || null, [errorMap]);
 
-  const meta = {
-    columns: 1,
-    disabled: pending,
-    fields: [
-      {
-        key: 'appName',
-        label: 'App',
-        viewMode: true,
-        initialValue: app?.name,
-      },
-      {
-        key: 'pluginName',
-        label: 'Plugin',
-        viewMode: true,
-        initialValue: plugin?.name,
-      },
-      {
-        key: 'envs',
-        label: 'Environments',
-        widget: 'checkbox-group',
-        options: Object.keys(app.envs),
-        required: true,
-      },
-    ],
-  };
-
   const confirmUndeployment = useCallback(async () => {
     try {
       await form.validateFields();
@@ -134,6 +108,47 @@ const UndeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
     syncStatus();
   }, [app.name, plugin.name, modal, form, syncStatus, undeployPlugin, confirmUndeployment]);
 
+  const meta = {
+    columns: 1,
+    disabled: pending,
+    fields: [
+      {
+        key: 'appName',
+        label: 'App',
+        viewMode: true,
+        initialValue: app?.name,
+      },
+      {
+        key: 'pluginName',
+        label: 'Plugin',
+        viewMode: true,
+        initialValue: plugin?.name,
+      },
+      {
+        key: 'envs',
+        label: 'Environments',
+        widget: 'checkbox-group',
+        options: Object.keys(app.envs),
+        required: true,
+      },
+    ],
+  };
+  const { watchingFields } = utils.extendFormMeta(meta, 'museManager.undeployPluginModal.form', {
+    meta,
+    form,
+    app,
+    plugin,
+    version,
+    setPendingMap,
+    setErrorMap,
+    pending,
+    error,
+    syncStatus,
+    confirmUndeployment,
+    modal,
+  });
+  const updateOnChange = NiceForm.useUpdateOnChange(watchingFields);
+
   const footerItems = [
     {
       key: 'cancel-btn',
@@ -175,21 +190,6 @@ const UndeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
     modal,
   });
 
-  const { watchingFields } = utils.extendFormMeta(meta, 'museManager.undeployPluginModal.form', {
-    meta,
-    form,
-    app,
-    plugin,
-    version,
-    setPendingMap,
-    setErrorMap,
-    pending,
-    error,
-    syncStatus,
-    confirmUndeployment,
-    modal,
-  });
-  const updateOnChange = NiceForm.useUpdateOnChange(watchingFields);
   return (
     <Modal
       {...antdModalV5(modal)}
