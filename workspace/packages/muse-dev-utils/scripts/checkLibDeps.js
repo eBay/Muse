@@ -59,7 +59,7 @@ if (['lib', 'normal'].includes(pluginType)) {
     );
 
     error('✖ Muse deps check failed.');
-    process.exit(1);
+    setTimeout(() => process.exit(1), 300);
   } else {
     console.log(
       chalk.green(
