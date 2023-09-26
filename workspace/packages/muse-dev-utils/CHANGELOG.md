@@ -1,5 +1,11 @@
 # @ebay/muse-dev-utils
 
+## 1.0.50
+
+### Patch Changes
+
+- refine
+
 ## 1.0.49
 
 ### Patch Changes
