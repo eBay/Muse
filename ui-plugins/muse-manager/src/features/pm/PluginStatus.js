@@ -29,7 +29,7 @@ const StatusTag = ({ message, state, ...rest }) => {
   );
 };
 
-const stateOrder = { failure: 1, pending: 2, waiting: 3, success: 4 };
+const stateOrder = { failure: 1, pending: 2, running: 3, waiting: 4, success: 5 };
 
 function PluginStatus({ plugin, app }) {
   const { data: requests = [] } = usePollingMuseData({ interval: 10000 }, 'muse.requests');
