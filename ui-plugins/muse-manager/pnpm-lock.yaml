@@ -18,8 +18,8 @@ dependencies:
     specifier: ^1.0.10
     version: 1.0.10
   '@ebay/muse-vite-plugin':
-    specifier: ^1.0.14
-    version: artifactory.corp.ebay.com/@ebay/muse-vite-plugin@1.0.14(@ebay/muse-modules-analyzer@1.0.9)(express@4.18.2)
+    specifier: ^1.0.15
+    version: artifactory.corp.ebay.com/@ebay/muse-vite-plugin@1.0.15(@ebay/muse-modules-analyzer@1.0.9)(express@4.18.2)
   '@tanstack/react-query':
     specifier: ^4.28.0
     version: 4.29.5(react-dom@18.2.0)(react@16.2.0)
@@ -71,14 +71,14 @@ devDependencies:
     specifier: ^3.0.13
     version: artifactory.corp.ebay.com/@ebay/muse-craco-plugin@3.0.13(@craco/craco@7.1.0)(@ebay/muse-core@1.0.34)(@ebay/muse-modules-analyzer@1.0.9)(express@4.18.2)
   '@ebay/muse-dev-utils':
-    specifier: ^1.0.49
-    version: artifactory.corp.ebay.com/@ebay/muse-dev-utils@1.0.49(@ebay/muse-core@1.0.34)(@ebay/muse-modules-analyzer@1.0.9)(express@4.18.2)
+    specifier: ^1.0.50
+    version: artifactory.corp.ebay.com/@ebay/muse-dev-utils@1.0.50(@ebay/muse-core@1.0.34)(@ebay/muse-modules-analyzer@1.0.9)(express@4.18.2)
   '@ebay/muse-ebay-craco-plugin':
     specifier: ^1.1.1
     version: artifactory.corp.ebay.com/@ebay/muse-ebay-craco-plugin@1.1.1(@craco/craco@7.1.0)(assert@2.0.0)(browserify-zlib@0.2.0)(buffer@6.0.3)(console-browserify@1.2.0)(constants-browserify@1.0.0)(crypto-browserify@3.12.0)(domain-browser@4.22.0)(events@3.3.0)(https-browserify@1.0.0)(os-browserify@0.3.0)(path-browserify@1.0.1)(process@0.11.10)(punycode@2.3.0)(querystring-es3@0.2.1)(readable-stream@4.3.0)(stream-browserify@3.0.0)(stream-http@3.2.0)(string_decoder@1.3.0)(timers-browserify@2.0.12)(tty-browserify@0.0.1)(url@0.11.0)(util@0.12.5)(vm-browserify@1.1.2)(webpack-bundle-analyzer@4.8.0)
   '@ebay/muse-ebay-dev':
     specifier: ^1.0.23
-    version: artifactory.corp.ebay.com/@ebay/muse-ebay-dev@1.0.23(@ebay/muse-core@1.0.34)(@ebay/muse-dev-utils@1.0.49)
+    version: artifactory.corp.ebay.com/@ebay/muse-ebay-dev@1.0.23(@ebay/muse-core@1.0.34)(@ebay/muse-dev-utils@1.0.50)
   '@ebay/muse-express-middleware':
     specifier: ^1.0.39
     version: artifactory.corp.ebay.com/@ebay/muse-express-middleware@1.0.39(@ebay/muse-core@1.0.34)(@ebay/muse-modules-analyzer@1.0.9)
@@ -3335,7 +3335,7 @@ packages:
       '@types/babel__core': 7.20.0
       babel-plugin-istanbul: artifactory.corp.ebay.com/babel-plugin-istanbul@6.1.1
       babel-preset-jest: 27.5.1(@babel/core@7.21.8)
-      chalk: 4.1.2
+      chalk: artifactory.corp.ebay.com/chalk@4.1.2
       graceful-fs: 4.2.11
       slash: 3.0.0
     transitivePeerDependencies:
@@ -6487,7 +6487,7 @@ packages:
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     dependencies:
       '@jest/types': 27.5.1
-      chalk: 4.1.2
+      chalk: artifactory.corp.ebay.com/chalk@4.1.2
       graceful-fs: 4.2.11
       jest-haste-map: 27.5.1
       jest-pnp-resolver: 1.2.3(jest-resolve@27.5.1)
@@ -6653,7 +6653,7 @@ packages:
       jest: ^27.0.0 || ^28.0.0
     dependencies:
       ansi-escapes: 4.3.2
-      chalk: 4.1.2
+      chalk: artifactory.corp.ebay.com/chalk@4.1.2
       jest: 27.5.1
       jest-regex-util: 28.0.2
       jest-watcher: 28.1.3
@@ -8613,7 +8613,7 @@ packages:
       '@babel/code-frame': 7.21.4
       address: 1.2.2
       browserslist: 4.21.5
-      chalk: 4.1.2
+      chalk: artifactory.corp.ebay.com/chalk@4.1.2
       cross-spawn: artifactory.corp.ebay.com/cross-spawn@7.0.3
       detect-port-alt: 1.1.6
       escape-string-regexp: 4.0.0
@@ -11447,7 +11447,7 @@ packages:
       '@craco/craco': 7.1.0
     dependencies:
       '@craco/craco': artifactory.corp.ebay.com/@craco/craco@7.1.0(@types/node@20.1.0)(postcss@8.4.23)(react-scripts@5.0.1)(typescript@4.9.3)
-      '@ebay/muse-dev-utils': artifactory.corp.ebay.com/@ebay/muse-dev-utils@1.0.49(@ebay/muse-core@1.0.34)(@ebay/muse-modules-analyzer@1.0.9)(express@4.18.2)
+      '@ebay/muse-dev-utils': artifactory.corp.ebay.com/@ebay/muse-dev-utils@1.0.50(@ebay/muse-core@1.0.34)(@ebay/muse-modules-analyzer@1.0.9)(express@4.18.2)
       '@ebay/muse-webpack-plugin': artifactory.corp.ebay.com/@ebay/muse-webpack-plugin@1.0.30
       resolve-cwd: artifactory.corp.ebay.com/resolve-cwd@3.0.0
     transitivePeerDependencies:
@@ -11456,17 +11456,17 @@ packages:
       - express
     dev: true
 
-  artifactory.corp.ebay.com/@ebay/muse-dev-utils@1.0.49(@ebay/muse-core@1.0.34)(@ebay/muse-modules-analyzer@1.0.9)(express@4.18.2):
-    resolution: {integrity: sha512-Jgwekp0cqlc8QYT8elAbYmHuxwXW4kbizVQ04s0rdTT0YiDEzsBGQAp9WZAIc7qqva5VNkAamKrTqQa3D2nZxw==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-dev-utils/-/@ebay/muse-dev-utils-1.0.49.tgz}
-    id: artifactory.corp.ebay.com/@ebay/muse-dev-utils/1.0.49
+  artifactory.corp.ebay.com/@ebay/muse-dev-utils@1.0.50(@ebay/muse-core@1.0.34)(@ebay/muse-modules-analyzer@1.0.9)(express@4.18.2):
+    resolution: {integrity: sha512-vG5j5aZG3RfVYOc/CIauyCd3TqVaB/vVyhUw9IrM3wIcpsXZ/8EhoXeBZ/e2IohK+MctzJc91BeNzibn9ZiaaQ==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-dev-utils/-/@ebay/muse-dev-utils-1.0.50.tgz}
+    id: artifactory.corp.ebay.com/@ebay/muse-dev-utils/1.0.50
     name: '@ebay/muse-dev-utils'
-    version: 1.0.49
+    version: 1.0.50
     peerDependencies:
-      '@ebay/muse-core': 1.0.33
+      '@ebay/muse-core': 1.0.34
       express: ^4.18.1
     dependencies:
       '@ebay/muse-core': artifactory.corp.ebay.com/@ebay/muse-core@1.0.34
-      '@ebay/muse-express-middleware': artifactory.corp.ebay.com/@ebay/muse-express-middleware@1.0.38(@ebay/muse-core@1.0.34)(@ebay/muse-modules-analyzer@1.0.9)
+      '@ebay/muse-express-middleware': artifactory.corp.ebay.com/@ebay/muse-express-middleware@1.0.39(@ebay/muse-core@1.0.34)(@ebay/muse-modules-analyzer@1.0.9)
       '@ebay/muse-modules': artifactory.corp.ebay.com/@ebay/muse-modules@1.0.25
       chalk: artifactory.corp.ebay.com/chalk@4.1.2
       dotenv: artifactory.corp.ebay.com/dotenv@16.0.3
@@ -11537,7 +11537,7 @@ packages:
       webpack-bundle-analyzer: artifactory.corp.ebay.com/webpack-bundle-analyzer@4.8.0
     dev: true
 
-  artifactory.corp.ebay.com/@ebay/muse-ebay-dev@1.0.23(@ebay/muse-core@1.0.34)(@ebay/muse-dev-utils@1.0.49):
+  artifactory.corp.ebay.com/@ebay/muse-ebay-dev@1.0.23(@ebay/muse-core@1.0.34)(@ebay/muse-dev-utils@1.0.50):
     resolution: {integrity: sha512-yVZwQY+hG2jZtPLFDej2G0AfjOaXfjwNCKRcwhLHSl8riK1XsZwT0kwQFf3MOf1gaM0eHFjmRsR/ro+D999RJQ==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-ebay-dev/-/@ebay/muse-ebay-dev-1.0.23.tgz}
     id: artifactory.corp.ebay.com/@ebay/muse-ebay-dev/1.0.23
     name: '@ebay/muse-ebay-dev'
@@ -11548,7 +11548,7 @@ packages:
       '@ebay/muse-dev-utils': ^1.0.44
     dependencies:
       '@ebay/muse-core': artifactory.corp.ebay.com/@ebay/muse-core@1.0.34
-      '@ebay/muse-dev-utils': artifactory.corp.ebay.com/@ebay/muse-dev-utils@1.0.49(@ebay/muse-core@1.0.34)(@ebay/muse-modules-analyzer@1.0.9)(express@4.18.2)
+      '@ebay/muse-dev-utils': artifactory.corp.ebay.com/@ebay/muse-dev-utils@1.0.50(@ebay/muse-core@1.0.34)(@ebay/muse-modules-analyzer@1.0.9)(express@4.18.2)
       axios: artifactory.corp.ebay.com/axios@0.27.2
       axios-retry: artifactory.corp.ebay.com/axios-retry@3.3.1
       chalk: artifactory.corp.ebay.com/chalk@4.1.2
@@ -11560,22 +11560,6 @@ packages:
     transitivePeerDependencies:
       - debug
     dev: true
-
-  artifactory.corp.ebay.com/@ebay/muse-express-middleware@1.0.38(@ebay/muse-core@1.0.34)(@ebay/muse-modules-analyzer@1.0.9):
-    resolution: {integrity: sha512-0z7/FUctoyj7mMpCA77Tj8RpZXLhgX9/TUtJFCwf1+m9V9pcjGPV2D3x6O21xkBlSQg+WZya0DK2AgU/qViegg==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-express-middleware/-/@ebay/muse-express-middleware-1.0.38.tgz}
-    id: artifactory.corp.ebay.com/@ebay/muse-express-middleware/1.0.38
-    name: '@ebay/muse-express-middleware'
-    version: 1.0.38
-    peerDependencies:
-      '@ebay/muse-core': ^1.0.31
-      '@ebay/muse-modules-analyzer': ^1.0.6
-    dependencies:
-      '@ebay/muse-core': artifactory.corp.ebay.com/@ebay/muse-core@1.0.34
-      '@ebay/muse-modules-analyzer': artifactory.corp.ebay.com/@ebay/muse-modules-analyzer@1.0.9(@types/node@20.1.0)(eslint@8.40.0)(typescript@4.9.3)
-      lodash: artifactory.corp.ebay.com/lodash@4.17.21
-      mime-types: artifactory.corp.ebay.com/mime-types@2.1.35
-      multer: artifactory.corp.ebay.com/multer@1.4.5-lts.1
-      request-ip: artifactory.corp.ebay.com/request-ip@3.3.0
 
   artifactory.corp.ebay.com/@ebay/muse-express-middleware@1.0.39(@ebay/muse-core@1.0.34)(@ebay/muse-modules-analyzer@1.0.9):
     resolution: {integrity: sha512-Wn79i2c5UTQJBM1b4Mo/M5euaK0EgcktgwTptdBGNJBMw8vMmEgAEsRfThP/+kOifr0JLTqSjNZDf0Rt4DeAng==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-express-middleware/-/@ebay/muse-express-middleware-1.0.39.tgz}
@@ -11592,7 +11576,6 @@ packages:
       mime-types: artifactory.corp.ebay.com/mime-types@2.1.35
       multer: artifactory.corp.ebay.com/multer@1.4.5-lts.1
       request-ip: artifactory.corp.ebay.com/request-ip@3.3.0
-    dev: true
 
   artifactory.corp.ebay.com/@ebay/muse-lib-antd@1.2.15(@types/react@18.2.5)(react-dom@18.2.0)(react@16.2.0):
     resolution: {integrity: sha512-ihnIiiROFjDfIwy1ek3L2CGOHksYxY3t4I55jUjkZDJP/4yYlGdx/vLYjVsCwe9G/hUDwIQXksLZ/rxeQmGlqQ==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-lib-antd/-/@ebay/muse-lib-antd-1.2.15.tgz}
@@ -11688,14 +11671,14 @@ packages:
     name: '@ebay/muse-modules'
     version: 1.0.25
 
-  artifactory.corp.ebay.com/@ebay/muse-vite-plugin@1.0.14(@ebay/muse-modules-analyzer@1.0.9)(express@4.18.2):
-    resolution: {integrity: sha512-LTvuF4OkAPzgc0WHFslL2IHlSA1CEoNo7TCCH5CwtgjlQQ9L03dKPsL0s3OleRoyR0q9Y6k6AQaEqgvXdn1uCA==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-vite-plugin/-/@ebay/muse-vite-plugin-1.0.14.tgz}
-    id: artifactory.corp.ebay.com/@ebay/muse-vite-plugin/1.0.14
+  artifactory.corp.ebay.com/@ebay/muse-vite-plugin@1.0.15(@ebay/muse-modules-analyzer@1.0.9)(express@4.18.2):
+    resolution: {integrity: sha512-zug5/HIv6KFjuDGB4ti0ZN/j5LG+/HJZ3EO75NyEOU6tjhTctEX98b9fr5/HKezfSwWyl3VPrU7VkY0LN6n9ug==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-vite-plugin/-/@ebay/muse-vite-plugin-1.0.15.tgz}
+    id: artifactory.corp.ebay.com/@ebay/muse-vite-plugin/1.0.15
     name: '@ebay/muse-vite-plugin'
-    version: 1.0.14
+    version: 1.0.15
     dependencies:
       '@ebay/muse-core': artifactory.corp.ebay.com/@ebay/muse-core@1.0.34
-      '@ebay/muse-dev-utils': artifactory.corp.ebay.com/@ebay/muse-dev-utils@1.0.49(@ebay/muse-core@1.0.34)(@ebay/muse-modules-analyzer@1.0.9)(express@4.18.2)
+      '@ebay/muse-dev-utils': artifactory.corp.ebay.com/@ebay/muse-dev-utils@1.0.50(@ebay/muse-core@1.0.34)(@ebay/muse-modules-analyzer@1.0.9)(express@4.18.2)
       '@ebay/muse-modules': artifactory.corp.ebay.com/@ebay/muse-modules@1.0.25
       find-root: artifactory.corp.ebay.com/find-root@1.1.0
       fs-extra: artifactory.corp.ebay.com/fs-extra@10.1.0
