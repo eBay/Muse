@@ -200,7 +200,7 @@ export default function PluginList({ app }) {
       dataIndex: 'status',
       title: 'Status',
       order: 50,
-      width: 300,
+      width: 350,
       render: (a, plugin) => {
         return <PluginStatus plugin={plugin} app={app} />;
       },
