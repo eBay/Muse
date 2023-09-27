@@ -3,6 +3,7 @@ import jsPlugin from 'js-plugin';
 import _ from 'lodash';
 
 // allow use hooks in ext points
+// TODO: it always flatten items, which may not be what we want?
 export default function useExtPoint(extPointName, extArgs) {
   const components = jsPlugin.invoke('!' + extPointName, extArgs);
 
