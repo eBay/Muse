@@ -31,8 +31,8 @@
 // }
 
 const ability = {
-  __setAbility(a) {
-    Object.assign(this, a);
-  },
+  // __setAbility(a) {
+  //   Object.assign(this, a);
+  // },
 };
 export default ability;
