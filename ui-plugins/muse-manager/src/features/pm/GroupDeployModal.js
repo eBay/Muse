@@ -1,7 +1,7 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { Modal, Form, Alert, message } from 'antd';
 import NiceForm from '@ebay/nice-form-react';
-import { flatten, uniq, concat } from 'lodash';
+import { flatten, uniq } from 'lodash';
 import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
 import utils from '@ebay/muse-lib-antd/src/utils';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
@@ -34,6 +34,7 @@ const GroupDeployModal = NiceModal.create(({ app }) => {
   );
 
   const syncStatus = useSyncStatus(`muse.app.${app.name}`);
+  const [deployments, setDeployments] = useState([]);
 
   const confirmDeployment = useCallback(async () => {
     try {
@@ -42,17 +43,19 @@ const GroupDeployModal = NiceModal.create(({ app }) => {
       return false;
     }
 
-    const values = form.getFieldsValue();
-    const { pluginToAdd = [], pluginsToRemove = [], envs } = values;
+    const { envs } = form.getFieldsValue();
+    const pluginsToAdd = deployments.filter((d) => d.type === 'add');
+    const pluginsToRemove = deployments.filter((d) => d.type === 'remove');
 
-    if (pluginToAdd.length < 1 && pluginsToRemove.length < 1) {
+    if (pluginsToAdd.length < 1 && pluginsToRemove.length < 1) {
       message.warning('Please choose plugin(s) to deploy or undeploy.');
       return false;
     }
+
     const deployMsg =
-      pluginToAdd.length > 0 ? (
+      pluginsToAdd.length > 0 ? (
         <>
-          deploy <b>{pluginToAdd.map((p) => `${p.name}@${p.version}`).join(', ')}</b>
+          deploy <b>{pluginsToAdd.map((p) => `${p.pluginName}@${p.version}`).join(', ')}</b>
         </>
       ) : null;
     const undeployMsg =
@@ -83,20 +86,9 @@ const GroupDeployModal = NiceModal.create(({ app }) => {
       return false;
     }
 
-    const addList = pluginToAdd?.map((item) => ({
-      type: 'add',
-      pluginName: item.name,
-      version: item.version,
-    }));
-    const removeList = pluginsToRemove?.map((pluginName) => ({
-      type: 'remove',
-      pluginName,
-      verion: null,
-    }));
-
     if (
       !(await validateDeployment({
-        deployment: [...addList, ...removeList],
+        deployment: deployments,
         appName: app.name,
         envs: envs,
       }))
@@ -104,27 +96,15 @@ const GroupDeployModal = NiceModal.create(({ app }) => {
       return false;
     }
     return true;
-  }, [app.name, form, validateDeployment]);
+  }, [app.name, form, validateDeployment, deployments]);
 
   const handleFinish = useCallback(async () => {
-    const values = form.getFieldsValue();
-    const { pluginToAdd = [], pluginsToRemove = [], envs } = values;
-
-    const addList = pluginToAdd?.map((item) => ({
-      type: 'add',
-      pluginName: item.name,
-      version: item.version,
-    }));
-    const removeList = pluginsToRemove?.map((pluginName) => ({
-      type: 'remove',
-      pluginName,
-      verion: null,
-    }));
+    const { envs } = form.getFieldsValue();
 
     const args = {
       appName: app.name,
       envMap: envs.reduce((map, envName) => {
-        map[envName] = concat(addList, removeList);
+        map[envName] = deployments; //concat(addList, removeList);
         return map;
       }, {}),
       author: window.MUSE_GLOBAL.getUser().username,
@@ -133,13 +113,21 @@ const GroupDeployModal = NiceModal.create(({ app }) => {
     modal.hide();
     message.success('Group deployment succeeded.');
     await syncStatus();
-  }, [app.name, deployPlugin, form, modal, syncStatus]);
+  }, [app.name, deployPlugin, form, modal, syncStatus, deployments]);
 
   const deployedPlugins = uniq(
     flatten(
       Object.keys(app?.envs || {})?.map((env) => app?.envs?.[env]?.plugins?.map((p) => p.name)),
     ),
   );
+
+  const canRequestDeploy = ability.can('create', 'Request', {
+    type: 'deploy-plugin',
+    payload: {
+      appName: app.name,
+      deployments,
+    },
+  });
 
   const extArgs = {
     ability,
@@ -194,6 +182,23 @@ const GroupDeployModal = NiceModal.create(({ app }) => {
   });
   const updateOnChange = NiceForm.useUpdateOnChange(watchingFields);
 
+  const handleValuesChange = useCallback(
+    (...args) => {
+      updateOnChange(...args);
+      const values = form.getFieldsValue();
+      const { pluginToAdd = [], pluginsToRemove = [] } = values;
+      setDeployments([
+        ...pluginToAdd.map((item) => ({
+          pluginName: item.name,
+          version: item.version,
+          type: 'add',
+        })),
+        ...pluginsToRemove.map((pluginName) => ({ pluginName, version: null, type: 'remove' })),
+      ]);
+    },
+    [updateOnChange, form],
+  );
+
   const footerItems = [
     {
       key: 'cancel-btn',
@@ -205,10 +210,11 @@ const GroupDeployModal = NiceModal.create(({ app }) => {
     },
     {
       key: 'deploy-btn',
+      tooltip: canRequestDeploy ? '' : 'No permission to deploy/undeploy some plugins.',
       props: {
         type: 'primary',
         loading: pending,
-        disabled: pending,
+        disabled: pending || !canRequestDeploy,
         children: pending ? 'Deploying...' : 'Deploy',
         onClick: async () => {
           if (await confirmDeployment()) {
@@ -239,7 +245,7 @@ const GroupDeployModal = NiceModal.create(({ app }) => {
         type="info"
         className="mb-5"
       />
-      <Form layout="horizontal" form={form} onValuesChange={updateOnChange}>
+      <Form layout="horizontal" form={form} onValuesChange={handleValuesChange}>
         <NiceForm meta={meta} />
       </Form>
       <ModalFooter items={footerItems} />

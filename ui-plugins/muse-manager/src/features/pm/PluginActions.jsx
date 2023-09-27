@@ -25,11 +25,6 @@ function PluginActions({ plugin, app }) {
     app: plugin.app && appByName?.[plugin.app],
   });
 
-  // useEffect(() => {
-  //   if (plugin?.name === '@ebay/muse-lib-react') {
-  //     NiceModal.show('muse-manager.deploy-plugin-modal', { plugin, app });
-  //   }
-  // }, [plugin, app]);
   let actions = useMemo(() => {
     return [
       app && {
@@ -37,7 +32,7 @@ function PluginActions({ plugin, app }) {
         label: 'Deploy',
         order: 30,
         icon: 'rocket',
-        disabled: ability.cannot('deploy', 'App', app),
+        disabled: ability.cannot('deploy', 'App', app), // deploy permission is checked on app level
         disabledText: 'No permission to deploy.',
         highlight: true,
         onClick: () => {
@@ -72,7 +67,7 @@ function PluginActions({ plugin, app }) {
           label: 'Undeploy',
           order: 68,
           icon: 'minus-circle',
-          disabled: ability.cannot('deploy', 'App', app),
+          disabled: ability.cannot('deploy', 'App', app), // undeploy permission is checked on app level
           disabledText: 'No permissin to undeploy.',
           highlight: false,
           onClick: () => {
