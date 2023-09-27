@@ -8,11 +8,13 @@ import {
   useSyncStatus,
   useValidateDeployment,
   usePendingError,
+  useAbility,
 } from '../../hooks';
 
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import ModalFooter from '../common/ModalFooter';
 const UndeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
+  const ability = useAbility();
   const [form] = Form.useForm();
   const modal = useModal();
   const {
@@ -97,6 +99,7 @@ const UndeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
   }, [app.name, plugin.name, modal, form, syncStatus, undeployPlugin, confirmUndeployment]);
 
   const extArgs = {
+    ability,
     form,
     app,
     plugin,
@@ -134,7 +137,7 @@ const UndeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
       },
     ],
   };
-  const { watchingFields } = utils.extendFormMeta(meta, 'museManager.undeployPluginModal.form', {
+  const { watchingFields } = utils.extendFormMeta(meta, 'museManager.pm.undeployPluginModal.form', {
     meta,
     ...extArgs,
   });

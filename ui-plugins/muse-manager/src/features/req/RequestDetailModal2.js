@@ -7,7 +7,7 @@ import TimeAgo from 'react-time-ago';
 import utils from '@ebay/muse-lib-antd/src/utils';
 import ModalFooter from '../common/ModalFooter';
 import usePendingError from '../../hooks/usePendingError';
-import { useMuseMutation, useSyncStatus } from '../../hooks';
+import { useMuseMutation, useSyncStatus, useAbility, useExtPoint } from '../../hooks';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 
 const RequestStatuses = ({ request }) => {
@@ -29,7 +29,7 @@ const RequestStatuses = ({ request }) => {
 
 const RequestDetailModal = NiceModal.create(({ request, retry = true }) => {
   console.log(request);
-
+  const ability = useAbility();
   const modal = useModal();
   const [form] = Form.useForm();
   const syncStatus = useSyncStatus('muse.requests');
@@ -51,6 +51,16 @@ const RequestDetailModal = NiceModal.create(({ request, retry = true }) => {
     [deleteRequestError, createRequestError],
   );
 
+  const extArgs = {
+    ability,
+    request,
+    form,
+    modal,
+    setPending,
+    setError,
+    pending,
+    error,
+  };
   const meta = {
     columns: 2,
     viewMode: true,
@@ -103,13 +113,7 @@ const RequestDetailModal = NiceModal.create(({ request, retry = true }) => {
 
   utils.extendFormMeta(meta, 'museManager.req.requestDetailModal.form', {
     meta,
-    request,
-    form,
-    modal,
-    setPending,
-    setError,
-    pending,
-    error,
+    ...extArgs,
   });
 
   const footerItems = [
@@ -181,14 +185,14 @@ const RequestDetailModal = NiceModal.create(({ request, retry = true }) => {
 
   utils.extendArray(footerItems, 'items', 'museManager.req.requestDetailModal.footer', {
     items: footerItems,
-    request,
-    form,
-    modal,
-    setPending,
-    setError,
-    pending,
-    error,
+    ...extArgs,
   });
+
+  const { values, extNode } = useExtPoint('museManager.req.requestDetailModal.footer.extComp', {
+    items: footerItems,
+    ...extArgs,
+  });
+  footerItems.push(...values);
 
   const modalProps = {
     title: _.startCase(request.type),
@@ -199,17 +203,12 @@ const RequestDetailModal = NiceModal.create(({ request, retry = true }) => {
 
   jsPlugin.invoke('museManager.req.requestDetailModal.processModalProps', {
     modalProps,
-    request,
-    form,
-    modal,
-    setPending,
-    setError,
-    pending,
-    error,
+    ...extArgs,
   });
 
   return (
     <Modal {...antdModalV5(modal)} {...modalProps}>
+      {extNode}
       <RequestStatus loading={pending} error={error} />
       <Form form={form}>
         <NiceForm meta={meta} />

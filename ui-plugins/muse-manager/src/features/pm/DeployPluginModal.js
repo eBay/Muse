@@ -3,13 +3,14 @@ import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
 import { Modal, Form, message } from 'antd';
 import utils from '@ebay/muse-lib-antd/src/utils';
 import NiceForm from '@ebay/nice-form-react';
-import { useMuseMutation, useSyncStatus, usePendingError } from '../../hooks';
+import { useMuseMutation, useSyncStatus, usePendingError, useAbility } from '../../hooks';
 import useValidateDeployment from '../../hooks/useValidateDeployment';
 import PluginReleaseSelect from './PluginReleaseSelect';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import ModalFooter from '../common/ModalFooter';
 
 const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
+  const ability = useAbility();
   const [form] = Form.useForm();
   const modal = useModal();
   const syncStatus = useSyncStatus(`muse.app.${app.name}`);
@@ -97,6 +98,7 @@ const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
     await syncStatus();
   }, [app.name, plugin.name, modal, form, syncStatus, deployPlugin, confirmDeployment]);
   const extArgs = {
+    ability,
     app,
     form,
     plugin,

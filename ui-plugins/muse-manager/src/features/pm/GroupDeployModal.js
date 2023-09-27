@@ -10,11 +10,13 @@ import {
   useSyncStatus,
   useValidateDeployment,
   usePendingError,
+  useAbility,
 } from '../../hooks';
 import MultiPluginSelector from './MultiPluginSelector';
 import ModalFooter from '../common/ModalFooter';
 
 const GroupDeployModal = NiceModal.create(({ app }) => {
+  const ability = useAbility();
   const [form] = Form.useForm();
   const modal = useModal();
   const {
@@ -140,6 +142,7 @@ const GroupDeployModal = NiceModal.create(({ app }) => {
   );
 
   const extArgs = {
+    ability,
     form,
     app,
     setPending,
