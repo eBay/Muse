@@ -1,16 +1,18 @@
-import { useCallback, useState, useEffect, useMemo } from 'react';
+import { useCallback } from 'react';
 import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
 import { Modal, Form, message } from 'antd';
 import utils from '@ebay/muse-lib-antd/src/utils';
 import NiceForm from '@ebay/nice-form-react';
-import { useMuseMutation, useSyncStatus, useValidateDeployment } from '../../hooks';
+import {
+  useMuseMutation,
+  useSyncStatus,
+  useValidateDeployment,
+  usePendingError,
+} from '../../hooks';
 
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import ModalFooter from '../common/ModalFooter';
 const UndeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
-  const [pendingMap, setPendingMap] = useState({});
-  const [errorMap, setErrorMap] = useState({});
-
   const [form] = Form.useForm();
   const modal = useModal();
   const {
@@ -19,29 +21,15 @@ const UndeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
     isLoading: undeployPluginPending,
   } = useMuseMutation('pm.undeployPlugin');
 
-  useEffect(() => {
-    setPendingMap((m) => ({ ...m, undeployPluginPending }));
-  }, [undeployPluginPending]);
-
-  useEffect(() => {
-    setErrorMap((m) => ({ ...m, undeployPluginError }));
-  }, [undeployPluginError]);
-
   const { validateDeployment, validateDeploymentError, validateDeploymentPending } =
     useValidateDeployment();
 
-  useEffect(() => {
-    setPendingMap((m) => ({ ...m, validateDeploymentPending }));
-  }, [validateDeploymentPending]);
-
-  useEffect(() => {
-    setErrorMap((m) => ({ ...m, validateDeploymentError }));
-  }, [validateDeploymentError]);
-
   const syncStatus = useSyncStatus(`muse.app.${app.name}`);
 
-  const pending = useMemo(() => Object.values(pendingMap).some(Boolean), [pendingMap]);
-  const error = useMemo(() => Object.values(errorMap).filter(Boolean)[0] || null, [errorMap]);
+  const { pending, error, setPending, setError } = usePendingError(
+    [undeployPluginPending, validateDeploymentPending],
+    [validateDeploymentError, undeployPluginError],
+  );
 
   const confirmUndeployment = useCallback(async () => {
     try {
@@ -108,6 +96,19 @@ const UndeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
     syncStatus();
   }, [app.name, plugin.name, modal, form, syncStatus, undeployPlugin, confirmUndeployment]);
 
+  const extArgs = {
+    form,
+    app,
+    plugin,
+    version,
+    setPending,
+    setError,
+    pending,
+    error,
+    syncStatus,
+    confirmUndeployment,
+    modal,
+  };
   const meta = {
     columns: 1,
     disabled: pending,
@@ -135,17 +136,7 @@ const UndeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
   };
   const { watchingFields } = utils.extendFormMeta(meta, 'museManager.undeployPluginModal.form', {
     meta,
-    form,
-    app,
-    plugin,
-    version,
-    setPendingMap,
-    setErrorMap,
-    pending,
-    error,
-    syncStatus,
-    confirmUndeployment,
-    modal,
+    ...extArgs,
   });
   const updateOnChange = NiceForm.useUpdateOnChange(watchingFields);
 
@@ -176,18 +167,7 @@ const UndeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
   ];
   utils.extendArray(footerItems, 'items', 'museManager.pm.undeployPluginModal.footer', {
     items: footerItems,
-    meta,
-    form,
-    app,
-    plugin,
-    version,
-    setPendingMap,
-    setErrorMap,
-    pending,
-    error,
-    syncStatus,
-    confirmUndeployment,
-    modal,
+    ...extArgs,
   });
 
   return (

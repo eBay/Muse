@@ -1,3 +1,4 @@
+import { useCallback, useMemo } from 'react';
 import { usePollingMuseData } from '../../hooks';
 import { Tag } from 'antd';
 import _ from 'lodash';
@@ -30,6 +31,21 @@ const StatusTag = ({ message, state, ...rest }) => {
 };
 
 const stateOrder = { failure: 1, pending: 2, running: 3, waiting: 4, success: 5 };
+const ModalHolder = ({ modal, handler = {}, ...restProps }) => {
+  const mid = useMemo(() => `req_modal_${Math.random()}`, []);
+  const ModalComp = modal;
+
+  if (!handler) {
+    throw new Error('No handler found in NiceModal.ModalHolder.');
+  }
+  if (!ModalComp) {
+    throw new Error(`No modal found for id: ${modal} in NiceModal.ModalHolder.`);
+  }
+  handler.show = useCallback((args) => NiceModal.show(mid, args), [mid]);
+  handler.hide = useCallback(() => NiceModal.hide(mid), [mid]);
+
+  return <ModalComp id={mid} {...restProps} />;
+};
 
 function PluginStatus({ plugin, app }) {
   const { data: requests = [] } = usePollingMuseData({ interval: 10000 }, 'muse.requests');
@@ -54,18 +70,18 @@ function PluginStatus({ plugin, app }) {
 
       const state = req.status?.state || statuses[0]?.state;
 
+      const modalHanlder = {};
       const tagProps = {
         message,
         state,
-        onClick: () => NiceModal.show('req__' + req.id),
+        onClick: () => modalHanlder.show(),
       };
 
       return {
-        key: req.id,
         order: i * 10 + 10,
         node: (
-          <span>
-            <RequestDetailModal id={'req__' + req.id} request={req} />
+          <span key={req.id}>
+            <ModalHolder modal={RequestDetailModal} handler={modalHanlder} request={req} />
             <StatusTag {...tagProps} />
           </span>
         ),

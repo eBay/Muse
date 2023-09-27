@@ -1,9 +1,9 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback } from 'react';
 import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
 import { Modal, Form, message } from 'antd';
 import utils from '@ebay/muse-lib-antd/src/utils';
 import NiceForm from '@ebay/nice-form-react';
-import { useMuseMutation, useSyncStatus } from '../../hooks';
+import { useMuseMutation, useSyncStatus, usePendingError } from '../../hooks';
 import useValidateDeployment from '../../hooks/useValidateDeployment';
 import PluginReleaseSelect from './PluginReleaseSelect';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
@@ -11,8 +11,6 @@ import ModalFooter from '../common/ModalFooter';
 
 const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
   const [form] = Form.useForm();
-  const [pendingMap, setPendingMap] = useState({});
-  const [errorMap, setErrorMap] = useState({});
   const modal = useModal();
   const syncStatus = useSyncStatus(`muse.app.${app.name}`);
   const {
@@ -21,61 +19,13 @@ const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
     isLoading: deployPluginPending,
   } = useMuseMutation('pm.deployPlugin');
 
-  useEffect(() => {
-    setPendingMap((m) => ({ ...m, deployPluginPending }));
-  }, [deployPluginPending]);
-
-  useEffect(() => {
-    setErrorMap((m) => ({ ...m, deployPluginError }));
-  }, [deployPluginError]);
-
   const { validateDeployment, validateDeploymentError, validateDeploymentPending } =
     useValidateDeployment();
 
-  useEffect(() => {
-    setPendingMap((m) => ({ ...m, validateDeploymentPending }));
-  }, [validateDeploymentPending]);
-
-  useEffect(() => {
-    setErrorMap((m) => ({ ...m, validateDeploymentError }));
-  }, [validateDeploymentError]);
-
-  const pending = useMemo(() => Object.values(pendingMap).some(Boolean), [pendingMap]);
-  const error = useMemo(() => Object.values(errorMap).filter(Boolean)[0] || null, [errorMap]);
-
-  const meta = {
-    columns: 1,
-    disabled: pending,
-    fields: [
-      {
-        key: 'appName',
-        label: 'App',
-        viewMode: true,
-        initialValue: app.name,
-      },
-      {
-        key: 'pluginName',
-        label: 'Plugin',
-        viewMode: true,
-        initialValue: plugin.name,
-      },
-      {
-        key: 'version',
-        label: 'Version to deploy',
-        required: true,
-        widget: PluginReleaseSelect,
-        widgetProps: { plugin, app },
-        initialValue: version || undefined,
-      },
-      {
-        key: 'envs',
-        label: 'Environments',
-        widget: 'checkbox-group',
-        required: true,
-        options: Object.keys(app.envs),
-      },
-    ],
-  };
+  const { pending, error, setPending, setError } = usePendingError(
+    [deployPluginPending, validateDeploymentPending],
+    [validateDeploymentError, deployPluginError],
+  );
 
   const confirmDeployment = useCallback(async () => {
     // Validate form
@@ -146,7 +96,59 @@ const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
     message.success('Deploy plugin succeeded.');
     await syncStatus();
   }, [app.name, plugin.name, modal, form, syncStatus, deployPlugin, confirmDeployment]);
+  const extArgs = {
+    app,
+    form,
+    plugin,
+    version,
+    setPending,
+    setError,
+    pending,
+    error,
+    modal,
+    syncStatus,
+    confirmDeployment,
+    validateDeployment,
+  };
 
+  const meta = {
+    columns: 1,
+    disabled: pending,
+    fields: [
+      {
+        key: 'appName',
+        label: 'App',
+        viewMode: true,
+        initialValue: app.name,
+      },
+      {
+        key: 'pluginName',
+        label: 'Plugin',
+        viewMode: true,
+        initialValue: plugin.name,
+      },
+      {
+        key: 'version',
+        label: 'Version to deploy',
+        required: true,
+        widget: PluginReleaseSelect,
+        widgetProps: { plugin, app },
+        initialValue: version || undefined,
+      },
+      {
+        key: 'envs',
+        label: 'Environments',
+        widget: 'checkbox-group',
+        required: true,
+        options: Object.keys(app.envs),
+      },
+    ],
+  };
+  const { watchingFields } = utils.extendFormMeta(meta, 'museManager.pm.deployPluginModal.form', {
+    meta,
+    ...extArgs,
+  });
+  const updateOnChange = NiceForm.useUpdateOnChange(watchingFields);
   const footerItems = [
     {
       key: 'cancel-btn',
@@ -172,37 +174,11 @@ const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
       },
     },
   ];
-  utils.extendArray(footerItems, 'items', 'museManager.pm.deployPluginModal.footer', {
-    app,
-    form,
-    plugin,
-    version,
-    items: footerItems,
-    setPendingMap,
-    setErrorMap,
-    pending,
-    error,
-    modal,
-    syncStatus,
-    confirmDeployment,
-    validateDeployment,
-  });
 
-  const { watchingFields } = utils.extendFormMeta(meta, 'museManager.pm.deployPluginModal.form', {
-    meta,
-    form,
-    app,
-    plugin,
-    version,
-    setPendingMap,
-    setErrorMap,
-    pending,
-    error,
-    syncStatus,
-    confirmDeployment,
-    validateDeployment,
+  utils.extendArray(footerItems, 'items', 'museManager.pm.deployPluginModal.footer', {
+    items: footerItems,
+    ...extArgs,
   });
-  const updateOnChange = NiceForm.useUpdateOnChange(watchingFields);
 
   return (
     <Modal
