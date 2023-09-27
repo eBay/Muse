@@ -21,7 +21,9 @@ const RequestStatuses = ({ request }) => {
   return (
     <div className="grid gap-1 justify-items-start">
       {request.statuses.map((s) => (
-        <Tag color={colorMap[s.state]}>{s.message || s.name + ': ' + s.state}</Tag>
+        <Tag key={s.name} color={colorMap[s.state]}>
+          {s.message || s.name + ': ' + s.state}
+        </Tag>
       ))}
     </div>
   );
@@ -34,6 +36,8 @@ const RequestDetailModal = NiceModal.create(({ request, retry = true }) => {
   const [form] = Form.useForm();
   const syncStatus = useSyncStatus('muse.requests');
 
+  const canRetryRequest = ability.can('retry', 'Request', request);
+  const canCancelRequest = ability.can('cancel', 'Request', request);
   const {
     mutateAsync: deleteRequest,
     error: deleteRequestError,
@@ -121,9 +125,11 @@ const RequestDetailModal = NiceModal.create(({ request, retry = true }) => {
       key: 'cancel-btn',
       order: 10,
       position: 'left',
-      tooltip: 'This will delete the request.',
+      tooltip: canCancelRequest
+        ? 'This will delete the request.'
+        : 'You do not have permission to cancel this request.',
       props: {
-        disabled: pending,
+        disabled: pending || !canCancelRequest,
         type: 'primary',
         danger: true,
         children: 'Cancel Request',
@@ -148,8 +154,9 @@ const RequestDetailModal = NiceModal.create(({ request, retry = true }) => {
       request.statuses.some((s) => s.state === 'failure') && {
         key: 'retry-btn',
         order: 20,
+        tooltip: canRetryRequest ? '' : 'You do not have permission to retry this request.',
         props: {
-          disabled: pending,
+          disabled: pending || !canRetryRequest,
           type: 'primary',
           children: 'Retry',
           onClick: () => {
