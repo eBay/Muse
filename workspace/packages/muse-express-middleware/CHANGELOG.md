@@ -1,5 +1,11 @@
 # @ebay/muse-express-middleware
 
+## 1.0.40
+
+### Patch Changes
+
+- 89b8b04d: handler api super mode
+
 ## 1.0.39
 
 ### Patch Changes
