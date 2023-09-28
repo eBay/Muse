@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import store from '../src/common/store';
 import Root from '../src/Root';
 
@@ -22,8 +22,7 @@ describe('Root', () => {
       ],
     }];
 
-    shallow(
-      <Root store={store} routeConfig={routes} />
-    );
+    render(<Root store={store} routeConfig={routes} />);
+
   });
 });
