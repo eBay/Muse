@@ -153,7 +153,8 @@ module.exports = ({ basePath = '/api/v2' } = {}) => {
       if (_.isObject(args[0])) {
         args[0].__req = req;
         const author = req.muse?.username;
-        if (author) args[0].author = author;
+        const superMode = req.muse?.superMode;
+        if (!args[0].author || (!superMode && author)) args[0].author = author;
       }
       // TODO: inject author info
 
