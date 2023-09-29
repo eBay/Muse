@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const yaml = require('js-yaml');
-const { asyncInvoke, updateJson, osUsername, validate } = require('../utils');
+const { asyncInvoke, osUsername, validate } = require('../utils');
 const { registry } = require('../storage');
 const getRequest = require('./getRequest');
 const completeRequest = require('./completeRequest');
@@ -19,7 +19,7 @@ const schema = require('../schemas/req/updateStatus.json');
  * @param {string} [params.msg] Action message.
  * @returns {request} Request object.
  */
-module.exports = async params => {
+module.exports = async (params) => {
   validate(schema, params);
   if (!params.author) params.author = osUsername;
   const { requestId, status, author, msg } = params;
@@ -59,7 +59,7 @@ module.exports = async params => {
 
     // When ever a status is updated, we need to check if all status is succes
     // If so, merge the request.
-    if (ctx.request.autoComplete && ctx.request.statuses.every(s => s.state === 'success')) {
+    if (ctx.request.autoComplete && ctx.request.statuses.every((s) => s.state === 'success')) {
       await completeRequest({ requestId, author });
     }
   } catch (err) {
