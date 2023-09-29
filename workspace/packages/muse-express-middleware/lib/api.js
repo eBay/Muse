@@ -154,7 +154,11 @@ module.exports = ({ basePath = '/api/v2' } = {}) => {
         args[0].__req = req;
         const author = req.muse?.username;
         const superMode = req.muse?.superMode;
-        if (!args[0].author || (!superMode && author)) args[0].author = author;
+        // for rest api, author is always got from user session
+        // but if superMode, author could from request body
+        // TODO: if without acl, author should be allowed?
+        if (!superMode) delete args[0].author;
+        if (!args[0].author && author) args[0].author = author;
       }
       // TODO: inject author info
 
