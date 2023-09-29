@@ -10,7 +10,7 @@ const builder = {
    * @param {string} key
    * @returns {any}
    */
-  get: async key => {
+  get: async (key) => {
     if (!key) throw Error('Builder.get need a key');
     for (const builder of builders) {
       if (key === builder.key || builder.match?.(key)) {
@@ -30,13 +30,13 @@ const builder = {
   getMuseDataKeysByRawKeys: (rawDataType, keys) => {
     keys = _.castArray(keys);
     return _.chain(builders)
-      .map(b => b.getMuseDataKeysByRawKeys?.(rawDataType, keys))
+      .map((b) => b.getMuseDataKeysByRawKeys?.(rawDataType, keys))
       .flatten()
       .filter(Boolean)
       .uniq()
       .value();
   },
-  register: builder => {
+  register: (builder) => {
     // TODO: use json schema
     if (!builder.key && !builder.match) {
       throw new Error(`Every builder should have a key or match method: ${builder.name}.`);
@@ -50,13 +50,14 @@ builder.register(require('./builders/muse.app-by-url'));
 builder.register(require('./builders/muse.apps'));
 builder.register(require('./builders/muse.plugins'));
 builder.register(require('./builders/muse.requests'));
+builder.register(require('./builders/muse.request'));
 builder.register(require('./builders/muse.plugin'));
 builder.register(require('./builders/muse.plugin-releases'));
 builder.register(require('./builders/muse.plugins.latest-releases'));
 
 _.flatten(plugin.invoke('museCore.data.getBuilders'))
   .filter(Boolean)
-  .forEach(b => {
+  .forEach((b) => {
     builder.register(b);
   });
 
