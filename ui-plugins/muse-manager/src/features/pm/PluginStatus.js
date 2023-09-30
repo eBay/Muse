@@ -5,7 +5,7 @@ import _ from 'lodash';
 import jsPlugin from 'js-plugin';
 import { Loading3QuartersOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import NiceModal from '@ebay/nice-modal-react';
-import RequestDetailModal from '../req/RequestDetailModal2';
+import RequestDetailModal from '../req/RequestDetailModal';
 import Nodes from '../common/Nodes';
 
 const StatusTag = ({ message, state, ...rest }) => {
