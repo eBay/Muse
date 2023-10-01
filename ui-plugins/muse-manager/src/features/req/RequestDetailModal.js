@@ -7,7 +7,7 @@ import TimeAgo from 'react-time-ago';
 import utils from '@ebay/muse-lib-antd/src/utils';
 import ModalFooter from '../common/ModalFooter';
 import usePendingError from '../../hooks/usePendingError';
-import { useMuseMutation, useSyncStatus, useAbility, useExtPoint } from '../../hooks';
+import { useMuseMutation, useSyncStatus, useAbility, useExtPoint, useMuseData } from '../../hooks';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 
 const RequestStatuses = ({ request }) => {
@@ -29,12 +29,13 @@ const RequestStatuses = ({ request }) => {
   );
 };
 
-const RequestDetailModal = NiceModal.create(({ request, retry = true }) => {
-  console.log(request);
+const RequestDetailModalInner = ({ request, retry = true }) => {
   const ability = useAbility();
   const modal = useModal();
   const [form] = Form.useForm();
   const syncStatus = useSyncStatus('muse.requests');
+
+  console.log(request);
 
   const canRetryRequest = ability.can('retry', 'Request', request);
   const canCancelRequest = ability.can('cancel', 'Request', request);
@@ -223,5 +224,15 @@ const RequestDetailModal = NiceModal.create(({ request, retry = true }) => {
       <ModalFooter items={footerItems} />
     </Modal>
   );
+};
+
+const RequestDetailModal = NiceModal.create(({ requestId, ...restProps }) => {
+  const { data: requests } = useMuseData('muse.requests');
+  const request = requests?.find((r) => r.id === requestId);
+  if (request) {
+    return <RequestDetailModalInner request={request} {...restProps} />;
+  }
+  return null;
 });
+
 export default RequestDetailModal;
