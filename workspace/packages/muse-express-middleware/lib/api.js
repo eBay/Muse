@@ -158,7 +158,6 @@ module.exports = ({ basePath = '/api/v2' } = {}) => {
         // but if superMode, author could from request body
         if (!args[0].author || (!superMode && author)) args[0].author = author;
       }
-      // TODO: inject author info
 
       if (req.query.type === 'raw') {
         _.invoke(muse, apiKey, ...args).then((result) => {
