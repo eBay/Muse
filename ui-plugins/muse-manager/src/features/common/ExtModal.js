@@ -45,12 +45,13 @@ export default function ExtModal({ extBase, config, ...rest }) {
     [config?.formMeta],
   );
 
-  utils.extendFormMeta(meta, `${extBase}.form`, {
+  const { watchingFields } = utils.extendFormMeta(meta, `${extBase}.form`, {
     meta,
     ...extArgs,
   });
+  const updateOnChange = NiceForm.useUpdateOnChange(watchingFields);
 
-  const footerItems = [];
+  const footerItems = config?.footerItems || [];
   utils.extendArray(footerItems, 'items', `${extBase}.footer`, {
     items: footerItems,
     ...extArgs,
@@ -66,7 +67,7 @@ export default function ExtModal({ extBase, config, ...rest }) {
       key: 'nice-form',
       order: 20,
       node: (
-        <Form form={form}>
+        <Form form={form} onValuesChange={updateOnChange} {...config?.formProps}>
           <NiceForm meta={meta} />
         </Form>
       ),
