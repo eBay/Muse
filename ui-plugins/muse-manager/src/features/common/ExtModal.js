@@ -1,52 +1,106 @@
-import { useState, useMemo, useEffect } from 'react';
-import { useModal } from '@ebay/nice-modal-react';
+import { useMemo } from 'react';
+import { useModal, antdModalV5 } from '@ebay/nice-modal-react';
+import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
+import NiceForm from '@ebay/nice-form-react';
+import utils from '@ebay/muse-lib-antd/src/utils';
+import { Modal, Form } from 'antd';
+import jsPlugin from 'js-plugin';
+import ModalFooter from '../common/ModalFooter';
 import Nodes from './Nodes';
+import { usePendingError, useAbility } from '../../hooks';
+
+const noop = () => {};
 /**
  * A common UI logic that handles a form/modal with extensible header, body and footer.
  * Also it handles pending, error status with extensibility.
  * @returns
  */
-export default function ExtModal({}) {
-  const [pendingMap, setPendingMap] = useState({});
-  const [errorMap, setErrorMap] = useState({});
-  // const modal = useModal();
-  // const syncStatus = useSyncStatus(`muse.app.${app.name}`);
-  const {
-    mutateAsync: deployPlugin,
-    error: deployPluginError,
-    isLoading: deployPluginPending,
-  } = useMuseMutation('pm.deployPlugin');
+export default function ExtModal({ extBase, config, ...rest }) {
+  const { setPending, setError, pending, error } = usePendingError();
+  const modal = useModal();
+  const [form] = Form.useForm();
+  const ability = useAbility();
 
-  useEffect(() => {
-    setPendingMap((m) => ({ ...m, deployPluginPending }));
-  }, [deployPluginPending]);
+  const extArgs = {
+    ability,
+    form,
+    modal,
+    setPending,
+    setError,
+    pending,
+    error,
+  };
 
-  useEffect(() => {
-    setErrorMap((m) => ({ ...m, deployPluginError }));
-  }, [deployPluginError]);
+  const meta = useMemo(
+    () =>
+      Object.assign(
+        {
+          columns: 2,
+          viewMode: true,
+          initialValues: {},
+          fields: [],
+        },
+        config?.formMeta || {},
+      ),
+    [config?.formMeta],
+  );
 
-  const { validateDeployment, validateDeploymentError, validateDeploymentPending } =
-    useValidateDeployment();
+  utils.extendFormMeta(meta, `${extBase}.form`, {
+    meta,
+    ...extArgs,
+  });
 
-  useEffect(() => {
-    setPendingMap((m) => ({ ...m, validateDeploymentPending }));
-  }, [validateDeploymentPending]);
+  const footerItems = [];
+  utils.extendArray(footerItems, 'items', `${extBase}.footer`, {
+    items: footerItems,
+    ...extArgs,
+  });
 
-  useEffect(() => {
-    setErrorMap((m) => ({ ...m, validateDeploymentError }));
-  }, [validateDeploymentError]);
+  const modalNodes = [
+    {
+      key: 'request-status',
+      order: 10,
+      node: <RequestStatus loading={pending} error={error} />,
+    },
+    {
+      key: 'nice-form',
+      order: 20,
+      node: (
+        <Form form={form}>
+          <NiceForm meta={meta} />
+        </Form>
+      ),
+    },
+    {
+      key: 'modal-footer',
+      order: 10000,
+      node: (
+        <ModalFooter
+          items={footerItems}
+          onOk={rest.onOk || noop}
+          onCancel={rest.onCancel || noop}
+        />
+      ),
+    },
+    ...(config?.bodyNodes || []),
+  ];
+  utils.extendArray(modalNodes, 'nodes', `${extBase}.body`, {
+    nodes: modalNodes,
+    ...extArgs,
+  });
 
-  const pending = useMemo(() => Object.values(pendingMap).some(Boolean), [pendingMap]);
-  const error = useMemo(() => Object.values(errorMap).filter(Boolean)[0] || null, [errorMap]);
+  const modalProps = {
+    ...rest,
+  };
 
-  const headerNodes = [];
-  const bodyNodes = [];
-  const footerNodes = [];
+  jsPlugin.invoke(`${extBase}.processModalProps`, {
+    modalProps,
+    ...extArgs,
+  });
+
   return (
-    <>
-      <Nodes nodes={headerNodes} />
-      <Nodes nodes={bodyNodes} />
-      <Nodes nodes={footerNodes} />
-    </>
+    <Modal {...antdModalV5(modal)} {...modalProps}>
+      <Nodes nodes={modalNodes} />
+    </Modal>
   );
 }
