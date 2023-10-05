@@ -20,11 +20,11 @@ const RequestStatuses = ({ request }) => {
   };
   return (
     <div className="grid gap-1 justify-items-start">
-      {request.statuses.map((s) => (
+      {request.statuses?.map((s) => (
         <Tag key={s.name} color={colorMap[s.state]}>
           {s.message || s.name + ': ' + s.state}
         </Tag>
-      ))}
+      )) || 'N/A'}
     </div>
   );
 };
@@ -152,7 +152,7 @@ const RequestDetailModalInner = ({ request, retry = true }) => {
       },
     },
     retry &&
-      request.statuses.some((s) => s.state === 'failure') && {
+      request?.statuses?.some((s) => s.state === 'failure') && {
         key: 'retry-btn',
         order: 20,
         tooltip: canRetryRequest ? '' : 'You do not have permission to retry this request.',
