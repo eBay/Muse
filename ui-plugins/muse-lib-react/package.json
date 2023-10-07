@@ -74,6 +74,7 @@
     "eslint": "8.28.0",
     "eslint-config-react-app": "7.0.1",
     "eslint-plugin-react-hooks": "4.6.0",
+    "jest-location-mock": "1.0.10",
     "react-scripts": "5.0.1"
   },
   "browserslist": {

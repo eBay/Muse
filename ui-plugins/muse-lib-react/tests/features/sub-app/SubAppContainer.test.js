@@ -1,24 +1,45 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, act, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import SubAppContainer from '../../../src/features/sub-app/SubAppContainer';
 
 describe('sub-app/SubAppContainer', () => {
+
+  beforeEach(() => {
+    window.history.pushState({}, '', new URL('http://localhost/muse-apps'));
+  });
+
+  afterEach(() => {
+    window.history.pushState({}, '', new URL('http://localhost'));
+  });
+
   const subApp = {
-    url: 'https://example.com',
+    path: '/muse-apps',
+    url: 'http://localhost/muse-apps',
+    persist: false,
+    name: 'musedemo',
+    env: 'staging'
   };
 
   it('renders the component', () => {
-    render(<SubAppContainer subApp={subApp} />);
-    expect(screen.getByTestId('sub-app-container')).toBeInTheDocument();
+    const { container } = render(<SubAppContainer subApp={subApp} />);
+    expect(container.querySelector('.muse-react_sub-app-sub-app-container')).toBeTruthy();
   });
 
-  it('navigates to the correct URL when the sub app changes', () => {
-    render(<SubAppContainer subApp={subApp} />);
+  it('navigates to the correct URL when the sub app changes', async () => {
+    const { container } = render(<SubAppContainer subApp={subApp} />);
     const newSubApp = {
-      url: 'https://example2.com',
+      path: '/muse-apps',
+      url: 'http://localhost/muse-apps',
+      persist: false,
+      name: 'musedemo',
+      env: 'staging'
     };
-    userEvent.click(screen.getByTestId('sub-app-container'));
+    await window.MUSE_GLOBAL.msgEngine.sendToParent({
+      type: 'app-state-change',
+      state: 'app-loaded',
+    });
+    userEvent.click(container.querySelector('.muse-react_sub-app-sub-app-container'));
     expect(window.location.href).toEqual(`${newSubApp.url}/`);
   });
 });
