@@ -230,13 +230,14 @@ const RequestDetailModalInner = ({ request, retry = true }) => {
       node: <ModalFooter items={footerItems} />,
     },
   ];
-  extendArray(bodyNodes, 'items', 'museManager.req.requestDetailModal.body', {
-    items: bodyNodes,
-    ...extArgs,
-  });
   return (
     <Modal {...antdModalV5(modal)} {...modalProps}>
-      <Nodes items={bodyNodes} />
+      <Nodes
+        items={bodyNodes}
+        extName="items"
+        extBase="museManager.req.requestDetailModal.body"
+        extArgs={{ items: bodyNodes, ...extArgs }}
+      />
     </Modal>
   );
 };
