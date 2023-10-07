@@ -15,7 +15,7 @@ const noop = () => {};
  * Also it handles pending, error status with extensibility.
  * @returns
  */
-export default function ExtModal({ extBase, config, ...rest }) {
+export default function ExtModal({ extBase, config, defaultPlugin, ...rest }) {
   const { setPending, setError, pending, error } = usePendingError();
   const modal = useModal();
   const [form] = Form.useForm();
@@ -29,6 +29,7 @@ export default function ExtModal({ extBase, config, ...rest }) {
     setError,
     pending,
     error,
+    ...config.extArgs,
   };
 
   const meta = useMemo(
@@ -100,8 +101,8 @@ export default function ExtModal({ extBase, config, ...rest }) {
   });
 
   return (
-    <Modal {...antdModalV5(modal)} {...modalProps}>
-      <Nodes nodes={modalNodes} />
+    <Modal {...antdModalV5(modal)} title="ExtModal" footer={null} {...modalProps}>
+      <Nodes items={modalNodes} />
     </Modal>
   );
 }

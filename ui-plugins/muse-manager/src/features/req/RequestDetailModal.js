@@ -4,11 +4,12 @@ import { Modal, message, Form, Tag } from 'antd';
 import jsPlugin from 'js-plugin';
 import NiceForm from '@ebay/nice-form-react';
 import TimeAgo from 'react-time-ago';
-import utils from '@ebay/muse-lib-antd/src/utils';
+import utils, { extendArray } from '@ebay/muse-lib-antd/src/utils';
 import ModalFooter from '../common/ModalFooter';
 import usePendingError from '../../hooks/usePendingError';
-import { useMuseMutation, useSyncStatus, useAbility, useExtPoint, useMuseData } from '../../hooks';
+import { useMuseMutation, useSyncStatus, useAbility, useMuseData } from '../../hooks';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
+import Nodes from '../common/Nodes';
 
 const RequestStatuses = ({ request }) => {
   const colorMap = {
@@ -196,12 +197,6 @@ const RequestDetailModalInner = ({ request, retry = true }) => {
     ...extArgs,
   });
 
-  const { values, extNode } = useExtPoint('museManager.req.requestDetailModal.footer.extComp', {
-    items: footerItems,
-    ...extArgs,
-  });
-  footerItems.push(...values);
-
   const modalProps = {
     title: _.startCase(request.type),
     width: '800px',
@@ -214,14 +209,34 @@ const RequestDetailModalInner = ({ request, retry = true }) => {
     ...extArgs,
   });
 
+  const bodyNodes = [
+    {
+      key: 'request-status',
+      order: 10,
+      node: <RequestStatus loading={pending} error={error} />,
+    },
+    {
+      key: 'nice-form',
+      order: 20,
+      node: (
+        <Form form={form}>
+          <NiceForm meta={meta} />
+        </Form>
+      ),
+    },
+    {
+      key: 'modal-footer',
+      order: 10000,
+      node: <ModalFooter items={footerItems} />,
+    },
+  ];
+  extendArray(bodyNodes, 'items', 'museManager.req.requestDetailModal.body', {
+    items: bodyNodes,
+    ...extArgs,
+  });
   return (
     <Modal {...antdModalV5(modal)} {...modalProps}>
-      {extNode}
-      <RequestStatus loading={pending} error={error} />
-      <Form form={form}>
-        <NiceForm meta={meta} />
-      </Form>
-      <ModalFooter items={footerItems} />
+      <Nodes items={bodyNodes} />
     </Modal>
   );
 };

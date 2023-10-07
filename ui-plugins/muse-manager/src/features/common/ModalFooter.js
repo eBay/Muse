@@ -12,6 +12,8 @@ const FooterItem = ({ item }) => {
 
   if (item.position !== 'left') {
     ele = <span className="justify-self-end">{ele}</span>;
+  } else {
+    ele = <span>{ele}</span>;
   }
   return ele;
 };

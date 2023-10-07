@@ -4,7 +4,7 @@ import { extendArray } from '@ebay/muse-lib-antd/src/utils';
  * A component that renders a list of nodes with ability to extend the list.
  * @param {Array} nodes - The list of nodes to render.
  */
-export default function Nodes({ items, extName = 'items', extBase, extArgs }) {
+export default function Nodes({ items = [], extName = 'items', extBase, extArgs }) {
   items = items.filter(Boolean);
   extendArray(items, extName, extBase, extArgs);
   const nodes = [];
