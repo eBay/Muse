@@ -1,6 +1,7 @@
 const CracoLessPlugin = require('craco-less');
 const MuseCracoPlugin = require('@ebay/muse-craco-plugin');
 const MuseEbayCracoPlugin = require('@ebay/muse-ebay-craco-plugin');
+const path = require('path');
 
 module.exports = () => {
   return {
