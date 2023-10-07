@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { render, screen } from '@testing-library/react';
 import { ErrorBoundary } from '../../../src/features/common';
 
-describe('ErrorBoundary', () => {
+describe('common/ErrorBoundary', () => {
   it('renders children if no error', () => {
     render(<ErrorBoundary>No errors</ErrorBoundary>);
     // check that "No errors" is rendered
