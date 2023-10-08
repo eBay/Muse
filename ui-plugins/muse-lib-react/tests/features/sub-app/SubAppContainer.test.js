@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, waitFor, act, screen } from '@testing-library/react';
-import SubAppContainer from '../../../src/features/sub-app/SubAppContainer';
+import { SubAppContainer } from '../../../src/features/sub-app';
 import history from '../../../src/common/history';
 
 describe('sub-app/SubAppContainer', () => {
@@ -58,6 +58,26 @@ describe('sub-app/SubAppContainer', () => {
       payload: {
         type: 'child-route-change',
         path: '/muse-apps',
+      },
+    },
+    '*');
+
+    // history URL should change
+    await waitFor(() => expect(history.location.pathname).toBe('/'), {
+      timeout: 3000,
+    });
+
+    // parent-route-change
+    window.postMessage({
+      type: 'muse',
+      from: {
+        app: "test",
+        env: "staging",
+        clientKey: 'parent',
+      },
+      payload: {
+        type: 'parent-route-change',
+        path: '/muse',
       },
     },
     '*');
