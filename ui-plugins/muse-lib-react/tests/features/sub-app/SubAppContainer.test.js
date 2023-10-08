@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, waitFor, act } from '@testing-library/react';
+import { render, waitFor, act, screen } from '@testing-library/react';
 import SubAppContainer from '../../../src/features/sub-app/SubAppContainer';
 import history from '../../../src/common/history';
 
@@ -66,5 +66,31 @@ describe('sub-app/SubAppContainer', () => {
     await waitFor(() => expect(history.location.pathname).toBe('/'), {
       timeout: 3000,
     });
+  });
+
+  it('c2s proxy failed', async () => {
+
+    render(<SubAppContainer subApp={subApp} />);
+
+    // initialize app on parent to simulate c2s proxy error
+    window.postMessage({
+      type: 'muse',
+      from: {
+        app: "test",
+        env: "staging",
+        clientKey: 'parent',
+      },
+      payload: {
+        type: 'app-state-change',
+        state: 'check-c2s-proxy-failed',
+      },
+    },
+    '*');
+
+    // c2s proxy error shows up
+    await waitFor(() => expect(screen.getByText(/Error: failed to detect c2s proxy/)).toBeTruthy(), {
+      timeout: 3000,
+    });
+    
   });
 });
