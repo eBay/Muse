@@ -1,16 +1,18 @@
 import React from 'react';
-import { render, act, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { render, waitFor, act } from '@testing-library/react';
 import SubAppContainer from '../../../src/features/sub-app/SubAppContainer';
+import history from '../../../src/common/history';
 
 describe('sub-app/SubAppContainer', () => {
 
   beforeEach(() => {
-    window.history.pushState({}, '', new URL('http://localhost/muse-apps'));
+    history.push('http://localhost/muse-apps');
   });
 
   afterEach(() => {
-    window.history.pushState({}, '', new URL('http://localhost'));
+    act(() => {
+      history.push('http://localhost');
+    });
   });
 
   const subApp = {
@@ -27,19 +29,42 @@ describe('sub-app/SubAppContainer', () => {
   });
 
   it('navigates to the correct URL when the sub app changes', async () => {
-    const { container } = render(<SubAppContainer subApp={subApp} />);
-    const newSubApp = {
-      path: '/muse-apps',
-      url: 'http://localhost/muse-apps',
-      persist: false,
-      name: 'musedemo',
-      env: 'staging'
-    };
-    await window.MUSE_GLOBAL.msgEngine.sendToParent({
-      type: 'app-state-change',
-      state: 'app-loaded',
+
+    render(<SubAppContainer subApp={subApp} />);
+
+    // initialize app on parent to show iframe tag
+    window.postMessage({
+      type: 'muse',
+      from: {
+        app: "test",
+        env: "staging",
+        clientKey: 'parent',
+      },
+      payload: {
+        type: 'app-state-change',
+        state: 'app-loaded',
+      },
+    },
+    '*');
+
+    // simulate child route change so that history gets debounced
+    window.postMessage({
+      type: 'muse',
+      from: {
+        app: "test",
+        env: "staging",
+        type: 'child',
+      },
+      payload: {
+        type: 'child-route-change',
+        path: '/muse-apps',
+      },
+    },
+    '*');
+
+    // history URL should change
+    await waitFor(() => expect(history.location.pathname).toBe('/'), {
+      timeout: 3000,
     });
-    userEvent.click(container.querySelector('.muse-react_sub-app-sub-app-container'));
-    expect(window.location.href).toEqual(`${newSubApp.url}/`);
   });
 });
