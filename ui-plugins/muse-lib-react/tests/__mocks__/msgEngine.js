@@ -144,3 +144,4 @@ msgEngine.addListener('handle-muse-app-check', (payload, msg) => {
 window.MUSE_GLOBAL.app = { name : "test" };
 window.MUSE_GLOBAL.env = { name : "staging" };
 window.MUSE_GLOBAL.msgEngine = msgEngine;
+window.MUSE_CONFIG = {...window.MUSE_GLOBAL };
