@@ -1,0 +1,19 @@
+{
+  "name": "muse-tests",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "docker build -t muse-tests .",
+    "run": "docker run -dp 127.0.0.1:6080:6080 muse-tests",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "fs-extra": "^10.1.0",
+    "lodash": "^4.17.21",
+    "zx": "^7.2.3"
+  }
+}
