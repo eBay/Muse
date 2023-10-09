@@ -41,7 +41,9 @@ describe('routeConfig tests', () => {
           });
 
           const routes = routeConfig();
-          expect(routes).toBeTruthy();
+          const indexRouteChild = routes[0].childRoutes.find(r => r.isIndex === true).childRoutes;
+          const fooChildNormalized = indexRouteChild.find(c => c.id === 'fooRule').childRoutes.find(cr => cr.path === 'foo-child');
+          expect(fooChildNormalized).toBeTruthy();
 
     });
 });
