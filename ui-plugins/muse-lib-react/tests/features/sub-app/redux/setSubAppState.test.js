@@ -1,37 +1,25 @@
-import { SUB_APP_SET_SUB_APP_STATE, SUB_APP_CLEAR_SUB_APP_STATE } from '../../../../src/features/sub-app/redux/constants';
-
-import {
-  setSubAppState,
-  clearSubAppState,
-  reducer,
-} from '../../../../src/features/sub-app/redux/setSubAppState';
+import React from 'react';
+import { renderHook, act } from '@testing-library/react';
+import { useSetSubAppState } from '../../../../src/features/sub-app/redux/hooks';
+import { Provider } from 'react-redux';
+import store from '../../../../src/common/store';
 
 describe('sub-app/redux', () => {
-  it('setSubAppState type', () => {
-    expect(setSubAppState('new state')).toHaveProperty('type', SUB_APP_SET_SUB_APP_STATE);
+  it('setSubAppState', () => {
+    const wrapper = ({ children }) => <Provider store={store.getStore()}>{children}</Provider>
+    const { result } = renderHook(() => useSetSubAppState(), { wrapper });
+    act(() => {
+      result.current.setSubAppState("new state");
+    });
+    expect(result.current.subAppState).toBe("new state");
   });
 
-  it('clearSubAppState type', () => {
-    expect(clearSubAppState()).toHaveProperty('type', SUB_APP_CLEAR_SUB_APP_STATE);
-  });
-
-  it('handles action type SUB_APP_SET_SUB_APP_STATE correctly', () => {
-    const prevState = { subAppState: {} };
-    const state = reducer(prevState, { type: SUB_APP_SET_SUB_APP_STATE, data: 'new state' });
-    // Should be immutable
-    expect(state).not.toBe(prevState);
-
-    const expectedState = { subAppState: 'new state' };
-    expect(state).toEqual(expectedState);
-  });
-
-  it('handles action type SUB_APP_CLEAR_SUB_APP_STATE correctly', () => {
-    const prevState = { subAppState: { dummy: true } };
-    const state = reducer(prevState, { type: SUB_APP_CLEAR_SUB_APP_STATE });
-    // Should be immutable
-    expect(state).not.toBe(prevState);
-
-    const expectedState = { subAppState: {} };
-    expect(state).toEqual(expectedState);
+  it('clearSubAppState', () => {
+    const wrapper = ({ children }) => <Provider store={store.getStore()}>{children}</Provider>
+    const { result } = renderHook(() => useSetSubAppState(), { wrapper });
+    act(() => {
+      result.current.clearSubAppState();
+    });
+    expect(result.current.subAppState).toEqual({});
   });
 });
