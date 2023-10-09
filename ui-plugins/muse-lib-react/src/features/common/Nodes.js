@@ -5,10 +5,9 @@ import { extendArray } from './utils';
  * @param {Array} items - The list of nodes to render.
  */
 export default function Nodes({ items = [], extName = 'items', extBase, extArgs }) {
-  items = items.filter(Boolean);
   extendArray(items, extName, extBase, extArgs);
   const nodes = [];
-  items.forEach(n => {
+  items.filter(Boolean).forEach(n => {
     let node;
     if (n.render) node = n.render();
     else if (n.content) node = n.content;
