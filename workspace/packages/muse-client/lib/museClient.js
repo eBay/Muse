@@ -5,8 +5,8 @@ const axios = require('axios');
 
 module.exports = {
   create({ endpoint, token, axiosConfig, interceptors = {} }) {
-    const headers = axiosConfig && axiosConfig.headers ? axiosConfig.headers : {};
-    const client = axios.create({
+    let headers = axiosConfig && axiosConfig.headers ? axiosConfig.headers : {};
+    let client = axios.create({
       baseURL: endpoint,
       timeout: 30000,
       ...axiosConfig,
@@ -40,6 +40,27 @@ module.exports = {
 
     // Construct the API path by a javascript proxy
     const handler = {
+      // allow to set interceptors, token, baseUrl, headers
+      set(target, prop, value) {
+        switch (prop) {
+          case 'interceptors':
+            interceptors = value;
+            break;
+          case 'token':
+            client.defaults.headers.common['authorization'] = value;
+            break;
+          case 'baseUrl':
+            endpoint = value;
+            client.defaults.baseURL = value;
+            break;
+          case 'headers':
+            Object.assign(client.defaults.headers, value);
+            break;
+          default:
+            target[prop] = value;
+            break;
+        }
+      },
       get(target, prop, receiver) {
         // apply and call are reserved
         if (['_api_path_', 'apply', 'call'].includes(prop)) return target[prop] || '';

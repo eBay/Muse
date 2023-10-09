@@ -3,7 +3,7 @@ const axios = require('axios');
 
 const mock = new MockAdapter(axios);
 
-mock.onPost('https://musesvc.sample.com/api/v2/am/createApp').reply(200, {
+mock.onPost('https://musesvc.sample.com/api/v3/am/createApp').reply(200, {
   data: {
     appName: 'foo',
   },
@@ -27,8 +27,10 @@ const museClient = require('./museClient').create({
 (async () => {
   try {
     expect(museClient._url).toBe('https://musesvc.sample.com/api/v2');
-    expect(museClient.am.createApp._url).toBe('https://musesvc.sample.com/api/v2/am/createApp');
+    museClient.baseUrl = 'https://musesvc.sample.com/api/v3';
+    expect(museClient.am.createApp._url).toBe('https://musesvc.sample.com/api/v3/am/createApp');
     expect((await museClient.am.createApp()).appName).toBe('foo');
+    museClient.baseUrl = 'https://musesvc.sample.com/api/v2';
     expect(museClient.pm.creatE2eTest._url).toBe(
       'https://musesvc.sample.com/api/v2/pm/creatE2eTest',
     );
