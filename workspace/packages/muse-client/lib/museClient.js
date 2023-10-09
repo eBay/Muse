@@ -60,6 +60,7 @@ module.exports = {
             target[prop] = value;
             break;
         }
+        return true;
       },
       get(target, prop, receiver) {
         // apply and call are reserved
