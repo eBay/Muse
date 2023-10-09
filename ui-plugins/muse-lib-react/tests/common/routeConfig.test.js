@@ -42,6 +42,11 @@ describe('routeConfig tests', () => {
 
           const routes = routeConfig();
           const indexRouteChild = routes[0].childRoutes.find(r => r.isIndex === true).childRoutes;
+
+          // this comes from the jest mock setup on /tests/setupAfterEnv.js
+          const subAppDemoRoute = routes[0].childRoutes.find(r => r.path === '/demo/*');
+          expect(subAppDemoRoute).toBeTruthy();
+          
           const fooChildNormalized = indexRouteChild.find(c => c.id === 'fooRule').childRoutes.find(cr => cr.path === 'foo-child');
           expect(fooChildNormalized).toBeTruthy();
 
