@@ -72,7 +72,6 @@ const EditAppModal = NiceModal.create(({ app }) => {
           };
         }),
       },
-      author: user.username,
     };
     jsPlugin.invoke('museManager.am.editAppForm.processPayload', { payload, values });
     updateApp(payload)

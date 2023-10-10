@@ -107,7 +107,6 @@ const GroupDeployModal = NiceModal.create(({ app }) => {
         map[envName] = deployments; //concat(addList, removeList);
         return map;
       }, {}),
-      author: window.MUSE_GLOBAL.getUser().username,
     };
     await deployPlugin(args);
     modal.hide();

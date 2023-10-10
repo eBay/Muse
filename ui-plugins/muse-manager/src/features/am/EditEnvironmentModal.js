@@ -30,7 +30,6 @@ const EditEnvironmentModal = NiceModal.create(({ env, app }) => {
       },
       appName: app.name,
       envName: env.name,
-      author: user.username,
     };
     jsPlugin.invoke('museManager.editEnvForm.processPayload', { payload, values });
     updateEnv(payload)

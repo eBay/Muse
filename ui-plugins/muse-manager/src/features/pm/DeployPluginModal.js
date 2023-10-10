@@ -90,7 +90,6 @@ const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
       pluginName: plugin.name,
       envName: values.envs,
       version: values.version,
-      author: window.MUSE_GLOBAL.getUser().username,
     });
 
     modal.hide();

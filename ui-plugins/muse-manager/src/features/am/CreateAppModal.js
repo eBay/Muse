@@ -40,7 +40,7 @@ const CreateAppModal = NiceModal.create(() => {
 
   const handleFinish = useCallback(() => {
     const values = form.getFieldsValue();
-    createApp({ ...values, author: user.username })
+    createApp({ ...values })
       .then(async () => {
         modal.hide();
         message.success('Create app success.');
