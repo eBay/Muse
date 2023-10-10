@@ -46,7 +46,10 @@ muse.plugin.register({
 
       // TODO: the logic here seems to be too complicated, need more detailed comments
       processAppInfo: async ({ app, env }) => {
+        // All deployed plugins on the app
         const deployedPluginByName = _.keyBy(env.plugins, 'name');
+
+        // Get the app config from parent process
         const appConfig = await callParentApi('get-app-config');
 
         const linkedPlugins = [];
@@ -57,11 +60,13 @@ muse.plugin.register({
         const localLibPluings = {};
 
         appConfig?.plugins?.forEach((p) => {
+          // NOTE: if a plugin specified deployed mode but not found, just return
           if (p.mode === 'deployed') return;
           let deployedPlugin = deployedPluginByName[p.name];
 
-          if (!deployedPlugin) {
-            // If a plugin specified deployed mode but not found, just return
+          // If the configured plugin is not deployed, then add it
+          // The url will be set later
+          if (!deployedPlugin && (p.mode !== 'local' || p.running)) {
             deployedPlugin = {
               name: p.name,
               type: p.type,
@@ -114,7 +119,7 @@ muse.plugin.register({
               break;
             }
             case 'deployed':
-              // do nothing, just use the deployed version
+              // already return
               break;
             default:
               // some error happened?

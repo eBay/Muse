@@ -30,7 +30,7 @@ export default class Command extends EventEmitter {
     });
 
     ptyProcess.onData((data) => {
-      process.stdout.write(data);
+      // process.stdout.write(data);
       // ptyProcess.on('data');
     });
 
