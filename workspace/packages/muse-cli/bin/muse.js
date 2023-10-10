@@ -120,6 +120,17 @@ program
 
     if (!(await muse.am.getApp('musemanager'))) {
       await muse.am.createApp({ appName: 'musemanager', envName: 'staging' });
+      await muse.am.updateApp({
+        appName: 'musemanager',
+        changes: {
+          set: [
+            {
+              path: 'title',
+              value: 'Muse Manager',
+            },
+          ],
+        },
+      });
     }
     await muse.pm.deployPlugin({
       appName: 'musemanager',
