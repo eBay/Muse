@@ -6,8 +6,7 @@
   "muse": {
     "type": "init",
     "devConfig": {
-      "app": "myapp",
-      "remotePlugins": "*"
+      "app": "musedemo"
     }
   },
   "scripts": {
