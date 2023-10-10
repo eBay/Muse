@@ -20,7 +20,9 @@ const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 console.log('Starting Muse Runner...');
 
-const config = new Conf({ projectName: 'muse-runner' });
+const config = new Conf({
+  projectName: process.env.MUSE_RUNNER_CONFIG_NAME || 'muse-runner',
+});
 console.log('Config path: ', config.path);
 const app = express();
 app.use(express.json({ limit: '5MB' }));
@@ -90,9 +92,6 @@ function bindOutputToSocket(id, output) {
     output.onData(onData);
   } else {
     output.on('data', onData);
-    // output.on('error', (err) => {
-    //   onData(err);
-    // });
   }
 }
 

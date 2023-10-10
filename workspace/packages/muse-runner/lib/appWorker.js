@@ -207,5 +207,6 @@ app.use(
 );
 
 app.listen(port, () => {
-  console.log(`Muse app started: http://local.cloud.ebay.com:${port}`);
+  const host = process.env.MUSE_LOCAL_HOST_NAME || '127.0.0.1';
+  console.log(`Muse app started: http://${host}:${port}`);
 });
