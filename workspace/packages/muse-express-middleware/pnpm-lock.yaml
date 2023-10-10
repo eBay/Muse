@@ -1,9 +1,16 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 dependencies:
   '@ebay/muse-core':
-    specifier: workspace:^1.0.31
+    specifier: workspace:^1.0.35
     version: link:../muse-core
+  '@ebay/muse-modules-analyzer':
+    specifier: workspace:^1.0.7
+    version: link:../muse-modules-analyzer
   lodash:
     specifier: ^4.17.21
     version: 4.17.21
