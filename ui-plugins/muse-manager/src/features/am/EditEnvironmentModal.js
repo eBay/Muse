@@ -7,8 +7,6 @@ import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import jsPlugin from 'js-plugin';
 import { useSyncStatus, useMuseMutation } from '../../hooks';
 
-const user = window.MUSE_GLOBAL.getUser();
-
 const EditEnvironmentModal = NiceModal.create(({ env, app }) => {
   const syncStatus = useSyncStatus(`muse.app.${app.name}`);
   const modal = useModal();
