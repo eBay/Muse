@@ -4,11 +4,15 @@ const _ = require('lodash');
 const os = require('os');
 const path = require('path');
 const timeStart = Date.now();
+
 if (!process.env.MUSE_CLI_CONFIG_FILE) {
   process.env.MUSE_CLI_CONFIG_FILE = path.join(os.homedir(), 'muse-cli.config.js');
 }
 
-process.env.MUSE_CONFIG_FILE = process.env.MUSE_CLI_CONFIG_FILE;
+// If set 'none', then use the default config file.
+if (process.env.MUSE_CLI_CONFIG_FILE !== 'none') {
+  process.env.MUSE_CONFIG_FILE = process.env.MUSE_CLI_CONFIG_FILE;
+}
 const commander = require('commander');
 const { Command } = commander;
 const chalk = require('chalk');
