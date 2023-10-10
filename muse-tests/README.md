@@ -7,7 +7,7 @@ E2e testing the whole Muse system.
 - Setup env to include all necessary packages.
 - Create muse app
 - Create muse plugin
-- Build plugin: dev, dist.
+- Build plugin: dev, dist. (all plugins from example folder)
 - Deploy plugin
 - Verify the deployed plugin is working
 - Install a remote plugin

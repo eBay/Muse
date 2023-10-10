@@ -24,6 +24,8 @@ RUN npx create-react-app pluing2
 RUN npx create-react-app pluing3
 RUN npx create-react-app pluing4
 
+RUN npm install -g puppeteer
+
 RUN cd ..
 
 COPY ./package.json ./package.json
