@@ -1,13 +1,38 @@
 # muse-eco-e2e-test
 
-E2e testing the whole Muse system.
+Smoking test for the whole Muse system.
 
 ## Included Testing Steps
 
 - Setup env to include all necessary packages.
+- Test very basic flow
+  - Create an app
+  - Deploy pure muse-boot-default + muse-lib-react plugin
+  - Verify that the basic app works
+  - Deploy muse-lib-antd, muse-layout-antd plugin
+  - Verify antd and layout plugins work
+- Verify the demo app works
+  - Create a new Muse app
+  - Git clone examples folder from muse-next
+  - Create plugins for example plugins
+  - Build example plugins
+  - Deploy example plugins
+  - Verify example app works
+- Muse Manager (with app/api/assets middleware) works
+  - Start muse manager
+  - Create app
+  - App list
+  - Plugin list
+- Environments works
+  - Create a new env forking from staging on demo app
+  - Verify the new env works
+  - Delete the env
+  - Verify the env doesn't work
 - Create muse app
 - Create muse plugin
 - Build plugin: dev, dist. (all plugins from example folder)
+  - Git clone examples folder from muse-next
+  - Build plugins of all demo plugins
 - Deploy plugin
 - Verify the deployed plugin is working
 - Install a remote plugin
