@@ -20,7 +20,7 @@ export default class AppRunner extends EventEmitter {
     if (this.worker) {
       throw new Error(`App already started.`);
     }
-    const realPort = port || (await getPort({ port: portNumbers(5000, 5050) }));
+    const realPort = port || (await getPort({ port: portNumbers(50000, 50500) }));
 
     // Use a worker, so that we can get seperate stdout of the current server.
     const worker = new Worker(path.join(__dirname, './appWorker.js'), {
