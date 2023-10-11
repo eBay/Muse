@@ -14,8 +14,6 @@
     "@ebay/muse-core": "^1.0.34",
     "@ebay/muse-cra-patch": "^1.0.2",
     "@ebay/muse-craco-plugin": "^3.0.13",
-    "@ebay/muse-ebay-craco-plugin": "^1.1.1",
-    "@ebay/muse-ebay-dev": "^1.0.25",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
     "@testing-library/react-hooks": "^8.0.1",
@@ -35,6 +33,7 @@
     "@ebay/muse-lib-react": "^1.2.16",
     "@ebay/muse-vite-plugin": "^1.0.15",
     "@vitejs/plugin-react": "^4.0.4",
+    "axios": "^1.5.1",
     "rspv2": "^2.0.4",
     "tailwindcss": "^3.3.3",
     "vite": "^4.4.9",
@@ -46,13 +45,10 @@
   "scripts": {
     "start": "muse-cra-patch && cross-env PORT=3030 craco start",
     "build": "muse-cra-patch && craco build",
-    "build:dev": "muse-cra-patch && cross-env MUSE_DEV_BUILD=true FAST_REFRESH=false craco build",
+    "build:dev": "muse-cra-patch && cross-env NODE_ENV=development FAST_REFRESH=false craco build",
     "build:test": "muse-cra-patch && cross-env MUSE_TEST_BUILD=true FAST_REFRESH=false craco build",
     "test": "muse-cra-patch && cross-env MUSE_TEST_BUILD=true craco test --ci --watchAll=false --passWithNoTests --coverage",
-    "test:dev": "muse-cra-patch && cross-env MUSE_TEST_BUILD=true craco test --coverage",
-    "prestart": "muse-ebay-dev check-updates",
-    "prebuild": "muse-ebay-dev check-updates",
-    "e2e-test": "muse-ebay-dev e2e-test"
+    "test:dev": "muse-cra-patch && cross-env MUSE_TEST_BUILD=true craco test --coverage"
   },
   "eslintConfig": {
     "extends": [

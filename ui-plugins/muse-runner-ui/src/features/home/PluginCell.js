@@ -13,6 +13,7 @@ import Icon, {
   PlusOutlined,
   ArrowUpOutlined,
   ArrowDownOutlined,
+  ApartmentOutlined,
 } from '@ant-design/icons';
 import api from './api';
 import EditPluginModal from './EditPluginModal';
@@ -70,6 +71,12 @@ const PluginCell = ({ plugin, appId, onMoveUp = noop, onMoveDown = noop, isFirst
     },
   });
 
+  const { mutateAsync: attachPlugin } = useMutation({
+    mutationFn: async (args) => {
+      await api.post('/attach-plugin', args);
+      await queryClient.refetchQueries({ queryKey: ['config-data'], exact: true });
+    },
+  });
   const { mutateAsync: detachPlugin } = useMutation({
     mutationFn: async () => {
       await api.post('/stop-plugin', { dir: plugin.dir });
@@ -99,6 +106,33 @@ const PluginCell = ({ plugin, appId, onMoveUp = noop, onMoveDown = noop, isFirst
       key: 'edit',
       label: 'Edit',
       icon: <EditOutlined />,
+    },
+    {
+      key: 'mode',
+      label: 'Mode',
+      icon: <ApartmentOutlined />,
+      children: [
+        {
+          key: 'mode-local',
+          label: 'Local',
+        },
+        {
+          key: 'mode-deployed',
+          label: 'Deployed',
+        },
+        {
+          key: 'mode-version',
+          label: 'Version',
+        },
+        {
+          key: 'mode-excluded',
+          label: 'Excluded',
+        },
+        {
+          key: 'mode-url',
+          label: 'Url',
+        },
+      ],
     },
     {
       key: 'link-plugin',
@@ -136,6 +170,33 @@ const PluginCell = ({ plugin, appId, onMoveUp = noop, onMoveDown = noop, isFirst
         case 'edit':
           NiceModal.show(EditPluginModal, { plugin, appId });
           break;
+        case 'mode-local':
+          attachPlugin({
+            appId,
+            pluginName: plugin.name,
+            mode: 'local',
+          });
+          break;
+        case 'mode-deployed':
+          attachPlugin({
+            appId,
+            pluginName: plugin.name,
+            mode: 'deployed',
+          });
+          break;
+        case 'mode-version':
+          NiceModal.show(EditPluginModal, { plugin: { ...plugin, mode: 'version' }, appId });
+          break;
+        case 'mode-excluded':
+          attachPlugin({
+            appId,
+            pluginName: plugin.name,
+            mode: 'excluded',
+          });
+          break;
+        case 'mode-url':
+          NiceModal.show(EditPluginModal, { plugin: { ...plugin, mode: 'url' }, appId });
+          break;
         case 'link-plugin':
           NiceModal.show(LinkPluginModal, { plugin, appId }).then((isChanged) => {
             if (isChanged) {
@@ -170,21 +231,31 @@ const PluginCell = ({ plugin, appId, onMoveUp = noop, onMoveDown = noop, isFirst
           break;
       }
     },
-    [plugin, appId, clearOutput, detachPlugin, openCode, onMoveUp, stopPlugin, onMoveDown],
+    [
+      plugin,
+      appId,
+      clearOutput,
+      detachPlugin,
+      openCode,
+      onMoveUp,
+      stopPlugin,
+      onMoveDown,
+      attachPlugin,
+    ],
   );
 
   const pluginNameElement = (
     <span className="whitespace-nowrap text-ellipsis overflow-hidden">
-      {plugin.name}
+      {plugin.running ? plugin.name : <span className="opacity-50">{plugin.name}</span>}
       {plugin.running && ':' + plugin.running.port}
       <GitStatus dir={plugin.dir} className="ml-2" />
     </span>
   );
-  const link = plugin.running
-    ? `http://local.cloud.ebay.com:${plugin.running.port}/${
-        pluginByName?.[plugin.name]?.type === 'boot' ? 'boot' : 'main'
-      }.js`
-    : null;
+  // const link = plugin.running
+  //   ? `http://local.cloud.ebay.com:${plugin.running.port}/${
+  //       pluginByName?.[plugin.name]?.type === 'boot' ? 'boot' : 'main'
+  //     }.js`
+  //   : null;
 
   return (
     <div className="grid grid-cols-[30px_1fr_45px_30px_20px] cursor-default">
@@ -207,23 +278,8 @@ const PluginCell = ({ plugin, appId, onMoveUp = noop, onMoveDown = noop, isFirst
           disabled={startPluginPending}
         ></Button>
       )}
-      {link ? (
-        <a
-          className="whitespace-nowrap text-ellipsis overflow-hidden justify-self-start max-w-full"
-          href={link}
-          target="_blank"
-          rel="noreferrer"
-          onClick={(e) => {
-            api.post('/open-browser', { url: link });
-            e.preventDefault();
-            e.stopPropagation();
-          }}
-        >
-          {pluginNameElement}
-        </a>
-      ) : (
-        pluginNameElement
-      )}
+
+      {pluginNameElement}
 
       <Tag
         className="scale-90 justify-self-end mr-0"
