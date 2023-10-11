@@ -2,17 +2,26 @@ import React, { useCallback } from 'react';
 import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
 import { Modal, Form } from 'antd';
 import NiceForm from '@ebay/nice-form-react';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query';
 import useRunnerData from './useRunnerData';
+import _ from 'lodash';
 
 import api from './api';
 
 const EditPluginModal = NiceModal.create(({ plugin, appId }) => {
   const queryClient = useQueryClient();
   const {
-    plugins,
     configData: { pluginDir },
+    settings,
   } = useRunnerData();
+
+  const { data: plugins } = useQuery({
+    cacheTime: 0,
+    queryKey: ['muse-data', 'muse.plugins'],
+    queryFn: async () => {
+      return (await api.get('/muse-data?key=muse.plugins')).data;
+    },
+  });
 
   const { mutateAsync: updatePlugin } = useMutation({
     mutationFn: async (args) => {
@@ -25,6 +34,12 @@ const EditPluginModal = NiceModal.create(({ plugin, appId }) => {
     mutationFn: async (args) => {
       await api.post('/attach-plugin', args);
       await queryClient.refetchQueries({ queryKey: ['config-data'], exact: true });
+    },
+  });
+
+  const { mutateAsync: updateSelectedRows } = useMutation({
+    mutationFn: async (keys) => {
+      await api.post('/settings', { key: 'siderExpandedRows', value: keys });
     },
   });
 
@@ -44,12 +59,14 @@ const EditPluginModal = NiceModal.create(({ plugin, appId }) => {
             widget: 'select',
             required: true,
             widgetProps: {
-              placeholder: 'Select a plugin',
+              placeholder: plugins ? 'Select a plugin' : 'Loading...',
               showSearch: true,
+              loading: !plugins,
               onChange: (value) => {
                 form.setFieldValue('dir', pluginDir?.[value] || '');
               },
             },
+            disabled: !plugins,
             options: plugins?.map((p) => p.name),
           },
 
@@ -134,8 +151,19 @@ const EditPluginModal = NiceModal.create(({ plugin, appId }) => {
         });
       }
       modal.hide();
+      const siderExpandedRows = [].concat(settings?.siderExpandedRows || []);
+      if (!siderExpandedRows.includes(appId)) siderExpandedRows.push(appId);
+      updateSelectedRows(siderExpandedRows);
     });
-  }, [form, updatePlugin, modal, attachPlugin, appId]);
+  }, [
+    form,
+    updatePlugin,
+    modal,
+    attachPlugin,
+    appId,
+    settings.siderExpandedRows,
+    updateSelectedRows,
+  ]);
 
   return (
     <Modal

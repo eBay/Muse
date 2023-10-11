@@ -131,7 +131,6 @@ export default function Sider({ onSelect }) {
       },
     };
   };
-
   const expandable = {
     expandedRowKeys: settings?.siderExpandedRows || [],
     onExpandedRowsChange: (expandedRows) => {

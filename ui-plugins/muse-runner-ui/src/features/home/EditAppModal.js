@@ -3,12 +3,18 @@ import { Modal, Form } from 'antd';
 import { AppstoreOutlined } from '@ant-design/icons';
 import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
 import NiceForm from '@ebay/nice-form-react';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import useRunnerData from './useRunnerData';
+import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query';
 import api from './api';
 
 const AddAppModal = NiceModal.create(({ app }) => {
-  const { apps } = useRunnerData();
+  const { data: apps } = useQuery({
+    cacheTime: 0,
+    queryKey: ['muse-data', 'muse.apps'],
+    queryFn: async () => {
+      return (await api.get('/muse-data?key=muse.apps')).data;
+    },
+  });
+
   const modal = useModal();
   const [form] = Form.useForm();
   Form.useWatch('app', form);
