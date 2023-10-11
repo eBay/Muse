@@ -24,6 +24,7 @@ export default class AppRunner extends EventEmitter {
 
     // Use a worker, so that we can get seperate stdout of the current server.
     const worker = new Worker(path.join(__dirname, './appWorker.js'), {
+      env: process.env,
       workerData: {
         id,
         port: realPort,

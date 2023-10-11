@@ -1,6 +1,6 @@
 {
   "name": "@ebay/muse-runner",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "index.js",
   "type": "module",
@@ -26,6 +26,7 @@
   "license": "ISC",
   "dependencies": {
     "@ebay/muse-client": "^1.0.23",
+    "@ebay/muse-core": "^1.0.35",
     "@ebay/muse-dev-utils": "^1.0.42",
     "@ebay/muse-express-middleware": "^1.0.37",
     "chalk": "^5.3.0",
