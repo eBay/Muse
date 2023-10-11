@@ -3,8 +3,10 @@ import { notification } from 'antd';
 
 const mg = window.MUSE_GLOBAL;
 export const apiHost = mg.isLocal
-  ? window.MUSE_GLOBAL.getAppVariables()?.museRunnerApiHost || 'localhost:6066'
-  : document.location.host;
+  ? // For local development, need to config it or use the default 6066 port.
+    window.MUSE_GLOBAL.getAppVariables()?.museRunnerApiHost || 'localhost:6066'
+  : // when published, always with muse-runner nodejs backend, so use the same host
+    document.location.host;
 
 const baseURL = `http://${apiHost}/api`;
 const api = axios.create({
