@@ -36,8 +36,8 @@ dependencies:
     specifier: 5.1.0
     version: 5.1.0(react@18.2.0)
   react-highlight-words:
-    specifier: 0.18.0
-    version: 0.18.0(react@18.2.0)
+    specifier: 0.20.0
+    version: artifactory.corp.ebay.com/react-highlight-words@0.20.0(react@18.2.0)
   react-syntax-highlighter:
     specifier: 15.5.0
     version: 15.5.0(react@18.2.0)
@@ -5091,7 +5091,7 @@ packages:
       object.fromentries: 2.0.6
       object.hasown: 1.1.2
       object.values: 1.1.6
-      prop-types: 15.8.1
+      prop-types: artifactory.corp.ebay.com/prop-types@15.8.1
       resolve: 2.0.0-next.4
       semver: artifactory.corp.ebay.com/semver@6.3.0
       string.prototype.matchall: 4.0.8
@@ -5744,10 +5744,6 @@ packages:
     resolution: {integrity: sha1-hK5l+n6vsWX922FWauFLrwVmTw8=}
     hasBin: true
     dev: true
-
-  /highlight-words-core@1.2.2:
-    resolution: {integrity: sha1-Hv9tfZ8KIvFVBCoAeRI3eRse6qo=}
-    dev: false
 
   /highlight.js@10.7.3:
     resolution: {integrity: sha1-aXJy45kTVuQMPKxWanTu9oF1ZTE=}
@@ -7158,6 +7154,7 @@ packages:
     hasBin: true
     dependencies:
       js-tokens: 4.0.0
+    dev: false
 
   /lower-case@2.0.2:
     resolution: {integrity: sha1-b6I3xj29xKgsoP2ILkci3F5jTig=}
@@ -7239,10 +7236,6 @@ packages:
     dependencies:
       fs-monkey: 1.0.3
     dev: true
-
-  /memoize-one@4.0.3:
-    resolution: {integrity: sha1-zf3ZQoU/GhtMccUza4xJ2gvwJzw=}
-    dev: false
 
   /meow@6.1.1:
     resolution: {integrity: sha1-GtZMS3ayok37L2Nf3crfMg0lFGc=}
@@ -8664,6 +8657,7 @@ packages:
       loose-envify: 1.4.0
       object-assign: 4.1.1
       react-is: 16.13.1
+    dev: false
 
   /property-information@5.6.0:
     resolution: {integrity: sha1-YWdVRfsjAC8kXGVA7EYHfU2j7Wk=}
@@ -9355,19 +9349,9 @@ packages:
     resolution: {integrity: sha1-koNd5YQcXPCLoA3dLWd7bRf/mts=}
     dev: true
 
-  /react-highlight-words@0.18.0(react@18.2.0):
-    resolution: {integrity: sha1-/zs+98tJf6Lo+k1UwaGpisY5DQ4=}
-    peerDependencies:
-      react: ^0.14.0 || ^15.0.0 || ^16.0.0-0 || ^17.0.0-0 || ^18.0.0-0
-    dependencies:
-      highlight-words-core: 1.2.2
-      memoize-one: 4.0.3
-      prop-types: 15.8.1
-      react: artifactory.corp.ebay.com/react@18.2.0
-    dev: false
-
   /react-is@16.13.1:
     resolution: {integrity: sha1-eJcppNw23imZ3BVt1sHZwYzqVqQ=}
+    dev: false
 
   /react-loadable@5.5.0(react@18.2.0):
     resolution: {integrity: sha1-WCJRZ509qGwyquLI5onFnxGW2MQ=}
@@ -15148,6 +15132,12 @@ packages:
       minimalistic-assert: artifactory.corp.ebay.com/minimalistic-assert@1.0.1
     dev: true
 
+  artifactory.corp.ebay.com/highlight-words-core@1.2.2:
+    resolution: {integrity: sha512-BXUKIkUuh6cmmxzi5OIbUJxrG8OAk2MqoL1DtO3Wo9D2faJg2ph5ntyuQeLqaHJmzER6H5tllCDA9ZnNe9BVGg==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/highlight-words-core/-/highlight-words-core-1.2.2.tgz}
+    name: highlight-words-core
+    version: 1.2.2
+    dev: false
+
   artifactory.corp.ebay.com/hmac-drbg@1.0.1:
     resolution: {integrity: sha512-Tti3gMqLdZfhOQY1Mzf/AanLiqh1WTiJgEj26ZuYQ9fbkLomzGchCws4FyrSd4VkpBfiNhaE1On+lOz894jvXg==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/hmac-drbg/-/hmac-drbg-1.0.1.tgz}
     name: hmac-drbg
@@ -16056,6 +16046,12 @@ packages:
       safe-buffer: artifactory.corp.ebay.com/safe-buffer@5.2.1
     dev: true
 
+  artifactory.corp.ebay.com/memoize-one@4.0.3:
+    resolution: {integrity: sha512-QmpUu4KqDmX0plH4u+tf0riMc1KHE1+lw95cMrLlXQAFOx/xnBtwhZ52XJxd9X2O6kwKBqX32kmhbhlobD0cuw==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/memoize-one/-/memoize-one-4.0.3.tgz}
+    name: memoize-one
+    version: 4.0.3
+    dev: false
+
   artifactory.corp.ebay.com/merge-descriptors@1.0.1:
     resolution: {integrity: sha512-cCi6g3/Zr1iqQi6ySbseM1Xvooa98N0w31jzUYrXPX2xqObmFGHJ0tQ5u74H3mVh7wLouTseZyYIq39g8cNp1w==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/merge-descriptors/-/merge-descriptors-1.0.1.tgz}
     name: merge-descriptors
@@ -16733,7 +16729,6 @@ packages:
       loose-envify: artifactory.corp.ebay.com/loose-envify@1.4.0
       object-assign: artifactory.corp.ebay.com/object-assign@4.1.1
       react-is: artifactory.corp.ebay.com/react-is@16.13.1
-    dev: false
 
   artifactory.corp.ebay.com/proxy-addr@2.0.7:
     resolution: {integrity: sha512-llQsMLSUDUPT44jdrU/O37qlnifitDP+ZwrmmZcoSKyLKvtZxpyV0n2/bD/N4tBAAZ/gJEdZU7KMraoK1+XYAg==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/proxy-addr/-/proxy-addr-2.0.7.tgz}
@@ -16896,11 +16891,24 @@ packages:
       react: artifactory.corp.ebay.com/react@18.2.0
       scheduler: artifactory.corp.ebay.com/scheduler@0.23.0
 
+  artifactory.corp.ebay.com/react-highlight-words@0.20.0(react@18.2.0):
+    resolution: {integrity: sha512-asCxy+jCehDVhusNmCBoxDf2mm1AJ//D+EzDx1m5K7EqsMBIHdZ5G4LdwbSEXqZq1Ros0G0UySWmAtntSph7XA==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/react-highlight-words/-/react-highlight-words-0.20.0.tgz}
+    id: artifactory.corp.ebay.com/react-highlight-words/0.20.0
+    name: react-highlight-words
+    version: 0.20.0
+    peerDependencies:
+      react: ^0.14.0 || ^15.0.0 || ^16.0.0-0 || ^17.0.0-0 || ^18.0.0-0
+    dependencies:
+      highlight-words-core: artifactory.corp.ebay.com/highlight-words-core@1.2.2
+      memoize-one: artifactory.corp.ebay.com/memoize-one@4.0.3
+      prop-types: artifactory.corp.ebay.com/prop-types@15.8.1
+      react: artifactory.corp.ebay.com/react@18.2.0
+    dev: false
+
   artifactory.corp.ebay.com/react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/react-is/-/react-is-16.13.1.tgz}
     name: react-is
     version: 16.13.1
-    dev: false
 
   artifactory.corp.ebay.com/react-is@17.0.2:
     resolution: {integrity: sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/react-is/-/react-is-17.0.2.tgz}

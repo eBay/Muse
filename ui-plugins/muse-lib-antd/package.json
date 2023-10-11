@@ -68,7 +68,7 @@
     "moment": "2.29.4",
     "prop-types": "15.8.1",
     "react-copy-to-clipboard": "5.1.0",
-    "react-highlight-words": "0.18.0",
+    "react-highlight-words": "0.20.0",
     "react-syntax-highlighter": "15.5.0"
   }
 }
