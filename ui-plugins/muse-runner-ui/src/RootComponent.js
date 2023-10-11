@@ -5,6 +5,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { message } from 'antd';
 import { useEvent } from 'react-use';
 import useRunnerData from './features/home/useRunnerData';
+import api from './features/home/api';
 
 export default function RootComponent() {
   const queryClient = useQueryClient();
@@ -32,7 +33,9 @@ export default function RootComponent() {
   const connectSocket = useCallback(() => {
     return new Promise((resolve) => {
       console.log('[Muse Runner] Connecting socket...');
-      const socketURL = `ws://localhost:6066/muse-runner-socket`;
+      const socketURL = `${api.baseURL.replace('http://', 'ws://')}/muse-runner-socket`;
+
+      // const socketURL = `ws://localhost:6066/muse-runner-socket`;
       const ws = new WebSocket(socketURL);
       wsRef.current = ws;
       ws.onopen = () => {

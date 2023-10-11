@@ -1,8 +1,12 @@
 import axios from 'axios';
 import { notification } from 'antd';
-const baseURL = window.MUSE_GLOBAL.isLocal
-  ? 'http://localhost:6066/api'
-  : `http://${document.location.host}/api`;
+
+const mg = window.MUSE_GLOBAL;
+export const apiHost = mg.isLocal
+  ? window.MUSE_GLOBAL.getAppVariables()?.museRunnerApiHost || 'localhost:6066'
+  : document.location.host;
+
+const baseURL = `http://${apiHost}/api`;
 const api = axios.create({
   baseURL,
 });

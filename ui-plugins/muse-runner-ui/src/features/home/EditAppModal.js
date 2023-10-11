@@ -5,6 +5,7 @@ import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
 import NiceForm from '@ebay/nice-form-react';
 import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query';
 import api from './api';
+import yaml from 'js-yaml';
 
 const AddAppModal = NiceModal.create(({ app }) => {
   const { data: apps } = useQuery({
@@ -34,7 +35,11 @@ const AddAppModal = NiceModal.create(({ app }) => {
 
   const selectedApp = form.getFieldValue('app');
   const formMeta = {
-    initialValues: app,
+    initialValues: {
+      ...app,
+      variables: app?.variables ? yaml.dump(app.variables) : '',
+      pluginVariables: app?.pluginVariables ? yaml.dump(app.pluginVariables) : '',
+    },
     fields: [
       {
         key: 'app',
@@ -63,7 +68,7 @@ const AddAppModal = NiceModal.create(({ app }) => {
         disabled: !selectedApp,
         placeholder: 'Select an envrionment',
         options: Object.keys(apps?.find((a) => a.name === selectedApp)?.envs || {}),
-        condition: () => !!form.getFieldValue('app'),
+        // condition: () => !!form.getFieldValue('app'),
       },
       {
         key: 'loadAllPlugins',
@@ -85,20 +90,53 @@ const AddAppModal = NiceModal.create(({ app }) => {
             indicates it in the app row)
           </>
         ),
+
         widget: 'switch',
+      },
+      {
+        key: 'variables',
+        label: 'App variables',
+        widget: 'textarea',
+        rules: [
+          {
+            message: 'Invalid yaml format',
+            validator: (_, value) => {
+              try {
+                yaml.load(value);
+                return Promise.resolve();
+              } catch (err) {
+                return Promise.reject(err);
+              }
+            },
+          },
+        ],
+        tooltip:
+          'Override app variables in yaml format. e.g. key: value. Only take effects at local.',
+      },
+      {
+        key: 'pluginVariables',
+        label: 'Plugin variables',
+        widget: 'textarea',
+        tooltip:
+          'Set app variables in yaml format. e.g. \n@ebay/muse-lib-react: \n  key:value\nOnly take effects at local.',
       },
     ],
   };
 
   const handleFinish = async (values) => {
+    const payload = {
+      app: values.app,
+      env: values.env,
+      loadAllPlugins: values.loadAllPlugins,
+      variables: values.variables ? yaml.load(values.variables) : undefined,
+      pluginVariables: values.pluginVariables ? yaml.load(values.pluginVariables) : undefined,
+    };
     if (!app) {
-      await newApp({ app: values.app, env: values.env, loadAllPlugins: values.loadAllPlugins });
+      await newApp(payload);
     } else {
       await updateApp({
         id: app.id,
-        app: values.app,
-        env: values.env,
-        loadAllPlugins: values.loadAllPlugins,
+        ...payload,
       });
     }
     queryClient.refetchQueries({ queryKey: ['config-data'], exact: true });
@@ -110,7 +148,14 @@ const AddAppModal = NiceModal.create(({ app }) => {
       {...antdModalV5(modal)}
       maskClosable={false}
       title={app ? 'Edit App' : 'Add App'}
-      onOk={() => form.validateFields().then(() => form.submit())}
+      onOk={() => {
+        form
+          .validateFields()
+          .then(() => form.submit())
+          .catch((err) => {
+            // do nothing
+          });
+      }}
     >
       <Form form={form} onFinish={handleFinish}>
         <NiceForm meta={formMeta} />

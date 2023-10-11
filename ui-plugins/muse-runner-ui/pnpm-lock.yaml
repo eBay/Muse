@@ -20,6 +20,9 @@ dependencies:
   axios:
     specifier: ^1.5.1
     version: artifactory.corp.ebay.com/axios@1.5.1
+  js-yaml:
+    specifier: ^4.1.0
+    version: artifactory.corp.ebay.com/js-yaml@4.1.0
   rspv2:
     specifier: ^2.0.4
     version: artifactory.corp.ebay.com/rspv2@2.0.4
