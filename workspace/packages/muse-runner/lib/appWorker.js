@@ -49,8 +49,17 @@ muse.plugin.register({
         // All deployed plugins on the app
         const deployedPluginByName = _.keyBy(env.plugins, 'name');
 
-        // Get the app config from parent process
+        // Get the app config in muse runner from parent process
         const appConfig = await callParentApi('get-app-config');
+
+        if (!env.variables) env.variables = {};
+        if (!env.pluginVariables) env.pluginVariables = {};
+
+        Object.assign(env.variables, appConfig.variables || {});
+        Object.entries(appConfig.pluginVariables || {}).forEach(([pluginName, variables]) => {
+          if (!env.pluginVariables[pluginName]) env.pluginVariables[pluginName] = {};
+          Object.assign(env.pluginVariables[pluginName], variables);
+        });
 
         const linkedPlugins = [];
 

@@ -43,7 +43,7 @@ const handleAsyncError = (fn) => async (req, res) => {
 
 function setupWebSocket(app) {
   const sockets = [];
-  app.ws('/muse-runner-socket', (ws) => {
+  app.ws('/api/muse-runner-socket', (ws) => {
     ws.on('close', () => _.pull(sockets, ws));
     sockets.push(ws);
   });
