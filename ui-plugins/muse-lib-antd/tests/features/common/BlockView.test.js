@@ -1,8 +1,11 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render, screen } from '@testing-library/react';
 import { BlockView } from '../../../src/features/common';
 
-it('renders node with correct class name', () => {
-  const renderedComponent = shallow(<BlockView />);
-  expect(renderedComponent.find('.common-block-view').length).toBe(1);
+describe('common/BlockView', () => {
+  it('renders BlockView', () => {
+    render(<BlockView value={['Olive', 'Allen', 'Gerry', 'Cindy', 'Ezra']} openEmail={true} />);
+    expect(screen.getByText('Olive')).toBeTruthy();
+    expect(screen.getByText('Ezra')).toBeTruthy();
+  });
 });

@@ -1,7 +1,7 @@
 const CracoLessPlugin = require('craco-less');
 const MuseCracoPlugin = require('@ebay/muse-craco-plugin');
 const MuseEbayCracoPlugin = require('@ebay/muse-ebay-craco-plugin');
-const path = require('path');
+const esmModules = ['react-syntax-highlighter'];
 
 module.exports = () => {
   return {
@@ -14,15 +14,17 @@ module.exports = () => {
       configure: {
         // override default jest configuration provided by @ebay/muse-craco-plugin
         testEnvironment: 'jsdom',
-        setupFilesAfterEnv: [path.resolve(__dirname, './tests/setupAfterEnv.js')],
+        setupFiles: ['jest-canvas-mock'],
+        setupFilesAfterEnv: ['<rootDir>/tests/setupAfterEnv.js'],
         testMatch: ['<rootDir>/tests/**/*.test.js'],
         roots: ['<rootDir>/tests/'],
         clearMocks: true,
         moduleNameMapper: {
           '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
-            path.resolve(__dirname, './tests/__mocks__/fileMock.js'),
-          '\\.(css|less)$': path.resolve(__dirname, './tests/__mocks__/styleMock.js'),
+            '<rootDir>/tests/__mocks__/fileMock.js',
+          '\\.(css|less)$': '<rootDir>/tests/__mocks__/styleMock.js)',
         },
+        transformIgnorePatterns: [`node_modules/(?!(?:.pnpm/)?(${esmModules.join('|')}))`],
       },
     },
     babel: {
