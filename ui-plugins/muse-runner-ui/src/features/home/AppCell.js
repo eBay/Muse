@@ -130,7 +130,8 @@ const AppCell = ({ app, onMoveUp = noop, onMoveDown = noop, isFirst, isLast }) =
     [app, removeApp, clearOutput, onMoveUp, onMoveDown],
   );
 
-  const link = app.running ? `http://local.cloud.ebay.com:${app.running.port}` : null;
+  const museLocalHost = window.MUSE_GLOBAL?.museLocalHost || 'localhost';
+  const link = app.running ? `http://${museLocalHost}:${app.running.port}` : null;
   return (
     <div className="cursor-default grid grid-cols-[30px_1fr__30px_20px]">
       {app.running ? (

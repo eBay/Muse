@@ -39,6 +39,9 @@ muse.plugin.register({
   name: 'muse-runner',
   museMiddleware: {
     app: {
+      processMuseGlobal(mg) {
+        mg.museLocalHost = process.env.MUSE_LOCAL_HOST_NAME || 'localhost';
+      },
       getAppInfo: async () => {
         const appConfig = await callParentApi('get-app-config');
         return { appName: appConfig.app, envName: appConfig.env };
@@ -212,6 +215,6 @@ app.use(
 );
 
 app.listen(port, () => {
-  const host = process.env.MUSE_LOCAL_HOST_NAME || '127.0.0.1';
+  const host = process.env.MUSE_LOCAL_HOST_NAME || 'localhost';
   console.log(`Muse app started: http://${host}:${port}`);
 });
