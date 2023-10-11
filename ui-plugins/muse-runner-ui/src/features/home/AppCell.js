@@ -19,11 +19,15 @@ import TermOutput from './TermOutput';
 import api from './api';
 
 import EditAppModal from './EditAppModal';
+import useRunnerData from './useRunnerData';
 const noop = () => {};
 
 const AppCell = ({ app, onMoveUp = noop, onMoveDown = noop, isFirst, isLast }) => {
   const queryClient = useQueryClient();
 
+  const {
+    initData: { museLocalHost },
+  } = useRunnerData();
   const { mutateAsync: startApp, isLoading: startAppPending } = useMutation({
     mutationFn: async () => {
       TermOutput.clear(`app:${app.id}`);
@@ -130,7 +134,6 @@ const AppCell = ({ app, onMoveUp = noop, onMoveDown = noop, isFirst, isLast }) =
     [app, removeApp, clearOutput, onMoveUp, onMoveDown],
   );
 
-  const museLocalHost = window.MUSE_GLOBAL?.museLocalHost || 'localhost';
   const link = app.running ? `http://${museLocalHost}:${app.running.port}` : null;
   return (
     <div className="cursor-default grid grid-cols-[30px_1fr__30px_20px]">
