@@ -39,9 +39,6 @@ muse.plugin.register({
   name: 'muse-runner',
   museMiddleware: {
     app: {
-      processMuseGlobal(mg) {
-        mg.museLocalHost = process.env.MUSE_LOCAL_HOST_NAME || 'localhost';
-      },
       getAppInfo: async () => {
         const appConfig = await callParentApi('get-app-config');
         return { appName: appConfig.app, envName: appConfig.env };

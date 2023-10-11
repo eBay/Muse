@@ -416,6 +416,7 @@ app.get(
         msgCache,
         apps,
         plugins,
+        museLocalHost: process.env.MUSE_LOCAL_HOST_NAME || 'localhost',
       }),
     );
   }),
