@@ -214,11 +214,11 @@ app.post(
   handleAsyncError(async (req, res) => {
     const id = crypto.randomBytes(6).toString('hex');
     const appList = config.get('appList', []);
-    const { app, env, port } = req.body;
-    appList.push({ id, app, env, port });
+    const { app, env, ...rest } = req.body;
+    appList.push({ id, app, env, ...rest });
     config.set('appList', appList);
     res.setHeader('Content-Type', 'application/json');
-    res.send({ id, app, env, port });
+    res.send({ id, app, env, ...rest });
   }),
 );
 
