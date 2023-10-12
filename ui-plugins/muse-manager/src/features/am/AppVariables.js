@@ -20,6 +20,15 @@ const EditableCell = ({ editing, dataIndex, children, allData, record, ...restPr
           return Promise.resolve();
         },
       },
+      {
+        message: `Name should not include '.'`,
+        validator: (rule, value) => {
+          if (value.includes('.')) {
+            return Promise.reject();
+          }
+          return Promise.resolve();
+        },
+      },
     );
   }
   return (
@@ -161,18 +170,6 @@ export default function AppVariables({ app }) {
         </span>
       );
     },
-
-    // return (
-    //   <>
-    //     <Button type="link" className="p-0 m-0 h-5" onClick={() => handleEdit(record)}>
-    //       Edit
-    //     </Button>
-    //     <Button type="link" danger className="p-0 m-0 ml-4 h-5">
-    //       Delete
-    //     </Button>
-    //   </>
-    // );
-    // },
   });
 
   const data = _.uniq([
