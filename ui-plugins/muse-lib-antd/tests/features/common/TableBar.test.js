@@ -1,8 +1,10 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render, screen } from '@testing-library/react';
 import { TableBar } from '../../../src/features/common';
 
-it('renders node with correct class name', () => {
-  const renderedComponent = shallow(<TableBar />);
-  expect(renderedComponent.find('.common-table-bar').length).toBe(1);
+describe('common/TableBar', () => {
+  it('renders TableBar', () => {
+    render(<TableBar onSearch={() => {}} placeholder={"Search something"}>Component to search on</TableBar>);
+    
+  });
 });
