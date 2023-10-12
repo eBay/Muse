@@ -1,12 +1,12 @@
-const esmModules = ['react-syntax-highlighter'];
+const esmModules = ['react-syntax-highlighter', '.*nice-form-react'];
 const path = require('path');
 
 module.exports = {
   testEnvironment: 'jsdom',
   setupFiles: ['jest-canvas-mock'],
   setupFilesAfterEnv: [path.resolve(__dirname, './tests/setupAfterEnv.js')],
-  testMatch: ['<rootDir>/tests/**/*.test.js'],
-  roots: ['<rootDir>/tests/'],
+  testMatch: [path.resolve(__dirname, './tests/**/*.test.js')],
+  roots: [path.resolve(__dirname,'./tests/')],
   clearMocks: true,
   moduleNameMapper: {
     '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
