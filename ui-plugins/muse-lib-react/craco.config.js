@@ -24,10 +24,6 @@ module.exports = () => {
           '\\.(css|less)$': path.resolve(__dirname, './tests/__mocks__/styleMock.js'),
         },
       },
-    },
-    babel: {
-      presets: ['react-app'],
-      plugins: [['@babel/plugin-transform-react-jsx'],['@babel/plugin-syntax-dynamic-import']],
-    },
+    }
   };
 };
