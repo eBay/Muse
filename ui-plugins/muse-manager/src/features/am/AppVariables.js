@@ -54,6 +54,7 @@ export default function AppVariables({ app }) {
   const [form] = Form.useForm();
   const [editingKey, setEditingKey] = useState('');
   const isEditing = (record) => record._variableName === editingKey;
+  const [newVarItem, setNewVarItem] = useState(false);
 
   const handleEdit = (record) => {
     form.setFieldsValue(record);
@@ -109,11 +110,19 @@ export default function AppVariables({ app }) {
         NiceModal.hide(LoadingModal);
       }
       setEditingKey('');
+      setNewVarItem(false);
     });
+  };
+
+  const handleNewVar = () => {
+    form.resetFields();
+    setNewVarItem(true);
+    setEditingKey(undefined);
   };
 
   const handleCancel = () => {
     setEditingKey('');
+    setNewVarItem(false);
   };
   const handleDelete = () => {};
 
@@ -190,6 +199,10 @@ export default function AppVariables({ app }) {
       return row;
     });
 
+  if (newVarItem) {
+    data.push({});
+  }
+
   const mergedColumns = columns.map((col) => {
     if (!col.editable) {
       return col;
@@ -223,7 +236,7 @@ export default function AppVariables({ app }) {
           scroll={{ x: 1300 }}
         />
       </Form>
-      <Button type="link" className="mt-3">
+      <Button type="link" className="mt-3" onClick={() => handleNewVar()}>
         + Add Variable
       </Button>
       <div>
