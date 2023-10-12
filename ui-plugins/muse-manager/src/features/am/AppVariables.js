@@ -46,7 +46,6 @@ const EditableCell = ({ editing, dataIndex, children, allData, record, ...restPr
 
 export default function AppVariables({ app }) {
   const envs = app.envs ? Object.keys(app.envs) : [];
-  const defaultAppVars = app.variables ? Object.keys(app.variables) : [];
   const ability = useAbility();
   const canUpdateApp = ability.can('update', 'App', app);
   const syncStatus = useSyncStatus(`muse.app.${app.name}`);
@@ -124,7 +123,31 @@ export default function AppVariables({ app }) {
     setEditingKey('');
     setNewVarItem(false);
   };
-  const handleDelete = () => {};
+
+  const handleDelete = (record) => {
+    (async () => {
+      const varName = record._variableName;
+      const payload = {
+        appName: app.name,
+        changes: {
+          unset: [
+            `variables.${varName}`,
+            ...envs.map((envName) => `envs.${envName}.variables.${varName}`),
+          ],
+        },
+      };
+
+      try {
+        NiceModal.show(LoadingModal, { message: 'Deleting the variable...' });
+        await updateApp(payload);
+        NiceModal.show(LoadingModal, { message: 'Syncing data...' });
+        await syncStatus();
+        NiceModal.hide(LoadingModal);
+      } catch (err) {
+        NiceModal.hide(LoadingModal);
+      }
+    })();
+  };
 
   const columns = [
     {
@@ -171,7 +194,7 @@ export default function AppVariables({ app }) {
           <Button type="link" className="p-0 m-0 h-5" onClick={() => handleEdit(record)}>
             Edit
           </Button>
-          <Popconfirm title="Sure to cancel?" onConfirm={() => handleDelete(record)}>
+          <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record)}>
             <Button type="link" danger className="p-0 m-0 ml-4 h-5">
               Delete
             </Button>
@@ -239,85 +262,6 @@ export default function AppVariables({ app }) {
       <Button type="link" className="mt-3" onClick={() => handleNewVar()}>
         + Add Variable
       </Button>
-      <div>
-        <h3 className="p-2 px-3 my-2">
-          [Default] Application variables
-          {canUpdateApp && (
-            <Button
-              type="link"
-              onClick={() =>
-                NiceModal.show('muse-manager.edit-app-variables-modal', { app, env: null })
-              }
-              size="small"
-              className="float-right"
-            >
-              Edit
-            </Button>
-          )}
-        </h3>
-        <Descriptions
-          column={1}
-          bordered
-          labelStyle={{ width: '30%' }}
-          contentStyle={{ width: '70%' }}
-        >
-          {defaultAppVars.map((defAppVar) => {
-            return (
-              <Descriptions.Item
-                labelStyle={{ width: '30%' }}
-                contentStyle={{ width: '70%' }}
-                label={defAppVar}
-                key={defAppVar}
-              >
-                {app.variables[defAppVar]}
-              </Descriptions.Item>
-            );
-          })}
-        </Descriptions>
-      </div>
-      {envs.map((env) => {
-        const currentEnvVariables = app.envs[env].variables
-          ? Object.keys(app.envs[env].variables)
-          : [];
-        return (
-          <div key={env}>
-            <h3 className="p-2 px-3 my-2">
-              [{env}] Application variables
-              {canUpdateApp && (
-                <Button
-                  type="link"
-                  onClick={() =>
-                    NiceModal.show('muse-manager.edit-app-variables-modal', { app, env: env })
-                  }
-                  size="small"
-                  className="float-right"
-                >
-                  Edit
-                </Button>
-              )}
-            </h3>
-            <Descriptions
-              column={1}
-              bordered
-              labelStyle={{ width: '30%' }}
-              contentStyle={{ width: '70%' }}
-            >
-              {currentEnvVariables.map((envVar) => {
-                return (
-                  <Descriptions.Item
-                    labelStyle={{ width: '30%' }}
-                    contentStyle={{ width: '70%' }}
-                    label={envVar}
-                    key={`${env}-${envVar}`}
-                  >
-                    {app.envs[env].variables[envVar]}
-                  </Descriptions.Item>
-                );
-              })}
-            </Descriptions>
-          </div>
-        );
-      })}
     </>
   );
 }
