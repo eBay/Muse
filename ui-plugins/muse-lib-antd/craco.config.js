@@ -27,9 +27,5 @@ module.exports = () => {
         transformIgnorePatterns: [`node_modules/(?!(?:.pnpm/)?(${esmModules.join('|')}))`],
       },
     },
-    babel: {
-      presets: ['react-app'],
-      plugins: [['@babel/plugin-transform-react-jsx'],['@babel/plugin-syntax-dynamic-import']],
-    },
   };
 };
