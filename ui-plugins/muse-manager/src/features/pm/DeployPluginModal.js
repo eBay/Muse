@@ -8,6 +8,7 @@ import useValidateDeployment from '../../hooks/useValidateDeployment';
 import PluginReleaseSelect from './PluginReleaseSelect';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import ModalFooter from '../common/ModalFooter';
+import jsPlugin from 'js-plugin';
 
 const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
   const ability = useAbility();
@@ -84,15 +85,18 @@ const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
   const handleFinish = useCallback(async () => {
     if (!(await confirmDeployment())) return;
     const values = form.getFieldsValue();
-
-    await deployPlugin({
+    const payload = {
       appName: app.name,
       pluginName: plugin.name,
       envName: values.envs,
       version: values.version,
       author: window.MUSE_GLOBAL.getUser().username,
+    };
+    jsPlugin.invoke('museManager.pm.deployPluginModal.forceDeploy.processPayload', {
+      payload,
+      values,
     });
-
+    await deployPlugin(payload);
     modal.hide();
     message.success('Deploy plugin succeeded.');
     await syncStatus();

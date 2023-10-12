@@ -10,9 +10,10 @@ import {
   usePendingError,
   useAbility,
 } from '../../hooks';
-
+import jsPlugin from 'js-plugin';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import ModalFooter from '../common/ModalFooter';
+
 const UndeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
   const ability = useAbility();
   const [form] = Form.useForm();
@@ -87,11 +88,16 @@ const UndeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
     if (!(await confirmUndeployment())) return;
 
     const values = form.getFieldsValue();
-    await undeployPlugin({
+    const payload = {
       appName: app.name,
       pluginName: plugin.name,
       envName: values.envs,
+    };
+    jsPlugin.invoke('museManager.pm.undeployPluginModal.forceUndeploy.processPayload', {
+      payload,
+      values,
     });
+    await undeployPlugin(payload);
 
     modal.hide();
     message.success('Undeploy plugin success.');
