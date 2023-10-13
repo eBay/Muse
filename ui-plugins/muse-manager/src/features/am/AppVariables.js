@@ -211,9 +211,9 @@ export default function AppVariables({ app }) {
     .map((variableName) => {
       const row = {
         variableName: variableName,
-        defaultVariableValue: app.variables[variableName],
+        defaultVariableValue: app.variables?.[variableName],
         envs: _.chain(envs)
-          .map((env) => [env, app.envs[env].variables[variableName]])
+          .map((env) => [env, app.envs?.[env]?.variables?.[variableName]])
           .fromPairs()
           .value(),
       };
