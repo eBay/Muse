@@ -6,7 +6,6 @@ import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import utils from '@ebay/muse-lib-antd/src/utils';
 import jsPlugin from 'js-plugin';
 import { useSyncStatus, useMuseMutation } from '../../hooks';
-const user = window.MUSE_GLOBAL.getUser();
 
 const CreatePluginModal = NiceModal.create(({ app }) => {
   const modal = useModal();
@@ -82,7 +81,7 @@ const CreatePluginModal = NiceModal.create(({ app }) => {
     if (app) values.app = app;
     jsPlugin.invoke('museManager.pm.createPluginForm.processValues', { values, form });
     console.log(values);
-    createPlugin({ ...values, author: user.username })
+    createPlugin({ ...values })
       .then(async () => {
         modal.hide();
         message.success('Create plugin success.');

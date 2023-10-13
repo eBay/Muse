@@ -7,11 +7,11 @@ export default function EnvironmentVariables({ app }) {
   const [environmentSelection, setEnvironmentSelection] = useState('App');
   const plainOptions = [
     {
-      label: <span>App. Level</span>,
+      label: <span>App</span>,
       value: 'App',
     },
     {
-      label: <span>Plugin Level</span>,
+      label: <span>Plugin</span>,
       value: 'Plugin',
     },
   ];

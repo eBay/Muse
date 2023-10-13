@@ -4,7 +4,7 @@ import { Modal, message, Form, Tag } from 'antd';
 import jsPlugin from 'js-plugin';
 import NiceForm from '@ebay/nice-form-react';
 import TimeAgo from 'react-time-ago';
-import utils, { extendArray } from '@ebay/muse-lib-antd/src/utils';
+import utils from '@ebay/muse-lib-antd/src/utils';
 import ModalFooter from '../common/ModalFooter';
 import usePendingError from '../../hooks/usePendingError';
 import { useMuseMutation, useSyncStatus, useAbility, useMuseData } from '../../hooks';

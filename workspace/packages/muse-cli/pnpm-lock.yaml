@@ -9,7 +9,7 @@ dependencies:
     specifier: workspace:^1.0.30
     version: link:../muse-core
   '@ebay/muse-modules-analyzer':
-    specifier: workspace:^1.0.0
+    specifier: workspace:^1.0.6
     version: link:../muse-modules-analyzer
   '@ebay/muse-simple-server':
     specifier: workspace:^1.0.25

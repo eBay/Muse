@@ -19,7 +19,7 @@ const {
 
 const configDir = config.filepath ? path.dirname(config.filepath) : process.cwd();
 
-const loadPlugin = pluginDef => {
+const loadPlugin = (pluginDef) => {
   let pluginInstance = null;
   let pluginOptions = null;
   if (_.isString(pluginDef)) {
@@ -52,7 +52,7 @@ const loadPlugin = pluginDef => {
 // The name for plugin is used to pass arguments to the plugin from presets config section
 _.castArray(config.presets)
   .filter(Boolean)
-  .forEach(preset => {
+  .forEach((preset) => {
     // preset must be a string to be able to loaded by `require`
     let plugins;
     const args = {};
@@ -67,7 +67,7 @@ _.castArray(config.presets)
     // Here plugins has the structure:
     // [{ name: 'plugin1', plugin: pluginModule }, { name: 'plugin2', plugin: pluginModule }]
     // Need to convert it and bind to args
-    plugins = plugins.map(p =>
+    plugins = plugins.map((p) =>
       _.isString(p) ? p : [p.plugin, Object.assign(p.args || {}, args[p.name] || {})],
     );
 
@@ -83,12 +83,12 @@ const assetsStorageProviders = plugin.getPlugins('museCore.assets.storage.get').
 if (assetsStorageProviders.length > 1) {
   console.log(
     `[WARNING]: multiple assets stroage providers found: ${assetsStorageProviders
-      .map(p => p.name)
+      .map((p) => p.name)
       .join(', ')}. Only the first one is used: ${assetsStorageProviders[0].name}.`,
   );
 }
 if (assetsStorageProviders.length === 0) {
-  plugin.register(assetsFileStoragePlugin());
+  plugin.register(assetsFileStoragePlugin({ location: config.get('assetsDir') }));
 }
 
 // If no registry storage plugin, then use the default one
@@ -96,12 +96,12 @@ const registryStorageProviders = plugin.getPlugins('museCore.registry.storage.ge
 if (registryStorageProviders.length > 1) {
   console.log(
     `[WARNING]: multiple registry stroage providers found: ${registryStorageProviders
-      .map(p => p.name)
+      .map((p) => p.name)
       .join(', ')}. Only the first one is used: ${registryStorageProviders[0].name}.`,
   );
 }
 if (registryStorageProviders.length === 0) {
-  plugin.register(registryFileStoragePlugin());
+  plugin.register(registryFileStoragePlugin({ location: config.get('registryDir') }));
 }
 
 if (config.get('assetStorageCache') !== false) {
@@ -114,7 +114,7 @@ if (config.get('defaultDataCachePlugin')) {
 
 plugin.register(environmentVariablesPlugin());
 
-Object.values(restPlugins).forEach(p => plugin.register(p()));
+Object.values(restPlugins).forEach((p) => plugin.register(p()));
 
 // When all plugins are loaded, invoke onReady on each plugin
 plugin.invoke('onReady', config);

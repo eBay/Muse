@@ -25,5 +25,6 @@ module.exports = {
   devServer: {
     // allowedHosts: ['.ebay.com'],
     setupMiddlewares: setupMuseDevServer,
+    port: process.env.PORT || 8080,
   },
 };

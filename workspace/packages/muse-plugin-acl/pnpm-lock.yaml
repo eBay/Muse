@@ -1,11 +1,15 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 dependencies:
   '@casl/ability':
     specifier: ^6.3.3
     version: 6.4.0
   '@ebay/muse-core':
-    specifier: workspace:^1.0.30
+    specifier: workspace:^1.0.35
     version: link:../muse-core
   js-plugin:
     specifier: ^1.1.0

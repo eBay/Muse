@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   '@ebay/muse-client':
-    specifier: ^1.0.24
-    version: artifactory.corp.ebay.com/@ebay/muse-client@1.0.24
+    specifier: ^1.0.26
+    version: artifactory.corp.ebay.com/@ebay/muse-client@1.0.26
   '@ebay/muse-lib-antd':
     specifier: ^1.2.15
     version: artifactory.corp.ebay.com/@ebay/muse-lib-antd@1.2.15(@types/react@18.2.5)(react-dom@18.2.0)(react@18.2.0)
@@ -11353,10 +11353,10 @@ packages:
     engines: {node: '>=10.0.0'}
     dev: true
 
-  artifactory.corp.ebay.com/@ebay/muse-client@1.0.24:
-    resolution: {integrity: sha512-//wLs5ehENzcb3r229Rhde3zAeD1Xzpb5u3nL1srhjgwrI2XBCkg45kXAovl4elg3vXQYfxAsG4sWgXsZPbZlQ==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-client/-/@ebay/muse-client-1.0.24.tgz}
+  artifactory.corp.ebay.com/@ebay/muse-client@1.0.26:
+    resolution: {integrity: sha512-4wErDptb/Z0z8PPkhTPXqhzunKcVipFx8iVDf669S992hpX9gD33rDyXfxEebP1pYRhnecBKK6nTVIr7A42IVQ==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-client/-/@ebay/muse-client-1.0.26.tgz}
     name: '@ebay/muse-client'
-    version: 1.0.24
+    version: 1.0.26
     dependencies:
       axios: artifactory.corp.ebay.com/axios@0.27.2
     transitivePeerDependencies:
