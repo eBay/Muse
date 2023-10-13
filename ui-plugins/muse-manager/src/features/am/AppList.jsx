@@ -8,6 +8,7 @@ import tableConfig from '@ebay/muse-lib-antd/src/features/common/tableConfig';
 import { usePollingMuseData } from '../../hooks';
 import AppActions from './AppActions';
 import AppListBar from './AppListBar';
+import OwnerList from '../common/OwnerList';
 
 export default function AppList() {
   const searchValue = useSearchParam('search')?.toLowerCase() || '';
@@ -17,6 +18,7 @@ export default function AppList() {
       dataIndex: 'name',
       title: 'Name',
       width: '220px',
+      order: 10,
       sorter: tableConfig.defaultSorter('name'),
       render: (name) => (
         <Link to={`/app/${name}`}>
@@ -25,14 +27,23 @@ export default function AppList() {
       ),
     },
     {
+      dataIndex: 'owners',
+      title: 'Owners',
+      width: 200,
+      order: 20,
+      render: (owners) => <OwnerList owners={owners} searchKey={searchValue} count={2} />,
+    },
+    {
       dataIndex: 'createdBy',
       title: 'Created By',
       width: '120px',
+      order: 30,
     },
     {
       dataIndex: 'actions',
       title: 'Actions',
       width: '160px',
+      order: 200,
       render: (a, app) => {
         return <AppActions app={app} />;
       },

@@ -11037,6 +11037,13 @@ packages:
       kuler: artifactory.corp.ebay.com/kuler@2.0.0
     dev: true
 
+  artifactory.corp.ebay.com/@discoveryjs/json-ext@0.5.7:
+    resolution: {integrity: sha512-dBVuXR082gk3jsFp7Rd/JI4kytwGHecnCoTtXFb7DB6CNHp4rg5k1bhg0nWdLGLnOV71lmDzGQaLMy8iPLY0pw==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@discoveryjs/json-ext/-/json-ext-0.5.7.tgz}
+    name: '@discoveryjs/json-ext'
+    version: 0.5.7
+    engines: {node: '>=10.0.0'}
+    dev: true
+
   artifactory.corp.ebay.com/@ebay/muse-core@1.0.35:
     resolution: {integrity: sha512-o2fCHsbtJBb9c3J2ym4Q3zWrKAbFJIPC4R+A+SvJlJ+ubOYjhFT3utxcfI8yK8LDaXv0gCKx0z4ZRMvqjR610Q==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-core/-/@ebay/muse-core-1.0.35.tgz}
     name: '@ebay/muse-core'

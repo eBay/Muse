@@ -7,7 +7,6 @@ import { useSyncStatus, useMuseMutation } from '../../hooks';
 import utils from '@ebay/muse-lib-antd/src/utils';
 import jsPlugin from 'js-plugin';
 
-const user = window.MUSE_GLOBAL.getUser();
 const EditAppModal = NiceModal.create(({ app }) => {
   const modal = useModal();
   const [form] = Form.useForm();
@@ -23,6 +22,7 @@ const EditAppModal = NiceModal.create(({ app }) => {
 
   const meta = {
     initialValues: app,
+    columns: 2,
     fields: [
       {
         key: 'title',
@@ -72,7 +72,6 @@ const EditAppModal = NiceModal.create(({ app }) => {
           };
         }),
       },
-      author: user.username,
     };
     jsPlugin.invoke('museManager.am.editAppForm.processPayload', { payload, values });
     updateApp(payload)

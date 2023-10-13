@@ -7,6 +7,9 @@ const user = window.MUSE_GLOBAL?.getUser();
 // NOTE: if no user, then it means the Muse system hasn't enabled permission check.
 // It will then always return true.
 
+// This is the default implementation of the ability.
+// It can be extended by the app by defining a new ability in the app.
+
 export default function useAbility() {
   const { data: admins, error } = useMuseData('muse.admins');
   const userObj = {
