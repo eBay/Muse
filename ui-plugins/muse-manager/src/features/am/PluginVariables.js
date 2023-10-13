@@ -189,14 +189,23 @@ export default function PluginVariables({ app }) {
           </span>
         );
       }
+
+      const canConfigPlugin = ability.can('config', 'Plugin', {
+        app,
+        plugin: plugins?.find((p) => p.name === record.pluginName),
+      });
+
       const items = [
         {
           key: 'add',
           order: 30,
           icon: 'plus',
           label: 'Add a variable',
-          // disabled: !canUpdateApp,
+          disabled: !canConfigPlugin,
           disabledText: 'No permission.',
+          style: {
+            visibility: record.isLast ? 'visible' : 'hidden',
+          },
           highlight: true,
           onClick: () => {
             handleNewVar(record.pluginName);
@@ -207,7 +216,7 @@ export default function PluginVariables({ app }) {
           order: 40,
           icon: 'edit',
           label: 'Edit',
-          // disabled: !canUpdateApp,
+          disabled: !canConfigPlugin,
           disabledText: 'No permission.',
           highlight: true,
           onClick: () => {
@@ -219,7 +228,7 @@ export default function PluginVariables({ app }) {
           key: 'delete',
           order: 40,
           icon: 'delete',
-          // disabled: !canUpdateApp,
+          disabled: !canConfigPlugin,
           disabledText: 'No permission.',
           highlight: true,
           danger: true,
@@ -258,6 +267,7 @@ export default function PluginVariables({ app }) {
         .map((varName, i, arr) => {
           return {
             pluginNameRowSpan: i === 0 ? arr.length : 0,
+            isLast: i === arr.length - 1,
             pluginName: pluginName,
             variableName: varName,
             defaultVariableValue: app.pluginVariables?.[pluginName]?.[varName],
@@ -314,7 +324,9 @@ export default function PluginVariables({ app }) {
         value={null}
         popupMatchSelectWidth={false}
         placeholder={<span>Add a plugin</span>}
-        options={plugins?.map((p) => ({ value: p.name, label: p.name }))}
+        options={plugins
+          ?.filter((p) => ability.can('config', 'Plugin', { app, plugin: p }))
+          ?.map((p) => ({ value: p.name, label: p.name }))}
         onChange={handleNewVar}
       />
     </>
