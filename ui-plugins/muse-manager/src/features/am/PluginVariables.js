@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Descriptions, Button, Form, Table, Popconfirm } from 'antd';
+import { useState, useEffect } from 'react';
+import { Button, Form, Table, Popconfirm, Select } from 'antd';
 import { RequestStatus, DropdownMenu } from '@ebay/muse-lib-antd/src/features/common';
 import NiceModal from '@ebay/nice-modal-react';
 import _ from 'lodash';
@@ -8,11 +8,10 @@ import VarEditableCell from './VarEditableCell';
 
 export default function PluginVariables({ app }) {
   const envs = app.envs ? Object.keys(app.envs) : [];
-  const defaultPluginVars = app.pluginVariables ? Object.keys(app.pluginVariables) : [];
   const [editingKey, setEditingKey] = useState('');
   const syncStatus = useSyncStatus(`muse.app.${app.name}`);
   const isEditing = (record) => record.key === editingKey;
-  const [newVarItem, setNewVarItem] = useState(false);
+  const [newVarPlugin, setNewVarPlugin] = useState(false);
   const ability = useAbility();
   const [form] = Form.useForm();
 
@@ -82,7 +81,7 @@ export default function PluginVariables({ app }) {
         unset: updateUnset,
       });
       setEditingKey('');
-      setNewVarItem(false);
+      setNewVarPlugin(false);
     });
   };
   const handleEdit = (record) => {
@@ -91,18 +90,14 @@ export default function PluginVariables({ app }) {
   };
   const handleCancel = () => {
     setEditingKey('');
-    setNewVarItem(false);
-  };
-  const handleNewVar = (pluginName) => {
-    form.resetFields();
-    setNewVarItem(true);
-    setEditingKey(undefined);
+    setNewVarPlugin(false);
   };
 
-  const handleNewPlugin = () => {
+  const handleNewVar = (pluginName) => {
+    console.log(pluginName);
     form.resetFields();
-    setNewVarItem(true);
-    setEditingKey(undefined);
+    setNewVarPlugin(pluginName);
+    setEditingKey(`${pluginName}.`);
   };
   const handleDelete = (record) => {
     (async () => {
@@ -116,12 +111,18 @@ export default function PluginVariables({ app }) {
     })();
   };
 
+  // Auto focus the new var name input
+  useEffect(() => {
+    setTimeout(() => document.getElementById('variableName')?.focus(), 30);
+  }, [newVarPlugin]);
+
   const columns = [
     {
       title: 'Plugin Name',
       dataIndex: 'pluginName',
       fixed: 'left',
       width: '220px',
+      render: (name) => <b>{name}</b>,
       onCell: (record, index) => {
         return {
           rowSpan: record.pluginNameRowSpan,
@@ -148,7 +149,7 @@ export default function PluginVariables({ app }) {
   envs.forEach((env) => {
     columns.push({
       dataIndex: ['envs', env],
-      title: env,
+      title: _.capitalize(env),
       editable: true,
     });
   });
@@ -178,11 +179,11 @@ export default function PluginVariables({ app }) {
               okText="Yes"
               onConfirm={() => handleSave(record)}
             >
-              <Button type="link" className="p-1 m-0 h-5">
+              <Button type="primary" className2="mt-1" size="small">
                 Save
               </Button>
             </Popconfirm>
-            <Button type="link" className="p-1 m-0 ml-4 h-5" onClick={() => handleCancel(record)}>
+            <Button className="ml-2 mt-1" size="small" onClick={() => handleCancel(record)}>
               Cancel
             </Button>
           </span>
@@ -190,9 +191,22 @@ export default function PluginVariables({ app }) {
       }
       const items = [
         {
+          key: 'add',
+          order: 30,
+          icon: 'plus',
+          label: 'Add a variable',
+          // disabled: !canUpdateApp,
+          disabledText: 'No permission.',
+          highlight: true,
+          onClick: () => {
+            handleNewVar(record.pluginName);
+          },
+        },
+        {
           key: 'edit',
           order: 40,
           icon: 'edit',
+          label: 'Edit',
           // disabled: !canUpdateApp,
           disabledText: 'No permission.',
           highlight: true,
@@ -207,7 +221,6 @@ export default function PluginVariables({ app }) {
           icon: 'delete',
           // disabled: !canUpdateApp,
           disabledText: 'No permission.',
-
           highlight: true,
           danger: true,
           confirm: {
@@ -231,6 +244,8 @@ export default function PluginVariables({ app }) {
     .flatten()
     .uniq()
     .sort()
+    .concat(newVarPlugin ? [newVarPlugin] : [])
+    .uniq()
     // here are all plugin names, get all vars under each plugin
     .map((pluginName) =>
       _.chain([app, ...Object.values(app.envs || {})])
@@ -239,6 +254,7 @@ export default function PluginVariables({ app }) {
         .uniq()
         .sort()
         // here are all plugin vars, get all values under each var for each env
+        .concat(pluginName === newVarPlugin ? [''] : [])
         .map((varName, i, arr) => {
           return {
             pluginNameRowSpan: i === 0 ? arr.length : 0,
@@ -292,117 +308,15 @@ export default function PluginVariables({ app }) {
           scroll={{ x: 1300 }}
         />
       </Form>
-      <Button type="link" className="mt-3" onClick={() => handleNewPlugin()}>
-        + Add Plugin
-      </Button>
-      <div>
-        <h3 className="p-2 px-3 my-2">
-          [Default] Plugin variables
-          <Button
-            type="link"
-            onClick={() =>
-              NiceModal.show('muse-manager.edit-plugin-variables-modal', { app, env: null })
-            }
-            size="small"
-            className="float-right"
-          >
-            Edit
-          </Button>
-        </h3>
-        <Descriptions
-          column={1}
-          bordered
-          labelStyle={{ width: '30%' }}
-          contentStyle={{ width: '70%' }}
-        >
-          {defaultPluginVars.map((defPluginVar) => {
-            return (
-              <Descriptions.Item
-                label={defPluginVar}
-                labelStyle={{ width: '30%' }}
-                contentStyle={{ width: '70%', padding: '5px 5px' }}
-                key={defPluginVar}
-              >
-                <Descriptions column={1} bordered>
-                  {Object.keys(app.pluginVariables[defPluginVar]).map((defPluginVarValue) => {
-                    return (
-                      <Descriptions.Item
-                        contentStyle={{ width: '70%', padding: '5px 10px' }}
-                        label={defPluginVarValue}
-                        labelStyle={{ width: '30%' }}
-                        key={`${defPluginVar}-${defPluginVarValue}`}
-                      >
-                        {app.pluginVariables[defPluginVar][defPluginVarValue]}
-                      </Descriptions.Item>
-                    );
-                  })}
-                </Descriptions>
-              </Descriptions.Item>
-            );
-          })}
-        </Descriptions>
-      </div>
-      {envs.map((env) => {
-        const currentEnvVariables = app.envs[env].pluginVariables
-          ? Object.keys(app.envs[env].pluginVariables)
-          : [];
-        return (
-          <div key={env}>
-            <h3 className="p-2 px-3 my-2">
-              [{env}] Plugin variables
-              <Button
-                type="link"
-                onClick={() =>
-                  NiceModal.show('muse-manager.edit-plugin-variables-modal', { app, env: env })
-                }
-                size="small"
-                className="float-right"
-              >
-                Edit
-              </Button>
-            </h3>
-            <Descriptions
-              column={1}
-              bordered
-              labelStyle={{ width: '30%' }}
-              contentStyle={{ width: '70%' }}
-            >
-              {currentEnvVariables.map((defPluginVar) => {
-                return (
-                  <Descriptions.Item
-                    labelStyle={{ width: '30%' }}
-                    label={defPluginVar}
-                    contentStyle={{ width: '70%', padding: '5px 5px' }}
-                    key={`${env}-${defPluginVar}`}
-                  >
-                    <Descriptions
-                      column={1}
-                      bordered
-                      labelStyle={{ width: '30%' }}
-                      contentStyle={{ width: '70%' }}
-                    >
-                      {Object.keys(app.envs[env].pluginVariables[defPluginVar]).map(
-                        (defPluginVarValue) => {
-                          return (
-                            <Descriptions.Item
-                              label={defPluginVarValue}
-                              contentStyle={{ width: '70%', padding: '5px 10px' }}
-                              labelStyle={{ width: '30%' }}
-                              key={`${env}-${defPluginVar}-${defPluginVarValue}`}
-                            >
-                              {app.envs[env].pluginVariables[defPluginVar][defPluginVarValue]}
-                            </Descriptions.Item>
-                          );
-                        },
-                      )}
-                    </Descriptions>
-                  </Descriptions.Item>
-                );
-              })}
-            </Descriptions>
-          </div>
-        );
-      })}
+      <Select
+        className="mt-3 w-52 text-blue-600"
+        showSearch
+        value={null}
+        popupMatchSelectWidth={false}
+        placeholder={<span>Add a plugin</span>}
+        options={plugins?.map((p) => ({ value: p.name, label: p.name }))}
+        onChange={handleNewVar}
+      />
     </>
   );
 }
