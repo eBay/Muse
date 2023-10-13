@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Descriptions, Button, Form, Table, Input, Popconfirm } from 'antd';
+import { Button, Form, Table, Input, Popconfirm } from 'antd';
 import { useAbility, useSyncStatus, useMuseMutation } from '../../hooks';
 import _ from 'lodash';
 import NiceModal from '@ebay/nice-modal-react';
@@ -169,8 +169,6 @@ export default function AppVariables({ app }) {
       dataIndex: env,
       title: env,
       editable: true,
-
-      // width: 100 / envs.length + '%',
     });
   });
 
@@ -251,6 +249,7 @@ export default function AppVariables({ app }) {
               cell: EditableCell,
             },
           }}
+          className="mt-3"
           columns={mergedColumns}
           rowKey="_variableName"
           size="small"
