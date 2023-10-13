@@ -1,11 +1,10 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render, screen } from '@testing-library/react';
 import { PageNotFound } from '../../../src/features/common';
 
 describe('common/PageNotFound', () => {
-  it('renders node with correct class name', () => {
-    const renderedComponent = shallow(<PageNotFound />);
-
-    expect(renderedComponent.find('.common-page-not-found').length).toBe(1);
+  it('renders PageNotFound', () => {
+    render(<PageNotFound/>);
+    expect(screen.getByText('Page not found.')).toBeTruthy();
   });
 });

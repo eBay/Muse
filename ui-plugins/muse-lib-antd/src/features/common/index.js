@@ -1,5 +1,4 @@
 export { default as MetaMenu } from './MetaMenu';
-export { default as NiceModal } from './NiceModal';
 export { default as BlockView } from './BlockView';
 export { default as CodeViewer } from './CodeViewer';
 export { default as DateView } from './DateView';

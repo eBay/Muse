@@ -1,9 +1,8 @@
-import React, { useCallback, useMemo } from 'react';
+import React from 'react';
 import { Menu, Dropdown } from 'antd';
 import { CaretDownOutlined } from '@ant-design/icons';
 import _ from 'lodash';
 import { Link, useLocation } from 'react-router-dom';
-// import { useLocation } from 'react-use';
 import plugin from 'js-plugin';
 import getIconNode from './getIconNode';
 
@@ -142,7 +141,6 @@ export default function MetaMenu({ meta = {}, onClick, baseExtPoint, autoSort = 
         </span>
       </div>
     );
-    // console.log(menu);
     return <Dropdown menu={menuProps}>{ele}</Dropdown>;
   }
   return <Menu {...menuProps} />;

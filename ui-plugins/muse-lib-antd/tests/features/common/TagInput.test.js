@@ -1,8 +1,11 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render, screen } from '@testing-library/react';
 import { TagInput } from '../../../src/features/common';
 
-it('renders node with correct class name', () => {
-  const renderedComponent = shallow(<TagInput />);
-  expect(renderedComponent.find('.common-tag-input').length).toBe(1);
+describe('common/TagInput', () => {
+  it('renders TagInput', () => {
+    render(<TagInput max="4"/>);
+    const textbox = screen.getByRole('combobox');
+    expect(textbox).toBeTruthy();
+  });
 });

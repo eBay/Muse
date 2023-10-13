@@ -1,8 +1,10 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render, screen } from '@testing-library/react';
 import { LoadingMask } from '../../../src/features/common';
 
-it('renders node with correct class name', () => {
-  const renderedComponent = shallow(<LoadingMask />);
-  expect(renderedComponent.find('.common-loading-mask').length).toBe(1);
+describe('common/LoadingMask', () => {
+  it('renders default LoadingMask', () => {
+    const { container } = render(<LoadingMask />);
+    expect(container.querySelector('.muse-antd_common-loading-mask')).toBeTruthy();
+  });
 });
