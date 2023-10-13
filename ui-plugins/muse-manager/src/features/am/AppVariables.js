@@ -259,7 +259,13 @@ export default function AppVariables({ app }) {
           scroll={{ x: 1300 }}
         />
       </Form>
-      <Button type="link" className="mt-3" onClick={() => handleNewVar()}>
+      <Button
+        type="link"
+        className="mt-3"
+        onClick={() => handleNewVar()}
+        title={!canUpdateApp && 'No Permission.'}
+        disabled={!canUpdateApp}
+      >
         + Add a variable
       </Button>
     </>
