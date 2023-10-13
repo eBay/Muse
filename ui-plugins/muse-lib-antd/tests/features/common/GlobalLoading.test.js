@@ -1,8 +1,10 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render, screen } from '@testing-library/react';
 import { GlobalLoading } from '../../../src/features/common';
 
-it('renders node with correct class name', () => {
-  const renderedComponent = shallow(<GlobalLoading />);
-  expect(renderedComponent.find('.common-global-loading').length).toBe(1);
+describe('common/GlobalLoading', () => {
+  it('renders default GlobalLoading', () => {
+    const { container } = render(<GlobalLoading full={true} />);
+    expect(container.querySelector('.muse-antd_common-global-loading')).toBeTruthy();
+  });
 });

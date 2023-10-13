@@ -3,11 +3,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Spin } from 'antd';
 
-
-
-
-
-
 export default class GlobalLoading extends Component {
   static propTypes = {
     full: PropTypes.bool,
@@ -26,4 +21,3 @@ export default class GlobalLoading extends Component {
     );
   }
 }
-

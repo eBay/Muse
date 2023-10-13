@@ -19,7 +19,7 @@ export default function TableBar({ children, className, onSearch, search, placeh
     },
     [onSearch],
   );
-  console.log('received search: ', search);
+  
   const handleSearch = useCallback(
     value => {
       doSearch(value);
@@ -30,7 +30,7 @@ export default function TableBar({ children, className, onSearch, search, placeh
     <div className={`muse-antd_common-table-bar ${className}`}>
       <Search
         placeholder={placeholder || 'Type to search...'}
-        onSearch2={handleSearch}
+        onSearch={handleSearch}
         onChange={handleChange}
         value={search}
         allowClear

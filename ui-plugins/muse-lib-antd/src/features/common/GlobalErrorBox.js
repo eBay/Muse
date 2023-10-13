@@ -24,7 +24,7 @@ export default class GlobalErrorBox extends Component {
     const { title, onOk, okText, error, onClose } = this.props;
     return (
       <Modal
-        visible
+        open={true}
         width="600px"
         footer={null}
         className="muse-antd_common-global-error-box"

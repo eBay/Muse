@@ -39,7 +39,7 @@ export default {
     const isPathValid =
       mountedSubPath === '/' ||
       (childFullPath.startsWith(mountedSubPath) &&
-        ['', '?', '/', '#'].includes(childFullPath.chartAt(mountedSubPath.length)));
+        ['', '?', '/', '#'].includes(childFullPath.charAt(mountedSubPath.length)));
     if (!isPathValid) return;
     const re = pathToRegexp(subApp.path, [], { end: false });
     const pathname = document.location.pathname;

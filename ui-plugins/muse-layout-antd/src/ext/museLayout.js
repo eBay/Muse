@@ -231,12 +231,6 @@ export default {
               label: 'Wizard',
               link: '/muse-demo/components/muse-antd/wizard',
             },
-            {
-              key: 'niceModal',
-              label: 'NiceModal',
-              icon: 'file',
-              link: '/muse-demo/components/muse-antd/niceModal',
-            },
             // {
             //   key: 'k14',
             //   icon: 'CodeOutlined',

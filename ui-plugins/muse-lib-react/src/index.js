@@ -10,6 +10,7 @@ import * as reactUse from 'react-use';
 import './styles/index.less';
 import * as reactRouterDom from 'react-router-dom';
 import * as reactQuery from '@tanstack/react-query';
+
 plugin.register({
   name: '@ebay/muse-lib-react', // reserve the plugin name
 });
