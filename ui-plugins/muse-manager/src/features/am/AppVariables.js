@@ -56,7 +56,7 @@ export default function AppVariables({ app }) {
 
   const updateVars = async (changes) => {
     try {
-      NiceModal.show('muse-lib-antd.loading-modal', { message: 'Updating variables...' });
+      NiceModal.show('muse-lib-antd.loading-modal', { message: 'Updating app variables...' });
       await updateApp({
         appName: app.name,
         changes,
@@ -166,6 +166,7 @@ export default function AppVariables({ app }) {
     title: 'Actions',
     width: '150px',
     fixed: 'right',
+    align: 'center',
     render: (x, record) => {
       if (isEditing(record)) {
         return (
