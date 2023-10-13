@@ -1,4 +1,4 @@
-const esmModules = ['react-syntax-highlighter', '.*nice-form-react'];
+const esmModules = ['react-syntax-highlighter', '.*nice-form-react', '.*muse-lib-react'];
 const path = require('path');
 
 module.exports = {
