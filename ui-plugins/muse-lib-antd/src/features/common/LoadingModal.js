@@ -1,3 +1,4 @@
+import React from 'react';
 import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
 import { Modal } from 'antd';
 import { Loading3QuartersOutlined } from '@ant-design/icons';
