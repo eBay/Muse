@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button, Form, Table, Popconfirm } from 'antd';
 import { useAbility, useSyncStatus, useMuseMutation } from '../../hooks';
 import _ from 'lodash';
@@ -104,6 +104,10 @@ export default function AppVariables({ app }) {
     })();
   };
 
+  // Auto focus the new var name input
+  useEffect(() => {
+    setTimeout(() => document.getElementById('variableName')?.focus(), 30);
+  }, [newVarItem]);
   const columns = [
     {
       dataIndex: 'variableName',
