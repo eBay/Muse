@@ -1,9 +1,8 @@
 import { useState } from 'react';
-import { Button, Form, Table, Input } from 'antd';
+import { Button, Form, Table, Input, Popconfirm } from 'antd';
 import { useAbility, useSyncStatus, useMuseMutation } from '../../hooks';
 import _ from 'lodash';
 import NiceModal from '@ebay/nice-modal-react';
-import LoadingModal from './LoadingModal';
 import { RequestStatus, DropdownMenu } from '@ebay/muse-lib-antd/src/features/common';
 
 const EditableCell = ({ editing, dataIndex, children, allData, record, ...restProps }) => {
@@ -55,6 +54,21 @@ export default function AppVariables({ app }) {
   const isEditing = (record) => record._variableName === editingKey;
   const [newVarItem, setNewVarItem] = useState(false);
 
+  const updateVars = async (changes) => {
+    try {
+      NiceModal.show('muse-lib-antd.loading-modal', { message: 'Updating variables...' });
+      await updateApp({
+        appName: app.name,
+        changes,
+      });
+      NiceModal.show('muse-lib-antd.loading-modal', { message: 'Syncing data...' });
+      await syncStatus();
+      NiceModal.hide('muse-lib-antd.loading-modal');
+    } catch (err) {
+      NiceModal.hide('muse-lib-antd.loading-modal');
+    }
+  };
+
   const handleEdit = (record) => {
     form.setFieldsValue(record);
     setEditingKey(record._variableName);
@@ -92,22 +106,10 @@ export default function AppVariables({ app }) {
         }
       });
 
-      const payload = {
-        appName: app.name,
-        changes: {
-          set: updateSet,
-          unset: updateUnset,
-        },
-      };
-      try {
-        NiceModal.show(LoadingModal, { message: 'Updating variables...' });
-        await updateApp(payload);
-        NiceModal.show(LoadingModal, { message: 'Syncing data...' });
-        await syncStatus();
-        NiceModal.hide(LoadingModal);
-      } catch (err) {
-        NiceModal.hide(LoadingModal);
-      }
+      await updateVars({
+        set: updateSet,
+        unset: updateUnset,
+      });
       setEditingKey('');
       setNewVarItem(false);
     });
@@ -127,25 +129,12 @@ export default function AppVariables({ app }) {
   const handleDelete = (record) => {
     (async () => {
       const varName = record._variableName;
-      const payload = {
-        appName: app.name,
-        changes: {
-          unset: [
-            `variables.${varName}`,
-            ...envs.map((envName) => `envs.${envName}.variables.${varName}`),
-          ],
-        },
-      };
-
-      try {
-        NiceModal.show(LoadingModal, { message: 'Deleting the variable...' });
-        await updateApp(payload);
-        NiceModal.show(LoadingModal, { message: 'Syncing data...' });
-        await syncStatus();
-        NiceModal.hide(LoadingModal);
-      } catch (err) {
-        NiceModal.hide(LoadingModal);
-      }
+      await updateVars({
+        unset: [
+          `variables.${varName}`,
+          ...envs.map((envName) => `envs.${envName}.variables.${varName}`),
+        ],
+      });
     })();
   };
 
@@ -181,9 +170,15 @@ export default function AppVariables({ app }) {
       if (isEditing(record)) {
         return (
           <span>
-            <Button type="link" className="p-0 m-0 h-5" onClick={() => handleSave(record)}>
-              Save
-            </Button>
+            <Popconfirm
+              title="Are you sure to update the variable?"
+              okText="Yes"
+              onConfirm={() => handleSave(record)}
+            >
+              <Button type="link" className="p-0 m-0 h-5">
+                Save
+              </Button>
+            </Popconfirm>
             <Button type="link" className="p-0 m-0 ml-4 h-5" onClick={() => handleCancel(record)}>
               Cancel
             </Button>
@@ -208,10 +203,15 @@ export default function AppVariables({ app }) {
           icon: 'delete',
           disabled: !canUpdateApp,
           disabledText: 'No permission.',
+
           highlight: true,
           danger: true,
           confirm: {
-            title: 'Sure to delete?',
+            title: 'Are you sure to delete the variable?',
+            okText: 'Delete',
+            okButtonProps: {
+              danger: true,
+            },
             onConfirm: () => {
               handleDelete(record);
             },
@@ -219,29 +219,6 @@ export default function AppVariables({ app }) {
         },
       ];
       return <DropdownMenu items={items} />;
-      // }
-      // return isEditing(record) ? (
-      //   <span>
-      //     <Button type="link" className="p-0 m-0 h-5" onClick={() => handleSave(record)}>
-      //       Save
-      //     </Button>
-      //     <Button type="link" className="p-0 m-0 ml-4 h-5" onClick={() => handleCancel(record)}>
-      //       Cancel
-      //     </Button>
-      //   </span>
-      // ) : (
-      // return (
-      //   <span>
-      //     <Button type="link" className="p-0 m-0 h-5" onClick={() => handleEdit(record)}>
-      //       Edit
-      //     </Button>
-      //     <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record)}>
-      //       <Button type="link" danger className="p-0 m-0 ml-4 h-5">
-      //         Delete
-      //       </Button>
-      //     </Popconfirm>
-      //   </span>
-      // );
     },
   });
 
