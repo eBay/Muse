@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { Button, Form, Table, Input, Popconfirm } from 'antd';
+import { Button, Form, Table, Input } from 'antd';
 import { useAbility, useSyncStatus, useMuseMutation } from '../../hooks';
 import _ from 'lodash';
 import NiceModal from '@ebay/nice-modal-react';
 import LoadingModal from './LoadingModal';
-import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
+import { RequestStatus, DropdownMenu } from '@ebay/muse-lib-antd/src/features/common';
 
 const EditableCell = ({ editing, dataIndex, children, allData, record, ...restProps }) => {
   const rules = [];
@@ -178,27 +178,70 @@ export default function AppVariables({ app }) {
     width: '150px',
     fixed: 'right',
     render: (x, record) => {
-      return isEditing(record) ? (
-        <span>
-          <Button type="link" className="p-0 m-0 h-5" onClick={() => handleSave(record)}>
-            Save
-          </Button>
-          <Button type="link" className="p-0 m-0 ml-4 h-5" onClick={() => handleCancel(record)}>
-            Cancel
-          </Button>
-        </span>
-      ) : (
-        <span>
-          <Button type="link" className="p-0 m-0 h-5" onClick={() => handleEdit(record)}>
-            Edit
-          </Button>
-          <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record)}>
-            <Button type="link" danger className="p-0 m-0 ml-4 h-5">
-              Delete
+      if (isEditing(record)) {
+        return (
+          <span>
+            <Button type="link" className="p-0 m-0 h-5" onClick={() => handleSave(record)}>
+              Save
             </Button>
-          </Popconfirm>
-        </span>
-      );
+            <Button type="link" className="p-0 m-0 ml-4 h-5" onClick={() => handleCancel(record)}>
+              Cancel
+            </Button>
+          </span>
+        );
+      }
+      const items = [
+        {
+          key: 'edit',
+          order: 40,
+          icon: 'edit',
+          disabled: !canUpdateApp,
+          disabledText: 'No permission.',
+          highlight: true,
+          onClick: () => {
+            handleEdit(record);
+          },
+        },
+        {
+          key: 'delete',
+          order: 40,
+          icon: 'delete',
+          disabled: !canUpdateApp,
+          disabledText: 'No permission.',
+          highlight: true,
+          danger: true,
+          confirm: {
+            title: 'Sure to delete?',
+            onConfirm: () => {
+              handleDelete(record);
+            },
+          },
+        },
+      ];
+      return <DropdownMenu items={items} />;
+      // }
+      // return isEditing(record) ? (
+      //   <span>
+      //     <Button type="link" className="p-0 m-0 h-5" onClick={() => handleSave(record)}>
+      //       Save
+      //     </Button>
+      //     <Button type="link" className="p-0 m-0 ml-4 h-5" onClick={() => handleCancel(record)}>
+      //       Cancel
+      //     </Button>
+      //   </span>
+      // ) : (
+      // return (
+      //   <span>
+      //     <Button type="link" className="p-0 m-0 h-5" onClick={() => handleEdit(record)}>
+      //       Edit
+      //     </Button>
+      //     <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record)}>
+      //       <Button type="link" danger className="p-0 m-0 ml-4 h-5">
+      //         Delete
+      //       </Button>
+      //     </Popconfirm>
+      //   </span>
+      // );
     },
   });
 
