@@ -1,47 +1,10 @@
 import { useState } from 'react';
-import { Button, Form, Table, Input, Popconfirm } from 'antd';
+import { Button, Form, Table, Popconfirm } from 'antd';
 import { useAbility, useSyncStatus, useMuseMutation } from '../../hooks';
 import _ from 'lodash';
 import NiceModal from '@ebay/nice-modal-react';
 import { RequestStatus, DropdownMenu } from '@ebay/muse-lib-antd/src/features/common';
-
-const EditableCell = ({ editing, dataIndex, children, allData, record, ...restProps }) => {
-  const rules = [];
-  if (dataIndex === '_variableName') {
-    rules.push(
-      { required: true, message: 'Variable name is required' },
-      {
-        message: 'Name already exists.',
-        validator: (rule, value) => {
-          if (_.without(allData, record).find((x) => x._variableName === value)) {
-            return Promise.reject();
-          }
-          return Promise.resolve();
-        },
-      },
-      {
-        message: `Name should not include '.'`,
-        validator: (rule, value) => {
-          if (value.includes('.')) {
-            return Promise.reject();
-          }
-          return Promise.resolve();
-        },
-      },
-    );
-  }
-  return (
-    <td {...restProps}>
-      {editing ? (
-        <Form.Item name={dataIndex} rules={rules} className="m-0">
-          <Input />
-        </Form.Item>
-      ) : (
-        children
-      )}
-    </td>
-  );
-};
+import VarEditableCell from './VarEditableCell';
 
 export default function AppVariables({ app }) {
   const envs = app.envs ? Object.keys(app.envs) : [];
@@ -51,7 +14,7 @@ export default function AppVariables({ app }) {
   const { mutateAsync: updateApp, error: updateAppError } = useMuseMutation('am.updateApp');
   const [form] = Form.useForm();
   const [editingKey, setEditingKey] = useState('');
-  const isEditing = (record) => record._variableName === editingKey;
+  const isEditing = (record) => record.variableName === editingKey;
   const [newVarItem, setNewVarItem] = useState(false);
 
   const updateVars = async (changes) => {
@@ -71,18 +34,18 @@ export default function AppVariables({ app }) {
 
   const handleEdit = (record) => {
     form.setFieldsValue(record);
-    setEditingKey(record._variableName);
+    setEditingKey(record.variableName);
   };
 
   const handleSave = (record) => {
     form.validateFields().then(async (values) => {
       const updateSet = [];
       const updateUnset = [];
-      if (!values._variableName) return;
-      let varName = record._variableName;
+      if (!values.variableName) return;
+      let varName = record.variableName;
 
       // if var name is changed, remove the old var name
-      if (varName !== values._variableName) {
+      if (varName !== values.variableName) {
         // remove app var
         updateUnset.push(`variables.${varName}`);
 
@@ -90,17 +53,20 @@ export default function AppVariables({ app }) {
         envs.forEach((envName) => {
           updateUnset.push(`envs.${envName}.variables.${varName}`);
         });
-        varName = values._variableName;
+        varName = values.variableName;
       }
 
-      if (values._defaultVariableValue) {
-        updateSet.push({ path: `variables.${varName}`, value: values._defaultVariableValue });
+      if (values.defaultVariableValue) {
+        updateSet.push({ path: `variables.${varName}`, value: values.defaultVariableValue });
       } else {
         updateUnset.push(`variables.${varName}`);
       }
       envs.forEach((envName) => {
-        if (values[envName]) {
-          updateSet.push({ path: `envs.${envName}.variables.${varName}`, value: values[envName] });
+        if (values.envs?.[envName]) {
+          updateSet.push({
+            path: `envs.${envName}.variables.${varName}`,
+            value: values.envs[envName],
+          });
         } else {
           updateUnset.push(`envs.${envName}.variables.${varName}`);
         }
@@ -128,7 +94,7 @@ export default function AppVariables({ app }) {
 
   const handleDelete = (record) => {
     (async () => {
-      const varName = record._variableName;
+      const varName = record.variableName;
       await updateVars({
         unset: [
           `variables.${varName}`,
@@ -140,33 +106,43 @@ export default function AppVariables({ app }) {
 
   const columns = [
     {
-      dataIndex: '_variableName',
-      title: 'Name',
+      dataIndex: 'variableName',
+      title: 'Variable Name',
       width: '300px',
       fixed: 'left',
       editable: true,
     },
     {
-      dataIndex: '_defaultVariableValue',
-      title: 'Default',
+      dataIndex: 'defaultVariableValue',
+      title: 'Default Value',
       editable: true,
     },
   ];
 
   envs.forEach((env) => {
     columns.push({
-      dataIndex: env,
-      title: env,
+      dataIndex: ['envs', env],
+      title: _.capitalize(env),
       editable: true,
     });
   });
 
   columns.push({
-    dataIndex: '_variableActions',
+    dataIndex: 'variableActions',
     title: 'Actions',
     width: '150px',
     fixed: 'right',
     align: 'center',
+    onCell: (record, index) => {
+      if (isEditing(record)) {
+        return {
+          style: {
+            verticalAlign: 'top',
+          },
+        };
+      }
+      return {};
+    },
     render: (x, record) => {
       if (isEditing(record)) {
         return (
@@ -176,11 +152,11 @@ export default function AppVariables({ app }) {
               okText="Yes"
               onConfirm={() => handleSave(record)}
             >
-              <Button type="link" className="p-0 m-0 h-5">
+              <Button type="primary" className2="mt-1" size="small">
                 Save
               </Button>
             </Popconfirm>
-            <Button type="link" className="p-0 m-0 ml-4 h-5" onClick={() => handleCancel(record)}>
+            <Button className="ml-2 mt-1" size="small" onClick={() => handleCancel(record)}>
               Cancel
             </Button>
           </span>
@@ -230,13 +206,13 @@ export default function AppVariables({ app }) {
     .sort()
     .map((variableName) => {
       const row = {
-        _variableName: variableName,
-        _defaultVariableValue: app.variables[variableName],
+        variableName: variableName,
+        defaultVariableValue: app.variables[variableName],
+        envs: _.chain(envs)
+          .map((env) => [env, app.envs[env].variables[variableName]])
+          .fromPairs()
+          .value(),
       };
-
-      envs.forEach((env) => {
-        row[env] = app.envs[env].variables[variableName];
-      });
 
       return row;
     });
@@ -267,12 +243,12 @@ export default function AppVariables({ app }) {
         <Table
           components={{
             body: {
-              cell: EditableCell,
+              cell: VarEditableCell,
             },
           }}
           className="mt-3"
           columns={mergedColumns}
-          rowKey="_variableName"
+          rowKey="variableName"
           size="small"
           pagination={false}
           dataSource={data}
@@ -280,7 +256,7 @@ export default function AppVariables({ app }) {
         />
       </Form>
       <Button type="link" className="mt-3" onClick={() => handleNewVar()}>
-        + Add Variable
+        + Add a variable
       </Button>
     </>
   );
