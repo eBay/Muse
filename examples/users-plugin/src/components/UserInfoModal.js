@@ -5,7 +5,7 @@ import jsPlugin from 'js-plugin';
 import { useDispatch } from 'react-redux';
 import { UserOutlined } from '@ant-design/icons';
 import _ from 'lodash';
-import NiceModal, { useModal, antdModal } from '@ebay/nice-modal-react';
+import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
 import './UserInfoModal.less';
 
 export default NiceModal.create(({ user }) => {
@@ -67,7 +67,7 @@ export default NiceModal.create(({ user }) => {
   const avatarToShow = updatedAvatar || user?.avatar;
   return (
     <Modal
-      {...antdModal(modal)}
+      {...antdModalV5(modal)}
       title={user ? 'Edit User' : 'New User'}
       okText={user ? 'Update' : 'Create'}
       onOk={handleSubmit}
