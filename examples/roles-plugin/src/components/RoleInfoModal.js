@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
 import { Form, Modal } from 'antd';
-import FormBuilder from 'antd-form-builder';
+import FormBuilder from '@ebay/nice-form-react';
 import { useDispatch } from 'react-redux';
-import NiceModal, { useModal, antdModal } from '@ebay/nice-modal-react';
+import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
 
 const RoleInfoModal = NiceModal.create(({ role }) => {
   const dispatch = useDispatch();
@@ -40,13 +40,13 @@ const RoleInfoModal = NiceModal.create(({ role }) => {
   }, [modal, role, dispatch, form]);
   return (
     <Modal
-      {...antdModal(modal)}
+      {...antdModalV5(modal)}
       title={role ? 'Edit Role' : 'New Role'}
       okText={role ? 'Update' : 'Create'}
       onOk={handleSubmit}
     >
       <Form form={form}>
-        <FormBuilder meta={meta} form={form} />
+        <FormBuilder meta={meta} />
       </Form>
     </Modal>
   );
