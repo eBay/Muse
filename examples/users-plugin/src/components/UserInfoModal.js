@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import { Form, Modal } from 'antd';
-import FormBuilder from 'antd-form-builder';
+import FormBuilder from '@ebay/nice-form-react';
 import jsPlugin from 'js-plugin';
 import { useDispatch } from 'react-redux';
 import { UserOutlined } from '@ant-design/icons';
@@ -24,6 +24,7 @@ export default NiceModal.create(({ user }) => {
     ..._.flatten(jsPlugin.invoke('userInfo.fields.getFields', { formFields })).filter(Boolean),
   );
   jsPlugin.sort(formFields);
+
   const meta = {
     initialValues: user,
     fields: formFields,
@@ -53,7 +54,7 @@ export default NiceModal.create(({ user }) => {
     });
   }, [modal, user, form, dispatch, updatedAvatar]);
 
-  const handleChangeAvatar = useCallback(evt => {
+  const handleChangeAvatar = useCallback((evt) => {
     const file = evt.target?.files?.[0];
     if (!file) return;
     const reader = new FileReader();
@@ -79,7 +80,7 @@ export default NiceModal.create(({ user }) => {
         </div>
 
         <Form form={form}>
-          <FormBuilder meta={meta} form={form} />
+          <FormBuilder meta={meta} />
         </Form>
       </div>
     </Modal>
