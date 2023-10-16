@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { useParams, useNavigate, useLocation, matchRoutes } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Tabs, Alert } from 'antd';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import { extendArray } from '@ebay/muse-lib-antd/src/utils';
@@ -12,8 +12,6 @@ import './AppPage.less';
 
 export default function AppPage() {
   const navigate = useNavigate();
-  const location = useLocation();
-  const matchedRoutes = matchRoutes([{ path: '/app/:appName/:tabKey?/:scope?' }], location);
   const [appNameActions, setAppNameActions] = useState([]);
   const { appName, tabKey = 'overview' } = useParams();
   const { data: app, isLoading, error } = usePollingMuseData(`muse.app.${appName}`);
@@ -65,10 +63,10 @@ export default function AppPage() {
         <span className="muse-manager-app-page-title" key="header">
           <h1 style={{ marginBottom: '0.3em' }}>
             Muse App:{' '}
-            {matchedRoutes?.length ? (
-              <AppSelect value={appName} onChange={handleAppChange} />
-            ) : (
+            {window.MUSE_GLOBAL.isSubApp ? (
               appName
+            ) : (
+              <AppSelect value={appName} onChange={handleAppChange} />
             )}
           </h1>
           {appNameActions?.length > 0 && appNameActions.map((appNameAct) => appNameAct.node)}
