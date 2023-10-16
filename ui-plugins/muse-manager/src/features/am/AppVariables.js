@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button, Form, Table, Popconfirm } from 'antd';
 import { useAbility, useSyncStatus, useMuseMutation } from '../../hooks';
 import _ from 'lodash';
@@ -104,6 +104,10 @@ export default function AppVariables({ app }) {
     })();
   };
 
+  // Auto focus the new var name input
+  useEffect(() => {
+    setTimeout(() => document.getElementById('variableName')?.focus(), 30);
+  }, [newVarItem]);
   const columns = [
     {
       dataIndex: 'variableName',
@@ -207,9 +211,9 @@ export default function AppVariables({ app }) {
     .map((variableName) => {
       const row = {
         variableName: variableName,
-        defaultVariableValue: app.variables[variableName],
+        defaultVariableValue: app.variables?.[variableName],
         envs: _.chain(envs)
-          .map((env) => [env, app.envs[env].variables[variableName]])
+          .map((env) => [env, app.envs?.[env]?.variables?.[variableName]])
           .fromPairs()
           .value(),
       };
@@ -255,7 +259,13 @@ export default function AppVariables({ app }) {
           scroll={{ x: 1300 }}
         />
       </Form>
-      <Button type="link" className="mt-3" onClick={() => handleNewVar()}>
+      <Button
+        type="link"
+        className="mt-3"
+        onClick={() => handleNewVar()}
+        title={!canUpdateApp && 'No Permission.'}
+        disabled={!canUpdateApp}
+      >
         + Add a variable
       </Button>
     </>

@@ -42,7 +42,7 @@ const installPlugin = async (params) => {
 
     tmpDir = path.join(os.homedir(), 'muse-storage/.tmp/', getPluginId(pluginName), meta.version);
     fs.ensureDirSync(tmpDir);
-    logger.info('Extracting the package...');
+    logger.info('Downloading the package...');
     await download(meta.dist.tarball, tmpDir, { extract: true });
 
     const pkgJson = fs.readJsonSync(path.join(tmpDir, 'package/package.json')); // JSON.parse(String(_.find(files, { path: 'package/package.json' }).data));

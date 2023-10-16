@@ -30,7 +30,7 @@
     "redux-mock-store": "^1.5.4"
   },
   "dependencies": {
-    "@ebay/muse-lib-antd": "^1.2.15",
+    "@ebay/muse-lib-antd": "^1.2.21",
     "@ebay/muse-lib-react": "^1.2.16",
     "@ebay/muse-vite-plugin": "^1.0.15",
     "@vitejs/plugin-react": "^4.0.4",

@@ -12,7 +12,7 @@ export default function VarEditableCell({
   const rules = [];
   if (dataIndex === 'variableName') {
     rules.push(
-      { required: true, message: 'Variable name is required' },
+      { required: true, message: 'Variable name is required.' },
       {
         message: 'Name already exists.',
         validator: (rule, value) => {
@@ -33,11 +33,10 @@ export default function VarEditableCell({
       },
     );
   }
-  if (editing) {
-    restProps.style = {
-      verticalAlign: 'top',
-    };
+  if (editing && restProps.style) {
+    restProps.style.verticalAlign = 'top';
   }
+
   return (
     <td {...restProps}>
       {editing ? (

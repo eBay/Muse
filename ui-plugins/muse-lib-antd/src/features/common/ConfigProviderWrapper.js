@@ -16,3 +16,4 @@ export default function ConfigProviderWrapper({ children }) {
   plugin.invoke('museLibAntd.configProvider.processProps', configProps);
   return <ConfigProvider {...configProps}>{children}</ConfigProvider>;
 }
+
