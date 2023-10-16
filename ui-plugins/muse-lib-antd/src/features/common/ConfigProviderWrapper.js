@@ -1,3 +1,4 @@
+import React from 'react';
 import { ConfigProvider, theme } from 'antd';
 import { useSetIsDarkMode } from './redux/hooks';
 import plugin from 'js-plugin';
