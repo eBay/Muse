@@ -1,10 +1,11 @@
-// example of additional Antd ConfigProvider props
+// example of additional Antd ConfigProvider props.
+// enable this sample config by uncommenting the import on /src/ext/index.js
 const museLibAntd = {
     configProvider: {
-      getProps: {
-        token: {
+      processProps: (configProps) => {
+        configProps.theme.token = {
           borderRadius: 0,
-        },
+        }
       },
     },
   };
