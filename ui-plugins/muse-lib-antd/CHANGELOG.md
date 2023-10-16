@@ -1,5 +1,11 @@
 # @ebay/muse-lib-antd
 
+## 1.2.20
+
+### Patch Changes
+
+- fix ConfigProvider settings
+
 ## 1.2.10
 
 ### Patch Changes
