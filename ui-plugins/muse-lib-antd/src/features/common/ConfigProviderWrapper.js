@@ -1,3 +1,4 @@
+import React from 'react';
 import { ConfigProvider, theme } from 'antd';
 import { useSetIsDarkMode } from './redux/hooks';
 import plugin from 'js-plugin';
@@ -15,3 +16,4 @@ export default function ConfigProviderWrapper({ children }) {
   plugin.invoke('museLibAntd.configProvider.processProps', configProps);
   return <ConfigProvider {...configProps}>{children}</ConfigProvider>;
 }
+
