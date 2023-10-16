@@ -11,8 +11,8 @@ export default function ConfigProviderWrapper({ children }) {
     <ConfigProvider
       theme={{
         algorithm: isDarkMode ? darkAlgorithm : defaultAlgorithm,
-      }}
-      {...configProviderProps}
+        ...configProviderProps
+      }}      
     >
       {children}
     </ConfigProvider>
