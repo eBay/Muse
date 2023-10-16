@@ -58,7 +58,7 @@
     "react-scripts": "^5.0.1"
   },
   "dependencies": {
-    "@ant-design/icons": "5.1.4",
+    "@ant-design/icons": "5.2.6",
     "@ebay/muse-lib-react": "1.2.17",
     "@ebay/nice-form-react": "1.0.10",
     "antd": "5.10.1",
