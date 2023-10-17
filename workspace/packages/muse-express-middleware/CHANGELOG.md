@@ -1,5 +1,35 @@
 # @ebay/muse-express-middleware
 
+## 1.0.41
+
+### Patch Changes
+
+- acl refine
+- Updated dependencies
+  - @ebay/muse-core@1.0.35
+
+## 1.0.40
+
+### Patch Changes
+
+- 89b8b04d: handler api super mode
+
+## 1.0.39
+
+### Patch Changes
+
+- Refine validate api
+- Updated dependencies
+  - @ebay/muse-modules-analyzer@1.0.7
+
+## 1.0.38
+
+### Patch Changes
+
+- analyzer apis
+- Updated dependencies
+  - @ebay/muse-modules-analyzer@1.0.6
+
 ## 1.0.37
 
 ### Patch Changes

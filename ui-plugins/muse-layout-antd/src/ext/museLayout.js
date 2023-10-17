@@ -4,7 +4,6 @@ export default {
     getConfig() {
       return {
         // mode: 'none',
-        backgroundColor: '#039be5',
         icon: '',
         title: 'Muse App',
         subTitle: 'Build UI apps with ease!',
@@ -74,7 +73,6 @@ export default {
         mode: 'collapsable', // fixed | drawer | collapsable | collapsed | none
         siderDefaultCollapsed: true,
         homeMenu: true,
-        theme: 'light', // dark | light
       };
     },
     getItems: () => {
@@ -232,12 +230,6 @@ export default {
               icon: 'FormOutlined',
               label: 'Wizard',
               link: '/muse-demo/components/muse-antd/wizard',
-            },
-            {
-              key: 'niceModal',
-              label: 'NiceModal',
-              icon: 'file',
-              link: '/muse-demo/components/muse-antd/niceModal',
             },
             // {
             //   key: 'k14',

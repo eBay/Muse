@@ -65,7 +65,7 @@ const getUser = async (username) => {
 const assetPermission = (allowed, msg = 'No permission.') => {
   if (!allowed) {
     const err = new Error(msg);
-    err.code = 403;
+    err.statusCode = 403;
     throw err;
   }
   return true;

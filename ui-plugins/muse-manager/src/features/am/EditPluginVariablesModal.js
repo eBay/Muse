@@ -16,7 +16,7 @@ const EditPluginVariablesModal = NiceModal.create(({ app, env }) => {
   const [form] = Form.useForm();
   const syncStatus = useSyncStatus(`muse.app.${app.name}`);
   const { data } = usePollingMuseData('muse.plugins');
-  const isAppOwner = app?.owners?.includes(user.username);
+  const isAppOwner = app?.owners?.includes(user?.username);
   const pluginList = data
     ?.filter((pl) => ability.can('config', 'Plugin', { app, plugin: pl }))
     .map((pl) => {

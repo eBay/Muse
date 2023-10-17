@@ -5,8 +5,8 @@ const parseMuseId = require('./parseMuseId');
   For example:
   cache: {
     'loadash/lib/get.js': [
-      { moduleId: 'lodash@1.0.1/lib/get.js, ...},
-      { moduleId: 'lodash@4.0.0/lib/get.js, ...},
+      { moduleId: 'lodash@1.0.1/lib/get.js, name, version, ...},
+      { moduleId: 'lodash@4.0.0/lib/get.js, name, version, ...},
     ]
   }
 */

@@ -4,22 +4,28 @@ const _ = require('lodash');
 const os = require('os');
 const path = require('path');
 const timeStart = Date.now();
+
 if (!process.env.MUSE_CLI_CONFIG_FILE) {
   process.env.MUSE_CLI_CONFIG_FILE = path.join(os.homedir(), 'muse-cli.config.js');
 }
 
-process.env.MUSE_CONFIG_FILE = process.env.MUSE_CLI_CONFIG_FILE;
+// If set 'none', then use the default config file.
+if (process.env.MUSE_CLI_CONFIG_FILE !== 'none') {
+  process.env.MUSE_CONFIG_FILE = process.env.MUSE_CLI_CONFIG_FILE;
+}
 const commander = require('commander');
 const { Command } = commander;
 const chalk = require('chalk');
 
 const muse = require('@ebay/muse-core');
+
 const fs = require('fs-extra');
 const readline = require('node:readline');
 const { stdin: input, stdout: output } = require('node:process');
 const inquirer = require('inquirer');
 const TimeAgo = require('javascript-time-ago');
 const en = require('javascript-time-ago/locale/en');
+
 TimeAgo.addDefaultLocale(en);
 
 const timeAgo = new TimeAgo('en-US');
@@ -31,6 +37,38 @@ const confirmAnswer = (answer) => {
 };
 
 const parseArgs = (args) => (args ? _.fromPairs(args.map((kv) => kv.split('='))) : {});
+
+const printValidationResult = (result) => {
+  if (result.missingBootPlugin) {
+    console.log(chalk.red('No boot plugin after deployment.'));
+  }
+  if (result.multipleBootPlugins) {
+    console.log(
+      chalk.red(
+        `Multiple boot plugins after deployment: ${result.multipleBootPlugins.join(', ')}.`,
+      ),
+    );
+  }
+
+  if (!_.isEmpty(result.dist?.missingModules)) {
+    const missingModulesByPlugin = _.groupBy(
+      result.dist.missingModules,
+      (m) => `${m.plugin}@${m.version} -> ${m.sharedFrom}:`,
+    );
+
+    Object.entries(missingModulesByPlugin).forEach(([plugin, modules]) => {
+      console.log(
+        chalk.red(
+          `"${modules[0].plugin}@${modules[0].version}" expected below modules from "${modules[0].sharedFrom}":`,
+        ),
+      );
+      modules.forEach((m) => {
+        console.log(chalk.red(`  - ${m.moduleId}`));
+      });
+      console.log();
+    });
+  }
+};
 
 const program = new Command();
 program
@@ -86,6 +124,17 @@ program
 
     if (!(await muse.am.getApp('musemanager'))) {
       await muse.am.createApp({ appName: 'musemanager', envName: 'staging' });
+      await muse.am.updateApp({
+        appName: 'musemanager',
+        changes: {
+          set: [
+            {
+              path: 'title',
+              value: 'Muse Manager',
+            },
+          ],
+        },
+      });
     }
     await muse.pm.deployPlugin({
       appName: 'musemanager',
@@ -154,7 +203,7 @@ program
   .option('-p, --port <port>', 'port', 6070)
   .option('-d, --is-dev', 'Start the server to load dev bundles.')
   .option('-u, --by-url', 'Detect app by url.')
-  .option('-a, --serve-api', 'Detect app by url.')
+  .option('-a, --serve-api', 'Serve api server.')
   .option('-s, --serve-static', 'Serve static content.')
   .action((appName, envName, options) => {
     require('@ebay/muse-simple-server/lib/server')({ appName, envName, ...options });
@@ -392,15 +441,16 @@ program
 program
   .command('deploy')
   .alias('deploy-plugin')
-  .description('Deploy a plugin version on a Muse application environment.')
+  .description('Deploy plugins to Muse application environment.')
   .argument('<appName>', 'The application name.')
   .argument('[envName]', 'The environment name.', 'staging')
   .argument(
     '[plugins...]',
     "Plugins and versions to be deployed, e.g: myplugin@2.0.1. If version ommited it will use the latest version. If no plugins specified and it is under a Muse plugin project then it will deploy the current plugin's latest version.",
   )
+  .option('-n, --no-validation', 'No validation.')
   // .argument('[version]', 'plugin version')
-  .action(async (appName, envName, plugins) => {
+  .action(async (appName, envName, plugins, options) => {
     const pkgJson = fs.readJSONSync(path.join(process.cwd(), 'package.json'), {
       throws: false,
     });
@@ -412,70 +462,40 @@ program
       throw new Error(`Please specify which plugin(s) to be deployed.`);
     }
 
-    // const pluginType = pkgJson?.muse?.type;
-    // console.log(chalk.cyan('Checking dependencies...'));
-    // const dependencyCheckResult = await muse.pm.checkDependencies({
-    //   appName,
-    //   envName,
-    //   pluginName,
-    //   pluginType,
-    //   version,
-    // });
+    const deployment = plugins.map((p) => {
+      const i = p.lastIndexOf('@');
+      let pluginName, version;
+      if (i <= 0) {
+        pluginName = p;
+      } else {
+        pluginName = p.slice(0, i);
+        version = p.slice(i + 1);
+      }
+      return {
+        pluginName,
+        version,
+        type: 'add',
+      };
+    });
 
-    let confirmDeployment = true;
-
-    // TODO: move deps check to a plugin
-    // if (
-    //   dependencyCheckResult &&
-    //   (Object.keys(dependencyCheckResult['dev']).length > 0 ||
-    //     Object.keys(dependencyCheckResult['dist']).length > 0)
-    // ) {
-    //   // missing dependencies detected on either dev/dist, confirm with user to continue
-    //   const rl = readline.createInterface({ input, output });
-    //   console.log(
-    //     'WARNING: Detected non-satisfied module dependencies from the following library plugins:',
-    //   );
-    //   for (const library of Object.keys(dependencyCheckResult['dev'])) {
-    //     console.log(`(dev) ${library} => [${dependencyCheckResult['dev'][library]}] not found`);
-    //   }
-    //   for (const library of Object.keys(dependencyCheckResult['dist'])) {
-    //     console.log(`(dist) ${library} => [${dependencyCheckResult['dist'][library]}] not found`);
-    //   }
-    //   console.log(os.EOL);
-    //   const answer = await new Promise((resolve) =>
-    //     rl.question('Do you want to continue (yes/no) [Y] ? ', resolve),
-    //   );
-    //   rl.close();
-    //   if (!confirmAnswer(answer)) {
-    //     console.log(chalk.cyan(`Command ABORTED.`));
-    //     confirmDeployment = false;
-    //   }
-    // }
-    // no missing dependencies or confirm deploy, deploy right away
-    if (confirmDeployment) {
-      // const res = await muse.pm.deployPlugin({ appName, envName, pluginName, version });
-      await muse.pm.deployPlugin({
-        appName,
-        envMap: {
-          [envName]: plugins.map((p) => {
-            const i = p.lastIndexOf('@');
-            let pluginName, version;
-            if (i <= 0) {
-              pluginName = p;
-            } else {
-              pluginName = p.slice(0, i);
-              version = p.slice(i + 1);
-            }
-            return {
-              pluginName,
-              version,
-              type: 'add',
-            };
-          }),
-        },
-      });
-      console.log(chalk.cyan(`Deploy success: ${plugins.join(', ')} to ${appName}/${envName}.`));
+    // Start validation
+    if (options.validation) {
+      const { validateDeployment } = require('@ebay/muse-modules-analyzer');
+      const result = await validateDeployment(appName, envName, deployment);
+      if (!result.success) {
+        console.log(chalk.red('Deployment validation failed:'));
+        printValidationResult(result);
+        return;
+      }
     }
+
+    await await muse.pm.deployPlugin({
+      appName,
+      envMap: {
+        [envName]: deployment,
+      },
+    });
+    console.log(chalk.cyan(`Deploy success: ${plugins.join(', ')} to ${appName}/${envName}.`));
   });
 
 program
@@ -695,9 +715,9 @@ program
     // TODO://
   });
 
-program.command('analyze-modules').action(async () => {
-  await require('@ebay/muse-modules-analyzer/lib/test')();
-});
+// program.command('analyze-modules').action(async () => {
+//   await require('@ebay/muse-modules-analyzer/lib/test')();
+// });
 
 program
   .command('show-libs')
@@ -738,9 +758,8 @@ program
   )
   .argument('[mode]', 'The mode to show the diff. Default is "dist".', 'dist')
   .action(async (pluginName, baseVersion, currentVersion, mode) => {
-    const SharedModulesAnalyzer = require('@ebay/muse-modules-analyzer');
-    const analyzer = new SharedModulesAnalyzer();
-    const diff = await analyzer.getLibDiff(pluginName, baseVersion, currentVersion, mode);
+    const { getLibDiff } = require('@ebay/muse-modules-analyzer');
+    const diff = await getLibDiff(pluginName, baseVersion, currentVersion, mode);
 
     console.log();
     console.log('Total modules: ', diff.baseIds.length, ' -> ', diff.currentIds.length);
@@ -777,6 +796,31 @@ program
     if (_.isEmpty(diff.removedIds)) console.log(chalk.gray('None.'));
     diff.removedIds.forEach((d) => console.log(chalk.red('  - ' + d)));
     console.log();
+  });
+
+program
+  .command('show-lib-version')
+  .description('Show the package version(s) in a lib plugin.')
+  .argument('<pluginName>', 'The lib plugin name')
+  .argument('<version>', 'The plugin version.')
+  .argument('<packageName>', 'Which package to show the name.')
+  .argument('[mode]', 'The build mode of lib plugin.', 'dist')
+  .action(async (pluginName, version, packageName, mode) => {
+    const { getLibVersion } = require('@ebay/muse-modules-analyzer');
+    const versions = await getLibVersion(pluginName, version, packageName, mode);
+    console.log(packageName + ':', versions.join(', '));
+  });
+
+program
+  .command('validate-app')
+  .description('Validate if all plugins have all required shared modules.')
+  .argument('<appName>', 'The app name')
+  .argument('<envName>', 'The env name')
+  .action(async (appName, envName) => {
+    const { validateApp } = require('@ebay/muse-modules-analyzer');
+    const result = await validateApp(appName, envName);
+    console.log(JSON.stringify(result, null, 2));
+    console.log(result.success ? chalk.green('Success.') : chalk.red('Failed.'));
   });
 
 // let other plugins add their own cli program commands

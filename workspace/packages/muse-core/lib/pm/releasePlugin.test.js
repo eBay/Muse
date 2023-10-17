@@ -3,7 +3,6 @@ const { vol } = require('memfs');
 const fs = require('fs-extra');
 const plugin = require('js-plugin');
 const { defaultAssetStorageLocation } = require('../utils');
-const { assets } = require('../storage');
 
 const testReleasePlugin = {
   name: 'test',

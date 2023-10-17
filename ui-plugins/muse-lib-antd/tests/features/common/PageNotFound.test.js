@@ -1,8 +1,15 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { PageNotFound } from '../../../src/features/common';
+import history from '../../../src/common/history';
 
-it('renders node with correct class name', () => {
-  const renderedComponent = shallow(<PageNotFound />);
-  expect(renderedComponent.find('.common-page-not-found').length).toBe(1);
+describe('common/PageNotFound', () => {
+  it('renders PageNotFound', async () => {
+    render(<PageNotFound />);
+    expect(screen.getByText('404')).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Back Home' })).toBeTruthy();
+    userEvent.click(screen.getByRole('button', { name: 'Back Home' }));
+    await waitFor(() => expect(history.location.pathname).toBe('/'), { timeout : 3000 });
+  });
 });

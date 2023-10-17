@@ -24,6 +24,7 @@ function PluginActions({ plugin, app }) {
     // This is just for UI usage pattern, providing full data to avoid async check.
     app: plugin.app && appByName?.[plugin.app],
   });
+
   let actions = useMemo(() => {
     return [
       app && {
@@ -31,7 +32,7 @@ function PluginActions({ plugin, app }) {
         label: 'Deploy',
         order: 30,
         icon: 'rocket',
-        disabled: ability.cannot('deploy', 'App', app),
+        disabled: ability.cannot('deploy', 'App', app), // deploy permission is checked on app level
         disabledText: 'No permission to deploy.',
         highlight: true,
         onClick: () => {
@@ -66,7 +67,7 @@ function PluginActions({ plugin, app }) {
           label: 'Undeploy',
           order: 68,
           icon: 'minus-circle',
-          disabled: ability.cannot('deploy', 'App', app),
+          disabled: ability.cannot('deploy', 'App', app), // undeploy permission is checked on app level
           disabledText: 'No permissin to undeploy.',
           highlight: false,
           onClick: () => {

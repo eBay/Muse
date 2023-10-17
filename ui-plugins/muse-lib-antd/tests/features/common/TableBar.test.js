@@ -1,8 +1,24 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { TableBar } from '../../../src/features/common';
 
-it('renders node with correct class name', () => {
-  const renderedComponent = shallow(<TableBar />);
-  expect(renderedComponent.find('.common-table-bar').length).toBe(1);
+describe('common/TableBar', () => {
+  it('renders TableBar', async () => {
+    console.log = jest.fn();
+    render(<TableBar 
+      onSearch={(v) => { 
+        console.log(v)
+      }} 
+      placeholder={"Search something"}>
+        <span>Component to search on</span>
+      </TableBar>);
+    
+    expect(screen.getByPlaceholderText('Search something')).toBeTruthy();
+    expect(screen.getByText('Component to search on')).toBeTruthy();
+    const textbox = screen.getByRole('textbox');
+    userEvent.clear(textbox);
+    userEvent.type(textbox, 'hello');
+    await waitFor(() => expect(console.log).toHaveBeenCalledWith('hello'), { timeout: 5000});
+  });
 });

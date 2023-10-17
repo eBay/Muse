@@ -59,10 +59,12 @@ if (['lib', 'normal'].includes(pluginType)) {
     );
 
     error('✖ Muse deps check failed.');
-    process.exit(1);
+    setTimeout(() => process.exit(1), 300);
   } else {
     console.log(
-      '✔ Muse deps check passed: all sharing deps are compatible with the ones in lib plugins.',
+      chalk.green(
+        '✔ Muse deps check passed: all sharing deps are compatible with the ones in lib plugins.',
+      ),
     );
   }
 }

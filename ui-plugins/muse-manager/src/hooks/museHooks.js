@@ -12,6 +12,7 @@ export function useMuseQuery(apiPath, ...args) {
     queryArgs = apiPath;
     apiPath = args.shift();
   }
+
   const query = useQuery({
     queryKey: ['muse-query', apiPath, ...args],
     queryFn: () => {
@@ -48,13 +49,20 @@ export function usePollingMuseQuery(apiPath, ...args) {
 }
 
 export function usePollingMuseData(...args) {
-  return usePollingMuseQuery('data.get', ...args);
+  if (isObject(args[0])) {
+    args.splice(1, 0, 'data.get');
+  } else {
+    args.unshift('data.get');
+  }
+  return usePollingMuseQuery(...args);
 }
 
 export function useMuseMutation(apiPath) {
   const mutation = useMutation({
-    mutationFn: (...args) => {
-      return invoke(museClient, apiPath, ...args);
+    mutationFn: (args) => {
+      // _museParams to support multiple arguments: https://github.com/TanStack/query/discussions/1226
+      if (args._museParams) return invoke(museClient, apiPath, ...args._museParams);
+      return invoke(museClient, apiPath, args);
     },
   });
   return mutation;

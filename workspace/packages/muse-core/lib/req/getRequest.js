@@ -10,7 +10,7 @@ const { registry } = require('../storage');
  * @param {string}  requestId The request Id.
  * @returns {Buffer} Buffer of request.
  */
-module.exports = async requestId => {
+module.exports = async (requestId) => {
   if (!requestId) {
     throw new Error('The param requestId is required.');
   }

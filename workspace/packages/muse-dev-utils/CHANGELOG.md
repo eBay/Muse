@@ -1,5 +1,28 @@
 # @ebay/muse-dev-utils
 
+## 1.0.50
+
+### Patch Changes
+
+- refine
+
+## 1.0.49
+
+### Patch Changes
+
+- analyzer apis
+- Updated dependencies
+  - @ebay/muse-express-middleware@1.0.38
+  - @ebay/muse-modules@1.0.25
+
+## 1.0.48
+
+### Patch Changes
+
+- module analyzer
+- Updated dependencies
+  - @ebay/muse-modules@1.0.24
+
 ## 1.0.47
 
 ### Patch Changes

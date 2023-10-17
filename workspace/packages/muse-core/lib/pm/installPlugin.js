@@ -3,15 +3,7 @@ const os = require('os');
 const path = require('path');
 const fs = require('fs-extra');
 const _ = require('lodash');
-const {
-  asyncInvoke,
-  syncInvoke,
-  validate,
-  getPluginId,
-  osUsername,
-  batchAsync,
-} = require('../utils');
-const { assets } = require('../storage');
+const { asyncInvoke, syncInvoke, validate, getPluginId, osUsername } = require('../utils');
 const logger = require('../logger').createLogger('muse.pm.installPlugin');
 const schema = require('../schemas/pm/installPlugin.json');
 const getPlugin = require('./getPlugin');
@@ -30,7 +22,7 @@ syncInvoke('museCore.pm.processInstallPluginSchema', schema);
  * @param {string} [params.version="latest"] Semver version number type.
  * @returns {object} Release object.
  */
-const installPlugin = async params => {
+const installPlugin = async (params) => {
   if (!params.author) params.author = osUsername;
   validate(schema, params);
   const ctx = {};
@@ -50,14 +42,14 @@ const installPlugin = async params => {
 
     tmpDir = path.join(os.homedir(), 'muse-storage/.tmp/', getPluginId(pluginName), meta.version);
     fs.ensureDirSync(tmpDir);
-    logger.info('Extracting the package...');
-    const files = await download(meta.dist.tarball, tmpDir, { extract: true });
+    logger.info('Downloading the package...');
+    await download(meta.dist.tarball, tmpDir, { extract: true });
 
     const pkgJson = fs.readJsonSync(path.join(tmpDir, 'package/package.json')); // JSON.parse(String(_.find(files, { path: 'package/package.json' }).data));
     ctx.pkgJson = pkgJson;
     if (!pkgJson.muse)
       throw new Error(
-        `Package "${pluginName}" is not to be a Muse plugin (no muse section in package.json).`,
+        `Package "${pluginName}" is not a Muse plugin (no muse section in package.json).`,
       );
     const plugin = await getPlugin(pluginName);
     if (!plugin) {
@@ -71,9 +63,9 @@ const installPlugin = async params => {
       });
     }
     const releases = await getReleases(pluginName);
-    if (releases.find(r => r.version === pkgJson.version)) {
+    if (releases.find((r) => r.version === pkgJson.version)) {
       logger.warn(
-        `Skipped install ${pkgJson.name}${pkgJson.version}: it's already exists in Muse registry.`,
+        `Skipped install ${pkgJson.name}${pkgJson.version}: it has been already existed in Muse registry.`,
       );
     } else {
       logger.info(`Creating the release in Muse...`);

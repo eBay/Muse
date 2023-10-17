@@ -1,5 +1,39 @@
 # @ebay/muse-modules-analyzer
 
+## 1.0.9
+
+### Patch Changes
+
+- api refine
+
+## 1.0.8
+
+### Patch Changes
+
+- refine api
+
+## 1.0.7
+
+### Patch Changes
+
+- Refine validate api
+
+## 1.0.6
+
+### Patch Changes
+
+- analyzer apis
+- Updated dependencies
+  - @ebay/muse-modules@1.0.25
+
+## 1.0.5
+
+### Patch Changes
+
+- module analyzer
+- Updated dependencies
+  - @ebay/muse-modules@1.0.24
+
 ## 1.0.4
 
 ### Patch Changes

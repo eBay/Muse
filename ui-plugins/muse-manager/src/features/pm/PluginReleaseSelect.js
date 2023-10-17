@@ -6,6 +6,26 @@ import { usePollingMuseData } from '../../hooks';
 const { Option } = Select;
 
 export default function PluginReleaseSelect({ value, onChange, plugin, app, filter, ...rest }) {
+  if (plugin) {
+    return PluginReleaseSelectWithPlugin({ value, onChange, plugin, app, filter, ...rest });
+  } else {
+    return (
+      <div className="plugin-manager_home-plugin-release-select">
+        <Select
+          value={value}
+          placeholder={`Select a version to deploy`}
+          onChange={onChange}
+          {...rest}
+          popupMatchSelectWidth={false}
+          disabled
+        />
+      </div>
+    );
+  }
+}
+
+// plugin is truthy
+function PluginReleaseSelectWithPlugin({ value, onChange, plugin, app, filter, ...rest }) {
   let { data: releases, error } = usePollingMuseData(`muse.plugin-releases.${plugin.name}`);
   if (error) return 'Failed, please refresh to retry.';
   if (filter && releases) releases = releases.filter(filter);
@@ -51,7 +71,11 @@ export default function PluginReleaseSelect({ value, onChange, plugin, app, filt
                 <span style={{ marginRight: '15px', verticalAlign: 'middle' }}>{r.version}</span>
                 {tags}
                 <span style={{ color: '#999', marginLeft: '5px', verticalAlign: 'middle' }}>
-                  built from <Tag>{r.branch || 'unknown'}</Tag>
+                  {r.branch && (
+                    <>
+                      built from <Tag>{r.branch || 'unknown'}</Tag>
+                    </>
+                  )}
                   by {r.createdBy} <TimeAgo date={new Date(r.createdAt)} />
                 </span>
               </Option>

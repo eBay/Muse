@@ -1,13 +1,9 @@
 /* This is the Root component mainly initializes Redux and React Router. */
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { Provider, useDispatch, useSelector } from 'react-redux';
+import { Provider } from 'react-redux';
 import {
-  Routes,
   Route,
-  BrowserRouter,
-  HashRouter,
-  MemoryRouter,
   Outlet,
   RouterProvider,
   createBrowserRouter,
@@ -120,41 +116,22 @@ const routerMap = {
   memory: createMemoryRouter,
 };
 
-// const WrappingComponent = () => {
-//   const children = renderRouteConfigV3(routeConfig(), '/');
-//   const dispatch = useDispatch();
-//   const modals = useSelector(s => s.modals);
-//   const { routerType = 'browser', basePath } = window.MUSE_GLOBAL.getAppVariables() || {};
-//   const Router = routerMap[routerType];
-//   const routerProps = plugin.invoke('!routerProps')[0] || {};
-
-//   if (routerType === 'browser') {
-//     routerProps.navigator = history;
-//   }
-//   return (
-//     <NiceModal.Provider dispatch={dispatch} modals={modals}>
-//       <Router basename={basePath} {...routerProps}>
-//         {renderChildren(<Routes>{children}</Routes>)}
-//       </Router>
-//     </NiceModal.Provider>
-//   );
-// };
-
 const Root = () => {
   const [subAppContext, setSubAppContext] = useState(null);
+
   const handleMsg = useCallback(msg => {
     if (msg.type === 'sub-app-context-change') {
       // Allows parent to send data to children
       setSubAppContext(msg.data);
     }
   }, []);
+
   useEffect(() => {
     const k = 'muse-react_handle-context-change';
     window.MUSE_CONFIG?.msgEngine?.addListener(k, handleMsg);
     return () => window.MUSE_CONFIG?.msgEngine?.removeListener(k);
   }, [handleMsg]);
-  // const dispatch = useDispatch();
-  // const modals = useSelector(s => s.modals);
+
   const children = renderRouteConfigV3(routeConfig(), '/');
   const ele = renderChildren(children);
 
@@ -203,7 +180,6 @@ const Root = () => {
 
   extendArray(providers, 'providers', 'root', { providers });
 
-  // const ele = renderChildren(<Routes>{children}</Routes>);
   return providers.filter(Boolean).reduceRight((p, c) => {
     if (c.provider)
       return (

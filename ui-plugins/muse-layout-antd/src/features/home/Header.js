@@ -6,7 +6,7 @@ import plugin from 'js-plugin';
 import { HeaderItem } from './';
 import { useSetSiderCollapsed } from './redux/hooks';
 import { useSetIsDarkMode } from '@ebay/muse-lib-antd/src/features/common/redux/hooks';
-import { DynamicThemeIcon } from './';
+import { DynamicThemeIcon, DarkThemeIcon } from './';
 import museIcon from '../../images/muse.png';
 const { Header: AntdHeader } = Layout;
 
@@ -56,12 +56,16 @@ export default function Header({ siderConfig }) {
       order: 9999998,
       render: () => {
         return (
+          !isDarkMode ?
           <DynamicThemeIcon
             onClick={handleSwitchThemeClick}
             title={`Switch between dark / light themes`}
             className="header-switch-theme"
-            style={{ fill: isDarkMode ? 'white' : 'white' }}
-          />
+          /> :  <DarkThemeIcon
+          onClick={handleSwitchThemeClick}
+          title={`Switch between dark / light themes`}
+          className="header-switch-theme"
+        />
         );
       },
     };

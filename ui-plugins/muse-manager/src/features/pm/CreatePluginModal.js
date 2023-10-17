@@ -1,12 +1,11 @@
 import { useCallback } from 'react';
-import NiceModal, { useModal, antdModal } from '@ebay/nice-modal-react';
+import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
 import { Modal, Select, message, Form } from 'antd';
 import NiceForm from '@ebay/nice-form-react';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import utils from '@ebay/muse-lib-antd/src/utils';
 import jsPlugin from 'js-plugin';
 import { useSyncStatus, useMuseMutation } from '../../hooks';
-const user = window.MUSE_GLOBAL.getUser();
 
 const CreatePluginModal = NiceModal.create(({ app }) => {
   const modal = useModal();
@@ -82,7 +81,7 @@ const CreatePluginModal = NiceModal.create(({ app }) => {
     if (app) values.app = app;
     jsPlugin.invoke('museManager.pm.createPluginForm.processValues', { values, form });
     console.log(values);
-    createPlugin({ ...values, author: user.username })
+    createPlugin({ ...values })
       .then(async () => {
         modal.hide();
         message.success('Create plugin success.');
@@ -101,7 +100,7 @@ const CreatePluginModal = NiceModal.create(({ app }) => {
 
   return (
     <Modal
-      {...antdModal(modal)}
+      {...antdModalV5(modal)}
       title={`Create Plugin`}
       width="600px"
       okText="Create"

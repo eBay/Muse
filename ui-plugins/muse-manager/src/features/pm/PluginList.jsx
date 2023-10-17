@@ -134,41 +134,12 @@ export default function PluginList({ app }) {
         );
       },
     },
-    {
-      dataIndex: 'owners',
-      title: 'Owners',
-      width: 250,
-      order: 15,
-      render: (owners) => <OwnerList owners={owners} searchKey={searchValue} />,
-    },
-    ...Object.values(app?.envs || {})
-      .filter((env) => selectedEnvName === 'all' || env.name === selectedEnvName)
-      .map((env, i) => {
-        return {
-          dataIndex: `${env.name}`,
-          title: _.capitalize(env.name),
-          order: i + 20,
-          width: 120,
-          ...getEnvFilterConfig(env.name),
-          render: (_, plugin) => {
-            const versionDeployed = deploymentInfoByPlugin?.[plugin.name]?.[env.name];
-            if (!versionDeployed) return <NA />;
-            const latestVersion = latestReleases?.[plugin.name]?.version;
-            if (!latestVersion) return versionDeployed;
-            const color = versionDiffColorMap[versionDiff(versionDeployed, latestVersion)];
-            return (
-              <Button type="link" style={{ textAlign: 'left', padding: 0, color }}>
-                v{versionDeployed}
-              </Button>
-            );
-          },
-        };
-      }),
+
     {
       dataIndex: 'latestVersion',
       title: 'Latest',
       width: 120,
-      order: 50,
+      order: 17,
       sorter: (a, b) => {
         a = latestReleases?.[a.name];
         b = latestReleases?.[b.name];
@@ -202,14 +173,44 @@ export default function PluginList({ app }) {
         );
       },
     },
+    ...Object.values(app?.envs || {})
+      .filter((env) => selectedEnvName === 'all' || env.name === selectedEnvName)
+      .map((env, i) => {
+        return {
+          dataIndex: `${env.name}`,
+          title: _.capitalize(env.name),
+          order: i + 20,
+          width: 120,
+          ...getEnvFilterConfig(env.name),
+          render: (_, plugin) => {
+            const versionDeployed = deploymentInfoByPlugin?.[plugin.name]?.[env.name];
+            if (!versionDeployed) return <NA />;
+            const latestVersion = latestReleases?.[plugin.name]?.version;
+            if (!latestVersion) return versionDeployed;
+            const color = versionDiffColorMap[versionDiff(versionDeployed, latestVersion)];
+            return (
+              <Button type="link" style={{ textAlign: 'left', padding: 0, color }}>
+                v{versionDeployed}
+              </Button>
+            );
+          },
+        };
+      }),
     {
       dataIndex: 'status',
       title: 'Status',
-      order: 60,
-      width: 300,
+      order: 50,
+      width: 350,
       render: (a, plugin) => {
         return <PluginStatus plugin={plugin} app={app} />;
       },
+    },
+    {
+      dataIndex: 'owners',
+      title: 'Owners',
+      width: 200,
+      order: 95,
+      render: (owners) => <OwnerList owners={owners} searchKey={searchValue} count={2} />,
     },
     {
       dataIndex: 'actions',

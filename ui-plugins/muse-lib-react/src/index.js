@@ -10,6 +10,7 @@ import * as reactUse from 'react-use';
 import './styles/index.less';
 import * as reactRouterDom from 'react-router-dom';
 import * as reactQuery from '@tanstack/react-query';
+
 plugin.register({
   name: '@ebay/muse-lib-react', // reserve the plugin name
 });
@@ -22,11 +23,14 @@ const renderApp = () => {
     document.body.appendChild(rootNode);
   }
   rootNode.innerHTML = '';
+  plugin.invoke('root.beforeRender');
   const root = createRoot(rootNode);
   // Plugin can do some initialization before app render.
-  plugin.invoke('onReady');
   window.__js_plugin = plugin; // Mainly for debugging
   root.render(<Root />);
+  plugin.invoke('root.afterRender');
+
+  plugin.invoke('onReady');
 };
 
 window.MUSE_GLOBAL.appEntries.push({

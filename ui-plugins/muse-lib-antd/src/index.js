@@ -7,6 +7,7 @@ import reducer from './common/rootReducer';
 import './initNiceForm';
 import { ConfigProviderWrapper } from './features/common';
 import utils from './utils';
+import './modals';
 
 import './styles/index.less';
 import('antd/dist/reset.css');

@@ -1,8 +1,18 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render, screen } from '@testing-library/react';
 import { GlobalErrorBox } from '../../../src/features/common';
 
-it('renders node with correct class name', () => {
-  const renderedComponent = shallow(<GlobalErrorBox />);
-  expect(renderedComponent.find('.common-global-error-box').length).toBe(1);
+describe('common/GlobalErrorBox', () => {
+  it('renders default GlobalErrorBox', () => {
+    render(<GlobalErrorBox
+      title="Custom Title"
+      error={{ errorList: [{ error: 'Error1', message: 'Message1' }] }}
+      onOk={()=> {}}
+      okText="custom ok text"
+      onClose={()=> {}}
+    />);
+    expect(screen.getByText('Custom Title')).toBeTruthy();
+    expect(screen.getByRole('button', { name: /custom ok text/})).toBeTruthy();
+    expect(screen.getByText(/Error1.*:.*Message1/)).toBeTruthy();
+  });
 });

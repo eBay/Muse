@@ -5,7 +5,6 @@ import plugin from 'js-plugin';
 import NiceModal from '@ebay/nice-modal-react';
 import homeReducer from '../features/home/redux/reducer';
 import commonReducer from '../features/common/redux/reducer';
-import userReducer from '../features/user/redux/reducer';
 import subAppReducer from '../features/sub-app/redux/reducer';
 
 // NOTE 1: DO NOT CHANGE the 'reducerMap' name and the declaration pattern.
@@ -18,7 +17,6 @@ const reducerMap = {
   modals: NiceModal.reducer,
   home: homeReducer,
   common: commonReducer,
-  user: userReducer,
   subApp: subAppReducer,
 };
 

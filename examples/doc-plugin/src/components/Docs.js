@@ -16,9 +16,9 @@ const CodeViewer = ({ code }) => {
 };
 const { Panel } = Collapse;
 
-const DocTip = ({ children, type = 'bulb' }) => {
+const DocTip = ({ children, type = 'bulb', className }) => {
   return (
-    <div className="doc-tip">
+    <div className={`doc-tip ${className}`}>
       {type === 'info' ? <InfoCircleOutlined /> : <BulbOutlined />}
       <p>{children}</p>
     </div>
@@ -73,14 +73,12 @@ const Docs = () => {
           the app.
         </Timeline.Item>
       </Timeline>
-      <div style={{ marginLeft: 52, marginTop: -25 }}>
-        <DocTip>
-          Recap: rather than creating an app from scratch, you can use existing Muse plugins to
-          initialize a Muse app. The reusable plugins could be a boot plugin to load other plugins,
-          a lib plugin to provide shared modules (like React, Redux, Components Library, etc), or a
-          normal plugin to provide some functionality.
-        </DocTip>
-      </div>
+      <DocTip>
+        Recap: rather than creating an app from scratch, you can use existing Muse plugins to
+        initialize a Muse app. The reusable plugins could be a boot plugin to load other plugins, a
+        lib plugin to provide shared modules (like React, Redux, Components Library, etc), or a
+        normal plugin to provide some functionality.
+      </DocTip>
       <Timeline>
         <Timeline.Item>
           Then we started to create the real feature for the app: user manager. To implement the
@@ -169,16 +167,15 @@ const Docs = () => {
           property in user's profile.
         </Timeline.Item>
       </Timeline>
-      <div style={{ marginLeft: 52, marginTop: -25 }}>
-        <DocTip>
-          Recap: in Muse we create an application feature by feature, so that when adding more and
-          more functaionalities, the whole application will not be more and more complicated. Since
-          each plugin is built on top of common shared modules, every plugin project can be small
-          and easy to maintain. Also, you have a first glance about the extension point mechanism,
-          it's a core concept in Muse too which helps to allow different plugins work together
-          seamlessly.
-        </DocTip>
-      </div>
+
+      <DocTip className="small">
+        Recap: in Muse we create an application feature by feature, so that when adding more and
+        more functaionalities, the whole application will not be more and more complicated. Since
+        each plugin is built on top of common shared modules, every plugin project can be small and
+        easy to maintain. Also, you have a first glance about the extension point mechanism, it's a
+        core concept in Muse too which helps to allow different plugins work together seamlessly.
+      </DocTip>
+
       <Timeline>
         <Timeline.Item>
           Again, our product manager thought there should be a dashboard as homepage to show the
@@ -228,15 +225,12 @@ const Docs = () => {
           You can see the full list of plugins deployed on this demo app below.
         </Timeline.Item>
       </Timeline>
-      <div style={{ marginLeft: 52, marginTop: -25 }}>
-        <DocTip>
-          Recap: the dashboard plugin is a highly extensible plugin, the usage here shows the
-          capability to export assets from a plugin at run time (providing a <b>Dashboard</b>{' '}
-          plugin) and extension points for other plugins to contribute widgets to the dashboard. It
-          uses local storage for data persistent by default but you can also define your own storage
-          provider.
-        </DocTip>
-      </div>
+      <DocTip>
+        Recap: the dashboard plugin is a highly extensible plugin, the usage here shows the
+        capability to export assets from a plugin at run time (providing a <b>Dashboard</b> plugin)
+        and extension points for other plugins to contribute widgets to the dashboard. It uses local
+        storage for data persistent by default but you can also define your own storage provider.
+      </DocTip>
       <h2>Code Sample</h2>
       <p>
         You may have been curious about how <b>users-plugin</b> and <b>roles-plugin</b> work

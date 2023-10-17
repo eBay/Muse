@@ -1,21 +1,27 @@
 import React from 'react';
-import { Dropdown, Button, Tooltip } from 'antd';
+import { Dropdown, Button, Tooltip, Popconfirm } from 'antd';
 import _ from 'lodash';
 import plugin from 'js-plugin';
 import history from '../../common/history';
 import getIconNode from './getIconNode.js';
 
-const renderOuterItem = ({ icon, label, disabled, disabledText, ...rest }, size) => {
+const renderOuterItem = ({ icon, label, disabled, confirm, disabledText, ...rest }, size) => {
   delete rest.highlight;
   delete rest.size;
   const iconNode = icon ? getIconNode({ icon }) : getIconNode({ icon: 'file' });
   rest.icon = iconNode;
 
-  return (
+  let ele = (
     <Tooltip title={disabled ? disabledText || label : label} key={rest.key}>
-      <Button size={size} disabled={disabled} {...rest} />
+      <Button size={size} disabled={disabled} style={{ borderColor: '#d9d9d9' }} {...rest} />
     </Tooltip>
   );
+
+  if (confirm) {
+    ele = <Popconfirm {...confirm}>{ele}</Popconfirm>;
+  }
+
+  return ele;
 };
 
 export default function DropdownMenu({

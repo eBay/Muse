@@ -1,23 +1,26 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Radio } from 'antd';
+import { useParams, useNavigate } from 'react-router-dom';
 import AppVariables from './AppVariables';
 import PluginVariables from './PluginVariables';
 
 export default function EnvironmentVariables({ app }) {
-  const [environmentSelection, setEnvironmentSelection] = useState('App');
+  const { scope = 'app' } = useParams();
+  const navigate = useNavigate();
+
   const plainOptions = [
     {
-      label: <span>App. Level</span>,
-      value: 'App',
+      label: <span>App</span>,
+      value: 'app',
     },
     {
-      label: <span>Plugin Level</span>,
-      value: 'Plugin',
+      label: <span>Plugin</span>,
+      value: 'plugin',
     },
   ];
 
   const onChangeRadio = ({ target: { value } }) => {
-    setEnvironmentSelection(value);
+    navigate(`/app/${app.name}/variables/${value}`);
   };
 
   return (
@@ -25,13 +28,13 @@ export default function EnvironmentVariables({ app }) {
       <Radio.Group
         options={plainOptions}
         onChange={onChangeRadio}
-        value={environmentSelection}
+        value={scope}
         optionType="button"
         buttonStyle="solid"
         style={{ marginBottom: '10px' }}
       />
-      {environmentSelection === 'App' && <AppVariables app={app} />}
-      {environmentSelection === 'Plugin' && <PluginVariables app={app} />}
+      {scope === 'app' && <AppVariables app={app} />}
+      {scope === 'plugin' && <PluginVariables app={app} />}
     </>
   );
 }

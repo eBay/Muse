@@ -85,19 +85,6 @@ module.exports = function defineAbilityFor(user) {
     });
   });
 
-  //
-  // allow('manage', 'Request', ({ app, request }) => {
-  //   return isOwnerOf(app) && request.appName === app.name;
-  // });
-
-  // allow('create', 'Request', ({ plugin, app, request }) => {
-  //   return isOwnerOf(plugin) || isOwnerOf(app);
-  // });
-
-  // allow('create', 'RequestBuild', ({ plugin, app }) => {
-  //   return isOwnerOf(plugin) || isOwnerOf(app);
-  // });
-
   jsPlugin.invoke('museAcl.defineAbility', { user, allow, forbid });
   jsPlugin.invoke('museAcl.afterDefineAbility', { user, allow, forbid });
 
