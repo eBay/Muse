@@ -11,7 +11,7 @@ import './RoleList.less';
 
 export default function RoleList() {
   const roleModal = useModal(RoleInfoModal);
-  const roles = useSelector(s => s.pluginRolesPlugin.roles);
+  const roles = useSelector((s) => s.pluginRolesPlugin.roles);
 
   const columns = useMemo(
     () => [
@@ -52,7 +52,7 @@ export default function RoleList() {
   jsPlugin.sort(columns);
 
   return (
-    <div className="role-list" style={{ color: 'red' }}>
+    <div className="role-list">
       <h1>Roles List</h1>
       <Button type="primary" onClick={() => roleModal.show()} style={{ float: 'right' }}>
         + New Role

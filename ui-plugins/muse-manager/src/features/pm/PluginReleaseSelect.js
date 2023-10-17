@@ -71,7 +71,11 @@ function PluginReleaseSelectWithPlugin({ value, onChange, plugin, app, filter, .
                 <span style={{ marginRight: '15px', verticalAlign: 'middle' }}>{r.version}</span>
                 {tags}
                 <span style={{ color: '#999', marginLeft: '5px', verticalAlign: 'middle' }}>
-                  built from <Tag>{r.branch || 'unknown'}</Tag>
+                  {r.branch && (
+                    <>
+                      built from <Tag>{r.branch || 'unknown'}</Tag>
+                    </>
+                  )}
                   by {r.createdBy} <TimeAgo date={new Date(r.createdAt)} />
                 </span>
               </Option>

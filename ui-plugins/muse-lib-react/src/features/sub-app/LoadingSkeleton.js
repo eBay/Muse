@@ -13,7 +13,7 @@ export default function LoadingSkeleton({ state }) {
   return (
     <div className="sub-app-loading-skeleton">
       <div className="sub-app-loading-center-container">
-        <LoadingSvg />
+        {LoadingSvg ? React.createElement(LoadingSvg) : <></>}
         <label>{stateMap[state] || 'Loading sub app...'}</label>
       </div>
     </div>

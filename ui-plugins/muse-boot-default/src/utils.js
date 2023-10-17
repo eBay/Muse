@@ -8,7 +8,7 @@ export function xhr(url, options = {}) {
   return new Promise((resolve, reject) => {
     request.onload = () => {
       if (request.status !== 200) {
-        console.log('Reqeust failed', request);
+        console.log('Request failed', request);
         reject(request);
         return;
       }

@@ -1,12 +1,6 @@
-
-
 import React, { PureComponent } from 'react';
 import { Result, Button } from 'antd';
 import history from '../../common/history';
-
-
-
-
 export default class PageNotFound extends PureComponent {
   render() {
     return (
