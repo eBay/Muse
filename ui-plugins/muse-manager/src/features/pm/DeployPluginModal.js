@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
 import { Modal, Form, message } from 'antd';
+import _ from 'lodash';
 import utils from '@ebay/muse-lib-antd/src/utils';
 import NiceForm from '@ebay/nice-form-react';
 import { useMuseMutation, useSyncStatus, usePendingError, useAbility } from '../../hooks';
@@ -85,12 +86,18 @@ const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
     if (!(await confirmDeployment())) return;
     const values = form.getFieldsValue();
 
-    await deployPlugin({
+    const payload = {
       appName: app.name,
       pluginName: plugin.name,
       envName: values.envs,
-      version: values.version,
+      // version: values.version,
+      ..._.omit(values, ['envs']),
+    };
+    jsPlugin.invoke('museManager.pm.deployPluginModal.form.processPayload', {
+      payload: values,
+      form,
     });
+    await deployPlugin();
 
     modal.hide();
     message.success('Deploy plugin succeeded.');
