@@ -1,5 +1,5 @@
 import React from 'react';
-import { Radio } from 'antd';
+import { Radio, Alert } from 'antd';
 import { useParams, useNavigate } from 'react-router-dom';
 import AppVariables from './AppVariables';
 import PluginVariables from './PluginVariables';
@@ -33,8 +33,26 @@ export default function EnvironmentVariables({ app }) {
         buttonStyle="solid"
         style={{ marginBottom: '10px' }}
       />
-      {scope === 'app' && <AppVariables app={app} />}
-      {scope === 'plugin' && <PluginVariables app={app} />}
+      {scope === 'app' && (
+        <>
+          <Alert
+            type="info"
+            showIcon
+            message="You can use 'window.MUSE_GLOBAL.getAppVariables()[varName]' to get an app variable value."
+          />
+          <AppVariables app={app} />
+        </>
+      )}
+      {scope === 'plugin' && (
+        <>
+          <Alert
+            type="info"
+            showIcon
+            message="You can use 'window.MUSE_GLOBAL.getPluginVariables(pluginName)[varName]' to get a plugin variable value."
+          />
+          <PluginVariables app={app} />
+        </>
+      )}
     </>
   );
 }
