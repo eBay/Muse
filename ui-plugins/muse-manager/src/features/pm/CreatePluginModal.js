@@ -80,7 +80,7 @@ const CreatePluginModal = NiceModal.create(({ app }) => {
     const values = form.getFieldsValue();
     if (app) values.app = app;
     jsPlugin.invoke('museManager.pm.createPluginForm.processValues', { values, form });
-
+    console.log(values);
     createPlugin({ ...values })
       .then(async () => {
         modal.hide();
