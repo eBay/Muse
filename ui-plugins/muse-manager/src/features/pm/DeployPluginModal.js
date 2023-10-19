@@ -91,7 +91,7 @@ const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
       envName: values.envs,
       version: values.version,
     };
-    jsPlugin.invoke('museManager.pm.deployPluginModal.forceDeploy.processPayload', {
+    jsPlugin.invoke('museManager.pm.deployPluginModal.form.processPayload', {
       payload,
       values,
     });
@@ -172,7 +172,6 @@ const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
         loading: pending,
         disabled: pending,
         children: pending ? 'Deploying...' : 'Deploy',
-
         onClick: () => {
           handleFinish();
         },

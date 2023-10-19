@@ -1,6 +1,6 @@
 import { Button, Tooltip } from 'antd';
 
-const FooterItem = ({ item }) => {
+export const FooterItem = ({ item }) => {
   let ele = item.content || <Button {...item.props} />;
   if (item.tooltip) {
     ele = (

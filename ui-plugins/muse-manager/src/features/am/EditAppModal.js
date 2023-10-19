@@ -73,7 +73,8 @@ const EditAppModal = NiceModal.create(({ app }) => {
         }),
       },
     };
-    jsPlugin.invoke('museManager.am.editAppForm.processPayload', { payload, values });
+    jsPlugin.invoke('museManager.am.editAppModal.form.processPayload', { payload, values });
+
     updateApp(payload)
       .then(async () => {
         modal.hide();

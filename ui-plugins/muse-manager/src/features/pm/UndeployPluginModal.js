@@ -93,7 +93,7 @@ const UndeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
       pluginName: plugin.name,
       envName: values.envs,
     };
-    jsPlugin.invoke('museManager.pm.undeployPluginModal.forceUndeploy.processPayload', {
+    jsPlugin.invoke('museManager.pm.undeployPluginModal.form.processPayload', {
       payload,
       values,
     });

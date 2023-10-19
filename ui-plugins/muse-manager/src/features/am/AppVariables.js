@@ -1,14 +1,18 @@
 import { useState, useEffect } from 'react';
-import { Button, Form, Table, Popconfirm } from 'antd';
+import { Button, Form, Table, Popconfirm, Modal } from 'antd';
 import { useAbility, useSyncStatus, useMuseMutation } from '../../hooks';
 import _ from 'lodash';
 import NiceModal from '@ebay/nice-modal-react';
 import { RequestStatus, DropdownMenu } from '@ebay/muse-lib-antd/src/features/common';
+import { extendArray } from '@ebay/muse-lib-antd/src/utils';
 import VarEditableCell from './VarEditableCell';
+import { FooterItem } from '../common/ModalFooter';
+import jsPlugin from 'js-plugin';
 
 export default function AppVariables({ app }) {
   const envs = app.envs ? Object.keys(app.envs) : [];
   const ability = useAbility();
+  const [antdModal, contextHolder] = Modal.useModal();
   const canUpdateApp = ability.can('update', 'App', app);
   const syncStatus = useSyncStatus(`muse.app.${app.name}`);
   const { mutateAsync: updateApp, error: updateAppError } = useMuseMutation('am.updateApp');
@@ -17,13 +21,26 @@ export default function AppVariables({ app }) {
   const isEditing = (record) => record.variableName === editingKey;
   const [newVarItem, setNewVarItem] = useState(false);
 
+  const extArgs = {
+    ability,
+    form,
+    antdModal,
+    syncStatus,
+    app,
+  };
+
   const updateVars = async (changes) => {
     try {
       NiceModal.show('muse-lib-antd.loading-modal', { message: 'Updating app variables...' });
-      await updateApp({
+      const payload = {
         appName: app.name,
         changes,
+      };
+      jsPlugin.invoke('museManager.am.appVariables.form.processPayload', {
+        payload,
+        values: form.getFieldsValue(),
       });
+      await updateApp(payload);
       NiceModal.show('muse-lib-antd.loading-modal', { message: 'Syncing data...' });
       await syncStatus();
       NiceModal.hide('muse-lib-antd.loading-modal');
@@ -148,58 +165,86 @@ export default function AppVariables({ app }) {
       return {};
     },
     render: (x, record) => {
+      let items;
+      if (isEditing(record)) {
+        items = [
+          {
+            key: 'save',
+            order: 10,
+            content: (
+              <Popconfirm
+                title="Are you sure to update the variable?"
+                okText="Yes"
+                onConfirm={() => handleSave(record)}
+              >
+                <Button type="primary" className="mt-1" size="small">
+                  Save
+                </Button>
+              </Popconfirm>
+            ),
+          },
+          {
+            key: 'cancel',
+            order: 20,
+            props: {
+              size: 'small',
+              children: 'Cancel',
+              className: 'ml-2 mt-1',
+              onClick: () => handleCancel(record),
+            },
+          },
+        ];
+      } else {
+        items = [
+          {
+            key: 'edit',
+            order: 40,
+            icon: 'edit',
+            disabled: !canUpdateApp,
+            disabledText: 'No permission.',
+            highlight: true,
+            onClick: () => {
+              handleEdit(record);
+            },
+          },
+          {
+            key: 'delete',
+            order: 40,
+            icon: 'delete',
+            disabled: !canUpdateApp,
+            disabledText: 'No permission.',
+
+            highlight: true,
+            danger: true,
+            confirm: {
+              title: 'Are you sure to delete the variable?',
+              okText: 'Delete',
+              okButtonProps: {
+                danger: true,
+              },
+              onConfirm: () => {
+                handleDelete(record);
+              },
+            },
+          },
+        ];
+      }
+      extendArray(items, 'tableActions', 'museManager.am.appVariables', {
+        actions: items,
+        record,
+        ...extArgs,
+      });
       if (isEditing(record)) {
         return (
           <span>
-            <Popconfirm
-              title="Are you sure to update the variable?"
-              okText="Yes"
-              onConfirm={() => handleSave(record)}
-            >
-              <Button type="primary" className2="mt-1" size="small">
-                Save
-              </Button>
-            </Popconfirm>
-            <Button className="ml-2 mt-1" size="small" onClick={() => handleCancel(record)}>
-              Cancel
-            </Button>
+            {items.map((item) => (
+              <FooterItem key={item.key} item={item} />
+            ))}
           </span>
         );
+      } else {
+        return <DropdownMenu items={items} />;
       }
-      const items = [
-        {
-          key: 'edit',
-          order: 40,
-          icon: 'edit',
-          disabled: !canUpdateApp,
-          disabledText: 'No permission.',
-          highlight: true,
-          onClick: () => {
-            handleEdit(record);
-          },
-        },
-        {
-          key: 'delete',
-          order: 40,
-          icon: 'delete',
-          disabled: !canUpdateApp,
-          disabledText: 'No permission.',
-
-          highlight: true,
-          danger: true,
-          confirm: {
-            title: 'Are you sure to delete the variable?',
-            okText: 'Delete',
-            okButtonProps: {
-              danger: true,
-            },
-            onConfirm: () => {
-              handleDelete(record);
-            },
-          },
-        },
-      ];
-      return <DropdownMenu items={items} />;
     },
   });
 
@@ -239,7 +284,6 @@ export default function AppVariables({ app }) {
       }),
     };
   });
-
   return (
     <>
       <Form form={form} component={false}>
@@ -268,6 +312,7 @@ export default function AppVariables({ app }) {
       >
         + Add a variable
       </Button>
+      {contextHolder}
     </>
   );
 }
