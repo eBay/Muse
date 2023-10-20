@@ -58,6 +58,9 @@ devDependencies:
   enzyme:
     specifier: 3.11.0
     version: 3.11.0
+  jest-canvas-mock:
+    specifier: ^2.5.2
+    version: artifactory.corp.ebay.com/jest-canvas-mock@2.5.2
   react-scripts:
     specifier: ^5.0.1
     version: 5.0.1(@babel/plugin-syntax-flow@7.18.6)(@babel/plugin-transform-react-jsx@7.20.13)(eslint@8.33.0)(react@18.2.0)(typescript@4.9.3)
@@ -3726,7 +3729,7 @@ packages:
     resolution: {integrity: sha1-ctOmjVmMm9s68q0ehPIdiWq9TeM=}
     engines: {node: '>=7.0.0'}
     dependencies:
-      color-name: 1.1.4
+      color-name: artifactory.corp.ebay.com/color-name@1.1.4
     dev: true
 
   /color-name@1.1.3:
@@ -13266,6 +13269,12 @@ packages:
       mdn-data: artifactory.corp.ebay.com/mdn-data@2.0.14
       source-map: artifactory.corp.ebay.com/source-map@0.6.1
 
+  artifactory.corp.ebay.com/cssfontparser@1.2.1:
+    resolution: {integrity: sha512-6tun4LoZnj7VN6YeegOVb67KBX/7JJsqvj+pv3ZA7F878/eN33AbGa5b/S/wXxS/tcp8nc40xRUrsPlxIyNUPg==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/cssfontparser/-/cssfontparser-1.2.1.tgz}
+    name: cssfontparser
+    version: 1.2.1
+    dev: true
+
   artifactory.corp.ebay.com/csstype@3.1.1:
     resolution: {integrity: sha512-DJR/VvkAvSZW9bTouZue2sSxDwdTN92uHjqeKVm+0dAqdfNykRzQ95tay8aXMBAAPpUiq4Qcug2L7neoRh2Egw==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/csstype/-/csstype-3.1.1.tgz}
     name: csstype
@@ -15178,6 +15187,15 @@ packages:
       relative-time-format: artifactory.corp.ebay.com/relative-time-format@1.1.6
     dev: true
 
+  artifactory.corp.ebay.com/jest-canvas-mock@2.5.2:
+    resolution: {integrity: sha512-vgnpPupjOL6+L5oJXzxTxFrlGEIbHdZqFU+LFNdtLxZ3lRDCl17FlTMM7IatoRQkrcyOTMlDinjUguqmQ6bR2A==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/jest-canvas-mock/-/jest-canvas-mock-2.5.2.tgz}
+    name: jest-canvas-mock
+    version: 2.5.2
+    dependencies:
+      cssfontparser: artifactory.corp.ebay.com/cssfontparser@1.2.1
+      moo-color: artifactory.corp.ebay.com/moo-color@1.0.3
+    dev: true
+
   artifactory.corp.ebay.com/jest-worker@27.5.1:
     resolution: {integrity: sha512-7vuh85V5cdDofPyxn58nrPjBktZo0u9x1g8WtjQol+jZDaE+fhN+cIvTj11GndBnMnyfrUOG1sZQxCdjKh+DKg==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/jest-worker/-/jest-worker-27.5.1.tgz}
     name: jest-worker
@@ -15702,6 +15720,14 @@ packages:
     name: moment
     version: 2.29.4
     dev: false
+
+  artifactory.corp.ebay.com/moo-color@1.0.3:
+    resolution: {integrity: sha512-i/+ZKXMDf6aqYtBhuOcej71YSlbjT3wCO/4H1j8rPvxDJEifdwgg5MaFyu6iYAT8GBZJg2z0dkgK4YMzvURALQ==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/moo-color/-/moo-color-1.0.3.tgz}
+    name: moo-color
+    version: 1.0.3
+    dependencies:
+      color-name: artifactory.corp.ebay.com/color-name@1.1.4
+    dev: true
 
   artifactory.corp.ebay.com/mrmime@1.0.1:
     resolution: {integrity: sha512-hzzEagAgDyoU1Q6yg5uI+AorQgdvMCur3FcKf7NhMKWsaYg+RnbTyHRa/9IlLF9rf455MOCtcqqrQQ83pPP7Uw==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/mrmime/-/mrmime-1.0.1.tgz}
