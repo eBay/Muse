@@ -11,7 +11,8 @@ import museIcon from '../../images/muse.png';
 const { Header: AntdHeader } = Layout;
 
 function getUserMenuItem() {
-  const mc = window.MUSE_CONFIG;
+  const museGlobal = window.MUSE_GLOBAL;
+
   return {
     key: 'userAvatar',
     type: 'menu',
@@ -21,7 +22,7 @@ function getUserMenuItem() {
       autoSort: true,
       baseExtPoint: 'headerusermenu',
       trigger: {
-        label: mc.getUser().username,
+        label: museGlobal.getUser().username,
       },
       items: [
         {
@@ -29,10 +30,10 @@ function getUserMenuItem() {
           label: 'Log Out',
           order: 100,
           onClick: () => {
-            if (!mc.logout) {
+            if (!museGlobal.logout) {
               Modal.error({ title: 'Error', content: 'No logout method on MUSE_CONFIG.' });
             } else {
-              mc.logout();
+              museGlobal.logout();
             }
           },
         },
@@ -55,17 +56,18 @@ export default function Header({ siderConfig }) {
       position: 'right',
       order: 9999998,
       render: () => {
-        return (
-          !isDarkMode ?
+        return !isDarkMode ? (
           <DynamicThemeIcon
             onClick={handleSwitchThemeClick}
             title={`Switch between dark / light themes`}
             className="header-switch-theme"
-          /> :  <DarkThemeIcon
-          onClick={handleSwitchThemeClick}
-          title={`Switch between dark / light themes`}
-          className="header-switch-theme"
-        />
+          />
+        ) : (
+          <DarkThemeIcon
+            onClick={handleSwitchThemeClick}
+            title={`Switch between dark / light themes`}
+            className="header-switch-theme"
+          />
         );
       },
     };
@@ -143,7 +145,7 @@ export default function Header({ siderConfig }) {
   const noTitle = !headerConfig.title && !headerConfig.icon;
   return (
     <AntdHeader className="muse-layout-header" style={{ ...headerStyle }}>
-      {siderConfig.mode === 'drawer' && (
+      {siderConfig?.mode === 'drawer' && (
         <HeaderItem
           meta={{
             icon: 'MenuOutlined',
