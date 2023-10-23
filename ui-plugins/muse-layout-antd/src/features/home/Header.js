@@ -152,7 +152,9 @@ export default function Header({ siderConfig }) {
       )}
       {!noTitle && (
         <span className="header-item header-item-title">
-          {headerConfig.icon && <img src={headerConfig.icon} alt="" onClick={gotoHome} />}
+          {headerConfig.icon && (
+            <img src={headerConfig.icon} alt="" aria-label="header-icon" onClick={gotoHome} />
+          )}
           {headerConfig.title && <h1 onClick={gotoHome}>{headerConfig.title}</h1>}
           {headerConfig.subTitle && <p>{headerConfig.subTitle}</p>}
         </span>
