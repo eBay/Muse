@@ -2,7 +2,7 @@ const CracoLessPlugin = require('craco-less');
 const MuseCracoPlugin = require('@ebay/muse-craco-plugin');
 const MuseEbayCracoPlugin = require('@ebay/muse-ebay-craco-plugin');
 const esmModules = [
-  'react-syntax-highlighter',
+  '.*react-syntax-highlighter',
   '.*nice-form-react',
   '.*muse-lib-react',
   '.*muse-lib-antd',

@@ -1,6 +1,6 @@
 const path = require('path');
 const esmModules = [
-  'react-syntax-highlighter',
+  '.*react-syntax-highlighter',
   '.*nice-form-react',
   '.*muse-lib-react',
   '.*muse-lib-antd',
