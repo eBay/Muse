@@ -92,12 +92,7 @@ export default function Header({ siderConfig }) {
     ..._.flatten(plugin.invoke('museLayout.header.getItems')),
   ].map((item) => (item.order ? item : { ...item, order: 1 }));
 
-  if (
-    !headerConfig.noUserMenu &&
-    window.MUSE_GLOBAL.getUser &&
-    window.MUSE_GLOBAL.getUser() &&
-    !plugin.getPlugin('@ebay/muse-lib-cc')
-  ) {
+  if (!headerConfig.noUserMenu && window.MUSE_GLOBAL.getUser && window.MUSE_GLOBAL.getUser()) {
     realHeaderItems.push(getUserMenuItem());
     if (headerConfig.themeSwitcher) {
       realHeaderItems.push(getDynamicThemeSwitch());
@@ -143,6 +138,7 @@ export default function Header({ siderConfig }) {
     centerContainerStyle.gridTemplateColumns = `1fr ${_.repeat('auto ', centerItems.length)}1fr`;
   }
   const noTitle = !headerConfig.title && !headerConfig.icon;
+
   return (
     <AntdHeader className="muse-layout-header" style={{ ...headerStyle }}>
       {siderConfig?.mode === 'drawer' && (
