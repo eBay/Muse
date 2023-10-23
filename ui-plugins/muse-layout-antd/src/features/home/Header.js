@@ -31,7 +31,7 @@ function getUserMenuItem() {
           order: 100,
           onClick: () => {
             if (!museGlobal.logout) {
-              Modal.error({ title: 'Error', content: 'No logout method on MUSE_CONFIG.' });
+              Modal.error({ title: 'Error', content: 'No logout method on MUSE_GLOBAL.' });
             } else {
               museGlobal.logout();
             }
@@ -94,8 +94,8 @@ export default function Header({ siderConfig }) {
 
   if (
     !headerConfig.noUserMenu &&
-    window.MUSE_CONFIG.getUser &&
-    window.MUSE_CONFIG.getUser() &&
+    window.MUSE_GLOBAL.getUser &&
+    window.MUSE_GLOBAL.getUser() &&
     !plugin.getPlugin('@ebay/muse-lib-cc')
   ) {
     realHeaderItems.push(getUserMenuItem());

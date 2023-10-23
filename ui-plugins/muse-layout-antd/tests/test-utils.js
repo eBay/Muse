@@ -10,16 +10,6 @@ import '@ebay/muse-craco-plugin/lib/jest/__mocks__/museEntries.js';
 import history from '@ebay/muse-lib-antd/src/common/history';
 import store from './storeForTests';
 
-let defaultStore = {...store.getStore()};
-
-export const getDefaultStore = () => {
-  return defaultStore;
-};
-
-export const resetStore = () => {
-  defaultStore = {...store.getStore()};
-};
-
 export const renderWithStoreAndProviders = (store, ui, { reduxState } = {}) => {
   return {
     ...render(
@@ -38,6 +28,7 @@ export const renderWithStoreAndProviders = (store, ui, { reduxState } = {}) => {
 };
 
 export const renderWithProviders = (ui, { reduxState } = {}) => {
+  const defaultStore = store.getStore();
   return {
     ...render(
       <Provider store={defaultStore}>
