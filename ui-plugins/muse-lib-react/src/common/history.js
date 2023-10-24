@@ -2,7 +2,7 @@
 
 import { createHashHistory, createMemoryHistory, createBrowserHistory } from 'history';
 
-const routerType = window.MUSE_CONFIG?.appConfig?.routerType || 'browser';
+const routerType = window.MUSE_GLOBAL?.appConfig?.routerType || 'browser';
 
 let historyCreator;
 
