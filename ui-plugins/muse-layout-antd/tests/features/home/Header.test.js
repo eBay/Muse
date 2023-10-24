@@ -34,6 +34,12 @@ describe('home/Header', () => {
     }
   });
 
+  afterEach(() => {
+    if (plugin.getPlugin('ut-plugin')) {
+      plugin.unregister('ut-plugin');
+    }
+  });
+
   it('renders default Header with the Username and a default muse icon', async () => {
     act(() => {
       testUtils.renderWithProviders(<Header />);
@@ -56,5 +62,98 @@ describe('home/Header', () => {
     await waitFor(() => expect(history.location.pathname).toBe('/'), {
       timeout: 3000,
     });
+  });
+
+  it('renders Header with theme switcher (default light theme)', async () => {
+    plugin.register({
+      name: 'ut-plugin',
+      museLayout: {
+        header: {
+          getConfig() {
+            return {
+              backgroundColor: '#039be5',
+              title: 'UT App Title',
+              noUserMenu: true,
+              themeSwitcher: true,
+              subTitle: 'UT sub-title',
+            };
+          },
+        },
+      },
+    });
+
+    act(() => {
+      testUtils.renderWithProviders(<Header />);
+    });
+
+    const lightThemeIcon = screen.getByRole('img', { name: 'theme-icon' });
+    expect(lightThemeIcon).toBeTruthy();
+    userEvent.click(lightThemeIcon);
+    // we should have the dark theme icon now
+    const darkThemeIcon = await screen.findByRole('img', { name: 'darktheme-icon' });
+    expect(darkThemeIcon).toBeTruthy();
+
+    // noUserMenu = true, so we can't find 'test' user text
+    expect(screen.queryByText('test')).toBeFalsy();
+
+    // title should be inside a <h1> element
+    const titleH1 = screen.getByRole('heading', { level: 1 });
+    expect(titleH1).toHaveTextContent('UT App Title');
+
+    // and the subTitle inside a <p> element
+    const subTitleP = screen.getByText('UT sub-title');
+    expect(subTitleP).toBeTruthy();
+  });
+
+  it('renders Header with right/center/left items', async () => {
+    plugin.register({
+      name: 'ut-plugin',
+      museLayout: {
+        header: {
+          getConfig() {
+            return {
+              backgroundColor: '#039be5',
+              title: 'UT App Title',
+              noUserMenu: true,
+              themeSwitcher: false,
+              subTitle: 'UT sub-title',
+            };
+          },
+          getItems: () => {
+            return [
+              {
+                key: 'item1',
+                icon: 'CheckCircleOutlined',
+                position: 'left',
+                order: 1,
+                link: '/left-demo',
+              },
+
+              {
+                key: 'item2',
+                icon: 'ClockCircleOutlined',
+                position: 'center',
+                order: 50,
+                link: '/center-demo',
+              },
+              {
+                key: 'item3',
+                icon: 'CheckSquareOutlined',
+                position: 'right',
+                order: 100,
+                link: '/right-demo',
+              },
+            ];
+          },
+        },
+      },
+    });
+
+    act(() => {
+      testUtils.renderWithProviders(<Header />);
+    });
+
+    const icons = await screen.findAllByRole('img');
+    expect(icons).toHaveLength(3);
   });
 });
