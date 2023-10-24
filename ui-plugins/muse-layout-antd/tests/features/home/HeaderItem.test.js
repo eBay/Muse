@@ -34,7 +34,7 @@ describe('home/HeaderItem', () => {
     }
   });
 
-  it('renders node with correct class name', () => {
+  it('renders HeaderItem with correct class name', () => {
     const { container } = testUtils.renderWithProviders(
       <HeaderItem
         meta={{
