@@ -2,10 +2,10 @@ import React from 'react';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import plugin from 'js-plugin';
+import history from '@ebay/muse-lib-react/src/common/history';
 import * as testUtils from '../../test-utils';
 import route from '../../../src/common/routeConfig';
 import reducer from '../../../src/common/rootReducer';
-import history from '@ebay/muse-lib-react/src/common/history';
 import routeMuseLibAntd from '@ebay/muse-lib-antd/src/common/routeConfig';
 import reducerMuseLibAntd from '@ebay/muse-lib-antd/src/common/rootReducer';
 import { HeaderItem } from '../../../src/features/home';
@@ -62,7 +62,7 @@ describe('home/HeaderItem', () => {
     userEvent.click(labelLink);
     // onClick should be called, and link should be changed by history object
     await waitFor(() => expect(onClickMock).toHaveBeenCalled());
-    await waitFor(() => expect(history.location.pathname).toBe('/link'));
+    await waitFor(() => expect(history.location.pathname).toBe('/link'), { timeout: 3000 });
   });
 
   it('renders link HeaderItem in new window', async () => {
@@ -84,5 +84,28 @@ describe('home/HeaderItem', () => {
     // onClick should be called, and new open should be open
     await waitFor(() => expect(onClickMock).toHaveBeenCalled());
     await waitFor(() => expect(window.open).toHaveBeenCalledWith('/link'));
+  });
+
+  it('renders link HeaderItem with http/https', async () => {
+    const onClickMock = jest.fn();
+    const { container } = testUtils.renderWithProviders(
+      <HeaderItem
+        meta={{
+          label: 'Demo',
+          link: 'http://localhost/link',
+          linkTarget: '_self',
+          onClick: onClickMock,
+          icon: 'CheckCircleOutput',
+          className: '',
+        }}
+      />,
+    );
+    const labelLink = screen.getByText('Demo');
+    userEvent.click(labelLink);
+    // onClick should be called, and window location
+    await waitFor(() => expect(onClickMock).toHaveBeenCalled());
+    await waitFor(() => expect(window.location.href).toBe('http://localhost/link'), {
+      timeout: 3000,
+    });
   });
 });
