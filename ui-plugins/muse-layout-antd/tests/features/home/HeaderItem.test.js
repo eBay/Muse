@@ -11,6 +11,8 @@ import reducerMuseLibAntd from '@ebay/muse-lib-antd/src/common/rootReducer';
 import { HeaderItem } from '../../../src/features/home';
 
 describe('home/HeaderItem', () => {
+  const { open } = window;
+
   beforeAll(() => {
     plugin.register({
       name: '@ebay/muse-layout-antd',
@@ -23,6 +25,10 @@ describe('home/HeaderItem', () => {
       route: routeMuseLibAntd,
       reducer: reducerMuseLibAntd,
     });
+
+    delete window.open;
+    // Replace with the custom value
+    window.open = jest.fn();
   });
 
   afterAll(() => {
@@ -32,21 +38,51 @@ describe('home/HeaderItem', () => {
     if (plugin.getPlugin('@ebay/muse-lib-antd')) {
       plugin.unregister('@ebay/muse-lib-antd');
     }
+
+    // Restore original
+    window.open = open;
   });
 
-  it('renders HeaderItem with correct class name', () => {
+  it('renders link HeaderItem as Link', async () => {
+    const onClickMock = jest.fn();
     const { container } = testUtils.renderWithProviders(
       <HeaderItem
         meta={{
-          label: 'label',
-          link: 'link',
-          linkTarget: 'linkTarget',
-          onClick: jest.fn(),
-          icon: '',
+          label: 'Demo',
+          link: '/link',
+          linkTarget: '_self',
+          onClick: onClickMock,
+          icon: 'CheckCircleOutput',
           className: '',
         }}
       />,
     );
     expect(container.querySelectorAll('.muse-layout_home-header-item').length).toBe(1);
+    const labelLink = screen.getByText('Demo');
+    userEvent.click(labelLink);
+    // onClick should be called, and link should be changed by history object
+    await waitFor(() => expect(onClickMock).toHaveBeenCalled());
+    await waitFor(() => expect(history.location.pathname).toBe('/link'));
+  });
+
+  it('renders link HeaderItem in new window', async () => {
+    const onClickMock = jest.fn();
+    const { container } = testUtils.renderWithProviders(
+      <HeaderItem
+        meta={{
+          label: 'Demo',
+          link: '/link',
+          linkTarget: '_blank',
+          onClick: onClickMock,
+          icon: 'CheckCircleOutput',
+          className: '',
+        }}
+      />,
+    );
+    const labelLink = screen.getByText('Demo');
+    userEvent.click(labelLink);
+    // onClick should be called, and new open should be open
+    await waitFor(() => expect(onClickMock).toHaveBeenCalled());
+    await waitFor(() => expect(window.open).toHaveBeenCalledWith('/link'));
   });
 });
