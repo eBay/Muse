@@ -1,5 +1,5 @@
 import React from 'react';
-import { act, screen, waitFor } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import plugin from 'js-plugin';
 import * as testUtils from '../../test-utils';
@@ -41,9 +41,7 @@ describe('home/Header', () => {
   });
 
   it('renders default Header with the Username and a default muse icon', async () => {
-    act(() => {
-      testUtils.renderWithProviders(<Header />);
-    });
+    testUtils.renderWithProviders(<Header />);
 
     const userName = screen.getByText('test');
     const defaultHeaderIcon = screen.getByRole('img', { name: 'header-icon' });
@@ -82,9 +80,7 @@ describe('home/Header', () => {
       },
     });
 
-    act(() => {
-      testUtils.renderWithProviders(<Header />);
-    });
+    testUtils.renderWithProviders(<Header />);
 
     const lightThemeIcon = screen.getByRole('img', { name: 'theme-icon' });
     expect(lightThemeIcon).toBeTruthy();
@@ -149,11 +145,62 @@ describe('home/Header', () => {
       },
     });
 
-    act(() => {
-      testUtils.renderWithProviders(<Header />);
-    });
-
+    const { container } = testUtils.renderWithProviders(<Header />);
     const icons = await screen.findAllByRole('img');
     expect(icons).toHaveLength(3);
+    expect(container.querySelectorAll('.header-item-right')).toHaveLength(1);
+    expect(container.querySelectorAll('.header-item-center')).toHaveLength(1);
+  });
+
+  it('renders Header with Drawer item', async () => {
+    plugin.register({
+      name: 'ut-plugin',
+      museLayout: {
+        header: {
+          getConfig() {
+            return {
+              backgroundColor: '#039be5',
+              title: 'UT App Title',
+              noUserMenu: true,
+              themeSwitcher: false,
+              subTitle: 'UT sub-title',
+            };
+          },
+          getItems: () => {
+            return [
+              {
+                key: 'item1',
+                icon: 'CheckCircleOutlined',
+                position: 'left',
+                order: 1,
+                link: '/left-demo',
+              },
+
+              {
+                key: 'item2',
+                icon: 'ClockCircleOutlined',
+                position: 'center',
+                order: 50,
+                link: '/center-demo',
+              },
+              {
+                key: 'item3',
+                icon: 'CheckSquareOutlined',
+                position: 'right',
+                order: 100,
+                link: '/right-demo',
+              },
+            ];
+          },
+        },
+      },
+    });
+
+    testUtils.renderWithProviders(<Header siderConfig={{ mode: 'drawer' }} />);
+
+    const icons = await screen.findAllByRole('img');
+    expect(icons).toHaveLength(4);
+    const menuIcon = await screen.findByRole('img', { name: 'menu' });
+    expect(menuIcon).toBeTruthy();
   });
 });
