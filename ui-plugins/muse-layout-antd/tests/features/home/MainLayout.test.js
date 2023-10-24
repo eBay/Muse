@@ -35,7 +35,12 @@ describe('home/MainLayout', () => {
   });
 
   it('renders default MainLayout', () => {
-    const { container } = testUtils.renderWithProviders(<MainLayout />);
+    const { container } = testUtils.renderWithProviders(
+      <MainLayout>
+        <div>Test</div>
+      </MainLayout>,
+    );
     expect(container.querySelectorAll('.muse-layout-wrapper').length).toBe(1);
+    expect(screen.getByText('Test')).toBeInTheDocument();
   });
 });
