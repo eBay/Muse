@@ -1,6 +1,6 @@
 import logo from './logo.png';
 
-export default {
+const loading = {
   init() {
     const { app, cdn } = window.MUSE_GLOBAL;
     const loadingDiv = document.createElement('div');
@@ -20,8 +20,7 @@ export default {
     loadingDiv.id = 'muse-loading-node';
     if (
       (app.config?.theme === 'dark' && !localStorage.getItem('muse.theme')) ||
-      (localStorage.getItem('muse.theme') &&
-        localStorage.getItem('muse.theme') === 'dark')
+      (localStorage.getItem('muse.theme') && localStorage.getItem('muse.theme') === 'dark')
     ) {
       document.body.classList.add('muse-theme-dark');
     }
@@ -48,3 +47,5 @@ export default {
     if (this.labelNode) this.labelNode.innerHTML = msg || '';
   },
 };
+
+export default loading;

@@ -35,7 +35,7 @@ async function start() {
     error,
     isSubApp: window.parent !== window,
     getUser: () => null,
-    appEntries: [], // entries to start the app
+    appEntries: mg.appEntries || [], // entries to start the app
     initEntries: [], // entries from init plugins
     pluginEntries: [], // entries from lib or normal plugins
     // Allow to register some func to wait for before starting the app
