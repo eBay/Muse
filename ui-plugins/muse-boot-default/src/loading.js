@@ -12,7 +12,7 @@ const loading = {
       <div class='muse-loading-node-inner'>
       <div class="loadingio-spinner-eclipse-p5fn84x4bh8"><div class="ldio-klconu2768"><div>
       </div></div></div>
-      <img src="${logoUrl}"/>
+      <img src="${logoUrl}" aria-label="logo" />
       </div>
       <label>Starting...</label>
     </div>

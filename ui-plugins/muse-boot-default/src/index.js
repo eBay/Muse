@@ -36,8 +36,8 @@ async function start() {
     isSubApp: window.parent !== window,
     getUser: () => null,
     appEntries: mg.appEntries || [], // entries to start the app
-    initEntries: [], // entries from init plugins
-    pluginEntries: [], // entries from lib or normal plugins
+    initEntries: mg.initEntries || [], // entries from init plugins
+    pluginEntries: mg.pluginEntries || [], // entries from lib or normal plugins
     // Allow to register some func to wait for before starting the app
     waitFor: (asyncFuncOrPromise) => {
       waitForLoaders.push(asyncFuncOrPromise);
