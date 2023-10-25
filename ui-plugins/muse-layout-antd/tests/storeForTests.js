@@ -2,9 +2,12 @@ import configStore from './configStoreForTests';
 
 export default {
   store: null,
-  getStore() {
-    if (!this.store) this.store = configStore();
+  getStore(initialState) {
+    if (!this.store) this.store = configStore(initialState);
     return this.store;
+  },
+  resetStore() {
+    this.store = null;
   },
   getState() {
     return this.getStore().getState();
