@@ -90,7 +90,7 @@ describe('home/MainLayout', () => {
     expect(container.querySelectorAll('.muse-layout-content-noheader').length).toBe(1);
   });
 
-  it('renders with drawer mode', () => {
+  it('renders with drawer mode', async () => {
     plugin.register({
       name: 'ut-plugin',
       museLayout: {
@@ -108,11 +108,24 @@ describe('home/MainLayout', () => {
       <MainLayout>
         <div>Test</div>
       </MainLayout>,
+      { initialState: { pluginEbayMuseLayoutAntd: { home: { siderCollapsed: false } } } },
     );
     expect(container.querySelectorAll('.muse-layout-wrapper').length).toBe(1);
     expect(screen.getByText('Test')).toBeInTheDocument();
     expect(container.querySelectorAll('.ant-layout-sider').length).toBe(0);
-    expect(container.querySelectorAll('.muse-layout_side-drawer').length).toBe(1);
+
+    // try to click on menu icon to expand drawer
+    const menuIcon = await screen.findByRole('img', { name: 'menu' });
+    expect(menuIcon).toBeTruthy();
+    userEvent.click(menuIcon);
+    await waitFor(
+      () =>
+        expect(
+          container.parentNode.querySelectorAll('.ant-drawer-content.muse-layout_side-drawer')
+            .length,
+        ).toBe(1),
+      { timeout: 3000 },
+    );
   });
 
   it('renders with fixed mode', () => {
@@ -160,6 +173,7 @@ describe('home/MainLayout', () => {
       <MainLayout>
         <div>Test</div>
       </MainLayout>,
+      { initialState: { pluginEbayMuseLayoutAntd: { home: { siderCollapsed: true } } } },
     );
     expect(container.querySelectorAll('.muse-layout-wrapper').length).toBe(1);
     expect(screen.getByText('Test')).toBeInTheDocument();
