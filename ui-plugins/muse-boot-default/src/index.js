@@ -112,7 +112,7 @@ async function start() {
   } = mg;
   let { plugins = [] } = window.MUSE_GLOBAL;
 
-  // MUSE_CONFIG is for backward compatability
+  // MUSE_CONFIG is for backward compatibility
   window.MUSE_CONFIG = mg;
 
   msgEngine.sendToParent({
