@@ -1,11 +1,12 @@
 // Try to register service worker.
 import loading from './loading';
-export default function() {
+
+function registerSw() {
   const { serviceWorker } = window.MUSE_GLOBAL;
   if (!navigator.serviceWorker) return;
-  if (serviceWorker && document.location.protocol === 'https:') {
+  if (serviceWorker && window.location.protocol === 'https:') {
     loading.showMessage('Registering Muse service worker.');
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       let resolved = false;
       setTimeout(() => {
         if (!resolved) {
@@ -15,7 +16,7 @@ export default function() {
       }, 10000);
       navigator.serviceWorker
         .register(serviceWorker, {})
-        .then(function() {
+        .then(function () {
           resolved = true;
           console.log('Service Worker register done.');
           resolve();
@@ -28,3 +29,5 @@ export default function() {
     });
   }
 }
+
+export default registerSw;

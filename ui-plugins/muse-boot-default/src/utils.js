@@ -1,7 +1,7 @@
 import error from './error';
 const noop = () => {};
 
-export function xhr(url, options = {}) {
+/*export function xhr(url, options = {}) {
   const request = new XMLHttpRequest();
   request.withCredentials = !!options.withCredentials;
 
@@ -28,7 +28,7 @@ export function xhr(url, options = {}) {
 
     request.send();
   });
-}
+}*/
 
 export function load(plugin, callback) {
   callback = callback || noop;
