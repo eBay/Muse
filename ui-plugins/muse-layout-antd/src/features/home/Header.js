@@ -94,13 +94,9 @@ export default function Header({ siderConfig }) {
 
   if (!headerConfig.noUserMenu && window.MUSE_GLOBAL.getUser && window.MUSE_GLOBAL.getUser()) {
     realHeaderItems.push(getUserMenuItem());
-    if (headerConfig.themeSwitcher) {
-      realHeaderItems.push(getDynamicThemeSwitch());
-    }
-  } else {
-    if (headerConfig.themeSwitcher) {
-      realHeaderItems.push(getDynamicThemeSwitch());
-    }
+  }
+  if (headerConfig.themeSwitcher) {
+    realHeaderItems.push(getDynamicThemeSwitch());
   }
 
   plugin.sort(realHeaderItems);
