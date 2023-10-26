@@ -26,6 +26,7 @@ describe('start', () => {
       { name: 'muse-boot-default', type: 'boot', version: '1.0.0', jest: true },
       { name: 'init-test', type: 'init', version: '1.0.0', jest: true },
     ],
+    waitForLoaders: [jest.fn()],
   };
   Object.defineProperty(window, 'MUSE_GLOBAL', { value: mg });
   Object.defineProperty(global.navigator, 'serviceWorker', {

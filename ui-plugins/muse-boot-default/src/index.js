@@ -17,7 +17,7 @@ if (!mg) {
 loading.init();
 async function start() {
   loading.showMessage('Starting...');
-  const waitForLoaders = [];
+  const waitForLoaders = mg.waitForLoaders || [];
 
   // Get the config from both app and env
   // That is, app.config is the default, env.config can override any value on app.config
