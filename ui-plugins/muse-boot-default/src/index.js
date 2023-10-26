@@ -136,51 +136,53 @@ async function start() {
   const forcePluginStr = searchParams.get('forcePlugins');
   const previewClientCode = searchParams.get('clientCode');
   const localClientCode = mg.museClientCode;
-  if (forcePluginStr && (isE2eTest || previewClientCode === localClientCode)) {
-    const forcePluginById = forcePluginStr
-      .split(';')
-      .filter(Boolean)
-      .reduce((p, c) => {
-        const separator = '@';
-        const limit = 2;
-        let prefix = '';
-        if (c.startsWith('@') && c[0] === separator) {
-          // Starts with @, means it's a scoped plugin
-          c = c.substring(1);
-          prefix = '@';
-        }
-        const arr = c.split(separator, limit);
-        if (arr.length === limit) {
-          const [name, type] = arr[0].split('!');
-          p[`${prefix}${name}`] = {
-            version: arr[1],
-            type: type,
-          };
-        }
-        return p;
-      }, {});
-    // Update or remove plugins from the list based on forcePlugins
-    plugins = plugins
-      .map((p) => {
-        if (!forcePluginById[p.name]) return p;
-        const newPlugin = { ...p, version: forcePluginById[p.name].version };
-        delete forcePluginById[p.name];
-        return newPlugin;
-      })
-      .filter((p) => p.version !== 'null');
+  if (forcePluginStr) {
+    if (isE2eTest || previewClientCode === localClientCode) {
+      const forcePluginById = forcePluginStr
+        .split(';')
+        .filter(Boolean)
+        .reduce((p, c) => {
+          const separator = '@';
+          const limit = 2;
+          let prefix = '';
+          if (c.startsWith('@') && c[0] === separator) {
+            // Starts with @, means it's a scoped plugin
+            c = c.substring(1);
+            prefix = '@';
+          }
+          const arr = c.split(separator, limit);
+          if (arr.length === limit) {
+            const [name, type] = arr[0].split('!');
+            p[`${prefix}${name}`] = {
+              version: arr[1],
+              type: type,
+            };
+          }
+          return p;
+        }, {});
+      // Update or remove plugins from the list based on forcePlugins
+      plugins = plugins
+        .map((p) => {
+          if (!forcePluginById[p.name]) return p;
+          const newPlugin = { ...p, version: forcePluginById[p.name].version };
+          delete forcePluginById[p.name];
+          return newPlugin;
+        })
+        .filter((p) => p.version !== 'null');
 
-    // Need to get the type of plugin from muse registry directly.
-    for (const p in forcePluginById) {
-      if (forcePluginById[p].version !== 'null') {
-        plugins.push({
-          name: p,
-          type: forcePluginById[p].type,
-          version: forcePluginById[p].version,
-        });
+      // Need to get the type of plugin from muse registry directly.
+      for (const p in forcePluginById) {
+        if (forcePluginById[p].version !== 'null') {
+          plugins.push({
+            name: p,
+            type: forcePluginById[p].type,
+            version: forcePluginById[p].version,
+          });
+        }
       }
+    } else {
+      console.warn(`forcePlugins error: ClientCode is invalid.`);
     }
-  } else {
-    console.warn(`ClientCode is invalid.`);
   }
 
   console.log(`Plugins(${plugins.length}):`);
