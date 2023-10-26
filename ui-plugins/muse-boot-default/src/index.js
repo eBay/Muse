@@ -242,7 +242,7 @@ async function start() {
 
   // Load normal and lib plugins
   const bundleDir = isDev ? 'dev' : isE2eTest ? 'test' : 'dist';
-  const pluginsToLoad = plugins
+  const pluginsToLoad = window.MUSE_GLOBAL.plugins
     .filter((p) => p.type !== 'boot' && p.type !== 'init')
     .map((p) => {
       return {
