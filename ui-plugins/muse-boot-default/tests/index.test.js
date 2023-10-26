@@ -1,5 +1,6 @@
 import { screen, waitFor } from '@testing-library/react';
 import { createHash } from 'crypto';
+import { doBoot } from '../src/boot';
 
 describe('muse-boot-default', () => {
   let logSpy = null;
@@ -82,7 +83,7 @@ describe('muse-boot-default', () => {
 
   it('should execute the boot logic successfully', async () => {
     mg.isDev = false;
-    require('../src/index.js');
+    doBoot();
 
     expect(document.body.classList.contains('muse-theme-dark')).toBe(true);
 
@@ -123,7 +124,7 @@ describe('muse-boot-default', () => {
 
   it('isDev variations', async () => {
     mg.isDev = true;
-    require('../src/index.js');
+    doBoot();
 
     expect(mg.getPublicPath('demo-test', 'dummy.css')).toBe(
       'https://dummy.cdn.ebay.com/p/demo-test/1.0.0/dev/dummy.css',
