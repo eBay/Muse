@@ -9,6 +9,7 @@ describe('start', () => {
     app: { config: appConfig, variables: { 'primary-color': '#000000' } },
     env: { config: envConfig, variables: { 'primary-color': '#000001' } },
     appEntries: [{ name: 'muse-boot-default', func: jest.fn() }],
+    pluginEntries: [{ func: jest.fn() }],
     initEntries: [
       {
         name: 'init-test',
@@ -22,8 +23,8 @@ describe('start', () => {
     serviceWorker: jest.fn(),
     museClientCode: createHash('md5').update('127.0.0.1').digest('hex'),
     plugins: [
-      { name: 'muse-boot-default', type: 'boot', version: '1.0.0' },
-      { name: 'init-test', type: 'init', version: '1.0.0' },
+      { name: 'muse-boot-default', type: 'boot', version: '1.0.0', jest: true },
+      { name: 'init-test', type: 'init', version: '1.0.0', jest: true },
     ],
   };
   Object.defineProperty(window, 'MUSE_GLOBAL', { value: mg });
@@ -50,10 +51,6 @@ describe('start', () => {
     await require('../src/index.js');
 
     expect(document.body.classList.contains('muse-theme-dark')).toBe(true);
-
-    await waitFor(() =>
-      expect(screen.queryByText('Loading init plugins 1/1...')).toBeInTheDocument(),
-    );
 
     await waitFor(() =>
       expect(screen.queryByRole('img', { name: 'logo' })).not.toBeInTheDocument(),

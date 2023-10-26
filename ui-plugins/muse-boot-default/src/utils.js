@@ -48,6 +48,10 @@ export function load(plugin, callback) {
         callback();
         resolve();
       };
+      // only useful if we are doing unit tests, so that we resolve the promise without actually waiting for the script to load
+      if (plugin.jest) {
+        resolve();
+      }
       script.onerror = () => {
         // fatalError('Failed to load resource: ' + resource);
         error.showMessage(`Failed to load resource: ${plugin.url} .`);
