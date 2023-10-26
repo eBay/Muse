@@ -2,6 +2,7 @@ import { screen, waitFor } from '@testing-library/react';
 import { createHash } from 'crypto';
 
 describe('start', () => {
+  let logSpy = null;
   const { location } = window;
   const appConfig = { theme: 'dark', entry: 'muse-boot-default' };
   const envConfig = { name: 'test' };
@@ -25,6 +26,8 @@ describe('start', () => {
     plugins: [
       { name: 'muse-boot-default', type: 'boot', version: '1.0.0', jest: true },
       { name: 'init-test', type: 'init', version: '1.0.0', jest: true },
+      { name: 'demo-test', type: 'normal', version: '1.0.0', jest: true },
+      { name: 'demo-lib-test', type: 'lib', version: '1.0.0', jest: true },
     ],
     waitForLoaders: [jest.fn()],
   };
@@ -42,10 +45,12 @@ describe('start', () => {
   beforeAll(() => {
     delete window.location;
     window.location = { protocol: 'https:' };
+    logSpy = jest.spyOn(global.console, 'log');
   });
 
   afterAll(() => {
     window.location = location;
+    logSpy.mockRestore();
   });
 
   it('should execute the boot logic successfully', async () => {
@@ -62,5 +67,13 @@ describe('start', () => {
 
     // merged app variables between app and ebv
     expect(mg.getAppVariables()).toEqual({ 'primary-color': '#000001' });
+    expect(logSpy).toHaveBeenCalledWith('Loading Muse app by muse-boot-default@1.0.0...');
+    expect(logSpy).toHaveBeenCalledWith('Plugins(4):');
+    expect(logSpy).toHaveBeenCalledWith('  * muse-boot-default@1.0.0');
+    expect(logSpy).toHaveBeenCalledWith('  * init-test@1.0.0');
+    expect(logSpy).toHaveBeenCalledWith('  * demo-test@1.0.0');
+    expect(logSpy).toHaveBeenCalledWith('  * demo-lib-test@1.0.0');
+    expect(logSpy).toHaveBeenCalledWith('Service Worker register done.');
+    expect(logSpy).toHaveBeenCalledWith('Starting the app from muse-boot-default...');
   });
 });
