@@ -1,5 +1,5 @@
-let seed = 0;
-export default {
+//let seed = 0;
+/*export default {
   header: {
     getConfig() {
       return {
@@ -339,4 +339,4 @@ export default {
       ];
     },
   },
-};
+};*/

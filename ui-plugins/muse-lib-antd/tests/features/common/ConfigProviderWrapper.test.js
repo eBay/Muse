@@ -10,29 +10,31 @@ import plugin from 'js-plugin';
 import route from '../../../src/common/routeConfig';
 import reducer from '../../../src/common/rootReducer';
 
-window.MUSE_GLOBAL.app = { config: { theme : "light" }};
+window.MUSE_GLOBAL.app = { config: { theme: 'light' } };
 
 describe('common/ConfigProviderWrapper', () => {
-
   beforeEach(() => {
-    if (plugin.getPlugin('@ebay/muse-lib-antd')) { plugin.unregister('@ebay/muse-lib-antd') };
+    if (plugin.getPlugin('@ebay/muse-lib-antd')) {
+      plugin.unregister('@ebay/muse-lib-antd');
+    }
   });
 
   it('renders ConfigProviderWrapper', async () => {
-
     plugin.register({
       name: '@ebay/muse-lib-antd',
       route,
-      reducer
-  });
+      reducer,
+    });
 
-    render(<Provider store={store.getStore()}>
+    render(
+      <Provider store={store.getStore()}>
         <Router location={history.location} navigator={history}>
-            <ConfigProviderWrapper>
-                <Button type='primary'>dummy button</Button>
-            </ConfigProviderWrapper>
+          <ConfigProviderWrapper>
+            <Button type="primary">dummy button</Button>
+          </ConfigProviderWrapper>
         </Router>
-    </Provider>);
+      </Provider>,
+    );
 
     const textbox = screen.getByRole('button');
     expect(textbox).toBeTruthy();
@@ -40,27 +42,30 @@ describe('common/ConfigProviderWrapper', () => {
   });
 
   it('renders ConfigProviderWrapper with custom props', async () => {
-
     plugin.register({
       name: '@ebay/muse-lib-antd',
       route,
       reducer,
       museLibAntd: {
-        configProvider: { processProps: (configProps) => {
-          configProps.theme.token = {
-            borderRadius: 0,
-          }
-        }}
-      }
-  });
+        configProvider: {
+          processProps: configProps => {
+            configProps.theme.token = {
+              borderRadius: 0,
+            };
+          },
+        },
+      },
+    });
 
-    render(<Provider store={store.getStore()}>
+    render(
+      <Provider store={store.getStore()}>
         <Router location={history.location} navigator={history}>
-            <ConfigProviderWrapper>
-                <Button type='primary'>dummy button</Button>
-            </ConfigProviderWrapper>
+          <ConfigProviderWrapper>
+            <Button type="primary">dummy button</Button>
+          </ConfigProviderWrapper>
         </Router>
-    </Provider>);
+      </Provider>,
+    );
 
     const textbox = screen.getByRole('button');
     expect(textbox).toBeTruthy();
