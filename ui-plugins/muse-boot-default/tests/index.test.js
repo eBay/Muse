@@ -4,6 +4,61 @@ import { createHash } from 'crypto';
 describe('muse-boot-default', () => {
   let logSpy = null;
   const { location } = window;
+
+  const appConfig = { theme: 'dark', entry: 'muse-boot-default', supportLink: 'https://go/muse' };
+  const envConfig = { name: 'test' };
+  const mg = {
+    isDev: false,
+    cdn: 'https://dummy.cdn.ebay.com',
+    app: {
+      config: appConfig,
+      variables: { 'primary-color': '#000000' },
+      pluginVariables: { 'demo-test': { 'demo-var-1': true } },
+    },
+    env: {
+      config: envConfig,
+      variables: { 'primary-color': '#000001' },
+      pluginVariables: { 'demo-test': { 'demo-var-2': true } },
+    },
+    appEntries: [{ name: 'muse-boot-default', func: jest.fn() }],
+    pluginEntries: [{ func: jest.fn() }],
+    initEntries: [
+      {
+        name: 'init-test',
+        func: () => {
+          return new Promise((resolve) => {
+            resolve();
+          });
+        },
+      },
+    ],
+    serviceWorker: jest.fn(),
+    museClientCode: createHash('md5').update('127.0.0.1').digest('hex'),
+    plugins: [
+      { name: 'muse-boot-default', type: 'boot', version: '1.0.0', jest: true },
+      { name: 'init-test', type: 'init', version: '1.0.0', jest: true },
+      { name: 'demo-test', type: 'normal', version: '1.0.0', jest: true },
+      { name: 'demo-lib-test', type: 'lib', version: '1.0.0', jest: true },
+      {
+        name: 'linked-test',
+        type: 'normal',
+        version: '1.0.0',
+        linkedTo: 'another-test-module',
+        jest: true,
+      },
+      {
+        name: 'local-test',
+        type: 'normal',
+        version: '1.0.0',
+        isLocalLib: true,
+        url: 'http://somewhere.ebay.com:3000',
+        jest: true,
+      },
+    ],
+    waitForLoaders: [jest.fn()],
+  };
+  Object.defineProperty(window, 'MUSE_GLOBAL', { value: mg, writable: true });
+
   Object.defineProperty(global.navigator, 'serviceWorker', {
     value: {
       register: () => {
@@ -26,59 +81,7 @@ describe('muse-boot-default', () => {
   });
 
   it('should execute the boot logic successfully', async () => {
-    const appConfig = { theme: 'dark', entry: 'muse-boot-default', supportLink: 'https://go/muse' };
-    const envConfig = { name: 'test' };
-    const mg = {
-      cdn: 'https://dummy.cdn.ebay.com',
-      app: {
-        config: appConfig,
-        variables: { 'primary-color': '#000000' },
-        pluginVariables: { 'demo-test': { 'demo-var-1': true } },
-      },
-      env: {
-        config: envConfig,
-        variables: { 'primary-color': '#000001' },
-        pluginVariables: { 'demo-test': { 'demo-var-2': true } },
-      },
-      appEntries: [{ name: 'muse-boot-default', func: jest.fn() }],
-      pluginEntries: [{ func: jest.fn() }],
-      initEntries: [
-        {
-          name: 'init-test',
-          func: () => {
-            return new Promise((resolve) => {
-              resolve();
-            });
-          },
-        },
-      ],
-      serviceWorker: jest.fn(),
-      museClientCode: createHash('md5').update('127.0.0.1').digest('hex'),
-      plugins: [
-        { name: 'muse-boot-default', type: 'boot', version: '1.0.0', jest: true },
-        { name: 'init-test', type: 'init', version: '1.0.0', jest: true },
-        { name: 'demo-test', type: 'normal', version: '1.0.0', jest: true },
-        { name: 'demo-lib-test', type: 'lib', version: '1.0.0', jest: true },
-        {
-          name: 'linked-test',
-          type: 'normal',
-          version: '1.0.0',
-          linkedTo: 'another-test-module',
-          jest: true,
-        },
-        {
-          name: 'local-test',
-          type: 'normal',
-          version: '1.0.0',
-          isLocalLib: true,
-          url: 'http://somewhere.ebay.com:3000',
-          jest: true,
-        },
-      ],
-      waitForLoaders: [jest.fn()],
-    };
-    Object.defineProperty(window, 'MUSE_GLOBAL', { value: mg });
-
+    mg.isDev = false;
     require('../src/index.js');
 
     expect(document.body.classList.contains('muse-theme-dark')).toBe(true);
@@ -118,5 +121,12 @@ describe('muse-boot-default', () => {
     );
   });
 
-  it('isDev variations', async () => {});
+  it('isDev variations', async () => {
+    mg.isDev = true;
+    require('../src/index.js');
+
+    expect(mg.getPublicPath('demo-test', 'dummy.css')).toBe(
+      'https://dummy.cdn.ebay.com/p/demo-test/1.0.0/dev/dummy.css',
+    );
+  });
 });
