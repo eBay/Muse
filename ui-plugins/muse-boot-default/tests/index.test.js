@@ -7,8 +7,16 @@ describe('start', () => {
   const appConfig = { theme: 'dark', entry: 'muse-boot-default' };
   const envConfig = { name: 'test' };
   const mg = {
-    app: { config: appConfig, variables: { 'primary-color': '#000000' } },
-    env: { config: envConfig, variables: { 'primary-color': '#000001' } },
+    app: {
+      config: appConfig,
+      variables: { 'primary-color': '#000000' },
+      pluginVariables: { 'demo-test': { 'demo-var-1': true } },
+    },
+    env: {
+      config: envConfig,
+      variables: { 'primary-color': '#000001' },
+      pluginVariables: { 'demo-test': { 'demo-var-2': true } },
+    },
     appEntries: [{ name: 'muse-boot-default', func: jest.fn() }],
     pluginEntries: [{ func: jest.fn() }],
     initEntries: [
@@ -28,6 +36,21 @@ describe('start', () => {
       { name: 'init-test', type: 'init', version: '1.0.0', jest: true },
       { name: 'demo-test', type: 'normal', version: '1.0.0', jest: true },
       { name: 'demo-lib-test', type: 'lib', version: '1.0.0', jest: true },
+      {
+        name: 'linked-test',
+        type: 'normal',
+        version: '1.0.0',
+        linkedTo: 'another-test-module',
+        jest: true,
+      },
+      {
+        name: 'local-test',
+        type: 'normal',
+        version: '1.0.0',
+        isLocalLib: true,
+        url: 'http://somewhere.ebay.com:3000',
+        jest: true,
+      },
     ],
     waitForLoaders: [jest.fn()],
   };
@@ -67,12 +90,15 @@ describe('start', () => {
 
     // merged app variables between app and ebv
     expect(mg.getAppVariables()).toEqual({ 'primary-color': '#000001' });
+    expect(mg.getPluginVariables('demo-test')).toEqual({ 'demo-var-1': true, 'demo-var-2': true });
     expect(logSpy).toHaveBeenCalledWith('Loading Muse app by muse-boot-default@1.0.0...');
-    expect(logSpy).toHaveBeenCalledWith('Plugins(4):');
+    expect(logSpy).toHaveBeenCalledWith('Plugins(6):');
     expect(logSpy).toHaveBeenCalledWith('  * muse-boot-default@1.0.0');
     expect(logSpy).toHaveBeenCalledWith('  * init-test@1.0.0');
     expect(logSpy).toHaveBeenCalledWith('  * demo-test@1.0.0');
     expect(logSpy).toHaveBeenCalledWith('  * demo-lib-test@1.0.0');
+    expect(logSpy).toHaveBeenCalledWith('  * linked-test@1.0.0 (Linked to: another-test-module)');
+    expect(logSpy).toHaveBeenCalledWith('  * local-test@1.0.0 (Local:3000)');
     expect(logSpy).toHaveBeenCalledWith('Service Worker register done.');
     expect(logSpy).toHaveBeenCalledWith('Starting the app from muse-boot-default...');
   });
