@@ -48,7 +48,9 @@ export function load(plugin, callback) {
         callback();
         resolve();
       };
-      // only useful if we are doing unit tests, so that we resolve the promise without actually waiting for the script to load
+      // from unit tests, we can add the "jest" property to a plugin to indicate it's a jest test.
+      // doing so resolves this Promise immediately.  This is needed, as jest will never run the script.onload() function,
+      // as it's not a real browser, making the Promise never resolve.
       if (plugin.jest) {
         resolve();
       }
