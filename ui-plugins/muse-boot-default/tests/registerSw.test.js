@@ -1,7 +1,7 @@
 import { screen, waitFor } from '@testing-library/react';
 import registerSw from '../src/registerSw';
 
-describe('muse-boot-default', () => {
+describe('registerSw', () => {
   const delay = (ms) => new Promise((res) => setTimeout(res, ms));
   let logSpy = null;
   const { location } = window;
