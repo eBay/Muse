@@ -14,10 +14,10 @@ export default function Sider({ siderConfig }) {
     (headerConfig?.mode !== 'show-in-sub-app' && window.MUSE_GLOBAL.isSubApp);
 
   const closeDrawer = useCallback(() => {
-    if (siderConfig.mode === 'drawer') setSiderCollapsed(true);
-  }, [setSiderCollapsed, siderConfig.mode]);
+    if (siderConfig?.mode === 'drawer') setSiderCollapsed(true);
+  }, [setSiderCollapsed, siderConfig?.mode]);
 
-  if (siderConfig.mode === 'none') return null;
+  if (!siderConfig || siderConfig.mode === 'none') return null;
 
   const meta = {
     menuProps: siderConfig.menuProps || {},

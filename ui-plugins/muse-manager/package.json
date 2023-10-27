@@ -46,8 +46,8 @@
     "vite": "^4.3.9"
   },
   "dependencies": {
-    "@ebay/muse-lib-antd": "^1.2.21",
     "@ebay/muse-client": "^1.0.26",
+    "@ebay/muse-lib-antd": "^1.2.22",
     "@ebay/muse-lib-react": "1.2.17",
     "@ebay/muse-plugin-acl": "^1.0.11",
     "@ebay/muse-vite-plugin": "^1.0.16",

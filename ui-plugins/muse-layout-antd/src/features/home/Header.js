@@ -11,7 +11,8 @@ import museIcon from '../../images/muse.png';
 const { Header: AntdHeader } = Layout;
 
 function getUserMenuItem() {
-  const mc = window.MUSE_CONFIG;
+  const museGlobal = window.MUSE_GLOBAL;
+
   return {
     key: 'userAvatar',
     type: 'menu',
@@ -21,7 +22,7 @@ function getUserMenuItem() {
       autoSort: true,
       baseExtPoint: 'headerusermenu',
       trigger: {
-        label: mc.getUser().username,
+        label: museGlobal.getUser().username,
       },
       items: [
         {
@@ -29,10 +30,10 @@ function getUserMenuItem() {
           label: 'Log Out',
           order: 100,
           onClick: () => {
-            if (!mc.logout) {
-              Modal.error({ title: 'Error', content: 'No logout method on MUSE_CONFIG.' });
+            if (!museGlobal.logout) {
+              Modal.error({ title: 'Error', content: 'No logout method on MUSE_GLOBAL.' });
             } else {
-              mc.logout();
+              museGlobal.logout();
             }
           },
         },
@@ -55,17 +56,18 @@ export default function Header({ siderConfig }) {
       position: 'right',
       order: 9999998,
       render: () => {
-        return (
-          !isDarkMode ?
+        return !isDarkMode ? (
           <DynamicThemeIcon
             onClick={handleSwitchThemeClick}
             title={`Switch between dark / light themes`}
             className="header-switch-theme"
-          /> :  <DarkThemeIcon
-          onClick={handleSwitchThemeClick}
-          title={`Switch between dark / light themes`}
-          className="header-switch-theme"
-        />
+          />
+        ) : (
+          <DarkThemeIcon
+            onClick={handleSwitchThemeClick}
+            title={`Switch between dark / light themes`}
+            className="header-switch-theme"
+          />
         );
       },
     };
@@ -90,20 +92,11 @@ export default function Header({ siderConfig }) {
     ..._.flatten(plugin.invoke('museLayout.header.getItems')),
   ].map((item) => (item.order ? item : { ...item, order: 1 }));
 
-  if (
-    !headerConfig.noUserMenu &&
-    window.MUSE_CONFIG.getUser &&
-    window.MUSE_CONFIG.getUser() &&
-    !plugin.getPlugin('@ebay/muse-lib-cc')
-  ) {
+  if (!headerConfig.noUserMenu && window.MUSE_GLOBAL.getUser && window.MUSE_GLOBAL.getUser()) {
     realHeaderItems.push(getUserMenuItem());
-    if (headerConfig.themeSwitcher) {
-      realHeaderItems.push(getDynamicThemeSwitch());
-    }
-  } else {
-    if (headerConfig.themeSwitcher) {
-      realHeaderItems.push(getDynamicThemeSwitch());
-    }
+  }
+  if (headerConfig.themeSwitcher) {
+    realHeaderItems.push(getDynamicThemeSwitch());
   }
 
   plugin.sort(realHeaderItems);
@@ -141,9 +134,10 @@ export default function Header({ siderConfig }) {
     centerContainerStyle.gridTemplateColumns = `1fr ${_.repeat('auto ', centerItems.length)}1fr`;
   }
   const noTitle = !headerConfig.title && !headerConfig.icon;
+
   return (
     <AntdHeader className="muse-layout-header" style={{ ...headerStyle }}>
-      {siderConfig.mode === 'drawer' && (
+      {siderConfig?.mode === 'drawer' && (
         <HeaderItem
           meta={{
             icon: 'MenuOutlined',
@@ -154,7 +148,9 @@ export default function Header({ siderConfig }) {
       )}
       {!noTitle && (
         <span className="header-item header-item-title">
-          {headerConfig.icon && <img src={headerConfig.icon} alt="" onClick={gotoHome} />}
+          {headerConfig.icon && (
+            <img src={headerConfig.icon} alt="" aria-label="header-icon" onClick={gotoHome} />
+          )}
           {headerConfig.title && <h1 onClick={gotoHome}>{headerConfig.title}</h1>}
           {headerConfig.subTitle && <p>{headerConfig.subTitle}</p>}
         </span>

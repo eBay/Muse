@@ -13,7 +13,7 @@ export default function HeaderItem({ meta }) {
           window.open(link);
         } else {
           if (link.startsWith('http:') || link.startsWith('https:')) {
-            document.location = link;
+            window.location.assign(link);
           } else {
             history.push(link);
           }

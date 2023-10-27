@@ -35,9 +35,9 @@ async function start() {
     error,
     isSubApp: window.parent !== window,
     getUser: () => null,
-    appEntries: [], // entries to start the app
-    initEntries: [], // entries from init plugins
-    pluginEntries: [], // entries from lib or normal plugins
+    appEntries: mg.appEntries || [], // entries to start the app
+    initEntries: mg.initEntries || [], // entries from init plugins
+    pluginEntries: mg.pluginEntries || [], // entries from lib or normal plugins
     // Allow to register some func to wait for before starting the app
     waitFor: (asyncFuncOrPromise) => {
       waitForLoaders.push(asyncFuncOrPromise);
@@ -112,7 +112,7 @@ async function start() {
   } = mg;
   let { plugins = [] } = window.MUSE_GLOBAL;
 
-  // MUSE_CONFIG is for backward compatability
+  // MUSE_CONFIG is for backward compatibility
   window.MUSE_CONFIG = mg;
 
   msgEngine.sendToParent({

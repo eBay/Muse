@@ -1,4 +1,4 @@
-export default {
+const error = {
   errors: [],
   init() {
     const errorDiv = document.createElement('div');
@@ -32,3 +32,5 @@ export default {
     `;
   },
 };
+
+export default error;

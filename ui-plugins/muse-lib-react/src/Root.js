@@ -128,8 +128,8 @@ const Root = () => {
 
   useEffect(() => {
     const k = 'muse-react_handle-context-change';
-    window.MUSE_CONFIG?.msgEngine?.addListener(k, handleMsg);
-    return () => window.MUSE_CONFIG?.msgEngine?.removeListener(k);
+    window.MUSE_GLOBAL?.msgEngine?.addListener(k, handleMsg);
+    return () => window.MUSE_GLOBAL?.msgEngine?.removeListener(k);
   }, [handleMsg]);
 
   const children = renderRouteConfigV3(routeConfig(), '/');
