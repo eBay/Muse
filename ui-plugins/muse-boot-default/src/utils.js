@@ -48,10 +48,9 @@ export function load(plugin, callback) {
         callback();
         resolve();
       };
-      // from unit tests, we can add the "jest" property to a plugin to indicate it's a jest test.
-      // doing so resolves this Promise immediately.  This is needed, as jest will never run the script.onload() function,
+      // from unit tests, we resolve this Promise immediately. This is needed, as jest will never run the script.onload() function,
       // as it's not a real browser, making the Promise never resolve.
-      if (plugin.jest) {
+      if (process.env.NODE_ENV === 'test') {
         resolve();
       }
       script.onerror = () => {
