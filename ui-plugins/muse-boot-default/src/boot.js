@@ -327,7 +327,7 @@ async function start() {
   loading.hide();
 }
 
-export function doBoot() {
+export function bootstrap() {
   if (!window.MUSE_GLOBAL) {
     throw new Error('There must be a global window.MUSE_GLOBAL object');
   }

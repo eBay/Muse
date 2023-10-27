@@ -1,6 +1,6 @@
 import { screen, waitFor } from '@testing-library/react';
 import { createHash } from 'crypto';
-import { doBoot } from '../src/boot';
+import { bootstrap } from '../src/boot';
 
 describe('muse-boot-default', () => {
   let logSpy = null;
@@ -88,7 +88,7 @@ describe('muse-boot-default', () => {
     mg.app.config.entry = 'muse-boot-default';
     mg.isDev = false;
     mg.appEntries = [{ name: 'muse-boot-default', func: jest.fn() }];
-    doBoot();
+    bootstrap();
 
     expect(document.body.classList.contains('muse-theme-dark')).toBe(true);
 
@@ -131,7 +131,7 @@ describe('muse-boot-default', () => {
     mg.app.config.entry = 'muse-boot-default';
     mg.isDev = true;
     mg.appEntries = [{ name: 'muse-boot-default', func: jest.fn() }];
-    doBoot();
+    bootstrap();
 
     expect(mg.getPublicPath('demo-test', 'dummy.css')).toBe(
       'https://dummy.cdn.ebay.com/p/demo-test/1.0.0/dev/dummy.css',
@@ -145,7 +145,7 @@ describe('muse-boot-default', () => {
       { name: 'dummy-entry-plugin', func: jest.fn() },
     ];
 
-    doBoot();
+    bootstrap();
 
     await waitFor(() => expect(logSpy).toHaveBeenCalledWith('Failed to start app.'));
     await waitFor(() =>
@@ -161,7 +161,7 @@ describe('muse-boot-default', () => {
     delete mg.app.config.entry;
     mg.appEntries = [];
 
-    doBoot();
+    bootstrap();
 
     await waitFor(() => expect(logSpy).toHaveBeenCalledWith('Failed to start app.'));
     await waitFor(() =>
@@ -177,7 +177,7 @@ describe('muse-boot-default', () => {
     mg.app.config.entry = 'muse-boot-default';
     mg.appEntries = [{ name: 'dummy-entry', func: jest.fn() }];
 
-    doBoot();
+    bootstrap();
 
     await waitFor(() => expect(logSpy).toHaveBeenCalledWith('Failed to start app.'));
     await waitFor(() =>
@@ -191,7 +191,7 @@ describe('muse-boot-default', () => {
     delete mg.app.config.entry;
     mg.appEntries = [{ name: 'muse-boot-default', func: jest.fn() }];
 
-    doBoot();
+    bootstrap();
 
     await waitFor(() =>
       expect(logSpy).toHaveBeenCalledWith('Starting the app from muse-boot-default...'),
