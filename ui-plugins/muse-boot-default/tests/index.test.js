@@ -4,6 +4,7 @@ import { doBoot } from '../src/boot';
 
 describe('muse-boot-default', () => {
   let logSpy = null;
+  let errorSpy = null;
   const { location } = window;
 
   const appConfig = { theme: 'dark', entry: 'muse-boot-default', supportLink: 'https://go/muse' };
@@ -74,15 +75,19 @@ describe('muse-boot-default', () => {
     delete window.location;
     window.location = { protocol: 'https:' };
     logSpy = jest.spyOn(global.console, 'log');
+    errorSpy = jest.spyOn(global.console, 'error');
   });
 
   afterAll(() => {
     window.location = location;
     logSpy.mockRestore();
+    errorSpy.mockRestore();
   });
 
   it('should execute the boot logic successfully', async () => {
+    mg.app.config.entry = 'muse-boot-default';
     mg.isDev = false;
+    mg.appEntries = [{ name: 'muse-boot-default', func: jest.fn() }];
     doBoot();
 
     expect(document.body.classList.contains('muse-theme-dark')).toBe(true);
@@ -122,12 +127,74 @@ describe('muse-boot-default', () => {
     );
   });
 
-  it('isDev variations', async () => {
+  it('isDev variation', async () => {
+    mg.app.config.entry = 'muse-boot-default';
     mg.isDev = true;
+    mg.appEntries = [{ name: 'muse-boot-default', func: jest.fn() }];
     doBoot();
 
     expect(mg.getPublicPath('demo-test', 'dummy.css')).toBe(
       'https://dummy.cdn.ebay.com/p/demo-test/1.0.0/dev/dummy.css',
+    );
+  });
+
+  it('multiple app entries', async () => {
+    delete mg.app.config.entry;
+    mg.appEntries = [
+      { name: 'muse-boot-default', func: jest.fn() },
+      { name: 'dummy-entry-plugin', func: jest.fn() },
+    ];
+
+    doBoot();
+
+    await waitFor(() => expect(logSpy).toHaveBeenCalledWith('Failed to start app.'));
+    await waitFor(() =>
+      expect(
+        screen.queryByText(
+          'Multiple entries found: muse-boot-default, dummy-entry-plugin. You need to specify one entry in app config.',
+        ),
+      ).toBeInTheDocument(),
+    );
+  });
+
+  it('no app entry found', async () => {
+    delete mg.app.config.entry;
+    mg.appEntries = [];
+
+    doBoot();
+
+    await waitFor(() => expect(logSpy).toHaveBeenCalledWith('Failed to start app.'));
+    await waitFor(() =>
+      expect(
+        screen.queryByText(
+          'No app entry found. You need a plugin deployed to the app to provide an app entry.',
+        ),
+      ).toBeInTheDocument(),
+    );
+  });
+
+  it('wrong app entry', async () => {
+    mg.app.config.entry = 'muse-boot-default';
+    mg.appEntries = [{ name: 'dummy-entry', func: jest.fn() }];
+
+    doBoot();
+
+    await waitFor(() => expect(logSpy).toHaveBeenCalledWith('Failed to start app.'));
+    await waitFor(() =>
+      expect(
+        screen.queryByText('The specified app entry was not found: muse-boot-default.'),
+      ).toBeInTheDocument(),
+    );
+  });
+
+  it('1 app entry', async () => {
+    delete mg.app.config.entry;
+    mg.appEntries = [{ name: 'muse-boot-default', func: jest.fn() }];
+
+    doBoot();
+
+    await waitFor(() =>
+      expect(logSpy).toHaveBeenCalledWith('Starting the app from muse-boot-default...'),
     );
   });
 });
