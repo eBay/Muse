@@ -35,8 +35,7 @@ const RequestDetailModalInner = ({ request, retry = true }) => {
   const modal = useModal();
   const [form] = Form.useForm();
   const syncStatus = useSyncStatus('muse.requests');
-
-  console.log(request);
+  const [antdModal, contextHolder] = Modal.useModal();
 
   const canRetryRequest = ability.can('retry', 'Request', request);
   const canCancelRequest = ability.can('cancel', 'Request', request);
@@ -62,10 +61,12 @@ const RequestDetailModalInner = ({ request, retry = true }) => {
     request,
     form,
     modal,
+    antdModal,
     setPending,
     setError,
     pending,
     error,
+    syncStatus,
   };
   const meta = {
     columns: 2,
@@ -232,6 +233,7 @@ const RequestDetailModalInner = ({ request, retry = true }) => {
   ];
   return (
     <Modal {...antdModalV5(modal)} {...modalProps}>
+      {contextHolder}
       <Nodes
         items={bodyNodes}
         extName="items"

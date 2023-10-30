@@ -5,6 +5,7 @@ import NiceForm from '@ebay/nice-form-react';
 import { useMuseMutation, useSyncStatus } from '../../hooks';
 import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
 import utils from '@ebay/muse-lib-antd/src/utils';
+import jsPlugin from 'js-plugin';
 
 export default NiceModal.create(function AddEnvModal({ app }) {
   const modal = useModal();
@@ -23,8 +24,12 @@ export default NiceModal.create(function AddEnvModal({ app }) {
   const handleAddAppEnv = useCallback(() => {
     form.validateFields().then((values) => {
       values.baseEnv = `${app.name}/${values.baseEnv}`;
-      const updatedValues = Object.assign({ appName: app.name }, values);
-      addAppEnv(updatedValues)
+      const payload = Object.assign({ appName: app.name }, values);
+      jsPlugin.invoke('museManager.am.addEnvironmentModal.form.processPayload', {
+        payload,
+        values,
+      });
+      addAppEnv(payload)
         .then((res) => {
           let content = '';
           if (values.type === 'production') {

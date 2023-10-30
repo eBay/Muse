@@ -10,7 +10,6 @@ import EnvironmentVariables from './EnvironmentVariables';
 import './AppPage.less';
 
 export default function AppPage() {
-  //
   const navigate = useNavigate();
   const [appNameActions, setAppNameActions] = useState([]);
   const { appName, tabKey = 'overview' } = useParams();
@@ -22,16 +21,6 @@ export default function AppPage() {
       order: 10,
       children: <AppOverview app={app} />,
     },
-    // {
-    //   key: 'envs',
-    //   order: 12,
-    //   label: 'Environments',
-    //   children: (
-    //     <section key="envs">
-    //       <Environments app={app} />
-    //     </section>
-    //   ),
-    // },
     {
       key: 'plugins',
       label: 'Plugins',
