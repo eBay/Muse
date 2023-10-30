@@ -48,6 +48,11 @@ export function load(plugin, callback) {
         callback();
         resolve();
       };
+      // from unit tests, we resolve this Promise immediately. This is needed, as jest will never run the script.onload() function,
+      // as it's not a real browser, making the Promise never resolve.
+      if (process.env.NODE_ENV === 'test') {
+        resolve();
+      }
       script.onerror = () => {
         // fatalError('Failed to load resource: ' + resource);
         error.showMessage(`Failed to load resource: ${plugin.url} .`);

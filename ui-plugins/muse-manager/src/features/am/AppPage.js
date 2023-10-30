@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Tabs, Alert } from 'antd';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
@@ -7,10 +7,10 @@ import { usePollingMuseData } from '../../hooks';
 import PluginList from '../pm/PluginList';
 import AppOverview from './AppOverview';
 import EnvironmentVariables from './EnvironmentVariables';
+import AppSelect from './AppSelect';
 import './AppPage.less';
 
 export default function AppPage() {
-  //
   const navigate = useNavigate();
   const [appNameActions, setAppNameActions] = useState([]);
   const { appName, tabKey = 'overview' } = useParams();
@@ -22,16 +22,6 @@ export default function AppPage() {
       order: 10,
       children: <AppOverview app={app} />,
     },
-    // {
-    //   key: 'envs',
-    //   order: 12,
-    //   label: 'Environments',
-    //   children: (
-    //     <section key="envs">
-    //       <Environments app={app} />
-    //     </section>
-    //   ),
-    // },
     {
       key: 'plugins',
       label: 'Plugins',
@@ -59,12 +49,26 @@ export default function AppPage() {
     }
   }, [app]);
 
+  const handleAppChange = useCallback(
+    (value) => {
+      navigate(`/app/${value}/${tabKey}${window.location.search}`);
+    },
+    [navigate, tabKey],
+  );
+
   const nodes = [
     {
       order: 10,
       node: (
         <span className="muse-manager-app-page-title" key="header">
-          <h1 style={{ marginBottom: '0.3em' }}>Muse App: {appName}</h1>
+          <h1 style={{ marginBottom: '0.3em' }}>
+            Muse App:{' '}
+            {window.MUSE_GLOBAL.isSubApp ? (
+              appName
+            ) : (
+              <AppSelect value={appName} onChange={handleAppChange} />
+            )}
+          </h1>
           {appNameActions?.length > 0 && appNameActions.map((appNameAct) => appNameAct.node)}
         </span>
       ),

@@ -29,7 +29,7 @@ const EditEnvironmentModal = NiceModal.create(({ env, app }) => {
       appName: app.name,
       envName: env.name,
     };
-    jsPlugin.invoke('museManager.editEnvForm.processPayload', { payload, values });
+    jsPlugin.invoke('museManager.am.editEnvironmentModal.form.processPayload', { payload, values });
     updateEnv(payload)
       .then(async () => {
         modal.hide();

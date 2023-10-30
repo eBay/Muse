@@ -14,25 +14,25 @@ const schema = require('../schemas/req/completeRequest.json');
  * @param {string} [params.msg] Action message.
  * @returns {request} Request object.
  */
-module.exports = async params => {
+module.exports = async (params) => {
   validate(schema, params);
   if (!params.author) params.author = osUsername;
   const { requestId, author, msg } = params;
   const ctx = {};
-  await asyncInvoke('museCore.req.beforeCompleteRequest', ctx, requestId);
+  await asyncInvoke('museCore.req.beforeCompleteRequest', ctx, params);
 
   const req = await getRequest(requestId);
   ctx.request = req;
 
   try {
     // You can extend merge request based on type by creating plugins
-    await asyncInvoke('museCore.req.completeRequest', ctx);
+    await asyncInvoke('museCore.req.completeRequest', ctx, params);
     await deleteRequest({ requestId, msg: msg || `Completed request ${requestId} by ${author}.` });
   } catch (err) {
     ctx.error = err;
-    await asyncInvoke('museCore.req.failedCompleteRequest', ctx);
+    await asyncInvoke('museCore.req.failedCompleteRequest', ctx, params);
     throw err;
   }
-  await asyncInvoke('museCore.req.afterCompleteRequest', ctx);
+  await asyncInvoke('museCore.req.afterCompleteRequest', ctx, params);
   return ctx.request;
 };

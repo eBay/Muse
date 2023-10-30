@@ -60,7 +60,7 @@ module.exports = async (params) => {
     // When ever a status is updated, we need to check if all status is succes
     // If so, merge the request.
     if (ctx.request.autoComplete && ctx.request.statuses.every((s) => s.state === 'success')) {
-      await completeRequest({ requestId, author });
+      await completeRequest(params);
     }
   } catch (err) {
     ctx.error = err;
