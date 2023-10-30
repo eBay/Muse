@@ -331,7 +331,10 @@ export function bootstrap() {
   if (!window.MUSE_GLOBAL) {
     throw new Error('There must be a global window.MUSE_GLOBAL object');
   }
+
   loading.init();
+  msgEngine.init();
+
   const timeStart = Date.now();
   start()
     .then(() => {
