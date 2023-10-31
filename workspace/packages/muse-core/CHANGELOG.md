@@ -1,5 +1,11 @@
 # @ebay/muse-core
 
+## 1.0.36
+
+### Patch Changes
+
+- update completeRequest api
+
 ## 1.0.35
 
 ### Patch Changes
