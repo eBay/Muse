@@ -16,6 +16,20 @@ const msgEngine = {
     return iframe;
   },
   init() {
+    // Assert a client is a Muse app
+    this.addListener('handle-muse-app-check', (payload, msg) => {
+      if (payload?.type === 'assert-muse-app' && msg.data?.from?.clientKey === 'parent') {
+        // Tell parent I'm a Muse app.
+        this.sendToParent({
+          promiseId: msg?.data?.promiseId,
+          data: {
+            app: window.MUSE_GLOBAL.app.name,
+            env: window.MUSE_GLOBAL.env.name,
+          },
+        });
+      }
+    });
+
     window.addEventListener(
       'message',
       (msg) => {
@@ -127,18 +141,5 @@ const msgEngine = {
     // TODO: sendToParent promise support
   },
 };
-
-msgEngine.init();
-
-// Assert a client is a Muse app
-msgEngine.addListener('handle-muse-app-check', (payload, msg) => {
-  if (payload?.type === 'assert-muse-app' && msg.data?.from?.clientKey === 'parent') {
-    // Tell parent I'm a Muse app.
-    msgEngine.resolveParent(msg?.data?.promiseId, {
-      app: window.MUSE_GLOBAL.app.name,
-      env: window.MUSE_GLOBAL.env.name,
-    });
-  }
-});
 
 export default msgEngine;
