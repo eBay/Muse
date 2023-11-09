@@ -272,12 +272,13 @@ module.exports = (middlewares) => {
   });
 
   try {
-    // It doesn't need history fallback since Muse app middleware handles it.
-    const i = _.findIndex(middlewares, (m) => m.name === 'webpack-dev-middleware');
-
+    // we have to ensure muse middlewares are loaded AFTER http-proxy-middleware
+    let i = _.findIndex(middlewares, (m) => m.name === 'http-proxy-middleware-error-handler');
     if (i < 0) {
-      // throw new Error('Can not find webpack-dev-middleware.');
+      // if no proxy middleware found, use first instance of webpack-dev-middleware as insertion index
+      i = _.findIndex(middlewares, (m) => m.name === 'webpack-dev-middleware');
     }
+
     middlewares.splice(
       i + 1,
       0,
