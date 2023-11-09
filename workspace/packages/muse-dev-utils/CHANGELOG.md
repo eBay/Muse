@@ -1,5 +1,11 @@
 # @ebay/muse-dev-utils
 
+## 1.0.51
+
+### Patch Changes
+
+- fix proxy config not taking effect
+
 ## 1.0.50
 
 ### Patch Changes
