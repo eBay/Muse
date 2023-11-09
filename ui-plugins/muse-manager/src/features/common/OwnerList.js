@@ -2,8 +2,9 @@ import { Popover } from 'antd';
 import { Highlighter } from '@ebay/muse-lib-antd/src/features/common';
 
 export default function OwnerList({ owners = [], searchKey, count = 3 }) {
-  let ownersShown = owners.slice(0, owners.length > count ? count - 1 : count);
-  let ownersHidden = owners.slice(2);
+  const splitIndex = owners.length > count ? count - 1 : owners.length;
+  let ownersShown = owners.slice(0, splitIndex);
+  let ownersHidden = owners.slice(splitIndex);
 
   const ownersShownList = ownersShown.map((owner, i) => (
     <span key={owner}>
@@ -13,7 +14,7 @@ export default function OwnerList({ owners = [], searchKey, count = 3 }) {
   ));
 
   const ownersHiddenList = ownersHidden.map((owner) => (
-    <p key={owner}>
+    <p key={owner} className="last:mb-0">
       <Highlighter text={owner} search={searchKey} /> &nbsp;
     </p>
   ));
