@@ -138,7 +138,7 @@ const PluginInfoModal = NiceModal.create(({ plugin, app }) => {
     <Modal
       {...antdModalV5(modal)}
       title={(viewMode ? 'Plugin Detail: ' : `Edit Plugin: `) + plugin.name}
-      width="700px"
+      width="600px"
       maskClosable={viewMode}
       className="muse-manager_pm-plugin-info-modal"
       okText={viewMode ? 'Edit' : 'Save'}
