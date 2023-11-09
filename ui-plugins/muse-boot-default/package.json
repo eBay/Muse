@@ -1,6 +1,6 @@
 {
   "name": "@ebay/muse-boot-default",
-  "version": "2.0.9",
+  "version": "2.0.10",
   "main": "index.js",
   "license": "MIT",
   "muse": {
@@ -58,7 +58,7 @@
     ]
   },
   "dependencies": {
-    "@ebay/muse-dev-utils": "^1.0.50",
+    "@ebay/muse-dev-utils": "^1.0.51",
     "base64-inline-loader": "^2.0.1"
   }
 }

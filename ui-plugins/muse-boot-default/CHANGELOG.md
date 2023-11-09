@@ -1,5 +1,11 @@
 # @ebay/muse-boot-default
 
+## 2.0.10
+
+### Patch Changes
+
+- bump up version
+
 ## 2.0.9
 
 ### Patch Changes
