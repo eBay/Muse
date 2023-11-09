@@ -53,10 +53,10 @@ function PluginActions({ plugin, app }) {
       },
       {
         key: 'releaseList',
-        label: 'Show releases',
+        label: 'releases',
         order: 55,
         icon: 'bars',
-        highlight: false,
+        highlight: true,
         onClick: () => {
           NiceModal.show('muse-manager.releases-drawer', { plugin, app });
         },
