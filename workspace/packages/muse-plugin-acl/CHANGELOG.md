@@ -1,5 +1,11 @@
 # muse-acl-plugin
 
+## 1.0.12
+
+### Patch Changes
+
+- Fix muse.admins builder.
+
 ## 1.0.11
 
 ### Patch Changes
