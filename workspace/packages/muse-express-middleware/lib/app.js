@@ -63,7 +63,7 @@ const populateAppVariables = (app, env) => {
 
 const populatePluginVariables = (app, env) => {
   const mergedPluginVariables = {};
-  for (const pluginConf of env?.plugins) {
+  for (const pluginConf of env.plugins) {
     const pluginDefaultVars = pluginConf.variables || {};
     const pluginAppVars = app?.pluginVariables?.[pluginConf.name] || {};
     const pluginCurrentEnvVars = env?.pluginVariables?.[pluginConf.name] || {};
