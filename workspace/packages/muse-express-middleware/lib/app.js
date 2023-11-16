@@ -51,6 +51,32 @@ const getAppInfoByUrl = async (req) => {
   return appByUrl[matchedUrl];
 };
 
+const populateAppVariables = (app, env) => {
+  const appDefaultVars = app?.variables || {};
+  const appCurrentEnvVars = env?.variables || {};
+  const mergedAppVariables = {
+    ...appDefaultVars,
+    ...appCurrentEnvVars,
+  };
+  return mergedAppVariables;
+};
+
+const populatePluginVariables = (app, env) => {
+  const mergedPluginVariables = {};
+  for (const pluginConf of env?.plugins) {
+    const pluginDefaultVars = pluginConf.variables || {};
+    const pluginAppVars = app?.pluginVariables?.[pluginConf.name] || {};
+    const pluginCurrentEnvVars = env?.pluginVariables?.[pluginConf.name] || {};
+    mergedPluginVariables[pluginConf.name] = {
+      ...pluginDefaultVars,
+      ...pluginAppVars,
+      ...pluginCurrentEnvVars,
+    };
+  }
+
+  return mergedPluginVariables;
+};
+
 module.exports = ({
   appName,
   envName = 'staging',
@@ -145,6 +171,8 @@ module.exports = ({
       env: _.omit(env, ['plugins']),
       appName: appName,
       envName: envName,
+      appVariables: populateAppVariables(appConfig, env),
+      pluginVariables: populatePluginVariables(appConfig, env),
       plugins,
       isDev,
       isLocal,
@@ -156,10 +184,6 @@ module.exports = ({
         !app.noServiceWorker && serviceWorker
           ? path.join(req.baseUrl || '/', serviceWorker)
           : false,
-      // museClientCode: crypto
-      //   .createHash('md5')
-      //   .update(clientIp)
-      //   .digest('hex'),
     };
 
     try {
