@@ -35,32 +35,6 @@ async function start() {
     waitFor: (asyncFuncOrPromise) => {
       waitForLoaders.push(asyncFuncOrPromise);
     },
-    /*getPluginName: () => {
-      if (!document.currentScript) {
-        throw new Error(`You should only call MUSE_GLOBAL.getPluginName() during plugin load.`);
-      }
-      return document.currentScript.dataset.musePluginName;
-    },*/
-    getAppVariables: () => {
-      const appDefaultVars = mg.app?.variables || {};
-      const appCurrentEnvVars = mg.env?.variables || {};
-      const mergedAppVariables = {
-        ...appDefaultVars,
-        ...appCurrentEnvVars,
-      };
-      return mergedAppVariables;
-    },
-    getPluginVariables: (pluginName) => {
-      const pluginDefaultVars = mg.env?.plugins?.find((p) => p.name === pluginName).variables || {};
-      const pluginAppVars = mg.app?.pluginVariables?.[pluginName] || {};
-      const pluginCurrentEnvVars = mg.env?.pluginVariables?.[pluginName] || {};
-      const mergedPluginVariables = {
-        ...pluginDefaultVars,
-        ...pluginAppVars,
-        ...pluginCurrentEnvVars,
-      };
-      return mergedPluginVariables;
-    },
     // TODO: get plugin assets public paths (assets in public folder)
     getPublicPath: (pluginName, assetPath) => {
       if (!assetPath) throw new Error('assetPath is required for getPublicPath method.');
