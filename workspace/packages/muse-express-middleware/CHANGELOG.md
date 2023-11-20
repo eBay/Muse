@@ -1,5 +1,11 @@
 # @ebay/muse-express-middleware
 
+## 1.0.42
+
+### Patch Changes
+
+- add app/plugin vars as addressable object
+
 ## 1.0.41
 
 ### Patch Changes
