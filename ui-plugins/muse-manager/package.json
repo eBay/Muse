@@ -32,7 +32,7 @@
     "@ebay/muse-dev-utils": "^1.0.50",
     "@ebay/muse-ebay-craco-plugin": "^1.1.1",
     "@ebay/muse-ebay-dev": "^1.0.26",
-    "@ebay/muse-express-middleware": "^1.0.41",
+    "@ebay/muse-express-middleware": "^1.0.42",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
