@@ -1,5 +1,11 @@
 # @ebay/muse-boot-default
 
+## 2.0.11
+
+### Patch Changes
+
+- remove getapp/getplugin vars func
+
 ## 2.0.10
 
 ### Patch Changes
