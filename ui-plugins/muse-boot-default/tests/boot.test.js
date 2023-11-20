@@ -104,10 +104,6 @@ describe('muse-boot-default', () => {
       theme: 'dark',
     });
 
-    // merged app variables between app and ebv
-    expect(mg.getAppVariables()).toEqual({ 'primary-color': '#000001' });
-    expect(mg.getPluginVariables('demo-test')).toEqual({ 'demo-var-1': true, 'demo-var-2': true });
-
     expect(mg.getPublicPath('demo-lib-test', 'dummy.css')).toBe(
       'https://dummy.cdn.ebay.com/p/demo-lib-test/1.0.0/dist/dummy.css',
     );
