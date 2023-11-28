@@ -67,7 +67,18 @@ const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
               );
             }
           });
-        const nodes = [v, ...tags];
+        const nodes = [
+          <Button
+            key={v}
+            type="link"
+            onClick={() =>
+              NiceModal.show('muse-manager.release-info-modal', { plugin, app, release })
+            }
+          >
+            {v}
+          </Button>,
+          ...tags,
+        ];
         return nodes;
       },
     },

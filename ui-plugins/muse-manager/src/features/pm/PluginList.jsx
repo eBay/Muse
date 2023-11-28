@@ -151,7 +151,41 @@ export default function PluginList({ app }) {
       },
       render: (_, plugin) => {
         const latest = latestReleases?.[plugin.name];
-        return latest ? (
+        if (!latest) return <NA />;
+        // check if the latest release is created within 30 minutes
+        // if not, hidden the tooltip, otherwise, show the tooltip at the right side of the version
+        const inPastHalfHour =
+          (Date.now() - (latest?.createdAt && new Date(latest.createdAt).getTime()) || 0) <
+          1000 * 60 * 30;
+        return inPastHalfHour ? (
+          <Tooltip
+            color="green"
+            placement="left"
+            open={true}
+            title={
+              <>
+                <TimeAgo date={new Date(latest.createdAt || 0)} timeStyle="mini" /> ago
+              </>
+            }
+            overlayInnerStyle={{ padding: '2px 4px', minHeight: 'fit-content', fontSize: 13 }}
+            zIndex={9} // lower than header layout and modals
+          >
+            <Button
+              type="link"
+              onClick={() => {
+                NiceModal.show('muse-manager.release-info-modal', {
+                  plugin,
+                  app,
+                  release: latest,
+                  isLatest: true,
+                });
+              }}
+              style={{ textAlign: 'left', padding: 0 }}
+            >
+              v{latest.version}
+            </Button>
+          </Tooltip>
+        ) : (
           <Tooltip
             title={
               <>
@@ -162,14 +196,18 @@ export default function PluginList({ app }) {
           >
             <Button
               type="link"
-              onClick={() => NiceModal.show('muse-manager.releases-drawer', { plugin, app })}
+              onClick={() => {
+                NiceModal.show('muse-manager.release-info-modal', {
+                  plugin,
+                  app,
+                  release: latest,
+                });
+              }}
               style={{ textAlign: 'left', padding: 0 }}
             >
               v{latest.version}
             </Button>
           </Tooltip>
-        ) : (
-          <NA />
         );
       },
     },
@@ -189,7 +227,15 @@ export default function PluginList({ app }) {
             if (!latestVersion) return versionDeployed;
             const color = versionDiffColorMap[versionDiff(versionDeployed, latestVersion)];
             return (
-              <Button type="link" style={{ textAlign: 'left', padding: 0, color }}>
+              <Button
+                type="link"
+                style={{ textAlign: 'left', padding: 0, color }}
+                onClick={() => {NiceModal.show('muse-manager.release-info-modal', {
+                  plugin,
+                  app,
+                  version: versionDeployed
+                })}}
+              >
                 v{versionDeployed}
               </Button>
             );
