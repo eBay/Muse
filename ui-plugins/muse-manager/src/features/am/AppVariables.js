@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Button, Form, Table, Popconfirm, Modal } from 'antd';
+import { Button, Form, Table, Popconfirm } from 'antd';
 import { useAbility, useSyncStatus, useMuseMutation } from '../../hooks';
 import _ from 'lodash';
 import NiceModal from '@ebay/nice-modal-react';
@@ -12,7 +12,6 @@ import jsPlugin from 'js-plugin';
 export default function AppVariables({ app }) {
   const envs = app.envs ? Object.keys(app.envs) : [];
   const ability = useAbility();
-  const [antdModal, contextHolder] = Modal.useModal();
   const canUpdateApp = ability.can('update', 'App', app);
   const syncStatus = useSyncStatus(`muse.app.${app.name}`);
   const { mutateAsync: updateApp, error: updateAppError } = useMuseMutation('am.updateApp');
@@ -24,7 +23,6 @@ export default function AppVariables({ app }) {
   const extArgs = {
     ability,
     form,
-    antdModal,
     syncStatus,
     app,
   };
@@ -213,7 +211,6 @@ export default function AppVariables({ app }) {
             icon: 'delete',
             disabled: !canUpdateApp,
             disabledText: 'No permission.',
-
             highlight: true,
             danger: true,
             confirm: {
@@ -312,7 +309,6 @@ export default function AppVariables({ app }) {
       >
         + Add a variable
       </Button>
-      {contextHolder}
     </>
   );
 }

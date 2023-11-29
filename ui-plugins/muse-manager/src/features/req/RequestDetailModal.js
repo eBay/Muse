@@ -35,7 +35,6 @@ const RequestDetailModalInner = ({ request, retry = true }) => {
   const modal = useModal();
   const [form] = Form.useForm();
   const syncStatus = useSyncStatus('muse.requests');
-  const [antdModal, contextHolder] = Modal.useModal();
 
   const canRetryRequest = ability.can('retry', 'Request', request);
   const canCancelRequest = ability.can('cancel', 'Request', request);
@@ -61,7 +60,6 @@ const RequestDetailModalInner = ({ request, retry = true }) => {
     request,
     form,
     modal,
-    antdModal,
     setPending,
     setError,
     pending,
@@ -162,17 +160,25 @@ const RequestDetailModalInner = ({ request, retry = true }) => {
           disabled: pending || !canRetryRequest,
           type: 'primary',
           children: 'Retry',
-          onClick: () => {
+          onClick: (values) => {
             Modal.confirm({
               title: 'Confirm',
               content: 'Are you sure to retry this request?',
               onOk: () => {
                 (async () => {
-                  await createRequest({
+                  const payload = {
                     id: request.id,
                     type: request.type,
                     payload: request.payload,
-                  });
+                  };
+                  jsPlugin.invoke(
+                    'museManager.req.requestDetailModal.footer.retryBtn.processPayload',
+                    {
+                      payload,
+                      values,
+                    },
+                  );
+                  await createRequest(payload);
                   message.success('Request created.');
                   syncStatus();
                   modal.hide();
@@ -233,7 +239,6 @@ const RequestDetailModalInner = ({ request, retry = true }) => {
   ];
   return (
     <Modal {...antdModalV5(modal)} {...modalProps}>
-      {contextHolder}
       <Nodes
         items={bodyNodes}
         extName="items"
