@@ -12,7 +12,6 @@ import jsPlugin from 'js-plugin';
 export default function PluginVariables({ app }) {
   const envs = app.envs ? Object.keys(app.envs) : [];
   const [editingKey, setEditingKey] = useState('');
-  const [antdModal, contextHolder] = Modal.useModal();
 
   const syncStatus = useSyncStatus(`muse.app.${app.name}`);
   const isEditing = (record) => record.key === editingKey;
@@ -22,7 +21,6 @@ export default function PluginVariables({ app }) {
   const extArgs = {
     ability,
     form,
-    antdModal,
     syncStatus,
     app,
   };
@@ -189,22 +187,6 @@ export default function PluginVariables({ app }) {
     render: (x, record) => {
       let items;
       if (isEditing(record)) {
-        // return (
-        //   <span>
-        //     <Popconfirm
-        //       title="Are you sure to update the variable?"
-        //       okText="Yes"
-        //       onConfirm={() => handleSave(record)}
-        //     >
-        //       <Button type="primary" className="mt-1" size="small">
-        //         Save
-        //       </Button>
-        //     </Popconfirm>
-        //     <Button className="ml-2 mt-1" size="small" onClick={() => handleCancel(record)}>
-        //       Cancel
-        //     </Button>
-        //   </span>
-        // );
         items = [
           {
             key: 'save',
@@ -387,7 +369,6 @@ export default function PluginVariables({ app }) {
           ?.map((p) => ({ value: p.name, label: p.name }))}
         onChange={handleNewVar}
       />
-      {contextHolder}
     </>
   );
 }
