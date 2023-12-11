@@ -140,6 +140,7 @@ export default function PluginList({ app }) {
       title: 'Latest',
       width: 120,
       order: 17,
+      fixed: 'left',
       sorter: (a, b) => {
         a = latestReleases?.[a.name];
         b = latestReleases?.[b.name];
@@ -169,6 +170,7 @@ export default function PluginList({ app }) {
             }
             overlayInnerStyle={{ padding: '2px 4px', minHeight: 'fit-content', fontSize: 13 }}
             zIndex={9} // lower than header layout and modals
+            getPopupContainer={(trigger) => trigger.parentElement}
           >
             <Button
               type="link"
@@ -296,7 +298,7 @@ export default function PluginList({ app }) {
             pagination={{
               hideOnSinglePage: false,
               size: 'small',
-              pageSize: 50,
+              defaultPageSize: 50,
               showSizeChanger: true,
               showTotal: (total) => `Total ${total} items`,
               showQuickJumper: true,
