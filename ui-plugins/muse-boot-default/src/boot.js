@@ -35,26 +35,6 @@ async function start() {
     waitFor: (asyncFuncOrPromise) => {
       waitForLoaders.push(asyncFuncOrPromise);
     },
-    getAppVariables: () => {
-      const appDefaultVars = mg.app?.variables || {};
-      const appCurrentEnvVars = mg.env?.variables || {};
-      const mergedAppVariables = {
-        ...appDefaultVars,
-        ...appCurrentEnvVars,
-      };
-      return mergedAppVariables;
-    },
-    getPluginVariables: (pluginName) => {
-      const pluginDefaultVars = mg.env?.plugins?.find((p) => p.name === pluginName).variables || {};
-      const pluginAppVars = mg.app?.pluginVariables?.[pluginName] || {};
-      const pluginCurrentEnvVars = mg.env?.pluginVariables?.[pluginName] || {};
-      const mergedPluginVariables = {
-        ...pluginDefaultVars,
-        ...pluginAppVars,
-        ...pluginCurrentEnvVars,
-      };
-      return mergedPluginVariables;
-    },
     // TODO: get plugin assets public paths (assets in public folder)
     getPublicPath: (pluginName, assetPath) => {
       if (!assetPath) throw new Error('assetPath is required for getPublicPath method.');
@@ -88,15 +68,7 @@ async function start() {
     },
   });
 
-  const {
-    // app,
-    cdn = '',
-    initEntries,
-    pluginEntries,
-    appEntries,
-    isDev = false,
-    isE2eTest = false,
-  } = mg;
+  const { cdn = '', initEntries, pluginEntries, appEntries, isDev = false, isE2eTest = false } = mg;
   let { plugins = [] } = window.MUSE_GLOBAL;
 
   // MUSE_CONFIG is for backward compatibility
@@ -188,7 +160,6 @@ async function start() {
   msgEngine.sendToParent({
     type: 'app-state-change',
     state: 'app-loading',
-    // url: document.location.href,
   });
   // Load init plugins
   // Init plugins should be small and not depend on each other
@@ -290,7 +261,6 @@ async function start() {
   // Wait for loader
   if (waitForLoaders.length > 0) {
     loading.showMessage(`Executing custom loaders ...`);
-    // let loaderLoadedCount = 0;
     const arr = await Promise.all(
       waitForLoaders.map(async (loader) => {
         // Usually a plugin waitFor a promise so that it doesn't need to wait for all plugins loaded before executing
@@ -327,7 +297,6 @@ async function start() {
   if (entryApp) {
     console.log(`Starting the app from ${entryName}...`);
     loading.showMessage(`Starting the app...`);
-    // await new Promise((resolve) => setTimeout(resolve, 5000));
     await entryApp.func();
   } else {
     throw new Error(`The specified app entry was not found: ${entryName}.`);
@@ -350,7 +319,6 @@ export function bootstrap() {
       msgEngine.sendToParent({
         type: 'app-state-change',
         state: 'app-loaded',
-        // url: document.location.href,
       });
       console.log(`Muse app started in ${(timeEnd - timeStart) / 1000} seconds.`);
     })
@@ -364,7 +332,6 @@ export function bootstrap() {
       msgEngine.sendToParent({
         type: 'app-state-change',
         state: 'app-failed',
-        // url: document.location.href,
       });
     });
 }

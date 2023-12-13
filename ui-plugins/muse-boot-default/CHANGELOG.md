@@ -1,5 +1,11 @@
 # @ebay/muse-boot-default
 
+## 2.0.12
+
+### Patch Changes
+
+- remove deprecated apis
+
 ## 2.0.11
 
 ### Patch Changes
