@@ -245,23 +245,37 @@ async function start() {
     .filter(Boolean);
 
   // Load plugin bundles
-  loading.showMessage(`Loading plugins 1/${pluginsToLoad.length}...`);
+  const libPluginsToLoad = pluginsToLoad.filter((p) => p.type === 'lib');
+  loading.showMessage(`Loading lib plugins 1/${libPluginsToLoad.length}...`);
   await loadInParallel(
-    pluginsToLoad.filter((p) => !p.esModule),
+    libPluginsToLoad.filter((p) => !p.esModule),
     (loadedCount) =>
       loading.showMessage(
-        `Loading plugins ${Math.min(loadedCount + 1, pluginsToLoad.length)}/${
-          pluginsToLoad.length
+        `Loading lib plugins ${Math.min(loadedCount + 1, libPluginsToLoad.length)}/${
+          libPluginsToLoad.length
         }...`,
       ),
   );
 
+  const normalPluginsToLoad = pluginsToLoad.filter((p) => p.type === 'normal');
+  loading.showMessage(`Loading normal plugins 1/${normalPluginsToLoad.length}...`);
   await loadInParallel(
-    pluginsToLoad.filter((p) => p.esModule),
+    normalPluginsToLoad.filter((p) => !p.esModule),
     (loadedCount) =>
       loading.showMessage(
-        `Loading plugins ${Math.min(loadedCount + 1, pluginsToLoad.length)}/${
-          pluginsToLoad.length
+        `Loading normal plugins ${Math.min(loadedCount + 1, normalPluginsToLoad.length)}/${
+          normalPluginsToLoad.length
+        }...`,
+      ),
+  );
+
+  const esPluginsToLoad = pluginsToLoad.filter((p) => p.esModule);
+  await loadInParallel(
+    esPluginsToLoad.filter((p) => p.esModule),
+    (loadedCount) =>
+      loading.showMessage(
+        `Loading es plugins ${Math.min(loadedCount + 1, esPluginsToLoad.length)}/${
+          esPluginsToLoad.length
         }...`,
       ),
   );
