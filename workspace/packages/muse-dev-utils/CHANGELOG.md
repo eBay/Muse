@@ -1,5 +1,11 @@
 # @ebay/muse-dev-utils
 
+## 1.0.52
+
+### Patch Changes
+
+- bump up version with latest middleware
+
 ## 1.0.51
 
 ### Patch Changes
