@@ -1,5 +1,11 @@
 # @ebay/muse-craco-plugin
 
+## 3.0.15
+
+### Patch Changes
+
+- fix workspace dependencies
+
 ## 3.0.14
 
 ### Patch Changes
