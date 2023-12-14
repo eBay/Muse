@@ -23,8 +23,8 @@ function cacheFirst(request, reqInfo) {
   // only cache cdn resource without query string
   return caches
     .open(cacheName)
-    .then(cache => {
-      return cache.match(request).then(res => {
+    .then((cache) => {
+      return cache.match(request).then((res) => {
         return new Promise((resolve, reject) => {
           if (res) {
             cleanCache(cache, reqInfo);
@@ -32,7 +32,7 @@ function cacheFirst(request, reqInfo) {
           } else {
             const corsRequest = new Request(request.url, { mode: 'cors' });
             fetch(corsRequest)
-              .then(realRes => {
+              .then((realRes) => {
                 if (realRes.status === 200) {
                   console.log('Updating cache: ', request.url);
                   cache
@@ -40,7 +40,7 @@ function cacheFirst(request, reqInfo) {
                     .then(() => {
                       resolve(realRes);
                     })
-                    .catch(err => {
+                    .catch((err) => {
                       console.log('Failed to update cache: ', request.url);
                       console.log(err);
                       resolve(realRes);
@@ -49,7 +49,7 @@ function cacheFirst(request, reqInfo) {
                   reject(realRes);
                 }
               })
-              .catch(err => {
+              .catch((err) => {
                 console.log('Failed to fetch', err);
                 resolve(fetch(request));
               });
@@ -57,7 +57,7 @@ function cacheFirst(request, reqInfo) {
         });
       });
     })
-    .catch(err => {
+    .catch((err) => {
       console.log(err);
       console.log('Failed to using cache, fallback to network: ', request.url);
       return Promise.resolve(fetch(request));
@@ -89,12 +89,12 @@ function parseUrl(url) {
 
 function cleanCache(cache, reqInfo) {
   // Clean old cache if a different version is deployed
-  cache.keys().then(list => {
-    list.forEach(req => {
+  cache.keys().then((list) => {
+    list.forEach((req) => {
       const info = parseUrl(req.url);
       if (info && info.plugin === reqInfo.plugin && info.version !== reqInfo.version) {
         try {
-          cache.delete(req.url);
+          cache.delete(req);
           console.log('Cache cleaned: ' + req.url);
         } catch (err) {
           console.log('Failed to delete cache: ' + req.url);
