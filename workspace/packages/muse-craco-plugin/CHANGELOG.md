@@ -1,5 +1,11 @@
 # @ebay/muse-craco-plugin
 
+## 3.0.16
+
+### Patch Changes
+
+- bump up version
+
 ## 3.0.15
 
 ### Patch Changes
