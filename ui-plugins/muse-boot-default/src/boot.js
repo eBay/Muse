@@ -50,8 +50,11 @@ async function start() {
       }
       const currentPlugin = window.MUSE_GLOBAL.plugins?.find((p) => p.name === pluginName);
       if (!currentPlugin) return;
-      const { version } = currentPlugin || {};
-      let publicPath = `${window.MUSE_GLOBAL.cdn}/p/${pluginId}/v${version}`;
+      let { version } = currentPlugin || {};
+      if (!version.startsWith('v')) {
+        version = `v${version}`;
+      }
+      let publicPath = `${window.MUSE_GLOBAL.cdn}/p/${pluginId}/${version}`;
       if (window.MUSE_GLOBAL.isDev || window.MUSE_GLOBAL.isLocal) {
         publicPath = publicPath + `/dev/${assetPath}`;
       } else {
