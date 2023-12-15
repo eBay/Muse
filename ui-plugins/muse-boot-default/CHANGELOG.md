@@ -1,5 +1,11 @@
 # @ebay/muse-boot-default
 
+## 2.0.13
+
+### Patch Changes
+
+- fix public path version composition
+
 ## 2.0.12
 
 ### Patch Changes
