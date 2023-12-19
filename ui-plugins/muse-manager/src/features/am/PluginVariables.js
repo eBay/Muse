@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Button, Form, Table, Popconfirm, Select, Modal } from 'antd';
+import { Button, Form, Table, Popconfirm, Select } from 'antd';
 import { RequestStatus, DropdownMenu } from '@ebay/muse-lib-antd/src/features/common';
 import { extendArray } from '@ebay/muse-lib-antd/src/utils';
 import NiceModal from '@ebay/nice-modal-react';
