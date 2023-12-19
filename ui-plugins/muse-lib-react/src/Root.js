@@ -135,7 +135,7 @@ const Root = () => {
   const children = renderRouteConfigV3(routeConfig(), '/');
   const ele = renderChildren(children);
 
-  const { routerType = 'browser', basePath } = window.MUSE_GLOBAL.getAppVariables() || {};
+  const { routerType = 'browser', basePath } = window.MUSE_GLOBAL.appVariables || {};
   const Router = routerMap[routerType](createRoutesFromElements(ele));
   const routerProps = plugin.invoke('!routerProps')[0] || {};
   if (routerType === 'browser') {

@@ -22,6 +22,8 @@ async function start() {
   });
 
   Object.assign(mg, {
+    appVariables: mg.appVariables || {},
+    pluginVariables: mg.pluginVariables || {},
     appConfig,
     msgEngine,
     loading,
