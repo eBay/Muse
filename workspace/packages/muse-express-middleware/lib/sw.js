@@ -93,13 +93,18 @@ function cleanCache(cache, reqInfo) {
     list.forEach((req) => {
       const info = parseUrl(req.url);
       if (info && info.plugin === reqInfo.plugin && info.version !== reqInfo.version) {
-        try {
-          cache.delete(req);
-          console.log('Cache cleaned: ' + req.url);
-        } catch (err) {
-          console.log('Failed to delete cache: ' + req.url);
-          console.log(err);
-        }
+        cache
+          .delete(req)
+          .then((response) => {
+            if (response) {
+              console.log('Cache cleaned: ' + req.url);
+            } else {
+              console.log('Failed to delete cache: ' + req.url);
+            }
+          })
+          .catch((err) => {
+            console.log('Failed to delete cache: ' + req.url);
+          });
       }
     });
   });
