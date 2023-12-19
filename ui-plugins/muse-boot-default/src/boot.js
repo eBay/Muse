@@ -22,6 +22,8 @@ async function start() {
   });
 
   Object.assign(mg, {
+    appVariables: mg.appVariables || {},
+    pluginVariables: mg.pluginVariables || {},
     appConfig,
     msgEngine,
     loading,
@@ -50,7 +52,10 @@ async function start() {
       }
       const currentPlugin = window.MUSE_GLOBAL.plugins?.find((p) => p.name === pluginName);
       if (!currentPlugin) return;
-      const { version } = currentPlugin || {};
+      let { version } = currentPlugin || {};
+      if (!version.startsWith('v')) {
+        version = `v${version}`;
+      }
       let publicPath = `${window.MUSE_GLOBAL.cdn}/p/${pluginId}/${version}`;
       if (window.MUSE_GLOBAL.isDev || window.MUSE_GLOBAL.isLocal) {
         publicPath = publicPath + `/dev/${assetPath}`;

@@ -105,7 +105,7 @@ describe('muse-boot-default', () => {
     });
 
     expect(mg.getPublicPath('demo-lib-test', 'dummy.css')).toBe(
-      'https://dummy.cdn.ebay.com/p/demo-lib-test/1.0.0/dist/dummy.css',
+      'https://dummy.cdn.ebay.com/p/demo-lib-test/v1.0.0/dist/dummy.css',
     );
     expect(logSpy).toHaveBeenCalledWith('Loading Muse app by muse-boot-default@1.0.0...');
     expect(logSpy).toHaveBeenCalledWith('Plugins(6):');
@@ -130,7 +130,7 @@ describe('muse-boot-default', () => {
     bootstrap();
 
     expect(mg.getPublicPath('demo-test', 'dummy.css')).toBe(
-      'https://dummy.cdn.ebay.com/p/demo-test/1.0.0/dev/dummy.css',
+      'https://dummy.cdn.ebay.com/p/demo-test/v1.0.0/dev/dummy.css',
     );
   });
 

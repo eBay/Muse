@@ -1,6 +1,6 @@
 {
   "name": "@ebay/muse-craco-plugin",
-  "version": "3.0.14",
+  "version": "3.0.19",
   "main": "lib/index.js",
   "license": "MIT",
   "publishConfig": {
@@ -10,8 +10,8 @@
     "lib"
   ],
   "dependencies": {
-    "@ebay/muse-dev-utils": "^1.0.51",
-    "@ebay/muse-webpack-plugin": "^1.0.30",
+    "@ebay/muse-dev-utils": "workspace:^*",
+    "@ebay/muse-webpack-plugin": "workspace:^*",
     "resolve-cwd": "^3.0.0"
   },
   "devDependencies": {

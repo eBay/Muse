@@ -4,7 +4,7 @@ import { notification } from 'antd';
 const mg = window.MUSE_GLOBAL;
 export const apiHost = mg.isLocal
   ? // For local development, need to config it or use the default 6066 port.
-    window.MUSE_GLOBAL.getAppVariables()?.museRunnerApiHost || 'localhost:6066'
+    window.MUSE_GLOBAL.appVariables?.museRunnerApiHost || 'localhost:6066'
   : // when published, always with muse-runner nodejs backend, so use the same host
     document.location.host;
 

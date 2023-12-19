@@ -38,7 +38,7 @@ export default function EnvironmentVariables({ app }) {
           <Alert
             type="info"
             showIcon
-            message="You can use 'window.MUSE_GLOBAL.getAppVariables()[varName]' to get an app variable value."
+            message="You can use 'window.MUSE_GLOBAL.appVariables[varName]' to get an app variable value."
           />
           <AppVariables app={app} />
         </>
@@ -48,7 +48,7 @@ export default function EnvironmentVariables({ app }) {
           <Alert
             type="info"
             showIcon
-            message="You can use 'window.MUSE_GLOBAL.getPluginVariables(pluginName)[varName]' to get a plugin variable value."
+            message="You can use 'window.MUSE_GLOBAL.pluginVariables[pluginName][varName]' to get a plugin variable value."
           />
           <PluginVariables app={app} />
         </>
