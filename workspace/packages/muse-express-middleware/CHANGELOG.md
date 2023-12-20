@@ -1,5 +1,11 @@
 # @ebay/muse-express-middleware
 
+## 1.0.44
+
+### Patch Changes
+
+- Fix the exception can't be caught issue when calling api with query type "raw"
+
 ## 1.0.42
 
 ### Patch Changes
