@@ -161,7 +161,7 @@ const EditPluginModal = NiceModal.create(({ plugin, appId }) => {
     modal,
     attachPlugin,
     appId,
-    settings.siderExpandedRows,
+    settings?.siderExpandedRows,
     updateSelectedRows,
   ]);
 
