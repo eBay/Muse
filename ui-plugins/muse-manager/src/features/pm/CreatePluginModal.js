@@ -22,7 +22,7 @@ const CreatePluginModal = NiceModal.create(({ app }) => {
     columns: 1,
     fields: [
       app && {
-        key: 'app',
+        key: 'appName',
         label: 'App',
         viewMode: true,
         renderView: () => app,
@@ -78,7 +78,7 @@ const CreatePluginModal = NiceModal.create(({ app }) => {
 
   const handleFinish = useCallback(() => {
     const values = form.getFieldsValue();
-    if (app) values.app = app;
+    if (app) values.appName = app;
     jsPlugin.invoke('museManager.pm.createPluginForm.processValues', { values, form });
 
     createPlugin({ ...values })
