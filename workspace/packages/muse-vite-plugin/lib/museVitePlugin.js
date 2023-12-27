@@ -24,8 +24,9 @@ module.exports = () => {
   return {
     name: 'muse-vite-plugin',
     configureServer(server) {
-      console.log('vite server');
+      console.log('vite server2');
       theViteServer = server;
+
       try {
         // when hot reload, vite will call configureServer again, so don't repeat muse plugin registration
         muse.plugin.register(musePluginVite);
