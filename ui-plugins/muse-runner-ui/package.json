@@ -27,11 +27,12 @@
     "jest-canvas-mock": "^2.5.0",
     "jest-location-mock": "^1.0.9",
     "react-scripts": "^5.0.1",
-    "redux-mock-store": "^1.5.4"
+    "redux-mock-store": "^1.5.4",
+    "webpack-bundle-analyzer": "^4.10.1"
   },
   "dependencies": {
     "@ebay/muse-lib-antd": "^1.2.21",
-    "@ebay/muse-lib-react": "^1.2.16",
+    "@ebay/muse-lib-react": "^1.2.18",
     "@ebay/muse-vite-plugin": "^1.0.15",
     "@vitejs/plugin-react": "^4.0.4",
     "axios": "^1.5.1",

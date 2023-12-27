@@ -1,15 +1,11 @@
 const CracoLessPlugin = require('craco-less');
 const MuseCracoPlugin = require('@ebay/muse-craco-plugin');
-const MuseEbayCracoPlugin = require('@ebay/muse-ebay-craco-plugin');
 const path = require('path');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = () => {
   return {
-    plugins: [
-      { plugin: CracoLessPlugin },
-      { plugin: MuseCracoPlugin },
-      { plugin: MuseEbayCracoPlugin },
-    ],
+    plugins: [{ plugin: CracoLessPlugin }, { plugin: MuseCracoPlugin }],
     jest: {
       configure: {
         // override default jest configuration provided by @ebay/muse-craco-plugin
@@ -24,6 +20,11 @@ module.exports = () => {
           '\\.(css|less)$': path.resolve(__dirname, './tests/__mocks__/styleMock.js'),
         },
       },
-    }
+    },
+    webpack: {
+      plugins: {
+        add: [new BundleAnalyzerPlugin({ analyzerMode: 'static', openAnalyzer: false })],
+      },
+    },
   };
 };
