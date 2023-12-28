@@ -13,7 +13,7 @@
         }
       },
       "remotePlugins": [
-        "*"
+        "@ebay/muse-manager-ebay#normal:http://localhost:5174/src/index.js"
       ]
     }
   },
@@ -61,11 +61,6 @@
     "react-time-ago": "^7.2.1",
     "semver": "^7.3.7",
     "web-vitals": "^2.1.4"
-  },
-  "pnpm2": {
-    "overrides": {
-      "@ebay/muse-craco-plugin": "link:../../workspace/packages/muse-craco-plugin"
-    }
   },
   "scripts": {
     "start": "muse-cra-patch && cross-env NODE_PATH=./node_modules PORT=3061 craco start",

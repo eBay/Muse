@@ -14,6 +14,9 @@ export default defineConfig(({ command, mode }) => {
       // 'process.env': env
     },
     plugins: [react(), museVitePlugin()],
+    server: {
+      // hmr: false,
+    },
     esbuild: {
       loader: 'jsx',
       include: /src\/.*\.jsx?$/,
