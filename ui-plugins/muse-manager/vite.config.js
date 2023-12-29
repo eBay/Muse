@@ -15,7 +15,7 @@ export default defineConfig(({ command, mode }) => {
     },
     plugins: [react(), museVitePlugin()],
     server: {
-      // hmr: false,
+      hmr: false,
     },
     esbuild: {
       loader: 'jsx',
