@@ -2,7 +2,6 @@ const CracoLessPlugin = require('craco-less');
 const MuseCracoPlugin = require('@ebay/muse-craco-plugin');
 const esmModules = ['react-syntax-highlighter', '.*nice-form-react', '.*muse-lib-react'];
 const path = require('path');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = () => {
   return {
@@ -24,11 +23,6 @@ module.exports = () => {
             '@ebay/nice-form-react/src/adaptors/antdAdaptor',
         },
         transformIgnorePatterns: [`node_modules/(?!(?:.pnpm/)?(${esmModules.join('|')}))`],
-      },
-    },
-    webpack: {
-      plugins: {
-        add: [new BundleAnalyzerPlugin({ analyzerMode: 'static', openAnalyzer: false })],
       },
     },
   };

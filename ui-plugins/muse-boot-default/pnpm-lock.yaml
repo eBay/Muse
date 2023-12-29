@@ -49,9 +49,6 @@ devDependencies:
   react-scripts:
     specifier: ^5.0.1
     version: 5.0.1(@babel/plugin-syntax-flow@7.18.6)(@babel/plugin-transform-react-jsx@7.20.13)(eslint@8.33.0)(react@18.2.0)(typescript@5.1.6)
-  webpack-bundle-analyzer:
-    specifier: ^4.8.0
-    version: 4.8.0
 
 packages:
 
@@ -1781,11 +1778,6 @@ packages:
       postcss-selector-parser: 6.0.11
     dev: true
 
-  /@discoveryjs/json-ext@0.5.7:
-    resolution: {integrity: sha1-HVcr+74Ut3BOC6Dzm3SBW4SHDXA=}
-    engines: {node: '>=10.0.0'}
-    dev: true
-
   /@eslint/eslintrc@1.4.1:
     resolution: {integrity: sha1-r1h3IBmi0nG34tTCP/Tdy6PM+z4=}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
@@ -2198,10 +2190,6 @@ packages:
       source-map: 0.7.4
       webpack: 5.75.0
       webpack-dev-server: 4.11.1(webpack@5.75.0)
-    dev: true
-
-  /@polka/url@1.0.0-next.21:
-    resolution: {integrity: sha1-XeWiOFo1MJQn9gEZkrVEUU1VmqE=}
     dev: true
 
   /@rollup/plugin-babel@5.3.1(@babel/core@7.20.12)(rollup@2.79.1):
@@ -2958,11 +2946,6 @@ packages:
 
   /acorn-walk@7.2.0:
     resolution: {integrity: sha1-DeiJpgEgOQmw++B7iTjcIdLpZ7w=}
-    engines: {node: '>=0.4.0'}
-    dev: true
-
-  /acorn-walk@8.2.0:
-    resolution: {integrity: sha1-dBIQ8uJCZFRQiFOi9E0KuDt/acE=}
     engines: {node: '>=0.4.0'}
     dev: true
 
@@ -6845,10 +6828,6 @@ packages:
     resolution: {integrity: sha1-0CJTc662Uq3BvILklFM5qEJ1R3M=}
     dev: true
 
-  /lodash@4.17.21:
-    resolution: {integrity: sha1-Z5WRxWTDv/quhFTPCz3zcMPWkRw=}
-    dev: true
-
   /loose-envify@1.4.0:
     resolution: {integrity: sha1-ce5R+nvkyuwaY4OffmgtgTLTDK8=}
     hasBin: true
@@ -7042,11 +7021,6 @@ packages:
     hasBin: true
     dependencies:
       minimist: 1.2.7
-    dev: true
-
-  /mrmime@1.0.1:
-    resolution: {integrity: sha1-X5DIJfrUvdQdyRTv9dGoz9ryTyc=}
-    engines: {node: '>=10'}
     dev: true
 
   /ms@2.0.0:
@@ -7268,11 +7242,6 @@ packages:
       define-lazy-prop: 2.0.0
       is-docker: 2.2.1
       is-wsl: 2.2.0
-    dev: true
-
-  /opener@1.5.2:
-    resolution: {integrity: sha1-XTfh81B3udysQwE3InGv3rKhNZg=}
-    hasBin: true
     dev: true
 
   /optionator@0.8.3:
@@ -9075,15 +9044,6 @@ packages:
     resolution: {integrity: sha1-qaF2f4r4QVURTqq9c/mSc8j1mtk=}
     dev: true
 
-  /sirv@1.0.19:
-    resolution: {integrity: sha1-HXOXmzjH/pH8uknIUoDaqcI2O0k=}
-    engines: {node: '>= 10'}
-    dependencies:
-      '@polka/url': 1.0.0-next.21
-      mrmime: 1.0.1
-      totalist: 1.1.0
-    dev: true
-
   /sisteransi@1.0.5:
     resolution: {integrity: sha1-E01oEpd1ZDfMBcoBNw06elcQde0=}
     dev: true
@@ -9640,11 +9600,6 @@ packages:
     engines: {node: '>=0.6'}
     dev: true
 
-  /totalist@1.1.0:
-    resolution: {integrity: sha1-pNZaPlRlF3AePlw3pHpwrJf+Vt8=}
-    engines: {node: '>=6'}
-    dev: true
-
   /tough-cookie@4.1.2:
     resolution: {integrity: sha1-5T6EuF8k4LZd1Sb0ZijbbIX2uHQ=}
     engines: {node: '>=6'}
@@ -9973,26 +9928,6 @@ packages:
   /webidl-conversions@6.1.0:
     resolution: {integrity: sha1-kRG01+qArNQPUnDWZmIa+ni2lRQ=}
     engines: {node: '>=10.4'}
-    dev: true
-
-  /webpack-bundle-analyzer@4.8.0:
-    resolution: {integrity: sha1-lRuKr0kfZl0q4yXYuE2iKRV7HQQ=}
-    engines: {node: '>= 10.13.0'}
-    hasBin: true
-    dependencies:
-      '@discoveryjs/json-ext': 0.5.7
-      acorn: 8.8.2
-      acorn-walk: 8.2.0
-      chalk: 4.1.2
-      commander: 7.2.0
-      gzip-size: 6.0.0
-      lodash: 4.17.21
-      opener: 1.5.2
-      sirv: 1.0.19
-      ws: 7.5.9
-    transitivePeerDependencies:
-      - bufferutil
-      - utf-8-validate
     dev: true
 
   /webpack-dev-middleware@5.3.3(webpack@5.75.0):

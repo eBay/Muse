@@ -100,9 +100,6 @@ devDependencies:
   redux-mock-store:
     specifier: ^1.5.4
     version: artifactory.corp.ebay.com/redux-mock-store@1.5.4
-  webpack-bundle-analyzer:
-    specifier: ^4.10.1
-    version: artifactory.corp.ebay.com/webpack-bundle-analyzer@4.10.1
 
 packages:
 
@@ -2762,13 +2759,6 @@ packages:
       enabled: artifactory.corp.ebay.com/enabled@2.0.0
       kuler: artifactory.corp.ebay.com/kuler@2.0.0
 
-  artifactory.corp.ebay.com/@discoveryjs/json-ext@0.5.7:
-    resolution: {integrity: sha512-dBVuXR082gk3jsFp7Rd/JI4kytwGHecnCoTtXFb7DB6CNHp4rg5k1bhg0nWdLGLnOV71lmDzGQaLMy8iPLY0pw==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@discoveryjs/json-ext/-/json-ext-0.5.7.tgz}
-    name: '@discoveryjs/json-ext'
-    version: 0.5.7
-    engines: {node: '>=10.0.0'}
-    dev: true
-
   artifactory.corp.ebay.com/@ebay/muse-core@1.0.34:
     resolution: {integrity: sha512-G7jZxsL+4s1B1jyiQFEEmjNSZP7MMqy5JHgZZ6/DmV5wWY5y+btk5xszxZRnxPhB5KqlZ58J2CF+FzRmNNStWw==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-core/-/@ebay/muse-core-1.0.34.tgz}
     name: '@ebay/muse-core'
@@ -3956,12 +3946,6 @@ packages:
       source-map: artifactory.corp.ebay.com/source-map@0.7.4
       webpack: artifactory.corp.ebay.com/webpack@5.88.2
       webpack-dev-server: artifactory.corp.ebay.com/webpack-dev-server@4.15.1(webpack@5.88.2)
-    dev: true
-
-  artifactory.corp.ebay.com/@polka/url@1.0.0-next.24:
-    resolution: {integrity: sha512-2LuNTFBIO0m7kKIQvvPHN6UE63VjpmL9rnEEaOOaiSPbZK+zUOYIzBAWcED+3XYzhYsd/0mD57VdxAEqqV52CQ==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@polka/url/-/url-1.0.0-next.24.tgz}
-    name: '@polka/url'
-    version: 1.0.0-next.24
     dev: true
 
   artifactory.corp.ebay.com/@rc-component/color-picker@1.2.0(react-dom@18.2.0)(react@18.2.0):
@@ -7590,12 +7574,6 @@ packages:
     version: 1.11.9
     dev: false
 
-  artifactory.corp.ebay.com/debounce@1.2.1:
-    resolution: {integrity: sha512-XRRe6Glud4rd/ZGQfiV1ruXSfbvfJedlV9Y6zOlP+2K04vBYiJEte6stfFkCP03aMnY5tsipamumUjL14fofug==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/debounce/-/debounce-1.2.1.tgz}
-    name: debounce
-    version: 1.2.1
-    dev: true
-
   artifactory.corp.ebay.com/debug@2.6.9:
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/debug/-/debug-2.6.9.tgz}
     name: debug
@@ -10513,13 +10491,6 @@ packages:
     dependencies:
       isobject: artifactory.corp.ebay.com/isobject@3.0.1
 
-  artifactory.corp.ebay.com/is-plain-object@5.0.0:
-    resolution: {integrity: sha512-VRSzKkbMm5jMDoKLbltAkFQ5Qr7VDiTFGXxYFXXowVj387GeGNOCsOH6Msy00SGZ3Fp84b1Naa1psqgcCIEP5Q==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/is-plain-object/-/is-plain-object-5.0.0.tgz}
-    name: is-plain-object
-    version: 5.0.0
-    engines: {node: '>=0.10.0'}
-    dev: true
-
   artifactory.corp.ebay.com/is-potential-custom-element-name@1.0.1:
     resolution: {integrity: sha512-bCYeRA2rVibKZd+s2625gGnGF/t7DSqDs4dP7CrLA1m7jKWz6pps0LpYLJN8Q64HtmPKJ1hrN3nzPNKFEKOUiQ==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/is-potential-custom-element-name/-/is-potential-custom-element-name-1.0.1.tgz}
     name: is-potential-custom-element-name
@@ -12578,13 +12549,6 @@ packages:
       color-name: artifactory.corp.ebay.com/color-name@1.1.4
     dev: true
 
-  artifactory.corp.ebay.com/mrmime@2.0.0:
-    resolution: {integrity: sha512-eu38+hdgojoyq63s+yTpN4XMBdt5l8HhMhc4VKLO9KM5caLIBvUm4thi7fFaxyTmCKeNnXZ5pAlBwCUnhA09uw==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/mrmime/-/mrmime-2.0.0.tgz}
-    name: mrmime
-    version: 2.0.0
-    engines: {node: '>=10'}
-    dev: true
-
   artifactory.corp.ebay.com/ms@2.0.0:
     resolution: {integrity: sha512-Tpp60P6IUJDTuOq/5Z8cdskzJujfwqfOTkrwIwj7IRISpnkJnT6SyJ4PCPnGMoFjC9ddhal5KVIYtAt97ix05A==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/ms/-/ms-2.0.0.tgz}
     name: ms
@@ -12971,13 +12935,6 @@ packages:
       define-lazy-prop: artifactory.corp.ebay.com/define-lazy-prop@2.0.0
       is-docker: artifactory.corp.ebay.com/is-docker@2.2.1
       is-wsl: artifactory.corp.ebay.com/is-wsl@2.2.0
-    dev: true
-
-  artifactory.corp.ebay.com/opener@1.5.2:
-    resolution: {integrity: sha512-ur5UIdyw5Y7yEj9wLzhqXiy6GZ3Mwx0yGI+5sMn2r0N0v3cKJvUmFH5yPP+WXh9e0xfyzyJX95D8l088DNFj7A==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/opener/-/opener-1.5.2.tgz}
-    name: opener
-    version: 1.5.2
-    hasBin: true
     dev: true
 
   artifactory.corp.ebay.com/optionator@0.9.3:
@@ -16362,17 +16319,6 @@ packages:
     dependencies:
       is-arrayish: artifactory.corp.ebay.com/is-arrayish@0.3.2
 
-  artifactory.corp.ebay.com/sirv@2.0.4:
-    resolution: {integrity: sha512-94Bdh3cC2PKrbgSOUqTiGPWVZeSiXfKOVZNJniWoqrWrRkB1CJzBU3NEbiTsPcYy1lDsANA/THzS+9WBiy5nfQ==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/sirv/-/sirv-2.0.4.tgz}
-    name: sirv
-    version: 2.0.4
-    engines: {node: '>= 10'}
-    dependencies:
-      '@polka/url': artifactory.corp.ebay.com/@polka/url@1.0.0-next.24
-      mrmime: artifactory.corp.ebay.com/mrmime@2.0.0
-      totalist: artifactory.corp.ebay.com/totalist@3.0.1
-    dev: true
-
   artifactory.corp.ebay.com/sisteransi@1.0.5:
     resolution: {integrity: sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/sisteransi/-/sisteransi-1.0.5.tgz}
     name: sisteransi
@@ -17266,13 +17212,6 @@ packages:
     version: 1.0.1
     engines: {node: '>=0.6'}
 
-  artifactory.corp.ebay.com/totalist@3.0.1:
-    resolution: {integrity: sha512-sf4i37nQ2LBx4m3wB74y+ubopq6W/dIzXg0FDGjsYnZHVa1Da8FH853wlL2gtUhg+xJXjfk3kUZS3BRoQeoQBQ==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/totalist/-/totalist-3.0.1.tgz}
-    name: totalist
-    version: 3.0.1
-    engines: {node: '>=6'}
-    dev: true
-
   artifactory.corp.ebay.com/tough-cookie@4.1.3:
     resolution: {integrity: sha512-aX/y5pVRkfRnfmuX+OdbSdXvPe6ieKX/G2s7e98f4poJHnqH3281gDPm/metm6E/WRamfx7WC4HUqkWHfQHprw==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/tough-cookie/-/tough-cookie-4.1.3.tgz}
     name: tough-cookie
@@ -17875,31 +17814,6 @@ packages:
     name: webidl-conversions
     version: 6.1.0
     engines: {node: '>=10.4'}
-    dev: true
-
-  artifactory.corp.ebay.com/webpack-bundle-analyzer@4.10.1:
-    resolution: {integrity: sha512-s3P7pgexgT/HTUSYgxJyn28A+99mmLq4HsJepMPzu0R8ImJc52QNqaFYW1Z2z2uIb1/J3eYgaAWVpaC+v/1aAQ==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/webpack-bundle-analyzer/-/webpack-bundle-analyzer-4.10.1.tgz}
-    name: webpack-bundle-analyzer
-    version: 4.10.1
-    engines: {node: '>= 10.13.0'}
-    hasBin: true
-    dependencies:
-      '@discoveryjs/json-ext': artifactory.corp.ebay.com/@discoveryjs/json-ext@0.5.7
-      acorn: artifactory.corp.ebay.com/acorn@8.11.2
-      acorn-walk: artifactory.corp.ebay.com/acorn-walk@8.2.0
-      commander: artifactory.corp.ebay.com/commander@7.2.0
-      debounce: artifactory.corp.ebay.com/debounce@1.2.1
-      escape-string-regexp: artifactory.corp.ebay.com/escape-string-regexp@4.0.0
-      gzip-size: artifactory.corp.ebay.com/gzip-size@6.0.0
-      html-escaper: artifactory.corp.ebay.com/html-escaper@2.0.2
-      is-plain-object: artifactory.corp.ebay.com/is-plain-object@5.0.0
-      opener: artifactory.corp.ebay.com/opener@1.5.2
-      picocolors: artifactory.corp.ebay.com/picocolors@1.0.0
-      sirv: artifactory.corp.ebay.com/sirv@2.0.4
-      ws: artifactory.corp.ebay.com/ws@7.5.9
-    transitivePeerDependencies:
-      - bufferutil
-      - utf-8-validate
     dev: true
 
   artifactory.corp.ebay.com/webpack-dev-middleware@5.3.3(webpack@5.88.2):

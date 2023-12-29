@@ -42,8 +42,7 @@
     "react-scripts": "^5.0.1",
     "tailwindcss": "^3.1.8",
     "util": "^0.12.5",
-    "vite": "^4.3.9",
-    "webpack-bundle-analyzer": "^4.10.1"
+    "vite": "^4.3.9"
   },
   "dependencies": {
     "@ebay/muse-client": "^1.0.26",

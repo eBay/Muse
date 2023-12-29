@@ -7,7 +7,6 @@ const esmModules = [
   '.*muse-lib-antd',
 ];
 const path = require('path');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = () => {
   return {
@@ -29,11 +28,6 @@ module.exports = () => {
             '@ebay/nice-form-react/src/adaptors/antdAdaptor',
         },
         transformIgnorePatterns: [`node_modules/(?!(?:.pnpm/)?(${esmModules.join('|')}))`],
-      },
-    },
-    webpack: {
-      plugins: {
-        add: [new BundleAnalyzerPlugin({ analyzerMode: 'static', openAnalyzer: false })],
       },
     },
   };

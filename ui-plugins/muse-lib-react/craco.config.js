@@ -1,7 +1,6 @@
 const CracoLessPlugin = require('craco-less');
 const MuseCracoPlugin = require('@ebay/muse-craco-plugin');
 const path = require('path');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = () => {
   return {
@@ -19,11 +18,6 @@ module.exports = () => {
             path.resolve(__dirname, './tests/__mocks__/fileMock.js'),
           '\\.(css|less)$': path.resolve(__dirname, './tests/__mocks__/styleMock.js'),
         },
-      },
-    },
-    webpack: {
-      plugins: {
-        add: [new BundleAnalyzerPlugin({ analyzerMode: 'static', openAnalyzer: false })],
       },
     },
   };
