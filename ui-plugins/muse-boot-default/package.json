@@ -25,8 +25,6 @@
     "build:dev": "muse-cra-patch && cross-env NODE_ENV=development FAST_REFRESH=false craco build",
     "test": "muse-cra-patch && craco test --ci --watchAll=false --passWithNoTests --coverage",
     "test:dev": "muse-cra-patch && craco test --coverage",
-    "prestart": "muse-ebay-dev check-updates",
-    "prebuild": "muse-ebay-dev check-updates",
     "deploy": "pnpm build && muse release && muse deploy musemanager"
   },
   "devDependencies": {
@@ -34,16 +32,14 @@
     "@craco/craco": "7.1.0",
     "@ebay/muse-core": "1.0.36",
     "@ebay/muse-cra-patch": "^1.0.2",
-    "@ebay/muse-craco-plugin": "^3.0.18",
-    "@ebay/muse-ebay-dev": "1.0.26",
+    "@ebay/muse-craco-plugin": "^3.0.19",
     "@ebay/muse-modules": "1.0.25",
     "@testing-library/jest-dom": "^6.1.4",
     "@testing-library/react": "^14.0.0",
     "cross-env": "^7.0.3",
     "eslint": "^8.20.0",
     "react": "^18.2.0",
-    "react-scripts": "^5.0.1",
-    "webpack-bundle-analyzer": "^4.8.0"
+    "react-scripts": "^5.0.1"
   },
   "browserslist": {
     "production": [
@@ -58,7 +54,7 @@
     ]
   },
   "dependencies": {
-    "@ebay/muse-dev-utils": "^1.0.52",
+    "@ebay/muse-dev-utils": "^1.0.53",
     "base64-inline-loader": "^2.0.1"
   }
 }

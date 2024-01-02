@@ -159,25 +159,24 @@ module.exports = ({ basePath = '/api/v2' } = {}) => {
         if (!args[0].author || (!superMode && author)) args[0].author = author;
       }
 
-      if (req.query.type === 'raw') {
-        _.invoke(muse, apiKey, ...args).then((result) => {
-          res.setHeader(
-            'content-type',
-            result.headers['content-type'] || result.headers['Content-Type'],
-          );
-          result.data.pipe(res);
-        });
+      const result = await _.invoke(muse, apiKey, ...args);
+      if (req.query.type === 'raw') {        
+        res.setHeader(
+          'content-type',
+          result.headers['content-type'] || result.headers['Content-Type'],
+        );
+        result.data.pipe(res);
       } else {
-        const result = { data: await _.invoke(muse, apiKey, ...args) };
+        const dataResult = { data: result };
         await muse.utils.asyncInvoke('museExpressMiddleware.api.after', {
-          result,
+          dataResult,
           apiKey,
           args,
           req,
           res,
           basePath,
         });
-        res.send(JSON.stringify(result));
+        res.send(JSON.stringify(dataResult));
         return;
       }
     } catch (err) {

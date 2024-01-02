@@ -13,7 +13,7 @@
         }
       },
       "remotePlugins": [
-        "*"
+        "@ebay/muse-manager-ebay#normal:http://localhost:5174/src/index.js"
       ]
     }
   },
@@ -28,11 +28,9 @@
     "@craco/craco": "7.1.0",
     "@ebay/muse-core": "^1.0.36",
     "@ebay/muse-cra-patch": "^1.0.2",
-    "@ebay/muse-craco-plugin": "^3.0.18",
-    "@ebay/muse-dev-utils": "^1.0.52",
-    "@ebay/muse-ebay-craco-plugin": "^1.1.1",
-    "@ebay/muse-ebay-dev": "^1.0.26",
-    "@ebay/muse-express-middleware": "^1.0.42",
+    "@ebay/muse-craco-plugin": "^3.0.19",
+    "@ebay/muse-dev-utils": "^1.0.53",
+    "@ebay/muse-express-middleware": "^1.0.44",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
@@ -43,14 +41,15 @@
     "postcss": "^8.4.16",
     "react-scripts": "^5.0.1",
     "tailwindcss": "^3.1.8",
+    "util": "^0.12.5",
     "vite": "^4.3.9"
   },
   "dependencies": {
     "@ebay/muse-client": "^1.0.26",
     "@ebay/muse-lib-antd": "^1.2.22",
-    "@ebay/muse-lib-react": "1.2.17",
+    "@ebay/muse-lib-react": "1.2.18",
     "@ebay/muse-plugin-acl": "^1.0.12",
-    "@ebay/muse-vite-plugin": "^1.0.19",
+    "@ebay/muse-vite-plugin": "^1.0.20",
     "@tanstack/react-query": "^4.28.0",
     "find-root": "^1.1.0",
     "flat": "^5.0.2",
@@ -62,16 +61,9 @@
     "semver": "^7.3.7",
     "web-vitals": "^2.1.4"
   },
-  "pnpm2": {
-    "overrides": {
-      "@ebay/muse-craco-plugin": "link:../../workspace/packages/muse-craco-plugin"
-    }
-  },
   "scripts": {
     "start": "muse-cra-patch && cross-env NODE_PATH=./node_modules PORT=3061 craco start",
-    "prestart": "muse-ebay-dev check-updates",
-    "prebuild": "muse-ebay-dev check-updates",
-    "vite": "vite --host",
+    "vite": "NODE_PATH=./node_modules vite --host",
     "build": "muse-cra-patch && cross-env NODE_PATH=./node_modules craco build",
     "build:dev": "muse-cra-patch && cross-env NODE_PATH=./node_modules NODE_ENV=development FAST_REFRESH=false craco build",
     "build:test": "muse-cra-patch && cross-env NODE_PATH=./node_modules MUSE_TEST_BUILD=true FAST_REFRESH=false craco build",

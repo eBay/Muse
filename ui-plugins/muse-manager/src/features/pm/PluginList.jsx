@@ -232,11 +232,13 @@ export default function PluginList({ app }) {
               <Button
                 type="link"
                 style={{ textAlign: 'left', padding: 0, color }}
-                onClick={() => {NiceModal.show('muse-manager.release-info-modal', {
-                  plugin,
-                  app,
-                  version: versionDeployed
-                })}}
+                onClick={() => {
+                  NiceModal.show('muse-manager.release-info-modal', {
+                    plugin,
+                    app,
+                    version: versionDeployed,
+                  });
+                }}
               >
                 v{versionDeployed}
               </Button>
@@ -283,7 +285,7 @@ export default function PluginList({ app }) {
 
   return (
     <div>
-      {!app && <h1>Plugins</h1>}
+      {!app && <h1>Plugins2</h1>}
       <RequestStatus loading={isLoading} error={error} loadingMode="skeleton" />
       {data && (
         <div>
