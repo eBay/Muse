@@ -1,4 +1,5 @@
 const fs = require('fs-extra');
+const path = require('path');
 const findRoot = require('find-root');
 const { getMuseLibs, getLocalPlugins, getPkgJson } = require('@ebay/muse-dev-utils/lib/utils');
 const { findMuseModule } = require('@ebay/muse-modules');
@@ -11,9 +12,7 @@ module.exports = () => {
       getMuseLibs().forEach((lib) => {
         Object.assign(
           allMuseModules,
-          fs.readJsonSync(
-            fs.readJsonSync(path.join(lib.path, 'build/dev/lib-manifest.json')).content,
-          ),
+          fs.readJsonSync(path.join(lib.path, 'build/dev/lib-manifest.json')).content,
         );
       });
       build.onLoad({ filter: /\.m?[jt]sx?$/ }, async (args) => {

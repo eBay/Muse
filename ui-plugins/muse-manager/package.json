@@ -13,7 +13,7 @@
         }
       },
       "remotePlugins": [
-        "*"
+        "@ebay/muse-manager-ebay#normal:http://localhost:5174/src/index.js"
       ]
     }
   },
@@ -61,14 +61,9 @@
     "semver": "^7.3.7",
     "web-vitals": "^2.1.4"
   },
-  "pnpm2": {
-    "overrides": {
-      "@ebay/muse-craco-plugin": "link:../../workspace/packages/muse-craco-plugin"
-    }
-  },
   "scripts": {
     "start": "muse-cra-patch && cross-env NODE_PATH=./node_modules PORT=3061 craco start",
-    "vite": "vite --host",
+    "vite": "NODE_PATH=./node_modules vite --host",
     "build": "muse-cra-patch && cross-env NODE_PATH=./node_modules craco build",
     "build:dev": "muse-cra-patch && cross-env NODE_PATH=./node_modules NODE_ENV=development FAST_REFRESH=false craco build",
     "build:test": "muse-cra-patch && cross-env NODE_PATH=./node_modules MUSE_TEST_BUILD=true FAST_REFRESH=false craco build",
