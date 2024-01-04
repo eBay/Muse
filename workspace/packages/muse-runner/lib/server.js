@@ -167,6 +167,7 @@ app.post(
     if (!app) throw new Error(`App not found: ${id}`);
 
     const appRunner = await runner.startApp({ id, app: app.app, env: app.env, port: app.port });
+
     appRunner.on('exit', (code) => {
       handleRunningDataChange();
       io.emit({
@@ -186,7 +187,7 @@ app.post(
               type: 'resolve-promise',
               payload: {
                 promiseId: msg.payload.promiseId,
-                result: getAppConfig(id),
+                result: { ...getAppConfig(id), port: appRunner.port },
               },
             });
             break;
