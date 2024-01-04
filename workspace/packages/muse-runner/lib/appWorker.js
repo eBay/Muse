@@ -5,7 +5,6 @@ import _ from 'lodash';
 import cors from 'cors';
 import path from 'path';
 import crypto from 'crypto';
-import http from 'http';
 import museDevUtils from '@ebay/muse-dev-utils/lib/utils.js';
 import * as url from 'url';
 import museAssetsMiddleware from '@ebay/muse-express-middleware/lib/assets.js';
@@ -54,6 +53,15 @@ muse.plugin.register({
         ctx.indexHtml = ctx.indexHtml.replace(
           '<head>',
           `<head>
+<script async src="https://ga.jspm.io/npm:es-module-shims@1.8.2/dist/es-module-shims.js"></script>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "/@react-refresh": "http://localhost:${port}/@react-refresh",
+      }
+    }
+  </script>
   <script type="module">
     import RefreshRuntime from "http://localhost:${port}/@react-refresh"
     RefreshRuntime.injectIntoGlobalHook(window)

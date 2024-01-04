@@ -26,7 +26,7 @@ export default class PluginRunner extends EventEmitter {
     log.info('startScript', startScript);
     const cmd = new Command({
       cwd: dir,
-      cmd: 'npm run start',
+      cmd: 'pnpm start',
       // cmd: `${
       //   pluginInfo.pkgJson.scripts.prestart ? 'npm run prestart && ' : ''
       // }npm exec -c "${startScript}"`,
