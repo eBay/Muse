@@ -48,22 +48,24 @@ muse.plugin.register({
         // ctx.indexHtml = await theViteServer.transformIndexHtml(ctx.req.url, ctx.indexHtml);
         const appConfig = await callParentApi('get-app-config');
 
-        const firstVitePort = appConfig.plugins?.find((p) => 1 || p.devServer === 'vite')?.port;
-        if (!firstVitePort) return;
+        const vitePorts = appConfig.plugins
+          ?.filter((p) => 1 || p.devServer === 'vite')
+          .map((p) => p.port)
+          .filter(Boolean);
+        if (!vitePorts || !vitePorts.length) return;
+        const importMap = { imports: {} };
+        vitePorts.forEach((vitePort) => {
+          importMap.imports[`http://localhost:${vitePort}/@react-refresh`] = `/@react-refresh`;
+        });
         ctx.indexHtml = ctx.indexHtml.replace(
           '<head>',
           `<head>
-<script async src="https://ga.jspm.io/npm:es-module-shims@1.8.2/dist/es-module-shims.js"></script>
 
   <script type="importmap">
-    {
-      "imports": {
-        "/@react-refresh": "http://localhost:${port}/@react-refresh",
-      }
-    }
+    ${JSON.stringify(importMap, null, 2)}
   </script>
   <script type="module">
-    import RefreshRuntime from "http://localhost:${port}/@react-refresh"
+    import RefreshRuntime from "/@react-refresh"
     RefreshRuntime.injectIntoGlobalHook(window)
     window.$RefreshReg$ = () => {}
     window.$RefreshSig$ = () => (type) => type
