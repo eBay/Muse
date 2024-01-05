@@ -9,13 +9,13 @@ export default defineConfig(({ command, mode }) => {
   return {
     define: {
       'process.env.REACT_APP_MUSE_API_ENDPOINT': JSON.stringify(env.REACT_APP_MUSE_API_ENDPOINT),
-
-      // If you want to exposes all env variables, which is not recommended
-      // 'process.env': env
     },
     plugins: [react(), museVitePlugin()],
     server: {
-      hmr: false,
+      // if port is specified in env, use it strictly
+      // otherwise vite uses 5173 as default port and will try to use other ports if 5173 is occupied
+      port: process.env.PORT,
+      strictPort: true,
     },
     esbuild: {
       loader: 'jsx',

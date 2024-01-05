@@ -18,7 +18,6 @@ const InitAbilityComp = () => {
   Object.assign(ability, useAbility());
   return null;
 };
-
 // Initialize the desired locales.
 JavascriptTimeAgo.locale(en);
 plugin.register({

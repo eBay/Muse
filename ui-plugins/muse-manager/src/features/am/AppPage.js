@@ -69,7 +69,8 @@ export default function AppPage() {
               <AppSelect value={appName} onChange={handleAppChange} />
             )}
           </h1>
-          {appNameActions?.length > 0 && appNameActions.map((appNameAct) => appNameAct.node)}
+          {appNameActions?.length > 0 &&
+            appNameActions.filter(Boolean).map((appNameAct) => appNameAct.node)}
         </span>
       ),
     },
