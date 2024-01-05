@@ -1,6 +1,6 @@
 {
   "name": "@ebay/muse-core",
-  "version": "1.0.36",
+  "version": "1.0.37",
   "main": "lib/index.js",
   "license": "MIT",
   "scripts": {
@@ -12,7 +12,8 @@
     "registry": "https://artifactory.corp.ebay.com/artifactory/api/npm/npm-muse"
   },
   "files": [
-    "lib"
+    "lib",
+    "muse.png"
   ],
   "dependencies": {
     "ajv": "^8.11.0",
