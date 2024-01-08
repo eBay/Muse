@@ -60,7 +60,7 @@ const useRunnerData = () => {
   const data = useMemo(() => {
     if (runningData && configData) {
       const appList = _.cloneDeep(configData.appList || []);
-      const { linkedPlugins, pluginDir } = configData;
+      const { plugins: pluginsConfig } = configData;
       const runningPluginByDir = _.keyBy(runningData.plugins, 'dir');
       runningData?.apps?.forEach((runningApp) => {
         const found = appList.find((item) => item.id === runningApp.id);
@@ -69,16 +69,16 @@ const useRunnerData = () => {
 
       appList.forEach((app) => {
         app.plugins?.forEach((p) => {
-          p.dir = p.dir || configData?.pluginDir?.[p.name] || null;
+          p.dir = p.dir || configData?.plugins?.[p.name]?.dir || null;
           p.appId = app.id;
           if (p.dir && runningPluginByDir[p.dir]) {
             p.running = runningPluginByDir[p.dir];
           }
-          if (linkedPlugins?.[p.name]) {
-            p.linkedPlugins = linkedPlugins[p.name].map((lp) => {
+          if (pluginsConfig?.[p.name]?.linkedPlugins) {
+            p.linkedPlugins = pluginsConfig?.[p.name]?.linkedPlugins.map((lp) => {
               return {
                 name: lp.name,
-                dir: pluginDir?.[lp.name],
+                dir: pluginsConfig?.[lp.name]?.dir,
                 mainPlugin: p.name,
               };
             });

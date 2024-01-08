@@ -11,7 +11,7 @@ const LinkPluginModal = NiceModal.create(({ plugin, appId }) => {
   const queryClient = useQueryClient();
   const {
     plugins,
-    configData: { pluginDir },
+    configData: { plugins: pluginsConfig },
   } = useRunnerData();
 
   const { mutateAsync: linkPlugin } = useMutation({
@@ -42,7 +42,7 @@ const LinkPluginModal = NiceModal.create(({ plugin, appId }) => {
           placeholder: 'Select a plugin',
           showSearch: true,
           onChange: (value) => {
-            form.setFieldValue('dir', pluginDir?.[value] || '');
+            form.setFieldValue('dir', pluginsConfig?.[value]?.dir || '');
           },
         },
         options: plugins?.map((p) => p.name),

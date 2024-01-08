@@ -4,14 +4,13 @@ import { Modal, Form } from 'antd';
 import NiceForm from '@ebay/nice-form-react';
 import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query';
 import useRunnerData from './useRunnerData';
-import _ from 'lodash';
 
 import api from './api';
 
 const EditPluginModal = NiceModal.create(({ plugin, appId }) => {
   const queryClient = useQueryClient();
   const {
-    configData: { pluginDir },
+    configData: { plugins: pluginsConfig },
     settings,
   } = useRunnerData();
 
@@ -63,7 +62,7 @@ const EditPluginModal = NiceModal.create(({ plugin, appId }) => {
               showSearch: true,
               loading: !plugins,
               onChange: (value) => {
-                form.setFieldValue('dir', pluginDir?.[value] || '');
+                form.setFieldValue('dir', pluginsConfig?.[value]?.dir || '');
               },
             },
             disabled: !plugins,
@@ -107,6 +106,19 @@ const EditPluginModal = NiceModal.create(({ plugin, appId }) => {
         ),
       },
       {
+        key: 'devServer',
+        label: 'Dev Server',
+        required: false,
+        tooltip: 'Whether.',
+        widget: 'radio-group',
+        options: [
+          ['webpack', 'Webpack'],
+          ['vite', 'Vite'],
+        ],
+        initialValue: 'webpack',
+        condition: () => form.getFieldValue('mode') === 'local',
+      },
+      {
         key: 'dir',
         label: 'Folder',
         required: true,
@@ -139,7 +151,11 @@ const EditPluginModal = NiceModal.create(({ plugin, appId }) => {
     form.validateFields().then(async (values) => {
       // update plugin only set the local folder
       if (values.mode === 'local') {
-        await updatePlugin({ dir: values.dir, pluginName: values.name });
+        await updatePlugin({
+          dir: values.dir,
+          pluginName: values.name,
+          devServer: values.devServer,
+        });
       }
 
       if (appId) {
