@@ -3,6 +3,7 @@ import MuseRunner from './lib/MuseRunner.js';
 
 import axios from 'axios';
 const museRunner = new MuseRunner();
+import upgrade240102 from './lib/upgrades/up_240102.js';
 import https, { Agent } from 'https';
 
 const httpsAgent = new Agent({
@@ -12,21 +13,21 @@ const httpsAgent = new Agent({
   // await museRunner.startApp({ app: 'musemanager' });
   // await museRunner.startPlugin({ dir: '/Users/pwang7/muse/muse-next/ui-plugins/muse-manager' });
   // museRunner.attachPluginsToApp(5000, '@ebay/muse-manager');
-
-  const client = axios.create({
-    baseURL: 'https://api.muse.vip.ebay.com/v2',
-    timeout: 30000,
-    httpsAgent,
-  });
-  for (let i = 0; i < 1; i++) {
-    console.time('time');
-    const res = await client.get(`https://api.muse.vip.ebay.com/v2/muse-data/muse.npm.versions`);
-    // const res = await fetch(`https://api.muse.vip.ebay.com/v2/muse-data/muse.npm.versions`, {
-    //   agent: httpsAgent,
-    // });
-    console.log(res.data);
-    console.timeEnd('time');
-  }
+  upgrade240102();
+  // const client = axios.create({
+  //   baseURL: 'https://api.muse.vip.ebay.com/v2',
+  //   timeout: 30000,
+  //   httpsAgent,
+  // });
+  // for (let i = 0; i < 1; i++) {
+  //   console.time('time');
+  //   const res = await client.get(`https://api.muse.vip.ebay.com/v2/muse-data/muse.npm.versions`);
+  //   // const res = await fetch(`https://api.muse.vip.ebay.com/v2/muse-data/muse.npm.versions`, {
+  //   //   agent: httpsAgent,
+  //   // });
+  //   console.log(res.data);
+  //   console.timeEnd('time');
+  // }
 
   // var options = {
   //   host: 'api.muse.vip.ebay.com',

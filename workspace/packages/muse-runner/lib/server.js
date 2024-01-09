@@ -136,12 +136,12 @@ app.post('/api/clear-msg-cache', (req, res) => {
 
 const getAppConfig = (id) => {
   const appList = config.get('appList', []);
-  const pluginDir = config.get('pluginDir', {});
-  const linkedPlugins = config.get('linkedPlugins', {});
+  const plugins = config.get('plugins', {});
   const runningPlugins = runner.runningPlugins;
   const app = _.find(appList, { id });
   app.plugins?.forEach((p) => {
-    p.dir = pluginDir?.[p.name];
+    const pluginConfig = plugins[p.name] || {};
+    p.dir = pluginConfig.dir;
     const found = runningPlugins.find((p2) => p2.pluginInfo.name === p.name);
     if (found) {
       p.running = true;
@@ -149,10 +149,10 @@ const getAppConfig = (id) => {
       p.type = found.pluginInfo.type;
     }
 
-    if (linkedPlugins[p.name]) {
-      p.linkedPlugins = linkedPlugins[p.name].map((lp) => ({
+    if (pluginConfig.linkedPlugins) {
+      p.linkedPlugins = pluginConfig.linkedPlugins.map((lp) => ({
         name: lp.name,
-        dir: pluginDir[lp.name],
+        dir: plugins[lp.name]?.dir,
       }));
     }
   });
@@ -260,13 +260,12 @@ app.post(
   '/api/start-plugin',
   handleAsyncError(async (req, res) => {
     const { pluginName } = req.body;
-    const pluginDir = config.get('pluginDir', {});
-    const dir = pluginDir[pluginName];
-    const linkedPlugins = config.get('linkedPlugins', {});
-    const MUSE_LOCAL_PLUGINS = (
-      linkedPlugins[pluginName]?.map((p) => pluginDir[p.name] || '') || []
-    ).join(';');
+    const plugins = config.get('plugins', {});
+    const dir = plugins[pluginName]?.dir;
     if (!dir) throw new Error(`Plugin folder not found: ${pluginName}`);
+    const MUSE_LOCAL_PLUGINS = (
+      plugins[pluginName]?.linkedPlugins?.map((p) => plugins[p.name]?.dir || '') || []
+    ).join(';');
     const pluginRunner = await runner.startPlugin({
       dir,
       env: {
@@ -311,11 +310,12 @@ app.post(
 app.post(
   '/api/update-plugin',
   handleAsyncError(async (req, res) => {
-    const { dir, pluginName } = req.body;
+    const { dir, pluginName, devServer } = req.body;
     if (dir && !fs.existsSync(dir)) throw new Error(`Folder not exist: ${dir}`);
-    const pluginDir = config.get('pluginDir', {});
-    pluginDir[pluginName] = dir;
-    config.set('pluginDir', pluginDir);
+    const plugins = config.get('plugins', {});
+    if (!plugins[pluginName]) plugins[pluginName] = {};
+    Object.assign(plugins[pluginName], { dir, devServer });
+
     res.send('ok');
   }),
 );
@@ -366,14 +366,17 @@ app.post(
   handleAsyncError(async (req, res) => {
     const { mainPlugin, linkedPlugin } = req.body;
     if (mainPlugin === linkedPlugin) throw new Error('Cannot link with self');
-    const linkedPlugins = config.get('linkedPlugins', {});
-    if (!linkedPlugins[mainPlugin]) {
-      linkedPlugins[mainPlugin] = [];
+    const plugins = config.get('plugins', {});
+    if (!plugins[mainPlugin]) {
+      plugins[mainPlugin] = {};
     }
-    if (!_.find(linkedPlugins[mainPlugin], { name: linkedPlugin })) {
-      linkedPlugins[mainPlugin].push({ name: linkedPlugin });
+    if (!plugins[mainPlugin].linkedPlugins) {
+      plugins[mainPlugin].linkedPlugins = [];
     }
-    config.set('linkedPlugins', linkedPlugins);
+    if (!_.find(plugins[mainPlugin].linkedPlugins, { name: linkedPlugin })) {
+      plugins[mainPlugin].linkedPlugins.push({ name: linkedPlugin });
+    }
+    config.set('plugins', plugins);
     res.send('ok');
   }),
 );
@@ -382,11 +385,12 @@ app.post(
   '/api/unlink-plugin',
   handleAsyncError(async (req, res) => {
     const { mainPlugin, linkedPlugin } = req.body;
-    const linkedPlugins = config.get('linkedPlugins', []);
-    if (linkedPlugins[mainPlugin]) {
-      _.remove(linkedPlugins[mainPlugin], (p) => p.name === linkedPlugin);
+    const plugins = config.get('plugins', {});
+
+    if (plugins[mainPlugin]?.linkedPlugins) {
+      _.remove(plugins[mainPlugin]?.linkedPlugins, (p) => p.name === linkedPlugin);
     }
-    config.set('linkedPlugins', linkedPlugins);
+    config.set('plugins', plugins);
     res.send('ok');
   }),
 );

@@ -2,6 +2,7 @@
 import * as url from 'url';
 import path from 'path';
 import fs from 'fs-extra';
+import upgrade240102 from '../lib/upgrades/up_240102.js';
 
 // Enforce the cwd is the root of the project
 // So that it won't use unexpected muse config file.
@@ -13,5 +14,6 @@ if (process.argv.includes('--version') || process.argv.includes('-v')) {
   console.log(pkgJson.version);
   process.exit(0);
 }
+upgrade240102();
 
 import('../lib/server.js');

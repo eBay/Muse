@@ -1,5 +1,6 @@
 import { workerData, parentPort } from 'node:worker_threads';
 import express from 'express';
+import fs from 'fs-extra';
 import muse from '@ebay/muse-core';
 import _ from 'lodash';
 import cors from 'cors';
@@ -44,12 +45,12 @@ muse.plugin.register({
   museMiddleware: {
     app: {
       processIndexHtml: async (ctx) => {
-        // This is to get the vite server to transform the index.html
-        // ctx.indexHtml = await theViteServer.transformIndexHtml(ctx.req.url, ctx.indexHtml);
+        // This is to support vite-react
+        // This may need to be implemented as a plugin
         const appConfig = await callParentApi('get-app-config');
 
         const vitePorts = appConfig.plugins
-          ?.filter((p) => 1 || p.devServer === 'vite')
+          ?.filter((p) => p.devServer === 'vite' && p.running)
           .map((p) => p.port)
           .filter(Boolean);
         if (!vitePorts || !vitePorts.length) return;
@@ -62,7 +63,7 @@ muse.plugin.register({
           `<head>
 
   <script type="importmap">
-    ${JSON.stringify(importMap, null, 2)}
+${JSON.stringify(importMap, null, 2)}
   </script>
   <script type="module">
     import RefreshRuntime from "/@react-refresh"
@@ -131,8 +132,11 @@ muse.plugin.register({
               break;
             case 'local': {
               if (p.running) {
-                if (1 || p.devServer === 'vite') {
-                  deployedPlugin.url = `http://localhost:${p.port}/src/index.js`;
+                if (p.devServer === 'vite') {
+                  // TODO: entry file maybe index.js, jsx, ts, tsx
+                  const museConfig = fs.readJsonSync(path.join(p.dir, 'package.json')).muse;
+                  const entryFile = museConfig.appIndex || 'src/index.js';
+                  deployedPlugin.url = `http://localhost:${p.port}/${entryFile}`;
                   deployedPlugin.esModule = true;
                 } else {
                   deployedPlugin.url = `http://localhost:${p.port}/${
@@ -250,31 +254,8 @@ muse.plugin.register({
 const app = express();
 app.use(cors());
 
-// Proxy /@react-refresh and /@vite/client to the vite dev server
 // TODO: vite/client seems useless but just for no error
 app.use('/@react-refresh', express.static(path.join(__dirname, 'reactFastRefresh.js')));
-// app.get('/@react-refresh', async (req, res) => {
-//   const appConfig = await callParentApi('get-app-config');
-
-//   // Find the first vite dev server, use it to serve `/@react-refresh`
-//   const vitePort = appConfig?.plugins?.find(
-//     (p) => 1 || (p.mode === 'local' && p.running && p.devServer === 'vite'),
-//   )?.port;
-
-//   if (!vitePort) {
-//     res.status(404).send('Not found');
-//   }
-//   res.setHeader('Access-Control-Allow-Origin', '*');
-
-//   const targetUrl = `http://localhost:${vitePort}${req.originalUrl}`;
-
-//   http
-//     .get(targetUrl, function(resApi) {
-//       res.writeHead(resApi.statusCode);
-//       resApi.pipe(res);
-//     })
-//     .end();
-// });
 
 app.use(museAssetsMiddleware({}));
 

@@ -46,9 +46,9 @@ export default ({ app, io, config }) => {
   };
 
   const handleConfigChange = async () => {
-    const pluginDir = config.get('pluginDir', {});
+    const plugins = config.get('plugins', {});
 
-    for (let dir of Object.values(pluginDir)) {
+    for (let dir of Object.values(plugins).map((p) => p.dir)) {
       if (!fs.existsSync(dir)) continue;
       try {
         const gitDir = await getGitDir(dir);
@@ -64,7 +64,7 @@ export default ({ app, io, config }) => {
     }
   };
 
-  config.onDidChange('pluginDir', handleConfigChange);
+  config.onDidChange('plugins', handleConfigChange);
 
   handleConfigChange();
   app.get('/api/git-status', (req, res) => {
