@@ -24,7 +24,6 @@ module.exports = () => {
   return {
     name: 'muse-vite-plugin',
     configureServer(server) {
-      console.log('vite server2');
       theViteServer = server;
 
       try {

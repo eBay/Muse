@@ -29,7 +29,7 @@ const getPluginByUrl = (s) => {
     name: nameArr[0] || url,
     type: nameArr[1] || 'normal',
     url,
-    esModule: url.includes('/src/'),
+    esModule: url.includes('/src/'), // TODO: this is a tempory check for esmodule plugin
   };
 };
 
