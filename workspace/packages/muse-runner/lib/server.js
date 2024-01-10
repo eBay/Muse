@@ -310,12 +310,12 @@ app.post(
 app.post(
   '/api/update-plugin',
   handleAsyncError(async (req, res) => {
-    const { dir, pluginName, devServer } = req.body;
+    const { dir, pluginName, ...rest } = req.body;
     if (dir && !fs.existsSync(dir)) throw new Error(`Folder not exist: ${dir}`);
     const plugins = config.get('plugins', {});
     if (!plugins[pluginName]) plugins[pluginName] = {};
-    Object.assign(plugins[pluginName], { dir, devServer });
-
+    Object.assign(plugins[pluginName], { dir, ...rest });
+    config.set('plugins', plugins);
     res.send('ok');
   }),
 );

@@ -69,13 +69,14 @@ const useRunnerData = () => {
 
       appList.forEach((app) => {
         app.plugins?.forEach((p) => {
-          p.dir = p.dir || configData?.plugins?.[p.name]?.dir || null;
           p.appId = app.id;
+          Object.assign(p, configData?.plugins?.[p.name] || {});
+          // p.dir = configData?.plugins?.[p.name]?.dir || null;
           if (p.dir && runningPluginByDir[p.dir]) {
             p.running = runningPluginByDir[p.dir];
           }
-          if (pluginsConfig?.[p.name]?.linkedPlugins) {
-            p.linkedPlugins = pluginsConfig?.[p.name]?.linkedPlugins.map((lp) => {
+          if (p.linkedPlugins) {
+            p.linkedPlugins = p.linkedPlugins.map((lp) => {
               return {
                 name: lp.name,
                 dir: pluginsConfig?.[lp.name]?.dir,
