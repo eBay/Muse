@@ -35,7 +35,6 @@ describe('muse-boot-default', () => {
       },
     ],
     serviceWorker: jest.fn(),
-    museClientCode: createHash('md5').update('127.0.0.1').digest('hex'),
     plugins: [
       { name: 'muse-boot-default', type: 'boot', version: '1.0.0', jest: true },
       { name: 'init-test', type: 'init', version: '1.0.0', jest: true },
