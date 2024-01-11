@@ -123,7 +123,8 @@ export default function MetaMenu({ meta = {}, onClick, baseExtPoint, autoSort = 
     items: newItems,
   };
 
-  if (menuMode === 'inline') menuProps.inlineCollapsed = !!meta.collapsed;
+  if (menuMode === 'inline' && !meta.hasOwnProperty('collapsed'))
+    menuProps.inlineCollapsed = !!meta.collapsed;
 
   if (meta.trigger) {
     const { trigger } = meta;

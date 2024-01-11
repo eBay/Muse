@@ -63,7 +63,7 @@
     "@craco/craco": "7.1.0",
     "@ebay/muse-core": "1.0.36",
     "@ebay/muse-cra-patch": "^1.0.2",
-    "@ebay/muse-craco-plugin": "^3.0.18",
+    "@ebay/muse-craco-plugin": "^3.0.19",
     "@ebay/muse-ebay-craco-plugin": "^1.1.1",
     "@ebay/muse-ebay-dev": "1.0.26",
     "@testing-library/jest-dom": "^6.1.3",

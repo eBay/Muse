@@ -216,6 +216,7 @@ export default function AppVariables({ app }) {
             confirm: {
               title: 'Are you sure to delete the variable?',
               okText: 'Delete',
+              key: 'delete',
               okButtonProps: {
                 danger: true,
               },
@@ -304,7 +305,7 @@ export default function AppVariables({ app }) {
         type="link"
         className="mt-3"
         onClick={() => handleNewVar()}
-        title={!canUpdateApp && 'No Permission.'}
+        title={!canUpdateApp ? 'No Permission.' : undefined}
         disabled={!canUpdateApp}
       >
         + Add a variable

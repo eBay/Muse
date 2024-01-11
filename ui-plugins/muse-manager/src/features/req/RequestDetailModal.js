@@ -86,7 +86,7 @@ const RequestDetailModalInner = ({ request, retry = true }) => {
         key: 'statuses',
         label: 'Status',
         order: 30,
-        renderView: () => {
+        viewWidget: () => {
           return <RequestStatuses request={request} />;
         },
       },
@@ -99,7 +99,7 @@ const RequestDetailModalInner = ({ request, retry = true }) => {
         key: 'createdAt',
         label: 'Started at',
         order: 50,
-        renderView: (timestamp) => {
+        viewWidget: ({ value: timestamp }) => {
           return timestamp ? <TimeAgo date={new Date(timestamp)} /> : 'N/A';
         },
       },
@@ -109,7 +109,7 @@ const RequestDetailModalInner = ({ request, retry = true }) => {
         order: 60,
         clear: 'left',
         colSpan: 2,
-        renderView: (payload) => {
+        viewWidget: ({ value: payload }) => {
           return <pre className="bg-slate-100 p-1">{JSON.stringify(payload, null, 2)}</pre>;
         },
       },
@@ -218,23 +218,20 @@ const RequestDetailModalInner = ({ request, retry = true }) => {
 
   const bodyNodes = [
     {
-      key: 'request-status',
       order: 10,
-      node: <RequestStatus loading={pending} error={error} />,
+      node: <RequestStatus key="request-status" loading={pending} error={error} />,
     },
     {
-      key: 'nice-form',
       order: 20,
       node: (
-        <Form form={form}>
+        <Form form={form} key="nice-form">
           <NiceForm meta={meta} />
         </Form>
       ),
     },
     {
-      key: 'modal-footer',
       order: 10000,
-      node: <ModalFooter items={footerItems} />,
+      node: <ModalFooter key="modal-footer" items={footerItems} />,
     },
   ];
   return (

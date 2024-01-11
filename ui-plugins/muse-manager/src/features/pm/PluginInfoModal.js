@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
 import { Modal, message, Select, Form, Tag } from 'antd';
 import NiceForm from '@ebay/nice-form-react';
@@ -34,7 +34,7 @@ const PluginInfoModal = NiceModal.create(({ plugin, app }) => {
           ['boot', 'Boot'],
         ],
         viewMode: true,
-        renderView: (v) => {
+        viewWidget: ({ value: v }) => {
           return (
             <Tag color="blue">
               {{
@@ -63,8 +63,14 @@ const PluginInfoModal = NiceModal.create(({ plugin, app }) => {
           popupClassName: 'hidden',
           tokenSeparators: [' '],
         },
-        renderView: (owners) => {
-          return owners?.map((o) => <Tag>{o}</Tag>);
+        viewWidget: ({ value: owners }) => {
+          return (
+            <span>
+              {owners?.map((o) => (
+                <Tag key={o}>{o}</Tag>
+              ))}
+            </span>
+          );
         },
         tooltip:
           'If ACL plugin enabled, only owners can manage the plugin. Seperated by whitespace.',
@@ -113,7 +119,7 @@ const PluginInfoModal = NiceModal.create(({ plugin, app }) => {
   nodes.push({
     order: 10,
     node: (
-      <>
+      <React.Fragment key="form">
         <RequestStatus loading={updatePluginPending} error={updatePluginError} />
         <Form
           layout="horizontal"
@@ -123,7 +129,7 @@ const PluginInfoModal = NiceModal.create(({ plugin, app }) => {
         >
           <NiceForm meta={meta} />
         </Form>
-      </>
+      </React.Fragment>
     ),
   });
 
