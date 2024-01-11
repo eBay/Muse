@@ -50,16 +50,16 @@ const PluginCell = ({ plugin, appId, onMoveUp = noop, onMoveDown = noop, isFirst
 
   useEffect(() => {
     if (startPluginError) {
-      Modal.error({
-        title: 'Plugin start failed.',
-        content: (
-          <>
-            <p>{startPluginError?.message}:</p>
-            <p className="text-red-500">{startPluginError?.response?.data}</p>
-            <p>Please check if the local folder is correct.</p>
-          </>
-        ),
-      });
+      // Modal.error({
+      //   title: 'Plugin start failed.',
+      //   content: (
+      //     <>
+      //       <p>{startPluginError?.message}:</p>
+      //       <p className="text-red-500">{startPluginError?.response?.data}</p>
+      //       <p>Please check if the local folder is correct.</p>
+      //     </>
+      //   ),
+      // });
       // reset the error state, so that it will not popup again when fast refresh or other re-render cases.
       resetStartPluginState();
     }
