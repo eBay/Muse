@@ -98,7 +98,7 @@ async function start() {
   /* Handle forcePlugins query parameter */
   const searchParams = new URLSearchParams(window.location.search);
   const forcePluginStr = searchParams.get('forcePlugins');
-  if (forcePluginStr && isE2eTest) {
+  if (forcePluginStr) {
     const forcePluginById = forcePluginStr
       .split(';')
       .filter(Boolean)
