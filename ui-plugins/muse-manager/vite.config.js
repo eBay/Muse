@@ -17,30 +17,10 @@ export default defineConfig(({ command, mode }) => {
       port: process.env.PORT,
       strictPort: true,
     },
-    esbuild: {
-      loader: 'jsx',
-      include: /src\/.*\.jsx?$/,
-      exclude: [],
-    },
     optimizeDeps: {
       needsInterop: [],
       esbuildOptions: {
-        loader: {
-          '.js': 'jsx',
-        },
-        plugins: [
-          // This plugin can be deleted if you use `tsx/jsx` for all React files.
-          {
-            name: 'load-js-files-as-jsx',
-            setup(build) {
-              build.onLoad({ filter: /src\\.*\.js$/ }, async (args) => ({
-                loader: 'jsx',
-                contents: await fs.readFile(args.path, 'utf8'),
-              }));
-            },
-          },
-          museEsbuildPlugin(),
-        ],
+        plugins: [museEsbuildPlugin()],
       },
     },
   };
