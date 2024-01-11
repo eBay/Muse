@@ -147,6 +147,7 @@ const getAppConfig = (id) => {
       p.running = true;
       p.port = found.port;
       p.type = found.pluginInfo.type;
+      p.devServer = pluginConfig.devServer;
     }
 
     if (pluginConfig.linkedPlugins) {
