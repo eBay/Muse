@@ -67,7 +67,7 @@ const AppCell = ({ app, onMoveUp = noop, onMoveDown = noop, isFirst, isLast }) =
     },
     {
       key: 'attach-plugin',
-      label: 'Add Plugin Config',
+      label: 'Add Plugin',
       icon: <PlusOutlined />,
     },
     {
