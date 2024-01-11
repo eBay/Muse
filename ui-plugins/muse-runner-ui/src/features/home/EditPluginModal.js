@@ -43,6 +43,9 @@ const EditPluginModal = NiceModal.create(({ plugin, appId }) => {
   });
 
   const modal = useModal();
+  const [form] = Form.useForm();
+
+  const selectedPlugin = plugins?.find((p) => p.name === form.getFieldValue('name'));
   const formMeta = {
     initialValues: { ...plugin, mode: plugin?.mode || 'local' },
     fields: [
@@ -109,8 +112,10 @@ const EditPluginModal = NiceModal.create(({ plugin, appId }) => {
         key: 'devServer',
         label: 'Dev Server',
         required: false,
-        tooltip: 'Whether.',
+        tooltip:
+          'Whether use webpack or vite as dev server. Lib plugin has not been supported yet. For webpack it runs "start" script, for vite it runs "dev" script.',
         widget: 'radio-group',
+        disabled: !selectedPlugin || selectedPlugin.type === 'lib',
         options: [
           ['webpack', 'Webpack'],
           ['vite', 'Vite'],
@@ -142,10 +147,10 @@ const EditPluginModal = NiceModal.create(({ plugin, appId }) => {
       },
     ],
   };
-  const [form] = Form.useForm();
 
   // This is necessary if the condition is set on the field
   Form.useWatch('mode', form);
+  Form.useWatch('name', form);
 
   const handleFinish = useCallback(async () => {
     form.validateFields().then(async (values) => {
@@ -154,7 +159,7 @@ const EditPluginModal = NiceModal.create(({ plugin, appId }) => {
         await updatePlugin({
           dir: values.dir,
           pluginName: values.name,
-          devServer: values.devServer,
+          devServer: selectedPlugin?.type === 'lib' ? undefined : values.devServer,
         });
       }
 
@@ -179,6 +184,7 @@ const EditPluginModal = NiceModal.create(({ plugin, appId }) => {
     appId,
     settings?.siderExpandedRows,
     updateSelectedRows,
+    selectedPlugin?.type,
   ]);
 
   return (

@@ -18,10 +18,10 @@ const utils = {
       devConfig: pkgJson.muse?.devConfig,
     };
   },
-  getPkgManager: () => {
+  getPkgManager: (dir) => {
     const pmStatus = Object.entries(pkgManagers)
       .map(([name, lockFile]) => {
-        return fs.existsSync(lockFile) ? name : null;
+        return fs.existsSync(path.join(dir, lockFile)) ? name : null;
       })
       .filter(Boolean);
 
