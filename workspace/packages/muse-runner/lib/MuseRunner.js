@@ -41,7 +41,7 @@ export default class MuseRunner {
     await app.stop();
     _.pull(this.runningApps, app);
   }
-  async startPlugin({ dir, port, env }) {
+  async startPlugin({ dir, port, env, plugin }) {
     const found = this.runningPlugins.find((r) => r.dir === dir);
     if (found) {
       return found;
@@ -51,7 +51,7 @@ export default class MuseRunner {
     pluginRunner.on('exit', () => {
       _.pull(this.runningPlugins, pluginRunner);
     });
-    await pluginRunner.start({ dir, port, env });
+    await pluginRunner.start({ dir, port, env, plugin });
     this.runningPlugins.push(pluginRunner);
     this.runningApps.forEach((appRunner) => {
       appRunner.worker.postMessage({

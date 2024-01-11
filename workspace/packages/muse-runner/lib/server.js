@@ -268,6 +268,7 @@ app.post(
     ).join(';');
     const pluginRunner = await runner.startPlugin({
       dir,
+      plugin: plugins[pluginName],
       env: {
         MUSE_LOCAL_PLUGINS,
       },

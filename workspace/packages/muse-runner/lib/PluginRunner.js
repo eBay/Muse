@@ -14,19 +14,29 @@ export default class PluginRunner extends EventEmitter {
   constructor() {
     super();
   }
-  async start({ dir, port, env, startScriptName }) {
+  async start({ dir, port, env, plugin }) {
     const realPort = port || (await getPort({ port: portNumbers(30000, 31000) }));
     const pluginInfo = utils.getPluginInfo(dir);
     pluginInfo.dir = dir;
-    startScriptName = startScriptName || 'start';
-    const startScript = pluginInfo.pkgJson.scripts[startScriptName].replace(
-      /PORT=\d+/,
-      `PORT=${realPort}`,
-    );
-    log.info('startScript', startScript);
+    const devScriptName = plugin.devScriptName || plugin.devServer === 'vite' ? 'dev' : 'start';
+    const devScript = pluginInfo.pkgJson.scripts[devScriptName];
+    if (!devScript) {
+      throw new Error(
+        `Missing "${devScriptName}" script in the package.json of the plugin: "${pluginInfo.pkgJson.name}".`,
+      );
+    }
+
+    if (devScript.split(/ /).some((s) => s.startsWith('PORT='))) {
+      throw new Error(
+        `Should not have PORT env variable in the package script when using Muse Runner: "${devScriptName}": "${devScript}".`,
+      );
+    }
+
+    const pkgManager = utils.getPkgManager(dir);
+
     const cmd = new Command({
       cwd: dir,
-      cmd: 'pnpm start',
+      cmd: `${pkgManager} run ${devScriptName}`,
       // cmd: `${
       //   pluginInfo.pkgJson.scripts.prestart ? 'npm run prestart && ' : ''
       // }npm exec -c "${startScript}"`,
