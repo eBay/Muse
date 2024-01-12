@@ -62,28 +62,28 @@ export default function AppVariables({ app }) {
       // if var name is changed, remove the old var name
       if (varName !== values.variableName) {
         // remove app var
-        updateUnset.push(`variables.${varName}`);
+        updateUnset.push(['variables', varName]);
 
         // remove env vars
         envs.forEach((envName) => {
-          updateUnset.push(`envs.${envName}.variables.${varName}`);
+          updateUnset.push(['envs', envName, 'variables', varName]);
         });
         varName = values.variableName;
       }
 
       if (values.defaultVariableValue) {
-        updateSet.push({ path: `variables.${varName}`, value: values.defaultVariableValue });
+        updateSet.push({ path: [`variables`, varName], value: values.defaultVariableValue });
       } else {
-        updateUnset.push(`variables.${varName}`);
+        updateUnset.push(['variables', varName]);
       }
       envs.forEach((envName) => {
         if (values.envs?.[envName]) {
           updateSet.push({
-            path: `envs.${envName}.variables.${varName}`,
+            path: ['envs', envName, 'variables', varName],
             value: values.envs[envName],
           });
         } else {
-          updateUnset.push(`envs.${envName}.variables.${varName}`);
+          updateUnset.push(['envs', envName, 'variables', varName]);
         }
       });
 
@@ -112,8 +112,8 @@ export default function AppVariables({ app }) {
       const varName = record.variableName;
       await updateVars({
         unset: [
-          `variables.${varName}`,
-          ...envs.map((envName) => `envs.${envName}.variables.${varName}`),
+          ['variables', varName],
+          ...envs.map((envName) => ['envs', envName, 'variables', varName]),
         ],
       });
     })();

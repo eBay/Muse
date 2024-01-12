@@ -22,15 +22,6 @@ export default function VarEditableCell({
           return Promise.resolve();
         },
       },
-      {
-        message: `Name should not include '.'`,
-        validator: (rule, value) => {
-          if (value.includes('.')) {
-            return Promise.reject();
-          }
-          return Promise.resolve();
-        },
-      },
     );
   }
   if (editing && restProps.style) {
