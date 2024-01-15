@@ -64,7 +64,7 @@ const PreviewModal = NiceModal.create(({ app }) => {
         label: 'Preview Link',
         viewMode: true,
         tooltip: 'Use this link to load specified versions of plugins',
-        renderView: () => {
+        viewWidget: () => {
           const {
             pluginToAdd,
             environment = envNames?.[0],

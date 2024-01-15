@@ -256,6 +256,7 @@ export default function PluginVariables({ app }) {
             highlight: true,
             danger: true,
             confirm: {
+              key: 'delete',
               title: 'Are you sure to delete the variable?',
               okText: 'Delete',
               okButtonProps: {

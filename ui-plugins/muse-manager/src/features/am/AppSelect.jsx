@@ -14,7 +14,7 @@ export default function AppSelect({ onChange, value }) {
       onChange={onChange}
       showSearch
     >
-      {!apps && <Option value={null}>Loading...</Option>}
+      {!apps && <Option value="">Loading...</Option>}
       {apps &&
         apps.map((app) => (
           <Option value={app.name} key={app.name}>

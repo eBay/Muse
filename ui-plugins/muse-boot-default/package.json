@@ -54,7 +54,7 @@
     ]
   },
   "dependencies": {
-    "@ebay/muse-dev-utils": "^1.0.52",
+    "@ebay/muse-dev-utils": "^1.0.53",
     "base64-inline-loader": "^2.0.1"
   }
 }

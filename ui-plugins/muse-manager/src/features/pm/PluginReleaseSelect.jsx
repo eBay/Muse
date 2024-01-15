@@ -6,8 +6,19 @@ import { usePollingMuseData } from '../../hooks';
 const { Option } = Select;
 
 export default function PluginReleaseSelect({ value, onChange, plugin, app, filter, ...rest }) {
+  let { data: releases, error } = usePollingMuseData(`muse.plugin-releases.${plugin?.name}`);
+
   if (plugin) {
-    return PluginReleaseSelectWithPlugin({ value, onChange, plugin, app, filter, ...rest });
+    return PluginReleaseSelectWithPlugin({
+      value,
+      onChange,
+      plugin,
+      app,
+      filter,
+      releases,
+      error,
+      ...rest,
+    });
   } else {
     return (
       <div className="plugin-manager_home-plugin-release-select">
@@ -25,8 +36,17 @@ export default function PluginReleaseSelect({ value, onChange, plugin, app, filt
 }
 
 // plugin is truthy
-function PluginReleaseSelectWithPlugin({ value, onChange, plugin, app, filter, ...rest }) {
-  let { data: releases, error } = usePollingMuseData(`muse.plugin-releases.${plugin.name}`);
+function PluginReleaseSelectWithPlugin({
+  value,
+  onChange,
+  plugin,
+  app,
+  filter,
+  releases,
+  error,
+  ...rest
+}) {
+  // let { data: releases, error } = usePollingMuseData(`muse.plugin-releases.${plugin.name}`);
   if (error) return 'Failed, please refresh to retry.';
   if (filter && releases) releases = releases.filter(filter);
 
