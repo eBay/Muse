@@ -24,9 +24,6 @@
     "test": "muse-cra-patch && craco test --ci --watchAll=false --passWithNoTests --coverage",
     "test:dev": "muse-cra-patch && craco test --coverage",
     "test:config": "muse-cra-patch && craco test --showConfig",
-    "prestart": "muse-ebay-dev check-updates",
-    "prebuild": "muse-ebay-dev check-updates",
-    "e2e-test": "muse-ebay-dev e2e-test",
     "deploy": "pnpm build && pnpm build:dev && muse release && muse deploy nateapp staging"
   },
   "browserslist": {
@@ -46,9 +43,7 @@
     "@craco/craco": "7.1.0",
     "@ebay/muse-core": "^1.0.37",
     "@ebay/muse-cra-patch": "^1.0.2",
-    "@ebay/muse-craco-plugin": "^3.0.19",
-    "@ebay/muse-ebay-craco-plugin": "^1.1.1",
-    "@ebay/muse-ebay-dev": "^1.0.26",
+    "@ebay/muse-craco-plugin": "^3.0.13",
     "@testing-library/jest-dom": "^6.1.3",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.5.1",

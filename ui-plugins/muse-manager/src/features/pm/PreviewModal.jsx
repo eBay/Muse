@@ -77,7 +77,7 @@ const PreviewModal = NiceModal.create(({ app }) => {
           const host =
             'https://' +
             _.castArray(envs?.[environment].url)[0] +
-            `?clientCode=${window.MUSE_GLOBAL.museClientCode}&forcePlugins=` +
+            `?forcePlugins=` +
             forcePlugins
               .map(({ name, version }) => {
                 const type = allPlugins?.find((p) => p.name === name)?.type;

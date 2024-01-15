@@ -58,35 +58,35 @@ export default function PluginVariables({ app }) {
       // if var name is changed, remove the old var name
       if (varName !== values.variableName) {
         // remove app plugin var
-        updateUnset.push(`pluginVariables.${record.pluginName}.${varName}`);
+        updateUnset.push(['pluginVariables', record.pluginName, varName]);
 
         // remove env plugin vars
         envs.forEach((envName) => {
-          updateUnset.push(`envs.${envName}.pluginVariables.${record.pluginName}.${varName}`);
+          updateUnset.push(['envs', envName, 'pluginVariables', record.pluginName, varName]);
         });
         varName = values.variableName;
       }
 
-      const varPath = `pluginVariables.${record.pluginName}.${varName}`;
+      const varPath = ['pluginVariables', record.pluginName, varName];
       // set app plugin variable
       if (values.defaultVariableValue) {
         updateSet.push({
-          path: `${varPath}`,
+          path: varPath,
           value: values.defaultVariableValue,
         });
       } else {
-        updateUnset.push(`${varPath}`);
+        updateUnset.push(varPath);
       }
 
       // set env plugin variables
       envs.forEach((envName) => {
         if (values.envs?.[envName]) {
           updateSet.push({
-            path: `envs.${envName}.${varPath}`,
+            path: ['envs', envName, ...varPath],
             value: values.envs[envName],
           });
         } else {
-          updateUnset.push(`envs.${envName}.${varPath}`);
+          updateUnset.push(['envs', envName, ...varPath]);
         }
       });
 
@@ -115,10 +115,10 @@ export default function PluginVariables({ app }) {
   };
   const handleDelete = (record) => {
     (async () => {
-      const varPath = `pluginVariables.${record.pluginName}.${record.variableName}`;
+      const varPath = ['pluginVariables', record.pluginName, record.variableName];
       await updateVars(
         {
-          unset: [varPath, ...envs.map((envName) => `envs.${envName}.${varPath}`)],
+          unset: [varPath, ...envs.map((envName) => ['envs', envName, ...varPath])],
         },
         'delete',
       );

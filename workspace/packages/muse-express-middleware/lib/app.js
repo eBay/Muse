@@ -3,8 +3,8 @@ const museCore = require('@ebay/muse-core');
 const fs = require('fs');
 const logger = museCore.logger.createLogger('muse-express-middleware.app');
 const path = require('path');
-const crypto = require('crypto');
-const requestIp = require('request-ip');
+// const crypto = require('crypto');
+// const requestIp = require('request-ip');
 
 const defaultTemplate = `
 <!doctype html>
@@ -185,18 +185,6 @@ module.exports = ({
           ? path.join(req.baseUrl || '/', serviceWorker)
           : false,
     };
-
-    try {
-      // Sometimes this failed because clientIp not got
-      const clientIp = requestIp.getClientIp(req);
-
-      museGlobal.museClientCode = crypto
-        .createHash('md5')
-        .update(clientIp)
-        .digest('hex');
-    } catch (err) {
-      logger.error(`Failed to create muse client code: ${err?.message}`);
-    }
 
     museCore.plugin.invoke('museMiddleware.app.processMuseGlobal', museGlobal);
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
