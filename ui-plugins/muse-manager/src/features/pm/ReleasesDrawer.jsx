@@ -7,6 +7,7 @@ import ReactMarkdown from 'react-markdown';
 import { RequestStatus, DropdownMenu } from '@ebay/muse-lib-antd/src/features/common';
 import { useAbility, usePollingMuseData, useMuseMutation, useSyncStatus } from '../../hooks';
 import { extendArray } from '@ebay/muse-lib-antd/src/utils';
+import Nodes from '../common/Nodes';
 
 const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
   const modal = useModal();
@@ -166,44 +167,57 @@ const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
     },
   ];
 
-  const renderBody = useCallback(
-    (item) => (
-      <div className="markdown-wrapper">
-        <ReactMarkdown children={item.description} />
-      </div>
-    ),
-    [],
-  );
+  const renderBody = useCallback((item) => {
+    const nodes = [
+      {
+        order: 10,
+        node: (
+          <div className="markdown-wrapper" key="markdown-desc">
+            <ReactMarkdown children={item.description} />
+          </div>
+        ),
+      },
+    ];
+    return (
+      <Nodes
+        items={nodes}
+        extName="expandNodes"
+        extBase="museManager.pm.releaseList"
+        extArgs={{ items: nodes, release: item }}
+      />
+    );
+  }, []);
   extendArray(columns, 'columns', 'museManager.pm.releaseList', { plugin, app, releases });
 
-  const nodes = [];
-  nodes.push({
-    order: 30,
-    node: (
-      <Table
-        key="release-table"
-        rowKey={'version'}
-        dataSource={releases}
-        columns={columns}
-        expandedRowRender={renderBody}
-        rowExpandable={(item) => item.description}
-        pagination={{
-          showTotal: (total) => `Total ${total} items`,
-          pageSize: 100,
-        }}
-      />
-    ),
-  });
-  extendArray(nodes, 'nodes', 'museManager.pm.releaseList', {
-    plugin,
-    app,
-    releases,
-  });
-
+  const nodes = [
+    {
+      order: 30,
+      node: (
+        <Table
+          key="release-table"
+          rowKey={'version'}
+          dataSource={releases}
+          columns={columns}
+          expandable={{ expandedRowRender: renderBody, rowExpandable: (item) => item.description }}
+          pagination={{
+            showTotal: (total) => `Total ${total} items`,
+            pageSize: 100,
+          }}
+        />
+      ),
+    },
+  ];
   return (
     <Drawer {...antdDrawerV5(modal)} title={`Releases of ${plugin.name}`} width="1200px">
       <RequestStatus loading={isLoading} error={error} loadingMode="skeleton" />
-      {!isLoading && nodes.map((n) => n.node)}
+      {!isLoading && (
+        <Nodes
+          items={nodes}
+          extName="nodes"
+          extBase="museManager.pm.releaseList"
+          extArgs={{ items: nodes, plugin, app, releases }}
+        />
+      )}
     </Drawer>
   );
 });
