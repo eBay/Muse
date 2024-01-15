@@ -1,15 +1,9 @@
 const MuseCracoPlugin = require('@ebay/muse-craco-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const path = require('path');
 
 module.exports = () => {
   return {
     plugins: [{ plugin: MuseCracoPlugin, options: { skipMuseJestMocks: true } }],
-    webpack: {
-      plugins: {
-        add: [new BundleAnalyzerPlugin({ analyzerMode: 'static', openAnalyzer: false })],
-      },
-    },
     jest: {
       configure: {
         // override default jest configuration provided by @ebay/muse-craco-plugin

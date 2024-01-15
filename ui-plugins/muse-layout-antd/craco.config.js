@@ -1,6 +1,5 @@
 const CracoLessPlugin = require('craco-less');
 const MuseCracoPlugin = require('@ebay/muse-craco-plugin');
-const MuseEbayCracoPlugin = require('@ebay/muse-ebay-craco-plugin');
 const esmModules = [
   '.*react-syntax-highlighter',
   '.*nice-form-react',
@@ -11,11 +10,7 @@ const path = require('path');
 
 module.exports = () => {
   return {
-    plugins: [
-      { plugin: CracoLessPlugin },
-      { plugin: MuseCracoPlugin },
-      { plugin: MuseEbayCracoPlugin },
-    ],
+    plugins: [{ plugin: CracoLessPlugin }, { plugin: MuseCracoPlugin }],
     jest: {
       configure: {
         // override default jest configuration provided by @ebay/muse-craco-plugin

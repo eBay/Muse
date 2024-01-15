@@ -31,9 +31,6 @@
     "test": "muse-cra-patch && cross-env NODE_PATH=./node_modules craco test --ci --watchAll=false --passWithNoTests --coverage",
     "test:dev": "muse-cra-patch && cross-env NODE_PATH=./node_modules craco test --coverage",
     "test:config": "muse-cra-patch && cross-env NODE_PATH=./node_modules craco test --showConfig",
-    "prestart": "muse-ebay-dev check-updates",
-    "prebuild": "muse-ebay-dev check-updates",
-    "e2e-test": "muse-ebay-dev e2e-test",
     "deploy": "pnpm build && pnpm build:dev && muse release && muse deploy nateapp"
   },
   "dependencies": {
@@ -64,8 +61,6 @@
     "@ebay/muse-core": "1.0.36",
     "@ebay/muse-cra-patch": "^1.0.2",
     "@ebay/muse-craco-plugin": "^3.0.18",
-    "@ebay/muse-ebay-craco-plugin": "^1.1.1",
-    "@ebay/muse-ebay-dev": "1.0.26",
     "@testing-library/jest-dom": "^6.1.3",
     "@testing-library/react": "^14.0.0",
     "@types/node": "18.11.9",
