@@ -1,7 +1,9 @@
 import React from 'react';
 import Icon, { DeleteOutlined } from '@ant-design/icons';
 import api from './api';
-import { ReactComponent as VSCodeIcon } from './vscode.svg';
+
+import vscodeIcon from './vscode.svg';
+
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 const LinkedPluginCell = ({ plugin, onRemove }) => {
@@ -24,8 +26,9 @@ const LinkedPluginCell = ({ plugin, onRemove }) => {
         - {plugin.name}
       </span>
       {plugin.dir ? (
-        <Icon
-          component={VSCodeIcon}
+        <img
+          src={vscodeIcon}
+          alt=""
           onClick={() => api.post('/open-code', { dir: plugin.dir })}
           title="Open in VSCode"
           className="text-emerald-500 cursor-pointer scale-150 justify-self-center"
