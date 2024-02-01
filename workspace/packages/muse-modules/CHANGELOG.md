@@ -1,5 +1,11 @@
 # @ebay/muse-modules
 
+## 1.0.27
+
+### Patch Changes
+
+- Upvers"
+
 ## 1.0.26
 
 ### Patch Changes

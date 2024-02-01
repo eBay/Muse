@@ -1,5 +1,14 @@
 # @ebay/muse-express-middleware
 
+## 1.0.46
+
+### Patch Changes
+
+- Upvers"
+- Updated dependencies
+  - @ebay/muse-core@1.0.37
+  - @ebay/muse-modules-analyzer@1.0.10
+
 ## 1.0.45
 
 ### Patch Changes

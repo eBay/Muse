@@ -1,5 +1,15 @@
 # @ebay/muse-cli
 
+## 1.0.24
+
+### Patch Changes
+
+- Upvers"
+- Updated dependencies
+  - @ebay/muse-core@1.0.37
+  - @ebay/muse-modules-analyzer@1.0.10
+  - @ebay/muse-simple-server@1.0.26
+
 ## 1.0.23
 
 ### Patch Changes
