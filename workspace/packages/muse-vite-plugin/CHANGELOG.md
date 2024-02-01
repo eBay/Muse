@@ -1,5 +1,11 @@
 # @ebay/muse-vite-plugin
 
+## 1.0.22
+
+### Patch Changes
+
+- Up vite plugin
+
 ## 1.0.21
 
 ### Patch Changes
