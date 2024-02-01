@@ -1,5 +1,11 @@
 # @ebay/muse-modules
 
+## 1.0.26
+
+### Patch Changes
+
+- vite update
+
 ## 1.0.25
 
 ### Patch Changes

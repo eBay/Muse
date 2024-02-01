@@ -1,5 +1,11 @@
 # @ebay/muse-express-middleware
 
+## 1.0.45
+
+### Patch Changes
+
+- vite update
+
 ## 1.0.44
 
 ### Patch Changes
