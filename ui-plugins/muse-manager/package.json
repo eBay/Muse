@@ -11,14 +11,8 @@
         "variables": {
           "museApiEndpoint": "https://musenextsvc.vip.qa.ebay.com/api/v2"
         }
-      },
-      "remotePlugins2": [
-        "@ebay/muse-manager-ebay#normal:http://localhost:5174/src/index.js"
-      ]
+      }
     }
-  },
-  "publishConfig": {
-    "registry": "https://artifactory.corp.ebay.com/artifactory/api/npm/npm-muse"
   },
   "files": [
     "build"
@@ -34,7 +28,7 @@
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
-    "@vitejs/plugin-react": "4.0.0",
+    "@vitejs/plugin-react": "4.2.1",
     "autoprefixer": "^10.4.8",
     "craco-less": "^3.0.1",
     "cross-env": "^7.0.3",
@@ -42,7 +36,7 @@
     "react-scripts": "^5.0.1",
     "tailwindcss": "^3.1.8",
     "util": "^0.12.5",
-    "vite": "^4.3.9"
+    "vite": "^5.0.12"
   },
   "dependencies": {
     "@ebay/muse-client": "^1.0.27",
@@ -63,7 +57,7 @@
   },
   "scripts": {
     "start": "muse-cra-patch && cross-env NODE_PATH=./node_modules craco start",
-    "dev": "NODE_PATH=./node_modules vite --host",
+    "dev": "vite --host",
     "build": "muse-cra-patch && cross-env NODE_PATH=./node_modules craco build",
     "build:dev": "muse-cra-patch && cross-env NODE_PATH=./node_modules NODE_ENV=development FAST_REFRESH=false craco build",
     "build:test": "muse-cra-patch && cross-env NODE_PATH=./node_modules MUSE_TEST_BUILD=true FAST_REFRESH=false craco build",
