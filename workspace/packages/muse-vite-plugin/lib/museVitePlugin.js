@@ -25,14 +25,13 @@ module.exports = () => {
     name: 'muse-vite-plugin',
     configureServer(server) {
       theViteServer = server;
-
       try {
         // when hot reload, vite will call configureServer again, so don't repeat muse plugin registration
         muse.plugin.register(musePluginVite);
       } catch (err) {}
       return () => {
         // setupMuseDevServer() returns an array of middlewares
-        // It's kind of hack since setupMuseDevServer was designed for webpack
+        // It's kind of hack since setupMuseDevServer was originally designed for webpack
         return setupMuseDevServer([]).forEach((m) => {
           if (typeof m === 'object') {
             server.middlewares.use(m.path, m.middleware);
