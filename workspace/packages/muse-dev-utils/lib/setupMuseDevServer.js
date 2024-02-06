@@ -208,7 +208,7 @@ muse.plugin.register({
             url: '/main.js',
             dev: true,
           };
-          // if ()
+
           realPluginsToLoad.push(pluginForLocal);
 
           // If plugins are installed locally, use the local version and url
