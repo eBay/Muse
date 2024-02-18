@@ -11,7 +11,7 @@ module.exports = (options) => async (req, res, next) => {
   try {
     const result = await muse.storage.assets.get(decodeURIComponent(assetKeyPath));
     if (!result) {
-      res.status(404);
+      res.statusCode = 404;
       res.write(`Muse asset not found: ${assetKeyPath}.`);
       res.end();
       return;
