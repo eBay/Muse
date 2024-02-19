@@ -1,5 +1,14 @@
 # @ebay/muse-runner
 
+## 1.0.9
+
+### Patch Changes
+
+- Vite 5.
+- Updated dependencies
+  - @ebay/muse-dev-utils@1.0.56
+  - @ebay/muse-express-middleware@1.0.47
+
 ## 1.0.8
 
 ### Patch Changes
