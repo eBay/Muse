@@ -15,8 +15,8 @@ dependencies:
     specifier: ^1.0.53
     version: 1.0.53(@ebay/muse-core@1.0.36)(@ebay/muse-modules-analyzer@1.0.9)(express@4.18.2)
   '@ebay/muse-express-middleware':
-    specifier: ^1.0.44
-    version: 1.0.44(@ebay/muse-core@1.0.36)(@ebay/muse-modules-analyzer@1.0.9)
+    specifier: ^1.0.46
+    version: link:../muse-express-middleware
   chalk:
     specifier: ^5.3.0
     version: artifactory.corp.ebay.com/chalk@5.3.0
@@ -495,20 +495,6 @@ packages:
 
   /@ebay/muse-express-middleware@1.0.43(@ebay/muse-core@1.0.36)(@ebay/muse-modules-analyzer@1.0.9):
     resolution: {integrity: sha512-igVXRklElojl06ZjhtYxNsk+S+A6fIhi0BMCLP+JTvuf9ZWGXYr1TLG77kEc7IAo5zmtwtqgHdjTyURyS/EL/w==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-express-middleware/-/@ebay/muse-express-middleware-1.0.43.tgz}
-    peerDependencies:
-      '@ebay/muse-core': ^1.0.35
-      '@ebay/muse-modules-analyzer': ^1.0.7
-    dependencies:
-      '@ebay/muse-core': 1.0.36
-      '@ebay/muse-modules-analyzer': 1.0.9(eslint@8.47.0)(typescript@5.3.3)
-      lodash: artifactory.corp.ebay.com/lodash@4.17.21
-      mime-types: artifactory.corp.ebay.com/mime-types@2.1.35
-      multer: artifactory.corp.ebay.com/multer@1.4.5-lts.1
-      request-ip: artifactory.corp.ebay.com/request-ip@3.3.0
-    dev: false
-
-  /@ebay/muse-express-middleware@1.0.44(@ebay/muse-core@1.0.36)(@ebay/muse-modules-analyzer@1.0.9):
-    resolution: {integrity: sha512-+p6pj88pzcE9xEZF1pNEgV96sMdXf/jjTNzBWevujzz2dij5PZc5HEJ2BziZR0+CF4FHqPkf05yNh3cxPa2Dyw==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-express-middleware/-/@ebay/muse-express-middleware-1.0.44.tgz}
     peerDependencies:
       '@ebay/muse-core': ^1.0.35
       '@ebay/muse-modules-analyzer': ^1.0.7

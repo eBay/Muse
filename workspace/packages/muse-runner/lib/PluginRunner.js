@@ -42,7 +42,6 @@ export default class PluginRunner extends EventEmitter {
       // }npm exec -c "${startScript}"`,
       env: {
         PORT: realPort,
-        REACT_REFRESH_ENDPOINT: `http://localhost:${50000}/@react-refresh`,
         ...env,
       },
     });

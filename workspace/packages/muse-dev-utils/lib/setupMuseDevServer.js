@@ -250,8 +250,6 @@ module.exports = (middlewares) => {
   // Serve local muse libs resources
   const localLibMiddlewares = getMuseLibs().map((lib) => {
     const id = muse.utils.getPluginId(lib.name);
-    // const pkgJsonPath = require.resolve(libName + '/package.json');
-    // const pkgDir = pkgJsonPath.replace(/package\.json$/, '');
     return {
       name: `muse-local-static-${lib.name}`,
       path: `/muse-assets/local/p/${id}`,
