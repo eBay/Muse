@@ -150,7 +150,7 @@ async function start() {
     let source = '';
     if (p.linkedTo) source = 'Linked to: ' + p.linkedTo;
     else if (p.isLocalLib) {
-      source = 'Local:' + /\d{4,}/.exec(p.url)?.[0] || document.location.port; // find port number
+      source = 'Local:' + (/\d{4,}/.exec(p.url)?.[0] || document.location.port); // find port number
     } else if (p.url) source = p.url;
     if (source) source = ` (${source})`;
 
