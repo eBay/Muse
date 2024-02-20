@@ -8,6 +8,7 @@ import * as pm from './features/pm';
 import * as common from './features/common';
 import JavascriptTimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
+
 import './modals';
 import './style.less';
 import { useAbility } from './hooks';
@@ -18,6 +19,7 @@ const InitAbilityComp = () => {
   Object.assign(ability, useAbility());
   return null;
 };
+console.log(en);
 // Initialize the desired locales.
 JavascriptTimeAgo.locale(en);
 plugin.register({
