@@ -115,7 +115,7 @@ const EditPluginModal = NiceModal.create(({ plugin, appId }) => {
         tooltip:
           'Whether use webpack or vite as dev server. Lib plugin has not been supported yet. For webpack it runs "start" script, for vite it runs "dev" script.',
         widget: 'radio-group',
-        disabled: !selectedPlugin || selectedPlugin.type === 'lib',
+        // disabled: !selectedPlugin || selectedPlugin.type === 'lib',
         options: [
           ['webpack', 'Webpack'],
           ['vite', 'Vite'],
