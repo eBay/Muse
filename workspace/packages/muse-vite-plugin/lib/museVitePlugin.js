@@ -1,13 +1,12 @@
 const muse = require('@ebay/muse-core');
 const setupMuseDevServer = require('@ebay/muse-dev-utils/lib/setupMuseDevServer');
+const { utils: devUtils } = require('@ebay/muse-dev-utils');
 
 // We need to use originalUrl instead of url because the latter is modified by Vite 5+ (not modified in Vite 4)
 // which causes server.middlewares.use(path, middleware) to not work as expected
 const simpleRouteWrapperMiddleware = (path, middleware) => {
   return (req, res, next) => {
-    console.log('req.original', req.originalUrl, path);
     if (!req?.originalUrl?.startsWith(path)) return next();
-    console.log('matched');
     req.url = req.originalUrl.replace(path, '');
     return middleware(req, res, next);
   };
@@ -22,7 +21,8 @@ module.exports = () => {
         processMuseGlobal: (museGlobal) => {
           const pluginForDev = museGlobal.plugins.find((p) => p.dev);
           if (!pluginForDev) throw new Error(`Can't find dev plugin.`);
-          Object.assign(pluginForDev, { esModule: true, url: '/src/index.js' });
+          const entry = devUtils.getEntryFile();
+          Object.assign(pluginForDev, { esModule: true, url: '/' + entry });
         },
         processIndexHtml: async (ctx) => {
           // This is to get the vite server to transform the index.html
