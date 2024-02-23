@@ -22,6 +22,11 @@ module.exports = () => {
           const pluginForDev = museGlobal.plugins.find((p) => p.dev);
           if (!pluginForDev) throw new Error(`Can't find dev plugin.`);
           const entry = devUtils.getEntryFile();
+          if (!entry)
+            throw new Error(
+              'No entry found. There should be src/[index|main].[js|ts|jsx|tsx] file as entry.',
+            );
+
           Object.assign(pluginForDev, { esModule: true, url: '/' + entry });
         },
         processIndexHtml: async (ctx) => {
