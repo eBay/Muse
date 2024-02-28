@@ -43,6 +43,7 @@ export default class PluginRunner extends EventEmitter {
       env: {
         PORT: realPort,
         ...env,
+        MUSE_CONFIG_FILE: '', // The config file should be empty, so that the plugin can use the default config.
       },
     });
     cmd.start();
