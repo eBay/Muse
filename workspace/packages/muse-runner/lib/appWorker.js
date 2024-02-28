@@ -133,9 +133,7 @@ ${JSON.stringify(importMap, null, 2)}
             case 'local': {
               if (p.running) {
                 if (p.devServer === 'vite') {
-                  // TODO: entry file maybe index.js, jsx, ts, tsx
-                  const museConfig = fs.readJsonSync(path.join(p.dir, 'package.json')).muse;
-                  const entryFile = museConfig.appIndex || 'src/index.js';
+                  const entryFile = museDevUtils.getEntryFile(p.dir);
                   deployedPlugin.url = `http://localhost:${p.port}/${entryFile}`;
                   deployedPlugin.esModule = true;
                 } else {
