@@ -1,5 +1,11 @@
 # @ebay/muse-express-middleware
 
+## 1.0.48
+
+### Patch Changes
+
+- Auto detect plugin entry
+
 ## 1.0.47
 
 ### Patch Changes
