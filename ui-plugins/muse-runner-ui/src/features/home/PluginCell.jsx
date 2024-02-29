@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import TermOutput from './TermOutput';
 import { Button, Dropdown, Modal, Tag } from 'antd';
 import NiceModal from '@ebay/nice-modal-react';
-import Icon, {
+import {
   CaretRightOutlined,
   EllipsisOutlined,
   BorderOutlined,
@@ -20,7 +20,6 @@ import vscodeIcon from './vscode.svg';
 import api from './api';
 import EditPluginModal from './EditPluginModal';
 import LinkPluginModal from './LinkPluginModal';
-// import { ReactComponent as VSCodeIcon } from './vscode.svg';
 import LinkedPluginCell from './LinkedPluginCell';
 import GitStatus from './GitStatus';
 
