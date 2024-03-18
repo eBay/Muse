@@ -2,6 +2,9 @@
   "name": "@ebay/muse-dev-utils",
   "version": "1.0.53",
   "main": "lib/index.js",
+  "bin": {
+    "muse-dev-utils": "./bin/muse-dev-utils.js"
+  },
   "license": "MIT",
   "publishConfig": {
     "registry": "https://artifactory.corp.ebay.com/artifactory/api/npm/npm-muse"
