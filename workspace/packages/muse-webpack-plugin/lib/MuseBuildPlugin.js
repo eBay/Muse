@@ -13,16 +13,13 @@ class MuseBuildPlugin {
   }
 
   apply(compiler) {
-    compiler.hooks.done.tap('MuseBuildPlugin', (stats) => {
+    compiler.hooks.done.tap('MuseBuildPlugin', () => {
       const buildPath = process.env.BUILD_PATH;
-      const buildTime = stats.endTime - stats.startTime;
-      const infoJsonFilePath = path.join(buildPath, 'info.json');
-      fs.removeSync(infoJsonFilePath);
-      fs.ensureFileSync(infoJsonFilePath);
-      const info = {
-        buildTime,
-      };
-      fs.writeFileSync(infoJsonFilePath, JSON.stringify(info, null, 2));
+
+      // Copy /src/ext-points.d.ts to ${buildPath}/ext-points.d.ts
+      const sourcePath = path.resolve(compiler.context, 'src/ext-points.d.ts');
+      const targetPath = path.resolve(buildPath, 'ext-points.d.ts');
+      fs.copySync(sourcePath, targetPath);
     });
   }
 }
