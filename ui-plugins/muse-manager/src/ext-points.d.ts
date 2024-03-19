@@ -16,14 +16,14 @@ export type getItems = (args: any) => any | any[];
 export type processDropdownItems = (args: any) => void;
 
 export interface ListAbilities {
-  processItems: (args: any) => void;
+  preProcessItems: (args: any) => void;
   getItems?: getItems;
   processItems?: (args: any) => void;
   postProcessItems?: (args: any) => void;
 }
 
 export interface TableColumnsAbilities {
-  processColumns?: (args: any) => void;
+  preProcessColumns?: (args: any) => void;
   getColumns?: getColumns;
   processColumns?: (args: any) => void;
   postProcessColumns?: (args: any) => void;
