@@ -16,7 +16,7 @@ export type getItems = (args: any) => any | any[];
 export type processDropdownItems = (args: any) => void;
 
 export interface ListAbilities {
-  preProcessItems: (args: any) => void;
+  preProcessItems?: (args: any) => void;
   getItems?: getItems;
   processItems?: (args: any) => void;
   postProcessItems?: (args: any) => void;
