@@ -1,5 +1,13 @@
 # @ebay/muse-craco-plugin
 
+## 3.0.22
+
+### Patch Changes
+
+- a4852633: Support worker.
+- Updated dependencies [a4852633]
+  - @ebay/muse-webpack-plugin@1.0.32
+
 ## 3.0.21
 
 ### Patch Changes
