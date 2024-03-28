@@ -91,14 +91,14 @@ async function downloadExtPointsTypeFile(pluginName, pluginVersion) {
     );
     return;
   }
-  const dir = path.join(process.cwd(), '.muse-plugin-ext-points-types');
+  const dir = path.join(process.cwd(), '.ext-points-types');
   mkdirp.sync(dir);
   const filePath = path.join(dir, `${utils.getPluginId(pluginName)}.d.ts`);
   // delete the file first
   if (fs.existsSync(filePath)) {
     fs.unlinkSync(filePath);
   }
-  // write to file .muse-plugin-ext-points-types/<plugin>.d.ts
+  // write to file .ext-points-types/<plugin>.d.ts
   // Add the version number in the top comment
   res = `// Version: ${pluginVersion}\n${res}`;
   fs.writeFileSync(filePath, res, 'utf-8');
