@@ -22,12 +22,12 @@ const pMuseLibReact = window.MUSE_GLOBAL?.plugins?.find(p => p.name === '@ebay/m
 pMuseLibReact?.subApps
   ?.filter(s => s.mountPoint === 'default' || !s.mountPoint)
   ?.forEach(subApp => {
-    console.log('pushing sub app route: ', subApp);
+    // console.log('pushing sub app route: ', subApp);
     subAppsRoute.push({
       path: subApp.path + '/*',
       component: () => (
         <SubAppContainer
-          key={subApp.url}
+          key={subApp.url} // ensure different sub apps have different iframes
           subApps={pMuseLibReact?.config?.subApps || []}
           subApp={subApp}
         />
