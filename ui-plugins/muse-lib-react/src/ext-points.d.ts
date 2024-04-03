@@ -22,10 +22,10 @@ export type RootExtPoints = {
   processProviders?: (context: ProvidersContextType) => void;
   postProcessProviders?: (context: ProvidersContextType) => void;
 };
-export type MuseRouter = {
+export type MuseRoute = {
   path?: string;
   component?: ComponentType;
-  childRoutes?: MuseRouter[];
+  childRoutes?: MuseRoute[];
   isIndex?: boolean;
   parent?: string;
   [key: string]: any;
