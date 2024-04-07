@@ -6,10 +6,10 @@ settings:
 
 dependencies:
   '@ebay/muse-core':
-    specifier: workspace:^1.0.35
+    specifier: workspace:^1.0.37
     version: link:../muse-core
   '@ebay/muse-modules-analyzer':
-    specifier: workspace:^1.0.7
+    specifier: workspace:^1.0.10
     version: link:../muse-modules-analyzer
   lodash:
     specifier: ^4.17.21

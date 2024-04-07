@@ -26,6 +26,7 @@ const logger = require('../logger').createLogger('muse.pm.deployPlugin');
  * @param {string} [params.envMap.[].version] the plugin name
  * @param {object} [params.envMap.[].options]
  * @param {string} [author] default to the current os logged in user
+ * @param {string} [options] only used when deploying a plugin without using envMap
  * @param {string} [msg] action message
  * @returns {object}
  */
@@ -44,6 +45,7 @@ module.exports = async (params) => {
             pluginName,
             version,
             type: 'add',
+            options,
           },
         ],
       };
@@ -152,15 +154,18 @@ module.exports = async (params) => {
           fd.deployment.deployedVersion = deployedPlugin.version;
         }
         if (type === 'add') {
-          // it means submit a new plugin
+          // it means submit a new plugin or update version
           messages.push(
             `${
               deployedPlugin ? 'Deployed ' : 'Submitted'
             } ${pluginName}@${version} to ${appName}/${envName} by ${author}.`,
           );
-          deployedPlugin = {
-            name: pluginName,
-          };
+          if (!deployedPlugin) {
+            // new deployment
+            deployedPlugin = {
+              name: pluginName,
+            };
+          }
         } else {
           messages.push(
             `Undeployed ${pluginName}@${deployedPlugin?.version} from ${appName}/${envName} by ${author}.`,
@@ -172,7 +177,7 @@ module.exports = async (params) => {
             : Object.assign(deployedPlugin, {
                 version,
                 type: p.type || 'normal',
-                ...options,
+                ...fd.deployment?.options,
               });
         const obj = {
           keyPath,

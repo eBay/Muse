@@ -118,7 +118,7 @@ describe('muse-boot-default', () => {
     expect(logSpy).toHaveBeenCalledWith('Starting the app from muse-boot-default...');
 
     expect(document.head.innerHTML).toEqual(
-      '<script src="https://dummy.cdn.ebay.com/p/init-test/v1.0.0/dist/main.js"></script><script src="https://dummy.cdn.ebay.com/p/demo-lib-test/v1.0.0/dist/main.js"></script><script src="https://dummy.cdn.ebay.com/p/demo-test/v1.0.0/dist/main.js"></script>',
+      '<script src="https://dummy.cdn.ebay.com/p/init-test/v1.0.0/dist/main.js"></script><script src="https://dummy.cdn.ebay.com/p/demo-lib-test/v1.0.0/dist/main.js"></script><script src="https://dummy.cdn.ebay.com/p/demo-test/v1.0.0/dist/main.js"></script><script src="http://somewhere.ebay.com:3000"></script>',
     );
   });
 

@@ -34,3 +34,8 @@ register('muse-manager.edit-plugin-variables-modal', EditPluginVariablesModal);
 register('muse-manager.group-deploy-modal', GroupDeployModal);
 register('muse-manager.validation-result-modal', ValidationResultModal);
 register('muse-manager.release-info-modal', ReleaseInfoModal);
+
+// TRICKY! This is a dummy comp to ensure HMR of the modals can work!
+export default function DummyComp() {
+  return null;
+}

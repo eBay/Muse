@@ -1,6 +1,6 @@
 {
   "name": "@ebay/muse-plugin-acl",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "",
   "main": "./lib/index.js",
   "scripts": {
@@ -14,7 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "@casl/ability": "^6.3.3",
-    "@ebay/muse-core": "workspace:^1.0.35",
+    "@ebay/muse-core": "workspace:^1.0.37",
     "js-plugin": "^1.1.0",
     "lodash": "^4.17.21"
   },

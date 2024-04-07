@@ -24,7 +24,7 @@ if (envConfigFile) {
     .split(';')
     .filter(Boolean)
     .map(_.trim)
-    .some(f => {
+    .some((f) => {
       if (fs.existsSync(envConfigFile)) {
         cosmicResult = explorerSync.load(f);
         return true;
@@ -51,9 +51,9 @@ if (config.extends) {
 }
 
 // parse $env.ENV_VAR to the real value from process.env.ENV_VAR
-const parsePropEnvs = obj => {
+const parsePropEnvs = (obj) => {
   // While using Object.keys it includes array
-  Object.keys(obj).forEach(p => {
+  Object.keys(obj).forEach((p) => {
     const v = obj[p];
     if (_.isObject(v) || _.isArray(v)) parsePropEnvs(v);
     else if (_.isString(v)) {
@@ -66,6 +66,6 @@ const parsePropEnvs = obj => {
 
 parsePropEnvs(config);
 
-config.get = prop => _.get(config, prop);
+config.get = (prop) => _.get(config, prop);
 config.filepath = cosmicResult?.filepath;
 module.exports = config;

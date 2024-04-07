@@ -116,6 +116,27 @@ const getPkgJson = () => {
   return fs.readJsonSync(path.join(process.cwd(), './package.json'));
 };
 
+//
+const getEntryFile = (dir) => {
+  if (!dir) dir = process.cwd();
+  const pkg = fs.readJsonSync(path.join(dir, 'package.json'));
+  if (pkg.muse?.entry) return pkg.muse?.entry;
+  const possibleEntries = [
+    'src/index.js',
+    'src/main.js',
+    'src/index.jsx',
+    'src/main.jsx',
+    'src/index.ts',
+    'src/main.ts',
+    'src/index.tsx',
+    'src/main.tsx',
+  ];
+  for (const entry of possibleEntries) {
+    if (fs.existsSync(path.join(dir, entry))) return entry;
+  }
+  return null;
+};
+
 module.exports = {
   getLocalPlugins,
   getMuseLibs,
@@ -123,4 +144,5 @@ module.exports = {
   getMuseLibsByFolder,
   assertPath,
   getPkgJson,
+  getEntryFile,
 };

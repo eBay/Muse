@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import TermOutput from './TermOutput';
 import { Button, Dropdown, Modal, Tag } from 'antd';
 import NiceModal from '@ebay/nice-modal-react';
-import Icon, {
+import {
   CaretRightOutlined,
   EllipsisOutlined,
   BorderOutlined,
@@ -16,18 +16,16 @@ import Icon, {
   ApartmentOutlined,
 } from '@ant-design/icons';
 import viteLogo from '../../images/vite-logo.svg';
+import vscodeIcon from './vscode.svg';
 import api from './api';
 import EditPluginModal from './EditPluginModal';
 import LinkPluginModal from './LinkPluginModal';
-import { ReactComponent as VSCodeIcon } from './vscode.svg';
 import LinkedPluginCell from './LinkedPluginCell';
-import useRunnerData from './useRunnerData';
 import GitStatus from './GitStatus';
 
 const noop = () => {};
 const PluginCell = ({ plugin, appId, onMoveUp = noop, onMoveDown = noop, isFirst, isLast }) => {
   const queryClient = useQueryClient();
-  const { pluginByName } = useRunnerData();
   const {
     mutateAsync: startPlugin,
     isLoading: startPluginPending,
@@ -50,16 +48,6 @@ const PluginCell = ({ plugin, appId, onMoveUp = noop, onMoveDown = noop, isFirst
 
   useEffect(() => {
     if (startPluginError) {
-      // Modal.error({
-      //   title: 'Plugin start failed.',
-      //   content: (
-      //     <>
-      //       <p>{startPluginError?.message}:</p>
-      //       <p className="text-red-500">{startPluginError?.response?.data}</p>
-      //       <p>Please check if the local folder is correct.</p>
-      //     </>
-      //   ),
-      // });
       // reset the error state, so that it will not popup again when fast refresh or other re-render cases.
       resetStartPluginState();
     }
@@ -90,8 +78,11 @@ const PluginCell = ({ plugin, appId, onMoveUp = noop, onMoveDown = noop, isFirst
   const { mutateAsync: openCode } = useMutation({
     mutationFn: async (e) => {
       // This can be called from menu or icon click, so we need to stop the event propagation.
-      e?.nativeEvent?.stopPropagation();
+      // TODO: why not working for vscode icon?
       e?.stopPropagation();
+      e?.preventDefault();
+      e?.nativeEvent?.stopPropagation();
+      e?.nativeEvent?.preventDefault();
       await api.post('/open-code', { dir: plugin.dir });
     },
   });
@@ -296,11 +287,12 @@ const PluginCell = ({ plugin, appId, onMoveUp = noop, onMoveDown = noop, isFirst
         {plugin.mode === 'version' ? plugin.version : plugin.mode || 'local'}
       </Tag>
       {plugin.dir ? (
-        <Icon
-          component={VSCodeIcon}
-          onClick={openCode}
+        <img
+          src={vscodeIcon}
+          alt=""
+          onClick={(e) => openCode(e)}
           title="Open in VSCode"
-          className="text-emerald-500 cursor-pointer scale-150 justify-self-center"
+          className="w-3 h-3 text-emerald-500 cursor-pointer scale-150 self-center justify-self-center"
         />
       ) : (
         <span />

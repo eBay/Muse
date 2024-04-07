@@ -1,5 +1,19 @@
 # @ebay/muse-webpack-plugin
 
+## 1.0.32
+
+### Patch Changes
+
+- a4852633: Support worker.
+
+## 1.0.31
+
+### Patch Changes
+
+- Upvers"
+- Updated dependencies
+  - @ebay/muse-modules@1.0.27
+
 ## 1.0.29
 
 ### Patch Changes

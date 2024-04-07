@@ -1,5 +1,40 @@
 # @ebay/muse-dev-utils
 
+## 1.0.57
+
+### Patch Changes
+
+- Auto detect plugin entry
+- Updated dependencies
+  - @ebay/muse-express-middleware@1.0.48
+
+## 1.0.56
+
+### Patch Changes
+
+- Vite 5.
+- Updated dependencies
+  - @ebay/muse-express-middleware@1.0.47
+
+## 1.0.55
+
+### Patch Changes
+
+- Upvers"
+- Updated dependencies
+  - @ebay/muse-core@1.0.37
+  - @ebay/muse-express-middleware@1.0.46
+  - @ebay/muse-modules@1.0.27
+
+## 1.0.54
+
+### Patch Changes
+
+- vite update
+- Updated dependencies
+  - @ebay/muse-express-middleware@1.0.45
+  - @ebay/muse-modules@1.0.26
+
 ## 1.0.53
 
 ### Patch Changes

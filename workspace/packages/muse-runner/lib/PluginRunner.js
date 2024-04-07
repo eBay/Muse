@@ -42,8 +42,8 @@ export default class PluginRunner extends EventEmitter {
       // }npm exec -c "${startScript}"`,
       env: {
         PORT: realPort,
-        REACT_REFRESH_ENDPOINT: `http://localhost:${50000}/@react-refresh`,
         ...env,
+        MUSE_CONFIG_FILE: '', // The config file should be empty, so that the plugin can use the default config.
       },
     });
     cmd.start();

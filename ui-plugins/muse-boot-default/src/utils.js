@@ -37,7 +37,7 @@ export function load(plugin, callback) {
     return;
   }
 
-  if (plugin.url && plugin.url.endsWith('.js')) {
+  if (plugin.url) {
     return new Promise((resolve, reject) => {
       const head = document.querySelector('head');
       const script = document.createElement('script');

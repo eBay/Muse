@@ -20,7 +20,7 @@
  * ]
  */
 import React, { useEffect, useMemo, useState, useCallback, useRef } from 'react';
-import { useLocation, usePrevious } from 'react-use';
+import { useLocation, useEvent } from 'react-use';
 import _ from 'lodash';
 import history from '../../common/history';
 import urlUtils from './urlUtils';
@@ -34,6 +34,7 @@ const debouncedPush = _.debounce(url => {
 // For example: /groot-ui => https://grootapp.muse.vip.ebay.com
 // It will sync path, querystring, hash between the parent and iframe
 const msgEngine = window.MUSE_GLOBAL.msgEngine;
+const iframeCache = {};
 
 export default function SubAppContainer({ context = null, subApp }) {
   const iframeWrapper = useRef();
@@ -41,6 +42,7 @@ export default function SubAppContainer({ context = null, subApp }) {
   const loc = useLocation();
   const parentFullPath = loc.href.replace(loc.origin, '');
   const subPath = urlUtils.getChildUrl(subApp);
+  const currentIframe = iframeCache[subApp.url];
 
   const subUrl = `${urlUtils.getOrigin(subApp.url)}${subPath}`;
   // When context is changed, send message to the child app
@@ -51,10 +53,10 @@ export default function SubAppContainer({ context = null, subApp }) {
           type: 'sub-app-context-change',
           data: context,
         },
-        iframeWrapper.current.firstChild,
+        currentIframe, //iframeWrapper.current.firstChild,
       );
     }
-  }, [context, subApp, subAppState]);
+  }, [context, subApp, currentIframe, subAppState]);
 
   // When current sub app is changed
   // If not persist, delete old app:
@@ -64,39 +66,77 @@ export default function SubAppContainer({ context = null, subApp }) {
   //   - cache iframe and state: but the post message will pause?
 
   // while iframe is loaded, ensure it's a muse app
-  const handleIframeOnload = useCallback(async evt => {
+  const assertMuseApp = useCallback(async ifr => {
     try {
-      await window.MUSE_GLOBAL?.msgEngine.assertMuseApp(iframeWrapper.current.firstChild);
+      await window.MUSE_GLOBAL?.msgEngine.assertMuseApp(ifr);
     } catch (err) {
       console.log('Not a muse app: ', err);
       setSubAppState('not-a-muse-app');
     }
-    // }
   }, []);
 
+  // Handle subapp iframe visibility
   useEffect(() => {
-    if (!subPath) return;
-    if (!iframeWrapper.current?.firstChild) {
-      // when first load, create iframe node to load sub app
-      const iframe = document.createElement('iframe');
+    if (!subPath || !iframeWrapper.current) return;
+
+    // when first load, create iframe node to load sub app
+    let iframe = iframeCache[subApp.url];
+    const rect = iframeWrapper.current.getBoundingClientRect();
+    if (!iframe) {
+      iframe = document.createElement('iframe');
       iframe.src = subUrl;
-      // iframe.sandbox = 'allow-scripts allow-same-origin allow-forms';
-      iframe.onload = handleIframeOnload;
-      iframeWrapper.current?.appendChild(iframe);
+      iframe.onload = () => assertMuseApp(iframe);
+      iframeCache[subApp.url] = iframe;
+      Object.assign(iframe.style, {
+        position: 'fixed',
+        top: rect.top + 'px',
+        left: rect.left + 'px',
+        width: rect.width + 'px',
+        height: rect.height + 'px',
+        border: 'none',
+        zIndex: 1000,
+        margin: 0,
+      });
+      document.body.appendChild(iframe);
     } else {
-      // otherwise it means the parent url path is changed
-      // need to notify the sub app to navigate
-      // The sub app must handle the route change msg
-      // By default it's implemented in @ebay/muse-lib-react/src/features/common/routeConfig.js
-      msgEngine?.sendToChild(
-        {
-          type: 'parent-route-change',
-          path: subPath,
-        },
-        iframeWrapper.current.firstChild,
-      );
+      iframe.style.left = rect.left + 'px';
     }
-  }, [subUrl, handleIframeOnload, subPath]);
+  }, [subUrl, assertMuseApp, subPath, subApp.url]);
+
+  // Whenever parent path is changed, notify child iframe (sub app)
+  useEffect(() => {
+    if (!currentIframe) return;
+    msgEngine?.sendToChild(
+      {
+        type: 'parent-route-change',
+        path: subPath,
+      },
+      currentIframe,
+    );
+  }, [subPath, currentIframe]);
+
+  useEffect(() => {
+    return () => {
+      const iframe = iframeCache[subApp.url];
+      if (iframe) {
+        iframe.style.left = '-100000px';
+      }
+    };
+  }, [subApp.url]);
+
+  const onWindowResize = useCallback(() => {
+    const iframe = iframeCache[subApp.url];
+
+    if (iframe && iframeWrapper.current) {
+      const rect = iframeWrapper.current.getBoundingClientRect();
+      Object.assign(iframe.style, {
+        width: rect.width + 'px',
+        height: rect.height + 'px',
+      });
+    }
+  }, [subApp.url]);
+
+  useEvent('resize', onWindowResize);
 
   // handle sub app messages: route change, app load status, etc...
   const handleSubAppMsg = useCallback(
@@ -118,12 +158,13 @@ export default function SubAppContainer({ context = null, subApp }) {
               type: 'sub-app-context-change',
               data: context,
             },
-            iframeWrapper.current.firstChild,
+            currentIframe,
           );
+          currentIframe.museLoaded = true;
         }
       }
     },
-    [subApp, parentFullPath, setSubAppState, context],
+    [subApp, parentFullPath, setSubAppState, context, currentIframe],
   );
 
   useEffect(() => {
@@ -137,10 +178,12 @@ export default function SubAppContainer({ context = null, subApp }) {
   }
   return (
     <div className="muse-react_sub-app-sub-app-container">
-      {subAppState !== 'app-loaded' &&
+      {!currentIframe?.museLoaded &&
+        subAppState !== 'app-loaded' &&
         subAppState !== 'app-failed' &&
         subAppState !== 'login-page' &&
         subAppState !== 'check-c2s-proxy-failed' && <LoadingSkeleton state={subAppState} />}
+
       {subAppState === 'app-failed' && (
         <div className="sub-app-sub-app-failed">
           Failed to start sub app {subApp.name}: /{subApp.path} =&gt; {subApp.url}.

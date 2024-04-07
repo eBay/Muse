@@ -1,6 +1,6 @@
 const path = require('path');
 const { getLoader, loaderByName } = require('@craco/craco');
-
+const { utils: devUtils } = require('@ebay/muse-dev-utils');
 /**
  * Allow webpack to support multiple local muse plugin projects.
  * So that it's possible to develop multiple projects together.
@@ -30,7 +30,9 @@ function handleMuseLocalPlugins(webpackConfig) {
       const museConfig = localPluginPkgJson.muse || {};
       localPluginNames.push(localPluginPkgJson.name);
       // Add app entry
-      webpackConfig.entry.unshift(path.join(p, 'src/index.js'));
+      const entryFile = devUtils.getEntryFile(p);
+      if (!entryFile) throw new Error(`No entry file found under ${p}.`);
+      webpackConfig.entry.unshift(path.join(p, entryFile));
 
       if (museConfig.type === 'lib') {
         // For lib projects, define the package alias

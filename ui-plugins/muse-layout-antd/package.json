@@ -15,7 +15,7 @@
     "build"
   ],
   "scripts": {
-    "start": "muse-cra-patch && cross-env PORT=3035 craco start",
+    "start": "muse-cra-patch && cross-env craco start",
     "build": "muse-cra-patch && craco build",
     "build:dev": "muse-cra-patch && cross-env NODE_ENV=development FAST_REFRESH=false craco build",
     "build:test": "muse-cra-patch && cross-env MUSE_TEST_BUILD=true FAST_REFRESH=false craco build",

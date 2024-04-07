@@ -208,28 +208,26 @@ muse.plugin.register({
             url: '/main.js',
             dev: true,
           };
-          // if ()
+
           realPluginsToLoad.push(pluginForLocal);
 
           // If plugins are installed locally, use the local version and url
           // NOTE: Boot plugin should not depends on libs
-          getMuseLibs()
-            // .map((lib) => lib.name)
-            .forEach((lib) => {
-              // Exclude remote lib plugin if it's installed locally
-              const localP = {
-                name: lib.name,
-                version: lib.version,
-                isLocalLib: true,
-                url: `/muse-assets/local/p/${muse.utils.getPluginId(lib.name)}/dev/main.js`,
-              };
-              const p = realPluginsToLoad.find((p) => p.name === lib.name);
-              if (p) {
-                Object.assign(p, localP);
-              } else {
-                realPluginsToLoad.push(localP);
-              }
-            });
+          getMuseLibs().forEach((lib) => {
+            // Exclude remote lib plugin if it's installed locally
+            const localP = {
+              name: lib.name,
+              version: lib.version,
+              isLocalLib: true,
+              url: `/muse-assets/local/p/${muse.utils.getPluginId(lib.name)}/dev/main.js`,
+            };
+            const p = realPluginsToLoad.find((p) => p.name === lib.name);
+            if (p) {
+              Object.assign(p, localP);
+            } else {
+              realPluginsToLoad.push(localP);
+            }
+          });
         }
         plugins.length = 0;
         plugins.push(...realPluginsToLoad);
@@ -252,8 +250,6 @@ module.exports = (middlewares) => {
   // Serve local muse libs resources
   const localLibMiddlewares = getMuseLibs().map((lib) => {
     const id = muse.utils.getPluginId(lib.name);
-    // const pkgJsonPath = require.resolve(libName + '/package.json');
-    // const pkgDir = pkgJsonPath.replace(/package\.json$/, '');
     return {
       name: `muse-local-static-${lib.name}`,
       path: `/muse-assets/local/p/${id}`,

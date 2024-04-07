@@ -1,5 +1,46 @@
 # @ebay/muse-vite-plugin
 
+## 1.0.25
+
+### Patch Changes
+
+- Auto detect plugin entry
+- Updated dependencies
+  - @ebay/muse-dev-utils@1.0.57
+
+## 1.0.24
+
+### Patch Changes
+
+- Vite 5.
+- Updated dependencies
+  - @ebay/muse-dev-utils@1.0.56
+
+## 1.0.23
+
+### Patch Changes
+
+- Upvers"
+- Updated dependencies
+  - @ebay/muse-core@1.0.37
+  - @ebay/muse-dev-utils@1.0.55
+  - @ebay/muse-modules@1.0.27
+
+## 1.0.22
+
+### Patch Changes
+
+- Up vite plugin
+
+## 1.0.21
+
+### Patch Changes
+
+- vite update
+- Updated dependencies
+  - @ebay/muse-dev-utils@1.0.54
+  - @ebay/muse-modules@1.0.26
+
 ## 1.0.20
 
 ### Patch Changes

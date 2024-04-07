@@ -40,6 +40,41 @@ describe('Deploy plugin basic tests.', () => {
     expect(testJsPlugin.museCore.pm.afterDeployPlugin).toBeCalledTimes(1);
   });
 
+  it('Deploy plugin should keep existing props while update', async () => {
+    const appName = 'testapp';
+    const envName = 'staging';
+    const pluginName = 'test-plugin';
+
+    await muse.am.createApp({ appName });
+    await muse.pm.createPlugin({ pluginName, type: 'init' });
+    await muse.pm.releasePlugin({ pluginName });
+    await muse.pm.deployPlugin({
+      appName,
+      envName,
+      pluginName,
+      version: '1.0.0',
+      options: { prop1: 'prop1' },
+    });
+    const p = await muse.pm.getDeployedPlugin(appName, envName, pluginName);
+    expect(p).toMatchObject({ name: pluginName, version: '1.0.0', prop1: 'prop1', type: 'init' });
+    await muse.pm.releasePlugin({ pluginName });
+    await muse.pm.deployPlugin({
+      appName,
+      envName,
+      pluginName,
+      version: '1.0.1',
+      options: { prop2: 'prop2' },
+    });
+    const p2 = await muse.pm.getDeployedPlugin(appName, envName, pluginName);
+    expect(p2).toMatchObject({
+      name: pluginName,
+      version: '1.0.1',
+      prop1: 'prop1',
+      prop2: 'prop2',
+      type: 'init',
+    });
+  });
+
   it('Group deploy plugins should work', async () => {
     const appName = 'testapp';
     const envName2 = 'ppe';
@@ -59,6 +94,9 @@ describe('Deploy plugin basic tests.', () => {
           {
             type: 'add',
             pluginName: 'test-plugin1',
+            options: {
+              prop1: 'prop1',
+            },
           },
           {
             type: 'add',
@@ -76,7 +114,7 @@ describe('Deploy plugin basic tests.', () => {
 
     const plugins = await muse.pm.getDeployedPlugins(appName, 'staging');
     expect(plugins).toEqual([
-      { name: 'test-plugin1', version: '1.0.0', type: 'init' },
+      { name: 'test-plugin1', version: '1.0.0', type: 'init', prop1: 'prop1' },
       { name: 'test-plugin2', version: '1.0.0', type: 'init' },
     ]);
 
