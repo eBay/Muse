@@ -123,7 +123,7 @@ function PluginActions({ plugin, app }) {
     ].filter(Boolean);
   }, [syncStatus, app, plugin, deletePlugin, canDeletePlugin, ability]);
 
-  extendArray(actions, 'pluginActions', 'museManager.pm.pluginList', {
+  extendArray(actions, 'actions', 'museManager.pm.pluginList', {
     app,
     plugin,
     ability,

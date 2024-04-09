@@ -58,8 +58,8 @@ export default function EnvFilterMenu(props) {
     },
   ];
 
-  items.push(...flatten(jsPlugin.invoke('museManager.pm.getEnvFilters', { ...props })));
-  jsPlugin.invoke('museManager.pm.processEnvFilters', { items, ...props });
+  items.push(...flatten(jsPlugin.invoke('museManager.pm.pluginList.getEnvFilters', { ...props })));
+  jsPlugin.invoke('museManager.pm.pluginList.processEnvFilters', { items, ...props });
   items = items.filter(Boolean);
   jsPlugin.sort(items);
 

@@ -1,5 +1,9 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 dependencies:
   lodash:
     specifier: ^4.17.21
@@ -10,7 +14,7 @@ dependencies:
 
 devDependencies:
   '@ebay/muse-core':
-    specifier: workspace:^1.0.30
+    specifier: workspace:^1.0.37
     version: link:../muse-core
   eslint:
     specifier: ^8.23.0
@@ -838,12 +842,6 @@ packages:
       '@typescript-eslint/types': 5.51.0
       eslint-visitor-keys: 3.3.0
     dev: true
-
-  /@zxing/text-encoding@0.9.0:
-    resolution: {integrity: sha1-+1D/q8bHxmoMlrTAPj2b50hktws=}
-    requiresBuild: true
-    dev: false
-    optional: true
 
   /acorn-jsx@5.3.2(acorn@8.8.2):
     resolution: {integrity: sha1-ftW7VZCLOy8bxVxq8WU7rafweTc=}
@@ -3459,7 +3457,7 @@ packages:
     dependencies:
       util: 0.12.4
     optionalDependencies:
-      '@zxing/text-encoding': 0.9.0
+      '@zxing/text-encoding': artifactory.corp.ebay.com/@zxing/text-encoding@0.9.0
     dev: false
 
   /which-boxed-primitive@1.0.2:
@@ -3571,11 +3569,20 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
+  artifactory.corp.ebay.com/@zxing/text-encoding@0.9.0:
+    resolution: {integrity: sha512-U/4aVJ2mxI0aDNI8Uq0wEhMgY+u4CNtEb0om3+y3+niDAsoTCOB33UF0sxpzqzdqXLqmvc+vZyAt4O8pPdfkwA==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@zxing/text-encoding/-/text-encoding-0.9.0.tgz}
+    name: '@zxing/text-encoding'
+    version: 0.9.0
+    requiresBuild: true
+    dev: false
+    optional: true
+
   artifactory.corp.ebay.com/fsevents@2.3.2:
     resolution: {integrity: sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/fsevents/-/fsevents-2.3.2.tgz}
     name: fsevents
     version: 2.3.2
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
+    os: [darwin]
     requiresBuild: true
     dev: true
     optional: true

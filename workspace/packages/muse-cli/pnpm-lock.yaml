@@ -6,13 +6,13 @@ settings:
 
 dependencies:
   '@ebay/muse-core':
-    specifier: workspace:^1.0.30
+    specifier: workspace:^1.0.37
     version: link:../muse-core
   '@ebay/muse-modules-analyzer':
-    specifier: workspace:^1.0.6
+    specifier: workspace:^1.0.10
     version: link:../muse-modules-analyzer
   '@ebay/muse-simple-server':
-    specifier: workspace:^1.0.25
+    specifier: workspace:^1.0.26
     version: link:../muse-simple-server
   chalk:
     specifier: 4.1.2

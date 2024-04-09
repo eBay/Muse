@@ -98,11 +98,11 @@ const PluginInfoModal = NiceModal.create(({ plugin, app }) => {
     updatePlugin(payload)
       .then(async () => {
         modal.hide();
-        message.success('Create plugin success.');
+        message.success('Updated plugin success.');
         await syncStatus();
       })
       .catch((err) => {
-        console.log('failed to deploy', err);
+        console.log('failed to update', err);
       });
   }, [updatePlugin, syncStatus, modal, plugin, form]);
 

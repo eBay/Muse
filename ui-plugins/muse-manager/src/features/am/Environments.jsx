@@ -3,7 +3,7 @@ import { Table, Button, Tooltip } from 'antd';
 import EnvActions from '../am/EnvActions';
 import { useAbility } from '../../hooks';
 import NiceModal from '@ebay/nice-modal-react';
-import jsPlugin from 'js-plugin';
+import { extendArray } from '@ebay/muse-lib-antd/src/utils';
 import _ from 'lodash';
 
 export default function Environments({ app }) {
@@ -29,10 +29,7 @@ export default function Environments({ app }) {
       },
     },
   ].filter(Boolean);
-  columns.push(..._.flatten(jsPlugin.invoke('museManager.getEnvironmentsColumns', { app })));
-  jsPlugin.invoke('museManager.processEnvironmentsColumns', { columns, app });
-  columns = columns.filter(Boolean);
-  jsPlugin.sort(columns);
+  extendArray(columns, 'columns', 'museManager.am.environments', { app });
   const canUpdateApp = ability.can('update', 'App', app);
   return (
     <>

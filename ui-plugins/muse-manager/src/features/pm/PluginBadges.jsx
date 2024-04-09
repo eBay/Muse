@@ -32,7 +32,7 @@ const PluginBadges = ({ app, plugin }) => {
     });
   }
   // console.log(jsPlugin.invoke('museManager.pm.pluginList.getPluginBadges', {}));
-  extendArray(nodes, 'pluginBadges', 'museManager.pm.pluginList', { app, plugin, nodes });
+  extendArray(nodes, 'nodes', 'museManager.pm.pluginList.pluginBadges', { app, plugin, nodes });
   return (
     <span className="muse-manager_pm-plugin-badges">
       {nodes.filter(Boolean).map((n) => n.node)}

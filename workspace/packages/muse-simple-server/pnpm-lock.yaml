@@ -1,11 +1,15 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 dependencies:
   '@ebay/muse-core':
-    specifier: workspace:^1.0.30
+    specifier: workspace:^1.0.37
     version: link:../muse-core
   '@ebay/muse-express-middleware':
-    specifier: workspace:^1.0.33
+    specifier: workspace:^1.0.46
     version: link:../muse-express-middleware
   cors:
     specifier: ^2.8.5
