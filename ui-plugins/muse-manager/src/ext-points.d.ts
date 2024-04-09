@@ -44,7 +44,7 @@ export type MuseV2Env = {
   variables?: Record<string, any>;
   config?: {
     [key: string]: any;
-  }
+  };
   [key: string]: any;
 }
 
@@ -138,10 +138,10 @@ export interface TableColumnsExtPoints<RecordType, Context> {
 export type getFields = (args: any) => NiceFormFieldType | NiceFormFieldType[];
 export interface NiceFormExtPoints<Context> {
   getWatchingFields?: (args: Context) => string[];
-  getFields?: (args: Context) => NiceFormFieldType | NiceFormFieldType[],
-  preProcessMeta?: (args: Context) => void,
-  postProcessMeta?: (args: Context) => void,
-  processMeta?: (args: Context) => void,
+  getFields?: (args: Context) => NiceFormFieldType | NiceFormFieldType[];
+  preProcessMeta?: (args: Context) => void;
+  postProcessMeta?: (args: Context) => void;
+  processMeta?: (args: Context) => void;
 }
 
 // NiceModal ext points
@@ -193,8 +193,8 @@ export interface ListBar {
 }
 
 export interface AMAppPage {
-  getNodes?: getNodes,
-  getAppNameActions?: getNodes,
+  getNodes?: getNodes;
+  getAppNameActions?: getNodes;
 }
 
 export interface AppOverview {
@@ -244,11 +244,11 @@ type PluginBadgeContext = {
   [key: string]: any;
 };
 type PluginListTableContext = {
-  app?: MuseV2App,
-  columns?: ColumnsType<any>,
-  plugins?: MuseV2Plugin[],
-  searchValue?: string,
-  latestReleases?: { [key: string]: MuseV2Release },
+  app?: MuseV2App;
+  columns?: ColumnsType<any>;
+  plugins?: MuseV2Plugin[];
+  searchValue?: string;
+  latestReleases?: { [key: string]: MuseV2Release };
   [key: string]: any;
 }
 export interface PluginListExtPoints<RecordType> extends
@@ -319,7 +319,7 @@ export interface Req {
 }
 
 export default interface MuseManagerExtPoints {
-  setConfig?: (fn: (values: Object) => void) => void;
+  setConfig?: (fn: (values: Record<string, any>) => void) => void;
   appPage?: AppPage;
   am?: AM;
   pm?: PM;
