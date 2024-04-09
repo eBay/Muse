@@ -29,7 +29,7 @@ export default function Environments({ app }) {
       },
     },
   ].filter(Boolean);
-  extendArray(columns, 'columns', 'museManager.am.environments', { app });
+  extendArray(columns, 'columns', 'museManager.am.environments', { app, columns });
   const canUpdateApp = ability.can('update', 'App', app);
   return (
     <>
