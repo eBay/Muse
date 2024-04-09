@@ -9,7 +9,7 @@ dependencies:
     specifier: ^6.3.3
     version: 6.4.0
   '@ebay/muse-core':
-    specifier: workspace:^1.0.35
+    specifier: workspace:^1.0.37
     version: link:../muse-core
   js-plugin:
     specifier: ^1.1.0
@@ -2872,6 +2872,7 @@ packages:
     name: fsevents
     version: 2.3.2
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
+    os: [darwin]
     requiresBuild: true
     dev: true
     optional: true

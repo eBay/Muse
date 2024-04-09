@@ -10,7 +10,6 @@ const MuseManifestPlugin = require('./MuseManifestPlugin');
 const MuseEntryPlugin = require('./MuseEntryPlugin');
 const MuseModuleInfoPlugin = require('./MuseModuleInfoPlugin');
 const MuseModuleIdPlugin = require('./MuseModuleIdPlugin');
-const MuseExtPointsTypesPlugin = require('./MuseExtPointsTypesPlugin');
 
 /**
  * Main entry for MUSE webpack plugin
@@ -50,7 +49,6 @@ class MusePlugin {
     }
 
     new FlagAllModulesAsUsedPlugin('MusePlugin').apply(compiler);
-    new MuseExtPointsTypesPlugin().apply(compiler);
   }
 }
 
