@@ -7,8 +7,8 @@ process.on('unhandledRejection', (err) => {
 const args = process.argv.slice(2);
 
 switch (args[0]) {
-  case 'sync-ext-point-type':
-    require('../scripts/syncExtPointsTypeFiles.js')();
+  case 'sync-ext-points-types':
+    require('../scripts/syncExtPointsTypes.js')();
     break;
 
   default:
