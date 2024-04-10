@@ -1,5 +1,11 @@
 # @ebay/muse-dev-utils
 
+## 1.0.59
+
+### Patch Changes
+
+- Bug fix: fix version get failure
+
 ## 1.0.58
 
 ### Patch Changes
