@@ -1,5 +1,11 @@
 # @ebay/muse-dev-utils
 
+## 1.0.58
+
+### Patch Changes
+
+- Add sync-ext-points-types command to download ext-points.d.ts file from local project
+
 ## 1.0.57
 
 ### Patch Changes
