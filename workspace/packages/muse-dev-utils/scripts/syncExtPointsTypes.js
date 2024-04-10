@@ -63,7 +63,7 @@ module.exports = async function syncExtPointsTypeFiles() {
     for (const plugin of pluginNameArgs) {
       const match = plugin.match(regex);
       const pluginName = match?.[1] || plugin;
-      const version = match?.[2] || pluginsLatestRelease?.[plugin];
+      const version = match?.[2] || pluginsLatestRelease?.[plugin]?.version;
       if (!version) {
         console.log(
           chalk.yellow(
