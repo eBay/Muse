@@ -12,12 +12,12 @@
   "dependencies": {
     "@ebay/muse-dev-utils": "workspace:^*",
     "@ebay/muse-webpack-plugin": "workspace:^*",
+    "dts-bundle-webpack": "^1.0.2",
     "resolve-cwd": "^3.0.0"
   },
   "devDependencies": {
     "@craco/craco": "7.1.0",
     "babel-plugin-istanbul": "^6.1.1",
-    "dts-bundle-webpack": "^1.0.2",
     "eslint": "^8.14.0"
   },
   "peerDependencies": {
