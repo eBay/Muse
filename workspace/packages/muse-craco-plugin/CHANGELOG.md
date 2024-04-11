@@ -1,5 +1,11 @@
 # @ebay/muse-craco-plugin
 
+## 3.0.24
+
+### Patch Changes
+
+- Bug fix: fix dts-bundle-webpack not found
+
 ## 3.0.23
 
 ### Patch Changes
