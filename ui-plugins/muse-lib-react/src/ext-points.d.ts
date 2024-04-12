@@ -1,10 +1,12 @@
-import { ComponentType } from "react";
+import { ComponentType, ReactNode } from "react";
+import { Reducer, AnyAction } from 'redux';
+
 
 type ProviderType = {
   order: number;
   key: string;
   provider: React.ComponentType<any> | null;
-  props?: object;
+  props?: Record<string, any> | null;
   renderProvider?: ((children: React.ReactNode) => React.ReactNode) | null;
 };
 
@@ -35,4 +37,11 @@ export default interface MuseLibReactExtPoints {
   onReady?: Function;
   root?: RootExtPoints;
   routerProps?: Record<string, any>;
+  home?: {
+    mainLayout?: ComponentType;
+    homepage?: ReactNode;
+  },
+  rootComponent?: ComponentType;
+  reducer?: Reducer<any, AnyAction>;
+  reducers?: Record<string, Reducer<any, AnyAction>>;
 }
