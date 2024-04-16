@@ -1,7 +1,6 @@
 import plugin from 'js-plugin';
 import * as ext from './ext';
 import route from './route';
-// import reducer from './rootReducer';
 import * as hooks from './hooks';
 import * as utils from './utils';
 import * as pm from './features/pm';

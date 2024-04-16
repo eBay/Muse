@@ -4,6 +4,8 @@ const { pkgJson, isDev, isTestBuild } = require('@ebay/muse-dev-utils').museCont
 const handleMuseLocalPlugins = require('./handleMuseLocalPlugins');
 const _ = require('lodash');
 const path = require('path');
+const fs = require('fs');
+const DtsBundlePlugin = require('dts-bundle-webpack');
 
 const hashed = crypto
   .createHash('md5')
@@ -64,6 +66,23 @@ module.exports = ({ webpackConfig }) => {
         match.loader.options.base = styleBase++;
       }
     });
+  }
+
+  if (!isDev) {
+    // Check if the file ext-points.d.ts exists
+    const sourcePath = path.resolve(process.cwd(), 'src', 'ext-points.d.ts');
+    if (fs.existsSync(sourcePath)) {
+      webpackConfig.plugins.push(
+        new DtsBundlePlugin({
+          name: pkgJson.name,
+          main: sourcePath,
+          out: path.resolve(process.cwd(), process.env.BUILD_PATH, 'ext-points.d.ts'),
+          outputAsModuleFolder: true,
+        }),
+      );
+    } else {
+      console.info('\nNo ext-points.d.ts found in src.\n');
+    }
   }
 
   return webpackConfig;
