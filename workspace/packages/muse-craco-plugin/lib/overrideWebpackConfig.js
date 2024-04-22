@@ -4,6 +4,8 @@ const { pkgJson, isDev, isTestBuild } = require('@ebay/muse-dev-utils').museCont
 const handleMuseLocalPlugins = require('./handleMuseLocalPlugins');
 const _ = require('lodash');
 const path = require('path');
+const fs = require('fs');
+const DtsBundlePlugin = require('dts-bundle-webpack');
 
 const hashed = crypto
   .createHash('md5')
@@ -22,6 +24,22 @@ function configIstanbul(config) {
       ...(pkgJson.nyc || {}),
     },
   ]);
+}
+
+function getFileLoaderRule(rules) {
+  if (!rules) {
+    return null;
+  }
+  for (const rule of rules) {
+    if ('oneOf' in rule) {
+      const found = getFileLoaderRule(rule.oneOf);
+      if (found) {
+        return found;
+      }
+    } else if (rule.test === undefined && rule.type === 'asset/resource') {
+      return rule;
+    }
+  }
 }
 
 module.exports = ({ webpackConfig }) => {
@@ -64,6 +82,29 @@ module.exports = ({ webpackConfig }) => {
         match.loader.options.base = styleBase++;
       }
     });
+  }
+
+  if (!isDev) {
+    // Check if the file ext-points.d.ts exists
+    const sourcePath = path.resolve(process.cwd(), 'src', 'ext-points.d.ts');
+    if (fs.existsSync(sourcePath)) {
+      webpackConfig.plugins.push(
+        new DtsBundlePlugin({
+          name: pkgJson.name,
+          main: sourcePath,
+          out: path.resolve(process.cwd(), process.env.BUILD_PATH, 'ext-points.d.ts'),
+          outputAsModuleFolder: true,
+        }),
+      );
+    } else {
+      console.info('\nNo ext-points.d.ts found in src.\n');
+    }
+  }
+
+  // Push cjs to exclude list in file loader rule
+  const fileLoaderRule = getFileLoaderRule(webpackConfig.module?.rules);
+  if (fileLoaderRule) {
+    fileLoaderRule.exclude.push(/\.cjs$/);
   }
 
   return webpackConfig;

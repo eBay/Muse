@@ -10,7 +10,6 @@ const MuseManifestPlugin = require('./MuseManifestPlugin');
 const MuseEntryPlugin = require('./MuseEntryPlugin');
 const MuseModuleInfoPlugin = require('./MuseModuleInfoPlugin');
 const MuseModuleIdPlugin = require('./MuseModuleIdPlugin');
-const MuseBuildPlugin = require('./MuseBuildPlugin');
 
 /**
  * Main entry for MUSE webpack plugin
@@ -50,7 +49,6 @@ class MusePlugin {
     }
 
     new FlagAllModulesAsUsedPlugin('MusePlugin').apply(compiler);
-    new MuseBuildPlugin().apply(compiler);
   }
 }
 

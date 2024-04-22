@@ -1,5 +1,19 @@
 # @ebay/muse-craco-plugin
 
+## 3.0.24
+
+### Patch Changes
+
+- Bug fix: fix dts-bundle-webpack not found
+
+## 3.0.23
+
+### Patch Changes
+
+- Add dts-bundle-webpack webpack plugin to pack ext-points.d.ts file into bundles
+- Updated dependencies
+  - @ebay/muse-dev-utils@1.0.58
+
 ## 3.0.22
 
 ### Patch Changes

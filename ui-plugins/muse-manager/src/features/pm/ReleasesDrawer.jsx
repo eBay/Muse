@@ -156,13 +156,13 @@ const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
           },
         ].filter(Boolean);
 
-        extendArray(items, 'releaseActions', 'museManager.pm.releaseList', {
+        extendArray(items, 'actions', 'museManager.pm.releaseList', {
           app,
           plugin,
           ability,
           items,
         });
-        return <DropdownMenu extPoint="museManager.plugin.processReleaseActions" items={items} />;
+        return <DropdownMenu extPoint="museManager.releaseList.processActions" items={items} />;
       },
     },
   ];
@@ -181,8 +181,8 @@ const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
     return (
       <Nodes
         items={nodes}
-        extName="expandNodes"
-        extBase="museManager.pm.releaseList"
+        extName="nodes"
+        extBase="museManager.pm.releaseList.expandRow"
         extArgs={{ items: nodes, release: item }}
       />
     );

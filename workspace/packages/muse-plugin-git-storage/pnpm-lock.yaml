@@ -14,8 +14,8 @@ dependencies:
 
 devDependencies:
   '@ebay/muse-core':
-    specifier: ^1.0.32
-    version: artifactory.corp.ebay.com/@ebay/muse-core@1.0.32
+    specifier: ^1.0.37
+    version: artifactory.corp.ebay.com/@ebay/muse-core@1.0.37
   eslint:
     specifier: ^8.23.0
     version: 8.23.0
@@ -2901,10 +2901,10 @@ packages:
       kuler: artifactory.corp.ebay.com/kuler@2.0.0
     dev: true
 
-  artifactory.corp.ebay.com/@ebay/muse-core@1.0.32:
-    resolution: {integrity: sha512-yR53l+CUAmaowN5gz+Ce5wImBYhnWdDUL+eO8lW5jvClOmkK/gLnhXmD/tTrPe2URx2O2FZgEEi6h7lqlvlloA==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-core/-/@ebay/muse-core-1.0.32.tgz}
+  artifactory.corp.ebay.com/@ebay/muse-core@1.0.37:
+    resolution: {integrity: sha512-v4qkRkK6dkgKYxzzOXdRhEybJPMxc/xOfMzTyu12WiRxZFb23sYOFssbQVLf4zkbVDczVrv0BuYA5WiOR8qSXw==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-core/-/@ebay/muse-core-1.0.37.tgz}
     name: '@ebay/muse-core'
-    version: 1.0.32
+    version: 1.0.37
     dependencies:
       ajv: artifactory.corp.ebay.com/ajv@8.12.0
       archiver: artifactory.corp.ebay.com/archiver@5.3.1
@@ -3728,6 +3728,7 @@ packages:
     name: fsevents
     version: 2.3.2
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
+    os: [darwin]
     requiresBuild: true
     dev: true
     optional: true
