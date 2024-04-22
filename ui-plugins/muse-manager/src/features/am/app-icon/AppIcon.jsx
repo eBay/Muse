@@ -71,7 +71,7 @@ export default function AppIcon({ app, form }) {
               <Spin tip="Uploading..." />
             </div>
           ) : (
-            <div className="grid h-full w-full content-center">
+            <div className="grid h-full w-full place-items-center">
               <img src={imgUrl} alt="App icon" className="w-full" />
             </div>
           )}
