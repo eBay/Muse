@@ -136,7 +136,9 @@ muse.plugin.register({
 
               return {
                 name: pkg.name,
-                url: `http://localhost:${port}/${pkg.muse.type === 'boot' ? 'boot' : 'main'}.js`,
+                url: `${process.env.HTTPS === 'true' ? 'https' : 'http'}://localhost:${port}/${
+                  pkg.muse.type === 'boot' ? 'boot' : 'main'
+                }.js`,
                 type: pkg.muse.type || 'normal',
               };
             }

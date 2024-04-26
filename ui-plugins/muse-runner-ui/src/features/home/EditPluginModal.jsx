@@ -169,6 +169,7 @@ const EditPluginModal = NiceModal.create(({ plugin, appId }) => {
           pluginName: values.name,
           mode: values.mode,
           version: values.version,
+          url: values.url,
         });
       }
       modal.hide();
