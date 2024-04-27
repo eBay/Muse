@@ -31,7 +31,7 @@ const LinkedPluginCell = ({ plugin, onRemove }) => {
           alt=""
           onClick={() => api.post('/open-code', { dir: plugin.dir })}
           title="Open in VSCode"
-          className="text-emerald-500 cursor-pointer scale-150 justify-self-center"
+          className="w-3 h-3 text-emerald-500 cursor-pointer scale-150 self-center justify-self-center"
         />
       ) : (
         <span />
