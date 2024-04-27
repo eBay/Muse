@@ -167,7 +167,13 @@ app.post(
     const app = appList.find((a) => a.id === id);
     if (!app) throw new Error(`App not found: ${id}`);
 
-    const appRunner = await runner.startApp({ id, app: app.app, env: app.env, port: app.port });
+    const isHttps = app.protocol !== 'http' && !!process.env.HTTPS;
+    const appRunner = await runner.startApp({
+      id,
+      app: app.app,
+      env: app.env,
+      port: app.port,
+    });
 
     appRunner.on('exit', (code) => {
       handleRunningDataChange();
@@ -188,7 +194,11 @@ app.post(
               type: 'resolve-promise',
               payload: {
                 promiseId: msg.payload.promiseId,
-                result: { ...getAppConfig(id), port: appRunner.port },
+                result: {
+                  ...getAppConfig(id),
+                  port: appRunner.port,
+                  https: isHttps,
+                },
               },
             });
             break;
@@ -420,6 +430,7 @@ app.get(
     res.setHeader('Content-Type', 'application/json');
     res.send(
       JSON.stringify({
+        https: !!process.env.HTTPS,
         msgCache,
         apps,
         plugins,

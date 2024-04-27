@@ -1,9 +1,10 @@
 import { workerData, parentPort } from 'node:worker_threads';
+import fs from 'node:fs';
 import express from 'express';
-import fs from 'fs-extra';
 import muse from '@ebay/muse-core';
 import _ from 'lodash';
 import cors from 'cors';
+import https from 'node:https';
 import path from 'path';
 import crypto from 'crypto';
 import museDevUtils from '@ebay/muse-dev-utils/lib/utils.js';
@@ -12,6 +13,7 @@ import museAssetsMiddleware from '@ebay/muse-express-middleware/lib/assets.js';
 import museAppMiddleware from '@ebay/muse-express-middleware/lib/app.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+const host = process.env.MUSE_LOCAL_HOST_NAME || 'localhost';
 
 const { port } = workerData;
 const promiseResolvers = {};
@@ -40,6 +42,11 @@ const callParentApi = (key) => {
 
   return promise;
 };
+
+const appConfig = await callParentApi('get-app-config');
+const isHttps = appConfig.https;
+const protocol = isHttps ? 'https' : 'http';
+
 muse.plugin.register({
   name: 'muse-runner',
   museMiddleware: {
@@ -47,8 +54,6 @@ muse.plugin.register({
       processIndexHtml: async (ctx) => {
         // This is to support vite-react
         // This may need to be implemented as a plugin
-        const appConfig = await callParentApi('get-app-config');
-
         const vitePorts = appConfig.plugins
           ?.filter((p) => p.devServer === 'vite' && p.running)
           .map((p) => p.port)
@@ -56,7 +61,9 @@ muse.plugin.register({
         if (!vitePorts || !vitePorts.length) return;
         const importMap = { imports: {} };
         vitePorts.forEach((vitePort) => {
-          importMap.imports[`http://localhost:${vitePort}/@react-refresh`] = `/@react-refresh`;
+          importMap.imports[
+            `${isHttps ? 'https' : 'http'}://${host}:${vitePort}/@react-refresh`
+          ] = `/@react-refresh`;
         });
         ctx.indexHtml = ctx.indexHtml.replace(
           '<head>',
@@ -75,7 +82,6 @@ ${JSON.stringify(importMap, null, 2)}
         );
       },
       getAppInfo: async () => {
-        const appConfig = await callParentApi('get-app-config');
         return { appName: appConfig.app, envName: appConfig.env };
       },
 
@@ -85,8 +91,6 @@ ${JSON.stringify(importMap, null, 2)}
         const deployedPluginByName = _.keyBy(env.plugins, 'name');
 
         // Get the app config in muse runner from parent process
-        const appConfig = await callParentApi('get-app-config');
-
         if (!env.variables) env.variables = {};
         if (!env.pluginVariables) env.pluginVariables = {};
 
@@ -134,10 +138,10 @@ ${JSON.stringify(importMap, null, 2)}
               if (p.running) {
                 if (p.devServer === 'vite') {
                   const entryFile = museDevUtils.getEntryFile(p.dir);
-                  deployedPlugin.url = `http://localhost:${p.port}/${entryFile}`;
+                  deployedPlugin.url = `${protocol}://${host}:${p.port}/${entryFile}`;
                   deployedPlugin.esModule = true;
                 } else {
-                  deployedPlugin.url = `http://localhost:${p.port}/${
+                  deployedPlugin.url = `${protocol}://${host}:${p.port}/${
                     p.type === 'boot' ? 'boot' : 'main'
                   }.js`;
                 }
@@ -161,7 +165,7 @@ ${JSON.stringify(importMap, null, 2)}
                   if (localLibPluings[lib.name]) return;
                   const pid = muse.utils.getPluginId(lib.name);
                   localLibPluings[lib.name] = {
-                    url: `http://localhost:${p.port}/muse-assets/local/p/${pid}/dev/main.js`,
+                    url: `${protocol}://${host}:${p.port}/muse-assets/local/p/${pid}/dev/main.js`,
                     version: lib.version,
                   };
                 });
@@ -265,7 +269,21 @@ app.use(
   }),
 );
 
-app.listen(port, () => {
-  const host = process.env.MUSE_LOCAL_HOST_NAME || 'localhost';
-  console.log(`Muse app started: http://${host}:${port}`);
-});
+if (isHttps) {
+  https
+    .createServer(
+      {
+        key: fs.readFileSync(process.env.SSL_KEY_FILE),
+        cert: fs.readFileSync(process.env.SSL_CRT_FILE),
+      },
+      app,
+    )
+    .listen(port);
+
+  console.log(`Muse app started: https://${host}:${port}`);
+} else {
+  app.listen(port, () => {
+    const host = process.env.MUSE_LOCAL_HOST_NAME || 'localhost';
+    console.log(`Muse app started: http://${host}:${port}`);
+  });
+}
