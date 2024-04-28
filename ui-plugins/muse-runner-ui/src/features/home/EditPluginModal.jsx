@@ -124,6 +124,15 @@ const EditPluginModal = NiceModal.create(({ plugin, appId }) => {
         condition: () => form.getFieldValue('mode') === 'local',
       },
       {
+        key: 'protocol',
+        label: 'Protocol',
+        widget: 'radio-group',
+        options: ['https', 'http'],
+        initialValue: 'https',
+        required: true,
+        tooltip: 'The protocol for local development.',
+      },
+      {
         key: 'dir',
         label: 'Folder',
         required: true,
@@ -158,6 +167,7 @@ const EditPluginModal = NiceModal.create(({ plugin, appId }) => {
       if (values.mode === 'local') {
         await updatePlugin({
           dir: values.dir,
+          protocol: values.protocol,
           pluginName: values.name,
           devServer: selectedPlugin?.type === 'lib' ? undefined : values.devServer,
         });

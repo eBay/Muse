@@ -23,7 +23,7 @@ const LinkedPluginCell = ({ plugin, onRemove }) => {
     <div className="combined-plugin-cell grid grid-cols-[18px_1fr_30px_20px] cursor-default mt-1">
       <span />
       <span className="text-gray-500 whitespace-nowrap text-ellipsis overflow-hidden">
-        - {plugin.name}
+        - Linked: {plugin.name}
       </span>
       {plugin.dir ? (
         <img

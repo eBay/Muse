@@ -105,6 +105,7 @@ const useRunnerData = () => {
   return {
     data,
     initData,
+    https: !!initData?.https,
     apps: initData?.apps,
     appByName: _.keyBy(initData?.apps, 'name'),
     itemById,
