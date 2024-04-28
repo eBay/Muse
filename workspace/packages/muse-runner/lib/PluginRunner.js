@@ -42,7 +42,10 @@ export default class PluginRunner extends EventEmitter {
       // }npm exec -c "${startScript}"`,
       env: {
         PORT: realPort,
+        HTTPS: plugin.protocol !== 'http',
         ...env,
+        SSL_CRT_FILE: '',
+        SSL_KEY_FILE: '',
         MUSE_CONFIG_FILE: '', // The config file should be empty, so that the plugin can use the default config.
       },
     });

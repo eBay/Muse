@@ -147,6 +147,7 @@ const getAppConfig = (id) => {
       p.running = true;
       p.port = found.port;
       p.type = found.pluginInfo.type;
+      p.protocol = pluginConfig.protocol || (process.env.HTTPS === 'true' ? 'https' : 'http');
       p.devServer = pluginConfig.devServer;
     }
 
@@ -157,6 +158,8 @@ const getAppConfig = (id) => {
       }));
     }
   });
+  app.protocol = app.protocol || (process.env.HTTPS === 'true' ? 'https' : 'http');
+
   return app;
 };
 app.post(
@@ -167,7 +170,6 @@ app.post(
     const app = appList.find((a) => a.id === id);
     if (!app) throw new Error(`App not found: ${id}`);
 
-    const isHttps = app.protocol !== 'http' && !!process.env.HTTPS;
     const appRunner = await runner.startApp({
       id,
       app: app.app,
@@ -197,7 +199,6 @@ app.post(
                 result: {
                   ...getAppConfig(id),
                   port: appRunner.port,
-                  https: isHttps,
                 },
               },
             });
@@ -430,10 +431,10 @@ app.get(
     res.setHeader('Content-Type', 'application/json');
     res.send(
       JSON.stringify({
-        https: !!process.env.HTTPS,
         msgCache,
         apps,
         plugins,
+        https: process.env.HTTPS === 'true',
         museLocalHost: process.env.MUSE_LOCAL_HOST_NAME || 'localhost',
       }),
     );
