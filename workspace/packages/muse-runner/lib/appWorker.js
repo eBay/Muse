@@ -42,11 +42,8 @@ const callParentApi = (key) => {
 
   return promise;
 };
-
 const appConfig = await callParentApi('get-app-config');
-const isHttps = appConfig.https;
-const protocol = isHttps ? 'https' : 'http';
-
+const isHttps = appConfig.protocol !== 'http';
 muse.plugin.register({
   name: 'muse-runner',
   museMiddleware: {
@@ -54,16 +51,15 @@ muse.plugin.register({
       processIndexHtml: async (ctx) => {
         // This is to support vite-react
         // This may need to be implemented as a plugin
-        const vitePorts = appConfig.plugins
+        const viteProtocolAndPorts = appConfig.plugins
           ?.filter((p) => p.devServer === 'vite' && p.running)
-          .map((p) => p.port)
+          .map((p) => [p.port, p.protocol])
           .filter(Boolean);
-        if (!vitePorts || !vitePorts.length) return;
+        if (!viteProtocolAndPorts || !viteProtocolAndPorts.length) return;
+        console.log(viteProtocolAndPorts);
         const importMap = { imports: {} };
-        vitePorts.forEach((vitePort) => {
-          importMap.imports[
-            `${isHttps ? 'https' : 'http'}://${host}:${vitePort}/@react-refresh`
-          ] = `/@react-refresh`;
+        viteProtocolAndPorts.forEach(([vitePort, protocol]) => {
+          importMap.imports[`${protocol}://${host}:${vitePort}/@react-refresh`] = `/@react-refresh`;
         });
         ctx.indexHtml = ctx.indexHtml.replace(
           '<head>',
@@ -82,11 +78,16 @@ ${JSON.stringify(importMap, null, 2)}
         );
       },
       getAppInfo: async () => {
+        // NOTE: appConfig always changes, so need to get it every time
+        const appConfig = await callParentApi('get-app-config');
         return { appName: appConfig.app, envName: appConfig.env };
       },
 
       // TODO: the logic here seems to be too complicated, need more detailed comments
       processAppInfo: async ({ app, env }) => {
+        // NOTE: appConfig always changes, so need to get it every time
+        const appConfig = await callParentApi('get-app-config');
+
         // All deployed plugins on the app
         const deployedPluginByName = _.keyBy(env.plugins, 'name');
 
@@ -136,12 +137,13 @@ ${JSON.stringify(importMap, null, 2)}
               break;
             case 'local': {
               if (p.running) {
+                const pluginProtocol = p.protocol || 'https';
                 if (p.devServer === 'vite') {
                   const entryFile = museDevUtils.getEntryFile(p.dir);
-                  deployedPlugin.url = `${protocol}://${host}:${p.port}/${entryFile}`;
+                  deployedPlugin.url = `${pluginProtocol}://${host}:${p.port}/${entryFile}`;
                   deployedPlugin.esModule = true;
                 } else {
-                  deployedPlugin.url = `${protocol}://${host}:${p.port}/${
+                  deployedPlugin.url = `${pluginProtocol}://${host}:${p.port}/${
                     p.type === 'boot' ? 'boot' : 'main'
                   }.js`;
                 }
@@ -165,7 +167,7 @@ ${JSON.stringify(importMap, null, 2)}
                   if (localLibPluings[lib.name]) return;
                   const pid = muse.utils.getPluginId(lib.name);
                   localLibPluings[lib.name] = {
-                    url: `${protocol}://${host}:${p.port}/muse-assets/local/p/${pid}/dev/main.js`,
+                    url: `${pluginProtocol}://${host}:${p.port}/muse-assets/local/p/${pid}/dev/main.js`,
                     version: lib.version,
                   };
                 });
