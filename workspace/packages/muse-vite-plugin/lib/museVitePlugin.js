@@ -41,8 +41,12 @@ module.exports = () => {
     },
   };
 
-  const sslCrtFile = path.join(process.cwd(), './node_modules/.muse/certs/muse-dev-cert.crt');
-  const sslKeyFile = path.join(process.cwd(), './node_modules/.muse/certs/muse-dev-cert.key');
+  const sslCrtFile =
+    process.env.SSL_CRT_FILE ||
+    path.join(process.cwd(), './node_modules/.muse/certs/muse-dev-cert.crt');
+  const sslKeyFile =
+    process.env.SSL_KEY_FILE ||
+    path.join(process.cwd(), './node_modules/.muse/certs/muse-dev-cert.key');
   return {
     name: 'muse-vite-plugin',
     config(config) {
@@ -54,13 +58,17 @@ module.exports = () => {
         // Prevent auto port so that it can be used with Muse Runner
         server.strictPort = true;
       }
-      console.log(sslCrtFile);
-      if (process.env.HTTPS === 'true' && fs.existsSync(sslCrtFile) && fs.existsSync(sslKeyFile)) {
-        if (!server.https) server.https = {};
 
-        if (!server.https.cert && !server.https.key) {
-          server.https.key = fs.readFileSync(sslKeyFile);
+      if (process.env.HTTPS === 'true') {
+        if (!server.https) server.https = {};
+        if (
+          !server.https.cert &&
+          !server.https.key &&
+          fs.existsSync(sslCrtFile) &&
+          fs.existsSync(sslKeyFile)
+        ) {
           server.https.cert = fs.readFileSync(sslCrtFile);
+          server.https.key = fs.readFileSync(sslKeyFile);
         }
       }
 

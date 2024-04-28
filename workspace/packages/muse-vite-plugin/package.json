@@ -2,7 +2,7 @@
   "name": "@ebay/muse-vite-plugin",
   "version": "1.0.27",
   "description": "",
-  "main": "index.js",
+  "main": "lib/museVitePlugin.js",
   "publishConfig": {
     "registry": "https://artifactory.corp.ebay.com/artifactory/api/npm/npm-muse"
   },
