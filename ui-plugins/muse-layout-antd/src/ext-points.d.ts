@@ -1,6 +1,8 @@
+import { ReactNode } from 'react';
+
 export type HeaderConfig = {
   backgroundColor?: string;
-  icon?: React.ReactNode;
+  icon?: ReactNode;
   title?: string;
   noUserMenu?: boolean;
   themeSwitcher?: boolean;
@@ -16,7 +18,7 @@ export type HeaderItem = {
   link?: string;
   linkTarget?: string;
   onClick?: Function;
-  icon?: React.ReactNode;
+  icon?: ReactNode;
   type?: 'menu' | string;
   className?: string;
   menuMeta?: Record<string, any>;
@@ -40,9 +42,9 @@ export type SiderConfig = {
 
 export type SiderItem = {
   key: string;
-  icon?: React.ReactNode;
+  icon?: ReactNode;
   link?: string;
-  label: React.ReactNode;
+  label: ReactNode;
   order?: number;
 };
 
