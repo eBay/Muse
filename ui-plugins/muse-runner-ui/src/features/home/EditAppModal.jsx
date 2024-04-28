@@ -118,7 +118,7 @@ const AddAppModal = NiceModal.create(({ app }) => {
         label: 'Plugin variables',
         widget: 'textarea',
         tooltip:
-          'Set plugin variables in yaml format. e.g. \n@ebay/muse-lib-react: \n  key:value\nOnly take effects at local.',
+          'Override plugin variables in yaml format. e.g. \n@ebay/muse-lib-react: \n  key:value\nOnly take effects at local.',
       },
     ],
   };
@@ -128,6 +128,7 @@ const AddAppModal = NiceModal.create(({ app }) => {
       app: values.app,
       env: values.env,
       loadAllPlugins: values.loadAllPlugins,
+      protocol: values.protocol,
       variables: values.variables ? yaml.load(values.variables) : undefined,
       pluginVariables: values.pluginVariables ? yaml.load(values.pluginVariables) : undefined,
     };

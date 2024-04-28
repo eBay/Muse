@@ -1,5 +1,5 @@
 import React from 'react';
-import Icon, { DeleteOutlined } from '@ant-design/icons';
+import { DeleteOutlined } from '@ant-design/icons';
 import api from './api';
 
 import vscodeIcon from './vscode.svg';
@@ -23,7 +23,7 @@ const LinkedPluginCell = ({ plugin, onRemove }) => {
     <div className="combined-plugin-cell grid grid-cols-[18px_1fr_30px_20px] cursor-default mt-1">
       <span />
       <span className="text-gray-500 whitespace-nowrap text-ellipsis overflow-hidden">
-        - Linked: {plugin.name}
+        <span className="text-gray-600">linked:</span> {plugin.name}
       </span>
       {plugin.dir ? (
         <img
