@@ -42,8 +42,7 @@ const callParentApi = (key) => {
 
   return promise;
 };
-const appConfig = await callParentApi('get-app-config');
-const isHttps = appConfig.protocol !== 'http';
+
 muse.plugin.register({
   name: 'muse-runner',
   museMiddleware: {
@@ -51,12 +50,12 @@ muse.plugin.register({
       processIndexHtml: async (ctx) => {
         // This is to support vite-react
         // This may need to be implemented as a plugin
+        const appConfig = await callParentApi('get-app-config');
         const viteProtocolAndPorts = appConfig.plugins
           ?.filter((p) => p.devServer === 'vite' && p.running)
           .map((p) => [p.port, p.protocol])
           .filter(Boolean);
         if (!viteProtocolAndPorts || !viteProtocolAndPorts.length) return;
-        console.log(viteProtocolAndPorts);
         const importMap = { imports: {} };
         viteProtocolAndPorts.forEach(([vitePort, protocol]) => {
           importMap.imports[`${protocol}://${host}:${vitePort}/@react-refresh`] = `/@react-refresh`;
@@ -271,6 +270,8 @@ app.use(
   }),
 );
 
+const appConfig = await callParentApi('get-app-config');
+const isHttps = appConfig.protocol !== 'http';
 if (isHttps) {
   https
     .createServer(
