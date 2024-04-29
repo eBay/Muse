@@ -1,5 +1,11 @@
 # @ebay/muse-vite-plugin
 
+## 1.0.29
+
+### Patch Changes
+
+- test build
+
 ## 1.0.28
 
 ### Patch Changes
