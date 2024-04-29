@@ -1,5 +1,11 @@
 # @ebay/muse-dev-utils
 
+## 1.0.60
+
+### Patch Changes
+
+- Enable https.
+
 ## 1.0.59
 
 ### Patch Changes

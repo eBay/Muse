@@ -1,5 +1,13 @@
 # @ebay/muse-vite-plugin
 
+## 1.0.28
+
+### Patch Changes
+
+- Enable https.
+- Updated dependencies
+  - @ebay/muse-dev-utils@1.0.60
+
 ## 1.0.27
 
 ### Patch Changes
