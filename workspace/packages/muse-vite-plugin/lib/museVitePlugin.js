@@ -73,7 +73,7 @@ module.exports = () => {
       }
 
       if (!config.mode) {
-        config.mode = process.env.NODE_ENV === 'production' ? 'production' : 'development';
+        config.mode = 'development'; //process.env.NODE_ENV === 'production' ? 'production' : 'development';
       }
 
       // Esbuild config
@@ -101,7 +101,13 @@ module.exports = () => {
 
       // Rollup config
       if (!config.build) config.build = {};
-      config.build.outDir = process.env.NODE_ENV === 'production' ? 'build/dist' : 'build/dev';
+      if (typeof config.build.sourcemap === 'undefined') config.build.sourcemap = true;
+      config.build.outDir =
+        process.env.MUSE_TEST_BUILD === 'true'
+          ? 'build/test'
+          : process.env.NODE_ENV === 'production'
+          ? 'build/dist'
+          : 'build/dev';
       if (!config.build.rollupOptions) config.build.rollupOptions = {};
       const entryFile = devUtils.getEntryFile();
       if (!entryFile) {
@@ -123,7 +129,6 @@ module.exports = () => {
 
     configureServer(server) {
       theViteServer = server;
-
       try {
         // when hot reload, vite will call configureServer again, so don't repeat muse plugin registration
         muse.plugin.register(musePluginVite);
