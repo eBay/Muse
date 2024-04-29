@@ -35,21 +35,11 @@ export default function EnvironmentVariables({ app }) {
       />
       {scope === 'app' && (
         <>
-          <Alert
-            type="info"
-            showIcon
-            message="You can use 'window.MUSE_GLOBAL.appVariables[varName]' to get an app variable value."
-          />
           <AppVariables app={app} />
         </>
       )}
       {scope === 'plugin' && (
         <>
-          <Alert
-            type="info"
-            showIcon
-            message="You can use 'window.MUSE_GLOBAL.pluginVariables[pluginName][varName]' to get a plugin variable value."
-          />
           <PluginVariables app={app} />
         </>
       )}
