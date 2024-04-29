@@ -13,16 +13,16 @@ dependencies:
     version: 3.0.24(@craco/craco@7.1.0)(@ebay/muse-core@1.0.37)(@ebay/muse-modules-analyzer@1.0.10)(express@4.19.2)
   '@ebay/muse-lib-antd':
     specifier: ^1.2.22
-    version: 1.2.22(@testing-library/dom@10.0.0)(@types/react@18.3.1)(react-dom@18.3.1)(react@18.3.1)
+    version: 1.2.22(@testing-library/dom@10.1.0)(@types/react@18.3.1)(react-dom@18.3.1)(react@18.3.1)
   '@ebay/muse-lib-react':
     specifier: 1.2.18
-    version: 1.2.18(@testing-library/dom@10.0.0)(@types/react@18.3.1)
+    version: 1.2.18(@testing-library/dom@10.1.0)(@types/react@18.3.1)
   '@ebay/muse-plugin-acl':
     specifier: ^1.0.13
     version: 1.0.13
   '@ebay/muse-vite-plugin':
-    specifier: ^1.0.28
-    version: link:../../workspace/packages/muse-vite-plugin
+    specifier: ^1.0.29
+    version: 1.0.29(@ebay/muse-modules-analyzer@1.0.10)(express@4.19.2)
   '@tanstack/react-query':
     specifier: ^4.28.0
     version: 4.29.5(react-dom@18.3.1)(react@18.3.1)
@@ -84,7 +84,7 @@ devDependencies:
     version: 13.4.0(react-dom@18.3.1)(react@18.3.1)
   '@testing-library/user-event':
     specifier: ^13.5.0
-    version: 13.5.0(@testing-library/dom@10.0.0)
+    version: 13.5.0(@testing-library/dom@10.1.0)
   '@vitejs/plugin-react':
     specifier: 4.2.1
     version: 4.2.1(vite@5.2.10)
@@ -963,7 +963,7 @@ packages:
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
-      '@babel/core': artifactory.corp.ebay.com/@babel/core@7.21.8
+      '@babel/core': 7.21.8
       '@babel/helper-plugin-utils': 7.24.0
 
   /@babel/plugin-syntax-import-assertions@7.20.0(@babel/core@7.21.8):
@@ -1022,7 +1022,7 @@ packages:
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
-      '@babel/core': artifactory.corp.ebay.com/@babel/core@7.21.8
+      '@babel/core': 7.21.8
       '@babel/helper-plugin-utils': 7.24.0
 
   /@babel/plugin-syntax-logical-assignment-operators@7.10.4(@babel/core@7.21.8):
@@ -1487,7 +1487,7 @@ packages:
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
-      '@babel/core': artifactory.corp.ebay.com/@babel/core@7.21.8
+      '@babel/core': 7.21.8
       '@babel/helper-annotate-as-pure': 7.22.5
       '@babel/helper-module-imports': 7.24.3
       '@babel/helper-plugin-utils': 7.24.0
@@ -2285,7 +2285,6 @@ packages:
       semver: 7.5.0
     transitivePeerDependencies:
       - '@ebay/muse-modules-analyzer'
-    dev: true
 
   /@ebay/muse-express-middleware@1.0.48(@ebay/muse-core@1.0.37)(@ebay/muse-modules-analyzer@1.0.10):
     resolution: {integrity: sha512-HgAClxaM5tKVbnlXjjrTLfqHX5ujW9e9u9UwptJAxa0rN19OLzAJHVtJ3aI+XZso3CaFkGR978iqw1JmncCUMg==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-express-middleware/-/@ebay/muse-express-middleware-1.0.48.tgz}
@@ -2300,11 +2299,11 @@ packages:
       multer: artifactory.corp.ebay.com/multer@1.4.5-lts.1
       request-ip: artifactory.corp.ebay.com/request-ip@3.3.0
 
-  /@ebay/muse-lib-antd@1.2.22(@testing-library/dom@10.0.0)(@types/react@18.3.1)(react-dom@18.3.1)(react@18.3.1):
+  /@ebay/muse-lib-antd@1.2.22(@testing-library/dom@10.1.0)(@types/react@18.3.1)(react-dom@18.3.1)(react@18.3.1):
     resolution: {integrity: sha512-VCdXgBvmTx4yZPGZUteUWAX4ndWSECEHACborCQkoGweUhRcw2ccWENGpoRtZseTMfGI6MF2TG4HDf18fR96OA==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-lib-antd/-/@ebay/muse-lib-antd-1.2.22.tgz}
     dependencies:
       '@ant-design/icons': artifactory.corp.ebay.com/@ant-design/icons@5.2.6(react-dom@18.3.1)(react@18.3.1)
-      '@ebay/muse-lib-react': 1.2.17(@testing-library/dom@10.0.0)(@types/react@18.3.1)
+      '@ebay/muse-lib-react': 1.2.17(@testing-library/dom@10.1.0)(@types/react@18.3.1)
       '@ebay/nice-form-react': 1.0.10
       antd: artifactory.corp.ebay.com/antd@5.10.1(moment@2.29.4)(react-dom@18.3.1)(react@18.3.1)
       history: artifactory.corp.ebay.com/history@5.3.0
@@ -2327,12 +2326,12 @@ packages:
       - supports-color
     dev: false
 
-  /@ebay/muse-lib-react@1.2.17(@testing-library/dom@10.0.0)(@types/react@18.3.1):
+  /@ebay/muse-lib-react@1.2.17(@testing-library/dom@10.1.0)(@types/react@18.3.1):
     resolution: {integrity: sha512-aJrrX/p9iLsO18ooQU9yukwqKOKdfFwspNL9+EkTfgJ/6hqA5YXA3NxHMcRD3QVrcXzW1mtzv7h/WLUZGKMSuQ==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-lib-react/-/@ebay/muse-lib-react-1.2.17.tgz}
     dependencies:
       '@ebay/nice-modal-react': 1.2.10(react-dom@18.2.0)(react@18.2.0)
       '@tanstack/react-query': artifactory.corp.ebay.com/@tanstack/react-query@4.33.0(react-dom@18.2.0)(react@18.2.0)
-      '@testing-library/user-event': artifactory.corp.ebay.com/@testing-library/user-event@14.5.1(@testing-library/dom@10.0.0)
+      '@testing-library/user-event': artifactory.corp.ebay.com/@testing-library/user-event@14.5.1(@testing-library/dom@10.1.0)
       babel-plugin-istanbul: artifactory.corp.ebay.com/babel-plugin-istanbul@6.1.1
       history: artifactory.corp.ebay.com/history@5.3.0
       js-plugin: artifactory.corp.ebay.com/js-plugin@1.1.0
@@ -2357,12 +2356,12 @@ packages:
       - supports-color
     dev: false
 
-  /@ebay/muse-lib-react@1.2.18(@testing-library/dom@10.0.0)(@types/react@18.3.1):
+  /@ebay/muse-lib-react@1.2.18(@testing-library/dom@10.1.0)(@types/react@18.3.1):
     resolution: {integrity: sha512-MMOvqZlbKm0oH2OOMypFT7GHXXHOIetYnMz8O8fFjATTo4q73CZD4eIxHIC1AHs3GV0xbCDKHe7kPJAp+JDIgw==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-lib-react/-/@ebay/muse-lib-react-1.2.18.tgz}
     dependencies:
       '@ebay/nice-modal-react': 1.2.10(react-dom@18.2.0)(react@18.2.0)
       '@tanstack/react-query': artifactory.corp.ebay.com/@tanstack/react-query@4.33.0(react-dom@18.2.0)(react@18.2.0)
-      '@testing-library/user-event': artifactory.corp.ebay.com/@testing-library/user-event@14.5.1(@testing-library/dom@10.0.0)
+      '@testing-library/user-event': artifactory.corp.ebay.com/@testing-library/user-event@14.5.1(@testing-library/dom@10.1.0)
       babel-plugin-istanbul: artifactory.corp.ebay.com/babel-plugin-istanbul@6.1.1
       history: artifactory.corp.ebay.com/history@5.3.0
       js-plugin: artifactory.corp.ebay.com/js-plugin@1.1.0
@@ -2417,6 +2416,19 @@ packages:
       '@ebay/muse-core': 1.0.37
       js-plugin: artifactory.corp.ebay.com/js-plugin@1.1.0
       lodash: artifactory.corp.ebay.com/lodash@4.17.21
+    dev: false
+
+  /@ebay/muse-vite-plugin@1.0.29(@ebay/muse-modules-analyzer@1.0.10)(express@4.19.2):
+    resolution: {integrity: sha512-KjmLIZGJZmtrLHHOlvGN2mh5RlsiHjPXrmmooq2fSKriSBenS/UrJV22bFj7rae3al/SIDtKaQiMi+vCitidKw==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-vite-plugin/-/@ebay/muse-vite-plugin-1.0.29.tgz}
+    dependencies:
+      '@ebay/muse-core': 1.0.37
+      '@ebay/muse-dev-utils': 1.0.60(@ebay/muse-core@1.0.37)(@ebay/muse-modules-analyzer@1.0.10)(express@4.19.2)
+      '@ebay/muse-modules': 1.0.27
+      find-root: 1.1.0
+      fs-extra: 10.1.0
+    transitivePeerDependencies:
+      - '@ebay/muse-modules-analyzer'
+      - express
     dev: false
 
   /@ebay/muse-webpack-plugin@1.0.32:
@@ -3618,8 +3630,8 @@ packages:
       use-sync-external-store: 1.2.0(react@18.3.1)
     dev: false
 
-  /@testing-library/dom@10.0.0:
-    resolution: {integrity: sha512-PmJPnogldqoVFf+EwbHvbBJ98MmqASV8kLrBYgsDNxQcFMeIS7JFL48sfyXvuMtgmWO/wMhh25odr+8VhDmn4g==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@testing-library/dom/-/dom-10.0.0.tgz}
+  /@testing-library/dom@10.1.0:
+    resolution: {integrity: sha512-wdsYKy5zupPyLCW2Je5DLHSxSfbIp6h80WoHOQc+RPtmPGA52O9x5MJEkv92Sjonpq+poOAtUKhh1kBGAXBrNA==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@testing-library/dom/-/dom-10.1.0.tgz}
     engines: {node: '>=18'}
     dependencies:
       '@babel/code-frame': 7.24.2
@@ -3674,14 +3686,14 @@ packages:
       react-dom: 18.3.1(react@18.3.1)
     dev: true
 
-  /@testing-library/user-event@13.5.0(@testing-library/dom@10.0.0):
+  /@testing-library/user-event@13.5.0(@testing-library/dom@10.1.0):
     resolution: {integrity: sha1-addwB/HhJNVTFKK3P9IEszOxMpU=}
     engines: {node: '>=10', npm: '>=6'}
     peerDependencies:
       '@testing-library/dom': '>=7.21.4'
     dependencies:
       '@babel/runtime': 7.21.5
-      '@testing-library/dom': 10.0.0
+      '@testing-library/dom': 10.1.0
     dev: true
 
   /@tootallnate/once@1.1.2:
@@ -13259,7 +13271,7 @@ packages:
       use-sync-external-store: artifactory.corp.ebay.com/use-sync-external-store@1.2.0(react@18.2.0)
     dev: false
 
-  artifactory.corp.ebay.com/@testing-library/user-event@14.5.1(@testing-library/dom@10.0.0):
+  artifactory.corp.ebay.com/@testing-library/user-event@14.5.1(@testing-library/dom@10.1.0):
     resolution: {integrity: sha512-UCcUKrUYGj7ClomOo2SpNVvx4/fkd/2BbIHDCle8A0ax+P3bU7yJwDBDrS6ZwdTMARWTGODX1hEsCcO+7beJjg==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@testing-library/user-event/-/user-event-14.5.1.tgz}
     id: artifactory.corp.ebay.com/@testing-library/user-event/14.5.1
     name: '@testing-library/user-event'
@@ -13268,7 +13280,7 @@ packages:
     peerDependencies:
       '@testing-library/dom': '>=7.21.4'
     dependencies:
-      '@testing-library/dom': 10.0.0
+      '@testing-library/dom': 10.1.0
     dev: false
 
   artifactory.corp.ebay.com/@tsconfig/node10@1.0.9:
