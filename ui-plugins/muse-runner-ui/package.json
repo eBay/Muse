@@ -48,8 +48,8 @@
   "scripts": {
     "start": "muse-cra-patch && cross-env PORT=3030 craco start",
     "dev": "vite",
-    "build": "muse-cra-patch && craco build",
-    "build:dev": "muse-cra-patch && cross-env NODE_ENV=development FAST_REFRESH=false craco build",
+    "build": "vite build",
+    "build:dev": "vite build --mode development",
     "build:test": "muse-cra-patch && cross-env MUSE_TEST_BUILD=true FAST_REFRESH=false craco build",
     "test": "muse-cra-patch && cross-env MUSE_TEST_BUILD=true craco test --ci --watchAll=false --passWithNoTests --coverage",
     "test:dev": "muse-cra-patch && cross-env MUSE_TEST_BUILD=true craco test --coverage"
