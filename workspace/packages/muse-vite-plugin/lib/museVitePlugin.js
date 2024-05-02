@@ -15,9 +15,14 @@ const simpleRouteWrapperMiddleware = (path, middleware) => {
     return middleware(req, res, next);
   };
 };
+
+const buildDir = {
+  production: 'build/dist',
+  development: 'build/dev',
+  'e2e-test': 'build/test',
+};
 module.exports = () => {
   let theViteServer;
-
   const musePluginVite = {
     name: 'muse-plugin-vite',
     museMiddleware: {
@@ -50,6 +55,10 @@ module.exports = () => {
   return {
     name: 'muse-vite-plugin',
     config(config) {
+      if (!config.mode) {
+        config.mode = 'production';
+      }
+
       // Config https if possible
       if (!config.server) config.server = {};
       const server = config.server;
@@ -70,10 +79,6 @@ module.exports = () => {
           server.https.cert = fs.readFileSync(sslCrtFile);
           server.https.key = fs.readFileSync(sslKeyFile);
         }
-      }
-
-      if (!config.mode) {
-        config.mode = 'development'; //process.env.NODE_ENV === 'production' ? 'production' : 'development';
       }
 
       // Esbuild config
@@ -101,13 +106,9 @@ module.exports = () => {
 
       // Rollup config
       if (!config.build) config.build = {};
+      // config.build.minify = false;
       if (typeof config.build.sourcemap === 'undefined') config.build.sourcemap = true;
-      config.build.outDir =
-        process.env.MUSE_TEST_BUILD === 'true'
-          ? 'build/test'
-          : process.env.NODE_ENV === 'production'
-          ? 'build/dist'
-          : 'build/dev';
+      config.build.outDir = buildDir[config.mode];
       if (!config.build.rollupOptions) config.build.rollupOptions = {};
       const entryFile = devUtils.getEntryFile();
       if (!entryFile) {
@@ -117,6 +118,7 @@ module.exports = () => {
       }
       if (!config.build.rollupOptions.input) config.build.rollupOptions.input = entryFile;
       if (!config.build.rollupOptions.output) config.build.rollupOptions.output = {};
+
       Object.assign(config.build.rollupOptions.output, {
         entryFileNames: 'main.js',
         format: 'iife',

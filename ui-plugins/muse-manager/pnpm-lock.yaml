@@ -22,7 +22,7 @@ dependencies:
     version: 1.0.13
   '@ebay/muse-vite-plugin':
     specifier: ^1.0.29
-    version: 1.0.29(@ebay/muse-modules-analyzer@1.0.10)(express@4.19.2)
+    version: link:../../workspace/packages/muse-vite-plugin
   '@tanstack/react-query':
     specifier: ^4.28.0
     version: 4.29.5(react-dom@18.3.1)(react@18.3.1)
@@ -2285,6 +2285,7 @@ packages:
       semver: 7.5.0
     transitivePeerDependencies:
       - '@ebay/muse-modules-analyzer'
+    dev: true
 
   /@ebay/muse-express-middleware@1.0.48(@ebay/muse-core@1.0.37)(@ebay/muse-modules-analyzer@1.0.10):
     resolution: {integrity: sha512-HgAClxaM5tKVbnlXjjrTLfqHX5ujW9e9u9UwptJAxa0rN19OLzAJHVtJ3aI+XZso3CaFkGR978iqw1JmncCUMg==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-express-middleware/-/@ebay/muse-express-middleware-1.0.48.tgz}
@@ -2416,19 +2417,6 @@ packages:
       '@ebay/muse-core': 1.0.37
       js-plugin: artifactory.corp.ebay.com/js-plugin@1.1.0
       lodash: artifactory.corp.ebay.com/lodash@4.17.21
-    dev: false
-
-  /@ebay/muse-vite-plugin@1.0.29(@ebay/muse-modules-analyzer@1.0.10)(express@4.19.2):
-    resolution: {integrity: sha512-KjmLIZGJZmtrLHHOlvGN2mh5RlsiHjPXrmmooq2fSKriSBenS/UrJV22bFj7rae3al/SIDtKaQiMi+vCitidKw==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-vite-plugin/-/@ebay/muse-vite-plugin-1.0.29.tgz}
-    dependencies:
-      '@ebay/muse-core': 1.0.37
-      '@ebay/muse-dev-utils': 1.0.60(@ebay/muse-core@1.0.37)(@ebay/muse-modules-analyzer@1.0.10)(express@4.19.2)
-      '@ebay/muse-modules': 1.0.27
-      find-root: 1.1.0
-      fs-extra: 10.1.0
-    transitivePeerDependencies:
-      - '@ebay/muse-modules-analyzer'
-      - express
     dev: false
 
   /@ebay/muse-webpack-plugin@1.0.32:
