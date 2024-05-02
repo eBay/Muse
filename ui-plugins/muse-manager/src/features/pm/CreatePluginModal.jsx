@@ -35,6 +35,13 @@ const CreatePluginModal = NiceModal.create(({ app }) => {
         tooltip: 'The uniq name of the plugin. Recommend to follow same pattern with npm package.',
         required: true,
         order: 10,
+        rules: [
+          {
+            pattern: /^[\w\d-]+$/,
+            message:
+              'Plugin name should be 5-20 characters and contains only alphabets, numbers or "-".',
+          },
+        ],
       },
       {
         key: 'type',
