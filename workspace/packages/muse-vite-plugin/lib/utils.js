@@ -45,8 +45,10 @@ function getMuseModuleCode(filePath) {
     `;
   }
   // We need to know if a module is a default export or not
-  else
+  // return `module.exports =MUSE_GLOBAL.__shared__.require("${museModule.id}"); module.exports=m?(Object.keys(m).length===1 && m.default ||m):null;`;
+  else {
     return `const m = MUSE_GLOBAL.__shared__.require("${museModule.id}"); module.exports=m?(Object.keys(m).length===1 && m.default ||m):null;`;
+  }
 }
 
 module.exports = {
