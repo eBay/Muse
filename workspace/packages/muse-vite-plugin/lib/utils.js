@@ -16,10 +16,16 @@ function ensureAllMuseModules() {
 }
 
 function getMuseModule(filePath) {
+  const pkg = fs.readJsonSync(path.join(process.cwd(), 'package.json'));
+
   ensureAllMuseModules();
   const rootPkgPath = findRoot(filePath);
-  if (!rootPkgPath) return;
+  if (!rootPkgPath) return null;
+
   const rootPkg = fs.readJsonSync(rootPkgPath + '/package.json');
+  if (pkg?.muse.customLibs?.includes(rootPkg.name)) {
+    return null;
+  }
   if (!rootPkg.name || !rootPkg.version) return;
   const museModuleId = `${rootPkg.name}@${rootPkg.version}${filePath.replace(rootPkgPath, '')}`;
   const museModule = findMuseModule(museModuleId, { modules: allMuseModules });
