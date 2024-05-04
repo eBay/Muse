@@ -24,13 +24,17 @@ function getMuseModule(filePath) {
   const museModuleId = `${rootPkg.name}@${rootPkg.version}${filePath.replace(rootPkgPath, '')}`;
   const museModule = findMuseModule(museModuleId, { modules: allMuseModules });
   // console.log(museModule);
+  if (museModule) {
+    museModule.__isESM = rootPkg.type === 'module' || filePath.endsWith('.mjs');
+  }
   return museModule;
 }
 
 function getMuseModuleCode(filePath) {
   const museModule = getMuseModule(filePath);
   if (!museModule) return;
-  if (filePath.endsWith('.mjs')) {
+
+  if (museModule.__isESM) {
     //TODO: or package type === 'module' ?
     return `const m = MUSE_GLOBAL.__shared__.require("${museModule.id}");
     ${(museModule.exports || [])
@@ -45,9 +49,8 @@ function getMuseModuleCode(filePath) {
     `;
   }
   // We need to know if a module is a default export or not
-  // return `module.exports =MUSE_GLOBAL.__shared__.require("${museModule.id}"); module.exports=m?(Object.keys(m).length===1 && m.default ||m):null;`;
   else {
-    return `const m = MUSE_GLOBAL.__shared__.require("${museModule.id}"); module.exports=m?(Object.keys(m).length===1 && m.default ||m):null;`;
+    return `module.exports=MUSE_GLOBAL.__shared__.require("${museModule.id}");`;
   }
 }
 
