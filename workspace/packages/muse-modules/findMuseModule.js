@@ -1,5 +1,6 @@
 const parseMuseId = require('./parseMuseId');
 const buildCache = require('./buildCache');
+const config = require('./config');
 
 // Get the version diff, e.g: [1,2,3] - [1,2,4] = [0,0,1]
 const verDiff = (v1, v2) => [0, 1, 2].map((i) => Math.abs(v1[i] - v2[i]));
@@ -30,7 +31,10 @@ const gt = (v1, v2) => !lt(v1, v2);
 function findMuseModule(museId, museShared) {
   if (!museShared) museShared = MUSE_GLOBAL.__shared__;
 
-  if (museShared.modules[museId]) return museShared.modules[museId];
+  if (museShared.modules[museId]) {
+    return museShared.modules[museId];
+  }
+
   let cache = museShared.cache;
 
   if (!cache) {
@@ -44,7 +48,6 @@ function findMuseModule(museId, museShared) {
   if (!m) return null;
   const candidates = cache[m.id];
   if (!candidates) return null;
-  if (candidates.length === 1) return museShared.modules[candidates[0].museId];
   let picked = candidates[0];
   let minDiff = verDiff(m.version, picked.version);
 
@@ -57,6 +60,8 @@ function findMuseModule(museId, museShared) {
       break;
     }
 
+    // apply match version config
+
     // Ensure picked version is grater than target version
     if (gt(picked.version, m.version) && lt(c.version, m.version)) continue;
 
@@ -67,6 +72,22 @@ function findMuseModule(museId, museShared) {
       minDiff = currentDiff;
       picked = c;
     }
+  }
+
+  switch (config.matchVersion) {
+    case 'major':
+      if (minDiff[0] !== 0) return null;
+      break;
+    case 'minor':
+      if (minDiff[0] !== 0 || minDiff[1] !== 0) return null;
+      break;
+    case 'patch':
+      if (minDiff[0] !== 0 || minDiff[1] !== 0 || minDiff[2] !== 0) return null;
+      break;
+    case 'all':
+      break;
+    default:
+      break;
   }
 
   return museShared.modules[picked.museId];

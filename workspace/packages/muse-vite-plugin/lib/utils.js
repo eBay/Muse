@@ -2,7 +2,8 @@ const fs = require('fs-extra');
 const path = require('path');
 const findRoot = require('find-root');
 const { getMuseLibs } = require('@ebay/muse-dev-utils/lib/utils');
-const { findMuseModule } = require('@ebay/muse-modules');
+const { findMuseModule, config } = require('@ebay/muse-modules');
+config.matchVersion = 'major';
 
 let allMuseModules;
 function ensureAllMuseModules() {
@@ -23,11 +24,12 @@ function getMuseModule(filePath) {
   if (!rootPkgPath) return null;
 
   const rootPkg = fs.readJsonSync(rootPkgPath + '/package.json');
+  if (!rootPkg.name || !rootPkg.version) return;
   if (pkg?.muse.customLibs?.includes(rootPkg.name)) {
     return null;
   }
-  if (!rootPkg.name || !rootPkg.version) return;
   const museModuleId = `${rootPkg.name}@${rootPkg.version}${filePath.replace(rootPkgPath, '')}`;
+
   const museModule = findMuseModule(museModuleId, { modules: allMuseModules });
   // console.log(museModule);
   if (museModule) {
