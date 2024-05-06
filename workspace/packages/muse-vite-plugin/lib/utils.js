@@ -9,10 +9,12 @@ let allMuseModules;
 function ensureAllMuseModules() {
   if (!allMuseModules) allMuseModules = {};
   getMuseLibs().forEach((lib) => {
-    Object.assign(
-      allMuseModules,
-      fs.readJsonSync(path.join(lib.path, 'build/dev/lib-manifest.json')).content,
-    );
+    const content = fs.readJsonSync(path.join(lib.path, 'build/dev/lib-manifest.json')).content;
+    for (const p in content) {
+      // Need to know the lib name to generate deps-manifest.json
+      content[p].__libName = `${lib.name}@${lib.version}`;
+    }
+    Object.assign(allMuseModules, content);
   });
 }
 
@@ -31,15 +33,14 @@ function getMuseModule(filePath) {
   const museModuleId = `${rootPkg.name}@${rootPkg.version}${filePath.replace(rootPkgPath, '')}`;
 
   const museModule = findMuseModule(museModuleId, { modules: allMuseModules });
-  // console.log(museModule);
   if (museModule) {
     museModule.__isESM = rootPkg.type === 'module' || filePath.endsWith('.mjs');
   }
   return museModule;
 }
 
-function getMuseModuleCode(filePath) {
-  const museModule = getMuseModule(filePath);
+function getMuseModuleCode(museModule) {
+  // const museModule = getMuseModule(filePath);
   if (!museModule) return;
 
   if (museModule.__isESM) {
@@ -62,7 +63,13 @@ function getMuseModuleCode(filePath) {
   }
 }
 
+// Get the lib plugin where the shared module is from
+const getLibNameByModule = (museId) => {
+  return allMuseModules[museId]?.__libName;
+};
+
 module.exports = {
   getMuseModule,
   getMuseModuleCode,
+  getLibNameByModule,
 };
