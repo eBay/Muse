@@ -5,6 +5,24 @@ const { getMuseLibs } = require('@ebay/muse-dev-utils/lib/utils');
 const { findMuseModule, config } = require('@ebay/muse-modules');
 config.matchVersion = 'major';
 
+function mergeObjects(obj1, obj2) {
+  for (let key in obj2) {
+    if (obj1[key] && Array.isArray(obj1[key]) && obj2[key] && Array.isArray(obj2[key])) {
+      obj1[key] = [...obj1[key], ...obj2[key]];
+    } else if (
+      obj1[key] &&
+      typeof obj1[key] === 'object' &&
+      obj2[key] &&
+      typeof obj2[key] === 'object'
+    ) {
+      mergeObjects(obj1[key], obj2[key]);
+    } else if (!Object.hasOwnProperty.call(obj1, key)) {
+      obj1[key] = obj2[key];
+    }
+  }
+  return obj1;
+}
+
 let allMuseModules;
 function ensureAllMuseModules() {
   if (!allMuseModules) allMuseModules = {};
@@ -64,12 +82,13 @@ function getMuseModuleCode(museModule) {
 }
 
 // Get the lib plugin where the shared module is from
-const getLibNameByModule = (museId) => {
+function getLibNameByModule(museId) {
   return allMuseModules[museId]?.__libName;
-};
+}
 
 module.exports = {
   getMuseModule,
   getMuseModuleCode,
   getLibNameByModule,
+  mergeObjects,
 };
