@@ -65,6 +65,9 @@ module.exports = () => {
       }
       mergeObjects(config, {
         mode: 'production',
+        define: {
+          __MUSE_PLUGIN_NAME__: JSON.stringify(devUtils.getPkgJson().name),
+        },
         server: {
           port: process.env.PORT,
           strictPort: !!process.env.PORT,
@@ -87,7 +90,7 @@ module.exports = () => {
         },
         build: {
           sourcemap: true,
-          outDir: buildDir[config.mode],
+          outDir: buildDir[config.mode || 'production'],
           rollupOptions: {
             input: entryFile,
             output: {
