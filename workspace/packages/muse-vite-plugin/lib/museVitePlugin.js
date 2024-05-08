@@ -65,6 +65,7 @@ module.exports = () => {
       }
       mergeObjects(config, {
         mode: 'production',
+        base: './',
         define: {
           __MUSE_PLUGIN_NAME__: JSON.stringify(devUtils.getPkgJson().name),
         },
@@ -95,7 +96,7 @@ module.exports = () => {
             input: entryFile,
             output: {
               entryFileNames: 'main.js',
-              format: 'iife',
+              format: 'es',
             },
             plugins: !config.build?.rollupOptions?.plugins?.find((p) => p.name === 'muse-rollup')
               ? [museRollupPlugin()]
