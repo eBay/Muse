@@ -6,13 +6,13 @@ settings:
 
 dependencies:
   '@ebay/muse-core':
-    specifier: workspace:^1.0.37
+    specifier: workspace:^
     version: link:../muse-core
   '@ebay/muse-modules-analyzer':
-    specifier: workspace:^1.0.10
+    specifier: workspace:^
     version: link:../muse-modules-analyzer
   '@ebay/muse-simple-server':
-    specifier: workspace:^1.0.26
+    specifier: workspace:^
     version: link:../muse-simple-server
   chalk:
     specifier: 4.1.2
@@ -580,7 +580,7 @@ packages:
     dependencies:
       universalify: 2.0.0
     optionalDependencies:
-      graceful-fs: artifactory.corp.ebay.com/graceful-fs@4.2.10
+      graceful-fs: 4.2.10
     dev: false
 
   /levn@0.4.1:
@@ -893,11 +893,3 @@ packages:
   /wrappy@1.0.2:
     resolution: {integrity: sha1-tSQ9jz7BqjXxNkYFvA0QNuMKtp8=}
     dev: true
-
-  artifactory.corp.ebay.com/graceful-fs@4.2.10:
-    resolution: {integrity: sha512-9ByhssR2fPVsNZj478qUUbKfmL0+t5BDVyjShtyZZLiK7ZDAArFFfopyOTj0M05wE2tJPisA4iTnnXl2YoPvOA==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/graceful-fs/-/graceful-fs-4.2.10.tgz}
-    name: graceful-fs
-    version: 4.2.10
-    requiresBuild: true
-    dev: false
-    optional: true
