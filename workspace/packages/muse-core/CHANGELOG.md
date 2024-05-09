@@ -1,5 +1,11 @@
 # @ebay/muse-core
 
+## 1.0.38
+
+### Patch Changes
+
+- deploy plugin support esModule
+
 ## 1.0.37
 
 ### Patch Changes

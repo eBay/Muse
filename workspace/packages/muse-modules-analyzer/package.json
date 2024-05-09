@@ -13,8 +13,8 @@
     "lib"
   ],
   "dependencies": {
-    "@ebay/muse-core": "workspace:^*",
-    "@ebay/muse-modules": "workspace:^*",
+    "@ebay/muse-core": "workspace:^",
+    "@ebay/muse-modules": "workspace:^",
     "@types/jest": "^27.5.2",
     "eslint-plugin-jest": "^26.6.0",
     "fs-extra": "^10.1.0",
