@@ -9,7 +9,7 @@ dependencies:
     specifier: workspace:^1.0.37
     version: link:../muse-core
   '@ebay/muse-modules-analyzer':
-    specifier: workspace:^1.0.10
+    specifier: workspace:^1.0.11
     version: link:../muse-modules-analyzer
   lodash:
     specifier: ^4.17.21

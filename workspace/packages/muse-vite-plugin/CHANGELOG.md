@@ -1,5 +1,11 @@
 # @ebay/muse-vite-plugin
 
+## 1.0.33
+
+### Patch Changes
+
+- Use es for vite build.
+
 ## 1.0.32
 
 ### Patch Changes
