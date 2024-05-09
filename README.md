@@ -140,8 +140,9 @@ Simple steps as below:
 1. Go to workspace folder.
 2. Run `pnpm changeset`, select which packages to publish
 3. Run `pnpm changeset version` to update versions.
-4. Commit changes
-5. Run `pnpm publish -r` to publish updated packages.
+4. Run `pnpm install` to update lock files.
+5. Commit changes
+6. Run `pnpm publish -r` to publish updated packages.
 
 ## License
 
