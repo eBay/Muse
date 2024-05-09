@@ -24,6 +24,7 @@ const buildDir = {
 };
 module.exports = () => {
   let theViteServer;
+
   const musePluginVite = {
     name: 'muse-plugin-vite',
     museMiddleware: {
@@ -57,7 +58,9 @@ module.exports = () => {
   return {
     name: 'muse-vite-plugin',
     config(config) {
+      const pkgJson = devUtils.getPkgJson();
       const entryFile = devUtils.getEntryFile();
+
       if (!entryFile) {
         throw new Error(
           'No entry file found. Please make sure you have a "src/[index|main].[jsx|tsx|js|ts]" file.',
@@ -67,7 +70,7 @@ module.exports = () => {
         mode: 'production',
         base: './',
         define: {
-          __MUSE_PLUGIN_NAME__: JSON.stringify(devUtils.getPkgJson().name),
+          __MUSE_PLUGIN_NAME__: JSON.stringify(pkgJson.name),
         },
         server: {
           port: process.env.PORT,
@@ -95,7 +98,7 @@ module.exports = () => {
           rollupOptions: {
             input: entryFile,
             output: {
-              entryFileNames: 'main.js',
+              entryFileNames: pkgJson.muse.type === 'boot' ? 'boot.js' : 'main.js',
               format: 'es',
             },
             plugins: !config.build?.rollupOptions?.plugins?.find((p) => p.name === 'muse-rollup')

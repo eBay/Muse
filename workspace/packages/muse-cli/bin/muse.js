@@ -534,7 +534,8 @@ program
     'The version of the release, can be patch, minor, major or a specified version like 1.0.8.',
     'patch',
   )
-  .action(async (version) => {
+  .option('--args <args...>', 'Space separated list of more args, for example: --args foo=bar x=y.')
+  .action(async (version, options) => {
     const pkgJson = fs.readJSONSync(path.join(process.cwd(), 'package.json'), {
       throws: false,
     });
@@ -551,6 +552,7 @@ program
       pluginName: pkgJson.name,
       version: version,
       projectRoot: process.cwd(),
+      options: parseArgs(options?.args),
     });
     console.log(chalk.cyan(`Plugin released ${r.pluginName}@${r.version}`));
   });
