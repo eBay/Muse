@@ -24,8 +24,8 @@ describe('Check Release version tests.', () => {
       author: 'mcubellsbaeza',
     });
 
-    const pluginVersion = await muse.pm.checkReleaseVersion({ pluginName, version });
-    expect(pluginVersion).toBe('1.0.0');
+    const r = await muse.pm.checkReleaseVersion({ pluginName, version });
+    expect(r.version).toBe('1.0.0');
   });
 
   it('Returns version of latest release', async () => {
@@ -44,8 +44,8 @@ describe('Check Release version tests.', () => {
     });
 
     // no explicit version passed, we should get latest one available
-    const pluginVersion = await muse.pm.checkReleaseVersion({ pluginName });
-    expect(pluginVersion).toBe('2.0.0');
+    const r = await muse.pm.checkReleaseVersion({ pluginName });
+    expect(r.version).toBe('2.0.0');
   });
 
   it('Throws error if no releases available to deploy yet', async () => {

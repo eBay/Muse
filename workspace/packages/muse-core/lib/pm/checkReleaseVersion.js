@@ -20,5 +20,5 @@ module.exports = async (params) => {
     throw new Error(`Version ${version} doesn't exist (or has been previously unregistered)`);
   }
 
-  return version;
+  return _.find(releases, { version });
 };

@@ -9,6 +9,7 @@ const { getApp } = require('../am');
 const getDeployedPlugin = require('./getDeployedPlugin');
 const getDeployedPlugins = require('./getDeployedPlugins');
 const checkReleaseVersion = require('./checkReleaseVersion');
+const getReleases = require('./getReleases');
 const logger = require('../logger').createLogger('muse.pm.deployPlugin');
 
 /**
@@ -121,10 +122,12 @@ module.exports = async (params) => {
     flattenedDeployments.map(async (d) => {
       if (d.deployment.type === 'remove') return;
       // TODO(perf-improve) if same plugin on multiple envs, will do duplicated checkReleaseVersion
-      d.deployment.version = await checkReleaseVersion({
+      const r = await checkReleaseVersion({
         pluginName: d.deployment.pluginName,
         version: d.deployment.version,
       });
+      d.deployment.esModule = r.esModule && r.esModule !== 'false';
+      d.deployment.version = r.version;
     }),
   );
 
@@ -134,8 +137,9 @@ module.exports = async (params) => {
       flattenedDeployments.map(async (fd) => {
         const {
           envName,
-          deployment: { pluginName, version, type },
+          deployment: { pluginName, version, type, esModule },
         } = fd;
+
         // Check if plugin name exist
         // TODO(perf-improve): if same plugin on multiple envs, will do duplicated getPlugin
         const p = await getPlugin(pluginName);
@@ -171,12 +175,14 @@ module.exports = async (params) => {
             `Undeployed ${pluginName}@${deployedPlugin?.version} from ${appName}/${envName} by ${author}.`,
           );
         }
+
         const jsonContent =
           type === 'remove'
             ? null
             : Object.assign(deployedPlugin, {
                 version,
                 type: p.type || 'normal',
+                esModule,
                 ...fd.deployment?.options,
               });
         const obj = {
