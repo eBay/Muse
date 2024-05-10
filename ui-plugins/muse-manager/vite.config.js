@@ -8,7 +8,9 @@ export default defineConfig(({ mode }) => {
     define: {
       'process.env.REACT_APP_MUSE_API_ENDPOINT': JSON.stringify(env.REACT_APP_MUSE_API_ENDPOINT),
     },
-
+    server: {
+      host: 'local.cloud.ebay.com',
+    },
     plugins: [react(), museVitePlugin()],
   };
 });
