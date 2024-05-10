@@ -15,6 +15,7 @@ const utils = {
       name: pkgJson.name,
       pkgJson,
       type: pkgJson.muse?.type || 'normal',
+      esModule: pkgJson.type === 'module',
       devConfig: pkgJson.muse?.devConfig,
     };
   },

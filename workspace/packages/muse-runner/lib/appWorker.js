@@ -52,7 +52,7 @@ muse.plugin.register({
         // This may need to be implemented as a plugin
         const appConfig = await callParentApi('get-app-config');
         const viteProtocolAndPorts = appConfig.plugins
-          ?.filter((p) => p.devServer === 'vite' && p.running)
+          ?.filter((p) => p.esModule && p.running)
           .map((p) => [p.port, p.protocol])
           .filter(Boolean);
         if (!viteProtocolAndPorts || !viteProtocolAndPorts.length) return;
@@ -137,7 +137,7 @@ ${JSON.stringify(importMap, null, 2)}
             case 'local': {
               if (p.running) {
                 const pluginProtocol = p.protocol || 'https';
-                if (p.devServer === 'vite') {
+                if (p.esModule) {
                   const entryFile = museDevUtils.getEntryFile(p.dir);
                   deployedPlugin.url = `${pluginProtocol}://${host}:${p.port}/${entryFile}`;
                   deployedPlugin.esModule = true;
@@ -272,7 +272,17 @@ app.use(
 
 const appConfig = await callParentApi('get-app-config');
 const isHttps = appConfig.protocol !== 'http';
-if (isHttps) {
+
+if (
+  isHttps &&
+  (!process.env.SSL_CRT_FILE ||
+    !process.env.SSL_KEY_FILE ||
+    !fs.existsSync(process.env.SSL_KEY_FILE) ||
+    !fs.existsSync(process.env.SSL_CRT_FILE))
+) {
+  console.log('Failed to start app: SSL_KEY_FILE and SSL_CRT_FILE are required for https');
+  process.exit(1);
+} else if (isHttps) {
   https
     .createServer(
       {

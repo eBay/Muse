@@ -1,10 +1,7 @@
 import getPort, { portNumbers } from 'get-port';
 import { EventEmitter } from 'node:events';
 import Command from './Command.js';
-import logger from '@ebay/muse-core/lib/logger.js';
 import utils from './utils.js';
-
-const log = logger.createLogger('muse-runner.plugin-runner');
 
 /**
  * Start a Muse plugin project
@@ -14,11 +11,11 @@ export default class PluginRunner extends EventEmitter {
   constructor() {
     super();
   }
-  async start({ dir, port, env, plugin }) {
+  async start({ dir, port, env }) {
     const realPort = port || (await getPort({ port: portNumbers(30000, 31000) }));
     const pluginInfo = utils.getPluginInfo(dir);
     pluginInfo.dir = dir;
-    const devScriptName = plugin.devScriptName || plugin.devServer === 'vite' ? 'dev' : 'start';
+    const devScriptName = 'start';
     const devScript = pluginInfo.pkgJson.scripts[devScriptName];
     if (!devScript) {
       throw new Error(
@@ -37,12 +34,8 @@ export default class PluginRunner extends EventEmitter {
     const cmd = new Command({
       cwd: dir,
       cmd: `${pkgManager} run ${devScriptName}`,
-      // cmd: `${
-      //   pluginInfo.pkgJson.scripts.prestart ? 'npm run prestart && ' : ''
-      // }npm exec -c "${startScript}"`,
       env: {
         PORT: realPort,
-        HTTPS: plugin.protocol !== 'http',
         ...env,
         SSL_CRT_FILE: '',
         SSL_KEY_FILE: '',

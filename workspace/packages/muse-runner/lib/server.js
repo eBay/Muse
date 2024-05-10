@@ -148,7 +148,7 @@ const getAppConfig = (id) => {
       p.port = found.port;
       p.type = found.pluginInfo.type;
       p.protocol = pluginConfig.protocol || (process.env.HTTPS === 'true' ? 'https' : 'http');
-      p.devServer = pluginConfig.devServer;
+      p.esModule = found.pluginInfo.esModule;
     }
 
     if (pluginConfig.linkedPlugins) {
