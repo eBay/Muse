@@ -109,21 +109,6 @@ const EditPluginModal = NiceModal.create(({ plugin, appId }) => {
         ),
       },
       {
-        key: 'devServer',
-        label: 'Dev Server',
-        required: false,
-        tooltip:
-          'Whether use webpack or vite as dev server. Lib plugin has not been supported yet. For webpack it runs "start" script, for vite it runs "dev" script.',
-        widget: 'radio-group',
-        // disabled: !selectedPlugin || selectedPlugin.type === 'lib',
-        options: [
-          ['webpack', 'Webpack'],
-          ['vite', 'Vite'],
-        ],
-        initialValue: 'webpack',
-        condition: () => form.getFieldValue('mode') === 'local',
-      },
-      {
         key: 'dir',
         label: 'Folder',
         required: true,
@@ -160,7 +145,6 @@ const EditPluginModal = NiceModal.create(({ plugin, appId }) => {
           dir: values.dir,
           protocol: values.protocol,
           pluginName: values.name,
-          devServer: selectedPlugin?.type === 'lib' ? undefined : values.devServer,
         });
       }
 

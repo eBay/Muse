@@ -15,7 +15,6 @@ import {
   ArrowDownOutlined,
   ApartmentOutlined,
 } from '@ant-design/icons';
-import viteLogo from '../../images/vite-logo.svg';
 import vscodeIcon from './vscode.svg';
 import api from './api';
 import EditPluginModal from './EditPluginModal';
@@ -240,9 +239,6 @@ const PluginCell = ({ plugin, appId, onMoveUp = noop, onMoveDown = noop, isFirst
     <span className="whitespace-nowrap text-ellipsis overflow-hidden">
       {plugin.running ? plugin.name : <span className="opacity-50">{plugin.name}</span>}
       {plugin.running && ':' + plugin.running.port}
-      {plugin.devServer === 'vite' && (
-        <img src={viteLogo} className="w-3 h-3 ml-2" title="Using Vite" alt="" />
-      )}
       <GitStatus dir={plugin.dir} className="ml-2" />
     </span>
   );
