@@ -5,7 +5,6 @@ module.exports = () => {
   return {
     name: 'muse-rollup',
     buildStart() {
-      console.log('build start');
       usedSharedModules = {};
     },
     load(filepath) {
@@ -16,7 +15,6 @@ module.exports = () => {
       return museCode;
     },
     generateBundle() {
-      console.log('=========> generate bundle', this.emitFile);
       const depsManifestContent = {};
       for (const id in usedSharedModules) {
         const libName = getLibNameByModule(id);

@@ -58,6 +58,9 @@ module.exports = () => {
   return {
     name: 'muse-vite-plugin',
     config(config) {
+      const isHTTPS = process.env.HTTPS === 'true';
+      const port = process.env.PORT;
+      const host = config.server?.host || process.env.MUSE_LOCAL_HOST_NAME || 'localhost';
       const pkgJson = devUtils.getPkgJson();
       const entryFile = devUtils.getEntryFile();
 
@@ -66,15 +69,22 @@ module.exports = () => {
           'No entry file found. Please make sure you have a "src/[index|main].[jsx|tsx|js|ts]" file.',
         );
       }
+
+      // NOTE: mergeObjects is a helper function that merges two objects recursively
+      // it only set the values if the key doesn't exist in the first object
+      // that's why not return a partial config object used by vite plugin config hook
       mergeObjects(config, {
-        mode: 'production',
         base: './',
         define: {
           __MUSE_PLUGIN_NAME__: JSON.stringify(pkgJson.name),
         },
         server: {
-          port: process.env.PORT,
-          strictPort: !!process.env.PORT,
+          host,
+          // only port is set it can determin the full origin
+          // it needs origin when used by muse-runner
+          origin: port ? `${isHTTPS ? 'https' : 'http'}://${host}:${port}` : undefined,
+          port,
+          strictPort: !!port,
           https: process.env.HTTPS === 'true' &&
             fs.existsSync(sslCrtFile) &&
             fs.existsSync(sslKeyFile) && {
