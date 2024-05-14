@@ -547,12 +547,12 @@ program
     if (!buildDir) {
       throw new Error(`No "build" folder found. Please build the plugin before release.`);
     }
-    console.log('version: ', version);
     const r = await muse.pm.releasePlugin({
       pluginName: pkgJson.name,
       version: version,
       projectRoot: process.cwd(),
       options: parseArgs(options?.args),
+      esModule: pkgJson?.type === 'module',
     });
     console.log(chalk.cyan(`Plugin released ${r.pluginName}@${r.version}`));
   });
