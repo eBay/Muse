@@ -15,7 +15,7 @@
     "@craco/craco": "7.1.0",
     "@ebay/muse-core": "^1.0.39",
     "@ebay/muse-cra-patch": "^1.0.3",
-    "@ebay/muse-craco-plugin": "^3.0.27",
+    "@ebay/muse-craco-plugin": "^3.0.28",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
     "@testing-library/react-hooks": "^8.0.1",
@@ -33,7 +33,7 @@
   "dependencies": {
     "@ebay/muse-lib-antd": "^1.2.22",
     "@ebay/muse-lib-react": "^1.2.20",
-    "@ebay/muse-vite-plugin": "^1.0.35",
+    "@ebay/muse-vite-plugin": "^1.0.36",
     "@vitejs/plugin-react": "^4.2.1",
     "axios": "^1.5.1",
     "js-yaml": "^4.1.0",

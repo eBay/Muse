@@ -2,6 +2,7 @@
   "name": "@ebay/muse-layout-antd",
   "version": "1.1.13",
   "repository": "",
+  "type": "module",
   "muse": {
     "devConfig": {
       "app": "musemanager",
@@ -15,14 +16,11 @@
     "build"
   ],
   "scripts": {
-    "start": "muse-cra-patch && cross-env craco start",
-    "build": "muse-cra-patch && craco build",
-    "build:dev": "muse-cra-patch && cross-env NODE_ENV=development FAST_REFRESH=false craco build",
-    "build:test": "muse-cra-patch && cross-env MUSE_TEST_BUILD=true FAST_REFRESH=false craco build",
-    "test": "muse-cra-patch && cross-env craco test --ci --watchAll=false --passWithNoTests --coverage",
-    "test:dev": "muse-cra-patch && craco test --coverage",
-    "test:config": "muse-cra-patch && craco test --showConfig",
-    "deploy": "pnpm build && pnpm build:dev && muse release && muse deploy nateapp staging"
+    "start": "vite",
+    "build": "vite build",
+    "build:dev": "cross-env NODE_ENV=development vite build --mode development",
+    "build:test": "cross-env MUSE_TEST_BUILD=true NODE_ENV=production vite build --mode e2e-test",
+    "test": ""
   },
   "browserslist": {
     "production": [
@@ -37,23 +35,22 @@
     ]
   },
   "devDependencies": {
-    "@changesets/cli": "^2.23.2",
-    "@craco/craco": "^7.1.0",
     "@ebay/muse-core": "^1.0.39",
-    "@ebay/muse-cra-patch": "^1.0.3",
-    "@ebay/muse-craco-plugin": "^3.0.27",
+    "@ebay/muse-lib-antd": "1.2.22",
+    "@ebay/muse-lib-react": "1.2.18",
+    "@ebay/muse-vite-plugin": "^1.0.36",
     "@testing-library/jest-dom": "^6.1.4",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.5.1",
-    "craco-less": "^3.0.1",
+    "@vitejs/plugin-react-swc": "^3.6.0",
     "cross-env": "^7.0.3",
     "jest-canvas-mock": "^2.5.2",
-    "@ebay/muse-lib-antd": "1.2.22",
-    "@ebay/muse-lib-react": "1.2.18",
     "js-plugin": "1.1.0",
+    "less": "^4.2.0",
     "lodash": "4.17.21",
     "semver": "7.3.7",
-    "react-scripts": "^5.0.1"
-  },
-  "dependencies": {}
+    "tailwindcss": "^3.4.3",
+    "vite": "^5.2.11",
+    "vite-plugin-css-injected-by-js": "^3.5.1"
+  }
 }

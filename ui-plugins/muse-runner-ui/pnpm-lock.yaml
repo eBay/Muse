@@ -12,8 +12,8 @@ dependencies:
     specifier: ^1.2.20
     version: 1.2.20(@testing-library/dom@10.1.0)
   '@ebay/muse-vite-plugin':
-    specifier: ^1.0.35
-    version: 1.0.35(@ebay/muse-modules-analyzer@1.0.12)(express@4.19.2)
+    specifier: ^1.0.36
+    version: 1.0.36(@ebay/muse-modules-analyzer@1.0.12)(express@4.19.2)
   '@vitejs/plugin-react':
     specifier: ^4.2.1
     version: 4.2.1(vite@5.1.3)
@@ -31,7 +31,7 @@ dependencies:
     version: artifactory.corp.ebay.com/tailwindcss@3.3.3
   vite:
     specifier: ^5.1.3
-    version: 5.1.3(@types/node@20.12.11)(less@4.2.0)
+    version: 5.1.3(@types/node@20.12.12)(less@4.2.0)
   xterm:
     specifier: ^5.2.1
     version: artifactory.corp.ebay.com/xterm@5.2.1
@@ -51,7 +51,7 @@ devDependencies:
     version: artifactory.corp.ebay.com/@babel/preset-react@7.18.6(@babel/core@7.24.5)
   '@craco/craco':
     specifier: 7.1.0
-    version: artifactory.corp.ebay.com/@craco/craco@7.1.0(@types/node@20.12.11)(postcss@8.4.38)(react-scripts@5.0.1)(typescript@5.4.5)
+    version: artifactory.corp.ebay.com/@craco/craco@7.1.0(@types/node@20.12.12)(postcss@8.4.38)(react-scripts@5.0.1)(typescript@5.4.5)
   '@ebay/muse-core':
     specifier: ^1.0.39
     version: 1.0.39
@@ -59,8 +59,8 @@ devDependencies:
     specifier: ^1.0.3
     version: 1.0.3
   '@ebay/muse-craco-plugin':
-    specifier: ^3.0.27
-    version: 3.0.27(@craco/craco@7.1.0)(@ebay/muse-core@1.0.39)(@ebay/muse-modules-analyzer@1.0.12)(express@4.19.2)
+    specifier: ^3.0.28
+    version: 3.0.28(@craco/craco@7.1.0)(@ebay/muse-core@1.0.39)(@ebay/muse-modules-analyzer@1.0.12)(express@4.19.2)
   '@testing-library/jest-dom':
     specifier: ^5.16.5
     version: artifactory.corp.ebay.com/@testing-library/jest-dom@5.16.5
@@ -186,7 +186,7 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/highlight': 7.24.5
-      picocolors: 1.0.0
+      picocolors: 1.0.1
 
   /@babel/compat-data@7.23.5:
     resolution: {integrity: sha512-uU27kfDRlhfKl+w1U6vp16IuvSLtjAxdArVXPa9BvLkrr7CYIsxH5adpHObeAGY/41+syctUWOZ140a2Rvkgjw==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@babel/compat-data/-/compat-data-7.23.5.tgz}
@@ -421,7 +421,7 @@ packages:
       '@babel/helper-validator-identifier': 7.24.5
       chalk: 2.4.2
       js-tokens: 4.0.0
-      picocolors: 1.0.0
+      picocolors: 1.0.1
 
   /@babel/parser@7.23.9:
     resolution: {integrity: sha512-9tcKgqKbs3xGJ+NtKF2ndOBBLVwPjl1SHxPQkd36r3Dlirw3xWUeGaTbqr7uGZcTaxkVNwc+03SVP7aCdWrTlA==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@babel/parser/-/parser-7.23.9.tgz}
@@ -718,14 +718,14 @@ packages:
       resolve-cwd: artifactory.corp.ebay.com/resolve-cwd@3.0.0
     dev: true
 
-  /@ebay/muse-craco-plugin@3.0.27(@craco/craco@7.1.0)(@ebay/muse-core@1.0.39)(@ebay/muse-modules-analyzer@1.0.12)(express@4.19.2):
-    resolution: {integrity: sha512-aEcJJGXpq92OGwubeBlug8y5uxH7PYZYxs8jzlfX4xIJAKxpzcwUt4dVJIh9bfbsIY0rnHh5A6yoDloN3yh93w==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-craco-plugin/-/@ebay/muse-craco-plugin-3.0.27.tgz}
+  /@ebay/muse-craco-plugin@3.0.28(@craco/craco@7.1.0)(@ebay/muse-core@1.0.39)(@ebay/muse-modules-analyzer@1.0.12)(express@4.19.2):
+    resolution: {integrity: sha512-FCXR2dJlek2r+m6du/XqT/EZFrXBF/G+0Wamfv35K1qBilpstOTWGaO0RaUfzJOX+E2ugyRk8HtN+wQLBVqnLQ==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-craco-plugin/-/@ebay/muse-craco-plugin-3.0.28.tgz}
     peerDependencies:
       '@craco/craco': 7.1.0
     dependencies:
-      '@craco/craco': artifactory.corp.ebay.com/@craco/craco@7.1.0(@types/node@20.12.11)(postcss@8.4.38)(react-scripts@5.0.1)(typescript@5.4.5)
+      '@craco/craco': artifactory.corp.ebay.com/@craco/craco@7.1.0(@types/node@20.12.12)(postcss@8.4.38)(react-scripts@5.0.1)(typescript@5.4.5)
       '@ebay/muse-dev-utils': 1.0.62(@ebay/muse-core@1.0.39)(@ebay/muse-modules-analyzer@1.0.12)(express@4.19.2)
-      '@ebay/muse-webpack-plugin': 1.0.34
+      '@ebay/muse-webpack-plugin': 1.0.35
       dts-bundle-webpack: 1.0.2
       resolve-cwd: artifactory.corp.ebay.com/resolve-cwd@3.0.0
     transitivePeerDependencies:
@@ -761,7 +761,7 @@ packages:
       '@ebay/muse-modules-analyzer': ^1.0.12
     dependencies:
       '@ebay/muse-core': 1.0.39
-      '@ebay/muse-modules-analyzer': 1.0.12(@types/node@20.12.11)(eslint@8.57.0)(typescript@5.4.5)
+      '@ebay/muse-modules-analyzer': 1.0.12(@types/node@20.12.12)(eslint@8.57.0)(typescript@5.4.5)
       lodash: 4.17.21
       mime-types: 2.1.35
       multer: 1.4.5-lts.1
@@ -854,7 +854,7 @@ packages:
       - supports-color
     dev: false
 
-  /@ebay/muse-modules-analyzer@1.0.12(@types/node@20.12.11)(eslint@8.57.0)(typescript@5.4.5):
+  /@ebay/muse-modules-analyzer@1.0.12(@types/node@20.12.12)(eslint@8.57.0)(typescript@5.4.5):
     resolution: {integrity: sha512-9oim3KFUNSztxI8HgSDoP4Owm8omWASioaKS9cjh2jjumjt4oQ5yuwQBoiWliFzjqESY0zB/DJE5l9psVBDuFQ==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-modules-analyzer/-/@ebay/muse-modules-analyzer-1.0.12.tgz}
     dependencies:
       '@ebay/muse-core': 1.0.39
@@ -862,7 +862,7 @@ packages:
       '@types/jest': 27.5.2
       eslint-plugin-jest: 26.9.0(eslint@8.57.0)(jest@28.1.3)(typescript@5.4.5)
       fs-extra: 10.1.0
-      jest: 28.1.3(@types/node@20.12.11)
+      jest: 28.1.3(@types/node@20.12.12)
       lodash: 4.17.21
       memfs: 3.5.3
     transitivePeerDependencies:
@@ -877,8 +877,8 @@ packages:
   /@ebay/muse-modules@1.0.28:
     resolution: {integrity: sha512-IoHl93RRx3GaOWBnVGS/A4E3Xs1PmnQCRXPGQo6Q3tUK/dQ2uivvChC1fOnFqp/sVyMpBCd5YEVPThEnxWvvug==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-modules/-/@ebay/muse-modules-1.0.28.tgz}
 
-  /@ebay/muse-vite-plugin@1.0.35(@ebay/muse-modules-analyzer@1.0.12)(express@4.19.2):
-    resolution: {integrity: sha512-umif7OkUHqxQYDN1Tw2yKMiP0QMcEOksRrvdf7OEsuM8zDdeBZYx1QZiWWR92sXZMPSG4Q41dKvXk4TL9ES58Q==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-vite-plugin/-/@ebay/muse-vite-plugin-1.0.35.tgz}
+  /@ebay/muse-vite-plugin@1.0.36(@ebay/muse-modules-analyzer@1.0.12)(express@4.19.2):
+    resolution: {integrity: sha512-IIGFFvVQhKPvL/FRgmhDAmMhOkt+5i4gdhbU2w+q5VsAU3jYqIB2mg77ATUgRlXbZr5HaiLZvXyaQ/TxKTppVA==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-vite-plugin/-/@ebay/muse-vite-plugin-1.0.36.tgz}
     dependencies:
       '@ebay/muse-core': 1.0.39
       '@ebay/muse-dev-utils': 1.0.62(@ebay/muse-core@1.0.39)(@ebay/muse-modules-analyzer@1.0.12)(express@4.19.2)
@@ -890,8 +890,8 @@ packages:
       - express
     dev: false
 
-  /@ebay/muse-webpack-plugin@1.0.34:
-    resolution: {integrity: sha512-9PGzl9MoolnMB+poGozwW/WO0Qx4FIfOFHFyei4ylDcb83sFoqOS0ssLUE/u5awTRm+I/ToisR02PLJe98MfJQ==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-webpack-plugin/-/@ebay/muse-webpack-plugin-1.0.34.tgz}
+  /@ebay/muse-webpack-plugin@1.0.35:
+    resolution: {integrity: sha512-FvyRChZSGH6//B6Qw5zGnqSoG8Eckatla9UVfj322h1HB4JHuCj21KVy8ZXZlDlZByIr8xmOEw8mfQ+Mg3IZlQ==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-webpack-plugin/-/@ebay/muse-webpack-plugin-1.0.35.tgz}
     dependencies:
       '@ebay/muse-modules': 1.0.28
       json-parse-better-errors: 1.0.2
@@ -1196,7 +1196,7 @@ packages:
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
     dependencies:
       '@jest/types': 28.1.3
-      '@types/node': 20.12.11
+      '@types/node': 20.12.12
       chalk: 4.1.2
       jest-message-util: 28.1.3
       jest-util: 28.1.3
@@ -1216,14 +1216,14 @@ packages:
       '@jest/test-result': 28.1.3
       '@jest/transform': 28.1.3
       '@jest/types': 28.1.3
-      '@types/node': 20.12.11
+      '@types/node': 20.12.12
       ansi-escapes: 4.3.2
       chalk: 4.1.2
       ci-info: 3.9.0
       exit: 0.1.2
       graceful-fs: 4.2.11
       jest-changed-files: 28.1.3
-      jest-config: 28.1.3(@types/node@20.12.11)
+      jest-config: 28.1.3(@types/node@20.12.12)
       jest-haste-map: 28.1.3
       jest-message-util: 28.1.3
       jest-regex-util: 28.0.2
@@ -1250,7 +1250,7 @@ packages:
     dependencies:
       '@jest/fake-timers': 28.1.3
       '@jest/types': 28.1.3
-      '@types/node': 20.12.11
+      '@types/node': 20.12.12
       jest-mock: 28.1.3
 
   /@jest/expect-utils@28.1.3:
@@ -1274,7 +1274,7 @@ packages:
     dependencies:
       '@jest/types': 28.1.3
       '@sinonjs/fake-timers': 9.1.2
-      '@types/node': 20.12.11
+      '@types/node': 20.12.12
       jest-message-util: 28.1.3
       jest-mock: 28.1.3
       jest-util: 28.1.3
@@ -1304,7 +1304,7 @@ packages:
       '@jest/transform': 28.1.3
       '@jest/types': 28.1.3
       '@jridgewell/trace-mapping': 0.3.25
-      '@types/node': 20.12.11
+      '@types/node': 20.12.12
       chalk: 4.1.2
       collect-v8-coverage: 1.0.2
       exit: 0.1.2
@@ -1387,7 +1387,7 @@ packages:
       '@jest/schemas': 28.1.3
       '@types/istanbul-lib-coverage': 2.0.6
       '@types/istanbul-reports': 3.0.4
-      '@types/node': 20.12.11
+      '@types/node': 20.12.12
       '@types/yargs': 17.0.32
       chalk: 4.1.2
 
@@ -1754,7 +1754,7 @@ packages:
   /@types/graceful-fs@4.1.9:
     resolution: {integrity: sha512-olP3sd1qOEe5dXTSaFvQG+02VdRXcdytWLAZsAq1PecU8uqQAhkrnbli7DagjtXKW/Bl7YJbUsa8MPcuc8LHEQ==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@types/graceful-fs/-/graceful-fs-4.1.9.tgz}
     dependencies:
-      '@types/node': 20.12.11
+      '@types/node': 20.12.12
 
   /@types/istanbul-lib-coverage@2.0.6:
     resolution: {integrity: sha512-2QF/t/auWm0lsy8XtKVPG19v3sSOQlJe/YHZgfjb/KBBHOGSV+J2q/S671rcq9uTBrLAXmZpqJiaQbMT+zNU1w==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@types/istanbul-lib-coverage/-/istanbul-lib-coverage-2.0.6.tgz}
@@ -1786,8 +1786,8 @@ packages:
     resolution: {integrity: sha512-QRLQpFsIQGO2k8pupga9abfei85GKotAtQ+F6xuQmSGomUt6C52TyMiTFpP8kUwuPKr00gNtu3itLlC6gvI/NA==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@types/mkdirp/-/mkdirp-0.3.29.tgz}
     dev: true
 
-  /@types/node@20.12.11:
-    resolution: {integrity: sha512-vDg9PZ/zi+Nqp6boSOT7plNuthRugEKixDv5sFTIpkE89MmNtEArAShI4mxuX2+UrLEe9pxC1vm2cjm9YlWbJw==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@types/node/-/node-20.12.11.tgz}
+  /@types/node@20.12.12:
+    resolution: {integrity: sha512-eWLDGF/FOSPtAvEqeRAQ4C8LSA7M1I7i0ky1I8U7kD1J5ITyW3AsRhQrKVoWf5pFKZ2kILsEGJhsI9r93PYnOw==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@types/node/-/node-20.12.12.tgz}
     dependencies:
       undici-types: 5.26.5
 
@@ -1883,7 +1883,7 @@ packages:
       '@babel/plugin-transform-react-jsx-source': 7.23.3(@babel/core@7.23.9)
       '@types/babel__core': 7.20.5
       react-refresh: artifactory.corp.ebay.com/react-refresh@0.14.0
-      vite: 5.1.3(@types/node@20.12.11)(less@4.2.0)
+      vite: 5.1.3(@types/node@20.12.12)(less@4.2.0)
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -2671,7 +2671,7 @@ packages:
     dependencies:
       '@typescript-eslint/utils': 5.62.0(eslint@8.57.0)(typescript@5.4.5)
       eslint: 8.57.0
-      jest: 28.1.3(@types/node@20.12.11)
+      jest: 28.1.3(@types/node@20.12.12)
     transitivePeerDependencies:
       - supports-color
       - typescript
@@ -3256,7 +3256,7 @@ packages:
       '@jest/expect': 28.1.3
       '@jest/test-result': 28.1.3
       '@jest/types': 28.1.3
-      '@types/node': 20.12.11
+      '@types/node': 20.12.12
       chalk: 4.1.2
       co: 4.6.0
       dedent: 0.7.0
@@ -3274,7 +3274,7 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
-  /jest-cli@28.1.3(@types/node@20.12.11):
+  /jest-cli@28.1.3(@types/node@20.12.12):
     resolution: {integrity: sha512-roY3kvrv57Azn1yPgdTebPAXvdR2xfezaKKYzVxZ6It/5NCxzJym6tUI5P1zkdWhfUYkxEI9uZWcQdaFLo8mJQ==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/jest-cli/-/jest-cli-28.1.3.tgz}
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
     hasBin: true
@@ -3291,7 +3291,7 @@ packages:
       exit: 0.1.2
       graceful-fs: 4.2.11
       import-local: 3.1.0
-      jest-config: 28.1.3(@types/node@20.12.11)
+      jest-config: 28.1.3(@types/node@20.12.12)
       jest-util: 28.1.3
       jest-validate: 28.1.3
       prompts: 2.4.2
@@ -3301,7 +3301,7 @@ packages:
       - supports-color
       - ts-node
 
-  /jest-config@28.1.3(@types/node@20.12.11):
+  /jest-config@28.1.3(@types/node@20.12.12):
     resolution: {integrity: sha512-MG3INjByJ0J4AsNBm7T3hsuxKQqFIiRo/AUqb1q9LRKI5UU6Aar9JHbr9Ivn1TVwfUD9KirRoM/T6u8XlcQPHQ==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/jest-config/-/jest-config-28.1.3.tgz}
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
     peerDependencies:
@@ -3316,7 +3316,7 @@ packages:
       '@babel/core': 7.24.5
       '@jest/test-sequencer': 28.1.3
       '@jest/types': 28.1.3
-      '@types/node': 20.12.11
+      '@types/node': 20.12.12
       babel-jest: 28.1.3(@babel/core@7.24.5)
       chalk: 4.1.2
       ci-info: 3.9.0
@@ -3380,7 +3380,7 @@ packages:
       '@jest/environment': 28.1.3
       '@jest/fake-timers': 28.1.3
       '@jest/types': 28.1.3
-      '@types/node': 20.12.11
+      '@types/node': 20.12.12
       jest-mock: 28.1.3
       jest-util: 28.1.3
 
@@ -3398,7 +3398,7 @@ packages:
     dependencies:
       '@jest/types': 28.1.3
       '@types/graceful-fs': 4.1.9
-      '@types/node': 20.12.11
+      '@types/node': 20.12.12
       anymatch: 3.1.3
       fb-watchman: 2.0.2
       graceful-fs: 4.2.11
@@ -3454,7 +3454,7 @@ packages:
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
     dependencies:
       '@jest/types': 28.1.3
-      '@types/node': 20.12.11
+      '@types/node': 20.12.12
 
   /jest-pnp-resolver@1.2.3(jest-resolve@28.1.3):
     resolution: {integrity: sha512-+3NpwQEnRoIBtx4fyhblQDPgJI0H1IEIkX7ShLUjPGA7TtUTvI1oiKi3SR4oBR0hQhQR80l4WAe5RrXBwWMA8w==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/jest-pnp-resolver/-/jest-pnp-resolver-1.2.3.tgz}
@@ -3503,7 +3503,7 @@ packages:
       '@jest/test-result': 28.1.3
       '@jest/transform': 28.1.3
       '@jest/types': 28.1.3
-      '@types/node': 20.12.11
+      '@types/node': 20.12.12
       chalk: 4.1.2
       emittery: 0.10.2
       graceful-fs: 4.2.11
@@ -3586,7 +3586,7 @@ packages:
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
     dependencies:
       '@jest/types': 28.1.3
-      '@types/node': 20.12.11
+      '@types/node': 20.12.12
       chalk: 4.1.2
       ci-info: 3.9.0
       graceful-fs: 4.2.11
@@ -3609,7 +3609,7 @@ packages:
     dependencies:
       '@jest/test-result': 28.1.3
       '@jest/types': 28.1.3
-      '@types/node': 20.12.11
+      '@types/node': 20.12.12
       ansi-escapes: 4.3.2
       chalk: 4.1.2
       emittery: 0.10.2
@@ -3620,7 +3620,7 @@ packages:
     resolution: {integrity: sha512-7vuh85V5cdDofPyxn58nrPjBktZo0u9x1g8WtjQol+jZDaE+fhN+cIvTj11GndBnMnyfrUOG1sZQxCdjKh+DKg==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/jest-worker/-/jest-worker-27.5.1.tgz}
     engines: {node: '>= 10.13.0'}
     dependencies:
-      '@types/node': 20.12.11
+      '@types/node': 20.12.12
       merge-stream: 2.0.0
       supports-color: 8.1.1
     dev: true
@@ -3629,11 +3629,11 @@ packages:
     resolution: {integrity: sha512-CqRA220YV/6jCo8VWvAt1KKx6eek1VIHMPeLEbpcfSfkEeWyBNppynM/o6q+Wmw+sOhos2ml34wZbSX3G13//g==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/jest-worker/-/jest-worker-28.1.3.tgz}
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
     dependencies:
-      '@types/node': 20.12.11
+      '@types/node': 20.12.12
       merge-stream: 2.0.0
       supports-color: 8.1.1
 
-  /jest@28.1.3(@types/node@20.12.11):
+  /jest@28.1.3(@types/node@20.12.12):
     resolution: {integrity: sha512-N4GT5on8UkZgH0O5LUavMRV1EDEhNTL0KEfRmDIeZHSV7p2XgLoY9t9VDUgL6o+yfdgYHVxuz81G8oB9VG5uyA==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/jest/-/jest-28.1.3.tgz}
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
     hasBin: true
@@ -3646,7 +3646,7 @@ packages:
       '@jest/core': 28.1.3
       '@jest/types': 28.1.3
       import-local: 3.1.0
-      jest-cli: 28.1.3(@types/node@20.12.11)
+      jest-cli: 28.1.3(@types/node@20.12.12)
     transitivePeerDependencies:
       - '@types/node'
       - supports-color
@@ -4039,6 +4039,9 @@ packages:
   /picocolors@1.0.0:
     resolution: {integrity: sha512-1fygroTLlHu66zi26VoTDv8yRgm0Fccecssto+MhsZ0D/DGW2sm8E8AjW7NU5VVTRt5GxbeZ5qBuJr+HyLYkjQ==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/picocolors/-/picocolors-1.0.0.tgz}
 
+  /picocolors@1.0.1:
+    resolution: {integrity: sha512-anP1Z8qwhkbmu7MFP5iTt+wQKXgwzf7zTyGlcdzabySa9vd0Xt392U0rVmz9poOaBj0uHJKyyo9/upk0HrEQew==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/picocolors/-/picocolors-1.0.1.tgz}
+
   /picomatch@2.3.1:
     resolution: {integrity: sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/picomatch/-/picomatch-2.3.1.tgz}
     engines: {node: '>=8.6'}
@@ -4067,7 +4070,7 @@ packages:
     engines: {node: ^10 || ^12 || >=14}
     dependencies:
       nanoid: 3.3.7
-      picocolors: 1.0.0
+      picocolors: 1.0.1
       source-map-js: 1.2.0
     dev: true
 
@@ -5198,7 +5201,7 @@ packages:
     resolution: {integrity: sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/vary/-/vary-1.1.2.tgz}
     engines: {node: '>= 0.8'}
 
-  /vite@5.1.3(@types/node@20.12.11)(less@4.2.0):
+  /vite@5.1.3(@types/node@20.12.12)(less@4.2.0):
     resolution: {integrity: sha512-UfmUD36DKkqhi/F75RrxvPpry+9+tTkrXfMNZD+SboZqBCMsxKtO52XeGzzuh7ioz+Eo/SYDBbdb0Z7vgcDJew==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/vite/-/vite-5.1.3.tgz}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
@@ -5226,7 +5229,7 @@ packages:
       terser:
         optional: true
     dependencies:
-      '@types/node': 20.12.11
+      '@types/node': 20.12.12
       esbuild: 0.19.12
       less: artifactory.corp.ebay.com/less@4.2.0
       postcss: 8.4.35
@@ -7252,7 +7255,7 @@ packages:
     version: 1.5.0
     engines: {node: '>=0.1.90'}
 
-  artifactory.corp.ebay.com/@craco/craco@7.1.0(@types/node@20.12.11)(postcss@8.4.38)(react-scripts@5.0.1)(typescript@5.4.5):
+  artifactory.corp.ebay.com/@craco/craco@7.1.0(@types/node@20.12.12)(postcss@8.4.38)(react-scripts@5.0.1)(typescript@5.4.5):
     resolution: {integrity: sha512-oRAcPIKYrfPXp9rSzlsDNeOaVtDiKhoyqSXUoqiK24jCkHr4T8m/a2f74yXIzCbIheoUWDOIfWZyRgFgT+cpqA==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@craco/craco/-/craco-7.1.0.tgz}
     id: artifactory.corp.ebay.com/@craco/craco/7.1.0
     name: '@craco/craco'
@@ -7264,7 +7267,7 @@ packages:
     dependencies:
       autoprefixer: artifactory.corp.ebay.com/autoprefixer@10.4.15(postcss@8.4.38)
       cosmiconfig: artifactory.corp.ebay.com/cosmiconfig@7.1.0
-      cosmiconfig-typescript-loader: artifactory.corp.ebay.com/cosmiconfig-typescript-loader@1.0.9(@types/node@20.12.11)(cosmiconfig@7.1.0)(typescript@5.4.5)
+      cosmiconfig-typescript-loader: artifactory.corp.ebay.com/cosmiconfig-typescript-loader@1.0.9(@types/node@20.12.12)(cosmiconfig@7.1.0)(typescript@5.4.5)
       cross-spawn: artifactory.corp.ebay.com/cross-spawn@7.0.3
       lodash: artifactory.corp.ebay.com/lodash@4.17.21
       react-scripts: artifactory.corp.ebay.com/react-scripts@5.0.1(@babel/plugin-syntax-flow@7.24.1)(@babel/plugin-transform-react-jsx@7.23.4)(eslint@8.57.0)(react@16.14.0)(typescript@5.4.5)
@@ -10672,7 +10675,7 @@ packages:
     name: core-util-is
     version: 1.0.3
 
-  artifactory.corp.ebay.com/cosmiconfig-typescript-loader@1.0.9(@types/node@20.12.11)(cosmiconfig@7.1.0)(typescript@5.4.5):
+  artifactory.corp.ebay.com/cosmiconfig-typescript-loader@1.0.9(@types/node@20.12.12)(cosmiconfig@7.1.0)(typescript@5.4.5):
     resolution: {integrity: sha512-tRuMRhxN4m1Y8hP9SNYfz7jRwt8lZdWxdjg/ohg5esKmsndJIn4yT96oJVcf5x0eA11taXl+sIp+ielu529k6g==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/cosmiconfig-typescript-loader/-/cosmiconfig-typescript-loader-1.0.9.tgz}
     id: artifactory.corp.ebay.com/cosmiconfig-typescript-loader/1.0.9
     name: cosmiconfig-typescript-loader
@@ -10683,9 +10686,9 @@ packages:
       cosmiconfig: '>=7'
       typescript: '>=3'
     dependencies:
-      '@types/node': 20.12.11
+      '@types/node': 20.12.12
       cosmiconfig: artifactory.corp.ebay.com/cosmiconfig@7.1.0
-      ts-node: artifactory.corp.ebay.com/ts-node@10.9.1(@types/node@20.12.11)(typescript@5.4.5)
+      ts-node: artifactory.corp.ebay.com/ts-node@10.9.1(@types/node@20.12.12)(typescript@5.4.5)
       typescript: 5.4.5
     transitivePeerDependencies:
       - '@swc/core'
@@ -10726,7 +10729,7 @@ packages:
       '@craco/craco': ^6 || ^7
       react-scripts: ^5
     dependencies:
-      '@craco/craco': artifactory.corp.ebay.com/@craco/craco@7.1.0(@types/node@20.12.11)(postcss@8.4.38)(react-scripts@5.0.1)(typescript@5.4.5)
+      '@craco/craco': artifactory.corp.ebay.com/@craco/craco@7.1.0(@types/node@20.12.12)(postcss@8.4.38)(react-scripts@5.0.1)(typescript@5.4.5)
       less: artifactory.corp.ebay.com/less@4.2.0
       less-loader: artifactory.corp.ebay.com/less-loader@11.1.3(less@4.2.0)(webpack@5.91.0)
       react-scripts: artifactory.corp.ebay.com/react-scripts@5.0.1(@babel/plugin-syntax-flow@7.24.1)(@babel/plugin-transform-react-jsx@7.23.4)(eslint@8.57.0)(react@16.14.0)(typescript@5.4.5)
@@ -19443,7 +19446,7 @@ packages:
     name: ts-interface-checker
     version: 0.1.13
 
-  artifactory.corp.ebay.com/ts-node@10.9.1(@types/node@20.12.11)(typescript@5.4.5):
+  artifactory.corp.ebay.com/ts-node@10.9.1(@types/node@20.12.12)(typescript@5.4.5):
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/ts-node/-/ts-node-10.9.1.tgz}
     id: artifactory.corp.ebay.com/ts-node/10.9.1
     name: ts-node
@@ -19465,7 +19468,7 @@ packages:
       '@tsconfig/node12': artifactory.corp.ebay.com/@tsconfig/node12@1.0.11
       '@tsconfig/node14': artifactory.corp.ebay.com/@tsconfig/node14@1.0.3
       '@tsconfig/node16': artifactory.corp.ebay.com/@tsconfig/node16@1.0.4
-      '@types/node': 20.12.11
+      '@types/node': 20.12.12
       acorn: artifactory.corp.ebay.com/acorn@8.10.0
       acorn-walk: artifactory.corp.ebay.com/acorn-walk@8.2.0
       arg: artifactory.corp.ebay.com/arg@4.1.3

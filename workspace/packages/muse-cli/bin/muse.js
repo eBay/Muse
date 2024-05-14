@@ -551,8 +551,10 @@ program
       pluginName: pkgJson.name,
       version: version,
       projectRoot: process.cwd(),
-      options: parseArgs(options?.args),
-      esModule: pkgJson?.type === 'module',
+      options: {
+        esModule: pkgJson?.type === 'module',
+        ...parseArgs(options?.args),
+      },
     });
     console.log(chalk.cyan(`Plugin released ${r.pluginName}@${r.version}`));
   });
