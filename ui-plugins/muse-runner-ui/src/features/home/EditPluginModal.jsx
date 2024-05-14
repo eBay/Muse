@@ -45,7 +45,6 @@ const EditPluginModal = NiceModal.create(({ plugin, appId }) => {
   const modal = useModal();
   const [form] = Form.useForm();
 
-  const selectedPlugin = plugins?.find((p) => p.name === form.getFieldValue('name'));
   const formMeta = {
     initialValues: { ...plugin, mode: plugin?.mode || 'local' },
     fields: [
@@ -130,6 +129,14 @@ const EditPluginModal = NiceModal.create(({ plugin, appId }) => {
         tooltip: 'The url to get the plugin bundle.',
         condition: () => form.getFieldValue('mode') === 'url',
       },
+      {
+        key: 'urlEsModule',
+        label: 'ES Module',
+        widget: 'checkbox',
+        required: true, // if mode is version, this is required
+        tooltip: 'Whether the url bundle is an es module.',
+        condition: () => form.getFieldValue('mode') === 'url',
+      },
     ],
   };
 
@@ -155,6 +162,7 @@ const EditPluginModal = NiceModal.create(({ plugin, appId }) => {
           mode: values.mode,
           version: values.version,
           url: values.url,
+          urlEsModule: values.urlEsModule,
         });
       }
       modal.hide();
@@ -170,7 +178,6 @@ const EditPluginModal = NiceModal.create(({ plugin, appId }) => {
     appId,
     settings?.siderExpandedRows,
     updateSelectedRows,
-    selectedPlugin?.type,
   ]);
 
   return (
