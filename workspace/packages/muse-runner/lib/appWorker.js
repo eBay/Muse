@@ -82,19 +82,23 @@ ${JSON.stringify(importMap, null, 2)}
         return { appName: appConfig.app, envName: appConfig.env };
       },
 
-      // TODO: the logic here seems to be too complicated, need more detailed comments
+      // Use this ext point to process the app info, and set the env variables
       processAppInfo: async ({ app, env }) => {
+        // Get the app config in muse runner from parent process
         // NOTE: appConfig always changes, so need to get it every time
+        // This gets all data about the app, including the plugins, variables, envs, etc.
         const appConfig = await callParentApi('get-app-config');
 
         // All deployed plugins on the app
         const deployedPluginByName = _.keyBy(env.plugins, 'name');
 
-        // Get the app config in muse runner from parent process
         if (!env.variables) env.variables = {};
         if (!env.pluginVariables) env.pluginVariables = {};
 
+        // Override dev time app variables
         Object.assign(env.variables, appConfig.variables || {});
+
+        // Override dev time plugin variables
         Object.entries(appConfig.pluginVariables || {}).forEach(([pluginName, variables]) => {
           if (!env.pluginVariables[pluginName]) env.pluginVariables[pluginName] = {};
           Object.assign(env.pluginVariables[pluginName], variables);
@@ -107,12 +111,14 @@ ${JSON.stringify(importMap, null, 2)}
         // Here use localLibs to store the local lib plugins' urls
         const localLibPluings = {};
 
+        // Determine how to load the plugins
         appConfig?.plugins?.forEach((p) => {
           // NOTE: if a plugin specified deployed mode but not found, just return
           if (p.mode === 'deployed') return;
           let deployedPlugin = deployedPluginByName[p.name];
 
           // If the configured plugin is not deployed, then add it
+          // If a plugin is local but not deployed and not running, it's not added
           // The url will be set later
           if (!deployedPlugin && (p.mode !== 'local' || p.running)) {
             deployedPlugin = {
@@ -133,6 +139,7 @@ ${JSON.stringify(importMap, null, 2)}
               break;
             case 'url':
               deployedPlugin.url = p.url;
+              deployedPlugin.esModule = !!p.urlEsModule;
               break;
             case 'local': {
               if (p.running) {
@@ -162,6 +169,11 @@ ${JSON.stringify(importMap, null, 2)}
                   });
                 });
 
+                // Serve lib plugins from the first running plugin
+                // We don't handle lib plugin version conflicts here because
+                // all local running plugins on the app should have the same version of a lib plugin
+                // There should be auto update logic to ensure all plugins have the same version of a lib plugin
+                // We don't serve lib plugins from remote because maybe a lib plugin has not been deployed yet.
                 _.uniqBy(museLibs, 'name').forEach((lib) => {
                   if (localLibPluings[lib.name]) return;
                   const pid = muse.utils.getPluginId(lib.name);
@@ -248,6 +260,7 @@ ${JSON.stringify(importMap, null, 2)}
         // Then don't load it from anywhere else
         env.plugins.forEach((p) => {
           // if (p.linkedTo && !p.running) delete p.url;
+          // TODO: may not need this logic since link mechanism will be changed
         });
       },
     },

@@ -336,7 +336,7 @@ app.post(
 app.post(
   '/api/attach-plugin',
   handleAsyncError(async (req, res) => {
-    const { appId, pluginName, mode = 'local', version, url } = req.body;
+    const { appId, pluginName, mode = 'local', ...rest } = req.body;
     const appList = config.get('appList', []);
     const app = appList.find((a) => a.id === appId);
     if (!app) throw new Error(`App not found: ${appId}`);
@@ -345,8 +345,7 @@ app.post(
     const toSave = {
       name: pluginName,
       mode,
-      version,
-      url,
+      ...rest,
     };
     const foundIndex = app.plugins.findIndex((p) => p.name === pluginName);
 
