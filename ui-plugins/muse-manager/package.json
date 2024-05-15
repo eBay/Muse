@@ -26,7 +26,7 @@
     "@ebay/muse-lib-antd": "^1.2.22",
     "@ebay/muse-lib-react": "1.2.18",
     "@ebay/muse-plugin-acl": "^1.0.14",
-    "@ebay/muse-vite-plugin": "^1.0.36",
+    "@ebay/muse-vite-plugin": "^1.0.37",
     "@tanstack/react-query": "^4.28.0",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
