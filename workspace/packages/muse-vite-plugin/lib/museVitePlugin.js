@@ -152,7 +152,7 @@ export default function museVitePlugin() {
     vitePlugin.transform = async (code, id) => {
       if (
         libPlugins.some((p) => id.startsWith(`${p.path}/src/`)) &&
-        (id.endsWith('.js') || id.endsWith('.jsx'))
+        (id.endsWith('.js') || id.endsWith('.jsx') || id.endsWith('.ts') || id.endsWith('.tsx'))
       ) {
         return transformWithEsbuild(code, id, {
           loader: 'jsx',

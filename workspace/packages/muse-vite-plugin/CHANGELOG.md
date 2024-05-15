@@ -1,5 +1,11 @@
 # @ebay/muse-vite-plugin
 
+## 1.0.37
+
+### Patch Changes
+
+- support vitest
+
 ## 1.0.36
 
 ### Patch Changes
