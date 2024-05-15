@@ -20,7 +20,8 @@
     "build": "vite build",
     "build:dev": "cross-env NODE_ENV=development vite build --mode development",
     "build:test": "cross-env MUSE_TEST_BUILD=true NODE_ENV=production vite build --mode e2e-test",
-    "test": ""
+    "test": "vitest",
+    "test:coverage": "vitest run --coverage"
   },
   "browserslist": {
     "production": [
@@ -43,15 +44,18 @@
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.5.1",
     "@vitejs/plugin-react-swc": "^3.6.0",
+    "@vitest/coverage-v8": "^1.6.0",
     "cross-env": "^7.0.3",
     "jest-canvas-mock": "^2.5.2",
     "js-plugin": "1.1.0",
+    "jsdom": "^24.0.0",
     "less": "^4.2.0",
     "lodash": "4.17.21",
     "semver": "7.3.7",
     "tailwindcss": "^3.4.3",
     "vite": "^5.2.11",
-    "vite-plugin-css-injected-by-js": "^3.5.1"
+    "vite-plugin-css-injected-by-js": "^3.5.1",
+    "vitest": "^1.6.0"
   },
   "dependencies": {
     "autoprefixer": "^10.4.19"
