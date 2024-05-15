@@ -1,6 +1,6 @@
-const { getMuseModuleCode, getMuseModule, getLibNameByModule } = require('./utils');
+import { getMuseModuleCode, getMuseModule, getLibNameByModule } from './utils.js';
 
-module.exports = () => {
+export default function museRollupPlugin() {
   let usedSharedModules = {};
   return {
     name: 'muse-rollup',
@@ -31,4 +31,4 @@ module.exports = () => {
       });
     },
   };
-};
+}

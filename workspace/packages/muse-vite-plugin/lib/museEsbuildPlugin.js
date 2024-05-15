@@ -1,6 +1,6 @@
-const { getMuseModuleCode, getMuseModule } = require('./utils');
+import { getMuseModuleCode, getMuseModule } from './utils.js';
 
-module.exports = () => {
+export default function museEsbuildPlugin() {
   return {
     name: 'muse-esbuild',
     setup(build) {
@@ -16,4 +16,4 @@ module.exports = () => {
       });
     },
   };
-};
+}

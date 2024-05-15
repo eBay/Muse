@@ -1,11 +1,13 @@
-const fs = require('fs-extra');
-const path = require('path');
-const findRoot = require('find-root');
-const { getMuseLibs } = require('@ebay/muse-dev-utils/lib/utils');
-const { findMuseModule, config } = require('@ebay/muse-modules');
+import fs from 'fs-extra';
+import path from 'path';
+import findRoot from 'find-root';
+import { getMuseLibs } from '@ebay/muse-dev-utils/lib/utils.js';
+import museModules from '@ebay/muse-modules';
+
+const { findMuseModule, config } = museModules;
 config.matchVersion = 'major';
 
-function mergeObjects(obj1, obj2) {
+export function mergeObjects(obj1, obj2) {
   for (let key in obj2) {
     if (obj1[key] && Array.isArray(obj1[key]) && obj2[key] && Array.isArray(obj2[key])) {
       obj1[key] = [...obj1[key], ...obj2[key]];
@@ -24,7 +26,7 @@ function mergeObjects(obj1, obj2) {
 }
 
 let allMuseModules;
-function ensureAllMuseModules() {
+export function ensureAllMuseModules() {
   if (!allMuseModules) allMuseModules = {};
   getMuseLibs().forEach((lib) => {
     const content = fs.readJsonSync(path.join(lib.path, 'build/dev/lib-manifest.json')).content;
@@ -36,7 +38,7 @@ function ensureAllMuseModules() {
   });
 }
 
-function getMuseModule(filePath) {
+export function getMuseModule(filePath) {
   const pkg = fs.readJsonSync(path.join(process.cwd(), 'package.json'));
 
   ensureAllMuseModules();
@@ -57,7 +59,7 @@ function getMuseModule(filePath) {
   return museModule;
 }
 
-function getMuseModuleCode(museModule) {
+export function getMuseModuleCode(museModule) {
   // const museModule = getMuseModule(filePath);
   if (!museModule) return;
 
@@ -82,13 +84,6 @@ function getMuseModuleCode(museModule) {
 }
 
 // Get the lib plugin where the shared module is from
-function getLibNameByModule(museId) {
+export function getLibNameByModule(museId) {
   return allMuseModules[museId]?.__libName;
 }
-
-module.exports = {
-  getMuseModule,
-  getMuseModuleCode,
-  getLibNameByModule,
-  mergeObjects,
-};

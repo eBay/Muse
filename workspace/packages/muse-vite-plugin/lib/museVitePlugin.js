@@ -1,11 +1,13 @@
-const fs = require('fs');
-const path = require('path');
-const muse = require('@ebay/muse-core');
-const setupMuseDevServer = require('@ebay/muse-dev-utils/lib/setupMuseDevServer');
-const { utils: devUtils } = require('@ebay/muse-dev-utils');
-const museEsbuildPlugin = require('./museEsbuildPlugin');
-const museRollupPlugin = require('./museRollupPlugin');
-const { mergeObjects } = require('./utils');
+import fs from 'fs';
+import { transformWithEsbuild } from 'vite';
+import path from 'path';
+import muse from '@ebay/muse-core';
+import setupMuseDevServer from '@ebay/muse-dev-utils/lib/setupMuseDevServer.js';
+import devUtils from '@ebay/muse-dev-utils/lib/utils.js';
+import museEsbuildPlugin from './museEsbuildPlugin.js';
+import museRollupPlugin from './museRollupPlugin.js';
+import { mergeObjects } from './utils.js';
+import lib from '@ebay/muse-dev-utils';
 
 // We need to use originalUrl instead of url because the latter is modified by Vite 5+ (not modified in Vite 4)
 // which causes server.middlewares.use(path, middleware) to not work as expected
@@ -22,7 +24,7 @@ const buildDir = {
   development: 'build/dev',
   'e2e-test': 'build/test',
 };
-module.exports = () => {
+export default function museVitePlugin() {
   let theViteServer;
 
   const musePluginVite = {
@@ -55,7 +57,7 @@ module.exports = () => {
     process.env.SSL_KEY_FILE ||
     path.join(process.cwd(), './node_modules/.muse/certs/muse-dev-cert.key');
 
-  return {
+  const vitePlugin = {
     name: 'muse-vite-plugin',
     config(config) {
       const isHTTPS = process.env.HTTPS === 'true';
@@ -70,10 +72,7 @@ module.exports = () => {
         );
       }
 
-      // NOTE: mergeObjects is a helper function that merges two objects recursively
-      // it only set the values if the key doesn't exist in the first object
-      // that's why not return a partial config object used by vite plugin config hook
-      mergeObjects(config, {
+      const configToBeMerged = {
         base: './',
         define: {
           __MUSE_PLUGIN_NAME__: JSON.stringify(pkgJson.name),
@@ -116,7 +115,12 @@ module.exports = () => {
               : [],
           },
         },
-      });
+      };
+
+      // NOTE: mergeObjects is a helper function that merges two objects recursively
+      // it only set the values if the key doesn't exist in the first object
+      // that's why not return a partial config object used by vite plugin config hook
+      mergeObjects(config, configToBeMerged);
     },
 
     configureServer(server) {
@@ -138,4 +142,24 @@ module.exports = () => {
       };
     },
   };
-};
+
+  // Special support for Vitest:
+  // It needs to transform JSX to JS from Muse library plugins.
+  // To be backward compatible, all React compoennts file extension is `.js` rather than `.jsx`
+  // So we need to treat all js files as jsx files
+  if (process.env.VITEST) {
+    const libPlugins = devUtils.getMuseLibs();
+    vitePlugin.transform = async (code, id) => {
+      if (
+        libPlugins.some((p) => id.startsWith(`${p.path}/src/`)) &&
+        (id.endsWith('.js') || id.endsWith('.jsx'))
+      ) {
+        return transformWithEsbuild(code, id, {
+          loader: 'jsx',
+          jsx: 'automatic',
+        });
+      }
+    };
+  }
+  return vitePlugin;
+}
