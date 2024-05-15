@@ -5,20 +5,7 @@ import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js';
 
 export default defineConfig(({ mode }) => {
   return {
-    plugins: [
-      react(),
-      museVitePlugin(),
-      cssInjectedByJsPlugin(),
-      // {
-      //   name: 'treat-js-files-as-jsx',
-      //   async transform(code, id) {
-      //     return transformWithEsbuild(code, id, {
-      //       loader: 'jsx',
-      //       jsx: 'automatic',
-      //     });
-      //   },
-      // },
-    ],
+    plugins: [react(), museVitePlugin(), cssInjectedByJsPlugin()],
     test: {
       include: ['src/**/*.{test,spec}.?(c|m)[jt]s?(x)'],
       coverage: {
