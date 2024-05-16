@@ -42,7 +42,7 @@ describe('home/Header', () => {
 
   it('renders default Header with the Username and a default muse icon', async () => {
     testUtils.renderWithProviders(<Header />);
-
+    window.MUSE_GLOBAL.logout = vi.fn();
     const userName = screen.getByText('test');
     const defaultHeaderIcon = screen.getByRole('img', { name: 'header-icon' });
     expect(defaultHeaderIcon).toBeTruthy();

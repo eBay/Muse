@@ -5,8 +5,8 @@ import { Provider } from 'react-redux';
 import { Router } from 'react-router';
 import NiceModal from '@ebay/nice-modal-react';
 import { ConfigProviderWrapper } from '@ebay/muse-lib-antd/src/features/common';
-import '@ebay/muse-craco-plugin/lib/jest/__mocks__/museConfig.js';
-import '@ebay/muse-craco-plugin/lib/jest/__mocks__/museEntries.js';
+// import '@ebay/muse-craco-plugin/lib/jest/__mocks__/museConfig.js';
+// import '@ebay/muse-craco-plugin/lib/jest/__mocks__/museEntries.js';
 import history from '@ebay/muse-lib-antd/src/common/history';
 import store from './storeForTests';
 

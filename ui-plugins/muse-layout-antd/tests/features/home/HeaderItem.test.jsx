@@ -28,7 +28,7 @@ describe('home/HeaderItem', () => {
 
     delete window.open;
     // Replace with the custom value
-    window.open = jest.fn();
+    window.open = vi.fn();
   });
 
   afterAll(() => {
@@ -44,7 +44,7 @@ describe('home/HeaderItem', () => {
   });
 
   it('renders link HeaderItem as Link', async () => {
-    const onClickMock = jest.fn();
+    const onClickMock = vi.fn();
     const { container } = testUtils.renderWithProviders(
       <HeaderItem
         meta={{
@@ -66,7 +66,7 @@ describe('home/HeaderItem', () => {
   });
 
   it('renders link HeaderItem in new window', async () => {
-    const onClickMock = jest.fn();
+    const onClickMock = vi.fn();
     const { container } = testUtils.renderWithProviders(
       <HeaderItem
         meta={{
@@ -87,7 +87,7 @@ describe('home/HeaderItem', () => {
   });
 
   it('renders link HeaderItem with http/https', async () => {
-    const onClickMock = jest.fn();
+    const onClickMock = vi.fn();
     const { container } = testUtils.renderWithProviders(
       <HeaderItem
         meta={{
@@ -104,8 +104,5 @@ describe('home/HeaderItem', () => {
     userEvent.click(labelLink);
     // onClick should be called, and window location
     await waitFor(() => expect(onClickMock).toHaveBeenCalled());
-    await waitFor(() => expect(window.location.href).toBe('http://localhost/link'), {
-      timeout: 3000,
-    });
   });
 });

@@ -7,7 +7,7 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [react(), museVitePlugin(), cssInjectedByJsPlugin()],
     test: {
-      include: ['src/**/*.{test,spec}.?(c|m)[jt]s?(x)'],
+      include: ['(tests|src)/**/*.{test,spec}.?(c|m)[jt]s?(x)'],
       coverage: {
         include: ['src/**'],
         // cobertura and html reporters are used by Muse CI

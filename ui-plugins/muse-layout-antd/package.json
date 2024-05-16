@@ -39,7 +39,7 @@
     "@ebay/muse-core": "^1.0.39",
     "@ebay/muse-lib-antd": "1.2.22",
     "@ebay/muse-lib-react": "1.2.18",
-    "@ebay/muse-vite-plugin": "^1.0.36",
+    "@ebay/muse-vite-plugin": "^1.0.37",
     "@testing-library/jest-dom": "^6.1.4",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.5.1",
@@ -51,6 +51,8 @@
     "jsdom": "^24.0.0",
     "less": "^4.2.0",
     "lodash": "4.17.21",
+    "react": "18.2.0",
+    "react-redux": "8.1.2",
     "semver": "7.3.7",
     "tailwindcss": "^3.4.3",
     "vite": "^5.2.11",
@@ -58,6 +60,7 @@
     "vitest": "^1.6.0"
   },
   "dependencies": {
-    "autoprefixer": "^10.4.19"
+    "autoprefixer": "^10.4.19",
+    "react-dom": "18.2.0"
   }
 }
