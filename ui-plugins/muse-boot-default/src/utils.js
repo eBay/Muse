@@ -1,35 +1,6 @@
 import error from './error';
 const noop = () => {};
 
-/*export function xhr(url, options = {}) {
-  const request = new XMLHttpRequest();
-  request.withCredentials = !!options.withCredentials;
-
-  return new Promise((resolve, reject) => {
-    request.onload = () => {
-      if (request.status !== 200) {
-        console.log('Request failed', request);
-        reject(request);
-        return;
-      }
-      const text = request.responseText;
-      resolve(options.text ? text : JSON.parse(text));
-    };
-    request.onerror = () => {
-      reject(new Error(`Failed to get: ${url}`));
-    };
-    request.open('get', url, true);
-
-    if (options.headers) {
-      Object.entries(options.headers).forEach(([name, value]) => {
-        request.setRequestHeader(name, value);
-      });
-    }
-
-    request.send();
-  });
-}*/
-
 export function load(plugin, callback) {
   callback = callback || noop;
   if (plugin.then && plugin.catch) {
@@ -54,7 +25,6 @@ export function load(plugin, callback) {
         resolve();
       }
       script.onerror = () => {
-        // fatalError('Failed to load resource: ' + resource);
         error.showMessage(`Failed to load resource: ${plugin.url} .`);
         reject();
       };

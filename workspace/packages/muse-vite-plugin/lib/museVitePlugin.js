@@ -7,7 +7,6 @@ import devUtils from '@ebay/muse-dev-utils/lib/utils.js';
 import museEsbuildPlugin from './museEsbuildPlugin.js';
 import museRollupPlugin from './museRollupPlugin.js';
 import { mergeObjects } from './utils.js';
-import lib from '@ebay/muse-dev-utils';
 
 // We need to use originalUrl instead of url because the latter is modified by Vite 5+ (not modified in Vite 4)
 // which causes server.middlewares.use(path, middleware) to not work as expected

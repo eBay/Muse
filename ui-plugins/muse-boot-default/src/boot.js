@@ -239,6 +239,7 @@ async function start() {
       ),
   );
 
+  // TODO: why we need to load esModule plugins separately?
   const esPluginsToLoad = pluginsToLoad.filter((p) => p.esModule);
   await loadInParallel(
     esPluginsToLoad.filter((p) => p.esModule),
