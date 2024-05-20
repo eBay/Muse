@@ -29,9 +29,9 @@ class MuseManifestPlugin {
    * @returns {void}
    */
   apply(compiler) {
-    compiler.hooks.emit.tapAsync('MuseManifestPlugin', (compilation, callback) => {
+    const pluginFunc = (compilation, callback) => {
       const moduleGraph = compilation.moduleGraph;
-      const sharedLibs = this.options.museConfig?.sharedLibs?.exclude || [];
+      const excludedLibs = this.options.museConfig?.sharedLibs?.exclude || [];
 
       asyncLib.forEach(
         Array.from(compilation.chunks),
@@ -45,7 +45,11 @@ class MuseManifestPlugin {
             path.join(
               process.cwd(),
               `build/${
-                this.options?.isDevBuild ? 'dev' : this.options?.isTestBuild ? 'test' : 'dist'
+                this.options?.isDevBuild || this.options?.isDev
+                  ? 'dev'
+                  : this.options?.isTestBuild
+                  ? 'test'
+                  : 'dist'
               }/lib-manifest.json`,
             ),
             {
@@ -66,7 +70,7 @@ class MuseManifestPlugin {
 
             // ////////  exclude modules from sharedLibs.exclude configuration  ///////////////////
             const moduleName = parseMuseId(module.buildInfo.museData.id).name;
-            if (sharedLibs.some((cl) => moduleName === cl)) continue;
+            if (excludedLibs.some((el) => moduleName === el)) continue;
             // ////////////////////////////////////////////////////////////////////////////////////
 
             const ident = module.libIdent({
@@ -109,7 +113,13 @@ class MuseManifestPlugin {
         },
         callback,
       );
-    });
+    };
+    if (this.options.isDev) {
+      // At dev time, generate the lib manifest for other plugins to link
+      compiler.hooks.afterCompile.tap('MuseManifestPlugin', pluginFunc);
+    } else {
+      compiler.hooks.emit.tapAsync('MuseManifestPlugin', pluginFunc);
+    }
   }
 }
 module.exports = MuseManifestPlugin;
