@@ -25,12 +25,17 @@ export function mergeObjects(obj1, obj2) {
   return obj1;
 }
 
+const getManifestPath = (lib) =>
+  path.join(
+    lib.path,
+    lib.isLinked ? 'node_modules/.muse/dev/lib-manifest.json' : 'build/dev/lib-manifest.json',
+  );
 let allMuseModules;
 function loadAllMuseModules() {
   allMuseModules = {};
   getMuseLibs().forEach((lib) => {
     console.log(lib);
-    const content = fs.readJsonSync(path.join(lib.path, 'build/dev/lib-manifest.json')).content;
+    const content = fs.readJsonSync(getManifestPath(lib)).content;
     for (const p in content) {
       // Need to know the lib name to generate deps-manifest.json
       content[p].__libName = `${lib.name}@${lib.version}`;
@@ -44,7 +49,7 @@ export function ensureAllMuseModules() {
 
   // Watch lib manifest changes, this is useful when a Muse plugin links to a Muse lib plugin
   getMuseLibs().forEach((lib) => {
-    fs.watch(path.join(lib.path, 'build/dev/lib-manifest.json'), loadAllMuseModules);
+    fs.watch(getManifestPath(lib), loadAllMuseModules);
   });
   loadAllMuseModules();
 }
