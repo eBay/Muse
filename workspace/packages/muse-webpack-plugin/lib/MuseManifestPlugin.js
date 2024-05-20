@@ -44,13 +44,11 @@ class MuseManifestPlugin {
           const targetPath = compilation.getPath(
             path.join(
               process.cwd(),
-              `build/${
-                this.options?.isDevBuild || this.options?.isDev
-                  ? 'dev'
-                  : this.options?.isTestBuild
-                  ? 'test'
-                  : 'dist'
-              }/lib-manifest.json`,
+              this.options?.isDev
+                ? 'node_modules/.muse/dev/lib-manifest.json'
+                : `build/${
+                    this.options?.isDevBuild ? 'dev' : this.options?.isTestBuild ? 'test' : 'dist'
+                  }/lib-manifest.json`,
             ),
             {
               chunk,
