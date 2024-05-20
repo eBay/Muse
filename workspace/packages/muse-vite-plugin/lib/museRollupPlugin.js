@@ -15,6 +15,7 @@ export default function museRollupPlugin() {
       return museCode;
     },
     generateBundle() {
+      // Generate deps manifest for deployment validation
       const depsManifestContent = {};
       for (const id in usedSharedModules) {
         const libName = getLibNameByModule(id);

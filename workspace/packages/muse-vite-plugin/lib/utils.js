@@ -26,9 +26,10 @@ export function mergeObjects(obj1, obj2) {
 }
 
 let allMuseModules;
-export function ensureAllMuseModules() {
-  if (!allMuseModules) allMuseModules = {};
+function loadAllMuseModules() {
+  allMuseModules = {};
   getMuseLibs().forEach((lib) => {
+    console.log(lib);
     const content = fs.readJsonSync(path.join(lib.path, 'build/dev/lib-manifest.json')).content;
     for (const p in content) {
       // Need to know the lib name to generate deps-manifest.json
@@ -38,10 +39,19 @@ export function ensureAllMuseModules() {
   });
 }
 
+export function ensureAllMuseModules() {
+  if (allMuseModules) return;
+
+  // Watch lib manifest changes, this is useful when a Muse plugin links to a Muse lib plugin
+  getMuseLibs().forEach((lib) => {
+    fs.watch(path.join(lib.path, 'build/dev/lib-manifest.json'), loadAllMuseModules);
+  });
+  loadAllMuseModules();
+}
+
 export function getMuseModule(filePath) {
   const pkg = fs.readJsonSync(path.join(process.cwd(), 'package.json'));
 
-  ensureAllMuseModules();
   const rootPkgPath = findRoot(filePath);
   if (!rootPkgPath) return null;
 
@@ -52,6 +62,7 @@ export function getMuseModule(filePath) {
   }
   const museModuleId = `${rootPkg.name}@${rootPkg.version}${filePath.replace(rootPkgPath, '')}`;
 
+  ensureAllMuseModules();
   const museModule = findMuseModule(museModuleId, { modules: allMuseModules });
   if (museModule) {
     museModule.__isESM = rootPkg.type === 'module' || filePath.endsWith('.mjs');
@@ -59,11 +70,11 @@ export function getMuseModule(filePath) {
   return museModule;
 }
 
-export function getMuseModuleCode(museModule) {
+export function getMuseModuleCode(museModule, esm) {
   // const museModule = getMuseModule(filePath);
   if (!museModule) return;
 
-  if (museModule.__isESM) {
+  if (museModule.__isESM || esm) {
     //TODO: or package type === 'module' ?
     return `const m = MUSE_GLOBAL.__shared__.require("${museModule.id}");
     ${(museModule.exports || [])

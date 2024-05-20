@@ -6,7 +6,7 @@ import setupMuseDevServer from '@ebay/muse-dev-utils/lib/setupMuseDevServer.js';
 import devUtils from '@ebay/muse-dev-utils/lib/utils.js';
 import museEsbuildPlugin from './museEsbuildPlugin.js';
 import museRollupPlugin from './museRollupPlugin.js';
-import { mergeObjects } from './utils.js';
+import { getMuseModuleCode, mergeObjects, getMuseModule } from './utils.js';
 
 // We need to use originalUrl instead of url because the latter is modified by Vite 5+ (not modified in Vite 4)
 // which causes server.middlewares.use(path, middleware) to not work as expected
@@ -25,7 +25,6 @@ const buildDir = {
 };
 export default function museVitePlugin() {
   let theViteServer;
-
   const musePluginVite = {
     name: 'muse-plugin-vite',
     museMiddleware: {
@@ -139,6 +138,19 @@ export default function museVitePlugin() {
           }
         });
       };
+    },
+    load(id) {
+      // If pre-bundling is disabled, or if the module is from a dev time lib plugin
+      // then we need this hook to find possible Muse shared module
+      const museModule = getMuseModule(id);
+
+      if (!museModule) return;
+      const museCode = getMuseModuleCode(museModule, 'esm');
+
+      if (museCode) {
+        return museCode;
+      }
+      return null;
     },
   };
 
