@@ -323,7 +323,7 @@ export function bootstrap() {
       console.log(`Muse app started in ${(timeEnd - timeStart) / 1000} seconds.`);
     })
     .catch((err) => {
-      console.log('Failed to start app.');
+      console.log('Failed to start the app.');
       err && console.error(err);
       loading.hide();
       if (err?.message) {
