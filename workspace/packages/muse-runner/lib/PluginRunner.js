@@ -48,6 +48,7 @@ export default class PluginRunner extends EventEmitter {
     this.port = realPort;
     this.cmd = cmd;
     this.pluginInfo = pluginInfo;
+    this.name = this.pluginInfo.name;
 
     this.cmd.on('exit', (code) => {
       this.emit('exit', code);

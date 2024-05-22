@@ -12,10 +12,7 @@ const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
  * It also allows to change app/env
  */
 export default class AppRunner extends EventEmitter {
-  attachedPlugins = [];
-  excludedPlugins = [];
-
-  async start({ id, port, app, env = 'staging', runningPlugins }) {
+  async start({ id, port, app, env = 'staging' }) {
     this.id = id;
     if (this.worker) {
       throw new Error(`App already started.`);
@@ -28,7 +25,6 @@ export default class AppRunner extends EventEmitter {
       workerData: {
         id,
         port: realPort,
-        runningPlugins,
       },
     });
     this.app = app;

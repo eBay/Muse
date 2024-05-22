@@ -1,3 +1,12 @@
+/**
+ * This worker simulates the Muse app server, it manages the plugins and serves the app.
+ *
+ * - It listens to the parent process for the app config and plugin config change
+ * - Running plugins are served plugin runners
+ * - If a running plugin is a lib plugin, use URL to load the plugin
+ * - Override app and plugin variables from config
+ * - If a lib plugin is running at local mode, it has highest priority to load
+ */
 import { workerData, parentPort } from 'node:worker_threads';
 import fs from 'node:fs';
 import express from 'express';
@@ -104,16 +113,16 @@ ${JSON.stringify(importMap, null, 2)}
           Object.assign(env.pluginVariables[pluginName], variables);
         });
 
-        const linkedPlugins = [];
+        // const linkedPlugins = [];
 
-        // For local installed lib plugins, need to load them
-        // from local dev server of the parent plugin
+        // For local installed lib plugins, need to load them from local dev server of the parent
+        // plugin because they may have not been deployed.
         // Here use localLibs to store the local lib plugins' urls
         const localLibPluings = {};
 
         // Determine how to load the plugins
         appConfig?.plugins?.forEach((p) => {
-          // NOTE: if a plugin specified deployed mode but not found, just return
+          // NOTE: if a plugin uses deployed mode but not found, just return
           if (p.mode === 'deployed') return;
           let deployedPlugin = deployedPluginByName[p.name];
 
@@ -153,21 +162,22 @@ ${JSON.stringify(importMap, null, 2)}
                     p.type === 'boot' ? 'boot' : 'main'
                   }.js`;
                 }
+                // isLocal is used to show log in muse-boot
                 deployedPlugin.isLocal = true;
-                linkedPlugins.push(
-                  ...(p.linkedPlugins || []).map((lp) => ({
-                    name: lp.name,
-                    parent: p.name,
-                  })),
-                );
+                // linkedPlugins.push(
+                //   ...(p.linkedPlugins || []).map((lp) => ({
+                //     name: lp.name,
+                //     parent: p.name,
+                //   })),
+                // );
 
                 // Get all installed libs, and add them to localLibPluings
                 const museLibs = museDevUtils.getMuseLibsByFolder(p.dir);
-                p.linkedPlugins?.forEach((lp) => {
-                  museDevUtils.getMuseLibsByFolder(lp.dir).forEach((lib) => {
-                    museLibs.push(lib);
-                  });
-                });
+                // p.linkedPlugins?.forEach((lp) => {
+                //   museDevUtils.getMuseLibsByFolder(lp.dir).forEach((lib) => {
+                //     museLibs.push(lib);
+                //   });
+                // });
 
                 // Serve lib plugins from the first running plugin
                 // We don't handle lib plugin version conflicts here because
@@ -194,18 +204,18 @@ ${JSON.stringify(importMap, null, 2)}
           }
         });
 
-        linkedPlugins.forEach((lp) => {
-          const name = `${lp.name} (linked to ${lp.parent})})`;
-          if (deployedPluginByName[lp.name]) {
-            deployedPluginByName[lp.name].linkedTo = lp.parent;
-          } else {
-            env.plugins.push({
-              name: name,
-              linkedTo: lp.parent,
-              type: lp.type,
-            });
-          }
-        });
+        // linkedPlugins.forEach((lp) => {
+        //   const name = `${lp.name} (linked to ${lp.parent})})`;
+        //   if (deployedPluginByName[lp.name]) {
+        //     deployedPluginByName[lp.name].linkedTo = lp.parent;
+        //   } else {
+        //     env.plugins.push({
+        //       name: name,
+        //       linkedTo: lp.parent,
+        //       type: lp.type,
+        //     });
+        //   }
+        // });
 
         const configPluginByName = _.keyBy(appConfig.plugins, 'name');
         if (!appConfig.loadAllPlugins) {
@@ -217,8 +227,8 @@ ${JSON.stringify(importMap, null, 2)}
               p.type === 'boot' ||
               p.type === 'init' ||
               p.type === 'lib' ||
-              configPluginByName[p.name] || // NOTE: excluded plugins already removed
-              p.linkedTo, // if a plugin is linked, need to get config, so we need to load it
+              configPluginByName[p.name], //|| // NOTE: excluded plugins already removed
+            // p.linkedTo, // if a plugin is linked, need to get config, so we need to load it
           );
         }
 
@@ -258,10 +268,10 @@ ${JSON.stringify(importMap, null, 2)}
 
         // If a lib plugin is linked to some other running (local mode) plugin,
         // Then don't load it from anywhere else
-        env.plugins.forEach((p) => {
-          // if (p.linkedTo && !p.running) delete p.url;
-          // TODO: may not need this logic since link mechanism will be changed
-        });
+        // env.plugins.forEach((p) => {
+        //   // if (p.linkedTo && !p.running) delete p.url;
+        //   // TODO: may not need this logic since link mechanism will be changed
+        // });
       },
     },
   },

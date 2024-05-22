@@ -2,6 +2,10 @@ import * as os from 'node:os';
 import * as pty from 'node-pty';
 import { EventEmitter } from 'node:events';
 
+/**
+ * The reason we use node-pty is that it can keep output color?
+ */
+
 export default class Command extends EventEmitter {
   cwd;
   cmd;

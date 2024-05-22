@@ -15,6 +15,9 @@ import openBrowser from 'react-dev-utils/openBrowser.js';
 import terminals from './apis/terminals.js';
 import gitStatus from './apis/gitStatus.js';
 import settings from './apis/settings.js';
+import startPlugin from './apis/startPlugin.js';
+import stopPlugin from './apis/stopPlugin.js';
+import utils, { handleAsyncError } from './utils.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
@@ -31,15 +34,6 @@ app.use(cors());
 expressWs(app);
 
 const port = parseInt(process.env.MUSE_RUNNER_PORT || '6066', 10);
-
-const handleAsyncError = (fn) => async (req, res) => {
-  try {
-    return await fn(req, res);
-  } catch (e) {
-    console.error(e);
-    res.status(500).send(e.message);
-  }
-};
 
 function setupWebSocket(app) {
   const sockets = [];
@@ -126,6 +120,23 @@ const handleRunningDataChange = () => {
 
 const runner = new MuseRunner();
 
+runner.on('start-plugin', ({ pluginRunner }) => {
+  pluginRunner.on('exit', (code) => {
+    handleRunningDataChange();
+    io.emit({
+      type: 'plugin-exited',
+      data: {
+        pluginName: pluginRunner.pluginInfo.name,
+        dir: pluginRunner.dir,
+        code,
+      },
+    });
+  });
+  bindOutputToSocket(`plugin:${pluginRunner.dir}`, pluginRunner.cmd.ptyProcess);
+  msgCache[`plugin:${pluginRunner.dir}}`] = [];
+  handleRunningDataChange();
+});
+
 app.post('/api/clear-msg-cache', (req, res) => {
   const { id } = req.body;
   if (id) {
@@ -133,35 +144,6 @@ app.post('/api/clear-msg-cache', (req, res) => {
   }
   res.send('ok');
 });
-
-const getAppConfig = (id) => {
-  const appList = config.get('appList', []);
-  const plugins = config.get('plugins', {});
-  const runningPlugins = runner.runningPlugins;
-  const app = _.find(appList, { id });
-  app.plugins?.forEach((p) => {
-    const pluginConfig = plugins[p.name] || {};
-    p.dir = pluginConfig.dir;
-    const found = runningPlugins.find((p2) => p2.pluginInfo.name === p.name);
-    if (found) {
-      p.running = true;
-      p.port = found.port;
-      p.type = found.pluginInfo.type;
-      p.protocol = pluginConfig.protocol || (process.env.HTTPS === 'true' ? 'https' : 'http');
-      p.esModule = found.pluginInfo.esModule;
-    }
-
-    if (pluginConfig.linkedPlugins) {
-      p.linkedPlugins = pluginConfig.linkedPlugins.map((lp) => ({
-        name: lp.name,
-        dir: plugins[lp.name]?.dir,
-      }));
-    }
-  });
-  app.protocol = app.protocol || (process.env.HTTPS === 'true' ? 'https' : 'http');
-
-  return app;
-};
 app.post(
   '/api/start-app',
   handleAsyncError(async (req, res) => {
@@ -197,7 +179,7 @@ app.post(
               payload: {
                 promiseId: msg.payload.promiseId,
                 result: {
-                  ...getAppConfig(id),
+                  ...utils.getAppConfig({ id, runner, config }),
                   port: appRunner.port,
                 },
               },
@@ -268,57 +250,8 @@ app.post(
   }),
 );
 
-app.post(
-  '/api/start-plugin',
-  handleAsyncError(async (req, res) => {
-    const { pluginName } = req.body;
-    const plugins = config.get('plugins', {});
-    const dir = plugins[pluginName]?.dir;
-    if (!dir) throw new Error(`Plugin folder not found: ${pluginName}`);
-    const MUSE_LOCAL_PLUGINS = (
-      plugins[pluginName]?.linkedPlugins?.map((p) => plugins[p.name]?.dir || '') || []
-    ).join(';');
-    const pluginRunner = await runner.startPlugin({
-      dir,
-      plugin: plugins[pluginName],
-      env: {
-        MUSE_LOCAL_PLUGINS,
-      },
-    });
-    pluginRunner.on('exit', (code) => {
-      handleRunningDataChange();
-      io.emit({
-        type: 'plugin-exited',
-        data: {
-          pluginName: pluginRunner.pluginInfo.name,
-          dir,
-          code,
-        },
-      });
-    });
-    bindOutputToSocket(`plugin:${dir}`, pluginRunner.cmd.ptyProcess);
-    msgCache[`plugin:${dir}}`] = [];
-    handleRunningDataChange();
-
-    res.setHeader('Content-Type', 'application/json');
-    res.send(
-      JSON.stringify({
-        MUSE_LOCAL_PLUGINS,
-        ...pluginRunner.pluginInfo,
-        port: pluginRunner.port,
-      }),
-    );
-  }),
-);
-
-app.post(
-  '/api/stop-plugin',
-  handleAsyncError(async (req, res) => {
-    const { dir } = req.body;
-    await runner.stopPlugin({ dir });
-    res.send('ok');
-  }),
-);
+app.post('/api/start-plugin', startPlugin({ config, runner }));
+app.post('/api/stop-plugin', stopPlugin({ runner }));
 
 app.post(
   '/api/update-plugin',
