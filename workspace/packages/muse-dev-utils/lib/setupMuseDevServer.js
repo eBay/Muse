@@ -250,14 +250,17 @@ muse.plugin.register({
 
 module.exports = (middlewares) => {
   // Serve local muse libs resources
-  const localLibMiddlewares = getMuseLibs().map((lib) => {
-    const id = muse.utils.getPluginId(lib.name);
-    return {
-      name: `muse-local-static-${lib.name}`,
-      path: `/muse-assets/local/p/${id}`,
-      middleware: express.static(path.join(lib.path, 'build')),
-    };
-  });
+  // linked libs should not be served, so that there's error if it's not a remote plugin
+  const localLibMiddlewares = getMuseLibs()
+    .filter((lib) => !lib.isLinked)
+    .map((lib) => {
+      const id = muse.utils.getPluginId(lib.name);
+      return {
+        name: `muse-local-static-${lib.name}`,
+        path: `/muse-assets/local/p/${id}`,
+        middleware: express.static(path.join(lib.path, 'build')),
+      };
+    });
 
   const localPlugins = [{ path: process.cwd(), pkg: getPkgJson() }, ...getLocalPlugins()];
   const localPublicMiddlewares = localPlugins.map((item) => {

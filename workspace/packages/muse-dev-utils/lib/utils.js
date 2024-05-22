@@ -53,7 +53,6 @@ const getLocalPlugins = () => {
 const getMuseLibs = (folder, includeLocal) => {
   const localPlugins = getLocalPlugins();
   const museLibs = getMuseLibsByFolder(folder || process.cwd());
-
   if (isDev || includeLocal) {
     // Only at dev time, it handles MUSE_LOCAL_PLUGINS
     localPlugins.forEach((lp) => {
@@ -64,6 +63,31 @@ const getMuseLibs = (folder, includeLocal) => {
       });
     });
   }
+
+  // Only at dev time, it handles MUSE_LINKED_LIBS
+  if (process.env.MUSE_LINKED_LIBS && isDev) {
+    process.env.MUSE_LINKED_LIBS.split(';').forEach((ll) => {
+      ll = ll.trim();
+      if (!path.isAbsolute(ll)) {
+        ll = path.join(process.cwd(), ll);
+      }
+      const pkg = fs.readJsonSync(path.join(ll, 'package.json'));
+      const lib = {
+        name: pkg.name,
+        version: pkg.version,
+        isLinked: true,
+        path: ll,
+        pkg,
+      };
+      const existing = _.find(museLibs, { name: lib.name });
+      if (existing) {
+        Object.assign(existing, lib);
+      } else {
+        museLibs.push(lib);
+      }
+    });
+  }
+
   return museLibs;
 };
 
