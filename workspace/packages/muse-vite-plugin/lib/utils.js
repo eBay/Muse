@@ -34,7 +34,6 @@ let allMuseModules;
 function loadAllMuseModules() {
   allMuseModules = {};
   getMuseLibs().forEach((lib) => {
-    console.log(lib);
     const content = fs.readJsonSync(getManifestPath(lib)).content;
     for (const p in content) {
       // Need to know the lib name to generate deps-manifest.json
@@ -55,11 +54,10 @@ export function ensureAllMuseModules() {
 }
 
 export function getMuseModule(filePath) {
-  const pkg = fs.readJsonSync(path.join(process.cwd(), 'package.json'));
-
   const rootPkgPath = findRoot(filePath);
   if (!rootPkgPath) return null;
 
+  const pkg = fs.readJsonSync(path.join(process.cwd(), 'package.json'));
   const rootPkg = fs.readJsonSync(rootPkgPath + '/package.json');
   if (!rootPkg.name || !rootPkg.version) return;
   if (pkg?.muse.customLibs?.includes(rootPkg.name)) {
