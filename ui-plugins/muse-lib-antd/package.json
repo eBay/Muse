@@ -17,7 +17,7 @@
     "src"
   ],
   "scripts": {
-    "start": "muse-cra-patch && cross-env NODE_PATH=./node_modules PORT=3032 craco start",
+    "start": "muse-cra-patch && cross-env NODE_PATH=./node_modules craco start",
     "build": "muse-cra-patch && cross-env NODE_PATH=./node_modules craco build",
     "build:dev": "muse-cra-patch && cross-env NODE_PATH=./node_modules NODE_ENV=development FAST_REFRESH=false craco build",
     "build:test": "muse-cra-patch && cross-env NODE_PATH=./node_modules MUSE_TEST_BUILD=true FAST_REFRESH=false craco build",
@@ -43,7 +43,7 @@
     "@craco/craco": "7.1.0",
     "@ebay/muse-core": "^1.0.39",
     "@ebay/muse-cra-patch": "^1.0.3",
-    "@ebay/muse-craco-plugin": "^3.0.27",
+    "@ebay/muse-craco-plugin": "^3.0.28",
     "@testing-library/jest-dom": "^6.1.3",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.5.1",
