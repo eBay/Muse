@@ -1,7 +1,8 @@
 const crypto = require('crypto');
 const { getLoaders, loaderByName } = require('@craco/craco');
 const { pkgJson, isDev, isTestBuild } = require('@ebay/muse-dev-utils').museContext;
-const handleMuseLocalPlugins = require('./handleMuseLocalPlugins');
+const { utils } = require('@ebay/muse-dev-utils');
+
 const _ = require('lodash');
 const path = require('path');
 const fs = require('fs');
@@ -47,9 +48,28 @@ module.exports = ({ webpackConfig }) => {
   if (isDev || isTestBuild) {
     configIstanbul(webpackConfig);
   }
-  // For development, need to load all configured local plugin projects
+
+  // allow to import modules outside of src
+  const foundIndex = webpackConfig.resolve.plugins
+    .map((x) => x.constructor.name)
+    .indexOf('ModuleScopePlugin');
+  if (foundIndex >= 0) {
+    webpackConfig.resolve.plugins.splice(foundIndex, 1);
+  }
+
   if (isDev) {
-    handleMuseLocalPlugins(webpackConfig);
+    // handle linked lib plugins for alias:
+    // linked plugins should be resolved from the linked path
+
+    const linkedLibs = utils.getMuseLibs().filter((lib) => lib.isLinked);
+    if (!webpackConfig.resolve.alias) webpackConfig.resolve.alias = {};
+    Object.assign(
+      webpackConfig.resolve.alias,
+      linkedLibs.reduce((acc, lib) => {
+        acc[lib.name] = lib.path;
+        return acc;
+      }, {}),
+    );
   }
 
   // Disable MiniCssExtractPlugin and use style-loader

@@ -3,7 +3,6 @@ import EventEmitter from 'node:events';
 import museDevUtils from '@ebay/muse-dev-utils/lib/utils.js';
 import AppRunner from './AppRunner.js';
 import PluginRunner from './PluginRunner.js';
-import utils from './utils.js';
 
 export default class MuseRunner extends EventEmitter {
   runningApps = [];

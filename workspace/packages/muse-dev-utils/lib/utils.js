@@ -1,6 +1,6 @@
 const path = require('path');
 const fs = require('fs-extra');
-const resolveCwd = require('resolve-cwd');
+// const resolveCwd = require('resolve-cwd');
 const resolveFrom = require('resolve-from');
 const _ = require('lodash');
 require('dotenv').config();
@@ -8,23 +8,23 @@ const museContext = require('./museContext');
 const pkgJson = museContext.pkgJson;
 const { isDev } = museContext;
 
-const getLocalPlugins = () => {
-  const localPlugins = (process.env.MUSE_LOCAL_PLUGINS || '')
-    .split(';')
-    .map((s) => s.trim())
-    .filter(Boolean);
+// const getLocalPlugins = () => {
+//   const localPlugins = (process.env.MUSE_LOCAL_PLUGINS || '')
+//     .split(';')
+//     .map((s) => s.trim())
+//     .filter(Boolean);
 
-  return localPlugins
-    .map((p) => (path.isAbsolute(p) ? p : path.join(process.cwd(), p)))
-    .map((p) => {
-      const pkg = require(path.join(p, 'package.json'));
-      return {
-        path: p,
-        name: pkg.name,
-        pkg,
-      };
-    });
-};
+//   return localPlugins
+//     .map((p) => (path.isAbsolute(p) ? p : path.join(process.cwd(), p)))
+//     .map((p) => {
+//       const pkg = require(path.join(p, 'package.json'));
+//       return {
+//         path: p,
+//         name: pkg.name,
+//         pkg,
+//       };
+//     });
+// };
 
 // Get all muse library plugins
 // const getMuseLibs = () => {
@@ -50,19 +50,19 @@ const getLocalPlugins = () => {
 
 // Get all installed libs, including which from MUSE_LOCAL_PLUGINS if isDev.
 // Note that local plugins order matters, it decides which lib version has higher priority
-const getMuseLibs = (folder, includeLocal) => {
-  const localPlugins = getLocalPlugins();
+const getMuseLibs = (folder) => {
+  // const localPlugins = getLocalPlugins();
   const museLibs = getMuseLibsByFolder(folder || process.cwd());
-  if (isDev || includeLocal) {
-    // Only at dev time, it handles MUSE_LOCAL_PLUGINS
-    localPlugins.forEach((lp) => {
-      const lpMuseLibs = getMuseLibsByFolder(lp.path);
-      lpMuseLibs.forEach((museLib) => {
-        if (_.find(museLibs, { name: museLib.name })) return;
-        museLibs.push(museLib);
-      });
-    });
-  }
+  // if (isDev || includeLocal) {
+  //   // Only at dev time, it handles MUSE_LOCAL_PLUGINS
+  //   localPlugins.forEach((lp) => {
+  //     const lpMuseLibs = getMuseLibsByFolder(lp.path);
+  //     lpMuseLibs.forEach((museLib) => {
+  //       if (_.find(museLibs, { name: museLib.name })) return;
+  //       museLibs.push(museLib);
+  //     });
+  //   });
+  // }
 
   // Only at dev time, it handles MUSE_LINKED_LIBS
   if (process.env.MUSE_LINKED_LIBS && isDev) {
@@ -162,7 +162,7 @@ const getEntryFile = (dir) => {
 };
 
 module.exports = {
-  getLocalPlugins,
+  // getLocalPlugins,
   getMuseLibs,
   // getAllMuseLibs,
   getMuseLibsByFolder,

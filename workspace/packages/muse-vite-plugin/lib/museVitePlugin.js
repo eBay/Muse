@@ -25,6 +25,7 @@ const buildDir = {
 };
 export default function museVitePlugin() {
   let theViteServer;
+  let config;
   const musePluginVite = {
     name: 'muse-plugin-vite',
     museMiddleware: {
@@ -57,7 +58,7 @@ export default function museVitePlugin() {
 
   const vitePlugin = {
     name: 'muse-vite-plugin',
-    config(config) {
+    config(config, { command }) {
       const isHTTPS = process.env.HTTPS === 'true';
       const port = process.env.PORT;
       const host = config.server?.host || process.env.MUSE_LOCAL_HOST_NAME || 'localhost';
@@ -74,6 +75,20 @@ export default function museVitePlugin() {
         base: './',
         define: {
           __MUSE_PLUGIN_NAME__: JSON.stringify(pkgJson.name),
+        },
+        resolve: {
+          // For linked libs, should make the folder alias of the package
+          // alias is only used at dev time
+          alias:
+            command === 'serve'
+              ? devUtils
+                  .getMuseLibs()
+                  .filter((lib) => lib.isLinked)
+                  .reduce((acc, lib) => {
+                    acc[lib.name] = lib.path;
+                    return acc;
+                  }, {})
+              : {},
         },
         server: {
           host,
@@ -114,13 +129,16 @@ export default function museVitePlugin() {
           },
         },
       };
-
       // NOTE: mergeObjects is a helper function that merges two objects recursively
       // it only set the values if the key doesn't exist in the first object
       // that's why not return a partial config object used by vite plugin config hook
       mergeObjects(config, configToBeMerged);
     },
 
+    configResolved(resolvedConfig) {
+      // store the resolved config
+      config = resolvedConfig;
+    },
     configureServer(server) {
       theViteServer = server;
       try {
@@ -140,6 +158,9 @@ export default function museVitePlugin() {
       };
     },
     load(id) {
+      // Load hook is only used for dev server
+      // For build, it uses rollup plugin to load Muse shared modules.
+      if (config.command !== 'serve') return;
       // If pre-bundling is disabled, or if the module is from a dev time lib plugin
       // then we need this hook to find possible Muse shared module
       const museModule = getMuseModule(id);

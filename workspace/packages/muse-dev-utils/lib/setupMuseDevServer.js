@@ -6,7 +6,7 @@ const muse = require('@ebay/muse-core');
 const _ = require('lodash');
 const museAssetsMiddleware = require('@ebay/muse-express-middleware/lib/assets');
 const museAppMiddleware = require('@ebay/muse-express-middleware/lib/app');
-const { getMuseLibs, getLocalPlugins, getPkgJson } = require('./utils');
+const { getMuseLibs, getPkgJson } = require('./utils');
 
 // The plugin defined by a remote url could be below pattern:
 // http://localhost:3030/main.js
@@ -148,8 +148,8 @@ muse.plugin.register({
           .filter(Boolean);
 
         const localNames = [pkgJson.name];
-        const localPlugins = getLocalPlugins();
-        localNames.push(...localPlugins.map((p) => p.pkg.name));
+        // const localPlugins = getLocalPlugins();
+        // localNames.push(...localPlugins.map((p) => p.pkg.name));
 
         let realPluginsToLoad = [
           ...plugins.filter(
@@ -262,7 +262,7 @@ module.exports = (middlewares) => {
       };
     });
 
-  const localPlugins = [{ path: process.cwd(), pkg: getPkgJson() }, ...getLocalPlugins()];
+  const localPlugins = [{ path: process.cwd(), pkg: getPkgJson() }];
   const localPublicMiddlewares = localPlugins.map((item) => {
     const id = muse.utils.getPluginId(item.pkg.name);
     return {

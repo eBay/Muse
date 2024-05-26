@@ -306,39 +306,39 @@ app.post(
   }),
 );
 
-app.post(
-  '/api/link-plugin',
-  handleAsyncError(async (req, res) => {
-    const { mainPlugin, linkedPlugin } = req.body;
-    if (mainPlugin === linkedPlugin) throw new Error('Cannot link with self');
-    const plugins = config.get('plugins', {});
-    if (!plugins[mainPlugin]) {
-      plugins[mainPlugin] = {};
-    }
-    if (!plugins[mainPlugin].linkedPlugins) {
-      plugins[mainPlugin].linkedPlugins = [];
-    }
-    if (!_.find(plugins[mainPlugin].linkedPlugins, { name: linkedPlugin })) {
-      plugins[mainPlugin].linkedPlugins.push({ name: linkedPlugin });
-    }
-    config.set('plugins', plugins);
-    res.send('ok');
-  }),
-);
+// app.post(
+//   '/api/link-plugin',
+//   handleAsyncError(async (req, res) => {
+//     const { mainPlugin, linkedPlugin } = req.body;
+//     if (mainPlugin === linkedPlugin) throw new Error('Cannot link with self');
+//     const plugins = config.get('plugins', {});
+//     if (!plugins[mainPlugin]) {
+//       plugins[mainPlugin] = {};
+//     }
+//     if (!plugins[mainPlugin].linkedPlugins) {
+//       plugins[mainPlugin].linkedPlugins = [];
+//     }
+//     if (!_.find(plugins[mainPlugin].linkedPlugins, { name: linkedPlugin })) {
+//       plugins[mainPlugin].linkedPlugins.push({ name: linkedPlugin });
+//     }
+//     config.set('plugins', plugins);
+//     res.send('ok');
+//   }),
+// );
 
-app.post(
-  '/api/unlink-plugin',
-  handleAsyncError(async (req, res) => {
-    const { mainPlugin, linkedPlugin } = req.body;
-    const plugins = config.get('plugins', {});
+// app.post(
+//   '/api/unlink-plugin',
+//   handleAsyncError(async (req, res) => {
+//     const { mainPlugin, linkedPlugin } = req.body;
+//     const plugins = config.get('plugins', {});
 
-    if (plugins[mainPlugin]?.linkedPlugins) {
-      _.remove(plugins[mainPlugin]?.linkedPlugins, (p) => p.name === linkedPlugin);
-    }
-    config.set('plugins', plugins);
-    res.send('ok');
-  }),
-);
+//     if (plugins[mainPlugin]?.linkedPlugins) {
+//       _.remove(plugins[mainPlugin]?.linkedPlugins, (p) => p.name === linkedPlugin);
+//     }
+//     config.set('plugins', plugins);
+//     res.send('ok');
+//   }),
+// );
 
 app.get(
   '/api/muse-data',

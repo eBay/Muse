@@ -21,14 +21,8 @@ module.exports = async ({ cracoConfig }) => {
 
   if (museConfig.type !== 'boot') {
     // for non-boot plugins, we gather a list of muse library plugins to be used by the MuseReferencePlugin
-    const localPlugins = utils.getLocalPlugins();
-    // Get all installed libs, including which from MUSE_LOCAL_PLUGINS if isDev.
+    // Get all installed libs.
     const museLibs = utils.getMuseLibs();
-
-    if (isDev) {
-      // At dev time, should exclude local lib plugins
-      _.remove(museLibs, (lib) => localPlugins.find((p) => p.name === lib.name));
-    }
 
     // main webpack plugin for compiling the current muse plugin called from CLI (as a Dll bundle)
     cracoConfig.webpack.plugins.add.push([
