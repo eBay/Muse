@@ -12,8 +12,8 @@ dependencies:
     specifier: ^1.2.20
     version: 1.2.20(@testing-library/dom@10.1.0)
   '@ebay/muse-vite-plugin':
-    specifier: ^1.0.36
-    version: 1.0.36(@ebay/muse-modules-analyzer@1.0.12)(express@4.19.2)
+    specifier: ^1.0.37
+    version: 1.0.37(@ebay/muse-modules-analyzer@1.0.12)(express@4.19.2)(vite@5.1.3)
   '@vitejs/plugin-react':
     specifier: ^4.2.1
     version: 4.2.1(vite@5.1.3)
@@ -877,14 +877,17 @@ packages:
   /@ebay/muse-modules@1.0.28:
     resolution: {integrity: sha512-IoHl93RRx3GaOWBnVGS/A4E3Xs1PmnQCRXPGQo6Q3tUK/dQ2uivvChC1fOnFqp/sVyMpBCd5YEVPThEnxWvvug==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-modules/-/@ebay/muse-modules-1.0.28.tgz}
 
-  /@ebay/muse-vite-plugin@1.0.36(@ebay/muse-modules-analyzer@1.0.12)(express@4.19.2):
-    resolution: {integrity: sha512-IIGFFvVQhKPvL/FRgmhDAmMhOkt+5i4gdhbU2w+q5VsAU3jYqIB2mg77ATUgRlXbZr5HaiLZvXyaQ/TxKTppVA==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-vite-plugin/-/@ebay/muse-vite-plugin-1.0.36.tgz}
+  /@ebay/muse-vite-plugin@1.0.37(@ebay/muse-modules-analyzer@1.0.12)(express@4.19.2)(vite@5.1.3):
+    resolution: {integrity: sha512-pjs/YL9f+ONW9SBe1vVjMBVXhlj3y2WXR9YoP7M+4Qcv1vc8SZJtLwU4aq21KBsbiYIAn8RxaDaPFJsYzF3Z7Q==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-vite-plugin/-/@ebay/muse-vite-plugin-1.0.37.tgz}
+    peerDependencies:
+      vite: ^5.2.11
     dependencies:
       '@ebay/muse-core': 1.0.39
       '@ebay/muse-dev-utils': 1.0.62(@ebay/muse-core@1.0.39)(@ebay/muse-modules-analyzer@1.0.12)(express@4.19.2)
       '@ebay/muse-modules': 1.0.28
       find-root: 1.1.0
       fs-extra: 10.1.0
+      vite: 5.1.3(@types/node@20.12.12)(less@4.2.0)
     transitivePeerDependencies:
       - '@ebay/muse-modules-analyzer'
       - express
@@ -1235,7 +1238,7 @@ packages:
       jest-util: 28.1.3
       jest-validate: 28.1.3
       jest-watcher: 28.1.3
-      micromatch: 4.0.5
+      micromatch: 4.0.7
       pretty-format: 28.1.3
       rimraf: 3.0.2
       slash: 3.0.0
@@ -1373,7 +1376,7 @@ packages:
       jest-haste-map: 28.1.3
       jest-regex-util: 28.0.2
       jest-util: 28.1.3
-      micromatch: 4.0.5
+      micromatch: 4.0.7
       pirates: 4.0.6
       slash: 3.0.0
       write-file-atomic: 4.0.2
@@ -1722,6 +1725,11 @@ packages:
     resolution: {integrity: sha512-WXCyOcRtH37HAUkpXhUduaxdm82b4GSlyTqajXviN4EfiuPgNYR109xMCKvpl6zPIpua0DGlMEDCq+g8EdoheQ==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@types/babel__traverse/-/babel__traverse-7.20.5.tgz}
     dependencies:
       '@babel/types': 7.23.9
+
+  /@types/babel__traverse@7.20.6:
+    resolution: {integrity: sha512-r1bzfrm0tomOI8g1SzvCaQHo6Lcv6zu0EA+W2kHrt8dyrHQxGzBBL4kdkzIS+jBMV+EYcMAEAqXqYaLJq5rOZg==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@types/babel__traverse/-/babel__traverse-7.20.6.tgz}
+    dependencies:
+      '@babel/types': 7.24.5
 
   /@types/detect-indent@0.1.30:
     resolution: {integrity: sha512-AUmj9JHuHTD94slY1WR1VulFxRGC6D1pcNCN0MCulKFyiihvV/28lLS8oRHgfmc2Cxq954J8Vmosa8qzm7PLGQ==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@types/detect-indent/-/detect-indent-0.1.30.tgz}
@@ -2201,7 +2209,7 @@ packages:
       '@babel/template': 7.24.0
       '@babel/types': 7.24.5
       '@types/babel__core': 7.20.5
-      '@types/babel__traverse': 7.20.5
+      '@types/babel__traverse': 7.20.6
 
   /babel-preset-current-node-syntax@1.0.1(@babel/core@7.24.5):
     resolution: {integrity: sha512-M7LQ0bxarkxQoN+vz5aJPsLBn77n8QgTFmo8WK0/44auK2xlCXrYcUxHFxgU7qW5Yzw/CjmLRK2uJzaCd7LvqQ==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/babel-preset-current-node-syntax/-/babel-preset-current-node-syntax-1.0.1.tgz}
@@ -2260,11 +2268,11 @@ packages:
       balanced-match: 1.0.2
       concat-map: 0.0.1
 
-  /braces@3.0.2:
-    resolution: {integrity: sha512-b8um+L1RzM3WDSzvhm6gIz1yfTbBt6YTlcEKAvsmqCZZFw46z626lVj9j1yEPW33H5H+lBQpZMP1k8l+78Ha0A==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/braces/-/braces-3.0.2.tgz}
+  /braces@3.0.3:
+    resolution: {integrity: sha512-yQbXgO/OSZVD2IsiLlro+7Hf6Q18EJrKSEsdoMzKePKXct3gvD8oLcOQdIzGupr5Fj+EDe8gO/lxc1BzfMpxvA==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/braces/-/braces-3.0.3.tgz}
     engines: {node: '>=8'}
     dependencies:
-      fill-range: 7.0.1
+      fill-range: 7.1.1
 
   /browserslist@4.23.0:
     resolution: {integrity: sha512-QW8HiM1shhT2GuzkvklfjcKDiWFXHOeFCIA/huJPwHsslwcydgk7X+z2zXpEijP98UCY7HbubZt5J2Zgvf0CaQ==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/browserslist/-/browserslist-4.23.0.tgz}
@@ -2606,8 +2614,8 @@ packages:
     resolution: {integrity: sha512-Zf5H2Kxt2xjTvbJvP2ZWLEICxA6j+hAmMzIlypy4xcBg1vKVnx89Wy0GbS+kf5cwCVFFzdCFh2XSCFNULS6csw==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/es-errors/-/es-errors-1.3.0.tgz}
     engines: {node: '>= 0.4'}
 
-  /es-module-lexer@1.5.2:
-    resolution: {integrity: sha512-l60ETUTmLqbVbVHv1J4/qj+M8nq7AwMzEcg3kmJDt9dCNrTk+yHcYFf/Kw75pMDwd9mPcIGCG5LcS20SxYRzFA==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/es-module-lexer/-/es-module-lexer-1.5.2.tgz}
+  /es-module-lexer@1.5.3:
+    resolution: {integrity: sha512-i1gCgmR9dCl6Vil6UKPI/trA69s08g/syhiDK9TG0Nf1RJjjFI+AzoWW7sPufzkgYAn861skuCwJa0pIIHYxvg==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/es-module-lexer/-/es-module-lexer-1.5.3.tgz}
     dev: true
 
   /esbuild@0.19.12:
@@ -2863,7 +2871,7 @@ packages:
       '@nodelib/fs.walk': 1.2.8
       glob-parent: 5.1.2
       merge2: 1.4.1
-      micromatch: 4.0.5
+      micromatch: 4.0.7
 
   /fast-json-stable-stringify@2.1.0:
     resolution: {integrity: sha512-lhd/wF+Lk98HZoTCtlVraHtfh5XYijIjalXck7saUtuanSDyLMxnHhSXEDJqHxD7msR8D0uCmqlkwjCV8xvwHw==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/fast-json-stable-stringify/-/fast-json-stable-stringify-2.1.0.tgz}
@@ -2887,8 +2895,8 @@ packages:
     dependencies:
       flat-cache: 3.2.0
 
-  /fill-range@7.0.1:
-    resolution: {integrity: sha512-qOo9F+dMUmC2Lcb4BbVvnKJxTPjCm+RRpe4gDuGrzkL7mEVl/djYSu2OdQ2Pa302N4oqkSg9ir6jaLWJ2USVpQ==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/fill-range/-/fill-range-7.0.1.tgz}
+  /fill-range@7.1.1:
+    resolution: {integrity: sha512-YsGpe3WHLK8ZYi4tWDg2Jy3ebRz2rXowDxnld4bkQB00cc/1Zw9AWnC0i9ztDJitivtQvaI9KaLyKrc+hBW0yg==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/fill-range/-/fill-range-7.1.1.tgz}
     engines: {node: '>=8'}
     dependencies:
       to-regex-range: 5.0.1
@@ -3331,7 +3339,7 @@ packages:
       jest-runner: 28.1.3
       jest-util: 28.1.3
       jest-validate: 28.1.3
-      micromatch: 4.0.5
+      micromatch: 4.0.7
       parse-json: 5.2.0
       pretty-format: 28.1.3
       slash: 3.0.0
@@ -3405,7 +3413,7 @@ packages:
       jest-regex-util: 28.0.2
       jest-util: 28.1.3
       jest-worker: 28.1.3
-      micromatch: 4.0.5
+      micromatch: 4.0.7
       walker: 1.0.8
     optionalDependencies:
       fsevents: 2.3.3
@@ -3444,7 +3452,7 @@ packages:
       '@types/stack-utils': 2.0.3
       chalk: 4.1.2
       graceful-fs: 4.2.11
-      micromatch: 4.0.5
+      micromatch: 4.0.7
       pretty-format: 28.1.3
       slash: 3.0.0
       stack-utils: 2.0.6
@@ -3563,7 +3571,7 @@ packages:
       '@jest/expect-utils': 28.1.3
       '@jest/transform': 28.1.3
       '@jest/types': 28.1.3
-      '@types/babel__traverse': 7.20.5
+      '@types/babel__traverse': 7.20.6
       '@types/prettier': 2.7.3
       babel-preset-current-node-syntax: 1.0.1(@babel/core@7.24.5)
       chalk: 4.1.2
@@ -3825,11 +3833,11 @@ packages:
     resolution: {integrity: sha512-iclAHeNqNm68zFtnZ0e+1L2yUIdvzNoauKU4WBA3VvH/vPFieF7qfRlwUZU+DA9P9bPXIS90ulxoUoCH23sV2w==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/methods/-/methods-1.1.2.tgz}
     engines: {node: '>= 0.6'}
 
-  /micromatch@4.0.5:
-    resolution: {integrity: sha512-DMy+ERcEW2q8Z2Po+WNXuw3c5YaUSFjAO5GsJqfEl7UjvtIuFKO6ZrKvcItdy98dwFI2N1tg3zNIdKaQT+aNdA==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/micromatch/-/micromatch-4.0.5.tgz}
+  /micromatch@4.0.7:
+    resolution: {integrity: sha512-LPP/3KorzCwBxfeUuZmaR6bG2kdeHSbe0P2tY3FLRU4vYrjYz5hI4QZwV0njUx3jeuKe67YukQ1LSPZBKDqO/Q==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/micromatch/-/micromatch-4.0.7.tgz}
     engines: {node: '>=8.6'}
     dependencies:
-      braces: 3.0.2
+      braces: 3.0.3
       picomatch: 2.3.1
 
   /mime-db@1.52.0:
@@ -5276,7 +5284,7 @@ packages:
       browserslist: 4.23.0
       chrome-trace-event: 1.0.3
       enhanced-resolve: 5.16.1
-      es-module-lexer: 1.5.2
+      es-module-lexer: 1.5.3
       eslint-scope: 5.1.1
       events: 3.3.0
       glob-to-regexp: 0.4.1
