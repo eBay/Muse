@@ -92,7 +92,7 @@ export default function RootComponent() {
           msgKeyRef.current = message.error({
             key: 'runner-socket-closed',
             content:
-              'Muse Runner socket closed, please ensure Muse Runner is started then refresh the page.',
+              'Muse Runner socket closed, please ensure Muse Runner is running then refresh the page.',
             duration: 0,
           });
         }
