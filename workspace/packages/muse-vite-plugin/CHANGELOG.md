@@ -1,5 +1,13 @@
 # @ebay/muse-vite-plugin
 
+## 1.0.38
+
+### Patch Changes
+
+- Use MUSE_LINKED_LIBS instead of MUSE_LOCAL_PLUGINS
+- Updated dependencies
+  - @ebay/muse-dev-utils@1.0.63
+
 ## 1.0.37
 
 ### Patch Changes

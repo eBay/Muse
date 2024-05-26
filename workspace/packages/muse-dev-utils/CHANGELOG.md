@@ -1,5 +1,11 @@
 # @ebay/muse-dev-utils
 
+## 1.0.63
+
+### Patch Changes
+
+- Use MUSE_LINKED_LIBS instead of MUSE_LOCAL_PLUGINS
+
 ## 1.0.62
 
 ### Patch Changes

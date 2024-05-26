@@ -1,5 +1,14 @@
 # @ebay/muse-craco-plugin
 
+## 3.0.29
+
+### Patch Changes
+
+- Use MUSE_LINKED_LIBS instead of MUSE_LOCAL_PLUGINS
+- Updated dependencies
+  - @ebay/muse-dev-utils@1.0.63
+  - @ebay/muse-webpack-plugin@1.0.36
+
 ## 3.0.28
 
 ### Patch Changes

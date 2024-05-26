@@ -1,5 +1,11 @@
 # @ebay/muse-webpack-plugin
 
+## 1.0.36
+
+### Patch Changes
+
+- Use MUSE_LINKED_LIBS instead of MUSE_LOCAL_PLUGINS
+
 ## 1.0.35
 
 ### Patch Changes
