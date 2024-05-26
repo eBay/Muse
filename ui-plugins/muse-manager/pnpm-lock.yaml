@@ -28,7 +28,7 @@ devDependencies:
     version: 1.0.14
   '@ebay/muse-vite-plugin':
     specifier: ^1.0.37
-    version: link:../../workspace/packages/muse-vite-plugin
+    version: 1.0.37(@ebay/muse-modules-analyzer@1.0.12)(express@4.19.2)(vite@5.2.10)
   '@tanstack/react-query':
     specifier: ^4.28.0
     version: 4.29.5(react-dom@18.3.1)(react@18.3.1)
@@ -661,6 +661,22 @@ packages:
       '@ebay/muse-core': 1.0.39
       js-plugin: artifactory.corp.ebay.com/js-plugin@1.1.0
       lodash: artifactory.corp.ebay.com/lodash@4.17.21
+    dev: true
+
+  /@ebay/muse-vite-plugin@1.0.37(@ebay/muse-modules-analyzer@1.0.12)(express@4.19.2)(vite@5.2.10):
+    resolution: {integrity: sha512-pjs/YL9f+ONW9SBe1vVjMBVXhlj3y2WXR9YoP7M+4Qcv1vc8SZJtLwU4aq21KBsbiYIAn8RxaDaPFJsYzF3Z7Q==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-vite-plugin/-/@ebay/muse-vite-plugin-1.0.37.tgz}
+    peerDependencies:
+      vite: ^5.2.11
+    dependencies:
+      '@ebay/muse-core': 1.0.39
+      '@ebay/muse-dev-utils': 1.0.62(@ebay/muse-core@1.0.39)(@ebay/muse-modules-analyzer@1.0.12)(express@4.19.2)
+      '@ebay/muse-modules': 1.0.28
+      find-root: 1.1.0
+      fs-extra: 10.1.0
+      vite: 5.2.10(less@4.2.0)
+    transitivePeerDependencies:
+      - '@ebay/muse-modules-analyzer'
+      - express
     dev: true
 
   /@ebay/nice-form-react@1.0.10:
@@ -5444,6 +5460,7 @@ packages:
 
   /rimraf@3.0.2:
     resolution: {integrity: sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/rimraf/-/rimraf-3.0.2.tgz}
+    deprecated: Rimraf versions prior to v4 are no longer supported
     hasBin: true
     dependencies:
       glob: 7.2.3

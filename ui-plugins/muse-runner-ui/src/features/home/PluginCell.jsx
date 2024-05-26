@@ -10,7 +10,6 @@ import {
   DeleteOutlined,
   EditOutlined,
   StopOutlined,
-  PlusOutlined,
   ArrowUpOutlined,
   ArrowDownOutlined,
   ApartmentOutlined,
@@ -18,8 +17,6 @@ import {
 import vscodeIcon from './vscode.svg';
 import api from './api';
 import EditPluginModal from './EditPluginModal';
-import LinkPluginModal from './LinkPluginModal';
-import LinkedPluginCell from './LinkedPluginCell';
 import GitStatus from './GitStatus';
 
 const noop = () => {};
@@ -126,11 +123,6 @@ const PluginCell = ({ plugin, appId, onMoveUp = noop, onMoveDown = noop, isFirst
       ],
     },
     {
-      key: 'link-plugin',
-      label: 'Link Plugin',
-      icon: <PlusOutlined />,
-    },
-    {
       key: 'move-up',
       label: 'Move Up',
       disabled: isFirst,
@@ -188,14 +180,6 @@ const PluginCell = ({ plugin, appId, onMoveUp = noop, onMoveDown = noop, isFirst
         case 'mode-url':
           NiceModal.show(EditPluginModal, { plugin: { ...plugin, mode: 'url' }, appId });
           break;
-        case 'link-plugin':
-          NiceModal.show(LinkPluginModal, { plugin, appId }).then((isChanged) => {
-            if (isChanged) {
-              // stop plugin
-              stopPlugin();
-            }
-          });
-          break;
         case 'open-in-vscode':
           openCode();
           break;
@@ -222,17 +206,7 @@ const PluginCell = ({ plugin, appId, onMoveUp = noop, onMoveDown = noop, isFirst
           break;
       }
     },
-    [
-      plugin,
-      appId,
-      clearOutput,
-      detachPlugin,
-      openCode,
-      onMoveUp,
-      stopPlugin,
-      onMoveDown,
-      attachPlugin,
-    ],
+    [plugin, appId, clearOutput, detachPlugin, openCode, onMoveUp, onMoveDown, attachPlugin],
   );
 
   const pluginNameElement = (
@@ -303,13 +277,6 @@ const PluginCell = ({ plugin, appId, onMoveUp = noop, onMoveDown = noop, isFirst
           <EllipsisOutlined className="scale-150" />
         </Dropdown>
       </span>
-      {plugin.linkedPlugins?.map((p) => {
-        return (
-          <div key={p.name} className="col-start-2 col-span-4">
-            <LinkedPluginCell plugin={p} onRemove={stopPlugin} />
-          </div>
-        );
-      })}
     </div>
   );
 };
