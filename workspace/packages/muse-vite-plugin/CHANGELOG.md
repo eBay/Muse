@@ -1,5 +1,11 @@
 # @ebay/muse-vite-plugin
 
+## 1.0.39
+
+### Patch Changes
+
+- Fix cjs ref.
+
 ## 1.0.38
 
 ### Patch Changes
