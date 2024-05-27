@@ -74,11 +74,9 @@ export function getMuseModule(filePath) {
 }
 
 export function getMuseModuleCode(museModule, esm) {
-  // const museModule = getMuseModule(filePath);
   if (!museModule) return;
 
   if (museModule.__isESM || esm) {
-    //TODO: or package type === 'module' ?
     return `const m = MUSE_GLOBAL.__shared__.require("${museModule.id}");
     ${(museModule.exports || [])
       .map((key) => {
@@ -92,8 +90,10 @@ export function getMuseModuleCode(museModule, esm) {
     `;
   }
   // We need to know if a module is a default export or not
-  else {
-    return `module.exports=MUSE_GLOBAL.__shared__.require("${museModule.id}");`;
+  else if (museModule.exports?.includes('default') && museModule.exports?.length === 1) {
+    return `const m = MUSE_GLOBAL.__shared__.require("${museModule.id}");\nmodule.exports = m.default;`;
+  } else {
+    return `const m = MUSE_GLOBAL.__shared__.require("${museModule.id}");\nmodule.exports = m;`;
   }
 }
 
