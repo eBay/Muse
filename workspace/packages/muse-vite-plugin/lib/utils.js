@@ -48,7 +48,7 @@ export function ensureAllMuseModules() {
 
   // Watch lib manifest changes, this is useful when a Muse plugin links to a Muse lib plugin
   getMuseLibs().forEach((lib) => {
-    fs.watch(getManifestPath(lib), loadAllMuseModules);
+    fs.watch(getManifestPath(lib), { persistent: false }, loadAllMuseModules);
   });
   loadAllMuseModules();
 }

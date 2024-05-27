@@ -1,5 +1,11 @@
 # @ebay/muse-vite-plugin
 
+## 1.0.40
+
+### Patch Changes
+
+- fs watch no persistent
+
 ## 1.0.39
 
 ### Patch Changes
