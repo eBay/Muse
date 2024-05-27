@@ -53,7 +53,7 @@ function PluginActions({ plugin, app }) {
       },
       {
         key: 'releaseList',
-        label: 'releases',
+        label: 'Releases',
         order: 55,
         icon: 'bars',
         highlight: true,
