@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Tabs, Alert } from 'antd';
+import { Tabs, Tag, Alert } from 'antd';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import { extendArray } from '@ebay/muse-lib-antd/src/utils';
 import { usePollingMuseData } from '../../hooks';
@@ -69,6 +69,9 @@ export default function AppPage() {
               <AppSelect value={appName} onChange={handleAppChange} />
             )}
           </h1>
+          <Tag color="green" className="ml-2">
+            Muse 2.0
+          </Tag>
           {appNameActions?.length > 0 &&
             appNameActions.filter(Boolean).map((appNameAct) => appNameAct.node)}
         </span>
