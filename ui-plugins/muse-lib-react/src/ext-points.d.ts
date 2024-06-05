@@ -1,6 +1,5 @@
-import { ComponentType, ReactNode } from "react";
+import { ComponentType, ReactNode } from 'react';
 import { Reducer, AnyAction } from 'redux';
-
 
 type ProviderType = {
   order: number;
@@ -13,7 +12,7 @@ type ProviderType = {
 type ProvidersContextType = {
   providers: ProviderType[];
   [key: string]: any;
-}
+};
 
 export type RootExtPoints = {
   beforeRender?: Function;
@@ -25,10 +24,14 @@ export type RootExtPoints = {
   postProcessProviders?: (context: ProvidersContextType) => void;
 };
 export type MuseRoute = {
-  path?: string;
+  id?: string;
+  path?: string | Array<string>;
   component?: ComponentType;
+  element: ReactNode;
   childRoutes?: MuseRoute[];
   isIndex?: boolean;
+  index?: boolean;
+  render?: Function;
   parent?: string;
   [key: string]: any;
 };
@@ -40,7 +43,7 @@ export default interface MuseLibReactExtPoints {
   home?: {
     mainLayout?: ComponentType;
     homepage?: ReactNode;
-  },
+  };
   rootComponent?: ComponentType;
   reducer?: Reducer<any, AnyAction>;
   reducers?: Record<string, Reducer<any, AnyAction>>;
