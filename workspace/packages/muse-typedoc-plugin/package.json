@@ -1,0 +1,29 @@
+{
+  "name": "@ebay/muse-typedoc-plugin",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/index.js",
+  "type": "module",
+  "publishConfig": {
+    "registry": "https://artifactory.corp.ebay.com/artifactory/api/npm/npm-muse"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@eslint/js": "^9.1.1",
+    "eslint": "9.x",
+    "globals": "^15.0.0",
+    "typedoc": "^0.25.13"
+  },
+  "peerDependencies": {
+    "typedoc": "^0.25.13"
+  },
+  "dependencies": {
+    "fs-extra": "^11.2.0",
+    "lodash": "^4.17.21"
+  }
+}
