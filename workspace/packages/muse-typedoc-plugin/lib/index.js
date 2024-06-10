@@ -1,18 +1,37 @@
-// import { MarkdownApplication } from 'typedoc-plugin-markdown';
 import _ from 'lodash';
 import fs from 'fs-extra';
+import { ReflectionKind } from 'typedoc';
+import ts from 'typescript';
+
+let sourceByName = {};
+function getCode(reflection) {
+  // A simple mechanism to get source code of a type definition
+  // Maybe there're some edge cases that this doesn't work
+  if (!sourceByName[reflection.name]) {
+    if (reflection.sources[0].fullFileName) {
+      const source = fs.readFileSync(reflection.sources[0].fullFileName, 'utf8');
+      const node = ts.createSourceFile('name.ts', source, ts.ScriptTarget.Latest);
+      node.forEachChild((child) => {
+        sourceByName[child.name?.escapedText] = source
+          .substring(child.pos, child.end)
+          .replace(/^[\n\r ]+/, '')
+          .split('\n')
+          .map((l) => l.replace(/^export /, ''))
+          .join('\n');
+      });
+    }
+  }
+
+  return sourceByName[reflection.name];
+}
+
 /**
  * Typedoc plugin to generate Muse extension points docs.
  */
 export function load(app) {
-  // console.log(app);
-
   app.on('validateProject', (arg) => {
-    // console.log('app.on', arg.reflections['63'].toStringHierarchy());
-    Object.values(arg.reflections).forEach((value) => {
-      console.log(value.toString());
-      console.log(value);
-    });
+    // This event works, but some better event to use?
+    genDocExtPoints(arg.reflections);
   });
 }
 
@@ -20,7 +39,7 @@ function genDocExtPoints(reflections) {
   // const docJson = fs.readJsonSync(
   //   '/Users/pwang7/muse/muse-next/ui-plugins/muse-lib-react/doc/ext-points.json',
   // );
-  const extRefs = reflections.map((r) => {
+  const extRefs = Object.values(reflections).map((r) => {
     const extTag = r?.comment?.blockTags?.find((t) => t.tag === '@museExt');
     return {
       ...r,
@@ -31,100 +50,114 @@ function genDocExtPoints(reflections) {
         : false,
     };
   });
-  const typeByName = _.keyBy(types, 'name');
+  const refById = _.keyBy(extRefs, 'id');
 
   const extPoints = [];
-  const extNodes = types
-    .filter((t) => t.museExt?.name)
-    .map((t) => ({
-      baseName: t.museExt.name,
-      type: t,
+  const extNodes = extRefs
+    .filter((r) => r.museExt?.name)
+    .map((r) => ({
+      baseName: r.museExt.name,
+      reflection: r,
     }));
 
   while (extNodes.length > 0) {
     const extNode = extNodes.shift();
-    const extType = extNode.type;
-
-    const children = extType?.children || extType?.declaration?.children || [];
+    const children = extNode.reflection?.children || [];
     children.forEach((child) => {
       if (!child.name) return; // skip unnamed children
 
+      const targetRef = child.type?._target ? refById[child.type._target] : null;
       if (child.type?.type === 'reflection' && child.type?.declaration?.children?.length > 0) {
         extNodes.push({
           baseName: `${extNode.baseName}.${child.name}`,
-          type: child.type,
+          type: child.type.declaration,
         });
-      } else if (child.type?.type === 'reference' && typeByName[child.type.name]?.museExt) {
+      } else if (targetRef?.museExt) {
         extNodes.push({
           baseName: `${extNode.baseName}.${child.name}`,
-          type: typeByName[child.type.name],
+          reflection: targetRef,
         });
       } else {
-        extPoints.push({ name: `${extNode.baseName}.${child.name}`, node: child });
+        extPoints.push({ name: `${extNode.baseName}.${child.name}`, reflection: child });
       }
     });
   }
 
   extPoints.sort((a, b) => a.name.localeCompare(b.name));
 
-  const arr = ['## Extension Points'];
+  const pkgJson = fs.readJsonSync('./package.json');
+
+  const interfaces = Object.values(reflections).filter(
+    (t) =>
+      [ReflectionKind.Interface, ReflectionKind.TypeAlias].includes(t.kind) && t.name !== 'default',
+  );
+
+  const arr = [];
+  arr.push(`# ${pkgJson.name}`);
+  arr.push('## Extension Points');
+  console.log('Generating extension points...');
   extPoints.forEach((p) => {
     const name = p.name.replace(/#root\./, '');
-    let typeName = 'any';
-    if (p.node.type?.type === 'reference') {
-      typeName = p.node.type.qualifiedName || p.node.type.name;
-    } else if (p.node.type?.type === 'reflection') {
-      typeName = p.node.type.declaration?.name;
-    } else if (p.node.type?.type === 'union') {
-      typeName = p.node.type.types.map((t) => t.qualifiedName || t.name).join('');
-    }
     arr.push(`### ${name}`);
-    arr.push(`> Type: [${typeName}](#${typeName.toLowerCase()})\n`);
+
+    let typeSignature = '';
+    if (p.reflection.type?.declaration?.signatures?.length > 0) {
+      const s = p.reflection.type?.declaration.signatures[0];
+      const params = s.parameters.map((p) => p.toString().replace('Parameter ', '')).join(', ');
+      typeSignature = `*(${params}) => ${s.toString().replace('CallSignature __type: ', '')}*`;
+    } else {
+      typeSignature =
+        '*' +
+        p.reflection
+          .toString()
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/.+: /, '') +
+        '*\n';
+    }
+
+    // Add links to interfaces or types
+    interfaces.forEach((i) => {
+      if (typeSignature.includes(i.name)) {
+        typeSignature = typeSignature.replace(
+          new RegExp(i.name, 'ig'),
+          `[${i.name}](#${i.name.toLowerCase()})`,
+        );
+      }
+    });
+
+    arr.push(typeSignature);
 
     // Description
-    arr.push(p.node?.comment?.summary.map((s) => s.text).join('\n'));
+    const desc = p.reflection?.comment?.summary.map((s) => s.text).join('\n');
+    if (desc) {
+      arr.push(desc);
+      arr.push('');
+    }
 
     // Example if exist:
-    const exampleTag = p.node?.comment?.blockTags?.find((t) => t.tag === 'example');
+    const exampleTag = p.reflection?.comment?.blockTags?.find((t) => t.tag === '@example');
+    if (exampleTag) {
+      arr.push('#### Example');
+      arr.push(exampleTag.content.map((c) => c.text).join('\n'));
+      arr.push('');
+    }
   });
 
-  console.log(extPoints.map((p) => ({ name: p.name.replace(/#root\./, ''), type: p.type })));
-
-  arr.push('## Interfaces');
-  const interfaces = types.filter((t) => t.variant === 'declaration' && t.name !== 'default');
+  console.log('Geneating interfaces and types...');
+  arr.push('## Interfaces & Types');
+  interfaces.sort((a, b) => a.name.localeCompare(b.name));
 
   interfaces.forEach((t) => {
     arr.push(`### ${t.name}`);
-    arr.push(`\n> ${t.comment?.shortText || ''}\n`);
-    if (t?.children?.length > 0) {
-      arr.push('#### Properties');
-      t.children.forEach((c) => {
-        arr.push(`- **${c.name}** - ${c.comment?.shortText || ''}`);
-      });
-    }
+    arr.push('```ts');
+    arr.push(getCode(t));
+    arr.push('```');
   });
-  // console.log(extPoints.map((p) => p.replace(/#root\./, '')));
 
-  arr.push('## Exports');
-
-  const pluginId = plugin.name.replace('/', '.');
-  const fileName = `docs/06 - reusable-plugins/${prefix}${pluginId}.md`;
-  fs.writeFileSync(fileName, `# ${plugin.name}\n\n${arr.join('\n')}`);
+  fs.writeFileSync(
+    '/Users/pwang7/muse/muse-site/docs/06 - reusable-plugins/01 - @ebay.muse-lib-react.md',
+    `${arr.join('\n')}`,
+  );
+  // fs.writeFileSync('./MUSE.md', `# ${pkgJson.name}\n\n${arr.join('\n')}`);
 }
-
-// const plugins = [
-//   { name: '@ebay/muse-lib-react' },
-//   // '@ebay/muse-boot-default',
-//   // '@ebay/muse-init-ebay',
-//   // '@ebay/muse-lib-react',
-//   // '@ebay/muse-lib-antd',
-//   // '@ebay/muse-layout-antd',
-// ];
-
-// fs.emptyDirSync('docs/06 - reusable-plugins');
-// fs.writeFileSync('docs/06 - reusable-plugins/_category_.yaml', 'label: Reusable Plugins');
-
-// let i = 1;
-// for (const plugin of plugins) {
-//   await genDocExtPoints({ plugin, prefix: `${_.padStart(i++, 2, '0')} - ` });
-// }
