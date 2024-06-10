@@ -94,6 +94,7 @@ function genDocExtPoints(reflections) {
 
   const arr = [];
   arr.push(`# ${pkgJson.name}`);
+  arr.push('> NOTE: this doc is generated automatically, please do NOT edit it manually.');
   arr.push('## Extension Points');
   console.log('Generating extension points...');
   extPoints.forEach((p) => {
@@ -155,9 +156,5 @@ function genDocExtPoints(reflections) {
     arr.push('```');
   });
 
-  fs.writeFileSync(
-    '/Users/pwang7/muse/muse-site/docs/06 - reusable-plugins/01 - @ebay.muse-lib-react.md',
-    `${arr.join('\n')}`,
-  );
-  // fs.writeFileSync('./MUSE.md', `# ${pkgJson.name}\n\n${arr.join('\n')}`);
+  fs.writeFileSync('./MUSE.md', `# ${pkgJson.name}\n\n${arr.join('\n')}`);
 }
