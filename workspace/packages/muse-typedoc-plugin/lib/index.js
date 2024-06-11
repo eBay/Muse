@@ -68,9 +68,11 @@ function genDocExtPoints(reflections) {
 
       const targetRef = child.type?._target ? refById[child.type._target] : null;
       if (child.type?.type === 'reflection' && child.type?.declaration?.children?.length > 0) {
+        // console.log(child);
+
         extNodes.push({
           baseName: `${extNode.baseName}.${child.name}`,
-          type: child.type.declaration,
+          reflection: child.type.declaration,
         });
       } else if (targetRef?.museExt) {
         extNodes.push({
@@ -94,7 +96,6 @@ function genDocExtPoints(reflections) {
 
   const arr = [];
   arr.push(`# ${pkgJson.name}`);
-  arr.push('> NOTE: this doc is generated automatically, please do NOT edit it manually.');
   arr.push('## Extension Points');
   console.log('Generating extension points...');
   extPoints.forEach((p) => {
@@ -114,7 +115,7 @@ function genDocExtPoints(reflections) {
           .replace(/</g, '&lt;')
           .replace(/>/g, '&gt;')
           .replace(/.+: /, '') +
-        '*\n';
+        '*';
     }
 
     // Add links to interfaces or types
@@ -128,9 +129,13 @@ function genDocExtPoints(reflections) {
     });
 
     arr.push(typeSignature);
+    arr.push('');
 
     // Description
-    const desc = p.reflection?.comment?.summary.map((s) => s.text).join('\n');
+    const descTag = p.reflection?.comment?.blockTags?.find((t) => t.tag === '@description');
+
+    const summary = p.reflection?.comment?.summary?.map((s) => s.text).join('\n');
+    const desc = descTag?.content?.map((c) => c.text).join('\n') || summary;
     if (desc) {
       arr.push(desc);
       arr.push('');
