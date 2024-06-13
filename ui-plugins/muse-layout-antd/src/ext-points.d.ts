@@ -38,7 +38,7 @@ export type SiderConfig = {
   width?: number;
   menuProps?: Record<string, any>;
   [key: string]: any;
-}
+};
 
 export type SiderItem = {
   key: string;
@@ -50,8 +50,12 @@ export type SiderItem = {
 
 export type Sider = {
   getConfig?: () => SiderConfig;
-  getItems?: () => SiderItem | SiderItem[]
-}
+  getItems?: () => SiderItem | SiderItem[];
+};
+
+/**
+ * @museExt museLayout
+ */
 export default interface MuseLayoutExtPoints {
   header?: Header;
   sider?: Sider;

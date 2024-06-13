@@ -161,5 +161,5 @@ function genDocExtPoints(reflections) {
     arr.push('```');
   });
 
-  fs.writeFileSync('./MUSE.md', `# ${pkgJson.name}\n\n${arr.join('\n')}`);
+  fs.writeFileSync('./MUSE.md', arr.join('\n'));
 }
