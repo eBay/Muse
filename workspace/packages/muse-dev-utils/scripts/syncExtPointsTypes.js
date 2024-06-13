@@ -7,12 +7,12 @@ const { utils, storage, data: museData } = require('@ebay/muse-core');
 /**
  * @description Sync muse.d.ts files for the specified plugins or all deployed plugins on the app.
  * The muse.d.ts files are downloaded from the storage service and saved to the local file system.
- * The files are saved in the .ext-points-types folder in the root of the project.
+ * The files are saved in the .muse-types folder in the root of the project.
  * The file name is the pluginId.d.ts.
  * The file is overwritten if it already exists.
  * The version number is added as a comment in the first line of the file.
  * Usage:
- *  pnpm sync-ext-points-types [pluginName@version] [pluginName@version] ...
+ *  pnpm sync-muse-types [pluginName@version] [pluginName@version] ...
  */
 module.exports = async function syncExtPointsTypeFiles() {
   // Analyze the plugins's version and get the corresponding muse.d.ts file
@@ -99,14 +99,14 @@ async function downloadExtPointsTypesFile(pluginName, pluginVersion) {
     console.log(chalk.yellow(`Warn: file muse.d.ts for plugin "${pluginName}" does not exist.`));
     return;
   }
-  const dir = path.join(process.cwd(), '.ext-points-types');
+  const dir = path.join(process.cwd(), '.muse-types');
   mkdirp.sync(dir);
   const filePath = path.join(dir, `${utils.getPluginId(pluginName)}.d.ts`);
   // delete the file first
   if (fs.existsSync(filePath)) {
     fs.unlinkSync(filePath);
   }
-  // write to file .ext-points-types/<plugin>.d.ts
+  // write to file .muse-types/<plugin>.d.ts
   // Add the version number in the top comment
   res = `// Version: ${pluginVersion}\n${res}`;
   fs.writeFileSync(filePath, res, 'utf-8');

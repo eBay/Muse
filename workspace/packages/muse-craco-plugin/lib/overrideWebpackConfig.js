@@ -105,19 +105,19 @@ module.exports = ({ webpackConfig }) => {
   }
 
   if (!isDev) {
-    // Check if the file ext-points.d.ts exists
-    const sourcePath = path.resolve(process.cwd(), 'src', 'ext-points.d.ts');
+    // Check if the file muse.d.ts exists
+    const sourcePath = path.resolve(process.cwd(), 'src', 'muse.d.ts');
     if (fs.existsSync(sourcePath)) {
       webpackConfig.plugins.push(
         new DtsBundlePlugin({
           name: pkgJson.name,
           main: sourcePath,
-          out: path.resolve(process.cwd(), process.env.BUILD_PATH, 'ext-points.d.ts'),
+          out: path.resolve(process.cwd(), process.env.BUILD_PATH, 'muse.d.ts'),
           outputAsModuleFolder: true,
         }),
       );
     } else {
-      console.info('\nNo ext-points.d.ts found in src.\n');
+      console.info('\nNo muse.d.ts found in src.\n');
     }
   }
 
