@@ -35,6 +35,7 @@
     "deploy": "pnpm build && pnpm build:dev && muse release && muse deploy nateapp"
   },
   "dependencies": {
+    "@ebay/muse-typedoc-plugin": "^1.0.1",
     "@ebay/nice-modal-react": "1.2.10",
     "@tanstack/react-query": "4.33.0",
     "@testing-library/user-event": "^14.5.1",
