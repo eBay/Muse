@@ -5,17 +5,17 @@ const mkdirp = require('mkdirp');
 const { utils, storage, data: museData } = require('@ebay/muse-core');
 
 /**
- * @description Sync ext-points.d.ts files for the specified plugins or all deployed plugins on the app.
- * The ext-points.d.ts files are downloaded from the storage service and saved to the local file system.
- * The files are saved in the .ext-points-types folder in the root of the project.
+ * @description Sync muse.d.ts files for the specified plugins or all deployed plugins on the app.
+ * The muse.d.ts files are downloaded from the storage service and saved to the local file system.
+ * The files are saved in the .muse-types folder in the root of the project.
  * The file name is the pluginId.d.ts.
  * The file is overwritten if it already exists.
  * The version number is added as a comment in the first line of the file.
  * Usage:
- *  pnpm sync-ext-points-types [pluginName@version] [pluginName@version] ...
+ *  pnpm sync-muse-types [pluginName@version] [pluginName@version] ...
  */
 module.exports = async function syncExtPointsTypeFiles() {
-  // Analyze the plugins's version and get the corresponding ext-points.d.ts file
+  // Analyze the plugins's version and get the corresponding muse.d.ts file
   const pkg = fs.readFileSync(path.join(process.cwd(), 'package.json'), 'utf-8');
   const pkgJson = JSON.parse(pkg);
   const app = pkgJson.muse?.devConfig?.app;
@@ -30,7 +30,7 @@ module.exports = async function syncExtPointsTypeFiles() {
     // no plugin specified, download all deployed plugins
     console.log(
       chalk.cyan(
-        `No plugin specified. Will download each ext-points.d.ts for all deployed plugins on app "${app}" in env "${env}".`,
+        `No plugin specified. Will download each muse.d.ts for all deployed plugins on app "${app}" in env "${env}".`,
       ),
     );
     const appRegistryData = await museData.get(`muse.app.${app}`);
@@ -57,7 +57,7 @@ module.exports = async function syncExtPointsTypeFiles() {
     }
   } else {
     // plugin specified, dowload for the specified plugins
-    console.log(chalk.cyan('Downloading ext-points.d.ts for plugin: ', pluginNameArgs.join(', ')));
+    console.log(chalk.cyan('Downloading muse.d.ts for plugin: ', pluginNameArgs.join(', ')));
     const pluginsLatestRelease = await museData.get(`muse.plugins.latest-releases`);
     const regex = /^(@?[^@]+)@(.+)$/; // match pluginName@version
     for (const plugin of pluginNameArgs) {
@@ -87,7 +87,7 @@ async function downloadExtPointsTypesFile(pluginName, pluginVersion) {
   let res;
   try {
     res = await storage.assets.get(
-      `/p/${utils.getPluginId(pluginName)}/v${pluginVersion}/dev/ext-points.d.ts`,
+      `/p/${utils.getPluginId(pluginName)}/v${pluginVersion}/dev/muse.d.ts`,
     );
   } catch (e) {
     console.log(
@@ -96,19 +96,17 @@ async function downloadExtPointsTypesFile(pluginName, pluginVersion) {
     return;
   }
   if (!res) {
-    console.log(
-      chalk.yellow(`Warn: file ext-points.d.ts for plugin "${pluginName}" does not exist.`),
-    );
+    console.log(chalk.yellow(`Warn: file muse.d.ts for plugin "${pluginName}" does not exist.`));
     return;
   }
-  const dir = path.join(process.cwd(), '.ext-points-types');
+  const dir = path.join(process.cwd(), '.muse-types');
   mkdirp.sync(dir);
   const filePath = path.join(dir, `${utils.getPluginId(pluginName)}.d.ts`);
   // delete the file first
   if (fs.existsSync(filePath)) {
     fs.unlinkSync(filePath);
   }
-  // write to file .ext-points-types/<plugin>.d.ts
+  // write to file .muse-types/<plugin>.d.ts
   // Add the version number in the top comment
   res = `// Version: ${pluginVersion}\n${res}`;
   fs.writeFileSync(filePath, res, 'utf-8');
