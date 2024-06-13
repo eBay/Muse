@@ -1,8 +1,19 @@
 # README
 
-## Sub App Implementation details
+@ebay/muse-lib-react is a lib plugin maintained by Muse team with a combination of popular React tech stacks like:
 
-Under `src/features/sub-app`:
+- [React Router](https://reactrouter.com/en/main)
+- [Redux](https://redux.js.org/)
+- [React Query](https://tanstack.com/query/latest/docs/framework/react/overview)
+- [lodash](https://lodash.com/)
+- [Nice Modal](https://github.com/ebay/nice-modal-react)
 
-- route.js: find all sub apps registerted under `pluginInstance.subApps`, and then register paths
-- SubAppContainer: On every update, detect if url is changed and matches some sub app. Then load the sub app in an iframe.
+As a library plugin, above packages are already included in the plugin bundle as shared modules which can be re-used by other plugins depending on it.
+
+It not only setups these libs but also being responsible to start the whole application with `React.createRoot().render()`.
+
+Also, the muse-lib-react plugin provides flexible extension points for extending/customizing the application behaviors, like extending routing rules, redux store, etc.
+
+> It's not must to use this plugin in your app, you can create your own react lib plugin to include your own favorite libraries and setup.
+
+
