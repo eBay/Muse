@@ -257,7 +257,13 @@ module.exports = {
   doZip,
   parseRegistryKey,
   validate,
-  osUsername: os.userInfo().username,
+  osUsername: (() => {
+    try {
+      return os.userInfo().username;
+    } catch (error) {
+      return 'unknown';
+    }
+  })(),
   defaultAssetStorageLocation: path.join(os.homedir(), 'muse-storage/assets'),
   defaultRegistryStorageLocation: path.join(os.homedir(), 'muse-storage/registry'),
 };
