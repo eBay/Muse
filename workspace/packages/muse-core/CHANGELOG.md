@@ -1,5 +1,11 @@
 # @ebay/muse-core
 
+## 1.0.40
+
+### Patch Changes
+
+- Set osUsername to unknown if failed to get os user name from os.userInfo().username
+
 ## 1.0.39
 
 ### Patch Changes
