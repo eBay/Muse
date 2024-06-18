@@ -27,11 +27,11 @@ export type HeaderItem = {
 /**
  * @museExt
  */
-export interface Header {
+export type Header = {
   getConfig?: () => HeaderConfig;
   getItems?: () => HeaderItem | HeaderItem[];
   processItems?: (items: HeaderItem[]) => void;
-}
+};
 
 export type SiderConfig = {
   mode?: 'fixed' | 'drawer' | 'collapsable' | 'collapsed' | 'none';

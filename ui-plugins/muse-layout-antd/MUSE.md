@@ -21,11 +21,11 @@
 /**
  * @museExt
  */
-interface Header {
+type Header = {
   getConfig?: () => HeaderConfig;
   getItems?: () => HeaderItem | HeaderItem[];
   processItems?: (items: HeaderItem[]) => void;
-}
+};
 ```
 ### HeaderConfig
 ```ts

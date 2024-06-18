@@ -24,7 +24,7 @@ devDependencies:
     version: 1.2.18(@testing-library/dom@10.1.0)
   '@ebay/muse-typedoc-plugin':
     specifier: ^1.0.1
-    version: 1.0.1(typedoc@0.25.13)(typescript@4.9.3)
+    version: link:../../workspace/packages/muse-typedoc-plugin
   '@ebay/muse-vite-plugin':
     specifier: ^1.0.37
     version: 1.0.37(@ebay/muse-modules-analyzer@1.0.12)(express@4.19.2)(vite@5.2.11)
@@ -599,19 +599,6 @@ packages:
 
   /@ebay/muse-modules@1.0.28:
     resolution: {integrity: sha512-IoHl93RRx3GaOWBnVGS/A4E3Xs1PmnQCRXPGQo6Q3tUK/dQ2uivvChC1fOnFqp/sVyMpBCd5YEVPThEnxWvvug==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-modules/-/@ebay/muse-modules-1.0.28.tgz}
-    dev: true
-
-  /@ebay/muse-typedoc-plugin@1.0.1(typedoc@0.25.13)(typescript@4.9.3):
-    resolution: {integrity: sha512-ej2Zr8XfqvngfRTGdHQH5pTW4DriP44SYwF0nVYhqa5ntVqcDPkGUikgFSv0Y77n2Im3UPdwPIvSmWdIvZ+oIw==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-typedoc-plugin/-/@ebay/muse-typedoc-plugin-1.0.1.tgz}
-    peerDependencies:
-      typedoc: ^0.25.13
-      typescript: ^4.7.4
-    dependencies:
-      fs-extra: 11.2.0
-      lodash: 4.17.21
-      ts-morph: 22.0.0
-      typedoc: 0.25.13(typescript@4.9.3)
-      typescript: 4.9.3
     dev: true
 
   /@ebay/muse-vite-plugin@1.0.37(@ebay/muse-modules-analyzer@1.0.12)(express@4.19.2)(vite@5.2.11):
@@ -1504,15 +1491,6 @@ packages:
       pretty-format: 27.5.1
     dev: true
 
-  /@ts-morph/common@0.23.0:
-    resolution: {integrity: sha512-m7Lllj9n/S6sOkCkRftpM7L24uvmfXQFedlW/4hENcuJH1HHm9u5EgxZb9uVjQSCGrbBWBkOGgcTxNg36r6ywA==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ts-morph/common/-/common-0.23.0.tgz}
-    dependencies:
-      fast-glob: 3.3.2
-      minimatch: 9.0.4
-      mkdirp: 3.0.1
-      path-browserify: 1.0.1
-    dev: true
-
   /@types/aria-query@5.0.4:
     resolution: {integrity: sha512-rfT93uj5s0PRL7EzccGMs3brplhcrghnDoV26NqKhCAS1hVo+WdNsPvE/yb6ilfr5hi2MEk6d5EWJTKdxg8jVw==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@types/aria-query/-/aria-query-5.0.4.tgz}
     dev: true
@@ -2205,10 +2183,6 @@ packages:
   /co@4.6.0:
     resolution: {integrity: sha512-QVb0dM5HvG+uaxitm8wONl7jltx8dqhfU33DcqtOZcLSVIKSDDLDi7+0LbAKiyI8hD9u42m2YxXSkMGWThaecQ==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/co/-/co-4.6.0.tgz}
     engines: {iojs: '>= 1.0.0', node: '>= 0.12.0'}
-    dev: true
-
-  /code-block-writer@13.0.1:
-    resolution: {integrity: sha512-c5or4P6erEA69TxaxTNcHUNcIn+oyxSRTOWV+pSYF+z4epXqNvwvJ70XPGjPNgue83oAFAPBRQYwpAJ/Hpe/Sg==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/code-block-writer/-/code-block-writer-13.0.1.tgz}
     dev: true
 
   /collect-v8-coverage@1.0.2:
@@ -2941,15 +2915,6 @@ packages:
   /fs-extra@10.1.0:
     resolution: {integrity: sha512-oRXApq54ETRj4eMiFzGnHWGy+zo5raudjuxN0b8H7s/RU2oW0Wvsx9O0ACRN/kRq9E8Vu/ReskGB5o3ji+FzHQ==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/fs-extra/-/fs-extra-10.1.0.tgz}
     engines: {node: '>=12'}
-    dependencies:
-      graceful-fs: 4.2.11
-      jsonfile: 6.1.0
-      universalify: 2.0.0
-    dev: true
-
-  /fs-extra@11.2.0:
-    resolution: {integrity: sha512-PmDi3uwK5nFuXh7XDTlVnS17xJS7vW36is2+w3xcv8SVxiB4NyATf4ctkVY5bkSjX0Y4nbvZCq1/EjtEyr9ktw==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/fs-extra/-/fs-extra-11.2.0.tgz}
-    engines: {node: '>=14.14'}
     dependencies:
       graceful-fs: 4.2.11
       jsonfile: 6.1.0
@@ -4190,12 +4155,6 @@ packages:
       minimist: 1.2.7
     dev: true
 
-  /mkdirp@3.0.1:
-    resolution: {integrity: sha512-+NsyUUAZDmo6YVHzL/stxSu3t9YS1iljliy3BSDrXJ/dkn1KYdmtZODGGjLcc9XLgVVpH4KshHB8XmZgMhaBXg==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/mkdirp/-/mkdirp-3.0.1.tgz}
-    engines: {node: '>=10'}
-    hasBin: true
-    dev: true
-
   /mlly@1.7.0:
     resolution: {integrity: sha512-U9SDaXGEREBYQgfejV97coK0UL1r+qnF2SyO9A3qcI8MzKnsIFKHNVEkrDyNncQTKQQumsasmeq84eNMdBfsNQ==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/mlly/-/mlly-1.7.0.tgz}
     dependencies:
@@ -4422,10 +4381,6 @@ packages:
   /parseurl@1.3.3:
     resolution: {integrity: sha512-CiyeOxFT/JZyN5m0z9PfXw4SCBJ6Sygz1Dpl0wqjlhDEGGBP1GnsUVEL0p63hoG1fcj3fHynXi9NYO4nWOL+qQ==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/parseurl/-/parseurl-1.3.3.tgz}
     engines: {node: '>= 0.8'}
-    dev: true
-
-  /path-browserify@1.0.1:
-    resolution: {integrity: sha512-b7uo2UCUOYZcnF/3ID0lulOJi/bafxa1xPe7ZPsammBSpjSWQkjNxlt635YGS2MiR9GjvuXCtz2emr3jbsz98g==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/path-browserify/-/path-browserify-1.0.1.tgz}
     dev: true
 
   /path-exists@4.0.0:
@@ -5316,13 +5271,6 @@ packages:
 
   /ts-interface-checker@0.1.13:
     resolution: {integrity: sha512-Y/arvbn+rrz3JCKl9C4kVNfTfSm2/mEp5FSz5EsZSANGPSlQrpRI5M4PKF+mJnE52jOO90PnPSc3Ur3bTQw0gA==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/ts-interface-checker/-/ts-interface-checker-0.1.13.tgz}
-    dev: true
-
-  /ts-morph@22.0.0:
-    resolution: {integrity: sha512-M9MqFGZREyeb5fTl6gNHKZLqBQA0TjA1lea+CR48R8EBTDuWrNqW6ccC5QvjNR4s6wDumD3LTCjOFSp9iwlzaw==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/ts-morph/-/ts-morph-22.0.0.tgz}
-    dependencies:
-      '@ts-morph/common': 0.23.0
-      code-block-writer: 13.0.1
     dev: true
 
   /tslib@1.14.1:
