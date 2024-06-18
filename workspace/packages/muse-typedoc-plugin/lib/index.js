@@ -68,8 +68,6 @@ function genDocExtPoints(reflections) {
 
       const targetRef = child.type?._target ? refById[child.type._target] : null;
       if (child.type?.type === 'reflection' && child.type?.declaration?.children?.length > 0) {
-        // console.log(child);
-
         extNodes.push({
           baseName: `${extNode.baseName}.${child.name}`,
           reflection: child.type.declaration,
@@ -77,7 +75,7 @@ function genDocExtPoints(reflections) {
       } else if (targetRef?.museExt) {
         extNodes.push({
           baseName: `${extNode.baseName}.${child.name}`,
-          reflection: targetRef,
+          reflection: targetRef.type?.declaration || targetRef,
         });
       } else {
         extPoints.push({ name: `${extNode.baseName}.${child.name}`, reflection: child });
