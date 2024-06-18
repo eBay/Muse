@@ -120,7 +120,7 @@ function genDocExtPoints(reflections) {
     interfaces.forEach((i) => {
       if (typeSignature.includes(i.name)) {
         typeSignature = typeSignature.replace(
-          new RegExp(i.name, 'ig'),
+          new RegExp('\\b' + i.name + '\\b', 'ig'),
           `[${i.name}](#${i.name.toLowerCase()})`,
         );
       }
