@@ -1,19 +1,19 @@
 # @ebay/muse-layout-antd
 ## Extension Points
 ### museLayout.header.getConfig
-*() => [[Header](#header)Config](#[Header](#header)config)*
+*() => [HeaderConfig](#headerconfig)*
 
 ### museLayout.header.getItems
-*() => [[Header](#header)Item](#[Header](#header)item) | [[Header](#header)Item](#[Header](#header)item)[]*
+*() => [HeaderItem](#headeritem) | [HeaderItem](#headeritem)[]*
 
 ### museLayout.header.processItems
-*(items: [[Header](#header)Item](#[Header](#header)item)[]) => void*
+*(items: [HeaderItem](#headeritem)[]) => void*
 
 ### museLayout.sider.getConfig
-*() => [[Sider](#sider)Config](#[Sider](#sider)config)*
+*() => [SiderConfig](#siderconfig)*
 
 ### museLayout.sider.getItems
-*() => [[Sider](#sider)Item](#[Sider](#sider)item) | [[Sider](#sider)Item](#[Sider](#sider)item)[]*
+*() => [SiderItem](#sideritem) | [SiderItem](#sideritem)[]*
 
 ## Interfaces & Types
 ### Header
