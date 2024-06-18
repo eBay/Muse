@@ -1,5 +1,12 @@
 # @ebay/muse-plugin-s3-storage
 
+## 1.0.27
+
+### Patch Changes
+
+- Updated dependencies
+  - @ebay/muse-core@1.0.40
+
 ## 1.0.26
 
 ### Patch Changes
