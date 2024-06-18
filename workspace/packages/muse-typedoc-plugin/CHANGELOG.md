@@ -1,5 +1,11 @@
 # @ebay/muse-typedoc-plugin
 
+## 1.0.6
+
+### Patch Changes
+
+- enhance typedoc plugin
+
 ## 1.0.3
 
 ### Patch Changes
