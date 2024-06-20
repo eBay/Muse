@@ -19,7 +19,6 @@ import getIconNode from './getIconNode';
 */
 export default function MetaMenu({ meta = {}, onClick, baseExtPoint, autoSort = true }) {
   const autoKeySeed = React.useRef({ seed: 0 });
-
   // Get items from ext points
   const extItems = baseExtPoint ? _.flatten(plugin.invoke(baseExtPoint + '.getItems', meta)) : null;
   const itemByKey = {};
@@ -29,7 +28,7 @@ export default function MetaMenu({ meta = {}, onClick, baseExtPoint, autoSort = 
     rawItems.filter(item => !!item.parent),
     'parent',
   );
-  const newItems = rawItems.filter(item => !item.parent).map(item => ({ ...item })); // do not modify the raw meta;
+  let newItems = rawItems.filter(item => !item.parent).map(item => ({ ...item })); // do not modify the raw meta;
 
   // For items that have parent prop, move them to correct children
   const arr = [...newItems];
@@ -56,6 +55,23 @@ export default function MetaMenu({ meta = {}, onClick, baseExtPoint, autoSort = 
   if (baseExtPoint) {
     if (autoSort) plugin.sort(newItems);
     plugin.invoke(baseExtPoint + '.processItems', meta, newItems, itemByKey);
+  }
+
+  // remove divider and group items if collapsed
+  const newItems2 = [];
+  if (meta.collapsed) {
+    newItems.forEach(item => {
+      if (item.type === 'group') {
+        newItems2.push({
+          key: item.key,
+          type: 'divider',
+        });
+        newItems2.push(...item.children);
+      } else {
+        newItems2.push(item);
+      }
+    });
+    newItems = newItems2;
   }
 
   const metaOnClick = meta.onClick;
@@ -144,5 +160,6 @@ export default function MetaMenu({ meta = {}, onClick, baseExtPoint, autoSort = 
     );
     return <Dropdown menu={menuProps}>{ele}</Dropdown>;
   }
-  return <Menu {...menuProps} />;
+
+  return <Menu {...menuProps} inlineCollapsed={meta.collapsed} />;
 }

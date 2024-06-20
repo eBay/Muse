@@ -1,29 +1,49 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { Drawer } from 'antd';
+import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
+import plugin from 'js-plugin';
 import { MetaMenu } from '@ebay/muse-lib-antd/src/features/common';
 import { useSetSiderCollapsed } from './redux/hooks';
-import { useSetIsDarkMode } from '@ebay/muse-lib-antd/src/features/common/redux/hooks';
-import plugin from 'js-plugin';
 
-export default function Sider({ siderConfig }) {
-  const { isDarkMode } = useSetIsDarkMode();
-  const { siderCollapsed, setSiderCollapsed } = useSetSiderCollapsed();
-  const headerConfig = plugin.invoke('museLayout.header.getConfig')[0] || {};
-  const noHeader =
-    headerConfig.mode === 'none' ||
-    (headerConfig?.mode !== 'show-in-sub-app' && window.MUSE_GLOBAL.isSubApp);
+export default function Sider() {
+  let { siderCollapsed, setSiderCollapsed } = useSetSiderCollapsed();
+  const siderConfig = {
+    mode: 'collapsable',
+    homeMenu: true,
+    ...(plugin.invoke('museLayout.sider.getConfig')[0] || {}),
+  };
+  if (siderCollapsed === null) {
+    if (typeof siderConfig.siderDefaultCollapsed !== 'undefined') {
+      siderCollapsed = !!siderConfig.siderDefaultCollapsed;
+    } else {
+      siderCollapsed = true;
+    }
+  }
+  const handleToggleSiderCollapsed = useCallback(() => {
+    setSiderCollapsed(!siderCollapsed);
+  }, [siderCollapsed, setSiderCollapsed]);
+
+  const ref = useRef(false);
+  if (!ref.current) {
+    // Act as constructor of the component.
+    // Use this trick to re-use sider collapsed in different mode
+    if (siderConfig.mode === 'drawer') {
+      if (!siderCollapsed) setSiderCollapsed(true);
+      siderCollapsed = true;
+    }
+    ref.current = true;
+  }
 
   const closeDrawer = useCallback(() => {
-    if (siderConfig?.mode === 'drawer') setSiderCollapsed(true);
-  }, [setSiderCollapsed, siderConfig?.mode]);
+    if (siderConfig.mode === 'drawer') setSiderCollapsed(true);
+  }, [setSiderCollapsed, siderConfig.mode]);
 
-  if (!siderConfig || siderConfig.mode === 'none') return null;
-
+  if (siderConfig.mode === 'none') return null;
   const meta = {
     menuProps: siderConfig.menuProps || {},
     autoActive: true,
     mode: 'inline',
-    theme: isDarkMode ? 'dark' : 'light',
+    theme: siderConfig.theme || 'light',
     collapsed:
       siderConfig.mode === 'collapsed' ||
       (siderConfig.mode === 'collapsable' ? siderCollapsed : false),
@@ -40,30 +60,53 @@ export default function Sider({ siderConfig }) {
     });
   }
 
-  const siderMenu = <MetaMenu meta={meta} onClick={closeDrawer} baseExtPoint="museLayout.sider" />;
+  const style = {
+    width: siderConfig.width || 250,
+  };
+  const wrapperStyle = {};
+  if (meta.collapsed) {
+    style.width = 60;
+  }
+  if (['drawer'].includes(siderConfig.mode)) {
+    style.position = 'static';
+    style.top = 0;
+    style.height = '100%';
+  }
+  if (siderConfig.mode === 'collapsable') {
+    wrapperStyle.bottom = 40;
+  }
 
+  const ele = (
+    <div
+      className={`muse-layout-antd_home-sider ${
+        meta.theme === 'dark' ? 'muse-layout_home-sider-dark' : ''
+      }`}
+      style={style}
+    >
+      <div className="sider-menu-wrapper" style={wrapperStyle}>
+        <MetaMenu meta={meta} onClick={closeDrawer} baseExtPoint="museLayout.sider" />
+      </div>
+      {siderConfig.mode === 'collapsable' && (
+        <div className="sider-toggle-collapse" onClick={handleToggleSiderCollapsed}>
+          {siderCollapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+        </div>
+      )}
+    </div>
+  );
   if (siderConfig.mode === 'drawer') {
     return (
       <Drawer
-        mask={true}
-        maskStyle={{ opacity: '0' }}
-        bodyStyle={{ padding: '0' }}
-        rootStyle={{ top: noHeader ? '0px' : '50px' }}
         open={!siderCollapsed}
         closable={false}
-        onClose={() => setSiderCollapsed(true)}
+        onClose={closeDrawer}
+        style={{ marginTop: '50px' }}
         placement="left"
         width={siderConfig.width || 250}
-        className={
-          noHeader
-            ? `muse-layout_side-drawer muse-layout-sider-noheader`
-            : `muse-layout_side-drawer`
-        }
+        rootClassName="muse-layout-antd_side-drawer"
       >
-        {siderMenu}
+        {ele}
       </Drawer>
     );
   }
-
-  return siderMenu;
+  return ele;
 }

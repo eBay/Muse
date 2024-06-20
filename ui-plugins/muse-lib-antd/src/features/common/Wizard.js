@@ -67,7 +67,6 @@ export default function Wizard({
       key: 'commonWizardAutoReviewStep',
       title: reviewText,
       render: () => {
-        console.log(form.getFieldsValue(true));
         const genSections = wizardMeta.steps.filter(
           s => s.key !== 'commonWizardAutoReviewStep' && !s.noReview,
         );

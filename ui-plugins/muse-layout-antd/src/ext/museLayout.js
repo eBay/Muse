@@ -1,5 +1,5 @@
-//let seed = 0;
-/*export default {
+let seed = 0;
+export default {
   header: {
     getConfig() {
       return {
@@ -15,7 +15,6 @@
         return {
           key: 'haha',
           label: 'Hahah',
-          parentMenu: 'userAvatar',
           order: 1,
         };
       },
@@ -38,6 +37,12 @@
               },
             ],
           },
+        },
+        {
+          key: 'center',
+          order: 101,
+          position: 'center',
+          label: 'Center item',
         },
 
         {
@@ -70,9 +75,8 @@
   sider: {
     getConfig() {
       return {
-        mode: 'collapsable', // fixed | drawer | collapsable | collapsed | none
+        mode: 'drawer', // fixed | drawer | collapsable | collapsed | none
         siderDefaultCollapsed: true,
-        homeMenu: true,
       };
     },
     getItems: () => {
@@ -153,7 +157,12 @@
               key: 'k1',
               icon: 'BlockOutlined',
               label: 'Block View',
-              link: '/muse-demo/components/muse-antd/blockView',
+              children: [
+                {
+                  key: 'kk11',
+                  label: 'Test Link',
+                },
+              ],
             },
             {
               key: 'k3',
@@ -339,4 +348,4 @@
       ];
     },
   },
-};*/
+};
