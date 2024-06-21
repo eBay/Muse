@@ -21,8 +21,8 @@
     "build:dev": "cross-env NODE_ENV=development vite build --mode development",
     "build:test": "cross-env MUSE_TEST_BUILD=true NODE_ENV=production vite build --mode e2e-test",
     "gen-muse-doc": "typedoc",
-    "test": "vitest",
-    "test:coverage": "vitest run --coverage"
+    "test2": "vitest",
+    "test:coverage2": "vitest run --coverage"
   },
   "browserslist": {
     "production": [
