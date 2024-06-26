@@ -23,7 +23,11 @@ export default NiceModal.create(function AddEnvModal({ app }) {
 
   const handleAddAppEnv = useCallback(() => {
     form.validateFields().then((values) => {
-      values.baseEnv = `${app.name}/${values.baseEnv}`;
+      if (values.baseEnv === 'default') {
+        values.baseEnv = 'musetplv2/staging';
+      } else {
+        values.baseEnv = `${app.name}/${values.baseEnv}`;
+      }
       const payload = Object.assign({ appName: app.name }, values);
       jsPlugin.invoke('museManager.am.addEnvironmentModal.form.processPayload', {
         payload,
@@ -107,7 +111,7 @@ export default NiceModal.create(function AddEnvModal({ app }) {
         label: 'Copy From',
         widget: 'select',
         tooltip: `Copy plugin list from an existing environment. Muse template means a blank environment.`,
-        options: Object.keys(app.envs),
+        options: Object.keys(app.envs || {}).concat(['default']),
         required: true,
         order: 15,
       },
