@@ -1,6 +1,6 @@
 {
   "name": "@ebay/muse-cli",
-  "version": "1.0.26",
+  "version": "1.0.27",
   "main": "index.js",
   "bin": {
     "muse": "./bin/muse.js"

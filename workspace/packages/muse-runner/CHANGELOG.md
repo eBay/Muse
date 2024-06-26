@@ -1,5 +1,14 @@
 # @ebay/muse-runner
 
+## 1.0.14
+
+### Patch Changes
+
+- rename res.send to res.end
+- Updated dependencies
+  - @ebay/muse-express-middleware@1.0.52
+  - @ebay/muse-dev-utils@1.0.65
+
 ## 1.0.9
 
 ### Patch Changes

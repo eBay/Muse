@@ -1,5 +1,11 @@
 # @ebay/muse-craco-plugin
 
+## 3.0.31
+
+### Patch Changes
+
+- @ebay/muse-dev-utils@1.0.65
+
 ## 3.0.30
 
 ### Patch Changes

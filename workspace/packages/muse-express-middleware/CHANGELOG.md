@@ -1,5 +1,11 @@
 # @ebay/muse-express-middleware
 
+## 1.0.52
+
+### Patch Changes
+
+- rename res.send to res.end
+
 ## 1.0.51
 
 ### Patch Changes
