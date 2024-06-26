@@ -129,13 +129,13 @@ module.exports = ({
     logger.info(`Getting full app data: ${appName}`);
     const app = await museCore.data.get(`muse.app.${appName}`);
     if (!app) {
-      res.send('Muse app not found: ' + appName);
+      res.end('Muse app not found: ' + appName);
       return;
     }
     cdn = app.cdn || cdn;
     const env = app.envs?.[envName];
     if (!env) {
-      res.send('No env found: ' + envName);
+      res.end('No env found: ' + envName);
       return;
     }
     // Have the opportunity to modify app, env and plugins
@@ -145,9 +145,9 @@ module.exports = ({
     const bootPlugins = plugins.filter((p) => p.type === 'boot');
 
     if (bootPlugins.length === 0) {
-      return res.send('No boot plugin.');
+      return res.end('No boot plugin.');
     } else if (bootPlugins.length > 1) {
-      return res.send(
+      return res.end(
         `There should be only one boot plugin, found ${bootPlugins.length}: ${bootPlugins.map(
           (p) => p.name,
         )}`,

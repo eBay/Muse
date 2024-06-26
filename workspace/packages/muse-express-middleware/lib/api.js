@@ -160,7 +160,7 @@ module.exports = ({ basePath = '/api/v2' } = {}) => {
       }
 
       const result = await _.invoke(muse, apiKey, ...args);
-      if (req.query.type === 'raw') {        
+      if (req.query.type === 'raw') {
         res.setHeader(
           'content-type',
           result.headers['content-type'] || result.headers['Content-Type'],
@@ -176,7 +176,7 @@ module.exports = ({ basePath = '/api/v2' } = {}) => {
           res,
           basePath,
         });
-        res.send(JSON.stringify(dataResult));
+        res.end(JSON.stringify(dataResult));
         return;
       }
     } catch (err) {

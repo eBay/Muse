@@ -142,7 +142,7 @@ app.post('/api/clear-msg-cache', (req, res) => {
   if (id) {
     delete msgCache[id];
   }
-  res.send('ok');
+  res.end('ok');
 });
 app.post(
   '/api/start-app',
@@ -193,7 +193,7 @@ app.post(
     bindOutputToSocket(`app:${id}`, appRunner.worker.stdout);
     msgCache[`app:${id}`] = [];
     res.setHeader('Content-Type', 'application/json');
-    res.send(
+    res.end(
       JSON.stringify({
         id,
         app: app.app,
@@ -213,7 +213,7 @@ app.post(
     appList.push({ id, app, env, ...rest });
     config.set('appList', appList);
     res.setHeader('Content-Type', 'application/json');
-    res.send({ id, app, env, ...rest });
+    res.end(JSON.stringify({ id, app, env, ...rest }));
   }),
 );
 
@@ -226,7 +226,7 @@ app.post(
     if (!foundApp) throw new Error(`App not found: ${id}`);
     Object.assign(foundApp, { app, env, ...rest });
     config.set('appList', appList);
-    res.send('ok');
+    res.end('ok');
   }),
 );
 
@@ -237,7 +237,7 @@ app.post(
     const { id } = req.body;
     _.remove(appList, (a) => a.id === id);
     config.set('appList', appList);
-    res.send('ok');
+    res.end('ok');
   }),
 );
 
@@ -246,7 +246,7 @@ app.post(
   handleAsyncError(async (req, res) => {
     const { id } = req.body;
     await runner.stopApp({ id });
-    res.send('ok');
+    res.end('ok');
   }),
 );
 
@@ -262,7 +262,7 @@ app.post(
     if (!plugins[pluginName]) plugins[pluginName] = {};
     Object.assign(plugins[pluginName], { dir, ...rest });
     config.set('plugins', plugins);
-    res.send('ok');
+    res.end('ok');
   }),
 );
 
@@ -289,7 +289,7 @@ app.post(
     }
 
     config.set('appList', appList);
-    res.send('ok');
+    res.end('ok');
   }),
 );
 
@@ -302,7 +302,7 @@ app.post(
     if (!app) throw new Error(`App not found: ${appId}`);
     _.remove(app.plugins, (p) => p.name === pluginName);
     config.set('appList', appList);
-    res.send('ok');
+    res.end('ok');
   }),
 );
 
@@ -322,7 +322,7 @@ app.post(
 //       plugins[mainPlugin].linkedPlugins.push({ name: linkedPlugin });
 //     }
 //     config.set('plugins', plugins);
-//     res.send('ok');
+//     res.end('ok');
 //   }),
 // );
 
@@ -336,7 +336,7 @@ app.post(
 //       _.remove(plugins[mainPlugin]?.linkedPlugins, (p) => p.name === linkedPlugin);
 //     }
 //     config.set('plugins', plugins);
-//     res.send('ok');
+//     res.end('ok');
 //   }),
 // );
 
@@ -346,7 +346,7 @@ app.get(
     const key = req.query.key;
     const data = await museCore.data.get(key);
     res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify(data));
+    res.end(JSON.stringify(data));
   }),
 );
 
@@ -361,7 +361,7 @@ app.get(
     if (!apps || !plugins) throw new Error('Failed to get Muse apps or plugins.');
 
     res.setHeader('Content-Type', 'application/json');
-    res.send(
+    res.end(
       JSON.stringify({
         msgCache,
         apps,
@@ -377,7 +377,7 @@ app.get(
   '/api/config-data',
   handleAsyncError(async (req, res) => {
     res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify(config.store));
+    res.end(JSON.stringify(config.store));
   }),
 );
 
@@ -385,7 +385,7 @@ app.get(
   '/api/running-data',
   handleAsyncError((req, res) => {
     res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify(getRunningData()));
+    res.end(JSON.stringify(getRunningData()));
   }),
 );
 
@@ -396,7 +396,7 @@ app.post(
     if (id) {
       msgCache[id] = [];
     }
-    res.send('ok');
+    res.end('ok');
   }),
 );
 
@@ -406,7 +406,7 @@ app.post(
     const { dir } = req.body;
     if (!fs.existsSync(dir)) throw new Error(`Folder not exist: ${dir}`);
     exec(`code "${dir}"`);
-    res.send('ok');
+    res.end('ok');
   }),
 );
 
@@ -421,7 +421,7 @@ app.post(
       return aIndex - bIndex;
     });
     config.set('appList', appList);
-    res.send('ok');
+    res.end('ok');
   }),
 );
 
@@ -438,14 +438,14 @@ app.post(
       return aIndex - bIndex;
     });
     config.set('appList', appList);
-    res.send('ok');
+    res.end('ok');
   }),
 );
 
 app.post('/api/open-browser', (req, res) => {
   const { url } = req.body;
   openBrowser(url);
-  res.send('ok');
+  res.end('ok');
 });
 
 terminals({ app, io, config });

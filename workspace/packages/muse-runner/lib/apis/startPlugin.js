@@ -13,7 +13,7 @@ export default ({ config, runner }) =>
     });
 
     res.setHeader('Content-Type', 'application/json');
-    res.send(
+    res.end(
       JSON.stringify({
         ...pluginRunner.pluginInfo,
         port: pluginRunner.port,

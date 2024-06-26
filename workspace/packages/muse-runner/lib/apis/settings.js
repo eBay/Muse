@@ -4,6 +4,6 @@ export default function settings({ app, config }) {
     const settings = config.get('settings', {});
     settings[key] = value;
     config.set('settings', settings);
-    res.send();
+    res.end();
   });
 }

@@ -68,17 +68,17 @@ export default ({ app, io, config }) => {
 
   handleConfigChange();
   app.get('/api/git-status', (req, res) => {
-    res.send(gitStatusMap);
+    res.end(JSON.stringify(gitStatusMap));
     // const dir = decodeURIComponent(req.query.dir);
     // const git = simpleGit(dir);
     // git.status((err, result) => {
     //   if (err) {
-    //     res.send({
+    //     res.end({
     //       code: 1,
     //       msg: err,
     //     });
     //   } else {
-    //     res.send({
+    //     res.end({
     //       code: 0,
     //       data: result,
     //     });

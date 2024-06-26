@@ -6,7 +6,10 @@ const getSehll = () => {
   if (process.platform === 'win32') {
     // For windows 10 use powershell
     try {
-      const ver = os.release().split('.').shift();
+      const ver = os
+        .release()
+        .split('.')
+        .shift();
       if (parseInt(ver, 10) >= 10) return 'powershell.exe';
       // For windows 7 and below, use cmd.exe
       return 'cmd.exe';
@@ -41,11 +44,11 @@ export default function setupTerminals({ app }) {
   const logs = {};
 
   // Create a terminal
-  app.post('/api/terminals', function (req, res) {
+  app.post('/api/terminals', function(req, res) {
     const { dir, cols, rows } = req.body;
     res.setHeader('Content-Type', 'application/json');
     if (terminals[dir]) {
-      res.send(JSON.stringify({ pid: terminals[dir].pid }));
+      res.end(JSON.stringify({ pid: terminals[dir].pid }));
       res.end();
       return;
     }
@@ -62,17 +65,17 @@ export default function setupTerminals({ app }) {
     console.log('Created terminal with PID: ' + term.pid);
     terminals[dir] = term;
     logs[term.pid] = [];
-    term.on('data', function (data) {
+    term.on('data', function(data) {
       const arr = logs[term.pid];
       arr.push(data);
       if (arr.length > 100) logs[term.pid] = arr.slice(arr.length - 100);
     });
-    res.send(JSON.stringify({ pid: term.pid }));
+    res.end(JSON.stringify({ pid: term.pid }));
     res.end();
   });
 
   // Resize the terminal
-  app.post('/api/terminals/:pid/size', function (req, res) {
+  app.post('/api/terminals/:pid/size', function(req, res) {
     const pid = parseInt(req.params.pid, 10);
     const { cols, rows } = req.body;
     const term = Object.values(terminals).find((t) => t.pid === pid);
@@ -85,7 +88,7 @@ export default function setupTerminals({ app }) {
   });
 
   // Connect to the terminal
-  app.ws('/api/terminals/:pid', function (ws, req) {
+  app.ws('/api/terminals/:pid', function(ws, req) {
     console.log('Connecting to terminal ' + req.params.pid);
     const term = Object.values(terminals).find((t) => t.pid === parseInt(req.params.pid, 10));
 
@@ -94,14 +97,14 @@ export default function setupTerminals({ app }) {
 
     ws.send(logs[term.pid].join(''));
 
-    term.on('data', function (data) {
+    term.on('data', function(data) {
       try {
         ws.send(data);
       } catch (ex) {
         // The WebSocket is not open, ignore
       }
     });
-    ws.on('message', function (msg) {
+    ws.on('message', function(msg) {
       term.write(msg);
     });
     // ws.on('close', function () {
