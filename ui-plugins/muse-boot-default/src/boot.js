@@ -227,7 +227,7 @@ async function start() {
       ),
   );
 
-  const normalPluginsToLoad = pluginsToLoad.filter((p) => p.type === 'normal');
+  const normalPluginsToLoad = pluginsToLoad.filter((p) => p.type === 'normal' || !p.type);
   loading.showMessage(`Loading normal plugins 1/${normalPluginsToLoad.length}...`);
   await loadInParallel(
     normalPluginsToLoad.filter((p) => !p.esModule),
