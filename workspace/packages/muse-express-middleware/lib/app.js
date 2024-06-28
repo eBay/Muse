@@ -77,6 +77,11 @@ const populatePluginVariables = (app, env) => {
   return mergedPluginVariables;
 };
 
+// This middleware is at least used by:
+// - muse-vite-plugin
+// - muse-craco-pulgin
+// - production server
+// It needs to be compatible with all of them, note vite doesn't use express but connect
 module.exports = ({
   appName,
   envName = 'staging',
@@ -100,13 +105,29 @@ module.exports = ({
     );
   }
   return async (req, res, next) => {
-    if (serviceWorker && req.path === serviceWorker) {
+    // a default favicon
+
+    let reqPath = req.path; // from express there's path property
+    if (!reqPath) {
+      // if pure connect (from vite), need to construct req path
+      // use originalUrl instead of url because the latter is modified by Vite 5+ (not modified in Vite 4)
+      const url = new URL(req.originalUrl, 'http://localhost');
+      reqPath = url.pathname;
+    }
+    if (reqPath === '/favicon.png') {
+      const readStream = fs.createReadStream(path.join(__dirname, './favicon.png'));
+      res.writeHead(200, { 'Content-Type': 'image/png' });
+      readStream.pipe(res);
+      return;
+    }
+    if (serviceWorker && reqPath === serviceWorker) {
       // Service built-in service worker
-      res.set('Content-Type', 'application/javascript; charset=utf-8');
+      res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
       res.write(swContent);
       res.end();
       return;
     }
+
     const appInfo = await museCore.utils.asyncInvokeFirst('museMiddleware.app.getAppInfo', req);
     if (appInfo) {
       appName = appInfo.appName;
