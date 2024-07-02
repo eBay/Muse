@@ -7,9 +7,6 @@ You can customize header, sider and menu items of the layout from different plug
 ### noSiderInSubApp
 If set to `true`, there will be no sider if integrated as a sub app.
 
-### noHeaderInSubApp
-If set to `true`, there will be no header if integrated as a sub app.
-
 ## Extend Header Menus
 There's difference between header dropdown menus and the sider menu. Each dropdown menu on the header is a standalone menu component while the whole sider menu is a standalone one. So, to extend header menus, you need to know the `key` of the header menu item and use extension point `header.[menu-item-key].getItems` to contribute menu items to a given header menu.
 
