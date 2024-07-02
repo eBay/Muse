@@ -4,9 +4,10 @@ import NiceForm from '@ebay/nice-form-react';
 import { BlockView, TagInput, DateView } from './features/common';
 
 import { config as niceFormConfig } from '@ebay/nice-form-react';
-import antdAdaptor from '@ebay/nice-form-react/adaptors/antdAdaptor';
+import antdAdapter from '@ebay/nice-form-react/adapters/antdAdapter';
 
-niceFormConfig.adaptor = antdAdaptor;
+niceFormConfig.addAdapter(antdAdapter);
+
 NiceForm.defineWidget('tag', TagInput);
 NiceForm.defineWidget('tag-view', BlockView);
 NiceForm.defineWidget('date-view', props => <DateView {...props} dateOnly />);
