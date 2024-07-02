@@ -67,6 +67,7 @@
     "vitest": "^1.6.0"
   },
   "dependencies": {
+    "@ant-design/icons": "^5.3.7",
     "autoprefixer": "^10.4.19",
     "react-dom": "18.2.0"
   }

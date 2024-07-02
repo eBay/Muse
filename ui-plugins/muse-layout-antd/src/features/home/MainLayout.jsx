@@ -142,8 +142,10 @@ export default function MainLayout({ children }) {
   const headerConfig = plugin.invoke('museLayout.header.getConfig')[0] || {};
   const pluginVars = window.MUSE_GLOBAL.getPluginVariables('@ebay/muse-layout-antd');
   const isSubApp = window.MUSE_GLOBAL.isSubApp;
+
   const noHeader =
-    (isSubApp && pluginVars?.noHeaderInSubApp === 'true') || headerConfig.mode === 'none';
+    headerConfig?.mode === 'none' ||
+    (headerConfig?.mode !== 'show-in-sub-app' && window.MUSE_GLOBAL.isSubApp);
 
   const noSider = isSubApp && pluginVars?.noSiderInSubApp === 'true';
 
