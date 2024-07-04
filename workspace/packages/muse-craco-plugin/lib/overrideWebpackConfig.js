@@ -108,6 +108,7 @@ module.exports = ({ webpackConfig }) => {
     // Check if the file muse.d.ts exists
     const sourcePath = path.resolve(process.cwd(), 'src', 'muse.d.ts');
     if (fs.existsSync(sourcePath)) {
+      console.log('Found muse.d.ts, generating type definition file.');
       webpackConfig.plugins.push(
         new DtsBundlePlugin({
           name: pkgJson.name,
@@ -117,7 +118,7 @@ module.exports = ({ webpackConfig }) => {
         }),
       );
     } else {
-      console.info('\nNo muse.d.ts found in src.\n');
+      // console.info('\nNo muse.d.ts found in src.\n');
     }
   }
 
