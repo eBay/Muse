@@ -117,8 +117,6 @@ module.exports = ({ webpackConfig }) => {
           outputAsModuleFolder: true,
         }),
       );
-    } else {
-      // console.info('\nNo muse.d.ts found in src.\n');
     }
   }
 
