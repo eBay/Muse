@@ -5,12 +5,6 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
-  '@ebay/muse-core':
-    specifier: workspace:^
-    version: link:../muse-core
-  '@ebay/muse-modules-analyzer':
-    specifier: workspace:^
-    version: link:../muse-modules-analyzer
   lodash:
     specifier: ^4.17.21
     version: 4.17.21

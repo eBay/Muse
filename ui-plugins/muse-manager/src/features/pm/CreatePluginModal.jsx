@@ -6,6 +6,7 @@ import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import utils from '@ebay/muse-lib-antd/src/utils';
 import jsPlugin from 'js-plugin';
 import { useSyncStatus, useMuseMutation } from '../../hooks';
+import validateNpmPackageName from 'validate-npm-package-name';
 
 const CreatePluginModal = NiceModal.create(({ app }) => {
   const modal = useModal();
@@ -37,9 +38,18 @@ const CreatePluginModal = NiceModal.create(({ app }) => {
         order: 10,
         rules: [
           {
-            pattern: /^[\w\d-]+$/,
+            pattern: /^[@\/\w\d-]{1,30}$/,
             message:
-              'Plugin name should be 5-20 characters and contains only alphabets, numbers or "-".',
+              'Plugin name should be 1-30 characters and contains only alphabets, numbers, "@", "/" , or "-".',
+          },
+          {
+            validator: (t, value) => {
+              const result = validateNpmPackageName(value || '');
+              if (!result.validForNewPackages) {
+                return Promise.reject(new Error('Invalid plugin name:' + result.errors.join(', ')));
+              }
+              return Promise.resolve();
+            },
           },
         ],
       },
@@ -86,7 +96,10 @@ const CreatePluginModal = NiceModal.create(({ app }) => {
   const handleFinish = useCallback(() => {
     const values = form.getFieldsValue();
     if (app) values.appName = app;
-    jsPlugin.invoke('museManager.pm.createPluginForm.processValues', { values, form });
+    jsPlugin.invoke('museManager.pm.createPluginModal.form.processPayload', {
+      payload: values,
+      form,
+    });
 
     createPlugin({ ...values })
       .then(async () => {
@@ -99,7 +112,7 @@ const CreatePluginModal = NiceModal.create(({ app }) => {
       });
   }, [createPlugin, syncStatus, modal, form, app]);
 
-  const { watchingFields } = utils.extendFormMeta(meta, 'museManager.pm.createPluginForm', {
+  const { watchingFields } = utils.extendFormMeta(meta, 'museManager.pm.createPluginModal.form', {
     meta,
     form,
   });
