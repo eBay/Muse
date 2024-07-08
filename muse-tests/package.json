@@ -14,7 +14,7 @@
   "dependencies": {
     "fs-extra": "^10.1.0",
     "lodash": "^4.17.21",
-    "puppeteer": "^21.3.8",
+    "puppeteer": "^22.11.2",
     "zx": "^7.2.3"
   }
 }
