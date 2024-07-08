@@ -1,6 +1,6 @@
 {
   "name": "@ebay/muse-dev-utils",
-  "version": "1.0.65",
+  "version": "1.0.66",
   "main": "lib/index.js",
   "bin": {
     "muse-dev-utils": "./bin/muse-dev-utils.js"

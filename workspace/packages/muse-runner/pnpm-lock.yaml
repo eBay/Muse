@@ -12,11 +12,11 @@ dependencies:
     specifier: ^1.0.37
     version: 1.0.37
   '@ebay/muse-dev-utils':
-    specifier: ^1.0.57
-    version: 1.0.57(@ebay/muse-core@1.0.37)(@ebay/muse-modules-analyzer@1.0.10)(express@4.18.2)
+    specifier: ^1.0.65
+    version: 1.0.65(@ebay/muse-core@1.0.37)(@ebay/muse-modules-analyzer@1.0.13)(express@4.18.2)
   '@ebay/muse-express-middleware':
-    specifier: ^1.0.48
-    version: 1.0.48(@ebay/muse-core@1.0.37)(@ebay/muse-modules-analyzer@1.0.10)
+    specifier: ^1.0.52
+    version: 1.0.52(@ebay/muse-core@1.0.37)(@ebay/muse-modules-analyzer@1.0.13)
   chalk:
     specifier: ^5.3.0
     version: artifactory.corp.ebay.com/chalk@5.3.0
@@ -447,45 +447,72 @@ packages:
       winston-transport: 4.7.0
     dev: false
 
-  /@ebay/muse-dev-utils@1.0.57(@ebay/muse-core@1.0.37)(@ebay/muse-modules-analyzer@1.0.10)(express@4.18.2):
-    resolution: {integrity: sha512-YY3EEjQruLVk+mS+6vbWYa7Hwu7TVfjlPXUKr2ImL3FPYKS9imCf83C+ieQGCBkoVLB7Zn7BOH1Xfq00PHL6wg==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-dev-utils/-/@ebay/muse-dev-utils-1.0.57.tgz}
+  /@ebay/muse-core@1.0.40:
+    resolution: {integrity: sha512-W08fNd9kMmDMLT8xC7WATlabp5+W12UPdkWvsjiobFwyu1ohs0O0zqrI9HP2XiYOnf4wl2CuQ+iqVF/iTsyl4w==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-core/-/@ebay/muse-core-1.0.40.tgz}
+    dependencies:
+      ajv: 8.12.0
+      archiver: 5.3.2
+      colors: 1.4.0
+      cosmiconfig: 7.1.0
+      dotenv: 16.4.4
+      download: 8.0.0
+      fs-extra: 10.1.0
+      globby: 13.2.2
+      import-from: 4.0.0
+      javascript-time-ago: 2.5.9
+      js-plugin: 1.1.0
+      js-yaml: 4.1.0
+      lodash: 4.17.21
+      lru-cache: 6.0.0
+      path-to-regexp: 6.2.1
+      schema-utils: 4.2.0
+      semver: 7.6.0
+      triple-beam: 1.4.1
+      unzipper: 0.10.14
+      winston: 3.11.0
+      winston-transport: 4.7.0
+    dev: false
+
+  /@ebay/muse-dev-utils@1.0.65(@ebay/muse-core@1.0.37)(@ebay/muse-modules-analyzer@1.0.13)(express@4.18.2):
+    resolution: {integrity: sha512-BhVuG2VFA1LseESVLq2o8B21HVeonOJi0TieaTpcqSwC0le9lZ85ZIO7c8oj/AYrMTlfE1o2GFb8xhzC9wUm/A==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-dev-utils/-/@ebay/muse-dev-utils-1.0.65.tgz}
+    hasBin: true
     peerDependencies:
-      '@ebay/muse-core': 1.0.37
+      '@ebay/muse-core': ^1.0.40
       express: ^4.18.1
     dependencies:
       '@ebay/muse-core': 1.0.37
-      '@ebay/muse-express-middleware': 1.0.48(@ebay/muse-core@1.0.37)(@ebay/muse-modules-analyzer@1.0.10)
-      '@ebay/muse-modules': 1.0.27
+      '@ebay/muse-express-middleware': 1.0.52(@ebay/muse-core@1.0.37)(@ebay/muse-modules-analyzer@1.0.13)
+      '@ebay/muse-modules': 1.0.28
       chalk: 4.1.2
       dotenv: 16.4.4
       express: artifactory.corp.ebay.com/express@4.18.2
       lodash: 4.17.21
       resolve-cwd: 3.0.0
       resolve-from: 5.0.0
-      semver: 7.5.4
+      semver: 7.6.0
     transitivePeerDependencies:
       - '@ebay/muse-modules-analyzer'
     dev: false
 
-  /@ebay/muse-express-middleware@1.0.48(@ebay/muse-core@1.0.37)(@ebay/muse-modules-analyzer@1.0.10):
-    resolution: {integrity: sha512-HgAClxaM5tKVbnlXjjrTLfqHX5ujW9e9u9UwptJAxa0rN19OLzAJHVtJ3aI+XZso3CaFkGR978iqw1JmncCUMg==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-express-middleware/-/@ebay/muse-express-middleware-1.0.48.tgz}
+  /@ebay/muse-express-middleware@1.0.52(@ebay/muse-core@1.0.37)(@ebay/muse-modules-analyzer@1.0.13):
+    resolution: {integrity: sha512-nmP1fJVfnz9t+aNRRCtkX4DmHMVqVUg47hF3KiuPptWOaLHQeMCsdO8byLZByCPq0AmzEpHgEvfYJqz3gkhkwQ==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-express-middleware/-/@ebay/muse-express-middleware-1.0.52.tgz}
     peerDependencies:
-      '@ebay/muse-core': ^1.0.37
-      '@ebay/muse-modules-analyzer': ^1.0.10
+      '@ebay/muse-core': ^1.0.40
+      '@ebay/muse-modules-analyzer': ^1.0.13
     dependencies:
       '@ebay/muse-core': 1.0.37
-      '@ebay/muse-modules-analyzer': 1.0.10(eslint@8.47.0)(typescript@5.3.3)
+      '@ebay/muse-modules-analyzer': 1.0.13(eslint@8.47.0)(typescript@5.3.3)
       lodash: 4.17.21
       mime-types: 2.1.35
       multer: 1.4.5-lts.1
       request-ip: 3.3.0
     dev: false
 
-  /@ebay/muse-modules-analyzer@1.0.10(eslint@8.47.0)(typescript@5.3.3):
-    resolution: {integrity: sha512-qCko9NwYfDQpZrprbL/pJLpjXxzmrmpjM51KyzWYRqZkl2QEnC3nmW7WHrWOl53MCtqYUa68JsMNMdWeL6sHjw==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-modules-analyzer/-/@ebay/muse-modules-analyzer-1.0.10.tgz}
+  /@ebay/muse-modules-analyzer@1.0.13(eslint@8.47.0)(typescript@5.3.3):
+    resolution: {integrity: sha512-dQ4WuNT51xCnsg62N9uIec/ua0Iz0bkg1JUdu5bG/H8TZD+JGwvdF0ZhCGnCX+n3YRDyxnbSt/U32t0H7UzZ7Q==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-modules-analyzer/-/@ebay/muse-modules-analyzer-1.0.13.tgz}
     dependencies:
-      '@ebay/muse-core': 1.0.37
-      '@ebay/muse-modules': 1.0.27
+      '@ebay/muse-core': 1.0.40
+      '@ebay/muse-modules': 1.0.28
       '@types/jest': 27.5.2
       eslint-plugin-jest: 26.9.0(eslint@8.47.0)(jest@28.1.3)(typescript@5.3.3)
       fs-extra: 10.1.0
@@ -502,8 +529,8 @@ packages:
       - typescript
     dev: false
 
-  /@ebay/muse-modules@1.0.27:
-    resolution: {integrity: sha512-XLAzatJG1Q3q+HhchEDHibNlss0Pt22pZQ7QkWLxD88GRHGnl9UyF/em4K/6VTRQs9+NLfuK9ywn9Ph/m81KLw==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-modules/-/@ebay/muse-modules-1.0.27.tgz}
+  /@ebay/muse-modules@1.0.28:
+    resolution: {integrity: sha512-IoHl93RRx3GaOWBnVGS/A4E3Xs1PmnQCRXPGQo6Q3tUK/dQ2uivvChC1fOnFqp/sVyMpBCd5YEVPThEnxWvvug==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ebay/muse-modules/-/@ebay/muse-modules-1.0.28.tgz}
     dev: false
 
   /@eslint-community/eslint-utils@4.4.0(eslint@8.47.0):
@@ -2207,6 +2234,7 @@ packages:
   /fsevents@2.3.3:
     resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/fsevents/-/fsevents-2.3.3.tgz}
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
+    os: [darwin]
     requiresBuild: true
     dev: false
     optional: true
@@ -3689,6 +3717,7 @@ packages:
 
   /rimraf@3.0.2:
     resolution: {integrity: sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/rimraf/-/rimraf-3.0.2.tgz}
+    deprecated: Rimraf versions prior to v4 are no longer supported
     hasBin: true
     dependencies:
       glob: 7.2.3

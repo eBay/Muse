@@ -1,6 +1,6 @@
 {
   "name": "@ebay/muse-vite-plugin",
-  "version": "1.0.42",
+  "version": "1.0.43",
   "description": "",
   "main": "lib/museVitePlugin.js",
   "type": "module",

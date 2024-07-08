@@ -1,5 +1,11 @@
 # @ebay/muse-express-middleware
 
+## 1.0.53
+
+### Patch Changes
+
+- Support default favicon"
+
 ## 1.0.52
 
 ### Patch Changes
