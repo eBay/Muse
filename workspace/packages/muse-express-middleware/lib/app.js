@@ -94,6 +94,7 @@ module.exports = ({
   serviceWorkerCacheName = 'muse_assets',
   variables = {},
   pluginVariables = {},
+  defaultFavicon,
 }) => {
   let swContent = fs.readFileSync(path.join(__dirname, './sw.js')).toString();
   if (serviceWorkerCacheName) {
@@ -212,7 +213,7 @@ module.exports = ({
 
     const favicon = app.iconId
       ? `${cdn}/p/app-icon.${app.name}/v0.0.${app.iconId}/dist/icon.png`
-      : path.join(req.baseUrl || '/', 'favicon.png');
+      : defaultFavicon || path.join(req.baseUrl || '/', 'favicon.png');
     const ctx = {
       app,
       env,
