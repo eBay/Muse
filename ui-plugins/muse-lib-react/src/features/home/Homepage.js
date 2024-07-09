@@ -24,17 +24,17 @@ export default function Homepage() {
               Create a plugin
             </a>{' '}
             and{' '}
-            <a href="https://pages.github.corp.ebay.com/muse/muse-site/docs/get-started/customize-the-layout">
+            <a href="https://pages.github.corp.ebay.com/muse/muse-site/docs/get-started/customize-layout">
               define the layout/homepage
             </a>{' '}
             for the application.
           </li>
           <li>
-            <a href="https://pages.github.corp.ebay.com/muse/muse-site/docs/muse-management/build-plugin">
+            <a href="https://pages.github.corp.ebay.com/muse/muse-site/docs/muse-management/plugin-management#build-a-plugin">
               Build
             </a>{' '}
             and{' '}
-            <a href="https://pages.github.corp.ebay.com/muse/muse-site/docs/muse-management/deploy-plugin">
+            <a href="https://pages.github.corp.ebay.com/muse/muse-site/docs/muse-management/plugin-management#deploy-a-plugin">
               deploy
             </a>{' '}
             the Muse plugin to the application.
