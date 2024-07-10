@@ -49,7 +49,6 @@
     "util": "^0.12.5",
     "validate-npm-package-name": "^4.0.0",
     "vite": "^5.2.10",
-    "vite-plugin-css-injected-by-js": "^3.5.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

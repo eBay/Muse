@@ -95,9 +95,6 @@ devDependencies:
   vite:
     specifier: ^5.2.10
     version: 5.3.1(less@4.2.0)
-  vite-plugin-css-injected-by-js:
-    specifier: ^3.5.1
-    version: 3.5.1(vite@5.3.1)
   web-vitals:
     specifier: ^2.1.4
     version: 2.1.4
@@ -8206,14 +8203,6 @@ packages:
       is-buffer: 2.0.5
       unist-util-stringify-position: 2.0.3
       vfile-message: 2.0.4
-    dev: true
-
-  /vite-plugin-css-injected-by-js@3.5.1(vite@5.3.1):
-    resolution: {integrity: sha512-9ioqwDuEBxW55gNoWFEDhfLTrVKXEEZgl5adhWmmqa88EQGKfTmexy4v1Rh0pAS6RhKQs2bUYQArprB32JpUZQ==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/vite-plugin-css-injected-by-js/-/vite-plugin-css-injected-by-js-3.5.1.tgz}
-    peerDependencies:
-      vite: '>2.0.0-0'
-    dependencies:
-      vite: 5.3.1(less@4.2.0)
     dev: true
 
   /vite@5.3.1(less@4.2.0):
