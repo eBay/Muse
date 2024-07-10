@@ -1,5 +1,11 @@
 # @ebay/muse-vite-plugin
 
+## 1.0.44
+
+### Patch Changes
+
+- fix css asset load
+
 ## 1.0.43
 
 ### Patch Changes
