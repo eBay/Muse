@@ -14,7 +14,26 @@ export default function museRollupPlugin() {
       const museCode = getMuseModuleCode(museModule);
       return museCode;
     },
-    generateBundle() {
+    generateBundle(options, bundle) {
+      // For css assets, insert them to the header link
+      let cssInject = `\nconst cssInject = (fileName) => {
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = fileName;
+  document.head.appendChild(link);
+  return new Promise((resolve, reject) => {
+    link.onload = resolve;
+    link.onerror = reject;
+  });
+}\n`;
+      Object.values(bundle).forEach((b) => {
+        if (b.fileName?.endsWith('.css') && b.type === 'asset') {
+          cssInject += `MUSE_GLOBAL.waitFor(cssInject(new URL("${b.fileName}",import.meta.url)));\n`;
+        }
+      });
+      const entryBundle = Object.values(bundle).find((b) => b.isEntry);
+      if (!entryBundle) throw new Error('cant find entry bundle');
+      entryBundle.code += `\n${cssInject}\n`;
       // Generate deps manifest for deployment validation
       const depsManifestContent = {};
       for (const id in usedSharedModules) {
