@@ -20,6 +20,6 @@
     "eslint": "^8.20.0"
   },
   "dependencies": {
-    "axios": "^0.28.0"
+    "axios": "^1.6.4"
   }
 }
