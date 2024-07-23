@@ -1,10 +1,34 @@
-# muse-eco-e2e-test
+# muse-tests
 
-Smoking test for the whole Muse system.
+Full end to end tests for the whole Muse system.
 
 ## Included Testing Steps
 
 - Setup env to include all necessary packages.
+  - Clone all Muse source code from given repo/branch
+  - Install all deps
+  - Run unit tests under each workspace package
+  - Publish all packages under workspace to a local folder
+    - Use `pnpm pack` to get tgz files
+    - Define pnpm resolutions to map packages to tgz files (maybe need to extract)
+  - Build and publish all UI plugins to a local folder
+    - Run `pnpm build`
+    - Run `pnpm pack` to get tgz files
+    - Define pnpm resolutions to map packages to tgz files (maybe need to extract)
+  - Ensure the pnpm resolution is globally applied
+  - The step should be able to be skipped to test all published packages
+
+- E2E Tests
+  - App management
+    - Create an app
+      - Run `muse serve app`, should throw env not found exception (the default env is staging)
+    - Create an env on the app
+      - Run `muse serve app@staging`
+      - Verify `index.html` should throw error no boot plugin
+    - Create another env
+    - Update app
+    - Update env
+
 - Test very basic flow
   - Create an app
   - Deploy pure muse-boot-default + muse-lib-react plugin
@@ -42,6 +66,9 @@ Smoking test for the whole Muse system.
 - Test express middlewares: api, app, assets
 - Test acl plugin
 
+### Env Variables
+
+- MUSE_MONO_REPO
 
 ## Extend e2e tests
 Allow to load other plugins/scripts for extending the scope of e2e testing.

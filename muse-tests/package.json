@@ -3,16 +3,19 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "build": "docker build -t muse-tests .",
     "start": "docker run -p 127.0.0.1:5000-7000:5000-7000 muse-tests",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "zx tests/index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "debug": "^4.3.5",
     "fs-extra": "^10.1.0",
+    "js-plugin": "^1.1.0",
     "lodash": "^4.17.21",
     "puppeteer": "^22.11.2",
     "zx": "^7.2.3"
