@@ -10,6 +10,7 @@ import usePendingError from '../../hooks/usePendingError';
 import { useMuseMutation, useSyncStatus, useAbility, useMuseData } from '../../hooks';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import Nodes from '../common/Nodes';
+import NA from '../common/NA';
 
 const RequestStatuses = ({ request }) => {
   const colorMap = {
@@ -25,7 +26,7 @@ const RequestStatuses = ({ request }) => {
         <Tag key={s.name} color={colorMap[s.state]}>
           {s.message || s.name + ': ' + s.state}
         </Tag>
-      )) || 'N/A'}
+      )) || <NA />}
     </div>
   );
 };
@@ -100,7 +101,7 @@ const RequestDetailModalInner = ({ request, retry = true }) => {
         label: 'Started at',
         order: 50,
         viewWidget: ({ value: timestamp }) => {
-          return timestamp ? <TimeAgo date={new Date(timestamp)} /> : 'N/A';
+          return timestamp ? <TimeAgo date={new Date(timestamp)} /> : <NA />;
         },
       },
       {
