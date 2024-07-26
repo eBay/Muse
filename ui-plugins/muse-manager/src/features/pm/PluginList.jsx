@@ -17,8 +17,8 @@ import { versionDiff } from '../../utils';
 import PluginBadges from './PluginBadges';
 import { extendArray } from '@ebay/muse-lib-antd/src/utils';
 import OwnerList from '../common/OwnerList';
+import NA from '../common/NA';
 
-const NA = () => <span style={{ color: 'gray', fontSize: '13px' }}>N/A</span>;
 export default function PluginList({ app }) {
   const { data, isLoading, error } = usePollingMuseData('muse.plugins');
   const { data: latestReleases } = usePollingMuseData('muse.plugins.latest-releases');
@@ -138,7 +138,7 @@ export default function PluginList({ app }) {
     {
       dataIndex: 'latestVersion',
       title: 'Latest',
-      width: 120,
+      width: 170,
       order: 17,
       fixed: 'left',
       sorter: (a, b) => {
@@ -154,7 +154,7 @@ export default function PluginList({ app }) {
         const latest = latestReleases?.[plugin.name];
         if (!latest) return <NA />;
         // check if the latest release is created within 30 minutes
-        // if not, hidden the tooltip, otherwise, show the tooltip at the right side of the version
+        // if not, hidden the tooltip, otherwise, show the tooltip at the left side of the version
         const inPastHalfHour =
           (Date.now() - (latest?.createdAt && new Date(latest.createdAt).getTime()) || 0) <
           1000 * 60 * 30;
