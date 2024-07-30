@@ -70,15 +70,14 @@ const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
             }
           });
         const nodes = [
-          <Button
+          <a
             key={v}
-            type="link"
             onClick={() =>
               NiceModal.show('muse-manager.release-info-modal', { plugin, app, release })
             }
           >
             {v}
-          </Button>,
+          </a>,
           ...tags,
         ];
         return nodes;
