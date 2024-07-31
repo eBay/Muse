@@ -2,6 +2,7 @@
   "name": "@ebay/muse-core",
   "version": "1.0.40",
   "main": "lib/index.js",
+  "description": "Core APIs of Muse management.",
   "license": "MIT",
   "scripts": {
     "test": "jest",

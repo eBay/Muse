@@ -12,11 +12,30 @@ Full end to end tests for the whole Muse system.
     - Use `pnpm pack` to get tgz files
     - Define pnpm resolutions to map packages to tgz files (maybe need to extract)
   - Build and publish all UI plugins to a local folder
+    - Standard plugins
+      - @ebay/muse-boot-default
+      - @ebay/muse-lib-react
+      - @ebay/muse-lib-antd
+      - @ebay/muse-layout-antd
     - Run `pnpm build`
-    - Run `pnpm pack` to get tgz files
+    - Run `pnpm publish` for each ui-plugin
     - Define pnpm resolutions to map packages to tgz files (maybe need to extract)
-  - Ensure the pnpm resolution is globally applied
   - The step should be able to be skipped to test all published packages
+
+- Main Test FLow
+  - Create an app
+  - Create an env
+  - Deploy core plugins: boot, lib-react
+  - Deploy core plugins: antd, layout-antd
+  - Create a lib plugin
+  - Build the lib plugin
+  - Publish the lib plugin
+  - Create a normal plugin
+  - Create a init plugin
+  - Create a boot plugin
+  - Build plugins
+  - Deploy plugins
+  - Undeploy plugins
 
 - E2E Tests
   - App management

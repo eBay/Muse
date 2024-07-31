@@ -1,4 +1,6 @@
 import fs from 'fs-extra';
+import jsPlugin from 'js-plugin';
+import _ from 'lodash';
 import * as config from './config.js';
 
 export const getPkgFolderName = (pkgName) => pkgName.replace('@', '').replace('/', '-');
@@ -19,7 +21,20 @@ export const getLocalPackages = async () => {
   return pkgs;
 };
 
-// Modify pnpm overrides in package.json to use local package
-export const overrideLocalPackage = async ({ projectFolder, packageName, localPath }) => {
-  //
+export async function asyncInvoke(extPoint, ...args) {
+  extPoint = extPoint.replace(/^!.|!.$/g, '');
+  const plugins = jsPlugin.getPlugins(extPoint);
+  const res = [];
+  for (const p of plugins) {
+    const value = await _.invoke(p, extPoint, ...args);
+    res.push(value);
+  }
+  return res;
+}
+
+export const asyncInvokeInParrellel = async (extPoint, ...args) => {
+  extPoint = extPoint.replace(/^!.|!.$/g, '');
+  const plugins = jsPlugin.getPlugins(extPoint);
+  const res = await Promise.all(plugins.map((p) => _.invoke(p, extPoint, ...args)));
+  return res;
 };
