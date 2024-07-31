@@ -22,7 +22,8 @@ const PluginConfigModal = NiceModal.create(({ plugin, app }) => {
     isLoading: updateAppPending,
   } = useMuseMutation('am.updateApp');
 
-  const initialValues = { ...app, appName: app.name };
+  const initialValues = _.cloneDeep(app);
+  initialValues.appName = app.name;
   _.unset(initialValues, `pluginConfig.${plugin.name}.core`);
   const meta = {
     columns: 1,
