@@ -13,7 +13,6 @@ const buildAndPublish = async (dir) => {
   }
   await $`cd ${dir}`;
 
-  //TODO: why always need cd p before all cmds?
   await $`cd ${dir} && pnpm install --registry=${config.LOCAL_NPM_REGISTRY}`;
   await $`cd ${dir} && pnpm build`;
 
@@ -25,34 +24,19 @@ const buildAndPublish = async (dir) => {
   }
 
   await $`cd ${dir} && pnpm publish --no-git-check --force --registry=${config.LOCAL_NPM_REGISTRY}`;
-
-  // await $`cd ${dir}`;
-  // await $`cd ${dir} && pnpm install --registry=${config.LOCAL_NPM_REGISTRY}`;
-  // await $`cd ${dir} && pnpm build`;
-  // await $`pnpm publish --no-git-check --force --registry=${config.LOCAL_NPM_REGISTRY}`;
 };
 
 const buildAndPublishUiPlugins = async () => {
-  const folders = ['muse-boot-default', 'muse-lib-react'].map((name) =>
-    path.join(config.MUSE_REPO_LOCAL, `ui-plugins/${name}`),
-  );
+  // Note: the order matters here since later depends on the former
+  const folders = [
+    'muse-boot-default',
+    'muse-lib-react',
+    'muse-lib-antd',
+    'muse-layout-antd',
+    'muse-manager',
+  ].map((name) => path.join(config.MUSE_REPO_LOCAL, `ui-plugins/${name}`));
 
   for (const dir of folders) {
-    await buildAndPublish(dir);
-  }
-
-  const folders2 = ['muse-lib-antd', 'muse-layout-antd'].map((name) =>
-    path.join(config.MUSE_REPO_LOCAL, `ui-plugins/${name}`),
-  );
-
-  for (const dir of folders2) {
-    await buildAndPublish(dir);
-  }
-  const folders3 = ['muse-manager'].map((name) =>
-    path.join(config.MUSE_REPO_LOCAL, `ui-plugins/${name}`),
-  );
-
-  for (const dir of folders3) {
     await buildAndPublish(dir);
   }
 };

@@ -24,7 +24,7 @@ const setup = async () => {
   // await cloneMuseRepo();
   await startNpmRegistry();
   // await publishPackages();
-  // await buildAndPublishUiPlugins();
+  await buildAndPublishUiPlugins();
 
   log('setup done');
 
