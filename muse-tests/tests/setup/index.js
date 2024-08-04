@@ -9,8 +9,7 @@ import cloneMuseRepo from './cloneMuseRepo.js';
 import startNpmRegistry from './startNpmRegistry.js';
 import publishPackages from './publishPackages.js';
 import buildAndPublishUiPlugins from './buildAndPublishUiPlugins.js';
-
-const log = debug('setup');
+const log = debug('muse:setup');
 
 const setup = async () => {
   log('start setup');
@@ -23,7 +22,8 @@ const setup = async () => {
   // await fs.emptyDir(config.WORKING_DIR);
   // await cloneMuseRepo();
   await startNpmRegistry();
-  // await publishPackages();
+
+  await publishPackages();
   await buildAndPublishUiPlugins();
 
   log('setup done');

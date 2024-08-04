@@ -1,11 +1,10 @@
-import { defineConfig, transformWithEsbuild } from 'vite';
+import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
 import museVitePlugin from '@ebay/muse-vite-plugin';
-import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js';
 
-export default defineConfig(({ mode }) => {
+export default defineConfig(() => {
   return {
-    plugins: [react(), museVitePlugin(), cssInjectedByJsPlugin()],
+    plugins: [react(), museVitePlugin()],
     test: {
       include: ['(tests|src)/**/*.{test,spec}.?(c|m)[jt]s?(x)'],
       coverage: {

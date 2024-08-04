@@ -1,5 +1,7 @@
 import path from 'path';
 
+const __dirname = path.dirname(new URL(import.meta.url).pathname);
+
 export const MUSE_REPO_REMOTE = path.join(__dirname, '../../');
 export const WORKING_DIR = path.join(__dirname, '../tmp');
 export const MUSE_REPO_LOCAL = path.join(WORKING_DIR, 'muse-repo');

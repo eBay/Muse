@@ -5,7 +5,7 @@ import os from 'os';
 import path from 'path';
 import * as config from '../config.js';
 
-const log = debug('setup:start-npm-registry');
+const log = debug('muse:setup:start-npm-registry');
 
 const startNpmRegistry = async () => {
   log('start npm registry (verdaccio)');
@@ -21,6 +21,7 @@ const startNpmRegistry = async () => {
   const app = await runServer({
     self_path: config.WORKING_DIR,
     storage: config.VERDACCIO_STORAGE,
+    max_body_size: '100mb',
     web: {
       title: 'Verdaccio',
     },
@@ -46,7 +47,11 @@ const startNpmRegistry = async () => {
     server: {
       keepAliveTimeout: 60,
     },
+    log: {
+      level: 'info',
+    },
   });
+
   await new Promise((resolve) =>
     app.listen(config.LOCAL_NPM_REGISTRY_PORT, () => {
       // do something

@@ -1,6 +1,8 @@
 import fs from 'fs-extra';
+import path from 'path';
 import jsPlugin from 'js-plugin';
 import _ from 'lodash';
+import { $ } from 'zx';
 import * as config from './config.js';
 
 export const getPkgFolderName = (pkgName) => pkgName.replace('@', '').replace('/', '-');

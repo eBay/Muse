@@ -140,7 +140,7 @@ export default function MainLayout({ children }) {
   }
 
   const headerConfig = plugin.invoke('museLayout.header.getConfig')[0] || {};
-  const pluginVars = window.MUSE_GLOBAL.getPluginVariables('@ebay/muse-layout-antd');
+  const pluginVars = window.MUSE_GLOBAL.pluginVariables?.['@ebay/muse-layout-antd'];
   const isSubApp = window.MUSE_GLOBAL.isSubApp;
 
   const noHeader =

@@ -8,7 +8,8 @@
     "build": "docker build -t muse-tests .",
     "docker:run": "docker run -it -v /Users/pwang7/muse/muse-next/muse-tests/tmp:/testspace/tmp -p 127.0.0.1:5000-7000:5000-7000 muse-tests",
     "test:docer": "pnpm build & pnpm docker:run",
-    "test": "npx zx tests/index.js"
+    "start-local-registry": "node ./scripts/startLocalRegistry.js",
+    "test": "node tests/index.js"
   },
   "keywords": [],
   "author": "",
@@ -22,6 +23,7 @@
     "js-plugin": "^1.1.0",
     "lodash": "^4.17.21",
     "mocha": "^10.7.0",
+    "package-json": "^10.0.1",
     "puppeteer": "^22.11.2",
     "verdaccio": "^5.31.1",
     "zx": "^7.2.3"

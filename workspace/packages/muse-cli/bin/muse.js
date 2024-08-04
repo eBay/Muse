@@ -143,6 +143,9 @@ program
           pluginName: name,
           type: 'add',
           version: pkgs[name].version,
+          options: {
+            esModule: pkgs[name].type === 'module',
+          },
         })),
       },
     });
