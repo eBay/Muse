@@ -1,9 +1,10 @@
 import React, { useCallback } from 'react';
 import getIconNode from './getIconNode';
-import history from '@ebay/muse-lib-react/src/common/history';
+import { useNavigate } from 'react-router-dom';
 import { MetaMenu } from '@ebay/muse-lib-antd/src/features/common';
 
 export default function HeaderItem({ meta }) {
+  const navigate = useNavigate();
   const { label, link, linkTarget, onClick, icon, className = '' } = meta;
   const handleClick = useCallback(
     (evt) => {
@@ -15,7 +16,7 @@ export default function HeaderItem({ meta }) {
           if (link.startsWith('http:') || link.startsWith('https:')) {
             window.location.assign(link);
           } else {
-            history.push(link);
+            navigate(link);
           }
         }
       }
