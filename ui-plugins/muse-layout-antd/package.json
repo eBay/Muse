@@ -41,7 +41,7 @@
     "@ebay/muse-lib-antd": "1.2.22",
     "@ebay/muse-lib-react": "1.2.18",
     "@ebay/muse-typedoc-plugin": "^1.0.6",
-    "@ebay/muse-vite-plugin": "^1.0.41",
+    "@ebay/muse-vite-plugin": "^1.0.44",
     "@eslint/js": "^9.5.0",
     "@testing-library/jest-dom": "^6.1.4",
     "@testing-library/react": "^14.0.0",
