@@ -1,8 +1,8 @@
 # muse-tests
 
-Full end to end tests for the whole Muse system.
+Full end-to-end tests for the whole Muse system.
 
-## Included Testing Steps
+## Testing Steps
 
 - Setup env to include all necessary packages.
   - Clone all Muse source code from given repo/branch
