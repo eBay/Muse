@@ -6,10 +6,10 @@
   "type": "module",
   "scripts": {
     "build": "docker build -t muse-tests .",
-    "docker:run": "docker run -it -v /Users/pwang7/muse/muse-next/muse-tests/tmp:/testspace/tmp -p 127.0.0.1:5000-7000:5000-7000 muse-tests",
+    "docker:run": "node ./scripts/runTests.js",
     "test:docer": "pnpm build & pnpm docker:run",
     "start-local-registry": "node ./scripts/startLocalRegistry.js",
-    "test": "node tests/index.js"
+    "test": "node src/index.js"
   },
   "keywords": [],
   "author": "",
