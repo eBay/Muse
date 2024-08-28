@@ -34,7 +34,13 @@ try {
     ],
     [
       'name@1.0.4-beta.3/src/index.js',
-      { name: 'name', path: 'src/index.js', id: 'name/src/index.js', version: [1, 0, 4] },
+      {
+        name: 'name',
+        path: 'src/index.js',
+        id: 'name/src/index.js',
+        version: [1, 0, 4],
+        preRelease: 'beta.3',
+      },
     ],
     [
       '@ebay/name@1.0.4-beta.3/src/index.js',
@@ -54,9 +60,23 @@ try {
         version: [3, 1, 6],
       },
     ],
-    ['lib2@1.0.3/src/index.js', { name: 'lib2', path: 'src/index.js', id: 'lib2/src/index.js', version: [1, 0, 3] }],
+    [
+      'lib2@1.0.3/src/index.js',
+      { name: 'lib2', path: 'src/index.js', id: 'lib2/src/index.js', version: [1, 0, 3] },
+    ],
     [('@ebay/lib1@1.a.1/src/index.js', null)],
     ['lib1@2.1.1.2/src/index.js', null],
+    [
+      'lib1@2.1.1-alpha.1/src/index.js',
+      {
+        name: 'lib1',
+        path: 'src/index.js',
+        id: 'lib1/src/index.js',
+        museId: 'lib1@2.1.1-alpha.1/src/index.js',
+        version: [2, 1, 1],
+        preRelease: 'alpha.1',
+      },
+    ],
   ];
 
   testData.forEach(([moudleId, result]) => {
