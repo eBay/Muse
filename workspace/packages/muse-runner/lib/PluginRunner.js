@@ -37,8 +37,8 @@ export default class PluginRunner extends EventEmitter {
       env: {
         PORT: realPort,
         ...env,
-        SSL_CRT_FILE: '',
-        SSL_KEY_FILE: '',
+        // SSL_CRT_FILE: '',
+        // SSL_KEY_FILE: '',
         MUSE_CONFIG_FILE: '', // The config file should be empty, so that the plugin can use the default config.
       },
     });
