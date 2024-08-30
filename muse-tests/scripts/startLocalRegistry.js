@@ -1,3 +1,3 @@
-import startNpmRegistry from '../tests/setup/startNpmRegistry.js';
+import startNpmRegistry from '../src/setup/startNpmRegistry.js';
 
 startNpmRegistry();
