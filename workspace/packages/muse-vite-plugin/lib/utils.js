@@ -1,11 +1,22 @@
 import fs from 'fs-extra';
 import path from 'path';
-import findRoot from 'find-root';
 import { getMuseLibs } from '@ebay/muse-dev-utils/lib/utils.js';
 import museModules from '@ebay/muse-modules';
 
 const { findMuseModule, config } = museModules;
 config.matchVersion = 'major';
+
+function findRoot(p) {
+  const arr = p.split(/[\\/]/);
+  while (arr.length) {
+    const f = arr.join('/');
+    if (fs.existsSync(path.join(f.join('/'), 'package.json'))) {
+      return f;
+    }
+    arr.pop();
+  }
+  return null;
+}
 
 export function mergeObjects(obj1, obj2) {
   for (let key in obj2) {
