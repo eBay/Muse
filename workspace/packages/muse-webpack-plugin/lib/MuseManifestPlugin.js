@@ -79,9 +79,12 @@ class MuseManifestPlugin {
               const exportsInfo = moduleGraph.getExportsInfo(module);
               const providedExports = exportsInfo.getProvidedExports();
 
-              const id = chunkGraph.getModuleId(module);
+              const id = chunkGraph
+                .getModuleId(module)
+                .replace(/\\/g, '/')
+                .replace(/\/+/g, '/');
               const data = {
-                id: chunkGraph.getModuleId(module),
+                id,
                 buildMeta: module.buildMeta,
                 exports: Array.isArray(providedExports) ? providedExports : undefined,
               };

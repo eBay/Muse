@@ -29,6 +29,7 @@ const gt = (v1, v2) => !lt(v1, v2);
  * @returns
  */
 function findMuseModule(museId, museShared) {
+  museId = museId.replace(/\\/g, '/').replace(/\/+/g, '/');
   if (!museShared) museShared = MUSE_GLOBAL.__shared__;
 
   if (museShared.modules[museId]) {
