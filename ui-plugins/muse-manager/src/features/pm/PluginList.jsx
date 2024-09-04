@@ -172,7 +172,8 @@ export default function PluginList({ app }) {
             zIndex={9} // lower than header layout and modals
             getPopupContainer={(trigger) => trigger.parentElement}
           >
-            <a
+            <Button
+              type="link"
               onClick={() => {
                 NiceModal.show('muse-manager.release-info-modal', {
                   plugin,
@@ -181,10 +182,10 @@ export default function PluginList({ app }) {
                   isLatest: true,
                 });
               }}
-              style={{ textAlign: 'left', padding: 0 }}
+              className='text-left px-0 text-wrap h-auto'
             >
               v{latest.version}
-            </a>
+            </Button>
           </Tooltip>
         ) : (
           <Tooltip
@@ -195,7 +196,8 @@ export default function PluginList({ app }) {
               </>
             }
           >
-            <a
+            <Button
+              type="link"
               onClick={() => {
                 NiceModal.show('muse-manager.release-info-modal', {
                   plugin,
@@ -203,10 +205,10 @@ export default function PluginList({ app }) {
                   release: latest,
                 });
               }}
-              style={{ textAlign: 'left', padding: 0 }}
+              className='text-left px-0 text-wrap h-auto'
             >
               v{latest.version}
-            </a>
+            </Button>
           </Tooltip>
         );
       },
