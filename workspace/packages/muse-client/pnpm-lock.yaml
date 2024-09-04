@@ -6,13 +6,13 @@ settings:
 
 dependencies:
   axios:
-    specifier: ^0.28.0
-    version: 0.28.1
+    specifier: ^1.6.4
+    version: 1.7.7
 
 devDependencies:
   axios-mock-adapter:
     specifier: ^1.21.5
-    version: artifactory.corp.ebay.com/axios-mock-adapter@1.21.5(axios@0.28.1)
+    version: artifactory.corp.ebay.com/axios-mock-adapter@1.21.5(axios@1.7.7)
   eslint:
     specifier: ^8.20.0
     version: artifactory.corp.ebay.com/eslint@8.20.0
@@ -22,10 +22,10 @@ packages:
   /asynckit@0.4.0:
     resolution: {integrity: sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/asynckit/-/asynckit-0.4.0.tgz}
 
-  /axios@0.28.1:
-    resolution: {integrity: sha512-iUcGA5a7p0mVb4Gm/sy+FSECNkPFT4y7wt6OM/CDpO/OnNCvSs3PoMG8ibrC9jRoGYU0gUK5pXVC4NPXq6lHRQ==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/axios/-/axios-0.28.1.tgz}
+  /axios@1.7.7:
+    resolution: {integrity: sha512-S4kL7XrjgBmvdGut0sN3yJxqYzrDOnivkBiN0OFs6hLiUam3UPvswUo0kqGyhqUZGEOytHyumEdXsAkgCOUf3Q==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/axios/-/axios-1.7.7.tgz}
     dependencies:
-      follow-redirects: 1.15.3
+      follow-redirects: 1.15.6
       form-data: 4.0.0
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -45,8 +45,8 @@ packages:
     resolution: {integrity: sha512-ZySD7Nf91aLB0RxL4KGrKHBXl7Eds1DAmEdcoVawXnLD7SDhpNgtuII2aAkg7a7QS41jxPSZ17p4VdGnMHk3MQ==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/delayed-stream/-/delayed-stream-1.0.0.tgz}
     engines: {node: '>=0.4.0'}
 
-  /follow-redirects@1.15.3:
-    resolution: {integrity: sha512-1VzOtuEM8pC9SFU1E+8KfTjZyMztRsgEfwQl44z8A25uy13jSzTj6dyK2Df52iV0vgHCfBwLhDWevLn95w5v6Q==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/follow-redirects/-/follow-redirects-1.15.3.tgz}
+  /follow-redirects@1.15.6:
+    resolution: {integrity: sha512-wWN62YITEaOpSK584EZXJafH1AGpO8RVgElfkuXbTOrPX4fIfOyEpW/CsiNd8JdYrAoOvafRTOEnvsO++qCqFA==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/follow-redirects/-/follow-redirects-1.15.6.tgz}
     engines: {node: '>=4.0'}
     peerDependencies:
       debug: '*'
@@ -176,7 +176,7 @@ packages:
     version: 2.0.1
     dev: true
 
-  artifactory.corp.ebay.com/axios-mock-adapter@1.21.5(axios@0.28.1):
+  artifactory.corp.ebay.com/axios-mock-adapter@1.21.5(axios@1.7.7):
     resolution: {integrity: sha512-5NI1V/VK+8+JeTF8niqOowuysA4b8mGzdlMN/QnTnoXbYh4HZSNiopsDclN2g/m85+G++IrEtUdZaQ3GnaMsSA==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/axios-mock-adapter/-/axios-mock-adapter-1.21.5.tgz}
     id: artifactory.corp.ebay.com/axios-mock-adapter/1.21.5
     name: axios-mock-adapter
@@ -184,7 +184,7 @@ packages:
     peerDependencies:
       axios: '>= 0.17.0'
     dependencies:
-      axios: 0.28.1
+      axios: 1.7.7
       fast-deep-equal: artifactory.corp.ebay.com/fast-deep-equal@3.1.3
       is-buffer: artifactory.corp.ebay.com/is-buffer@2.0.5
     dev: true
