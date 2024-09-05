@@ -1,33 +1,36 @@
 #!/usr/bin/env zx
 import debug from 'debug';
+import 'dotenv/config';
 import jsPlugin from 'js-plugin';
-import path from 'path';
-import os from 'os';
-import fs from 'fs-extra';
 import setupMuse from './setup/index.js';
 import { asyncInvoke } from './utils.js';
-import mainFlow from './main-flow/index.js';
-import museCli from './muse-cli/index.js';
+import { $ } from 'zx';
+import mainFlow from './plugins/main-flow/index.js';
+import museCli from './plugins/muse-cli/index.js';
 import reporter from './reporter.js';
 
+$.verbose = true;
+
+console.log('abc');
 if (!process.env.DEBUG) {
   // we use debug as logger
   debug.enable('muse:*');
 }
 
 jsPlugin.config.throws = true;
-jsPlugin.register(museCli);
-jsPlugin.register(mainFlow);
 
-// Clone the repo and install muse-cli
+const allPlugins = [museCli, mainFlow];
+
+allPlugins.forEach((p) => {
+  // jsPlugin.register(p);
+});
+
 await setupMuse();
 
-// await fs.emptyDir(path.join(os.homedir(), 'muse-storage'));
-
-// await await asyncInvoke('preStart');
-// await asyncInvoke('start');
-// await asyncInvoke('postStart');
-
-// await asyncInvoke('end');
-
-// await reporter.report();
+await asyncInvoke('preStart');
+await asyncInvoke('start');
+await asyncInvoke('postStart');
+await asyncInvoke('preEnd');
+await asyncInvoke('end');
+await asyncInvoke('postEnd');
+await reporter.report();

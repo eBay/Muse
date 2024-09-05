@@ -12,10 +12,15 @@ const startNpmRegistry = async () => {
 
   // set fake token to allow annonymous npm publish to the local npm registry
   const npmrcPath = path.join(os.homedir(), '.npmrc');
-  await fs.appendFile(
-    npmrcPath,
-    `\n//localhost:${config.LOCAL_NPM_REGISTRY_PORT}/:_authToken=fakeToken\n`,
-  );
+  const line = `//localhost:${config.LOCAL_NPM_REGISTRY_PORT}/:_authToken=fakeToken`;
+  const content = await fs.readFile(npmrcPath, 'utf8');
+  if (!content.includes(line)) {
+    await fs.appendFile(
+      npmrcPath,
+      `\n//localhost:${config.LOCAL_NPM_REGISTRY_PORT}/:_authToken=fakeToken\n`,
+    );
+    return;
+  }
 
   // fs.emptyDir(config.VERDACCIO_STORAGE);
   const app = await runServer({
@@ -27,7 +32,7 @@ const startNpmRegistry = async () => {
     },
     uplinks: {
       npmjs: {
-        url: 'https://npm.corp.ebay.com/',
+        url: config.get('UPCOMING_NPM_REGISTRY'),
       },
     },
     packages: {
