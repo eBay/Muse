@@ -8,6 +8,7 @@ import { RequestStatus, DropdownMenu } from '@ebay/muse-lib-antd/src/features/co
 import { useAbility, usePollingMuseData, useMuseMutation, useSyncStatus } from '../../hooks';
 import { extendArray } from '@ebay/muse-lib-antd/src/utils';
 import Nodes from '../common/Nodes';
+import NA from '../common/NA';
 
 const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
   const modal = useModal();
@@ -69,15 +70,14 @@ const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
             }
           });
         const nodes = [
-          <Button
+          <a
             key={v}
-            type="link"
             onClick={() =>
               NiceModal.show('muse-manager.release-info-modal', { plugin, app, release })
             }
           >
             {v}
-          </Button>,
+          </a>,
           ...tags,
         ];
         return nodes;
@@ -94,7 +94,7 @@ const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
       order: 60,
       title: 'Time',
       render: (d) => {
-        return d ? <TimeAgo date={new Date(d).getTime()} /> : 'N/A';
+        return d ? <TimeAgo date={new Date(d).getTime()} /> : <NA />;
       },
     },
     {

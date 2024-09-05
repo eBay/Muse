@@ -6,6 +6,7 @@ import NiceForm from '@ebay/nice-form-react';
 import MultiPluginSelector from './MultiPluginSelector';
 import _ from 'lodash';
 import jsPlugin from 'js-plugin';
+import NA from '../common/NA';
 
 const PreviewModal = NiceModal.create(({ app }) => {
   const { envs } = app || {};
@@ -36,7 +37,7 @@ const PreviewModal = NiceModal.create(({ app }) => {
             const selectedRemovedPlugins = form.getFieldValue('pluginsToRemove');
             setDeployedPlugins(deployedPlugins);
             form.setFieldsValue({
-              pluginsToRemove: selectedRemovedPlugins.filter((name) =>
+              pluginsToRemove: selectedRemovedPlugins?.filter((name) =>
                 deployedPlugins.find((d) => d.name === name),
               ),
             });
@@ -70,7 +71,7 @@ const PreviewModal = NiceModal.create(({ app }) => {
             environment = envNames?.[0],
             pluginsToRemove,
           } = form.getFieldsValue();
-          if (!pluginToAdd?.length && !pluginsToRemove?.length && !environment) return 'N/A';
+          if (!pluginToAdd?.length && !pluginsToRemove?.length && !environment) return <NA />;
           const forcePlugins = (pluginToAdd || []).concat(
             pluginsToRemove?.map((pName) => ({ name: pName, version: null })) || [],
           );

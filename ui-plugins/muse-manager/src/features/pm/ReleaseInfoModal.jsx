@@ -6,6 +6,7 @@ import { extendFormMeta } from '@ebay/muse-lib-antd/src/utils';
 import TimeAgo from 'react-time-ago';
 import Nodes from '../common/Nodes';
 import { useMuseData } from '../../hooks';
+import NA from '../common/NA';
 
 const ReleaseInfoModal = NiceModal.create(({ release, app, plugin, version }) => {
   const modal = NiceModal.useModal();
@@ -36,7 +37,7 @@ const ReleaseInfoModal = NiceModal.create(({ release, app, plugin, version }) =>
         key: 'createdAt',
         label: 'Started at',
         viewWidget: ({ value }) => {
-          return value ? <TimeAgo date={new Date(value).getTime()} /> : 'N/A';
+          return value ? <TimeAgo date={new Date(value).getTime()} /> : <NA />;
         },
       },
       {
