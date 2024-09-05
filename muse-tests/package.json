@@ -17,6 +17,7 @@
   "dependencies": {
     "chai": "^5.1.1",
     "debug": "^4.3.5",
+    "dotenv": "^16.4.5",
     "eslint-plugin-mocha": "^10.4.3",
     "fs-extra": "^10.1.0",
     "glob": "^11.0.0",
@@ -26,7 +27,7 @@
     "package-json": "^10.0.1",
     "puppeteer": "^22.11.2",
     "verdaccio": "^5.31.1",
-    "zx": "^7.2.3"
+    "zx": "^8.1.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.7.0",

@@ -11,6 +11,9 @@ dependencies:
   debug:
     specifier: ^4.3.5
     version: 4.3.5(supports-color@8.1.1)
+  dotenv:
+    specifier: ^16.4.5
+    version: 16.4.5
   eslint-plugin-mocha:
     specifier: ^10.4.3
     version: 10.4.3(eslint@9.7.0)
@@ -39,8 +42,8 @@ dependencies:
     specifier: ^5.31.1
     version: 5.31.1(typanion@3.14.0)
   zx:
-    specifier: ^7.2.3
-    version: artifactory.corp.ebay.com/zx@7.2.3
+    specifier: ^8.1.5
+    version: 8.1.5
 
 devDependencies:
   '@eslint/js':
@@ -242,6 +245,23 @@ packages:
     resolution: {integrity: sha512-C5Mc6rdnsaJDjO3UpGW/CQTHtCKaYlScZTly4JIu97Jxo/odCiH0ITnDXSJPTOrEKk/ycSZ0AOgTmkDtkOsvIA==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@tootallnate/quickjs-emscripten/-/quickjs-emscripten-0.23.0.tgz}
     dev: false
 
+  /@types/fs-extra@11.0.4:
+    resolution: {integrity: sha512-yTbItCNreRooED33qjunPthRcSjERP1r4MqCZc7wv0u2sUkzTFp45tgUfS5+r7FrZPdmCCNflLhVSP/o+SemsQ==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@types/fs-extra/-/fs-extra-11.0.4.tgz}
+    requiresBuild: true
+    dependencies:
+      '@types/jsonfile': 6.1.4
+      '@types/node': 22.5.4
+    dev: false
+    optional: true
+
+  /@types/jsonfile@6.1.4:
+    resolution: {integrity: sha512-D5qGUYwjvnNNextdU59/+fI+spnwtTFmyQP0h+PfIOSkNfpU6AOICUOkm4i0OnSk+NyjdPJrxCDro0sJsWlRpQ==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@types/jsonfile/-/jsonfile-6.1.4.tgz}
+    requiresBuild: true
+    dependencies:
+      '@types/node': 22.5.4
+    dev: false
+    optional: true
+
   /@types/lodash@4.17.7:
     resolution: {integrity: sha512-8wTvZawATi/lsmNu10/j2hk1KEP0IvjubqPE3cu1Xz7xfXXt5oCq3SNUz4fMIP4XGF9Ky+Ue2tBA3hcS7LSBlA==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@types/lodash/-/lodash-4.17.7.tgz}
     dev: false
@@ -252,8 +272,16 @@ packages:
     dev: false
     optional: true
 
-  /@types/yauzl@2.10.1:
-    resolution: {integrity: sha512-CHzgNU3qYBnp/O4S3yv2tXPlvMTq0YWSTVg2/JYLqWZGHwwgJGAwd00poay/11asPq8wLFwHzubyInqHIFmmiw==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@types/yauzl/-/yauzl-2.10.1.tgz}
+  /@types/node@22.5.4:
+    resolution: {integrity: sha512-FDuKUJQm/ju9fT/SeX/6+gBzoPzlVCzfzmGkwKvRHQVxi4BntVbyIwf6a4Xn62mrvndLiml6z/UBXIdEVjQLXg==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@types/node/-/node-22.5.4.tgz}
+    requiresBuild: true
+    dependencies:
+      undici-types: 6.19.8
+    dev: false
+    optional: true
+
+  /@types/yauzl@2.10.3:
+    resolution: {integrity: sha512-oJoftv0LSuaDZE3Le4DbKX+KS9G36NzOeSap90UIK0yMA/NhKJhqlSGtNDORNRaIbQfzjXDrQa0ytJ6mNRGz/Q==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@types/yauzl/-/yauzl-2.10.3.tgz}
     requiresBuild: true
     dependencies:
       '@types/node': 18.18.4
@@ -658,8 +686,8 @@ packages:
     dev: false
     optional: true
 
-  /bare-fs@2.3.1:
-    resolution: {integrity: sha512-W/Hfxc/6VehXlsgFtbB5B4xFcsCl+pAh30cYhoFyXErf6oGrwjh8SwiPAdHgpmWonKuYpZgGywN0SXt7dgsADA==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/bare-fs/-/bare-fs-2.3.1.tgz}
+  /bare-fs@2.3.3:
+    resolution: {integrity: sha512-7RYKL+vZVCyAsMLi5SPu7QGauGGT8avnP/HO571ndEuV4MYdGXvLhtW67FuLPeEI8EiIY7zbbRR9x7x7HU0kgw==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/bare-fs/-/bare-fs-2.3.3.tgz}
     requiresBuild: true
     dependencies:
       bare-events: 2.4.2
@@ -1144,6 +1172,11 @@ packages:
     engines: {node: '>=0.3.1'}
     dev: false
 
+  /dotenv@16.4.5:
+    resolution: {integrity: sha512-ZmdL2rui+eB2YwhsWzjInR8LldtZHGDoQ1ugH85ppHKwpUHL7j7rN0Ti9NCnGiQbhaZ11FpR+7ao1dNsmduNUg==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/dotenv/-/dotenv-16.4.5.tgz}
+    engines: {node: '>=12'}
+    dev: false
+
   /duplexify@3.7.1:
     resolution: {integrity: sha512-07z8uv2wMyS51kKhD1KsdXJg5WQ6t93RneqRxUHnskXVtlYYkLqM0gqStQZ3pj073g687jPCHrqNfCzawLYh5g==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/duplexify/-/duplexify-3.7.1.tgz}
     dependencies:
@@ -1450,7 +1483,7 @@ packages:
       get-stream: 5.2.0
       yauzl: 2.10.0
     optionalDependencies:
-      '@types/yauzl': 2.10.1
+      '@types/yauzl': 2.10.3
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -1745,7 +1778,7 @@ packages:
       source-map: 0.6.1
       wordwrap: 1.0.0
     optionalDependencies:
-      uglify-js: 3.19.0
+      uglify-js: 3.19.3
     dev: false
 
   /has-flag@3.0.0:
@@ -3216,7 +3249,7 @@ packages:
       pump: 3.0.0
       tar-stream: 3.1.6
     optionalDependencies:
-      bare-fs: 2.3.1
+      bare-fs: 2.3.3
       bare-path: 2.1.3
     dev: false
 
@@ -3336,8 +3369,8 @@ packages:
       mime-types: 2.1.35
     dev: false
 
-  /uglify-js@3.19.0:
-    resolution: {integrity: sha512-wNKHUY2hYYkf6oSFfhwwiHo4WCHzHmzcXsqXYTN9ja3iApYIFbb2U6ics9hBcYLHcYGQoAlwnZlTrf3oF+BL/Q==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/uglify-js/-/uglify-js-3.19.0.tgz}
+  /uglify-js@3.19.3:
+    resolution: {integrity: sha512-v3Xu+yuwBXisp6QYTcH4UbH+xYJXqnq2m/LtQVWKWzYc1iehYnLixoQDN9FH6/j9/oybfd6W9Ghwkl8+UMKTKQ==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/uglify-js/-/uglify-js-3.19.3.tgz}
     engines: {node: '>=0.8.0'}
     hasBin: true
     requiresBuild: true
@@ -3350,6 +3383,12 @@ packages:
       buffer: 5.7.1
       through: 2.3.8
     dev: false
+
+  /undici-types@6.19.8:
+    resolution: {integrity: sha512-ve2KP6f/JnbPBFyobGHuerC9g1FYGn/F8n1LWTwNxCEzd6IfqTwUQcNXgEtmmQ6DlRrC1hrSrBnCZPokRrDHjw==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/undici-types/-/undici-types-6.19.8.tgz}
+    requiresBuild: true
+    dev: false
+    optional: true
 
   /universalify@0.1.2:
     resolution: {integrity: sha512-rBJeI5CXAlmy1pV+617WB9J63U6XcazHHF2f2dbJix4XzpUF0RS3Zbj0FGIOCAva5P/d/GBOYaACQ1w+0azUkg==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/universalify/-/universalify-0.1.2.tgz}
@@ -3656,179 +3695,13 @@ packages:
     resolution: {integrity: sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/zod/-/zod-3.23.8.tgz}
     dev: false
 
-  artifactory.corp.ebay.com/@nodelib/fs.scandir@2.1.5:
-    resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@nodelib/fs.scandir/-/fs.scandir-2.1.5.tgz}
-    name: '@nodelib/fs.scandir'
-    version: 2.1.5
-    engines: {node: '>= 8'}
-    dependencies:
-      '@nodelib/fs.stat': artifactory.corp.ebay.com/@nodelib/fs.stat@2.0.5
-      run-parallel: artifactory.corp.ebay.com/run-parallel@1.2.0
-    dev: false
-
-  artifactory.corp.ebay.com/@nodelib/fs.stat@2.0.5:
-    resolution: {integrity: sha512-RkhPPp2zrqDAQA/2jNhnztcPAlv64XdhIp7a7454A5ovI7Bukxgt7MX7udwAu3zg1DcpPU0rz3VV1SeaqvY4+A==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@nodelib/fs.stat/-/fs.stat-2.0.5.tgz}
-    name: '@nodelib/fs.stat'
-    version: 2.0.5
-    engines: {node: '>= 8'}
-    dev: false
-
-  artifactory.corp.ebay.com/@nodelib/fs.walk@1.2.8:
-    resolution: {integrity: sha512-oGB+UxlgWcgQkgwo8GcEGwemoTFt3FIO9ababBmaGwXIoBKZ+GTy0pP185beGg7Llih/NSHSV2XAs1lnznocSg==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@nodelib/fs.walk/-/fs.walk-1.2.8.tgz}
-    name: '@nodelib/fs.walk'
-    version: 1.2.8
-    engines: {node: '>= 8'}
-    dependencies:
-      '@nodelib/fs.scandir': artifactory.corp.ebay.com/@nodelib/fs.scandir@2.1.5
-      fastq: artifactory.corp.ebay.com/fastq@1.15.0
-    dev: false
-
-  artifactory.corp.ebay.com/@types/fs-extra@11.0.2:
-    resolution: {integrity: sha512-c0hrgAOVYr21EX8J0jBMXGLMgJqVf/v6yxi0dLaJboW9aQPh16Id+z6w2Tx1hm+piJOLv8xPfVKZCLfjPw/IMQ==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@types/fs-extra/-/fs-extra-11.0.2.tgz}
-    name: '@types/fs-extra'
-    version: 11.0.2
-    dependencies:
-      '@types/jsonfile': artifactory.corp.ebay.com/@types/jsonfile@6.1.2
-      '@types/node': artifactory.corp.ebay.com/@types/node@18.18.4
-    dev: false
-
-  artifactory.corp.ebay.com/@types/jsonfile@6.1.2:
-    resolution: {integrity: sha512-8t92P+oeW4d/CRQfJaSqEwXujrhH4OEeHRjGU3v1Q8mUS8GPF3yiX26sw4svv6faL2HfBtGTe2xWIoVgN3dy9w==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@types/jsonfile/-/jsonfile-6.1.2.tgz}
-    name: '@types/jsonfile'
-    version: 6.1.2
-    dependencies:
-      '@types/node': artifactory.corp.ebay.com/@types/node@18.18.4
-    dev: false
-
-  artifactory.corp.ebay.com/@types/minimist@1.2.3:
-    resolution: {integrity: sha512-ZYFzrvyWUNhaPomn80dsMNgMeXxNWZBdkuG/hWlUvXvbdUH8ZERNBGXnU87McuGcWDsyzX2aChCv/SVN348k3A==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@types/minimist/-/minimist-1.2.3.tgz}
-    name: '@types/minimist'
-    version: 1.2.3
-    dev: false
-
-  artifactory.corp.ebay.com/@types/node@18.18.4:
-    resolution: {integrity: sha512-t3rNFBgJRugIhackit2mVcLfF6IRc0JE4oeizPQL8Zrm8n2WY/0wOdpOPhdtG0V9Q2TlW/axbF1MJ6z+Yj/kKQ==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@types/node/-/node-18.18.4.tgz}
-    name: '@types/node'
-    version: 18.18.4
-    dev: false
-
-  artifactory.corp.ebay.com/@types/ps-tree@1.1.3:
-    resolution: {integrity: sha512-J8IrehehphLtxpABSekURTw9jthrlLcM4llH1I2fZ0zKaxq8jI/O1+Q/tabAJgBY/ffoqDxPRNYBM1lFUXm0lw==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@types/ps-tree/-/ps-tree-1.1.3.tgz}
-    name: '@types/ps-tree'
-    version: 1.1.3
-    dev: false
-
-  artifactory.corp.ebay.com/@types/which@3.0.0:
-    resolution: {integrity: sha512-ASCxdbsrwNfSMXALlC3Decif9rwDMu+80KGp5zI2RLRotfMsTv7fHL8W8VDp24wymzDyIFudhUeSCugrgRFfHQ==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@types/which/-/which-3.0.0.tgz}
-    name: '@types/which'
-    version: 3.0.0
-    dev: false
-
-  artifactory.corp.ebay.com/braces@3.0.2:
-    resolution: {integrity: sha512-b8um+L1RzM3WDSzvhm6gIz1yfTbBt6YTlcEKAvsmqCZZFw46z626lVj9j1yEPW33H5H+lBQpZMP1k8l+78Ha0A==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/braces/-/braces-3.0.2.tgz}
-    name: braces
-    version: 3.0.2
-    engines: {node: '>=8'}
-    dependencies:
-      fill-range: artifactory.corp.ebay.com/fill-range@7.0.1
-    dev: false
-
-  artifactory.corp.ebay.com/chalk@5.3.0:
-    resolution: {integrity: sha512-dLitG79d+GV1Nb/VYcCDFivJeK1hiukt9QjRNVOsUtTy1rR1YJsmpGGTZ3qJos+uw7WmWF4wUwBd9jxjocFC2w==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/chalk/-/chalk-5.3.0.tgz}
-    name: chalk
-    version: 5.3.0
-    engines: {node: ^12.17.0 || ^14.13 || >=16.0.0}
-    dev: false
-
-  artifactory.corp.ebay.com/data-uri-to-buffer@4.0.1:
-    resolution: {integrity: sha512-0R9ikRb668HB7QDxT1vkpuUBtqc53YyAwMwGeUFKRojY/NWKvdZ+9UYtRfGmhqNbRkTSVpMbmyhXipFFv2cb/A==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/data-uri-to-buffer/-/data-uri-to-buffer-4.0.1.tgz}
-    name: data-uri-to-buffer
-    version: 4.0.1
-    engines: {node: '>= 12'}
-    dev: false
-
-  artifactory.corp.ebay.com/dir-glob@3.0.1:
-    resolution: {integrity: sha512-WkrWp9GR4KXfKGYzOLmTuGVi1UWFfws377n9cc55/tb6DuqyF6pcQ5AbiHEshaDpY9v6oaSr2XCDidGmMwdzIA==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/dir-glob/-/dir-glob-3.0.1.tgz}
-    name: dir-glob
-    version: 3.0.1
-    engines: {node: '>=8'}
-    dependencies:
-      path-type: artifactory.corp.ebay.com/path-type@4.0.0
-    dev: false
-
-  artifactory.corp.ebay.com/duplexer@0.1.2:
-    resolution: {integrity: sha512-jtD6YG370ZCIi/9GTaJKQxWTZD045+4R4hTk/x1UyoqadyJ9x9CgSi1RlVDQF8U2sxLLSnFkCaMihqljHIWgMg==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/duplexer/-/duplexer-0.1.2.tgz}
-    name: duplexer
-    version: 0.1.2
-    dev: false
-
-  artifactory.corp.ebay.com/event-stream@3.3.4:
-    resolution: {integrity: sha512-QHpkERcGsR0T7Qm3HNJSyXKEEj8AHNxkY3PK8TS2KJvQ7NiSHe3DDpwVKKtoYprL/AreyzFBeIkBIWChAqn60g==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/event-stream/-/event-stream-3.3.4.tgz}
-    name: event-stream
-    version: 3.3.4
-    dependencies:
-      duplexer: artifactory.corp.ebay.com/duplexer@0.1.2
-      from: artifactory.corp.ebay.com/from@0.1.7
-      map-stream: artifactory.corp.ebay.com/map-stream@0.1.0
-      pause-stream: artifactory.corp.ebay.com/pause-stream@0.0.11
-      split: artifactory.corp.ebay.com/split@0.3.3
-      stream-combiner: artifactory.corp.ebay.com/stream-combiner@0.0.4
-      through: artifactory.corp.ebay.com/through@2.3.8
-    dev: false
-
-  artifactory.corp.ebay.com/fast-glob@3.3.1:
-    resolution: {integrity: sha512-kNFPyjhh5cKjrUltxs+wFx+ZkbRaxxmZ+X0ZU31SOsxCEtP9VPgtq2teZw1DebupL5GmDaNQ6yKMMVcM41iqDg==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/fast-glob/-/fast-glob-3.3.1.tgz}
-    name: fast-glob
-    version: 3.3.1
-    engines: {node: '>=8.6.0'}
-    dependencies:
-      '@nodelib/fs.stat': artifactory.corp.ebay.com/@nodelib/fs.stat@2.0.5
-      '@nodelib/fs.walk': artifactory.corp.ebay.com/@nodelib/fs.walk@1.2.8
-      glob-parent: artifactory.corp.ebay.com/glob-parent@5.1.2
-      merge2: artifactory.corp.ebay.com/merge2@1.4.1
-      micromatch: artifactory.corp.ebay.com/micromatch@4.0.5
-    dev: false
-
-  artifactory.corp.ebay.com/fastq@1.15.0:
-    resolution: {integrity: sha512-wBrocU2LCXXa+lWBt8RoIRD89Fi8OdABODa/kEnyeyjS5aZO5/GNvI5sEINADqP/h8M29UHTHUb53sUu5Ihqdw==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/fastq/-/fastq-1.15.0.tgz}
-    name: fastq
-    version: 1.15.0
-    dependencies:
-      reusify: artifactory.corp.ebay.com/reusify@1.0.4
-    dev: false
-
-  artifactory.corp.ebay.com/fetch-blob@3.2.0:
-    resolution: {integrity: sha512-7yAQpD2UMJzLi1Dqv7qFYnPbaPx7ZfFK6PiIxQ4PfkGPyNyl2Ugx+a/umUonmKqjhM4DnfbMvdX6otXq83soQQ==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/fetch-blob/-/fetch-blob-3.2.0.tgz}
-    name: fetch-blob
-    version: 3.2.0
-    engines: {node: ^12.20 || >= 14.13}
-    dependencies:
-      node-domexception: artifactory.corp.ebay.com/node-domexception@1.0.0
-      web-streams-polyfill: artifactory.corp.ebay.com/web-streams-polyfill@3.2.1
-    dev: false
-
-  artifactory.corp.ebay.com/fill-range@7.0.1:
-    resolution: {integrity: sha512-qOo9F+dMUmC2Lcb4BbVvnKJxTPjCm+RRpe4gDuGrzkL7mEVl/djYSu2OdQ2Pa302N4oqkSg9ir6jaLWJ2USVpQ==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/fill-range/-/fill-range-7.0.1.tgz}
-    name: fill-range
-    version: 7.0.1
-    engines: {node: '>=8'}
-    dependencies:
-      to-regex-range: artifactory.corp.ebay.com/to-regex-range@5.0.1
-    dev: false
-
-  artifactory.corp.ebay.com/formdata-polyfill@4.0.10:
-    resolution: {integrity: sha512-buewHzMvYL29jdeQTVILecSaZKnt/RJWjoZCF5OW60Z67/GmSLBkOFM7qh1PI3zFNtJbaZL5eQu1vLfazOwj4g==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/formdata-polyfill/-/formdata-polyfill-4.0.10.tgz}
-    name: formdata-polyfill
-    version: 4.0.10
-    engines: {node: '>=12.20.0'}
-    dependencies:
-      fetch-blob: artifactory.corp.ebay.com/fetch-blob@3.2.0
-    dev: false
-
-  artifactory.corp.ebay.com/from@0.1.7:
-    resolution: {integrity: sha512-twe20eF1OxVxp/ML/kq2p1uc6KvFK/+vs8WjEbeKmV2He22MKm7YF2ANIt+EOqhJ5L3K/SuuPhk0hWQDjOM23g==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/from/-/from-0.1.7.tgz}
-    name: from
-    version: 0.1.7
+  /zx@8.1.5:
+    resolution: {integrity: sha512-gvmiYPvDDEz2Gcc37x7pJkipTKcFIE18q9QlSI1p5qoPDtoSn3jmGuWD0eEb7HuxEH5aDD7N/RVgH8BqSxbKzA==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/zx/-/zx-8.1.5.tgz}
+    engines: {node: '>= 12.17.0'}
+    hasBin: true
+    optionalDependencies:
+      '@types/fs-extra': 11.0.4
+      '@types/node': 22.5.4
     dev: false
 
   artifactory.corp.ebay.com/fs-extra@10.1.0:
@@ -3842,86 +3715,10 @@ packages:
       universalify: artifactory.corp.ebay.com/universalify@2.0.0
     dev: false
 
-  artifactory.corp.ebay.com/fs-extra@11.1.1:
-    resolution: {integrity: sha512-MGIE4HOvQCeUCzmlHs0vXpih4ysz4wg9qiSAu6cd42lVwPbTM1TjV7RusoyQqMmk/95gdQZX72u+YW+c3eEpFQ==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/fs-extra/-/fs-extra-11.1.1.tgz}
-    name: fs-extra
-    version: 11.1.1
-    engines: {node: '>=14.14'}
-    dependencies:
-      graceful-fs: artifactory.corp.ebay.com/graceful-fs@4.2.11
-      jsonfile: artifactory.corp.ebay.com/jsonfile@6.1.0
-      universalify: artifactory.corp.ebay.com/universalify@2.0.0
-    dev: false
-
-  artifactory.corp.ebay.com/fx@30.2.0:
-    resolution: {integrity: sha512-rIYQBmx85Jfhd3pkSw06YPgvSvfTi022ZXTeFDkcCZGCs5nt3sjqFBGtcMFe1TR2S00RDz63be0ab5mhCiOLBw==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/fx/-/fx-30.2.0.tgz}
-    name: fx
-    version: 30.2.0
-    hasBin: true
-    dev: false
-
-  artifactory.corp.ebay.com/glob-parent@5.1.2:
-    resolution: {integrity: sha512-AOIgSQCepiJYwP3ARnGx+5VnTu2HBYdzbGP45eLw1vr3zB3vZLeyed1sC9hnbcOc9/SrMyM5RPQrkGz4aS9Zow==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/glob-parent/-/glob-parent-5.1.2.tgz}
-    name: glob-parent
-    version: 5.1.2
-    engines: {node: '>= 6'}
-    dependencies:
-      is-glob: artifactory.corp.ebay.com/is-glob@4.0.3
-    dev: false
-
-  artifactory.corp.ebay.com/globby@13.2.2:
-    resolution: {integrity: sha512-Y1zNGV+pzQdh7H39l9zgB4PJqjRNqydvdYCDG4HFXM4XuvSaQQlEc91IU1yALL8gUTDomgBAfz3XJdmUS+oo0w==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/globby/-/globby-13.2.2.tgz}
-    name: globby
-    version: 13.2.2
-    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
-    dependencies:
-      dir-glob: artifactory.corp.ebay.com/dir-glob@3.0.1
-      fast-glob: artifactory.corp.ebay.com/fast-glob@3.3.1
-      ignore: artifactory.corp.ebay.com/ignore@5.2.4
-      merge2: artifactory.corp.ebay.com/merge2@1.4.1
-      slash: artifactory.corp.ebay.com/slash@4.0.0
-    dev: false
-
   artifactory.corp.ebay.com/graceful-fs@4.2.11:
     resolution: {integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/graceful-fs/-/graceful-fs-4.2.11.tgz}
     name: graceful-fs
     version: 4.2.11
-    dev: false
-
-  artifactory.corp.ebay.com/ignore@5.2.4:
-    resolution: {integrity: sha512-MAb38BcSbH0eHNBxn7ql2NH/kX33OkB3lZ1BNdh7ENeRChHTYsTvWrMubiIAMNS2llXEEgZ1MUOBtXChP3kaFQ==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/ignore/-/ignore-5.2.4.tgz}
-    name: ignore
-    version: 5.2.4
-    engines: {node: '>= 4'}
-    dev: false
-
-  artifactory.corp.ebay.com/is-extglob@2.1.1:
-    resolution: {integrity: sha512-SbKbANkN603Vi4jEZv49LeVJMn4yGwsbzZworEoyEiutsN3nJYdbO36zfhGJ6QEDpOZIFkDtnq5JRxmvl3jsoQ==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/is-extglob/-/is-extglob-2.1.1.tgz}
-    name: is-extglob
-    version: 2.1.1
-    engines: {node: '>=0.10.0'}
-    dev: false
-
-  artifactory.corp.ebay.com/is-glob@4.0.3:
-    resolution: {integrity: sha512-xelSayHH36ZgE7ZWhli7pW34hNbNl8Ojv5KVmkJD4hBdD3th8Tfk9vYasLM+mXWOZhFkgZfxhLSnrwRr4elSSg==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/is-glob/-/is-glob-4.0.3.tgz}
-    name: is-glob
-    version: 4.0.3
-    engines: {node: '>=0.10.0'}
-    dependencies:
-      is-extglob: artifactory.corp.ebay.com/is-extglob@2.1.1
-    dev: false
-
-  artifactory.corp.ebay.com/is-number@7.0.0:
-    resolution: {integrity: sha512-41Cifkg6e8TylSpdtTpeLVMqvSBEVzTttHvERD741+pnZ8ANv0004MRL43QKPDlK9cGvNp6NZWZUBlbGXYxxng==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/is-number/-/is-number-7.0.0.tgz}
-    name: is-number
-    version: 7.0.0
-    engines: {node: '>=0.12.0'}
-    dev: false
-
-  artifactory.corp.ebay.com/isexe@2.0.0:
-    resolution: {integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/isexe/-/isexe-2.0.0.tgz}
-    name: isexe
-    version: 2.0.0
     dev: false
 
   artifactory.corp.ebay.com/jsonfile@6.1.0:
@@ -3940,202 +3737,9 @@ packages:
     version: 4.17.21
     dev: false
 
-  artifactory.corp.ebay.com/map-stream@0.1.0:
-    resolution: {integrity: sha512-CkYQrPYZfWnu/DAmVCpTSX/xHpKZ80eKh2lAkyA6AJTef6bW+6JpbQZN5rofum7da+SyN1bi5ctTm+lTfcCW3g==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/map-stream/-/map-stream-0.1.0.tgz}
-    name: map-stream
-    version: 0.1.0
-    dev: false
-
-  artifactory.corp.ebay.com/merge2@1.4.1:
-    resolution: {integrity: sha512-8q7VEgMJW4J8tcfVPy8g09NcQwZdbwFEqhe/WZkoIzjn/3TGDwtOCYtXGxA3O8tPzpczCCDgv+P2P5y00ZJOOg==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/merge2/-/merge2-1.4.1.tgz}
-    name: merge2
-    version: 1.4.1
-    engines: {node: '>= 8'}
-    dev: false
-
-  artifactory.corp.ebay.com/micromatch@4.0.5:
-    resolution: {integrity: sha512-DMy+ERcEW2q8Z2Po+WNXuw3c5YaUSFjAO5GsJqfEl7UjvtIuFKO6ZrKvcItdy98dwFI2N1tg3zNIdKaQT+aNdA==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/micromatch/-/micromatch-4.0.5.tgz}
-    name: micromatch
-    version: 4.0.5
-    engines: {node: '>=8.6'}
-    dependencies:
-      braces: artifactory.corp.ebay.com/braces@3.0.2
-      picomatch: artifactory.corp.ebay.com/picomatch@2.3.1
-    dev: false
-
-  artifactory.corp.ebay.com/minimist@1.2.8:
-    resolution: {integrity: sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/minimist/-/minimist-1.2.8.tgz}
-    name: minimist
-    version: 1.2.8
-    dev: false
-
-  artifactory.corp.ebay.com/node-domexception@1.0.0:
-    resolution: {integrity: sha512-/jKZoMpw0F8GRwl4/eLROPA3cfcXtLApP0QzLmUT/HuPCZWyB7IY9ZrMeKw2O/nFIqPQB3PVM9aYm0F312AXDQ==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/node-domexception/-/node-domexception-1.0.0.tgz}
-    name: node-domexception
-    version: 1.0.0
-    engines: {node: '>=10.5.0'}
-    dev: false
-
-  artifactory.corp.ebay.com/node-fetch@3.3.1:
-    resolution: {integrity: sha512-cRVc/kyto/7E5shrWca1Wsea4y6tL9iYJE5FBCius3JQfb/4P4I295PfhgbJQBLTx6lATE4z+wK0rPM4VS2uow==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/node-fetch/-/node-fetch-3.3.1.tgz}
-    name: node-fetch
-    version: 3.3.1
-    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
-    dependencies:
-      data-uri-to-buffer: artifactory.corp.ebay.com/data-uri-to-buffer@4.0.1
-      fetch-blob: artifactory.corp.ebay.com/fetch-blob@3.2.0
-      formdata-polyfill: artifactory.corp.ebay.com/formdata-polyfill@4.0.10
-    dev: false
-
-  artifactory.corp.ebay.com/path-type@4.0.0:
-    resolution: {integrity: sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/path-type/-/path-type-4.0.0.tgz}
-    name: path-type
-    version: 4.0.0
-    engines: {node: '>=8'}
-    dev: false
-
-  artifactory.corp.ebay.com/pause-stream@0.0.11:
-    resolution: {integrity: sha512-e3FBlXLmN/D1S+zHzanP4E/4Z60oFAa3O051qt1pxa7DEJWKAyil6upYVXCWadEnuoqa4Pkc9oUx9zsxYeRv8A==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/pause-stream/-/pause-stream-0.0.11.tgz}
-    name: pause-stream
-    version: 0.0.11
-    dependencies:
-      through: artifactory.corp.ebay.com/through@2.3.8
-    dev: false
-
-  artifactory.corp.ebay.com/picomatch@2.3.1:
-    resolution: {integrity: sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/picomatch/-/picomatch-2.3.1.tgz}
-    name: picomatch
-    version: 2.3.1
-    engines: {node: '>=8.6'}
-    dev: false
-
-  artifactory.corp.ebay.com/ps-tree@1.2.0:
-    resolution: {integrity: sha512-0VnamPPYHl4uaU/nSFeZZpR21QAWRz+sRv4iW9+v/GS/J5U5iZB5BNN6J0RMoOvdx2gWM2+ZFMIm58q24e4UYA==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/ps-tree/-/ps-tree-1.2.0.tgz}
-    name: ps-tree
-    version: 1.2.0
-    engines: {node: '>= 0.10'}
-    hasBin: true
-    dependencies:
-      event-stream: artifactory.corp.ebay.com/event-stream@3.3.4
-    dev: false
-
-  artifactory.corp.ebay.com/queue-microtask@1.2.3:
-    resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/queue-microtask/-/queue-microtask-1.2.3.tgz}
-    name: queue-microtask
-    version: 1.2.3
-    dev: false
-
-  artifactory.corp.ebay.com/reusify@1.0.4:
-    resolution: {integrity: sha512-U9nH88a3fc/ekCF1l0/UP1IosiuIjyTh7hBvXVMHYgVcfGvt897Xguj2UOLDeI5BG2m7/uwyaLVT6fbtCwTyzw==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/reusify/-/reusify-1.0.4.tgz}
-    name: reusify
-    version: 1.0.4
-    engines: {iojs: '>=1.0.0', node: '>=0.10.0'}
-    dev: false
-
-  artifactory.corp.ebay.com/run-parallel@1.2.0:
-    resolution: {integrity: sha512-5l4VyZR86LZ/lDxZTR6jqL8AFE2S0IFLMP26AbjsLVADxHdhB/c0GUsH+y39UfCi3dzz8OlQuPmnaJOMoDHQBA==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/run-parallel/-/run-parallel-1.2.0.tgz}
-    name: run-parallel
-    version: 1.2.0
-    dependencies:
-      queue-microtask: artifactory.corp.ebay.com/queue-microtask@1.2.3
-    dev: false
-
-  artifactory.corp.ebay.com/slash@4.0.0:
-    resolution: {integrity: sha512-3dOsAHXXUkQTpOYcoAxLIorMTp4gIQr5IW3iVb7A7lFIp0VHhnynm9izx6TssdrIcVIESAlVjtnO2K8bg+Coew==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/slash/-/slash-4.0.0.tgz}
-    name: slash
-    version: 4.0.0
-    engines: {node: '>=12'}
-    dev: false
-
-  artifactory.corp.ebay.com/split@0.3.3:
-    resolution: {integrity: sha512-wD2AeVmxXRBoX44wAycgjVpMhvbwdI2aZjCkvfNcH1YqHQvJVa1duWc73OyVGJUc05fhFaTZeQ/PYsrmyH0JVA==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/split/-/split-0.3.3.tgz}
-    name: split
-    version: 0.3.3
-    dependencies:
-      through: artifactory.corp.ebay.com/through@2.3.8
-    dev: false
-
-  artifactory.corp.ebay.com/stream-combiner@0.0.4:
-    resolution: {integrity: sha512-rT00SPnTVyRsaSz5zgSPma/aHSOic5U1prhYdRy5HS2kTZviFpmDgzilbtsJsxiroqACmayynDN/9VzIbX5DOw==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/stream-combiner/-/stream-combiner-0.0.4.tgz}
-    name: stream-combiner
-    version: 0.0.4
-    dependencies:
-      duplexer: artifactory.corp.ebay.com/duplexer@0.1.2
-    dev: false
-
-  artifactory.corp.ebay.com/through@2.3.8:
-    resolution: {integrity: sha512-w89qg7PI8wAdvX60bMDP+bFoD5Dvhm9oLheFp5O4a2QF0cSBGsBX4qZmadPMvVqlLJBBci+WqGGOAPvcDeNSVg==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/through/-/through-2.3.8.tgz}
-    name: through
-    version: 2.3.8
-    dev: false
-
-  artifactory.corp.ebay.com/to-regex-range@5.0.1:
-    resolution: {integrity: sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/to-regex-range/-/to-regex-range-5.0.1.tgz}
-    name: to-regex-range
-    version: 5.0.1
-    engines: {node: '>=8.0'}
-    dependencies:
-      is-number: artifactory.corp.ebay.com/is-number@7.0.0
-    dev: false
-
   artifactory.corp.ebay.com/universalify@2.0.0:
     resolution: {integrity: sha512-hAZsKq7Yy11Zu1DE0OzWjw7nnLZmJZYTDZZyEFHZdUhV8FkH5MCfoU1XMaxXovpyW5nq5scPqq0ZDP9Zyl04oQ==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/universalify/-/universalify-2.0.0.tgz}
     name: universalify
     version: 2.0.0
     engines: {node: '>= 10.0.0'}
-    dev: false
-
-  artifactory.corp.ebay.com/web-streams-polyfill@3.2.1:
-    resolution: {integrity: sha512-e0MO3wdXWKrLbL0DgGnUV7WHVuw9OUvL4hjgnPkIeEvESk74gAITi5G606JtZPp39cd8HA9VQzCIvA49LpPN5Q==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/web-streams-polyfill/-/web-streams-polyfill-3.2.1.tgz}
-    name: web-streams-polyfill
-    version: 3.2.1
-    engines: {node: '>= 8'}
-    dev: false
-
-  artifactory.corp.ebay.com/webpod@0.0.2:
-    resolution: {integrity: sha512-cSwwQIeg8v4i3p4ajHhwgR7N6VyxAf+KYSSsY6Pd3aETE+xEU4vbitz7qQkB0I321xnhDdgtxuiSfk5r/FVtjg==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/webpod/-/webpod-0.0.2.tgz}
-    name: webpod
-    version: 0.0.2
-    hasBin: true
-    dev: false
-
-  artifactory.corp.ebay.com/which@3.0.1:
-    resolution: {integrity: sha512-XA1b62dzQzLfaEOSQFTCOd5KFf/1VSzZo7/7TUjnya6u0vGGKzU96UQBZTAThCb2j4/xjBAyii1OhRLJEivHvg==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/which/-/which-3.0.1.tgz}
-    name: which
-    version: 3.0.1
-    engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
-    hasBin: true
-    dependencies:
-      isexe: artifactory.corp.ebay.com/isexe@2.0.0
-    dev: false
-
-  artifactory.corp.ebay.com/yaml@2.3.2:
-    resolution: {integrity: sha512-N/lyzTPaJasoDmfV7YTrYCI0G/3ivm/9wdG0aHuheKowWQwGTsK0Eoiw6utmzAnI6pkJa0DUVygvp3spqqEKXg==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/yaml/-/yaml-2.3.2.tgz}
-    name: yaml
-    version: 2.3.2
-    engines: {node: '>= 14'}
-    dev: false
-
-  artifactory.corp.ebay.com/zx@7.2.3:
-    resolution: {integrity: sha512-QODu38nLlYXg/B/Gw7ZKiZrvPkEsjPN3LQ5JFXM7h0JvwhEdPNNl+4Ao1y4+o3CLNiDUNcwzQYZ4/Ko7kKzCMA==, registry: https://npm.corp.ebay.com/, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/zx/-/zx-7.2.3.tgz}
-    name: zx
-    version: 7.2.3
-    engines: {node: '>= 16.0.0'}
-    hasBin: true
-    dependencies:
-      '@types/fs-extra': artifactory.corp.ebay.com/@types/fs-extra@11.0.2
-      '@types/minimist': artifactory.corp.ebay.com/@types/minimist@1.2.3
-      '@types/node': artifactory.corp.ebay.com/@types/node@18.18.4
-      '@types/ps-tree': artifactory.corp.ebay.com/@types/ps-tree@1.1.3
-      '@types/which': artifactory.corp.ebay.com/@types/which@3.0.0
-      chalk: artifactory.corp.ebay.com/chalk@5.3.0
-      fs-extra: artifactory.corp.ebay.com/fs-extra@11.1.1
-      fx: artifactory.corp.ebay.com/fx@30.2.0
-      globby: artifactory.corp.ebay.com/globby@13.2.2
-      minimist: artifactory.corp.ebay.com/minimist@1.2.8
-      node-fetch: artifactory.corp.ebay.com/node-fetch@3.3.1
-      ps-tree: artifactory.corp.ebay.com/ps-tree@1.2.0
-      webpod: artifactory.corp.ebay.com/webpod@0.0.2
-      which: artifactory.corp.ebay.com/which@3.0.1
-      yaml: artifactory.corp.ebay.com/yaml@2.3.2
     dev: false

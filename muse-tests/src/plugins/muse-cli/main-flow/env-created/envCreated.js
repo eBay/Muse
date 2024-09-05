@@ -1,4 +1,4 @@
-import MochaRunner from '../../../MochaRunner.js';
+import MochaRunner from '../../../../MochaRunner.js';
 
 const envCreated = async ({ appName, envName }) => {
   //

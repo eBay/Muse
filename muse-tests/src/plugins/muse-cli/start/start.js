@@ -1,5 +1,5 @@
 import * as url from 'url';
-import MochaRunner from '../../MochaRunner.js';
+import MochaRunner from '../../../MochaRunner.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 

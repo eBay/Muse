@@ -1,5 +1,5 @@
 import { $ } from 'zx';
-import { asyncInvoke } from '../utils.js';
+import { asyncInvoke } from '../../utils.js';
 
 const start = async () => {
   await $`muse create-app app1`;
