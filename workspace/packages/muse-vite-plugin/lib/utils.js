@@ -10,7 +10,7 @@ function findRoot(p) {
   const arr = p.split(/[\\/]/);
   while (arr.length) {
     const f = arr.join('/');
-    if (fs.existsSync(path.join(f.join('/'), 'package.json'))) {
+    if (fs.existsSync(path.join(f, 'package.json'))) {
       return f;
     }
     arr.pop();
