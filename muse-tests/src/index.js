@@ -35,4 +35,4 @@ await asyncInvoke('postStart');
 await asyncInvoke('preEnd');
 await asyncInvoke('end');
 await asyncInvoke('postEnd');
-await reporter.report();
+reporter.report();
