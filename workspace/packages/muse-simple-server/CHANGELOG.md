@@ -1,5 +1,11 @@
 # @ebay/muse-simple-server
 
+## 1.0.31
+
+### Patch Changes
+
+- @ebay/muse-express-middleware@1.0.54
+
 ## 1.0.30
 
 ### Patch Changes

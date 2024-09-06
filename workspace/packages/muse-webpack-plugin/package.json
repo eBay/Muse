@@ -1,6 +1,6 @@
 {
   "name": "@ebay/muse-webpack-plugin",
-  "version": "1.0.36",
+  "version": "1.0.37",
   "description": "Muse webpack plugin.",
   "main": "lib/index.js",
   "repository": "git@github.corp.ebay.com:muse/muse-next.git",
