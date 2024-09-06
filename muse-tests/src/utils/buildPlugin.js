@@ -22,8 +22,6 @@ const buildPlugin = async (dir) => {
 
   fs.writeJsonSync(pkgJsonPath, pkgJson, { spaces: 2 });
 
-  await $`cd ${dir}`;
-
   await $`cd ${dir} && pnpm install --registry=${config.LOCAL_NPM_REGISTRY}`;
   await $`cd ${dir} && pnpm build`;
 
