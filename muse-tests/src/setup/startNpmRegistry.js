@@ -4,6 +4,7 @@ import fs from 'fs-extra';
 import os from 'os';
 import path from 'path';
 import * as config from '../config.js';
+debug.enable('muse:*');
 
 const log = debug('muse:setup:start-npm-registry');
 
@@ -22,7 +23,10 @@ const startNpmRegistry = async () => {
     return;
   }
 
-  // fs.emptyDir(config.VERDACCIO_STORAGE);
+  if (config.isFlagEnabled('RESET_VERDACCIO_STORAGE') || !fs.existsSync(config.VERDACCIO_STORAGE)) {
+    await fs.emptyDir(config.VERDACCIO_STORAGE);
+  }
+
   const app = await runServer({
     self_path: config.WORKING_DIR,
     storage: config.VERDACCIO_STORAGE,

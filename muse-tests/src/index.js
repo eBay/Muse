@@ -8,10 +8,12 @@ import { $ } from 'zx';
 import mainFlow from './plugins/main-flow/index.js';
 import museCli from './plugins/muse-cli/index.js';
 import reporter from './reporter.js';
+import { assertVariablesExist } from './config.js';
 
 $.verbose = true;
 
-console.log('abc');
+assertVariablesExist();
+
 if (!process.env.DEBUG) {
   // we use debug as logger
   debug.enable('muse:*');
