@@ -14,10 +14,6 @@ const log = debug('muse:setup');
 const setup = async () => {
   log('start setup');
 
-  const npmrcPath = path.join(os.homedir(), '.npmrc');
-  await fs.ensureFile(npmrcPath);
-  // fs.appendFileSync(npmrcPath, `registry=${config.LOCAL_NPM_REGISTRY}\n`);
-
   if (config.isFlagEnabled('RESET_WORKING_DIR')) {
     await fs.emptyDir(config.WORKING_DIR);
   }
@@ -28,15 +24,15 @@ const setup = async () => {
 
   // For verification test, just use all public published packages to run all tests
   if (!config.isFlagEnabled('VERIFICATION_TEST')) {
-    await cloneMuseRepo();
     await startNpmRegistry();
+    await cloneMuseRepo();
     await publishPackages();
     await buildAndPublishUiPlugins();
   }
 
   // Install Muse CLI
   log('installing muse-cli');
-  await $`npm i -g @ebay/muse-cli`;
+  await $`npm i -g @ebay/muse-cli --registry=${config.NPM_REGISTRY}`;
   await $`muse -v`;
   log('muse-cli installed');
 
