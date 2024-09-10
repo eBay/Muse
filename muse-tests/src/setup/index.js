@@ -15,11 +15,17 @@ const setup = async () => {
   log('start setup');
 
   if (config.isFlagEnabled('RESET_WORKING_DIR')) {
+    log('reset working dir');
     await fs.emptyDir(config.WORKING_DIR);
+  } else {
+    log('working dir not reset');
   }
 
   if (config.isFlagEnabled('RESET_MUSE_STORAGE')) {
+    log('reset muse storage');
     await fs.emptyDir(path.join(os.homedir(), 'muse-storage'));
+  } else {
+    log('muse storage not reset');
   }
 
   // For verification test, just use all public published packages to run all tests

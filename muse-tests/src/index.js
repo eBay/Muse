@@ -4,7 +4,7 @@ import 'dotenv/config';
 import jsPlugin from 'js-plugin';
 import setupMuse from './setup/index.js';
 import { asyncInvoke } from './utils.js';
-import { $ } from 'zx';
+import { $, os, usePwsh } from 'zx';
 import mainFlow from './plugins/main-flow/index.js';
 import museCli from './plugins/muse-cli/index.js';
 import reporter from './reporter.js';
@@ -12,10 +12,15 @@ import { assertVariablesExist } from './config.js';
 
 $.verbose = true;
 
+if (os.platform() === 'win32') {
+  usePwsh();
+}
+
 assertVariablesExist();
 
 if (!process.env.DEBUG) {
   // we use debug as logger
+  console.log('using debug mode');
   debug.enable('muse:*');
 }
 
@@ -27,6 +32,11 @@ allPlugins.forEach((p) => {
   // jsPlugin.register(p);
 });
 
+console.log('System information:');
+console.log('  - node: ', await $`node -v`);
+console.log('  - pnpm: ', await $`pnpm -v`);
+
+await `node -v`;
 await setupMuse();
 
 await asyncInvoke('preStart');

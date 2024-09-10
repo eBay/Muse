@@ -18,7 +18,8 @@ COPY ./pnpm-lock.yaml ./pnpm-lock.yaml
 
 RUN pnpm i
 
-COPY ./tests ./tests
+COPY ./.env ./.env
+COPY ./src ./src
 
 # Execute tests
-CMD ["zx", "./tests/index.js"]
+# CMD ["node", "./src/index.js"]
