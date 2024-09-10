@@ -13,6 +13,7 @@ const startNpmRegistry = async () => {
 
   // set fake token to allow annonymous npm publish to the local npm registry
   const npmrcPath = path.join(os.homedir(), '.npmrc');
+  fs.ensureFileSync(npmrcPath);
   const line = `//localhost:${config.LOCAL_NPM_REGISTRY_PORT}/:_authToken=fakeToken`;
   const content = await fs.readFile(npmrcPath, 'utf8');
   if (!content.includes(line)) {
@@ -57,17 +58,24 @@ const startNpmRegistry = async () => {
       keepAliveTimeout: 60,
     },
     log: {
-      level: 'info',
+      type: 'stdout',
+      level: 'error',
     },
   });
 
-  await new Promise((resolve) =>
-    app.listen(config.LOCAL_NPM_REGISTRY_PORT, () => {
-      // do something
-      log('npm registry started');
-      resolve();
-    }),
-  );
+  log('server started');
+
+  await new Promise((resolve, reject) => {
+    try {
+      app.listen(config.LOCAL_NPM_REGISTRY_PORT, () => {
+        log('npm registry started');
+        resolve();
+      });
+    } catch (err) {
+      log(err);
+      reject(err);
+    }
+  });
 
   return app;
 };

@@ -45,7 +45,7 @@ export const assertVariablesExist = () => {
     get('UPCOMING_NPM_REGISTRY'),
   ];
 
-  varsToExist.forEach((v) => {
-    if (!v) throw new Error('Some env variables not exist');
+  varsToExist.forEach((v, i) => {
+    if (!v) throw new Error('Env variable not exist at index: ' + i);
   });
 };

@@ -22,7 +22,11 @@ const buildPlugin = async (dir) => {
 
   fs.writeJsonSync(pkgJsonPath, pkgJson, { spaces: 2 });
 
-  await $`cd ${dir} && pnpm install --registry=${config.NPM_REGISTRY}`;
+  if (config.isFlagEnabled('RESET_PNPM_LOCK') && fs.existsSync(path.join(dir, 'pnpm-lock.yaml'))) {
+    fs.removeSync(path.join(dir, 'pnpm-lock.yaml'));
+  }
+
+  await $`cd ${dir} && pnpm install --registry=${config.LOCAL_NPM_REGISTRY}`;
   await $`cd ${dir} && pnpm build`;
 
   if (pkgJson.scripts['build:dev']) {
