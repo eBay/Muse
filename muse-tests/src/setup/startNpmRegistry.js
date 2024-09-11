@@ -54,7 +54,7 @@ const startNpmRegistry = async () => {
     server: {
       keepAliveTimeout: 60,
     },
-    log: {
+    logs: {
       type: 'stdout',
       level: 'error',
     },
