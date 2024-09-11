@@ -20,7 +20,7 @@ const start = async () => {
   await asyncInvoke('mainFlow.pluginCreated', { pluginName: 'plugin1' });
 
   // Create plugin project
-  await $`muse create-plugin-project plugin1 project1`;
+  // await $`muse create-plugin-project plugin1 project1`;
 
   // build a plugin
 };
