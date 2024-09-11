@@ -29,7 +29,7 @@ jsPlugin.config.throws = true;
 const allPlugins = [museCli, mainFlow];
 
 allPlugins.forEach((p) => {
-  // jsPlugin.register(p);
+  jsPlugin.register(p);
 });
 
 await $`node -v`;
