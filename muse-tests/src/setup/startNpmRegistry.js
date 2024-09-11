@@ -10,7 +10,6 @@ const log = debug('muse:setup:start-npm-registry');
 
 const startNpmRegistry = async () => {
   log('start npm registry (verdaccio)');
-
   // set fake token to allow annonymous npm publish to the local npm registry
   const npmrcPath = path.join(os.homedir(), '.npmrc');
   fs.ensureFileSync(npmrcPath);
@@ -21,13 +20,11 @@ const startNpmRegistry = async () => {
       npmrcPath,
       `\n//localhost:${config.LOCAL_NPM_REGISTRY_PORT}/:_authToken=fakeToken\n`,
     );
-    return;
   }
 
   if (config.isFlagEnabled('RESET_VERDACCIO_STORAGE') || !fs.existsSync(config.VERDACCIO_STORAGE)) {
     await fs.emptyDir(config.VERDACCIO_STORAGE);
   }
-
   const app = await runServer({
     self_path: config.WORKING_DIR,
     storage: config.VERDACCIO_STORAGE,

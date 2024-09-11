@@ -22,4 +22,4 @@ COPY ./.env ./.env
 COPY ./src ./src
 
 # Execute tests
-# CMD ["node", "./src/index.js"]
+CMD ["node", "./src/index.js"]

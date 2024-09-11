@@ -32,11 +32,9 @@ allPlugins.forEach((p) => {
   // jsPlugin.register(p);
 });
 
-console.log('System information:');
-console.log('  - node: ', await $`node -v`);
-console.log('  - pnpm: ', await $`pnpm -v`);
+await $`node -v`;
+await $`pnpm -v`;
 
-await `node -v`;
 await setupMuse();
 
 await asyncInvoke('preStart');
