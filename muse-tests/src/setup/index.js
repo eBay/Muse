@@ -42,6 +42,10 @@ const setup = async () => {
   await $`muse -v`;
   log('muse-cli installed');
 
+  log('init muse');
+  await $`muse init --registry=${config.NPM_REGISTRY}`;
+  log('init muse done');
+
   log('setup done');
 };
 
