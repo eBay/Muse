@@ -2,6 +2,24 @@
 
 Full end-to-end tests for the whole Muse system.
 
+## Local Development
+To write e2e tests and run them locally, we use a local docker container to run full tests to provide a clean environment. The flow is a little different from which runs by github actions.
+
+To optimize the performance, mount the folder `tmp` to persist muse repo and verdaccio storage. See the code in `scripts/runTests.js`.
+
+To start this flow, run below command:
+
+```
+pnpm docker:run
+
+// or
+
+node scripts/runTests.js
+```
+
+
+NOTE: never run `src/index.js` directly at local since it modifies souce code of the repo.
+
 ## Testing Steps
 
 - Setup env to include all necessary packages.

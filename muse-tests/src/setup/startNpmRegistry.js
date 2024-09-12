@@ -25,6 +25,7 @@ const startNpmRegistry = async () => {
   if (config.isFlagEnabled('RESET_VERDACCIO_STORAGE') || !fs.existsSync(config.VERDACCIO_STORAGE)) {
     await fs.emptyDir(config.VERDACCIO_STORAGE);
   }
+
   const app = await runServer({
     self_path: config.WORKING_DIR,
     storage: config.VERDACCIO_STORAGE,
