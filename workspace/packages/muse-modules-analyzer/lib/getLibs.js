@@ -1,3 +1,4 @@
+const assert = require('node:assert').strict;
 const { parseMuseId } = require('@ebay/muse-modules');
 const utils = require('./utils');
 
@@ -9,6 +10,8 @@ const utils = require('./utils');
  * @returns
  */
 async function getLibs(pluginName, version, mode = 'dist') {
+  assert(pluginName, 'pluginName is required');
+  assert(version, 'version is required');
   if (typeof pluginName === 'object') {
     ({ pluginName, version, mode = 'dist' } = pluginName);
   }

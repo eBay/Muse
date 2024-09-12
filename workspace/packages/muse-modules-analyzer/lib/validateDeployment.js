@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const muse = require('@ebay/muse-core');
+const checkReleseVersion = require('@ebay/muse-core/lib/pm/checkReleaseVersion');
 const { findMuseModule } = require('@ebay/muse-modules');
 const getLibs = require('./getLibs');
 const getDeps = require('./getDeps');
@@ -29,6 +30,12 @@ async function validateDeployment(appName, envName, deployment, mode) {
   // Generate new plugin list after deployment
   await Promise.all(
     deployment.map(async (d) => {
+      d.version = (
+        await checkReleseVersion({
+          pluginName: d.pluginName,
+          version: d.version,
+        })
+      ).version;
       const p = pluginByName[d.pluginName];
 
       // If undeploy a plugin not on the app/env, ignore it.
