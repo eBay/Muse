@@ -5,7 +5,7 @@ import os from 'os';
 import { $ } from 'zx';
 import * as config from '../config.js';
 
-import cloneMuseRepo from './cloneMuseRepo.js';
+// import cloneMuseRepo from './cloneMuseRepo.js';
 import startNpmRegistry from './startNpmRegistry.js';
 import publishPackages from './publishPackages.js';
 import buildAndPublishUiPlugins from './buildAndPublishUiPlugins.js';
@@ -14,36 +14,37 @@ const log = debug('muse:setup');
 const setup = async () => {
   log('start setup');
 
-  if (config.isFlagEnabled('RESET_WORKING_DIR')) {
-    log('reset working dir');
-    await fs.emptyDir(config.WORKING_DIR);
-  } else {
-    log('working dir not reset');
-  }
+  // if (config.isFlagEnabled('RESET_WORKING_DIR')) {
+  //   log('reset working dir');
+  //   await fs.emptyDir(config.WORKING_DIR);
+  // } else {
+  //   log('working dir not reset');
+  // }
 
-  if (config.isFlagEnabled('RESET_MUSE_STORAGE')) {
-    log('reset muse storage');
-    await fs.emptyDir(path.join(os.homedir(), 'muse-storage'));
-  } else {
-    log('muse storage not reset');
-  }
+  // if (config.isFlagEnabled('RESET_MUSE_STORAGE')) {
+  //   log('reset muse storage');
+  //   await fs.emptyDir(path.join(os.homedir(), 'muse-storage'));
+  // } else {
+  //   log('muse storage not reset');
+  // }
 
   // For verification test, just use all public published packages to run all tests
+  await startNpmRegistry();
+
   if (!config.isFlagEnabled('VERIFICATION_TEST')) {
-    await startNpmRegistry();
-    await cloneMuseRepo();
+    // await cloneMuseRepo();
     await publishPackages();
     await buildAndPublishUiPlugins();
   }
 
   // Install Muse CLI
   log('installing muse-cli');
-  await $`npm i -g @ebay/muse-cli --registry=${config.NPM_REGISTRY}`;
+  await $`npm i -g @ebay/muse-cli --registry=${config.LOCAL_NPM_REGISTRY}`;
   await $`muse -v`;
   log('muse-cli installed');
 
   log('init muse');
-  await $`muse init --registry=${config.NPM_REGISTRY}`;
+  await $`muse init --registry=${config.LOCAL_NPM_REGISTRY}`;
   log('init muse done');
 
   log('setup done');

@@ -9,17 +9,19 @@ RUN npm install -g zx pnpm@8.15.4 verdaccio
 
 # bash is necessary for zx
 
-RUN apk update && apk add bash
-RUN cd ..
+RUN apk update && apk add bash && apk add git
+# RUN cd ..
 
 
-COPY ./package.json ./package.json
-COPY ./pnpm-lock.yaml ./pnpm-lock.yaml
+# COPY ./package.json ./package.json
+# COPY ./pnpm-lock.yaml ./pnpm-lock.yaml
 
-RUN pnpm i
+# RUN pnpm i
 
-COPY ./.env ./.env
-COPY ./src ./src
+# COPY ./.env ./.env
+# COPY ./src ./src
 
-# Execute tests
-CMD ["node", "./src/index.js"]
+# RUN cd muse-tests
+WORKDIR /testspace/muse-tests
+# # Execute tests
+CMD ["pnpm", "test:local"]

@@ -25,5 +25,5 @@ jobs:
           version: 8
 
       # Install dependencies
-      - name: Install dependencies
-        run: pnpm i
+      # - name: Install dependencies
+      #   run: pnpm i

@@ -23,6 +23,9 @@ dependencies:
   glob:
     specifier: ^11.0.0
     version: 11.0.0
+  is-docker:
+    specifier: ^3.0.0
+    version: 3.0.0
   js-plugin:
     specifier: ^1.1.0
     version: 1.1.0
@@ -1944,6 +1947,12 @@ packages:
 
   /is-deflate@1.0.0:
     resolution: {integrity: sha512-YDoFpuZWu1VRXlsnlYMzKyVRITXj7Ej/V9gXQ2/pAe7X1J7M/RNOqaIYi6qUn+B7nGyB9pDXrv02dsB58d2ZAQ==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/is-deflate/-/is-deflate-1.0.0.tgz}
+    dev: false
+
+  /is-docker@3.0.0:
+    resolution: {integrity: sha512-eljcgEDlEns/7AXFosB5K/2nCM4P7FQPkGc/DWLy5rmFEWvZayGrik1d9/QIY5nJ4f9YsVvBkA6kJpHn9rISdQ==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/is-docker/-/is-docker-3.0.0.tgz}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+    hasBin: true
     dev: false
 
   /is-extglob@2.1.1:
