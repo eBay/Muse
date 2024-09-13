@@ -18,7 +18,9 @@ node scripts/runTests.js
 ```
 
 
-NOTE: never run `src/index.js` directly at local since it modifies souce code of the repo.
+> NOTE: never run `src/index.js` directly at local since it modifies souce code of the repo.
+
+> If there's problem to run tests, try remove `tmp` folder then try again. (the `tmp` folder is used to persist pnpm store, npm store and muse-repo between tests)
 
 ## Testing Steps
 

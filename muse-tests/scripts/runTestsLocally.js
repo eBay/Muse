@@ -35,4 +35,11 @@ for (const p of pathsToOverwrite) {
 console.log('Build and start docker...');
 
 await $`docker build -t muse-tests .`;
-await $`docker run -it -v ${mountedRepoFolder}:/testspace -p 127.0.0.1:5000-7000:5000-7000 muse-tests`;
+// await $`docker run -it -p 127.0.0.1:5000-6000:5000-6000 muse-tests`;
+await $`docker run \
+  -it \
+  -v ${mountedRepoFolder}:/testspace \
+  -v ${path.join(cwd, 'tmp/pnpm-store')}:/pnpm-store \
+  -v ${path.join(cwd, 'tmp/verdaccio-store')}:/verdaccio-store \
+  -p 127.0.0.1:5000-6000:5000-6000 \
+  muse-tests`;

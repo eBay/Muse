@@ -9,7 +9,6 @@ const log = debug('muse:setup:publish-packages');
 
 const publishPackages = async () => {
   // if deps not installed, install them, note this only executes once
-  // if you want to reinstall deps, set the MUSE_TESTS_FLAG_RESET_MUSE_REPO flag to true
   if (!fs.existsSync(path.join(config.MUSE_REPO_LOCAL, 'workspace/node_modules'))) {
     if (config.isFlagEnabled('RESET_PNPM_LOCK')) {
       log('removing package-lock.yaml files');
@@ -26,6 +25,11 @@ const publishPackages = async () => {
       });
     }
 
+    // temply disable muse-runner due to node-pty installation issue
+    await $`rm ${path.join(
+      config.MUSE_REPO_LOCAL,
+      'workspace/packages/muse-runner/package.json',
+    )} `;
     // Install all deps so that they can be published to the local npm registry
     log('installing deps');
     await $`cd ${path.join(config.MUSE_REPO_LOCAL, 'workspace')} && pnpm install -f --registry=${
