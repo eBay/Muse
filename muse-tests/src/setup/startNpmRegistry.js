@@ -46,6 +46,7 @@ const startNpmRegistry = async () => {
       '@ebay/*': {
         access: '$anonymous',
         publish: '$anonymous',
+        unpublish: '$anonymous',
       },
       '**': {
         access: '$anonymous',

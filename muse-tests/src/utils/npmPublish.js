@@ -7,14 +7,19 @@ import pkgExistsInRegistry from './pkgExistsInRegistry.js';
 const log = debug('muse:utils:npm-publish');
 export const localPackages = {};
 
+/**
+ * Publish a npm package, if it exists, unpublish it first then publish it
+ * @param {*} dir the directory of the package
+ */
 const publishPlugin = async (dir) => {
   log('publishing package from', dir);
   const pkgJsonPath = path.join(dir, 'package.json');
   const pkgJson = fs.readJsonSync(pkgJsonPath);
 
   if (await pkgExistsInRegistry(pkgJson.name)) {
-    log('package already exists in registry', pkgJson.name);
-    return;
+    log('package already exists in registry, republish it...', pkgJson.name);
+    await $`pnpm unpublish --force ${pkgJson.name}@${pkgJson.version} --registry=${config.LOCAL_NPM_REGISTRY}`;
+    log('package unpublished', pkgJson.name, pkgJson.version);
   }
 
   if (pkgJson.publishConfig?.registry) {

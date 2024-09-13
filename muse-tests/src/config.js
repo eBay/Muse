@@ -1,10 +1,6 @@
 import path from 'path';
-import { fileURLToPath } from 'url';
 import assert from 'node:assert';
 import 'dotenv/config';
-
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = path.dirname(__filename);
 
 // Flag config: usually used to enable/disable certain parts of the tests
 export const isFlagEnabled = (flag) => {
@@ -20,19 +16,16 @@ export const get = (key) => {
 };
 
 // Special config
-// export const MUSE_REPO_REMOTE = process.env.MUSE_REPO_REMOTE || path.join(__dirname, '../../');
-
-// export const WORKING_DIR = '/testspace'; //process.env.WORKING_DIR || path.join(__dirname, '../tmp');
 export const WORKING_DIR = '/testspace';
 export const MUSE_REPO_LOCAL = '/testspace'; //path.join(WORKING_DIR, 'muse-repo');
-export const VERDACCIO_STORAGE = path.join(WORKING_DIR, 'verdaccio-storage');
-export const LOCAL_NPM_REGISTRY_PORT = process.env.LOCAL_NPM_REGISTRY_PORT || 4873;
+export const VERDACCIO_STORAGE =
+  process.env.VERDACCIO_STORAGE || path.join(WORKING_DIR, 'verdaccio-store');
+export const LOCAL_NPM_REGISTRY_PORT = process.env.LOCAL_NPM_REGISTRY_PORT || 5873;
 export const LOCAL_NPM_REGISTRY = `http://localhost:${LOCAL_NPM_REGISTRY_PORT}/`;
 
 /**
  * The npm registry used to install dependencies of workspace and ui-plugins
  */
-// export const NPM_REGISTRY = process.env.LOCAL_NPM_REGISTRY;
 
 export const assertVariablesExist = () => {
   assert(WORKING_DIR, 'WORKING_DIR not exist');
