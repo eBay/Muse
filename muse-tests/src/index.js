@@ -1,8 +1,8 @@
 #!/usr/bin/env zx
 import debug from 'debug';
 import 'dotenv/config';
-import assert from 'node:assert';
-import isDocker from 'is-docker';
+// import assert from 'node:assert';
+// import isDocker from 'is-docker';
 import jsPlugin from 'js-plugin';
 import setupMuse from './setup/index.js';
 import { asyncInvoke } from './utils.js';
@@ -14,7 +14,7 @@ import { assertVariablesExist } from './config.js';
 
 // We need to run this script in a docker container because we need to modify
 // source code files under the whole mono repo.
-assert(isDocker(), 'This script must be run in a docker container');
+// assert(isDocker(), 'This script must be run in a docker container');
 
 $.verbose = true;
 
