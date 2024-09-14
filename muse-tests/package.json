@@ -10,7 +10,7 @@
     "test:docer": "pnpm build & pnpm docker:run",
     "start-local-registry": "node ./scripts/startLocalRegistry.js",
     "test:local": "pnpm i && pnpm test",
-    "test": "node src/index.js"
+    "test": "node src/test.js"
   },
   "keywords": [],
   "author": "",

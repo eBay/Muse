@@ -4,9 +4,6 @@
   "description": "",
   "main": "lib/index.js",
   "type": "module",
-  "publishConfig": {
-    "registry": "https://artifactory.corp.ebay.com/artifactory/api/npm/npm-muse"
-  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

@@ -9,9 +9,6 @@
     "gen-dts": "tsc ./**/*.js --declaration --allowJs --emitDeclarationOnly --outDir types"
   },
   "types": "./types",
-  "publishConfig": {
-    "registry": "https://artifactory.corp.ebay.com/artifactory/api/npm/npm-muse"
-  },
   "files": [
     "lib"
   ],

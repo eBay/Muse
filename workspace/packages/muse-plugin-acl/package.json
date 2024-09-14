@@ -6,9 +6,6 @@
   "scripts": {
     "test": "jest --coverage"
   },
-  "publishConfig": {
-    "registry": "https://artifactory.corp.ebay.com/artifactory/api/npm/npm-muse"
-  },
   "keywords": [],
   "author": "",
   "license": "ISC",

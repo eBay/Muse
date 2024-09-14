@@ -6,9 +6,6 @@
   "scripts": {
     "test": "jest"
   },
-  "publishConfig": {
-    "registry": "https://artifactory.corp.ebay.com/artifactory/api/npm/npm-muse"
-  },
   "files": [
     "lib"
   ],

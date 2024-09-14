@@ -75,7 +75,7 @@ const startNpmRegistry = async () => {
       reject(err);
     }
   });
-
+  console.log(app);
   return app;
 };
 export default startNpmRegistry;
