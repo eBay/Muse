@@ -22,6 +22,8 @@ export const VERDACCIO_STORAGE =
   process.env.VERDACCIO_STORAGE || path.join(WORKING_DIR, 'verdaccio-store');
 export const LOCAL_NPM_REGISTRY_PORT = process.env.LOCAL_NPM_REGISTRY_PORT || 5873;
 export const LOCAL_NPM_REGISTRY = `http://localhost:${LOCAL_NPM_REGISTRY_PORT}/`;
+export const UPCOMING_NPM_REGISTRY =
+  process.env.UPCOMING_NPM_REGISTRY || 'https://registry.npmjs.org/';
 
 /**
  * The npm registry used to install dependencies of workspace and ui-plugins
@@ -33,5 +35,5 @@ export const assertVariablesExist = () => {
   assert(VERDACCIO_STORAGE, 'VERDACCIO_STORAGE not exist');
   assert(LOCAL_NPM_REGISTRY_PORT, 'LOCAL_NPM_REGISTRY_PORT not exist');
   assert(LOCAL_NPM_REGISTRY, 'LOCAL_NPM_REGISTRY not exist');
-  assert(get('UPCOMING_NPM_REGISTRY'), 'MUSE_TESTS_CONFIG_UPCOMING_NPM_REGISTRY not exist');
+  assert(UPCOMING_NPM_REGISTRY, 'UPCOMING_NPM_REGISTRY not exist');
 };

@@ -35,7 +35,7 @@ const startNpmRegistry = async () => {
     },
     uplinks: {
       npmjs: {
-        url: config.get('UPCOMING_NPM_REGISTRY'),
+        url: config.UPCOMING_NPM_REGISTRY,
       },
     },
     packages: {
