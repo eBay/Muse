@@ -1,5 +1,7 @@
 import debug from 'debug';
 import { runServer } from 'verdaccio';
+import { parentPort } from 'worker_threads';
+
 import fs from 'fs-extra';
 import os from 'os';
 import path from 'path';
@@ -67,6 +69,7 @@ const startNpmRegistry = async () => {
     try {
       serverInstance = app.listen(config.LOCAL_NPM_REGISTRY_PORT, () => {
         log('npm registry started');
+
         resolve();
       });
     } catch (err) {
@@ -77,4 +80,10 @@ const startNpmRegistry = async () => {
   return { app, serverInstance };
 };
 
-startNpmRegistry();
+try {
+  await startNpmRegistry();
+  parentPort.postMessage('verdaccio_started');
+} catch (err) {
+  log(err);
+  parentPort.postMessage('verdaccio_error');
+}
