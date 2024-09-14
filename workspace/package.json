@@ -1,7 +1,4 @@
 {
-  "publishConfig": {
-    "registry": "https://artifactory.corp.ebay.com/artifactory/api/npm/npm-muse"
-  },
   "devDependencies": {
     "@changesets/cli": "^2.23.2"
   }

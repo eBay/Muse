@@ -5,8 +5,5 @@
   "scripts": {
     "test": "node test.js"
   },
-  "publishConfig": {
-    "registry": "https://artifactory.corp.ebay.com/artifactory/api/npm/npm-muse"
-  },
   "license": "MIT"
 }

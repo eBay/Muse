@@ -24,6 +24,8 @@ jobs:
         with:
           version: 8
 
-      # Install dependencies
-      # - name: Install dependencies
-      #   run: pnpm i
+      - name: Run Tests
+        run: |
+          cd muse-tests
+          pnpm i
+          pnpm test

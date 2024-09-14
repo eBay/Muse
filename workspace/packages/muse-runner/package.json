@@ -9,9 +9,6 @@
     "build": "muse export muserunner staging ./public",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "publishConfig": {
-    "registry": "https://artifactory.corp.ebay.com/artifactory/api/npm/npm-muse"
-  },
   "bin": {
     "muse-runner": "./bin/muse-runner.js"
   },

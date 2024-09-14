@@ -6,9 +6,6 @@
     "muse": "./bin/muse.js"
   },
   "license": "MIT",
-  "publishConfig": {
-    "registry": "https://artifactory.corp.ebay.com/artifactory/api/npm/npm-muse"
-  },
   "files": [
     "bin",
     "lib"
