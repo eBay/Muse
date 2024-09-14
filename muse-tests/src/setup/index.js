@@ -6,7 +6,7 @@ import { $ } from 'zx';
 import * as config from '../config.js';
 
 // import cloneMuseRepo from './cloneMuseRepo.js';
-import startNpmRegistry from './startNpmRegistry.js';
+import { startNpmRegistry, stopNpmRegistry } from './localNpmRegistry.js';
 import publishPackages from './publishPackages.js';
 import buildAndPublishUiPlugins from './buildAndPublishUiPlugins.js';
 const log = debug('muse:setup');
@@ -46,6 +46,8 @@ const setup = async () => {
   log('init muse');
   await $`muse init --registry=${config.LOCAL_NPM_REGISTRY}`;
   log('init muse done');
+
+  await stopNpmRegistry();
 
   log('setup done');
 };

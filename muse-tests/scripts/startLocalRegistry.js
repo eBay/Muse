@@ -1,3 +1,9 @@
-import startNpmRegistry from '../src/setup/startNpmRegistry.js';
+import debug from 'debug';
+import { startNpmRegistry, stopNpmRegistry } from '../src/setup/localNpmRegistry.js';
+debug.enable('muse:*');
 
-startNpmRegistry();
+await startNpmRegistry();
+
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+await delay(1000);
+await stopNpmRegistry();

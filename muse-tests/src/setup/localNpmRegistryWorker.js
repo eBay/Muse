@@ -4,10 +4,9 @@ import fs from 'fs-extra';
 import os from 'os';
 import path from 'path';
 import * as config from '../config.js';
-debug.enable('muse:*');
 
-const log = debug('muse:setup:start-npm-registry');
-
+const log = debug('muse:setup:local-npm-registry');
+let serverInstance;
 const startNpmRegistry = async () => {
   log('start npm registry (verdaccio)');
   // set fake token to allow annonymous npm publish to the local npm registry
@@ -66,7 +65,7 @@ const startNpmRegistry = async () => {
 
   await new Promise((resolve, reject) => {
     try {
-      app.listen(config.LOCAL_NPM_REGISTRY_PORT, () => {
+      serverInstance = app.listen(config.LOCAL_NPM_REGISTRY_PORT, () => {
         log('npm registry started');
         resolve();
       });
@@ -75,7 +74,7 @@ const startNpmRegistry = async () => {
       reject(err);
     }
   });
-  console.log(app);
-  return app;
+  return { app, serverInstance };
 };
-export default startNpmRegistry;
+
+startNpmRegistry();
