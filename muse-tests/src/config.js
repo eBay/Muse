@@ -16,8 +16,8 @@ export const get = (key) => {
 };
 
 // Special config
-export const WORKING_DIR = '/testspace';
-export const MUSE_REPO_LOCAL = '/testspace'; //path.join(WORKING_DIR, 'muse-repo');
+export const WORKING_DIR = path.join(process.cwd(), 'tmp');
+export const MUSE_REPO_LOCAL = path.join(process.cwd(), '..'); //path.join(WORKING_DIR, 'muse-repo');
 export const VERDACCIO_STORAGE =
   process.env.VERDACCIO_STORAGE || path.join(WORKING_DIR, 'verdaccio-store');
 export const LOCAL_NPM_REGISTRY_PORT = process.env.LOCAL_NPM_REGISTRY_PORT || 5873;
