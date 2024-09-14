@@ -26,6 +26,7 @@ jobs:
 
       - name: Run Tests
         run: |
+          export MUSE_TESTS_FLAG_RESET_PNPM_LOCK=1
           cd muse-tests
           pnpm i
           pnpm test
