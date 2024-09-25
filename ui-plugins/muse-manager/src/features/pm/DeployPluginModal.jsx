@@ -169,9 +169,8 @@ const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
       order: 20,
       props: {
         type: 'primary',
-        loading: pending,
         disabled: pending,
-        children: pending ? 'Deploying...' : 'Deploy',
+        children: 'Deploy',
         onClick: () => {
           handleFinish();
         },

@@ -5,6 +5,7 @@ import NiceForm from '@ebay/nice-form-react';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import utils from '@ebay/muse-lib-antd/src/utils';
 import { useSyncStatus, useMuseMutation, useAbility } from '../../hooks';
+import ModalFooter from '../common/ModalFooter';
 
 const PluginInfoModal = NiceModal.create(({ plugin, app }) => {
   const modal = useModal();
@@ -140,6 +141,46 @@ const PluginInfoModal = NiceModal.create(({ plugin, app }) => {
   });
 
   const cannotEdit = ability.cannot('edit', 'Plugin', { app, plugin });
+
+  const footerItems = [
+    {
+      key: 'cancel-btn',
+      order: 10,
+      props: {
+        children: viewMode ? 'Close Dialog' : 'Cancel',
+        onClick: () => {
+          if (viewMode) {
+            modal.hide();
+          } else {
+            form.resetFields();
+            setViewMode(true);
+          }
+        },
+      },
+    },
+    {
+      key: 'ok-btn',
+      order: 20,
+      tooltip: cannotEdit ? 'Only plugin owners can edit plugin.' : '',
+      props: {
+        type: viewMode ? 'default' : 'primary',
+        disabled: cannotEdit,
+        children: viewMode ? 'Edit' : 'Save',
+        onClick: () => {
+          if (viewMode) {
+            setViewMode(false);
+          } else {
+            form.validateFields().then(() => form.submit());
+          }
+        },
+      },
+    },
+  ];
+
+  utils.extendArray(footerItems, 'items', 'museManager.pm.pluginInfoModal.footer', {
+    items: footerItems,
+  });
+
   return (
     <Modal
       {...antdModalV5(modal)}
@@ -147,30 +188,10 @@ const PluginInfoModal = NiceModal.create(({ plugin, app }) => {
       width="600px"
       maskClosable={viewMode}
       className="muse-manager_pm-plugin-info-modal"
-      okText={viewMode ? 'Edit' : 'Save'}
-      okButtonProps={{
-        type: viewMode ? 'default' : 'primary',
-        disabled: cannotEdit,
-        title: cannotEdit ? 'No permission to edit.' : '',
-      }}
-      cancelText={viewMode ? 'Close Dialog' : 'Cancel'}
-      onCancel={() => {
-        if (viewMode) {
-          modal.hide();
-        } else {
-          form.resetFields();
-          setViewMode(true);
-        }
-      }}
-      onOk={() => {
-        if (viewMode) {
-          setViewMode(false);
-        } else {
-          form.validateFields().then(() => form.submit());
-        }
-      }}
+      footer={false}
     >
       {nodes.map((n) => n.node)}
+      <ModalFooter items={footerItems} />
     </Modal>
   );
 });
