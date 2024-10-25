@@ -1,8 +1,6 @@
 #!/usr/bin/env zx
 import debug from 'debug';
 import 'dotenv/config';
-// import assert from 'node:assert';
-// import isDocker from 'is-docker';
 import jsPlugin from 'js-plugin';
 import setupMuse from './setup/index.js';
 import { asyncInvoke } from './utils.js';
