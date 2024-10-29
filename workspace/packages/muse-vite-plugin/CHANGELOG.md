@@ -1,5 +1,11 @@
 # @ebay/muse-vite-plugin
 
+## 1.0.46
+
+### Patch Changes
+
+- fix shared modules folder.
+
 ## 1.0.45
 
 ### Patch Changes
