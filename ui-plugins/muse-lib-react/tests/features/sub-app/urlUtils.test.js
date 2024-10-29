@@ -1,0 +1,1 @@
+describe('sub-app/urlUtils', () => {});
