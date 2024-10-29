@@ -194,6 +194,7 @@ module.exports = async (params) => {
     );
 
     // All changes in items
+    ctx.flattenedDeployments = flattenedDeployments;
     ctx.items = items;
     await asyncInvoke('museCore.pm.deployPlugin', ctx, params);
     if (!theMsg) {

@@ -164,10 +164,8 @@ const UndeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
       order: 20,
       props: {
         type: 'primary',
-        loading: pending,
         disabled: pending,
-        children: pending ? 'Undeploying...' : 'Undeploy',
-
+        children: 'Undeploy',
         onClick: () => {
           handleFinish();
         },

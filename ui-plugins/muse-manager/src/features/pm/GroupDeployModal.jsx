@@ -2,6 +2,7 @@ import { useCallback, useState } from 'react';
 import { Modal, Form, Alert, message } from 'antd';
 import NiceForm from '@ebay/nice-form-react';
 import { flatten, uniq } from 'lodash';
+import jsPlugin from 'js-plugin';
 import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
 import utils from '@ebay/muse-lib-antd/src/utils';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
@@ -61,7 +62,7 @@ const GroupDeployModal = NiceModal.create(({ app }) => {
     const undeployMsg =
       pluginsToRemove.length > 0 ? (
         <>
-          undeploy <b>{pluginsToRemove.join(', ')}</b>
+          undeploy <b>{pluginsToRemove.map(p => p.pluginName).join(', ')}</b>
         </>
       ) : null;
     if (
@@ -99,16 +100,21 @@ const GroupDeployModal = NiceModal.create(({ app }) => {
   }, [app.name, form, validateDeployment, deployments]);
 
   const handleFinish = useCallback(async () => {
-    const { envs } = form.getFieldsValue();
+    const values = form.getFieldsValue();
 
-    const args = {
+    const payload = {
       appName: app.name,
-      envMap: envs.reduce((map, envName) => {
+      envMap: values.envs?.reduce((map, envName) => {
         map[envName] = deployments; //concat(addList, removeList);
         return map;
       }, {}),
     };
-    await deployPlugin(args);
+
+    jsPlugin.invoke('museManager.pm.groupDeployModal.form.processPayload', {
+      payload,
+      values,
+    });
+    await deployPlugin(payload);
     modal.hide();
     message.success('Group deployment succeeded.');
     await syncStatus();
@@ -212,9 +218,8 @@ const GroupDeployModal = NiceModal.create(({ app }) => {
       tooltip: canRequestDeploy ? '' : 'No permission to deploy/undeploy some plugins.',
       props: {
         type: 'primary',
-        loading: pending,
         disabled: pending || !canRequestDeploy,
-        children: pending ? 'Deploying...' : 'Deploy',
+        children: 'Deploy',
         onClick: async () => {
           if (await confirmDeployment()) {
             handleFinish();
