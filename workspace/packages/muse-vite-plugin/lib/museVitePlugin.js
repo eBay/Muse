@@ -6,7 +6,7 @@ import setupMuseDevServer from '@ebay/muse-dev-utils/lib/setupMuseDevServer.js';
 import devUtils from '@ebay/muse-dev-utils/lib/utils.js';
 import museEsbuildPlugin from './museEsbuildPlugin.js';
 import museRollupPlugin from './museRollupPlugin.js';
-import { getMuseModuleCode, mergeObjects, getMuseModule } from './utils.js';
+import { getMuseModuleCode, mergeObjects, getMuseModule, setViteMode } from './utils.js';
 
 // We need to use originalUrl instead of url because the latter is modified by Vite 5+ (not modified in Vite 4)
 // which causes server.middlewares.use(path, middleware) to not work as expected
@@ -64,6 +64,8 @@ export default function museVitePlugin() {
       const host = config.server?.host || process.env.MUSE_LOCAL_HOST_NAME || 'localhost';
       const pkgJson = devUtils.getPkgJson();
       const entryFile = devUtils.getEntryFile();
+
+      setViteMode(config.mode || 'production');
 
       if (!entryFile) {
         throw new Error(

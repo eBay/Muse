@@ -6,6 +6,13 @@ import museModules from '@ebay/muse-modules';
 const { findMuseModule, config } = museModules;
 config.matchVersion = 'major';
 
+// NOTE: don't use viteMode at top scope, it will be set by muse-vite-plugin
+let viteMode = 'production';
+
+export function setViteMode(mode) {
+  viteMode = mode;
+}
+
 function findRoot(p) {
   const arr = p.split(/[\\/]/);
   while (arr.length) {
@@ -36,10 +43,18 @@ export function mergeObjects(obj1, obj2) {
   return obj1;
 }
 
+const buildDir = {
+  production: 'dist',
+  development: 'dev',
+  'e2e-test': 'test',
+};
+
 const getManifestPath = (lib) =>
   path.join(
     lib.path,
-    lib.isLinked ? 'node_modules/.muse/dev/lib-manifest.json' : 'build/dev/lib-manifest.json',
+    lib.isLinked
+      ? `node_modules/.muse/dev/lib-manifest.json`
+      : `build/${buildDir[viteMode] || 'dist'}/lib-manifest.json`,
   );
 let allMuseModules;
 function loadAllMuseModules() {
