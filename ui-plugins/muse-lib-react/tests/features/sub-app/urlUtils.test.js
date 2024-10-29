@@ -1,1 +1,5 @@
-describe('sub-app/urlUtils', () => {});
+describe('sub-app/urlUtils', () => {
+  it('getChildUrlPath works', () => {
+    //)
+  });
+});

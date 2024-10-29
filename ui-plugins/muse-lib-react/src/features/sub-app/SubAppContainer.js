@@ -41,7 +41,7 @@ export default function SubAppContainer({ context = null, subApp }) {
   const [subAppState, setSubAppState] = useState();
   const loc = useLocation();
   const parentFullPath = loc.href.replace(loc.origin, '');
-  const subPath = urlUtils.getChildUrl(subApp);
+  const subPath = urlUtils.getChildUrlPath(subApp);
   const currentIframe = iframeCache[subApp.url];
 
   const subUrl = `${urlUtils.getOrigin(subApp.url)}${subPath}`;
