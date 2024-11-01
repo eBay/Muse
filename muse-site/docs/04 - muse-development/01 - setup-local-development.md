@@ -205,50 +205,7 @@ You can only use this approach for `normal` and `lib` plugins but NOT `boot` or 
 
 
 ### How to choose?
-Since there're different options for working on multiple plugins together, then how do we choose the proper one? Below is the summary:
 
-<table style={{width: '100%', display: 'table'}}>
-  <tr>
-    <th style={{width: '200px'}}>Options</th>
-    <th>When to use?</th>
-  </tr>
-  <tr>
-    <td>Remote plugin by name</td>
-    <td>
-    This is the most frequently used config. All specified plugins which are deployed to the current working app/env will be loaded for local development. Use this approach when:
-    <ul><li>It's already deployed to the app and you just use it but no need to change code of it.</li></ul>
-     Note that if it's not deployed then it's ignored. 
-    </td>
-  </tr>
-  <tr>
-    <td>Remote plugin by URL</td>
-    <td>It loads a plugin directly from another dev server by URL. Then any code change on that project will be applied to the current working app. Use this option when:
-    <ul>
-      <li>You need to test a <b>boot</b> or <b>init</b> plugin locally in another plugin project.</li>
-      <li>You need to test multiple plugins together at dev time but want higher build performance. For example: add an extension point in one plugin and use it in another plugin. It has higher performance because projects are compiled by their own dev server.</li>
-    </ul>
-    The disadvantage of this options is: you need to start multiple webpack dev server which is not that convenient. So, we sometimes can use combine souce code instead.</td>
-  </tr>
-  <tr>
-    <td>Compbine source code</td>
-    <td>This option compiles source code from multiple projects together. Use this approach when:
-      <ul>
-        <li>You need to use a shared module from a lib plugin at dev time. For example, you created/updated an component in a lib plugin and want to use it in the current plugin project at dev time.</li>
-        <li>You work on multiple plugin projects at dev time but the overhead build time could be ignored. This is an more convenient approach compared to remote plugin by URL.</li>
-      </ul>
-      Note that this option doesn't support boot or init plugins. And the current plugin project's webpack config should support other plugins.
-    </td>
-  </tr>
-  
-  <tr>
-    <td>Use `.env`</td>
-    <td>If the remote plugins or local plugins are only for yourself, then you should define it in a <b>.env</b> file so that it doesn't affect other developers.</td>
-  </tr>
-  <tr>
-    <td>Use `package.json`</td>
-    <td>It's usually for remote plugins by name with <b>muse.devConfig.remotePlugins</b>. Use it when the setting is necessary fo  all developers on the project.</td>
-  </tr>
-</table>
 
 ## Install libaray plugins locally
 A library plugin is also published to the npm registry besides maintained in Muse registry. There are two cases for local development:
