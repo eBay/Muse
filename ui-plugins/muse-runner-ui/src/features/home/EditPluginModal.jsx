@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
-import { Modal, Form } from 'antd';
+import { Modal, Form, AutoComplete } from 'antd';
 import NiceForm from '@ebay/nice-form-react';
 import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query';
 import useRunnerData from './useRunnerData';
@@ -57,18 +57,21 @@ const EditPluginModal = NiceModal.create(({ plugin, appId }) => {
         : {
             key: 'name',
             label: 'Name',
-            widget: 'select',
+            widget: AutoComplete,
             required: true,
             widgetProps: {
+              // mode: 'combobox',
               placeholder: plugins ? 'Select a plugin' : 'Loading...',
-              showSearch: true,
+              // showSearch: true,
               loading: !plugins,
               onChange: (value) => {
                 form.setFieldValue('dir', pluginsConfig?.[value]?.dir || '');
               },
+              options: plugins?.map((p) => ({ value: p.name })),
+              filterOption: (inputValue, option) =>
+                option.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1,
             },
             disabled: !plugins,
-            options: plugins?.map((p) => p.name),
           },
 
       {
