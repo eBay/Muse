@@ -2,6 +2,7 @@ import simpleGit from 'simple-git';
 import _ from 'lodash';
 import fs from 'fs-extra';
 import chokidar from 'chokidar';
+import path from 'path';
 
 const gitDirMap = {};
 const watcherMap = {};
@@ -49,7 +50,7 @@ export default ({ app, io, config }) => {
     const plugins = config.get('plugins', {});
 
     for (let dir of Object.values(plugins).map((p) => p.dir)) {
-      if (!fs.existsSync(dir)) continue;
+      if (!fs.existsSync(dir) || !fs.existsSync(path.join(dir, '.git'))) continue;
       try {
         const gitDir = await getGitDir(dir);
         if (!watcherMap[gitDir]) {
