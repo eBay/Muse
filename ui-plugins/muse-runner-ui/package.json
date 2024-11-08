@@ -46,7 +46,7 @@
     "xterm-addon-web-links": "^0.8.0"
   },
   "scripts": {
-    "start": "muse-cra-patch && cross-env craco start",
+    "start": "muse-cra-patch && craco start",
     "dev": "vite",
     "build": "muse-cra-patch && craco build",
     "build:dev": "muse-cra-patch && cross-env NODE_ENV=development FAST_REFRESH=false craco build",
