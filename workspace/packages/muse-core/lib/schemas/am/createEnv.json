@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Create Env params",
+  "type": "object",
+  "properties": {
+    "appName": {
+      "type": "string"
+    },
+    "envName": {
+      "type": "string"
+    },
+    "author": {
+      "type": "string"
+    },
+    "baseEnv": {
+      "type": "string",
+      "pattern": ".+/.+"
+    },
+    "options": {
+      "type": "object"
+    }
+  },
+  "required": ["appName", "envName"],
+  "additionalProperties": true
+}

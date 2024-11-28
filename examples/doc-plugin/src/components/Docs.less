@@ -1,0 +1,126 @@
+.user-manager-demo-docs {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1000px;
+  min-width: 400px;
+  color: #334155;
+  font-size: 16px;
+  line-height: 180%;
+  padding-bottom: 100px;
+  .doc-tip {
+    color: gray;
+    border: none;
+    background-color: rgb(245, 247, 249);
+    margin: 20px 0;
+    display: grid;
+    grid-template-columns: 50px 1fr;
+    align-items: center;
+    border-left: 5px solid #1890ff;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    .anticon {
+      color: #1890ff;
+      font-size: 22px;
+      margin-left: 10px;
+      align-self: start;
+      margin-top: 12px;
+    }
+    > p {
+      align-self: center;
+      margin: 0;
+      padding: 10px;
+      padding-left: 0;
+    }
+
+    &.small {
+      font-size: 14px;
+    }
+  }
+
+  .doc-img {
+    max-width: 100%;
+    margin: auto;
+    margin-bottom: 30px;
+    display: block;
+  }
+  .ant-timeline {
+    margin-left: 50px;
+    margin-top: 30px;
+    font-size: 16px !important;
+    color: #334155;
+  }
+
+  .ant-timeline + .doc-tip {
+    font-size: 14px !important;
+    margin-left: 52px;
+    margin-top: -25px;
+  }
+
+  h1 {
+    margin-top: 50px;
+  }
+  h2 {
+    margin-top: 40px;
+    padding-top: 40px;
+    border-top: 1px solid #e5e7eb;
+  }
+  h3 {
+    margin: 20px 0;
+  }
+
+  table,
+  td {
+    border: 1px solid #e5e7eb;
+  }
+
+  td {
+    padding: 15px;
+    &:first-child {
+      background-color: #f7f7f7;
+      white-space: nowrap;
+      width: 280px;
+      a {
+        font-weight: bold;
+      }
+    }
+  }
+
+  ul {
+    margin: 10px 0;
+  }
+  .ant-tabs-nav {
+    background-color: #333;
+    margin-bottom: 0 !important;
+    border-bottom: none;
+    &:before {
+      display: none;
+    }
+    .ant-tabs-tab {
+      border: none !important;
+      background-color: #222 !important;
+      color: #bbb;
+      transition: none !important;
+    }
+    .ant-tabs-tab-btn {
+      transition: none !important;
+      &:active {
+        color: #1890ff !important;
+      }
+    }
+  }
+
+  .ant-tabs-tabpane {
+    background-color: rgb(29, 31, 33);
+    padding: 20px 20px 0 20px;
+    height: 650px;
+  }
+
+  .ant-collapse-item {
+    h3 {
+      margin: 0;
+    }
+    p {
+      margin-left: 24px;
+    }
+  }
+}

@@ -1,0 +1,47 @@
+@import '../../styles/mixins';
+
+.common-wizard {
+  &.common-wizard-steps-vertical {
+    display: flex;
+    flex-wrap: wrap;
+    .ant-steps {
+      margin-top: 30px;
+      width: 230px;
+    }
+  }
+
+  &-content {
+    margin-top: 30px;
+    width: ~'calc(100% - 230px)';
+    background-color: #f7f7f7;
+    padding: 20px;
+  }
+
+  .common-wizard-footer {
+    border-top: 0;
+    width: ~'calc(100% - 230px)';
+    margin-left: 230px;
+    margin-top: 10px;
+    padding-left: 0;
+    .btn-back {
+      margin-left: 0;
+      float: left;
+      margin-top: 5px;
+    }
+  }
+
+  section {
+    margin-top: 20px;
+    legend {
+      font-size: 18px;
+      padding-bottom: 10px;
+    }
+  }
+  section:first-child {
+    margin-top: 0px;
+  }
+
+  .ant-steps {
+    display: block;
+  }
+}

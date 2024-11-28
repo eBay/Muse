@@ -1,0 +1,23 @@
+@import '../../styles/mixins';
+
+.muse-antd_common-table-bar {
+  margin-bottom: 15px;
+  margin-top: 15px;
+  display: flex;
+  .ant-input-search {
+    min-width: 100px;
+    max-width: 400px;
+    margin-right: 15px;
+  }
+  .muse-antd_common-table-bar-children-wrapper {
+    text-align: right;
+    flex-grow: 1;
+    white-space: nowrap;
+    > * {
+      margin-right: 15px;
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+}

@@ -1,0 +1,1 @@
+export { setIsDarkMode } from './setIsDarkMode';

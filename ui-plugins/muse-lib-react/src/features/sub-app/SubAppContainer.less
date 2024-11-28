@@ -1,0 +1,29 @@
+@import '../../styles/mixins';
+
+.muse-react_sub-app-sub-app-container {
+  height: 100vh;
+  position: relative;
+  .sub-app-sub-app-failed {
+    color: red;
+    padding: 16px;
+  }
+  .sub-app-iframe-wrapper {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 100%;
+  }
+
+  iframe {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+}
+
+.muse-layout_home-main-layout-page-container > .sub-app-sub-app-container {
+  margin: -30px;
+  width: ~'calc(100% + 60px)';
+  height: ~'calc(100vh - 50px)';
+}

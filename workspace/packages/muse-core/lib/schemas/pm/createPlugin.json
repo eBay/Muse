@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Create plugin params",
+  "type": "object",
+  "properties": {
+    "pluginName": {
+      "type": "string",
+      "pattern": "^(@|[a-zA-Z])[a-z0-9A-Z\\-_/]+"
+    },
+    "type": {
+      "type": "string",
+      "default": "normal",
+      "enum": ["normal", "lib", "init", "boot"]
+    },
+    "author": {
+      "type": "string"
+    },
+    "options": {
+      "type": "object"
+    },
+    "msg": {
+      "type": "string"
+    }
+  },
+  "required": ["pluginName"],
+  "additionalProperties": true
+}

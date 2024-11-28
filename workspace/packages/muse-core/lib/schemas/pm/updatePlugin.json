@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Update Plugin params",
+  "type": "object",
+  "properties": {
+    "pluginName": {
+      "type": "string"
+    },
+    "appName": {
+      "type": "string"
+    },
+    "envNames": {
+      "type": "array"
+    },
+    "changes": {
+      "type": "object"
+    },
+    "author": {
+      "type": "string"
+    },
+    "msg": {
+      "type": "string"
+    }
+  },
+  "required": ["pluginName"],
+  "additionalProperties": true
+}

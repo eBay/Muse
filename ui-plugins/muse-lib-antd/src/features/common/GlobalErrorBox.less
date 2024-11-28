@@ -1,0 +1,22 @@
+@import '../../styles/mixins';
+
+.muse-antd_common-global-error-box {
+  .ant-modal-content {
+    background: none;
+    border: none;
+    box-shadow: none;
+  }
+
+  .muse-antd_common-error-box .ant-alert {
+    background: @red2;
+    color: #fff;
+    border: none;
+    .anticon, .ant-alert-message {
+      color: #fff;
+    }
+    .ant-btn {
+      background-color: rgba(255, 255, 255, 0.2);
+      border: none;
+    }
+  }
+}

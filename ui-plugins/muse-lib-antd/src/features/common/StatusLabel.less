@@ -1,0 +1,30 @@
+@import '../../styles/mixins';
+
+.muse-antd_common-status-label {
+  display: inline-block;
+  color: #fff!important;
+  background-color: #777;
+  font-size: 12px;
+  padding: 0 10px;
+  border-radius: 4px;
+  line-height: 20px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: default;
+  &.status-success {
+    background-color: @green2;
+  }
+
+  &.status-failure {
+    background-color: @red2;
+  }
+  &.status-dormant {
+    background-color: #337ab7;
+  }
+
+  &.status-info,
+  &.status-processing {
+    background-color: #2185d0;
+  }
+}

@@ -1,0 +1,29 @@
+.muse-manager_pm-plugin-badges {
+  //
+
+  .plugin-badge() {
+    display: inline-block;
+    font-size: 10px;
+    background-color: #777;
+    color: #fff;
+    line-height: 14px;
+    margin-left: 5px;
+    width: 14px;
+    height: 14px;
+    border-radius: 2px;
+    text-align: center;
+    transform: translateY(0px);
+    cursor: default;
+  }
+
+  .plugin-badge {
+    &-allowlist {
+      .plugin-badge();
+      background-color: #f06292;
+    }
+    &-core {
+      .plugin-badge();
+      background-color: #26c6da;
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Release Plugin params",
+  "type": "object",
+  "properties": {
+    "pluginName": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string"
+    },
+    "author": {
+      "type": "string"
+    },
+    "msg": {
+      "type": "string"
+    },
+    "options": {
+      "type": "object"
+    },
+    "projectRoot": {
+      "type": "string"
+    }
+  },
+  "required": ["pluginName"],
+  "additionalProperties": true
+}

@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Update Env params",
+  "type": "object",
+  "properties": {
+    "appName": {
+      "type": "string"
+    },
+    "envName": {
+      "type": "string"
+    },
+    "changes": {
+      "type": "object"
+    },
+    "author": {
+      "type": "string"
+    },
+    "options": {
+      "type": "object"
+    }
+  },
+  "required": ["appName", "envName", "changes"],
+  "additionalProperties": true
+}

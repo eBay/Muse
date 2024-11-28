@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Delete App params",
+  "type": "object",
+  "properties": {
+    "appName": {
+      "type": "string"
+    },
+    "author": {
+      "type": "string"
+    },
+    "options": {
+      "type": "object"
+    }
+  },
+  "required": ["appName"],
+  "additionalProperties": true
+}

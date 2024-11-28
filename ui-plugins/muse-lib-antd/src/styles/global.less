@@ -1,0 +1,83 @@
+@import './mixins';
+
+// Here you put all global css rules.
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+.ant-skeleton {
+  ul {
+    padding: 0;
+  }
+}
+
+.force-hidden {
+  display: none !important;
+}
+
+#altusio-root {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  overflow: auto;
+  // z-index: 9999;
+  // background-color: white;
+  overflow-x: hidden;
+  min-height: 100%;
+}
+
+.form-footer,
+.form-footer-in-modal {
+  border-top: 1px solid #ddd;
+  padding-top: 10px;
+  text-align: right;
+  margin-top: 20px;
+  .ant-btn {
+    margin-left: 10px;
+  }
+}
+
+.form-footer-in-modal {
+  margin: 24px -24px -24px;
+  padding: 10px 16px !important;
+  margin-bottom: -24px !important;
+}
+
+section.form-section {
+  margin-bottom: 20px;
+  padding: 0 20px;
+  > h3 {
+    padding: 5px 10px;
+    margin: 0 -20px 20px -20px;
+    border-bottom: 1px solid #ddd;
+    color: #888;
+    font-weight: normal;
+  }
+}
+
+li {
+  font-size: 1em;
+}
+
+.ant-modal-body {
+  padding-top: 16px;
+}
+.nice-form-react-item-view-mode .ant-form-item-label label {
+  font-weight: bold;
+}
+
+.muse-simple-tip {
+  background-color: #f3f3f3;
+  color: #888;
+  padding: 15px 10px 15px 35px;
+  margin-bottom: 20px;
+  background-image: url(./lightOn.svg);
+  background-size: 20px 20px;
+  background-repeat: no-repeat;
+
+  background-position: 10px 15px;
+}

@@ -1,0 +1,8 @@
+{
+  "appType": "muse-plugin",
+  "rekitTest": true,
+  "exclude": [],
+  "include": [],
+  "noPrefix": true,
+  "css": "less"
+}

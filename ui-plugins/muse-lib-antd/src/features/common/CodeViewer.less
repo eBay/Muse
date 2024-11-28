@@ -1,0 +1,38 @@
+@import '../../styles/mixins';
+
+.muse-antd_common-code-viewer {
+  .code-title-container {
+    height: 30px;
+    background-color: #eee;
+    > label {
+      line-height: 30px;
+      margin-left: 5px;
+      color: #333;
+    }
+  }
+  &-dark {
+    .code-title-container {
+      background-color: #555;
+      > label {
+        color: #ddd;
+      }
+    }
+  }
+  .btn-copy-to-clipboard {
+    border: 0px solid #999;
+    background-color: transparent;
+    color: @primary-color;
+    cursor: pointer;
+    padding: 2px 5px;
+    float: right;
+    clear: both;
+    border-radius: 3px;
+    font-size: 12px;
+    outline: none;
+    margin: 3px 3px 0 0;
+  }
+  > pre {
+    clear: both;
+    margin-top: 0 !important;
+  }
+}

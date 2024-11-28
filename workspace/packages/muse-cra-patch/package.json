@@ -1,0 +1,20 @@
+{
+  "name": "@ebay/muse-cra-patch",
+  "version": "1.0.3",
+  "main": "index.js",
+  "license": "MIT",
+  "files": [
+    "lib",
+    "bin"
+  ],
+  "bin": {
+    "muse-cra-patch": "./bin/muse-cra-patch.js"
+  },
+  "devDependencies": {
+    "eslint": "^8.19.0"
+  },
+  "dependencies": {
+    "cross-spawn": "^7.0.3",
+    "resolve-cwd": "^3.0.0"
+  }
+}

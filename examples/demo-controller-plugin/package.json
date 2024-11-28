@@ -1,0 +1,54 @@
+{
+  "name": "demo-controller-plugin",
+  "version": "1.0.0",
+  "private": true,
+  "muse": {
+    "type": "normal",
+    "devConfig": {
+      "app": "app1",
+      "env": "staging"
+    }
+  },
+  "dependencies": {
+    "@craco/craco": "7.1.0",
+    "@ebay/muse-core": "1.0.33",
+    "@ebay/muse-cra-patch": "^1.0.2",
+    "@ebay/muse-craco-plugin": "^3.0.13",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "craco-less": "^3.0.1",
+    "cross-env": "^7.0.3",
+    "react-scripts": "5.0.1",
+    "@ebay/muse-lib-antd": "1.2.13",
+    "@ebay/muse-lib-react": "1.2.16",
+    "js-plugin": "^1.1.0",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "muse-cra-patch && craco start",
+    "build": "muse-cra-patch && craco build",
+    "build:dev": "muse-cra-patch && cross-env NODE_ENV=development FAST_REFRESH=false craco build",
+    "build:test": "muse-cra-patch && cross-env NODE_PATH=./node_modules MUSE_TEST_BUILD=true FAST_REFRESH=false craco build",
+    "test": "muse-cra-patch && craco test --ci --watchAll=false --passWithNoTests --coverage",
+    "test:dev": "muse-cra-patch && craco test --coverage"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
