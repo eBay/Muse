@@ -37,6 +37,9 @@ devDependencies:
   '@ebay/muse-modules':
     specifier: 1.0.28
     version: 1.0.28
+  '@jridgewell/gen-mapping':
+    specifier: ^0.1.1
+    version: 0.1.1
   '@testing-library/jest-dom':
     specifier: ^6.1.4
     version: 6.6.3
@@ -71,7 +74,7 @@ packages:
     resolution: {integrity: sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@ampproject/remapping/-/remapping-2.3.0.tgz}
     engines: {node: '>=6.0.0'}
     dependencies:
-      '@jridgewell/gen-mapping': 0.3.5
+      '@jridgewell/gen-mapping': 0.3.6
       '@jridgewell/trace-mapping': 0.3.25
 
   /@apideck/better-ajv-errors@0.3.6(ajv@8.17.1):
@@ -140,7 +143,7 @@ packages:
     dependencies:
       '@babel/parser': 7.26.3
       '@babel/types': 7.26.3
-      '@jridgewell/gen-mapping': 0.3.5
+      '@jridgewell/gen-mapping': 0.3.6
       '@jridgewell/trace-mapping': 0.3.25
       jsesc: 3.0.2
 
@@ -2506,12 +2509,18 @@ packages:
       '@types/yargs': 17.0.33
       chalk: 4.1.2
 
-  /@jridgewell/gen-mapping@0.3.5:
-    resolution: {integrity: sha512-IzL8ZoEDIBRWEzlCcRhOaCupYyN5gdIK+Q6fbFdPDg6HqX6jpkItn7DFIpW9LQzXG6Df9sA7+OKnq0qlz/GaQg==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@jridgewell/gen-mapping/-/gen-mapping-0.3.5.tgz}
+  /@jridgewell/gen-mapping@0.1.1:
+    resolution: {integrity: sha512-sQXCasFk+U8lWYEe66WxRDOE9PjVz4vSM51fTu3Hw+ClTpUSQb718772vH3pyS5pShp6lvQM7SxgIDXXXmOX7w==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@jridgewell/gen-mapping/-/gen-mapping-0.1.1.tgz}
     engines: {node: '>=6.0.0'}
     dependencies:
       '@jridgewell/set-array': 1.2.1
       '@jridgewell/sourcemap-codec': 1.5.0
+    dev: true
+
+  /@jridgewell/gen-mapping@0.3.6:
+    resolution: {integrity: sha512-e8fGuQbA+pfsS2fGGRZgciyzstnkNrZCRIuOzgej9WCxPjHW3fn6h9SoJC3MrvfylMegiJPse94+mBJGf/qltQ==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@jridgewell/gen-mapping/-/gen-mapping-0.3.6.tgz}
+    dependencies:
+      '@jridgewell/sourcemap-codec': 1.4.16-beta.0
       '@jridgewell/trace-mapping': 0.3.25
 
   /@jridgewell/resolve-uri@3.1.2:
@@ -2521,13 +2530,17 @@ packages:
   /@jridgewell/set-array@1.2.1:
     resolution: {integrity: sha512-R8gLRTZeyp03ymzP/6Lil/28tGeGEzhx1q2k703KGWRAI1VdvPIXdG70VJc2pAMw3NA6JKL5hhFu1sJX0Mnn/A==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@jridgewell/set-array/-/set-array-1.2.1.tgz}
     engines: {node: '>=6.0.0'}
+    dev: true
 
   /@jridgewell/source-map@0.3.6:
     resolution: {integrity: sha512-1ZJTZebgqllO79ue2bm3rIGud/bOe0pP5BjSRCRxxYkEZS8STV7zN84UBbiYu7jy+eCKSnVIUgoWWE/tt+shMQ==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@jridgewell/source-map/-/source-map-0.3.6.tgz}
     dependencies:
-      '@jridgewell/gen-mapping': 0.3.5
+      '@jridgewell/gen-mapping': 0.3.6
       '@jridgewell/trace-mapping': 0.3.25
     dev: true
+
+  /@jridgewell/sourcemap-codec@1.4.16-beta.0:
+    resolution: {integrity: sha512-qiZJiTfyb00BApxRU7Apz/3jtlp4gKgOmCXlGQRlIQ5zg6U0uYIb8lZBfbiJ+TxAEJ+rczfY07+CExd8sTRo5w==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@jridgewell/sourcemap-codec/-/sourcemap-codec-1.4.16-beta.0.tgz}
 
   /@jridgewell/sourcemap-codec@1.5.0:
     resolution: {integrity: sha512-gv3ZRaISU3fjPAgNsriBRqGWQL6quFx04YMPW/zD8XMLsU32mhCCbfbO6KZFLjvYpCZ8zyDEgqsgf+PwPaM7GQ==, tarball: https://artifactory.corp.ebay.com/artifactory/api/npm/npm-corp/@jridgewell/sourcemap-codec/-/sourcemap-codec-1.5.0.tgz}
@@ -11389,7 +11402,7 @@ packages:
     engines: {node: '>=16 || 14 >=14.17'}
     hasBin: true
     dependencies:
-      '@jridgewell/gen-mapping': 0.3.5
+      '@jridgewell/gen-mapping': 0.3.6
       commander: 4.1.1
       glob: 10.4.5
       lines-and-columns: 1.2.4
