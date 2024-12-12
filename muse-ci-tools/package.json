@@ -1,11 +1,11 @@
 {
-  "name": "muse-tests",
+  "name": "muse-ci-tools",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "build": "docker build -t muse-tests .",
+    "build": "docker build -t muse-ci-tools .",
     "docker:run": "node ./scripts/runTestsLocally.js",
     "test:docer": "pnpm build & pnpm docker:run",
     "start-local-registry": "node ./scripts/startLocalRegistry.js",
