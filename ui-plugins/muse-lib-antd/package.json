@@ -9,9 +9,6 @@
       "env": "staging"
     }
   },
-  "publishConfig": {
-    "registry": "https://artifactory.corp.ebay.com/artifactory/api/npm/npm-muse"
-  },
   "files": [
     "build",
     "src"
