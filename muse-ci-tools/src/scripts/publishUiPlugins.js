@@ -9,7 +9,6 @@ import path from 'path';
 import debug from 'debug';
 
 import fs from 'fs-extra';
-import config from '../config.js';
 import pkgExistsInRegistry from '../utils/pkgExistsInRegistry.js';
 
 if (!process.env.DEBUG) {
