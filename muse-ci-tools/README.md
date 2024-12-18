@@ -1,6 +1,6 @@
-# muse-tests
+# muse-ci-tools
 
-Full end-to-end tests for the whole Muse system.
+Tools set for publish Muse packages.
 
 ## Local Development
 To write e2e tests and run them locally, we use a local docker container to run full tests to provide a clean environment. The flow is a little different from which runs by github actions.

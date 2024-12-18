@@ -1,3 +1,3 @@
 # MUSE
 
-Micro Ui Solution from Ebay.
+A micro-frontends solution from ebay.

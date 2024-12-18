@@ -15,10 +15,6 @@
       "remotePlugins": []
     }
   },
-  "publishConfig": {
-    "registry": "https://artifactory.corp.ebay.com/artifactory/api/npm/npm-muse"
-  },
-  "author": "Nate Wang <pwang7@ebay.com>",
   "files": [
     "build",
     "src"
