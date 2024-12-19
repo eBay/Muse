@@ -35,5 +35,6 @@ jobs:
       # after test success, publish packages to the registry
       - name: Publish Packages
         run: |
+          cd muse-ci-tools
           pnpm run publish-packages
         if: ${{ github.ref_name == 'release' }}
