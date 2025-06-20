@@ -1,0 +1,28 @@
+{
+  "name": "@ebay/muse-cli",
+  "version": "1.0.33",
+  "main": "index.js",
+  "bin": {
+    "muse": "./bin/muse.js"
+  },
+  "license": "MIT",
+  "files": [
+    "bin",
+    "lib"
+  ],
+  "dependencies": {
+    "@ebay/muse-core": "workspace:^",
+    "@ebay/muse-modules-analyzer": "workspace:^",
+    "@ebay/muse-simple-server": "workspace:^",
+    "chalk": "4.1.2",
+    "commander": "9.3.0",
+    "fs-extra": "^10.1.0",
+    "inquirer": "8.2.3",
+    "javascript-time-ago": "^2.5.5",
+    "js-plugin": "^1.1.0",
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "eslint": "^8.18.0"
+  }
+}

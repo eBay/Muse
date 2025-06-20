@@ -1,0 +1,13 @@
+{
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "pluginName": { "type": "string" },
+      "createdAt": { "type": "string" },
+      "createdBy": { "type": "string" }
+    },
+    "required": ["pluginName", "createdAt", "createdBy"],
+    "additionalProperties": true
+  }
+}

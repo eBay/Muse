@@ -1,0 +1,1 @@
+All files under public folder will be deployed to cdn.

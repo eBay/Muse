@@ -1,0 +1,27 @@
+{
+  "name": "@ebay/muse-vite-plugin",
+  "version": "1.0.54",
+  "description": "",
+  "main": "lib/museVitePlugin.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@ebay/muse-core": "workspace:^",
+    "@ebay/muse-dev-utils": "workspace:^",
+    "@ebay/muse-modules": "workspace:^",
+    "fs-extra": "^10.1.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.1.1",
+    "eslint": "^9.1.1",
+    "globals": "^15.0.0"
+  },
+  "peerDependencies": {
+    "vite": "^5.2.11"
+  }
+}

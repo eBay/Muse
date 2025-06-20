@@ -1,0 +1,14 @@
+{
+  "type": "object",
+  "properties": {
+    "name": { "type": "string" },
+    "createdAt": { "type": "string" },
+    "createdBy": { "type": "string" },
+    "owners": { "type": "array" },
+    "envs": { "type": "object" },
+    "variables": { "type": "object" },
+    "pluginVariables": { "type": "object" }
+  },
+  "required": ["name", "createdAt", "createdBy"],
+  "additionalProperties": true
+}

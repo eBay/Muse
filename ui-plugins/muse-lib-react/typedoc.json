@@ -1,0 +1,7 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": ["./src/muse.d.ts"],
+  "categorizeByGroup": true,
+  "plugin": ["@ebay/muse-typedoc-plugin"],
+  "out": "doc/muse"
+}

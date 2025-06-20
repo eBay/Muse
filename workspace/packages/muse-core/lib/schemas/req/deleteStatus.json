@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "delete status params",
+  "type": "object",
+  "properties": {
+    "requestId": {
+      "type": "string"
+    },
+    "status": {
+      "type": ["object", "array", "string"]
+    },
+    "author": {
+      "type": "string"
+    },
+    "msg": {
+      "type": "string"
+    }
+  },
+  "required": ["requestId"],
+  "additionalProperties": true
+}

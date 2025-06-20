@@ -1,0 +1,14 @@
+{
+  "extends": "react-app",
+  "root": true,
+  "plugins": [
+  ],
+  "rules": {
+    // ...
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "error",
+    "no-unused-vars": 0,
+    "import/first": 0,
+    "import/no-anonymous-default-export": 0
+  }
+}

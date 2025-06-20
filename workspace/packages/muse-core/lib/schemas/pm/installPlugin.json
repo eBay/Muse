@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Install plugin params",
+  "type": "object",
+  "properties": {
+    "pluginName": {
+      "type": "string"
+    },
+
+    "version": {
+      "type": "string"
+    }
+  },
+  "required": ["pluginName"],
+  "additionalProperties": true
+}

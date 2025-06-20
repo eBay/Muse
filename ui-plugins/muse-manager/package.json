@@ -1,0 +1,84 @@
+{
+  "name": "@ebay/muse-manager",
+  "version": "1.2.20",
+  "private": false,
+  "type": "module",
+  "muse": {
+    "devConfig": {
+      "app": "musemanager",
+      "env": "staging",
+      "appOverride": {
+        "noSSO": false,
+        "variables": {
+          "museApiEndpoint": "https://musenextsvc.vip.qa.ebay.com/api/v2"
+        }
+      }
+    }
+  },
+  "files": [
+    "build"
+  ],
+  "devDependencies": {
+    "@ebay/muse-client": "^1.0.27",
+    "@ebay/muse-core": "^1.0.40",
+    "@ebay/muse-dev-utils": "^1.0.66",
+    "@ebay/muse-express-middleware": "^1.0.53",
+    "@ebay/muse-lib-antd": "^1.2.25",
+    "@ebay/muse-lib-react": "1.2.24",
+    "@ebay/muse-plugin-acl": "^1.0.15",
+    "@ebay/muse-vite-plugin": "^1.0.44",
+    "@tanstack/react-query": "^4.28.0",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.3.0",
+    "@testing-library/user-event": "^13.5.0",
+    "@vitejs/plugin-react-swc": "^3.6.0",
+    "autoprefixer": "^10.4.8",
+    "cross-env": "^7.0.3",
+    "find-root": "^1.1.0",
+    "flat": "^5.0.2",
+    "javascript-time-ago": "^2.5.9",
+    "less": "^4.2.0",
+    "lodash": "^4.17.21",
+    "postcss": "^8.4.16",
+    "pretty-ms": "^7.0.1",
+    "react-color": "^2.19.3",
+    "react-markdown": "^6.0.3",
+    "react-time-ago": "^7.2.1",
+    "semver": "^7.3.7",
+    "tailwindcss": "^3.1.8",
+    "util": "^0.12.5",
+    "validate-npm-package-name": "^4.0.0",
+    "vite": "^5.2.10",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "vite",
+    "build": "vite build",
+    "build:dev": "cross-env NODE_ENV=development vite build --mode development",
+    "build:test": "cross-env MUSE_TEST_BUILD=true NODE_ENV=production vite build --mode e2e-test",
+    "deploy": "pnpm build && pnpm build:dev && muse release && muse deploy musemanager staging",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ],
+    "rules": {
+      "jsx-a11y/anchor-is-valid": 0
+    }
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

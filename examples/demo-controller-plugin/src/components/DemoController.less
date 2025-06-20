@@ -1,0 +1,60 @@
+.plugins-selector {
+  // border: 1px solid #eee;
+  display: inline-block;
+  width: 100%;
+  .ant-alert {
+    margin-bottom: 10px;
+  }
+  > button {
+    float: right;
+  }
+  ul,
+  li {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+  ul {
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+  }
+  li {
+    display: grid;
+    grid-template-columns: 1fr 80px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 10px;
+    label {
+      font-weight: bold;
+      color: rgb(63, 66, 84);
+    }
+    p {
+      color: gray;
+    }
+    button {
+      grid-row: 1 / 2;
+      grid-column: 2/2;
+      justify-self: right;
+      align-self: center;
+    }
+  }
+}
+
+.plugin-selector-header {
+}
+.demo-controller {
+  display: flex;
+  align-items: center;
+  height: 20px;
+  margin-top: 15px;
+
+  .moving-eyes {
+    margin-right: 6px;
+  }
+  span {
+    line-height: 20px;
+  }
+
+  .anticon {
+    transform: scale(0.7);
+  }
+}

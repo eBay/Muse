@@ -1,0 +1,9 @@
+{
+  "globals": {
+    "after": "readonly",
+    "expect": "readonly"
+  },
+  "rules": {
+    "no-unused-expressions": 0
+  }
+}
