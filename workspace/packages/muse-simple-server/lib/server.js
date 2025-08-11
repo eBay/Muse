@@ -38,6 +38,7 @@ async function server(args) {
         byUrl,
         variables,
         pluginVariables,
+        ...args,
       }),
     );
   }
