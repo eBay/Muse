@@ -84,7 +84,7 @@ async function batchAsync(tasks, { size = 100, msg = 'Batch async' } = {}) {
     logger.verbose(
       `${msg}: ${i * size + 1}~${Math.min(i * size + size, tasks.length)} of ${tasks.length}`,
     );
-    const arr = await Promise.all(chunk.map(c => c()));
+    const arr = await Promise.all(chunk.map((c) => c()));
     res.push(...arr);
   }
   return res;
@@ -109,10 +109,10 @@ function makeRetryAble(executor, { times = 3, checker = () => {}, msg = '' } = {
   };
 }
 
-const getFilesRecursively = async dir => {
+const getFilesRecursively = async (dir) => {
   const dirents = await fs.readdir(dir, { withFileTypes: true });
   const files = await Promise.all(
-    dirents.map(dirent => {
+    dirents.map((dirent) => {
       const res = path.resolve(dir, dirent.name).replace(/\\/g, '/');
       return dirent.isDirectory() ? getFilesRecursively(res) : res;
     }),
@@ -127,20 +127,20 @@ const updateJson = (obj, changes) => {
   // remove: [{ path, predicate, value }, ...]
   const { set = [], unset = [], remove = [], push = [] } = changes;
 
-  _.castArray(set).forEach(item => {
+  _.castArray(set).forEach((item) => {
     _.set(obj, item.path, item.value);
   });
 
-  _.castArray(unset).forEach(p => {
+  _.castArray(unset).forEach((p) => {
     _.unset(obj, p);
   });
 
-  _.castArray(push).forEach(item => {
+  _.castArray(push).forEach((item) => {
     if (!_.get(obj, item.path)) _.set(obj, item.path, []);
     _.get(obj, item.path).push(item.value);
   });
 
-  _.castArray(remove).forEach(item => {
+  _.castArray(remove).forEach((item) => {
     const arr = _.get(obj, item.path);
     if (!arr) return;
     if (item.value) _.pull(arr, item.value);
@@ -162,7 +162,7 @@ const genNewVersion = (oldVersion, verionType = 'patch') => {
 const getMuseGlobal = (app, envName) => {
   const plugins = app.envs?.[envName]?.plugins;
 
-  const bootPlugin = plugins.find(p => p.type === 'boot');
+  const bootPlugin = plugins.find((p) => p.type === 'boot');
 
   return {
     appName: app.name,
@@ -178,7 +178,7 @@ const doZip = (sourceDir, zipFile) => {
     const archive = archiver('zip', { zlib: { level: 9 } });
     archive.directory(sourceDir, false);
     archive.pipe(output);
-    archive.on('error', err => reject(err));
+    archive.on('error', (err) => reject(err));
     output.on('close', () => {
       resolve();
     });
@@ -186,7 +186,7 @@ const doZip = (sourceDir, zipFile) => {
   });
 };
 
-const parseRegistryKey = key => {
+const parseRegistryKey = (key) => {
   const arr = key.split('/').filter(Boolean);
 
   if (arr[0] === 'apps' && arr[2] === `${arr[1]}.yaml`) {
