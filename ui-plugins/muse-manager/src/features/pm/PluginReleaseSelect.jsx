@@ -2,8 +2,7 @@ import React from 'react';
 import { Select, Tooltip, Tag } from 'antd';
 import TimeAgo from 'react-time-ago';
 import { usePollingMuseData } from '../../hooks';
-
-const { Option } = Select;
+import { extendArray } from '@ebay/muse-lib-antd/src/utils';
 
 export default function PluginReleaseSelect({ value, onChange, plugin, app, filter, ...rest }) {
   let {
@@ -56,6 +55,53 @@ function PluginReleaseSelectWithPlugin({
   if (error) return 'Failed, please refresh to retry.';
   if (filter && releases) releases = releases.filter(filter);
 
+  const options = releases
+    ? releases.map((r) => {
+        const tags = [];
+        if (app) {
+          Object.entries(app.envs).forEach(([envName, env]) => {
+            if (env.plugins?.find((a) => a.name === plugin.name && a.version === r.version)) {
+              tags.push(
+                <Tooltip key={envName} title={`Already on ${envName}`}>
+                  <Tag
+                    color={envName === 'production' ? 'green' : 'orange'}
+                    style={{ verticalAlign: 'middle', lineHeight: '20px' }}
+                  >
+                    {envName}
+                  </Tag>
+                </Tooltip>,
+              );
+            }
+          });
+        }
+        return {
+          key: r.version,
+          value: r.version.startsWith('v') ? r.version.substring(1) : r.version,
+          label: (
+            <>
+              <span style={{ marginRight: '15px', verticalAlign: 'middle' }}>{r.version}</span>
+              {tags}
+              <span style={{ color: '#999', marginLeft: '5px', verticalAlign: 'middle' }}>
+                {r.branch && (
+                  <>
+                    built from{' '}
+                    <Tag>
+                      {/^[0-9a-f]{40}$/.test(r.branch)
+                        ? r.branch.substring(0, 6)
+                        : r.branch || 'unknown'}
+                    </Tag>
+                  </>
+                )}
+                by {r.createdBy} <TimeAgo date={new Date(r.createdAt)} />
+              </span>
+            </>
+          ),
+        };
+      })
+    : [];
+
+  extendArray(options, 'options', 'museManager.pm.pluginReleaseSelect', { options, plugin, app });
+
   return (
     <div className="plugin-manager_home-plugin-release-select">
       <Select
@@ -66,48 +112,8 @@ function PluginReleaseSelectWithPlugin({
         popupMatchSelectWidth={false}
         disabled={loading}
         loading={loading}
-      >
-        {releases &&
-          releases.map((r) => {
-            const tags = [];
-            if (app) {
-              Object.entries(app.envs).forEach(([envName, env]) => {
-                // const onEnv = env.plugins && env.plugins.find(a => 'v' + a.meta.version === r.tag_name)
-                if (env.plugins?.find((a) => a.name === plugin.name && a.version === r.version)) {
-                  // on env
-                  tags.push(
-                    <Tooltip key={envName} title={`Already on ${envName}`}>
-                      <Tag
-                        color={envName === 'production' ? 'green' : 'orange'}
-                        style={{ verticalAlign: 'middle', lineHeight: '20px' }}
-                      >
-                        {envName}
-                      </Tag>
-                    </Tooltip>,
-                  );
-                }
-              });
-            }
-
-            return (
-              <Option
-                key={r.version}
-                value={r.version.startsWith('v') ? r.version.substring(1) : r.version}
-              >
-                <span style={{ marginRight: '15px', verticalAlign: 'middle' }}>{r.version}</span>
-                {tags}
-                <span style={{ color: '#999', marginLeft: '5px', verticalAlign: 'middle' }}>
-                  {r.branch && (
-                    <>
-                      built from <Tag>{r.branch || 'unknown'}</Tag>
-                    </>
-                  )}
-                  by {r.createdBy} <TimeAgo date={new Date(r.createdAt)} />
-                </span>
-              </Option>
-            );
-          })}
-      </Select>
+        options={options}
+      />
     </div>
   );
 }
