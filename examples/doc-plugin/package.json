@@ -2,29 +2,33 @@
   "name": "doc-plugin",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "dependencies": {
-    "@craco/craco": "7.1.0",
     "@ebay/muse-core": "1.0.30",
-    "@ebay/muse-cra-patch": "^1.0.2",
-    "@ebay/muse-craco-plugin": "^3.0.12",
+    "@ebay/muse-lib-antd": "1.2.26",
+    "@ebay/muse-lib-react": "1.2.24",
+    "@ebay/muse-vite-plugin": "^1.0.50",
+    "@ebay/muse-vite-plugin-ebay": "^1.0.6",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
-    "craco-less": "^3.0.1",
     "cross-env": "^7.0.3",
-    "react-scripts": "5.0.1",
-    "@ebay/muse-lib-antd": "1.2.4",
-    "@ebay/muse-lib-react": "1.2.9",
+    "eslint": "^8.57.0",
+    "eslint-plugin-react": "^7.34.1",
+    "eslint-plugin-react-hooks": "^4.6.0",
     "js-plugin": "^1.1.0",
+    "less": "^4.2.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-syntax-highlighter": "^15.5.0",
+    "vite": "^4.4.9",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "muse-cra-patch && cross-env PORT=3036 craco start",
-    "build": "muse-cra-patch && craco build",
-    "build:dev": "muse-cra-patch && cross-env NODE_ENV=development FAST_REFRESH=false craco build",
-    "test": "muse-cra-patch && craco test --ci --watchAll=false --passWithNoTests --coverage",
-    "test:dev": "muse-cra-patch && craco test --coverage"
+    "start": "vite",
+    "build": "vite build",
+    "build:dev": "cross-env NODE_ENV=development vite build --mode development",
+    "build:test": "cross-env MUSE_TEST_BUILD=true NODE_ENV=production vite build --mode e2e-test"
   },
   "eslintConfig": {
     "extends": [
@@ -47,8 +51,11 @@
   "muse": {
     "type": "normal",
     "devConfig": {
-      "app": "myapp",
+      "app": "museaitestdemo",
       "remotePlugins": "*"
     }
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.0.0"
   }
 }
