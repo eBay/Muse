@@ -8,6 +8,7 @@
     "@ebay/muse-lib-antd": "1.2.26",
     "@ebay/muse-lib-react": "1.2.24",
     "@ebay/muse-vite-plugin": "^1.0.50",
+    "@vitejs/plugin-react-swc": "^3.6.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -53,8 +54,5 @@
       "app": "myapp",
       "remotePlugins": "*"
     }
-  },
-  "devDependencies": {
-    "@vitejs/plugin-react": "^4.0.0"
   }
 }
