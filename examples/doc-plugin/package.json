@@ -8,7 +8,6 @@
     "@ebay/muse-lib-antd": "1.2.26",
     "@ebay/muse-lib-react": "1.2.24",
     "@ebay/muse-vite-plugin": "^1.0.50",
-    "@ebay/muse-vite-plugin-ebay": "^1.0.6",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -21,7 +20,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-syntax-highlighter": "^15.5.0",
-    "vite": "^4.4.9",
+    "vite": "^5.2.10",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -51,7 +50,7 @@
   "muse": {
     "type": "normal",
     "devConfig": {
-      "app": "museaitestdemo",
+      "app": "myapp",
       "remotePlugins": "*"
     }
   },
