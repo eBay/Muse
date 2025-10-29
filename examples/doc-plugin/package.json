@@ -51,8 +51,7 @@
   "muse": {
     "type": "normal",
     "devConfig": {
-      "app": "myapp",
-      "remotePlugins": "*"
+      "app": "myapp"
     }
   }
 }
