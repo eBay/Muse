@@ -1,6 +1,19 @@
 import { $ } from 'zx';
 import { asyncInvoke } from '../../utils.js';
 
+/**
+ * - create app `app1`
+ * - create env `env1` for app `app1`
+ * - deploy plugins `@ebay/muse-boot-default` and `@ebay/muse-lib-react` to env `staging` of app `app1`
+ * - create plugin `plugin1`
+ *
+ * Extesion points:
+ * - mainFlow.appCreated
+ * - mainFlow.envCreated
+ * - mainFlow.pluginDeployed
+ * - mainFlow.pluginCreated
+ */
+
 const start = async () => {
   await $`muse create-app app1`;
   await asyncInvoke('mainFlow.appCreated', { appName: 'app1' });

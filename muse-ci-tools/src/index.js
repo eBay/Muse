@@ -33,13 +33,13 @@ if (!process.env.NO_DEBUG) {
   debug.enable('muse:*');
 }
 
-// jsPlugin.config.throws = true;
+jsPlugin.config.throws = true;
 
-// const allPlugins = [museCli, mainFlow];
+const allPlugins = [museCli, mainFlow];
 
-// allPlugins.forEach((p) => {
-//   jsPlugin.register(p);
-// });
+allPlugins.forEach((p) => {
+  jsPlugin.register(p);
+});
 
 // await $`node -v`;
 // await $`pnpm -v`;
@@ -47,10 +47,11 @@ console.log('start setup');
 await setupMuse();
 console.log('setup finished');
 
-// await asyncInvoke('preStart');
-// await asyncInvoke('start');
-// await asyncInvoke('postStart');
-// await asyncInvoke('preEnd');
-// await asyncInvoke('end');
-// await asyncInvoke('postEnd');
-// reporter.report();
+await asyncInvoke('preStart');
+await asyncInvoke('start');
+await asyncInvoke('postStart');
+await asyncInvoke('preEnd');
+await asyncInvoke('end');
+await asyncInvoke('postEnd');
+
+reporter.report();

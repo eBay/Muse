@@ -15,18 +15,20 @@ const cwd = process.cwd();
 const pkgJson = fs.readJsonSync(path.join(cwd, 'package.json'));
 assert(
   pkgJson.name === '@ebay/muse-ci-tools',
-  'This script should be run from the @ebay/muse-ci-tools package.',
+  'This script should be run under the @ebay/muse-ci-tools project.',
 );
 
-// Clone the muse repo (from local folder) to a tmp folder
+// Clone the Muse mono repo (from local folder) to a tmp folder
 // Only for local development and testing
+// This simulates the scenario where muse-ci-tools is tested by Github actions
+// To reset the testing, just delete the tmp/muse-repo folder
 const mountedRepoFolder = path.join(cwd, 'tmp/muse-repo');
 if (!fs.existsSync(mountedRepoFolder)) {
   console.log('Cloning muse repo');
   await $`git clone ../ ${mountedRepoFolder}`;
 }
 
-// Overwrite the src, package.json and pnpm-lock.yaml files from muse-tests
+// Overwrite the src, package.json and pnpm-lock.yaml files from muse-ci-tools
 // This is to apply code changes from muse-tests folder for development testing.
 const dest = path.join(cwd, 'tmp/muse-repo/muse-ci-tools');
 const pathsToOverwrite = ['src', 'package.json', 'pnpm-lock.yaml', '.env'];
@@ -38,7 +40,9 @@ for (const p of pathsToOverwrite) {
 console.log('Build and start docker...');
 
 await $`docker build -t muse-ci-tools .`;
-// await $`docker run -it -p 127.0.0.1:5000-6000:5000-6000 muse-ci-tools`;
+
+// To reset npm registry, delete tmp/verdaccio-store folder
+// To reset pnpm store, delete tmp/pnpm-store folder
 await $`docker run \
   -it \
   -v ${mountedRepoFolder}:/testspace \

@@ -3,7 +3,7 @@ const reporter = {
   suites: [],
   addResult(suite) {
     if (!suite || !suite.title) return;
-    this.suites?.push(suite);
+    this.suites.push(suite);
   },
   report() {
     console.log('Testing summary: ');

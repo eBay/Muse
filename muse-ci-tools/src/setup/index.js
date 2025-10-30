@@ -32,10 +32,10 @@ const setup = async () => {
 
   // For verification test, just use all public published packages to run all tests
   await startNpmRegistry();
-  await stopNpmRegistry();
+  // await stopNpmRegistry();
 
   // await cloneMuseRepo();
-  return;
+  // return;
 
   if (!config.isFlagEnabled('VERIFICATION_TEST')) {
     // await cloneMuseRepo();

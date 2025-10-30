@@ -106,5 +106,5 @@ dist
 # Muse app, generated when build
 ./static
 
-/public
+
 /.beans

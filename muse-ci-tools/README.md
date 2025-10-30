@@ -1,9 +1,12 @@
 # muse-ci-tools
 
-Tools set for publish Muse packages.
+This project provide tools and tests to deliver Muse packages, including Muse UI plugins and npm packages.
+
+- Tools set for publish Muse packages.
+- Extensible integration tests architecture.
 
 ## Local Development
-To write e2e tests and run them locally, we use a local docker container to run full tests to provide a clean environment. The flow is a little different from which runs by github actions.
+To write e2e tests and run them locally, we use a local docker container to run full tests to provide a clean environment. The flow is a little different from which runs by Github actions.
 
 To optimize the performance, mount the folder `tmp` to persist muse repo and verdaccio storage. See the code in `scripts/runTests.js`.
 
@@ -11,16 +14,21 @@ To start this flow, run below command:
 
 ```
 pnpm docker:run
-
-// or
-
-node scripts/runTests.js
 ```
+
+It runs `scripts/runTestsLocally.js` actually.
 
 
 > NOTE: never run `src/index.js` directly at local since it modifies souce code of the repo.
 
 > If there's problem to run tests, try remove `tmp` folder then try again. (the `tmp` folder is used to persist pnpm store, npm store and muse-repo between tests)
+
+## NPM Scripts Explaination
+
+- `"docker:run": "node ./scripts/runTestsLocally.js"` : only for local testing, start a docker container to setup Muse environment and run tests.
+- `"test": "node src/index.js"` : start the testing, it runs `src/index.js` . This should always be run in a contaner (both local docker or Github actions server)
+- `"test:local": "pnpm i && pnpm test"` : only called in local docker container, it installs dependency first and then run tests. Usually not called directly.
+- `"start-local-registry": "node ./scripts/startLocalRegistry.js"`: start local npm server for testing using the mounted tmp folder.
 
 ## Testing Steps
 
