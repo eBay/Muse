@@ -1,4 +1,4 @@
-import { Button, Switch, Alert } from 'antd';
+import { Button, Switch } from 'antd';
 import { useSessionStorage } from 'react-use';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
