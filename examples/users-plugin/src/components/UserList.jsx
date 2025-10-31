@@ -8,6 +8,8 @@ import { useModal } from '@ebay/nice-modal-react';
 import UserInfoModal from './UserInfoModal';
 import { UserOutlined } from '@ant-design/icons';
 import './UserList.less';
+import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export default function UserList() {
   const userModal = useModal(UserInfoModal);
@@ -37,7 +39,7 @@ export default function UserList() {
                   <UserOutlined />
                 </div>
               )}
-              <label>{name}</label>
+              <Link to={`/users/${user.id}`}>{name}</Link>
               <p>{user.job}</p>
             </div>
           );
