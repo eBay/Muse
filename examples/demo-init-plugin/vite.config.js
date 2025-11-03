@@ -6,6 +6,7 @@ export default defineConfig(({ mode }) => {
     build: {
       outDir: path.resolve(__dirname, 'build/dist'),
       rollupOptions: {
+        input: 'src/index.js',
         output: {
           entryFileNames: 'main.js',
         },
