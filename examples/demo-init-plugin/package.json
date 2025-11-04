@@ -12,16 +12,11 @@
   },
   "scripts": {
     "start": "vite",
-    "build": "vite build",
-    "build:dev": "cross-env NODE_ENV=development vite build --mode development",
-    "build:test": "cross-env MUSE_TEST_BUILD=true NODE_ENV=production vite build --mode e2e-test"
+    "build": "vite build"
   },
   "dependencies": {
-    "@babel/core": "^7.18.6",
-    "@babel/preset-env": "^7.18.6",
     "@ebay/muse-core": "^1.0.26",
     "@ebay/muse-dev-utils": "^1.0.46",
-    "babel-loader": "^8.2.5",
     "eslint": "^8.19.0",
     "js-cookie": "^3.0.1",
     "vite": "^5.2.10",
