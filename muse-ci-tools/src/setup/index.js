@@ -9,7 +9,7 @@ import * as config from '../config.js';
 import { startNpmRegistry, stopNpmRegistry } from './localNpmRegistry.js';
 import publishPackages from './publishPackages.js';
 import buildAndPublishUiPlugins from './buildAndPublishUiPlugins.js';
-import cloneMuseRepo from './cloneMuseRepo.js';
+// import cloneMuseRepo from './cloneMuseRepo.js';
 
 const log = debug('muse:setup');
 
