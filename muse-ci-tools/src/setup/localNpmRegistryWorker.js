@@ -40,16 +40,15 @@ const startNpmRegistry = async () => {
       },
     },
     packages: {
-      // '@ebay/nice-*': {
-      //   access: '$anonymous',
-      //   proxy: 'npmjs',
-      // },
-      // '@ebay/*': {
-      //   access: '$anonymous',
-      //   publish: '$anonymous',
-      //   unpublish: '$anonymous',
-      //   proxy: 'npmjs',
-      // },
+      '@ebay/nice-*': {
+        access: '$anonymous',
+        proxy: 'npmjs',
+      },
+      '@ebay/*': {
+        access: '$anonymous',
+        publish: '$anonymous',
+        unpublish: '$anonymous',
+      },
       '**': {
         access: '$anonymous',
         publish: '$anonymous',
