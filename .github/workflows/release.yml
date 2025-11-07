@@ -36,4 +36,6 @@ jobs:
         run: |
           cd workspace
           pnpm publish -r --access public --no-git-checks --registry=https://registry.npmjs.org/
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         if: ${{ github.ref_name == 'release' }}
