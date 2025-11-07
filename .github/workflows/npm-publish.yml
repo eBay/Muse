@@ -36,7 +36,7 @@ jobs:
       - name: Publish UI Plugins
         run: |
           export MUSE_TESTS_FLAG_GITHUB_ACTIONS=1
-          export TARGET_NPM_REGISTRY="https://registry.npmjs.org"
+          export TARGET_NPM_REGISTRY=https://registry.npmjs.org
           cd muse-ci-tools
           pnpm install
           pnpm run publish:ui-plugins
