@@ -1,4 +1,4 @@
-name: release
+name: npm-publish
 
 # Controls when the workflow will run
 on:
@@ -36,7 +36,7 @@ jobs:
       - name: Publish Packages
         run: |
           cd workspace
-          pnpm changeset tag && pnpm publish -r --access public --no-git-checks --registry=https://registry.npmjs.org/
+          pnpm publish -r --access public --no-git-checks --registry=https://registry.npmjs.org
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
