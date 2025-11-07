@@ -1,10 +1,10 @@
-name: build
+name: release
 
 # Controls when the workflow will run
 on:
   push:
     branches:
-      - main
+      - release
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -31,3 +31,10 @@ jobs:
           cd muse-ci-tools
           pnpm i
           pnpm test
+
+      # after test success, publish packages to the registry
+      - name: Publish Packages
+        run: |
+          cd workspace
+          pnpm publish -r --access public --registry=https://registry.npmjs.org/
+        if: ${{ github.ref_name == 'release' }}
