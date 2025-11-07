@@ -5,6 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "publish:ui-plugins": "node ./scripts/buildAndPublishUiPlugins.js",
     "docker:run": "node ./scripts/runTestsLocally.js",
     "start-local-registry": "node ./scripts/startLocalRegistry.js",
     "test:local": "pnpm i && pnpm test",

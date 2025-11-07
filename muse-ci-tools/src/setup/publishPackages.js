@@ -33,7 +33,7 @@ const publishPackages = async () => {
     // Install all deps so that they can be published to the local npm registry
     log('installing deps');
     await $`cd ${path.join(config.MUSE_REPO_LOCAL, 'workspace')} && pnpm install -f --registry=${
-      config.LOCAL_NPM_REGISTRY
+      config.TARGET_NPM_REGISTRY
     }`;
     log('deps installed');
   }

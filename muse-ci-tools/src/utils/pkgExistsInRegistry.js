@@ -5,10 +5,10 @@ import debug from 'debug';
 const log = debug('muse:utils:pkg-exists-in-registry');
 // Mostly a utility used during development to save time
 const pkgExistsInRegistry = async (pkgName, { registryUrl, version } = {}) => {
-  log('checking if package exists in registry', pkgName, registryUrl || config.LOCAL_NPM_REGISTRY);
+  log('checking if package exists in registry', pkgName, registryUrl || config.TARGET_NPM_REGISTRY);
   try {
     const pkg = await getPkgInRegistry(pkgName, {
-      registryUrl: registryUrl || config.LOCAL_NPM_REGISTRY,
+      registryUrl: registryUrl || config.TARGET_NPM_REGISTRY,
       version,
     });
     return pkg;

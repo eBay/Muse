@@ -19,7 +19,7 @@ const log = debug('muse:build-ui-plugins');
 //   }
 //   await $`cd ${dir}`;
 
-//   await $`cd ${dir} && pnpm install --registry=${config.LOCAL_NPM_REGISTRY}`;
+//   await $`cd ${dir} && pnpm install --registry=${config.TARGET_NPM_REGISTRY}`;
 //   await $`cd ${dir} && pnpm build`;
 
 //   if (pkgJson.scripts['build:dev']) {
@@ -29,7 +29,7 @@ const log = debug('muse:build-ui-plugins');
 //     await $`cd ${dir} && pnpm run build:test`;
 //   }
 
-//   await $`cd ${dir} && pnpm publish --no-git-check --force --registry=${config.LOCAL_NPM_REGISTRY}`;
+//   await $`cd ${dir} && pnpm publish --no-git-check --force --registry=${config.TARGET_NPM_REGISTRY}`;
 // };
 
 const buildAndPublishUiPlugins = async () => {

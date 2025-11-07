@@ -26,7 +26,7 @@ const buildPlugin = async (dir) => {
     fs.removeSync(path.join(dir, 'pnpm-lock.yaml'));
   }
 
-  await $`cd ${dir} && pnpm install --registry=${config.LOCAL_NPM_REGISTRY}`;
+  await $`cd ${dir} && pnpm install --registry=${config.TARGET_NPM_REGISTRY}`;
   await $`cd ${dir} && pnpm build`;
 
   if (pkgJson.scripts['build:dev']) {

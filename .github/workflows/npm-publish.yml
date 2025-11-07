@@ -33,7 +33,17 @@ jobs:
       #     pnpm test
 
       # after test success, publish packages to the registry
-      - name: Publish Packages
+      - name: Publish UI Plugins
+        run: |
+          export TARGET_NPM_REGISTRY="https://registry.npmjs.org"
+          cd muse-ci-tools
+          pnpm install
+          pnpm run publish:ui-plugins
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish Core Packages
         run: |
           cd workspace
           pnpm install
