@@ -35,5 +35,5 @@ jobs:
       - name: Publish Packages
         run: |
           cd workspace
-          pnpm publish -r --access public --registry=https://registry.npmjs.org/
+          pnpm publish -r --access public --no-git-checks --registry=https://registry.npmjs.org/
         if: ${{ github.ref_name == 'release' }}
