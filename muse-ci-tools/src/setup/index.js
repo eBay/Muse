@@ -40,7 +40,7 @@ const setup = async () => {
   if (!config.isFlagEnabled('VERIFICATION_TEST')) {
     // await cloneMuseRepo();
     await publishPackages();
-    await buildAndPublishUiPlugins();
+    // await buildAndPublishUiPlugins();
   }
 
   // Install Muse CLI
