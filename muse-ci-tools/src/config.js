@@ -27,7 +27,8 @@ export const MUSE_REPO_LOCAL = isFlagEnabled('GITHUB_ACTIONS')
 export const VERDACCIO_STORAGE =
   process.env.VERDACCIO_STORAGE || path.join(WORKING_DIR, 'verdaccio-store');
 export const TARGET_NPM_REGISTRY_PORT = process.env.TARGET_NPM_REGISTRY_PORT || 5873;
-export const TARGET_NPM_REGISTRY = `http://localhost:${TARGET_NPM_REGISTRY_PORT}/`;
+export const TARGET_NPM_REGISTRY =
+  process.env.TARGET_NPM_REGISTRY || `http://localhost:${TARGET_NPM_REGISTRY_PORT}/`;
 export const UPCOMING_NPM_REGISTRY =
   process.env.UPCOMING_NPM_REGISTRY || 'https://registry.npmjs.org/';
 
