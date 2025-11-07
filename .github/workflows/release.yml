@@ -26,7 +26,6 @@ jobs:
 
       - name: Run Tests
         run: |
-          export MUSE_TESTS_FLAG_RESET_PNPM_LOCK=1
           export MUSE_TESTS_FLAG_GITHUB_ACTIONS=1
           cd muse-ci-tools
           pnpm i
