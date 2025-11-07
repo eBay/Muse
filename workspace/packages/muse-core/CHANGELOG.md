@@ -1,5 +1,11 @@
 # @ebay/muse-core
 
+## 1.0.45
+
+### Patch Changes
+
+- test
+
 ## 1.0.44
 
 ### Patch Changes
