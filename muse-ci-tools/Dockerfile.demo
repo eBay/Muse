@@ -1,0 +1,24 @@
+FROM hub.tess.io/muse/node18:latest
+WORKDIR /workspace
+
+# Setup npm and install global packages
+
+# proxy is only necessary for internal network
+# RUN export https_proxy=http://den-entbc-001:80
+RUN npm install -g zx pnpm@8.15.4
+
+# bash is necessary for zx
+
+RUN apk update && apk add bash && apk add git
+# RUN cd ..
+
+RUN apk add --no-cache python3 py3-pip make build-base
+
+# RUN npm install -g pnpm@latest --registry=https://npm.corp.ebay.com
+RUN pnpm config set store-dir /pnpm-store
+
+RUN npm install -g @ebay/muse-cli
+
+WORKDIR /workspace
+# # Execute tests
+CMD ["muse", "manager"]

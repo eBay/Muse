@@ -7,6 +7,8 @@
   "scripts": {
     "publish:ui-plugins": "node ./scripts/buildAndPublishUiPlugins.js",
     "docker:run": "node ./scripts/runTestsLocally.js",
+    "docker:demo": "node ./scripts/demo.js",
+    "run:demo": "node src/demo.js",
     "start-local-registry": "node ./scripts/startLocalRegistry.js",
     "test:local": "pnpm i && pnpm test",
     "test": "node src/index.js"

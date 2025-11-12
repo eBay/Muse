@@ -26,6 +26,7 @@ It runs `scripts/runTestsLocally.js` actually.
 ## NPM Scripts Explaination
 
 - `"docker:run": "node ./scripts/runTestsLocally.js"` : only for local testing, start a docker container to setup Muse environment and run tests.
+- `"docker:demo":""`: run Muse for demo in a clean environment, install all deps from public npm registry. Then it could be accessed locally with exported ports.
 - `"test": "node src/index.js"` : start the testing, it runs `src/index.js` . This should always be run in a contaner (both local docker or Github actions server)
 - `"test:local": "pnpm i && pnpm test"` : only called in local docker container, it installs dependency first and then run tests. Usually not called directly.
 - `"start-local-registry": "node ./scripts/startLocalRegistry.js"`: start local npm server for testing using the mounted tmp folder.
