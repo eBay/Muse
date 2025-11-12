@@ -16,23 +16,25 @@ const publishPlugin = async (dir) => {
   const pkgJsonPath = path.join(dir, 'package.json');
   const pkgJson = fs.readJsonSync(pkgJsonPath);
 
-  if (await pkgExistsInRegistry(pkgJson.name)) {
+  if ((await pkgExistsInRegistry(pkgJson.name)) && config.IS_TESTING) {
     log('package already exists in registry, republish it...', pkgJson.name);
     await $`pnpm unpublish --force ${pkgJson.name}@${pkgJson.version} --registry=${config.TARGET_NPM_REGISTRY}`;
     log('package unpublished', pkgJson.name, pkgJson.version);
   }
 
-  if (pkgJson.publishConfig?.registry) {
+  if (config.IS_TESTING && pkgJson.publishConfig?.registry) {
     delete pkgJson.publishConfig.registry;
     fs.writeJsonSync(pkgJsonPath, pkgJson, { spaces: 2 });
   }
 
   if (!config.TARGET_NPM_REGISTRY) {
-    throw new Error('TARGET_NPM_REGISTRY is not set or not a local registry');
+    throw new Error('TARGET_NPM_REGISTRY is not set.');
   }
 
   try {
-    await $`cd ${dir} && pnpm publish --no-git-check --force --registry=${config.TARGET_NPM_REGISTRY} --access public`;
+    await $`cd ${dir} && pnpm publish ${
+      config.IS_TESTING ? '--no-git-check --force' : ''
+    } --registry=${config.TARGET_NPM_REGISTRY} --access public`;
     log('published package', pkgJson.name, pkgJson.version);
   } catch (e) {
     log('failed to publish package', pkgJson.name, pkgJson.version, e);

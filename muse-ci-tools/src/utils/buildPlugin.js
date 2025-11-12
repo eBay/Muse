@@ -16,9 +16,11 @@ const buildPlugin = async (dir) => {
   const pkgJsonPath = path.join(dir, 'package.json');
   const pkgJson = fs.readJsonSync(pkgJsonPath);
 
-  Object.entries(localPackages).forEach(([name, version]) => {
-    _.set(pkgJson, `pnpm.overrides.${name}`, version);
-  });
+  if (config.IS_TESTING) {
+    Object.entries(localPackages).forEach(([name, version]) => {
+      _.set(pkgJson, `pnpm.overrides.${name}`, version);
+    });
+  }
 
   fs.writeJsonSync(pkgJsonPath, pkgJson, { spaces: 2 });
 

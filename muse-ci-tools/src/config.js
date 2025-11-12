@@ -32,6 +32,8 @@ export const TARGET_NPM_REGISTRY =
 export const UPCOMING_NPM_REGISTRY =
   process.env.UPCOMING_NPM_REGISTRY || 'https://registry.npmjs.org/';
 
+export const IS_TESTING = TARGET_NPM_REGISTRY.startsWith('http://localhost:');
+
 /**
  * The npm registry used to install dependencies of workspace and ui-plugins
  */
