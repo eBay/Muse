@@ -47,9 +47,9 @@ const buildAndPublishUiPlugins = async () => {
     const pkgJsonPath = path.join(dir, 'package.json');
     const pkgJson = fs.readJsonSync(pkgJsonPath);
 
-    log('checking if package exists in registry', pkgJson.name);
-    if (await pkgExistsInRegistry(pkgJson.name)) {
-      log('package already exists in registry', pkgJson.name);
+    log('checking if package exists in registry', pkgJson.name, pkgJson.version);
+    if (await pkgExistsInRegistry(pkgJson.name, { version: pkgJson.version })) {
+      log('package already exists in registry', pkgJson.name, '@', pkgJson.version);
       log('skip the build');
       continue;
     }
