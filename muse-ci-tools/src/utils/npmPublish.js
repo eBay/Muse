@@ -33,7 +33,7 @@ const publishPlugin = async (dir) => {
 
   try {
     await $`cd ${dir} && pnpm publish ${
-      config.IS_TESTING ? '--no-git-check --force' : ''
+      config.IS_TESTING ? '--no-git-check --force' : '--publish-branch release'
     } --registry=${config.TARGET_NPM_REGISTRY} --access public`;
     log('published package', pkgJson.name, pkgJson.version, config.TARGET_NPM_REGISTRY);
   } catch (e) {
