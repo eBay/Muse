@@ -27,12 +27,12 @@ const publishPlugin = async (dir) => {
     fs.writeJsonSync(pkgJsonPath, pkgJson, { spaces: 2 });
   }
 
-  if (!config.TARGET_NPM_REGISTRY || !config.TARGET_NPM_REGISTRY.startsWith('http://localhost')) {
+  if (!config.TARGET_NPM_REGISTRY) {
     throw new Error('TARGET_NPM_REGISTRY is not set or not a local registry');
   }
 
   try {
-    await $`cd ${dir} && pnpm publish --no-git-check --force --registry=${config.TARGET_NPM_REGISTRY}`;
+    await $`cd ${dir} && pnpm publish --no-git-check --force --registry=${config.TARGET_NPM_REGISTRY} --access public`;
     log('published package', pkgJson.name, pkgJson.version);
   } catch (e) {
     log('failed to publish package', pkgJson.name, pkgJson.version, e);
