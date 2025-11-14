@@ -38,8 +38,8 @@ const publishPlugin = async (dir) => {
     } else {
       args.push('--no-git-check');
     }
-    args.push(`--registry=${config.TARGET_NPM_REGISTRY}`);
     args.push('--access', 'public');
+    args.push(`--registry=${config.TARGET_NPM_REGISTRY}`);
     await $`cd ${dir} && pnpm publish ${args.join(' ')}`;
     log('published package', pkgJson.name, pkgJson.version, config.TARGET_NPM_REGISTRY);
   } catch (e) {
