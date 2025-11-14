@@ -40,7 +40,8 @@ const publishPlugin = async (dir) => {
     }
     args.push('--access', 'public');
     args.push(`--registry=${config.TARGET_NPM_REGISTRY}`);
-    await $`cd ${dir} && pnpm publish ${args.join(' ')}`;
+    const strArgs = args.join(' ');
+    await $`cd ${dir} && pnpm publish ${strArgs}`;
     log('published package', pkgJson.name, pkgJson.version, config.TARGET_NPM_REGISTRY);
   } catch (e) {
     log('failed to publish package', pkgJson.name, pkgJson.version, e);
