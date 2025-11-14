@@ -4,9 +4,9 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "@ebay/muse-core": "1.0.30",
-    "@ebay/muse-lib-antd": "1.2.26",
-    "@ebay/muse-lib-react": "1.2.24",
+    "@ebay/muse-core": "1.0.45",
+    "@ebay/muse-lib-antd": "1.3.0",
+    "@ebay/muse-lib-react": "1.3.0",
     "@ebay/muse-vite-plugin": "^1.0.50",
     "@vitejs/plugin-react-swc": "^3.6.0",
     "@testing-library/jest-dom": "^5.16.5",
