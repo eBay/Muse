@@ -1,6 +1,7 @@
 {
   "name": "muse-runner-ui",
   "version": "1.0.0",
+  "type": "module",
   "muse": {
     "appIndex": "src/index.js",
     "devConfig": {
