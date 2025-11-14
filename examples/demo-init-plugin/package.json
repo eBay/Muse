@@ -1,0 +1,28 @@
+{
+  "name": "demo-init-plugin",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "index.js",
+  "muse": {
+    "type": "init",
+    "devConfig": {
+      "app": "myapp"
+    }
+  },
+  "scripts": {
+    "start": "vite",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "@ebay/muse-core": "^1.0.26",
+    "@ebay/muse-dev-utils": "^1.0.46",
+    "eslint": "^8.19.0",
+    "js-cookie": "^3.0.1",
+    "vite": "^5.2.10",
+    "cross-env": "^7.0.3"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT"
+}
