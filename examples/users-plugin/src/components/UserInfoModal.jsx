@@ -18,7 +18,8 @@ export default NiceModal.create(({ user }) => {
   const formFields = [
     { key: 'name', label: 'Name', order: 10, required: true },
     { key: 'job', label: 'Job Title', order: 20 },
-    { key: 'address', label: 'Address', order: 30 },
+    { key: 'city', label: 'City', order: 30 },
+    { key: 'address', label: 'Address', order: 40 },
   ];
   formFields.push(
     ..._.flatten(jsPlugin.invoke('userInfo.fields.getFields', { formFields })).filter(Boolean),

@@ -1,19 +1,36 @@
-import { useMemo, useCallback } from 'react';
+import { useMemo, useCallback, useEffect } from 'react';
 import { Button, Table } from 'antd';
 import { EditOutlined } from '@ant-design/icons';
 import jsPlugin from 'js-plugin';
 import _ from 'lodash';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useModal } from '@ebay/nice-modal-react';
 import UserInfoModal from './UserInfoModal';
 import { UserOutlined } from '@ant-design/icons';
 import './UserList.less';
-import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import useUsers from '../hooks/useUsers';
 
 export default function UserList() {
   const userModal = useModal(UserInfoModal);
-  const users = useSelector(s => s.pluginUsersPlugin.users);
+  const { data: usersRemote, loading, error } = useUsers();
+  const UsersInStore = useSelector((state => state.pluginUsersPlugin.users));
+  const dispatch = useDispatch();
+
+  const getAvatarUrl = (user) => {
+    if (user && user.avatar) return `https://buluu97.github.io/muse-next-database/mock/${user.avatar.replace(/^\/*/, '')}`;
+    return null;
+  };
+
+  useEffect(() => {
+    const localUsers = localStorage.getItem('users');
+    if(localUsers) {
+      dispatch({type: 'set-users', payload: JSON.parse(localUsers)});
+    } else if (usersRemote.length>0)
+    {
+      dispatch({type: 'set-users', payload: usersRemote});
+    }
+  }, [dispatch, usersRemote]);
 
   const handleEditUser = useCallback(
     user => {
@@ -30,10 +47,11 @@ export default function UserList() {
         width: '350px',
         order: 10,
         render: (name, user) => {
+          const avatarUrl = getAvatarUrl(user);
           return (
             <div className="user-name-cell">
-              {user.avatar ? (
-                <img src={user.avatar} alt="user-avatar" className="avatar" />
+              {avatarUrl ? (
+                <img src={avatarUrl} alt="user-avatar" className="avatar" />
               ) : (
                 <div className="avatar">
                   <UserOutlined />
@@ -75,6 +93,11 @@ export default function UserList() {
   );
   jsPlugin.sort(columns);
 
+  if(error)
+    return <div className="user-list">Error loading users: {error.message}</div>;
+  if(loading)
+    return <div className="user-list">Loading users...</div>;
+
   return (
     <div className="user-list">
       <h1>Users List</h1>
@@ -89,7 +112,7 @@ export default function UserList() {
         rowKey="id"
         pagination={false}
         columns={columns}
-        dataSource={users}
+        dataSource={UsersInStore}
         style={{ marginTop: '20px' }}
       />
     </div>

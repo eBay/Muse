@@ -10,13 +10,25 @@ import { Children } from 'react';
 
 export default function UserDetail() {
   const { id } = useParams();
-  const user = useSelector(state =>
-    state.pluginUsersPlugin.users.find(u => u.id === parseInt(id))
+
+  let user = useSelector((state) =>
+    state.pluginUsersPlugin.users.find((u) => String(u.id) === String(id)),
   );
 
   if (!user) {
-    return <Alert message="The user does not exist." type="error" showIcon />;
+    const localUsers = localStorage.getItem('users');
+    if (localUsers) {
+      const users = JSON.parse(localUsers);
+      user = users.find((u) => String(u.id) === String(id));
+    }
+    else 
+      return <Alert message="User not found" type="error" showIcon />;
   }
+
+  const getAvatarUrl = (user) => {
+    if (user && user.avatar) return `https://buluu97.github.io/muse-next-database/mock/${user.avatar.replace(/^\/*/, '')}`;
+    return null;
+  };
 
   const meta = {
     viewMode: true,
@@ -51,10 +63,12 @@ export default function UserDetail() {
     <div>
       <div style={{ display: 'flex', alignItems: 'center', marginBottom: 24 }}>
         <Avatar
-          src={user.avatar}
+          src={getAvatarUrl(user)}
           size={64}
           style={{ marginRight: 16, fontSize: 28 }}
-        />
+        >
+          {!getAvatarUrl(user) && user.name ? user.name[0] : null}
+        </Avatar>
         <span style={{ fontSize: 28, fontWeight: 600 }}>{user.name}</span>
         <Button
           type="link"
