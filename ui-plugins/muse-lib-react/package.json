@@ -30,6 +30,18 @@
     "gen-muse-doc": "typedoc",
     "deploy": "pnpm build && pnpm build:dev && muse release && muse deploy nateapp"
   },
+  "pnpm": {
+    "overrides": {
+      "@babel/runtime": "7.20.13",
+      "css-loader": "6.7.3",
+      "nano-css": "5.3.5",
+      "react-is": "18.2.0",
+      "scheduler": "0.23.0",
+      "style-loader": "3.3.1",
+      "tslib": "2.5.0",
+      "use-sync-external-store": "1.2.0"
+    }
+  },
   "dependencies": {
     "@ebay/muse-typedoc-plugin": "^1.0.6",
     "@ebay/nice-modal-react": "1.2.10",
