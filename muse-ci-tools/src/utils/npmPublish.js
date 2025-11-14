@@ -38,6 +38,7 @@ const publishPlugin = async (dir) => {
     log('published package', pkgJson.name, pkgJson.version, config.TARGET_NPM_REGISTRY);
   } catch (e) {
     log('failed to publish package', pkgJson.name, pkgJson.version, e);
+    throw e;
   }
   localPackages[pkgJson.name] = pkgJson.version;
 };
