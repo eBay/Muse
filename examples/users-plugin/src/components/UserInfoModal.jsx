@@ -7,11 +7,13 @@ import { UserOutlined } from '@ant-design/icons';
 import _ from 'lodash';
 import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
 import './UserInfoModal.less';
+import { useAddUser, useEditUser } from '../hooks/useUserMutation';
 
 export default NiceModal.create(({ user }) => {
   const modal = useModal();
-  const dispatch = useDispatch();
   const [form] = Form.useForm();
+  const { mutateAsync: addUser } = useAddUser();
+  const { mutateAsync: editUser } = useEditUser();
 
   const [updatedAvatar, setUpdatedAvatar] = useState();
 
@@ -32,28 +34,20 @@ export default NiceModal.create(({ user }) => {
     formItemLayout: [6, 18],
   };
 
-  const handleSubmit = useCallback(() => {
-    form.validateFields().then(() => {
-      const newUser = { ...form.getFieldsValue() };
-      if (updatedAvatar) newUser.avatar = updatedAvatar;
-      if (!user) {
-        // Create a new user
-        dispatch({
-          type: 'new-user',
-          payload: newUser,
-        });
-      } else {
-        // Update an existing user
-        newUser.id = user.id;
-        dispatch({
-          type: 'update-user',
-          payload: newUser,
-        });
-      }
-      modal.resolve(newUser);
-      modal.hide();
-    });
-  }, [modal, user, form, dispatch, updatedAvatar]);
+const handleSubmit = useCallback(() => {
+  form.validateFields().then(async () => {
+    const newUser = { ...form.getFieldsValue() };
+    if (updatedAvatar) newUser.avatar = updatedAvatar;
+    if (!user) {
+      await addUser(newUser);
+    } else {
+      newUser.id = user.id;
+      await editUser(newUser);
+    }
+    modal.resolve(newUser);
+    modal.hide();
+  });
+}, [modal, user, form, updatedAvatar, addUser, editUser]);
 
   const handleChangeAvatar = useCallback((evt) => {
     const file = evt.target?.files?.[0];

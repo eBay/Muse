@@ -1,32 +1,35 @@
-import {useState, useEffect} from 'react';
+import { useQuery } from '@tanstack/react-query';
 import apiClient from '../api';
 
-// const USERS_URL = "https://buluu97.github.io/muse-next-database/mock/users.json";
-// need to visit https://cors-anywhere.herokuapp.com/corsdemo  to activate the proxy
 const USERS_URL = "https://cors-anywhere.herokuapp.com/https://buluu97.github.io/muse-next-database/mock/users.json";
 
-const useUsers = () => {
-    const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-
-    useEffect(() => {
-        setLoading (true);
-        setData([]);
-        setError(null);
-
-        apiClient.get(USERS_URL)
-        .then ((res) => {
-            setLoading(false);
-            setData(res.data);
-        })
-        .catch((err) => {
-            setLoading(false);
-            setError(err);
-        });
-    }, []);
-
-    return {data, loading, error};
+function getUsersFromLocal() {
+  const local = localStorage.getItem('users');
+  return local ? JSON.parse(local) : null;
 }
 
-export default useUsers;
+function saveUsersToLocal(users) {
+  localStorage.setItem('users', JSON.stringify(users));
+}
+
+export default function useUsers() {
+  return useQuery({
+    queryKey: ['users'],
+    queryFn: async () => {
+      const res = await apiClient.get(USERS_URL);
+      const remoteUsers = res.data || [];
+      const localUsers = getUsersFromLocal() || [];
+      const merged = [
+        ...remoteUsers.map(remoteUser => {
+          const local = localUsers.find(localUser => String(localUser.id) === String(remoteUser.id));
+          return local ? { ...remoteUser, ...local } : remoteUser;
+        }),
+        ...localUsers.filter(
+          localUser => !remoteUsers.some(remoteUser => String(remoteUser.id) === String(localUser.id))
+        ),
+      ];
+      saveUsersToLocal(merged);
+      return merged;
+    },
+  });
+}

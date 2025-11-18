@@ -4,6 +4,6 @@ import museVitePlugin from '@ebay/muse-vite-plugin';
 
 export default defineConfig(({ mode }) => {
   return {
-    plugins: [react(), museVitePlugin()],
+    plugins: [react(), museVitePlugin()]
   };
 });

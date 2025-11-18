@@ -1,34 +1,24 @@
 import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { Button, Avatar, Form, Alert, Tabs } from 'antd';
 import NiceModal from '@ebay/nice-modal-react';
 import UserInfoModal from './UserInfoModal';
 import NiceForm from '@ebay/nice-form-react';
 import utils from '@ebay/muse-lib-antd/src/utils';
 import { extendArray } from '@ebay/muse-lib-antd/src/utils';
-import { Children } from 'react';
+import useUserDetail from '../hooks/useUserDetail';
+import useAvatar from '../hooks/useAvatar';
 
 export default function UserDetail() {
   const { id } = useParams();
+  const { data: user, isLoading, isError } = useUserDetail(id);
+  const avatarUrl = useAvatar(user);
 
-  let user = useSelector((state) =>
-    state.pluginUsersPlugin.users.find((u) => String(u.id) === String(id)),
-  );
-
-  if (!user) {
-    const localUsers = localStorage.getItem('users');
-    if (localUsers) {
-      const users = JSON.parse(localUsers);
-      user = users.find((u) => String(u.id) === String(id));
-    }
-    else 
-      return <Alert message="User not found" type="error" showIcon />;
+  if (isLoading) {
+    return <Alert message="Loading..." type="info" showIcon />;
   }
-
-  const getAvatarUrl = (user) => {
-    if (user && user.avatar) return `https://buluu97.github.io/muse-next-database/mock/${user.avatar.replace(/^\/*/, '')}`;
-    return null;
-  };
+  if (isError || !user) {
+    return <Alert message="User not found" type="error" showIcon />;
+  }
 
   const meta = {
     viewMode: true,
@@ -57,17 +47,16 @@ export default function UserDetail() {
     }
   ];
   extendArray(tabs, 'tabs', 'userDetailTab', { tabs, user });
-  console.log('extended tabs:', tabs);
 
   return (
     <div>
       <div style={{ display: 'flex', alignItems: 'center', marginBottom: 24 }}>
         <Avatar
-          src={getAvatarUrl(user)}
+          src={avatarUrl}
           size={64}
           style={{ marginRight: 16, fontSize: 28 }}
         >
-          {!getAvatarUrl(user) && user.name ? user.name[0] : null}
+          {!avatarUrl && user.name ? user.name[0] : null}
         </Avatar>
         <span style={{ fontSize: 28, fontWeight: 600 }}>{user.name}</span>
         <Button
