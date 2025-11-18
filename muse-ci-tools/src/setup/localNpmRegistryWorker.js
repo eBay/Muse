@@ -51,8 +51,6 @@ const startNpmRegistry = async () => {
       },
       '**': {
         access: '$anonymous',
-        publish: '$anonymous',
-        unpublish: '$anonymous',
         proxy: 'npmjs',
       },
     },
