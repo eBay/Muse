@@ -30,7 +30,7 @@
     "package-json": "^10.0.1",
     "puppeteer": "^22.11.2",
     "verdaccio": "^5.31.1",
-    "zx": "^8.1.5"
+    "zx": "^8.8.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.7.0",
