@@ -1,5 +1,5 @@
 import { useMemo, useCallback, useState } from 'react';
-import { Button, Table } from 'antd';
+import { Button, Table, Spin } from 'antd';
 import { EditOutlined } from '@ant-design/icons';
 import jsPlugin from 'js-plugin';
 import _ from 'lodash';
@@ -8,10 +8,11 @@ import { useSelector } from 'react-redux';
 import { useModal } from '@ebay/nice-modal-react';
 import RoleInfoModal from './RoleInfoModal';
 import './RoleList.less';
+import useRoles from '../hooks/useRoles';
 
 export default function RoleList() {
   const roleModal = useModal(RoleInfoModal);
-  const roles = useSelector((s) => s.pluginRolesPlugin.roles);
+  const { data: roles = [], isLoading, error } = useRoles();
 
   const columns = useMemo(
     () => [

@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import apiClient from '../api';
 
-const USERS_URL = "https://cors-anywhere.herokuapp.com/https://buluu97.github.io/muse-next-database/mock/users.json";
+const USERS_URL = "https://cors-anywhere.herokuapp.com/https://lechang97.github.io/muse-next-database/mock/users.json";
 
 function getUsersFromLocal() {
   const local = localStorage.getItem('users');

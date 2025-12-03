@@ -2,20 +2,22 @@ import { useCallback, useState } from 'react';
 import { Form, Modal } from 'antd';
 import FormBuilder from '@ebay/nice-form-react';
 import jsPlugin from 'js-plugin';
-import { useDispatch } from 'react-redux';
 import { UserOutlined } from '@ant-design/icons';
 import _ from 'lodash';
 import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
 import './UserInfoModal.less';
 import { useAddUser, useEditUser } from '../hooks/useUserMutation';
+import useAvatar from '../hooks/useAvatar';
+import { useAvatarMutation } from '../hooks/useAvatarMutation';
 
 export default NiceModal.create(({ user }) => {
   const modal = useModal();
   const [form] = Form.useForm();
   const { mutateAsync: addUser } = useAddUser();
   const { mutateAsync: editUser } = useEditUser();
-
   const [updatedAvatar, setUpdatedAvatar] = useState();
+  const avatarUrl = useAvatar({ ...user, avatar: updatedAvatar || user?.avatar });
+  const { mutateAsync: updateAvatar } = useAvatarMutation();
 
   const formFields = [
     { key: 'name', label: 'Name', order: 10, required: true },
@@ -34,20 +36,25 @@ export default NiceModal.create(({ user }) => {
     formItemLayout: [6, 18],
   };
 
-const handleSubmit = useCallback(() => {
-  form.validateFields().then(async () => {
-    const newUser = { ...form.getFieldsValue() };
-    if (updatedAvatar) newUser.avatar = updatedAvatar;
-    if (!user) {
-      await addUser(newUser);
-    } else {
-      newUser.id = user.id;
-      await editUser(newUser);
-    }
-    modal.resolve(newUser);
-    modal.hide();
-  });
-}, [modal, user, form, updatedAvatar, addUser, editUser]);
+  const handleSubmit = useCallback(() => {
+    form.validateFields().then(async () => {
+      const newUser = { ...form.getFieldsValue() };
+      if (updatedAvatar) newUser.avatar = updatedAvatar;
+      let savedUser;
+      if (!user) {
+        savedUser = await addUser(newUser);
+      } else {
+        newUser.id = user.id;
+        await editUser(newUser);
+        if (updatedAvatar && updatedAvatar !== user.avatar) {
+          await updateAvatar({ id: user.id, avatar: updatedAvatar });
+        }
+      }
+      savedUser = newUser;
+      modal.resolve(savedUser);
+      modal.hide();
+    });
+  }, [modal, user, form, updatedAvatar, addUser, editUser, updateAvatar]);
 
   const handleChangeAvatar = useCallback((evt) => {
     const file = evt.target?.files?.[0];
@@ -59,7 +66,6 @@ const handleSubmit = useCallback(() => {
     reader.readAsDataURL(file);
   }, []);
 
-  const avatarToShow = updatedAvatar || user?.avatar;
   return (
     <Modal
       {...antdModalV5(modal)}
@@ -70,10 +76,9 @@ const handleSubmit = useCallback(() => {
     >
       <div className="user-info-modal">
         <div className="user-avatar">
-          {avatarToShow ? <img src={avatarToShow} alt="user-avatar" /> : <UserOutlined />}
+          {avatarUrl ? <img src={avatarUrl} alt="user-avatar" /> : <UserOutlined />}
           <input type="file" onChange={handleChangeAvatar} />
         </div>
-
         <Form form={form}>
           <FormBuilder meta={meta} />
         </Form>

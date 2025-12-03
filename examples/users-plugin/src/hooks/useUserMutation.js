@@ -1,18 +1,17 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-const USERS_KEY = 'users';
-
 function getUsersFromLocal() {
-  const local = localStorage.getItem(USERS_KEY);
+  const local = localStorage.getItem('users');
   return local ? JSON.parse(local) : [];
 }
 
 function saveUsersToLocal(users) {
-  localStorage.setItem(USERS_KEY, JSON.stringify(users));
+  localStorage.setItem('users', JSON.stringify(users));
 }
 
 export function useAddUser() {
   const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: async (user) => {
       const users = getUsersFromLocal();
@@ -41,7 +40,7 @@ export function useEditUser() {
       return user;
     },
     onSuccess: (data, variables, context) => {
-  queryClient.invalidateQueries(['users']);
+        queryClient.invalidateQueries(['users']);
   if (variables && variables.id) {
     queryClient.invalidateQueries(['userDetail', String(variables.id)]);
   }
