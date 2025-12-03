@@ -1,21 +1,23 @@
 import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { Button, Avatar, Form, Alert, Tabs } from 'antd';
 import NiceModal from '@ebay/nice-modal-react';
 import UserInfoModal from './UserInfoModal';
 import NiceForm from '@ebay/nice-form-react';
 import utils from '@ebay/muse-lib-antd/src/utils';
 import { extendArray } from '@ebay/muse-lib-antd/src/utils';
-import { Children } from 'react';
+import useUserDetail from '../hooks/useUserDetail';
+import useAvatar from '../hooks/useAvatar';
 
 export default function UserDetail() {
   const { id } = useParams();
-  const user = useSelector(state =>
-    state.pluginUsersPlugin.users.find(u => u.id === parseInt(id))
-  );
+  const { data: user, isLoading, isError } = useUserDetail(id);
+  const avatarUrl = useAvatar(user);
 
-  if (!user) {
-    return <Alert message="The user does not exist." type="error" showIcon />;
+  if (isLoading) {
+    return <Alert message="Loading..." type="info" showIcon />;
+  }
+  if (isError || !user) {
+    return <Alert message="User not found" type="error" showIcon />;
   }
 
   const meta = {
@@ -45,16 +47,17 @@ export default function UserDetail() {
     }
   ];
   extendArray(tabs, 'tabs', 'userDetailTab', { tabs, user });
-  console.log('extended tabs:', tabs);
 
   return (
     <div>
       <div style={{ display: 'flex', alignItems: 'center', marginBottom: 24 }}>
         <Avatar
-          src={user.avatar}
+          src={avatarUrl}
           size={64}
           style={{ marginRight: 16, fontSize: 28 }}
-        />
+        >
+          {!avatarUrl && user.name ? user.name[0] : null}
+        </Avatar>
         <span style={{ fontSize: 28, fontWeight: 600 }}>{user.name}</span>
         <Button
           type="link"
