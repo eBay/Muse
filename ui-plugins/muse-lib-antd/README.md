@@ -1,2 +1,2 @@
 # README
-Altus UI plugin project. See [go/altus-ui](http://go/altus-ui) for the guide.
+Muse lib plugin including ant.design UI library.

@@ -1,6 +1,6 @@
 # README
 
-@ebay/muse-lib-react is a lib plugin maintained by Muse team with a combination of popular React tech stacks like:
+@ebay/muse-lib-react is a lib plugin with a combination of popular React tech stacks like:
 
 - [React Router](https://reactrouter.com/en/main)
 - [Redux](https://redux.js.org/)
