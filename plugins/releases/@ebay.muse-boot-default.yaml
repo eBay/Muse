@@ -1,0 +1,11 @@
+- pluginName: '@ebay/muse-boot-default'
+  version: 1.3.0
+  branch: ''
+  sha: ''
+  createdAt: '2026-03-07T04:57:04.128Z'
+  createdBy: pwang7
+  description: ''
+  source: npm
+  bundles:
+    - dev
+    - dist
