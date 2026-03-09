@@ -200,6 +200,7 @@ async function start() {
   // Exec init entries
   if (initEntries.length > 0) {
     loading.showMessage(`Executing init entries...`);
+    initEntries.sort((a, b) => (a.order || 10) - (b.order || 10)); // sort by order
     for (const initEntry of initEntries) {
       // Allow an init entry to break the start of the app
       if ((await initEntry.func()) === false) return;
