@@ -17,13 +17,22 @@ const museLayout = {
   // Customize the sider
   sider: {
     getItems: () => {
-      return {
-        key: 'users-list',
-        order: 20,
-        label: 'Users List',
-        link: '/users',
-        icon: 'team',
-      };
+      return [
+        {
+          key: 'users-list',
+          order: 20,
+          label: 'Users List',
+          link: '/users',
+          icon: 'team',
+        },
+        {
+          key: 'test',
+          order: 25,
+          label: 'Test',
+          link: '/test',
+          icon: 'experiment',
+        },
+      ];
     },
   },
 };
