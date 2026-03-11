@@ -17,7 +17,7 @@
   "dependencies": {
     "@ebay/muse-core": "^1.0.26",
     "@ebay/muse-dev-utils": "^1.0.46",
-    "eslint": "^8.19.0",
+    "eslint": "^9.26.0",
     "js-cookie": "^3.0.1",
     "vite": "^5.2.10",
     "cross-env": "^7.0.3"
