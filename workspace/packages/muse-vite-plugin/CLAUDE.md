@@ -8,10 +8,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **Key responsibilities:**
 1. Intercept module resolution for shared dependencies from lib plugins
-2. Generate `deps-manifest.json` tracking shared module usage
-3. Configure Vite dev server with MUSE middleware for local development
-4. Handle CSS injection for runtime-loaded stylesheets
-5. Support both ESM and CommonJS module formats
+2. Generate `deps-manifest.json` tracking shared module usage (for normal/boot plugins)
+3. Generate `lib-manifest.json` exporting shared modules (for lib plugins)
+4. Configure Vite dev server with MUSE middleware for local development
+5. Handle CSS injection for runtime-loaded stylesheets
+6. Support both ESM and CommonJS module formats
 
 ## Development Commands
 
@@ -35,41 +36,70 @@ pnpm eslint lib/
 
 ### Plugin Composition
 
-The plugin consists of three integrated sub-plugins:
+The plugin consists of five integrated sub-plugins:
 
 1. **`museVitePlugin()`** (lib/museVitePlugin.js) - Main Vite plugin
    - Configures Vite server, build settings, and module resolution
    - Registers MUSE middleware for dev server
    - Handles `load` hook for dev-time shared module resolution
+   - Conditionally applies lib or normal plugin strategies
 
-2. **`museRollupPlugin()`** (lib/museRollupPlugin.js) - Build-time plugin
+2. **`museRollupPlugin()`** (lib/museRollupPlugin.js) - Build-time plugin for normal/boot plugins
    - Intercepts shared module imports during production build
    - Generates `deps-manifest.json` with dependency tracking
    - Injects CSS loading code into bundles
 
-3. **`museEsbuildPlugin()`** (lib/museEsbuildPlugin.js) - Pre-bundling plugin
+3. **`museLibManifestPlugin()`** (lib/museLibManifestPlugin.js) - Build-time plugin for lib plugins
+   - Analyzes all modules during production build
+   - Generates `lib-manifest.json` with exported module information
+   - Tracks module exports for shared module consumption
+
+4. **`museLibManifestDevPlugin()`** (lib/museLibManifestDevPlugin.js) - Dev-time plugin for lib plugins
+   - Tracks modules during dev server transformations
+   - Uses `es-module-lexer` to parse exports
+   - Generates `lib-manifest.json` in `node_modules/.muse/dev/`
+
+5. **`museEsbuildPlugin()`** (lib/museEsbuildPlugin.js) - Pre-bundling plugin
    - Handles shared modules during Vite's dependency pre-bundling phase
    - Used by `optimizeDeps.esbuildOptions.plugins`
 
 ### Shared Module Resolution Flow
 
-**Development mode (`vite serve`):**
+**For normal/boot plugins (consuming shared modules):**
+
+Development mode (`vite serve`):
 ```
 Import request → load() hook → getMuseModule() → Check lib-manifest.json →
 Return MUSE_GLOBAL.__shared__.require() wrapper
 ```
 
-**Production build (`vite build`):**
+Production build (`vite build`):
 ```
-Import request → Rollup load() hook → getMuseModule() → Check lib-manifest.json →
+Import request → museRollupPlugin load() hook → getMuseModule() → Check lib-manifest.json →
 Return MUSE_GLOBAL.__shared__.require() wrapper → Track in usedSharedModules →
 Generate deps-manifest.json
 ```
 
+**For lib plugins (providing shared modules):**
+
+Development mode (`vite serve`):
+```
+Module transform → museLibManifestDevPlugin.transform() → Parse exports with es-module-lexer →
+Track module exports → On buildEnd → Generate lib-manifest.json in node_modules/.muse/dev/
+```
+
+Production build (`vite build`):
+```
+Module parse → museLibManifestPlugin.moduleParsed() → Extract export info →
+Track module exports → On generateBundle → Generate lib-manifest.json in build/{mode}/
+```
+
 ### Key Files
 
-- **lib/museVitePlugin.js:26-200** - Main plugin, server configuration, middleware setup
-- **lib/museRollupPlugin.js:3-54** - Build plugin, CSS injection, manifest generation
+- **lib/museVitePlugin.js:27-220** - Main plugin, server configuration, middleware setup, plugin orchestration
+- **lib/museRollupPlugin.js:3-54** - Build plugin for normal/boot plugins: CSS injection, deps-manifest generation
+- **lib/museLibManifestPlugin.js** - Build plugin for lib plugins: lib-manifest generation
+- **lib/museLibManifestDevPlugin.js** - Dev plugin for lib plugins: live lib-manifest generation
 - **lib/museEsbuildPlugin.js:3-19** - Pre-bundling plugin for optimizeDeps
 - **lib/utils.js:82-104** - Module resolution: `getMuseModule()` finds shared modules by inspecting package.json and matching against lib manifests
 - **lib/utils.js:106-128** - Code generation: `getMuseModuleCode()` creates wrapper code for MUSE_GLOBAL
@@ -245,6 +275,49 @@ Vite 5+ modifies `req.url` internally, breaking Express middleware path matching
 
 See lib/museVitePlugin.js:13-19.
 
+### Lib Plugin Support
+
+As of this implementation, the plugin fully supports building **lib type plugins** that provide shared modules to other plugins. This was previously only possible with `muse-webpack-plugin`.
+
+**How it works:**
+
+1. **Plugin detection**: Checks `package.json` for `"muse": { "type": "lib" }`
+
+2. **Development mode**:
+   - `museLibManifestDevPlugin` is added to the Vite plugin pipeline
+   - Intercepts all module transforms
+   - Uses `es-module-lexer` to parse exports from source code
+   - Generates `node_modules/.muse/dev/lib-manifest.json` on build completion
+   - Other plugins can link and consume this manifest immediately
+
+3. **Production mode**:
+   - `museLibManifestPlugin` is added to Rollup pipeline
+   - Uses Rollup's `moduleParsed` hook for accurate export information
+   - Generates `build/{dist|dev|test}/lib-manifest.json`
+   - Manifest is packaged with the plugin for deployment
+
+**Key differences from normal plugins:**
+- **No `museRollupPlugin`**: Lib plugins don't consume shared modules, so no deps-manifest is generated
+- **Export tracking**: All modules in the lib plugin are analyzed for exports
+- **Manifest location**: Dev manifest goes to `node_modules/.muse/dev/` for linkability
+
+**Manifest structure for lib plugins:**
+```json
+{
+  "name": "@ebay/muse-lib-react",
+  "type": "lib",
+  "content": {
+    "react@18.2.0/index.js": {
+      "id": "react@18.2.0/index.js",
+      "exports": ["default", "useState", "useEffect", "..."],
+      "buildMeta": {
+        "providedExports": ["default", "useState", "useEffect", "..."]
+      }
+    }
+  }
+}
+```
+
 ## Common Modifications
 
 ### Adding New Build Modes
@@ -267,12 +340,65 @@ Code generation happens in `getMuseModuleCode()` (lib/utils.js:106-128):
 - Adjust CommonJS logic for edge cases
 - Add runtime validation or logging
 
+## Migrating Lib Plugins from Webpack to Vite
+
+With the addition of lib plugin support, you can now migrate lib plugins from `muse-webpack-plugin` to `muse-vite-plugin` for a more consistent development experience.
+
+**Migration steps:**
+
+1. **Update build configuration**:
+   - Remove Webpack/CRA dependencies (`react-scripts`, `@craco/craco`, `@ebay/muse-craco-plugin`)
+   - Add Vite and this plugin:
+     ```bash
+     pnpm add -D vite @ebay/muse-vite-plugin
+     ```
+
+2. **Create Vite config** (`vite.config.js`):
+   ```javascript
+   import { defineConfig } from 'vite';
+   import react from '@vitejs/plugin-react';
+   import museVitePlugin from '@ebay/muse-vite-plugin';
+
+   export default defineConfig({
+     plugins: [react(), museVitePlugin()],
+   });
+   ```
+
+3. **Update package.json scripts**:
+   ```json
+   {
+     "scripts": {
+       "start": "vite",
+       "build": "vite build",
+       "build:dev": "vite build --mode development",
+       "build:test": "vite build --mode e2e-test"
+     }
+   }
+   ```
+
+4. **Verify manifest generation**:
+   - Dev: Check `node_modules/.muse/dev/lib-manifest.json` exists after running `pnpm start`
+   - Build: Check `build/dist/lib-manifest.json` exists after `pnpm build`
+
+5. **Test with consuming plugins**:
+   - Link the lib plugin: `pnpm link -g` (in lib plugin directory)
+   - Link in consumer: `pnpm link @ebay/your-lib-plugin`
+   - Verify shared modules resolve correctly
+
+**Benefits:**
+- Faster dev server startup (Vite vs Webpack)
+- Faster HMR (Hot Module Replacement)
+- Simpler configuration
+- Consistent tooling across all plugin types
+- Native ESM support
+
 ## Related Packages
 
 - **@ebay/muse-core** - Provides `MUSE_GLOBAL.__shared__.require()` runtime
 - **@ebay/muse-dev-utils** - Provides `setupMuseDevServer()` and `getMuseLibs()`
-- **@ebay/muse-modules** - Provides `findMuseModule()` for version matching
-- **@ebay/muse-webpack-plugin** - Equivalent functionality for Webpack builds
+- **@ebay/muse-modules** - Provides `findMuseModule()` for version matching and `parseMuseId()` for ID parsing
+- **@ebay/muse-webpack-plugin** - Legacy webpack support (can be deprecated for lib plugins now)
+- **es-module-lexer** - Fast ES module export parsing for dev mode
 
 ## Testing Strategy
 

@@ -6,6 +6,8 @@ import setupMuseDevServer from '@ebay/muse-dev-utils/lib/setupMuseDevServer.js';
 import devUtils from '@ebay/muse-dev-utils/lib/utils.js';
 import museEsbuildPlugin from './museEsbuildPlugin.js';
 import museRollupPlugin from './museRollupPlugin.js';
+import museLibManifestPlugin from './museLibManifestPlugin.js';
+import museLibManifestDevPlugin from './museLibManifestDevPlugin.js';
 import { getMuseModuleCode, mergeObjects, getMuseModule, setViteMode } from './utils.js';
 
 // We need to use originalUrl instead of url because the latter is modified by Vite 5+ (not modified in Vite 4)
@@ -26,6 +28,8 @@ const buildDir = {
 export default function museVitePlugin() {
   let theViteServer;
   let config;
+  let pkgJson;
+  let isLibPlugin;
   const musePluginVite = {
     name: 'muse-plugin-vite',
     museMiddleware: {
@@ -62,8 +66,9 @@ export default function museVitePlugin() {
       const isHTTPS = process.env.HTTPS === 'true';
       const port = process.env.PORT;
       const host = config.server?.host || process.env.MUSE_LOCAL_HOST_NAME || 'localhost';
-      const pkgJson = devUtils.getPkgJson();
+      pkgJson = devUtils.getPkgJson();
       const entryFile = devUtils.getEntryFile();
+      isLibPlugin = pkgJson?.muse?.type === 'lib';
 
       setViteMode(config.mode || 'production');
 
@@ -78,6 +83,17 @@ export default function museVitePlugin() {
         define: {
           __MUSE_PLUGIN_NAME__: JSON.stringify(pkgJson.name),
         },
+        plugins: (() => {
+          const plugins = [];
+          // For lib plugins in dev mode, add the lib manifest dev plugin
+          if (command === 'serve' && isLibPlugin) {
+            plugins.push(museLibManifestDevPlugin({
+              pkgJson,
+              museConfig: pkgJson.muse,
+            }));
+          }
+          return plugins;
+        })(),
         resolve: {
           // For linked libs, should make the folder alias of the package
           // alias is only used at dev time
@@ -126,9 +142,26 @@ export default function museVitePlugin() {
               entryFileNames: pkgJson.muse.type === 'boot' ? 'boot.js' : 'main.js',
               format: 'es',
             },
-            plugins: !config.build?.rollupOptions?.plugins?.find((p) => p.name === 'muse-rollup')
-              ? [museRollupPlugin()]
-              : [],
+            plugins: (() => {
+              const plugins = [];
+
+              // Add museRollupPlugin for shared module resolution (for non-lib plugins)
+              if (!isLibPlugin && !config.build?.rollupOptions?.plugins?.find((p) => p.name === 'muse-rollup')) {
+                plugins.push(museRollupPlugin());
+              }
+
+              // Add museLibManifestPlugin for lib plugins to generate lib-manifest.json
+              if (isLibPlugin && !config.build?.rollupOptions?.plugins?.find((p) => p.name === 'muse-lib-manifest')) {
+                plugins.push(museLibManifestPlugin({
+                  isDev: false,
+                  mode: config.mode || 'production',
+                  pkgJson,
+                  museConfig: pkgJson.muse,
+                }));
+              }
+
+              return plugins;
+            })(),
           },
         },
       };
@@ -148,6 +181,7 @@ export default function museVitePlugin() {
         // when hot reload, vite will call configureServer again, so don't repeat muse plugin registration
         muse.plugin.register(musePluginVite);
       } catch (err) {} // eslint-disable-line
+
       return () => {
         // setupMuseDevServer() returns an array of middlewares
         // It's kind of hack since setupMuseDevServer was originally designed for webpack
