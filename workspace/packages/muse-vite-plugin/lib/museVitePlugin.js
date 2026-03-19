@@ -58,14 +58,14 @@ export default function museVitePlugin() {
 
   const vitePlugin = {
     name: 'muse-vite-plugin',
-    config(config, { command }) {
+    config(config, { command, mode }) {
       const isHTTPS = process.env.HTTPS === 'true';
       const port = process.env.PORT;
       const host = config.server?.host || process.env.MUSE_LOCAL_HOST_NAME || 'localhost';
       const pkgJson = devUtils.getPkgJson();
       const entryFile = devUtils.getEntryFile();
 
-      setViteMode(config.mode || 'production');
+      setViteMode(mode || 'production');
 
       if (!entryFile) {
         throw new Error(
