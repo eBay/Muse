@@ -1,33 +1,53 @@
-import { useMemo, useCallback, useState } from 'react';
-import { Button, Table, Spin } from 'antd';
+import { useMemo } from 'react';
+import { Button, Table } from 'antd';
 import { EditOutlined } from '@ant-design/icons';
 import jsPlugin from 'js-plugin';
 import _ from 'lodash';
-import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { useModal } from '@ebay/nice-modal-react';
+import { Link } from 'react-router-dom';
 import RoleInfoModal from './RoleInfoModal';
 import './RoleList.less';
 import useRoles from '../hooks/useRoles';
+import { SolutionOutlined } from '@ant-design/icons';
+
+function NameCell({ name, role }) {
+  return (
+    <div className="role-name-cell">
+      <div className="role-icon">
+        <SolutionOutlined />
+      </div>
+      <div>
+        <Link to={`/roles/${role.id}`} className="role-name-link">
+          {name}
+        </Link>
+        <p className="role-description">{role.description}</p>
+      </div>
+    </div>
+  );
+}
 
 export default function RoleList() {
   const roleModal = useModal(RoleInfoModal);
-  const { data: roles = [], isLoading, error } = useRoles();
+  const { data: roles = [] } = useRoles();
 
   const columns = useMemo(
     () => [
       {
         title: 'Name',
         dataIndex: 'name',
-        width: '200px',
+        width: '300px',
         order: 10,
-        render: (name, role) => (
-          <Link to={`/roles/${role.id}`}>{name}</Link>
-        ),
+        render: (name, role) => <NameCell name={name} role={role} />,
       },
       {
-        title: 'Description',
-        dataIndex: 'description',
+        title: 'Role Level',
+        dataIndex: 'roleLevel',
+        width: '150px',
+        order: 15,
+      },
+      {
+        title: 'Duty',
+        dataIndex: 'duty',
         order: 20,
       },
       {
