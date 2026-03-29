@@ -1,6 +1,6 @@
 {
   "name": "@ebay/muse-lib-react",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "muse": {
     "isAppEntry": true,
     "type": "lib",
