@@ -1,6 +1,6 @@
 {
   "name": "@ebay/muse-layout-antd",
-  "version": "1.3.3",
+  "version": "1.3.5",
   "repository": "",
   "type": "module",
   "muse": {
@@ -19,7 +19,8 @@
     "build:test": "cross-env MUSE_TEST_BUILD=true NODE_ENV=production vite build --mode e2e-test",
     "gen-muse-doc": "typedoc",
     "test": "vitest",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "postbuild": "cp MUSE_README.md ./build"
   },
   "browserslist": {
     "production": [
