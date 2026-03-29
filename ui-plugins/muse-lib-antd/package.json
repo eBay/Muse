@@ -1,6 +1,6 @@
 {
   "name": "@ebay/muse-lib-antd",
-  "version": "1.3.3",
+  "version": "1.3.5",
   "repository": "",
   "muse": {
     "type": "lib",
@@ -21,7 +21,8 @@
     "test": "muse-cra-patch && craco test --ci --watchAll=false --passWithNoTests --coverage",
     "test:dev": "muse-cra-patch && craco test --coverage",
     "test:config": "muse-cra-patch && craco test --showConfig",
-    "deploy": "pnpm build && pnpm build:dev && muse release && muse deploy nateapp staging"
+    "deploy": "pnpm build && pnpm build:dev && muse release && muse deploy nateapp staging",
+    "postbuild": "cp MUSE_README.md ./build"
   },
   "browserslist": {
     "production": [
