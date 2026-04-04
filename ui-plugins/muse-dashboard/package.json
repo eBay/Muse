@@ -10,7 +10,8 @@
     "type": "normal"
   },
   "files": [
-    "build"
+    "build",
+    "MUSE_README.md"
   ],
   "dependencies": {
     "@ebay/muse-lib-antd": "^1.2.13",

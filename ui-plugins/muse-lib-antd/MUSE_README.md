@@ -1,253 +1,53 @@
 # Plugin Integration Guide: @ebay/muse-lib-antd
 
-**Generated**: 2026-03-28
+**Generated**: 2026-04-04
 **Plugin Type**: lib
-
----
-
-## Table of Contents
-
-1. [Plugin Purpose & Overview](#1-plugin-purpose--overview)
-2. [Extension Points Exposed](#2-extension-points-exposed)
-3. [Extension Points Contributed](#3-extension-points-contributed)
-4. [Exported Functionality](#4-exported-functionality)
-5. [Integration Examples](#5-integration-examples)
 
 ---
 
 ## 1. Plugin Purpose & Overview
 
-### What This Plugin Does
+`@ebay/muse-lib-antd` is a library plugin that provides the Ant Design 5 component library and supporting utilities for MUSE applications. As a lib plugin, it shares all Ant Design modules (components, icons) and its own source modules across all consuming plugins in the app, preventing duplication and ensuring consistent UI patterns.
 
-`@ebay/muse-lib-antd` is a library plugin that provides Ant Design (antd) UI components and utilities to MUSE applications. It serves as a shared UI framework layer, preventing code duplication by providing a single instance of Ant Design that all consuming plugins can use.
+**Key responsibilities:**
+- **Shared UI library**: Makes all Ant Design 5 components and icons available to other plugins via module sharing
+- **Theme management**: Provides dark/light theme switching through a ConfigProvider wrapper
+- **Reusable components**: Exports common UI components (MetaMenu, TableBar, ErrorBox, etc.)
+- **Form utilities**: Provides extension point helpers (`extendFormMeta`, `extendArray`) for building extensible forms
+- **Nice Form integration**: Configures nice-form-react with Ant Design adapter and custom widgets
 
-### Key Features
-
-- **Ant Design Components**: Provides the complete Ant Design 5.x component library as shared modules
-- **Reusable UI Components**: Offers custom-built components like MetaMenu, DropdownMenu, ErrorBox, CodeViewer, and more
-- **Form Utilities**: Provides extensible form and array utilities via `extendFormMeta()` and `extendArray()`
-- **Nice Form Integration**: Pre-configured Nice Form React with Ant Design adapter and custom widgets
-- **Dark Mode Support**: Built-in dark mode theme switching with Redux state management
-- **React Router Integration**: Provides route configuration and React Router setup
-- **Redux State Management**: Includes Redux reducer for common state (dark mode, etc.)
-- **Config Provider Wrapper**: Extensible Ant Design ConfigProvider with theme management
-
-### Plugin Type: lib
-
-As a **lib plugin**, this plugin loads before normal plugins and provides shared modules to avoid duplicating dependencies. Other plugins that depend on Ant Design or React will consume these modules from this plugin rather than bundling their own copies, reducing bundle size and ensuring version consistency.
+**Important**: This plugin uses MUSE's automatic module sharing. All modules in the dependency tree of `src/index.js` are automatically shared with other plugins — there is no `muse.exposes` config in `package.json`.
 
 ---
 
 ## 2. Extension Points Exposed
 
-This plugin exposes the following extension points that OTHER plugins can implement to extend its functionality.
+This plugin exposes **one extension point** that allows other plugins to customize the Ant Design configuration:
 
-### Summary
+### 2.1. `museLibAntd.configProvider.processProps`
 
-- **Total Extension Points**: 7 base patterns (expandable to unlimited via parameter-based extension points)
-- **Categories**: Form Extensions, Array Extensions, Menu Extensions, ConfigProvider Extensions
+**Purpose**: Customize Ant Design ConfigProvider props (theme tokens, locale, etc.) before the provider wraps the app.
 
-### Extension Point Patterns
+**Location**: `src/features/common/ConfigProviderWrapper.js:16`
 
-This plugin uses **parameter-based extension points**, where the extension point name is passed as a parameter to utility functions. This allows unlimited extensibility without hardcoding specific extension point names.
-
-#### Form Extension Pattern (via `extendFormMeta`)
-
-**Base Extension Point**: `${extBase}.*` (where `extBase` is provided by caller)
-
-When a plugin calls `extendFormMeta(meta, extBase, ...args)`, other plugins can implement these extension points:
-
-##### `${extBase}.preProcessMeta`
-
-- **Purpose**: Hook to modify form metadata before fields are added
-- **When Invoked**: Called at the start of `extendFormMeta()`, before any field processing
-- **Context Parameters**:
-  - `...args`: Variable arguments passed through from the caller
-- **Expected Return**: `void` (modifies arguments in place)
-- **Use Case Example**: Initialize form state, add validators, or set up form-level configuration
-- **File Reference**: src/utils.js:12
-
-##### `${extBase}.getFields`
-
-- **Purpose**: Allows plugins to contribute additional fields to the form
-- **When Invoked**: Called during form metadata construction to gather field definitions
-- **Context Parameters**:
-  - `...args`: Variable arguments passed through from the caller (typically includes form context, record data, etc.)
-- **Expected Return**: `Array<FieldDefinition>` - Array of Nice Form field definitions
-- **Use Case Example**: Add custom fields to app creation form, plugin info form, or any extensible form
-- **File Reference**: src/utils.js:13
-
-##### `${extBase}.processMeta`
-
-- **Purpose**: Hook to modify the complete form metadata after fields are added
-- **When Invoked**: Called after all fields are collected but before post-processing
-- **Context Parameters**:
-  - `...args`: Variable arguments passed through from the caller
-- **Expected Return**: `void` (modifies metadata in place)
-- **Use Case Example**: Reorder fields, add field dependencies, modify field properties based on other fields
-- **File Reference**: src/utils.js:15
-
-##### `${extBase}.postProcessMeta`
-
-- **Purpose**: Final hook to modify form metadata after all processing
-- **When Invoked**: Called after all other form processing is complete
-- **Context Parameters**:
-  - `...args`: Variable arguments passed through from the caller
-- **Expected Return**: `void` (modifies metadata in place)
-- **Use Case Example**: Apply final validation rules, add computed fields, or finalize form layout
-- **File Reference**: src/utils.js:16
-
-##### `${extBase}.getWatchingFields`
-
-- **Purpose**: Allows plugins to define fields that should be watched for changes
-- **When Invoked**: Called during form metadata construction to gather watching field configurations
-- **Context Parameters**:
-  - `...args`: Variable arguments passed through from the caller
-- **Expected Return**: `Array<WatchingFieldConfig>` - Array of watching field configurations for Nice Form
-- **Use Case Example**: Define field dependencies where one field's value affects another's visibility or validation
-- **File Reference**: src/utils.js:20
-
-#### Array Extension Pattern (via `extendArray`)
-
-**Base Extension Point**: `${extBase}.*` (where `extBase` and `extName` are provided by caller)
-
-When a plugin calls `extendArray(arr, extName, extBase, ...args)`, other plugins can implement these extension points:
-
-##### `${extBase}.preProcess${CapitalizedExtName}`
-
-- **Purpose**: Hook to process array before items are added
-- **When Invoked**: Called at the start of `extendArray()`, before collecting items
-- **Context Parameters**:
-  - `...args`: Variable arguments passed through from the caller
-- **Expected Return**: `void` (modifies arguments in place)
-- **Use Case Example**: Initialize array context, set up filters
-- **File Reference**: src/utils.js:38
-
-##### `${extBase}.get${CapitalizedExtName}`
-
-- **Purpose**: Allows plugins to contribute items to the array
-- **When Invoked**: Called during array construction to gather items
-- **Context Parameters**:
-  - `...args`: Variable arguments passed through from the caller
-- **Expected Return**: `Array<any>` - Array of items to add
-- **Use Case Example**: Add table columns, menu items, action buttons, tabs, etc.
-- **File Reference**: src/utils.js:39
-
-##### `${extBase}.process${CapitalizedExtName}`
-
-- **Purpose**: Hook to modify array after items are collected
-- **When Invoked**: Called after all items are gathered but before post-processing
-- **Context Parameters**:
-  - `...args`: Variable arguments passed through from the caller
-- **Expected Return**: `void` (modifies array in place)
-- **Use Case Example**: Filter, reorder, or transform items
-- **File Reference**: src/utils.js:41
-
-##### `${extBase}.postProcess${CapitalizedExtName}`
-
-- **Purpose**: Final hook to modify array after all processing
-- **When Invoked**: Called after all other processing is complete
-- **Context Parameters**:
-  - `...args`: Variable arguments passed through from the caller
-- **Expected Return**: `void` (modifies array in place)
-- **Use Case Example**: Apply final transformations, add computed items
-- **File Reference**: src/utils.js:42
-
-#### MetaMenu Extension Pattern
-
-**Base Extension Point**: `${baseExtPoint}.*` (where `baseExtPoint` is provided via props)
-
-##### `${baseExtPoint}.getItems`
-
-- **Purpose**: Allows plugins to contribute menu items to a MetaMenu component
-- **When Invoked**: Called when MetaMenu renders, if `baseExtPoint` prop is provided
-- **Context Parameters**:
-  - `meta`: Object - The menu metadata object containing configuration
-- **Expected Return**: `Array<MetaMenuItem>` - Array of menu item definitions
-- **Use Case Example**: Add custom menu items to application sidebar, header menu, or dropdown menus
-- **File Reference**: src/features/common/MetaMenu.js:23
-
-##### `${baseExtPoint}.processItems`
-
-- **Purpose**: Hook to modify all menu items after they're collected and normalized
-- **When Invoked**: Called after all items (from meta and extensions) are collected, normalized, and have parent-child relationships resolved
-- **Context Parameters**:
-  - `meta`: Object - The menu metadata object
-  - `newItems`: Array - The normalized array of menu items
-  - `itemByKey`: Object - Map of menu items keyed by their key property
-- **Expected Return**: `void` (modifies items in place)
-- **Use Case Example**: Reorder items, hide items based on permissions, add badges or notifications
-- **File Reference**: src/features/common/MetaMenu.js:57
-
-#### DropdownMenu Extension Pattern
-
-**Extension Point**: Custom (passed via `extPoint` prop)
-
-When a DropdownMenu component is rendered with an `extPoint` prop, it invokes that extension point:
-
-##### Custom Extension Point (via `extPoint` prop)
-
-- **Purpose**: Allows plugins to modify dropdown menu items dynamically
-- **When Invoked**: Called during DropdownMenu rendering, before items are processed
-- **Context Parameters**:
-  - `items`: Array - The menu items array to modify
-  - `...extPointParams`: Variable arguments passed via the `extPointParams` prop
-- **Expected Return**: `void` (modifies items array in place)
-- **Use Case Example**: Add context-specific actions to record dropdown menus, filter items based on permissions
-- **File Reference**: src/features/common/DropdownMenu.js:38
-
-#### ConfigProvider Extension
-
-##### `museLibAntd.configProvider.processProps`
-
-- **Purpose**: Allows plugins to modify Ant Design ConfigProvider props (e.g., theme tokens, component defaults)
-- **When Invoked**: Called when ConfigProviderWrapper renders, before passing props to Ant Design's ConfigProvider
-- **Context Parameters**:
-  - `configProps`: Object - The ConfigProvider props object with structure `{ theme: { algorithm: ... } }`
-- **Expected Return**: `void` (modifies configProps in place)
-- **Use Case Example**: Customize theme tokens (borderRadius, colors), add locale configuration, set component-level defaults
-- **File Reference**: src/features/common/ConfigProviderWrapper.js:16
-
-### Usage Example
-
-**CRITICAL**: Extension points are **nested object properties**, NOT string paths!
-
+**Signature**:
 ```javascript
-// Example: Extending a form via extendFormMeta
-// ✅ CORRECT - nested object properties
-plugin.register({
-  name: 'my-custom-plugin',
-  am: {
-    createAppForm: {
-      getFields: (context) => {
-        return [
-          {
-            key: 'customField',
-            label: 'Custom Field',
-            widget: 'input',
-            order: 100,
-          }
-        ];
-      },
-      processMeta: (context) => {
-        // Modify form metadata after fields are added
-        context.meta.fields.forEach(field => {
-          if (field.key === 'appName') {
-            field.required = true;
-          }
-        });
-      }
-    }
-  }
-});
+museLibAntd.configProvider.processProps(configProps)
+```
 
-// Example: Customizing Ant Design theme
-// ✅ CORRECT - nested object properties
+**Parameters**:
+- `configProps` (object) - The ConfigProvider props object to modify. Contains `theme.algorithm` (dark/light mode).
+
+**Usage**: Plugins can contribute to this extension point to modify theme tokens, add locale providers, or configure other Ant Design global settings.
+
+**Example**:
+```javascript
 plugin.register({
-  name: 'my-theme-plugin',
+  name: 'my-plugin',
   museLibAntd: {
     configProvider: {
       processProps: (configProps) => {
+        // Customize theme tokens
         configProps.theme.token = {
           colorPrimary: '#00b96b',
           borderRadius: 2,
@@ -256,716 +56,505 @@ plugin.register({
     }
   }
 });
-
-// Example: Adding items to a MetaMenu
-// ✅ CORRECT - nested object properties
-plugin.register({
-  name: 'my-menu-plugin',
-  museLayout: {
-    siderMenu: {
-      getItems: (meta) => {
-        return [
-          {
-            key: 'custom-item',
-            label: 'Custom Menu Item',
-            icon: 'star',
-            link: '/custom-page',
-            order: 50,
-          }
-        ];
-      }
-    }
-  }
-});
 ```
+
+### Important Note on Extension Point Helpers
+
+This plugin provides **two helper utilities** (`extendFormMeta` and `extendArray` in `src/utils.js`) that OTHER plugins can use to create extensible forms and arrays. These helpers are **exported utilities, not extension points exposed by muse-lib-antd**.
+
+The helpers use `plugin.invoke()` internally, but these invocations are **not extension points exposed by this plugin**. Instead, they are extension points that will be created by OTHER plugins when they call these helpers.
+
+**Example**: When another plugin calls `extendFormMeta(meta, 'myPlugin.myForm')`, it creates extension points like `myPlugin.myForm.getFields`. These belong to `myPlugin`, not to `muse-lib-antd`.
+
+See Section 4.3 for details on how to use these helper utilities.
 
 ---
 
 ## 3. Extension Points Contributed
 
-This plugin implements the following extension points from OTHER plugins to integrate with the MUSE ecosystem.
+This plugin contributes to **three extension points** from other plugins:
 
-### Summary
+### 3.1. `route`
 
-- **Total Contributions**: 3
-- **Host Plugins**: @ebay/muse-lib-react
+**Contributed to**: Core router plugin (`@ebay/muse-boot-default` or similar)
 
-### By Host Plugin
+**Purpose**: Registers plugin routes under `/plugin-muse-antd` path.
 
-#### Contributes to: @ebay/muse-lib-react
+**What it does**: Adds a route configuration for the plugin's UI pages (currently minimal, mainly for demos/testing).
 
-##### `route`
+**Why it matters**: Allows the plugin to have its own page routes if needed, though as a lib plugin this is rarely used in production.
 
-- **Invoked By**: @ebay/muse-lib-react routing system
-- **What This Plugin Provides**: Route configuration for `/plugin-muse-antd` path with common feature routes
-- **Why Needed**: Registers the plugin's route structure so it can be accessed via React Router
-- **File Reference**: src/index.js:17, src/common/routeConfig.js:1-16
+**Location**: `src/index.js:17` (spreads `route` from `src/common/routeConfig.js`)
 
-##### `root.getProviders`
+### 3.2. `root.getProviders`
 
-- **Invoked By**: @ebay/muse-lib-react root component provider chain
-- **What This Plugin Provides**: Ant Design ConfigProviderWrapper with dark mode support
-- **Why Needed**: Wraps the app with Ant Design's ConfigProvider to enable theming, localization, and component configuration. Sets order to 35 to ensure it wraps most other providers.
-- **File Reference**: src/index.js:18-26, src/features/common/ConfigProviderWrapper.js:1-18
+**Contributed to**: Root provider extension point (from boot plugin)
 
-##### `reducer`
+**Purpose**: Wraps the entire app with Ant Design's ConfigProvider for theme management and global configuration.
 
-- **Invoked By**: @ebay/muse-lib-react Redux store configuration
-- **What This Plugin Provides**: Redux reducer managing common state (currently dark mode preference)
-- **Why Needed**: Manages shared state for dark mode theme switching and persists preference to localStorage
-- **File Reference**: src/index.js:27, src/common/rootReducer.js:1-14
+**What it does**: Returns a provider configuration with `order: 35`, ensuring the ConfigProvider wraps the app at the correct level in the provider hierarchy. The `ConfigProviderWrapper` component handles dark/light theme switching and allows other plugins to customize theme tokens via the `museLibAntd.configProvider.processProps` extension point.
+
+**Why it matters**: Essential for Ant Design components to work properly — provides theme context, locale, and global config to all Ant Design components throughout the app.
+
+**Location**: `src/index.js:18-26`
+
+### 3.3. `reducer`
+
+**Contributed to**: Redux store configuration (from boot plugin)
+
+**Purpose**: Adds plugin state to the Redux store under `state.pluginEbayMuseLibAntd`.
+
+**What it does**: Registers a Redux reducer that manages the plugin's state, specifically the `isDarkMode` flag for theme switching. The state persists the user's theme preference to localStorage.
+
+**Why it matters**: Enables theme state management across the app and persists user's dark/light mode preference.
+
+**Location**: `src/index.js:27` (spreads `reducer` from `src/common/rootReducer.js`)
 
 ---
 
 ## 4. Exported Functionality
 
-This plugin exports the following functionality for use by other plugins.
+This plugin exports functionality through **both module sharing (automatic) and explicit exports**:
 
-**Access via**: `plugin.getPlugin('@ebay/muse-lib-antd').exports`
+### 4.1. Shared Modules (via default export)
 
-### Library Modules (Shared Dependencies)
+The plugin's default export force-includes these modules for sharing:
 
-As a **lib plugin**, this plugin's primary export is the complete set of Ant Design and icon modules, which are automatically shared with consuming plugins via MUSE's module federation system:
-
-#### Default Export Object
+**Location**: `src/index.js:32`
 
 ```javascript
-{
-  antd,    // Complete Ant Design 5.x library (all components)
-  icons,   // @ant-design/icons (all Ant Design icons)
-  utils,   // This plugin's utility functions
-}
+export default { antd, icons, utils };
 ```
 
-- **`antd`**: Complete Ant Design 5.19.0 component library
-  - **Access**: Other plugins import from 'antd' and it resolves to this shared instance
-  - **Why Exported**: Prevents duplicate Ant Design bundles across plugins, ensures version consistency
-  - **Components Include**: Button, Table, Form, Modal, Drawer, Menu, Layout, Input, Select, DatePicker, etc. (100+ components)
+**Available modules**:
+- `antd` - All Ant Design 5 components (Button, Table, Form, Modal, etc.)
+- `icons` - All Ant Design icons from `@ant-design/icons`
+- `utils` - Extension point helpers (`extendFormMeta`, `extendArray`)
 
-- **`icons`**: Complete @ant-design/icons 5.3.7 icon library
-  - **Access**: Other plugins import from '@ant-design/icons' and it resolves to this shared instance
-  - **Why Exported**: Prevents duplicate icon bundles, ensures consistent icon versions
-  - **Icons Include**: All Ant Design icons (outlined, filled, two-tone)
-
-- **`utils`**: Utility functions for extensibility
-  - **Access**: Import from '@ebay/muse-lib-antd/src/utils'
-  - **Why Exported**: Provides helpers for making forms and arrays extensible via extension points
-
-### Components (from src/features/common)
-
-The following custom components are exported via standard ES6 exports (not via plugin.exports):
-
-#### UI Components
-
-- **`MetaMenu`**: Metadata-driven menu component with extension point support
-  - **Purpose**: Render Ant Design menus from declarative configuration with plugin extensibility
-  - **Props**: `meta` (menu config), `baseExtPoint` (extension point base), `autoSort` (auto-sort items)
-  - **Use Cases**: Sidebar menus, header menus, dropdown menus with plugin-contributed items
-  - **File Reference**: src/features/common/MetaMenu.js:1-165
-
-- **`DropdownMenu`**: Dropdown menu with actions and extension point support
-  - **Purpose**: Render dropdown menus with highlighted actions and extension points
-  - **Props**: `items`, `triggerNode`, `extPoint`, `extPointParams`, `size`
-  - **Use Cases**: Record action menus, context menus
-  - **File Reference**: src/features/common/DropdownMenu.js:1-93
-
-- **`ErrorBox`**: Error display component with retry functionality
-  - **Purpose**: Display errors with stack traces, retry buttons, and customizable messaging
-  - **Props**: `title`, `content`, `error`, `onRetry`, `showStack`, `btnSize`
-  - **Use Cases**: Error boundaries, API error display, validation errors
-  - **File Reference**: src/features/common/ErrorBox.js
-
-- **`ErrorBoundary`**: React error boundary component
-  - **Purpose**: Catch React rendering errors and display fallback UI
-  - **Props**: `message`, `children`
-  - **Use Cases**: Wrap components to prevent entire app crashes
-  - **File Reference**: src/features/common/ErrorBoundary.js
-
-- **`GlobalLoading`**: Full-page or container loading indicator
-  - **Purpose**: Display loading spinner overlays
-  - **Props**: `full` (boolean for full-page mode)
-  - **Use Cases**: Page transitions, async data loading
-  - **File Reference**: src/features/common/GlobalLoading.js
-
-- **`GlobalErrorBox`**: Modal error display
-  - **Purpose**: Display errors in modal dialogs
-  - **Props**: `title`, `error`, `onOk`, `okText`, `onClose`
-  - **Use Cases**: Critical errors, API failures that need user acknowledgment
-  - **File Reference**: src/features/common/GlobalErrorBox.js
-
-- **`CodeViewer`**: Syntax-highlighted code display
-  - **Purpose**: Display formatted code with syntax highlighting and copy functionality
-  - **Props**: `code`, `language`, `theme`, `allowCopy`, `title`
-  - **Use Cases**: Display JSON, YAML, JavaScript, or other code snippets
-  - **File Reference**: src/features/common/CodeViewer.js
-
-- **`BlockView`**: Formatted value display component
-  - **Purpose**: Display values in a consistent block format, with email link support
-  - **Props**: `value`, `openEmail`
-  - **Use Cases**: Display field values in view mode, form field previews
-  - **File Reference**: src/features/common/BlockView.js
-
-- **`DateView`**: Date/time display component
-  - **Purpose**: Format and display dates/times with various format options
-  - **Props**: `value`, `dateOnly`, `timeOnly`, `dateFormat`, `timeFormat`
-  - **Use Cases**: Display timestamps, dates, or times in consistent format
-  - **File Reference**: src/features/common/DateView.js
-
-- **`Highlighter`**: Text search highlighting component
-  - **Purpose**: Highlight search terms within text
-  - **Props**: `search`, `text`
-  - **Use Cases**: Search results, filtered lists
-  - **File Reference**: src/features/common/Highlighter.js
-
-- **`Icon`**: Icon wrapper component
-  - **Purpose**: Render Ant Design icons with consistent API
-  - **Props**: `type`, `className`, `onClick`, `style`
-  - **Use Cases**: Consistent icon rendering across app
-  - **File Reference**: src/features/common/Icon.js
-
-- **`LoadingMask`**: Inline loading indicator
-  - **Purpose**: Display loading state for components
-  - **Use Cases**: Inline component loading states
-  - **File Reference**: src/features/common/LoadingMask.js
-
-- **`PageNotFound`**: 404 error page component
-  - **Purpose**: Display "page not found" error page
-  - **Use Cases**: React Router fallback route
-  - **File Reference**: src/features/common/PageNotFound.js
-
-- **`RequestStatus`**: Request state management component
-  - **Purpose**: Handle loading, error, and success states for async requests
-  - **Props**: `pending`, `loading`, `error`, `errorMode`, `loadingMode`, `dismissError`
-  - **Use Cases**: Wrap async components to handle loading/error states
-  - **File Reference**: src/features/common/RequestStatus.js
-
-- **`StatusLabel`**: Status badge component
-  - **Purpose**: Display status with colored labels
-  - **Props**: `label`, `type` (SUCCESS, FAILURE, PROCESSING, etc.)
-  - **Use Cases**: Display plugin status, request status, app status
-  - **File Reference**: src/features/common/StatusLabel.js
-
-- **`TableBar`**: Table toolbar with search
-  - **Purpose**: Provide search bar and actions for tables
-  - **Props**: `onSearch`, `search`, `placeholder`, `children`
-  - **Use Cases**: Table filtering, bulk actions
-  - **File Reference**: src/features/common/TableBar.js
-
-- **`TagInput`**: Tag input widget
-  - **Purpose**: Input component for entering multiple tags
-  - **Props**: `max`, `value`, `onChange`
-  - **Use Cases**: Form fields for arrays of strings (tags, labels, keywords)
-  - **File Reference**: src/features/common/TagInput.js
-
-- **`ConfigProviderWrapper`**: Ant Design ConfigProvider with dark mode
-  - **Purpose**: Wrap app with Ant Design theme provider and dark mode support
-  - **Props**: `children`
-  - **Use Cases**: Root-level provider for Ant Design theming
-  - **File Reference**: src/features/common/ConfigProviderWrapper.js
-
-### Utilities (from src/utils.js)
-
-- **`extendFormMeta(meta, extBase, ...args)`**: Make Nice Form metadata extensible
-  - **Purpose**: Allow plugins to extend form definitions via extension points
-  - **Parameters**:
-    - `meta`: FormMeta object with `fields` array
-    - `extBase`: String - base name for extension points (e.g., 'am.createAppForm')
-    - `...args`: Additional arguments passed to extension point handlers
-  - **Returns**: `{ watchingFields: Array, meta: FormMeta }`
-  - **Extension Points Invoked**:
-    - `${extBase}.preProcessMeta`
-    - `${extBase}.getFields`
-    - `${extBase}.processMeta`
-    - `${extBase}.postProcessMeta`
-    - `${extBase}.getWatchingFields`
-  - **Use Cases**: Create extensible forms in manager UIs where plugins can add custom fields
-  - **File Reference**: src/utils.js:11-23
-
-- **`extendArray(arr, extName, extBase, ...args)`**: Make arrays extensible
-  - **Purpose**: Allow plugins to extend arrays (columns, actions, tabs, etc.) via extension points
-  - **Parameters**:
-    - `arr`: Array - the array to extend
-    - `extName`: String - name of the array type (e.g., 'columns', 'actions')
-    - `extBase`: String - base name for extension points (e.g., 'pm.pluginList')
-    - `...args`: Additional arguments passed to extension point handlers
-  - **Returns**: The modified array
-  - **Extension Points Invoked**:
-    - `${extBase}.preProcess${CapitalizedExtName}`
-    - `${extBase}.get${CapitalizedExtName}`
-    - `${extBase}.process${CapitalizedExtName}`
-    - `${extBase}.postProcess${CapitalizedExtName}`
-  - **Use Cases**: Create extensible table columns, action menus, tabs, etc.
-  - **File Reference**: src/utils.js:36-45
-
-### Other Resources
-
-- **History Object**: Browser history singleton for programmatic navigation
-  - **Access**: Import from '@ebay/muse-lib-antd/src/common/history'
-  - **Type**: `BrowserHistory` from history v5
-  - **Global Access**: Also available at `window.MUSE_ANTD_HISTORY`
-  - **Methods**: `push(path)`, `replace(path)`, `go(n)`, `goBack()`, `goForward()`
-  - **Use Cases**: Navigate programmatically without React Router hooks, imperative navigation in non-component code
-  - **File Reference**: src/common/history.js:1-6
-
-- **Table Configuration**: Default Ant Design table props and utilities
-  - **Access**: Import from '@ebay/muse-lib-antd/src/features/common/tableConfig'
-  - **Exports**: `defaultProps`, `defaultSorter`, `defaultFilter`
-  - **Use Cases**: Consistent table configuration across app
-  - **File Reference**: src/features/common/tableConfig.js:1-42
-
-- **Redux State**: Dark mode state management
-  - **Hook**: `useSetIsDarkMode()` - Returns `{ isDarkMode, setIsDarkMode }`
-  - **Action**: `setIsDarkMode(isDarkMode)` - Dispatch action to toggle dark mode
-  - **Use Cases**: Theme switching, dark mode preferences
-  - **File Reference**: src/features/common/redux/setIsDarkMode.js:1-31
-
-- **Modals**: Pre-registered Nice Modal React modals
-  - **Modal ID**: `'muse-lib-antd.loading-modal'`
-  - **Component**: LoadingModal
-  - **Use Cases**: Show loading dialogs via Nice Modal React
-  - **File Reference**: src/modals.js:1-4
-
-- **Nice Form Widgets**: Custom form widgets registered with Nice Form
-  - **Widgets**:
-    - `'tag'`: TagInput component
-    - `'tag-view'`: BlockView component
-    - `'date-view'`: DateView (dateOnly)
-    - `'time-view'`: DateView (timeOnly)
-    - `'datetime-view'`: DateView (full)
-  - **Use Cases**: Use in Nice Form field definitions
-  - **File Reference**: src/initNiceForm.jsx:1-16
-
-### Using Exported Functionality
-
+**How to consume**:
 ```javascript
-// Accessing shared Ant Design components (automatic via module federation)
+// In another plugin - import via shared modules
 import { Button, Table, Form } from 'antd';
-import { UserOutlined, SearchOutlined } from '@ant-design/icons';
+import { UserOutlined, SettingOutlined } from '@ant-design/icons';
+import { extendFormMeta, extendArray } from '@ebay/muse-lib-antd/src/utils';
+```
 
-// Using custom components
-import {
-  MetaMenu,
-  DropdownMenu,
-  ErrorBox,
-  CodeViewer,
-  DateView
-} from '@ebay/muse-lib-antd/src/features/common';
+### 4.2. React Components
 
-// Using utilities
+All components are available via module sharing from `src/features/common`:
+
+**UI Components**:
+- **`MetaMenu`** - Declarative menu component supporting nested items, icons, links, and extension points (`baseExtPoint` prop)
+- **`TableBar`** - Search bar for tables with debounced search
+- **`ErrorBox`** - Error display component with retry button and stack trace
+- **`ErrorBoundary`** - React error boundary for catching component errors
+- **`GlobalLoading`** - Full-screen loading indicator
+- **`GlobalErrorBox`** - Modal error display
+- **`LoadingMask`** - Inline loading overlay
+- **`RequestStatus`** - Unified component for handling loading/error/success states
+- **`Highlighter`** - Text highlighting component
+- **`StatusLabel`** - Colored status badges
+- **`CodeViewer`** - Syntax-highlighted code display with copy button
+- **`DateView`** - Formatted date/time display
+- **`BlockView`** - Display structured data blocks
+- **`TagInput`** - Tag input component
+- **`DropdownMenu`** - Dropdown menu with extension point support
+- **`Icon`** - Ant Design icon wrapper
+- **`ConfigProviderWrapper`** - Ant Design ConfigProvider with theme switching
+
+**How to consume**:
+```javascript
+import { MetaMenu, TableBar, ErrorBox } from '@ebay/muse-lib-antd/src/features/common';
+```
+
+### 4.3. Utilities
+
+**Extension Point Helpers** (`src/utils.js`):
+
+These are utilities that OTHER plugins use to create their own extension points:
+
+- **`extendFormMeta(meta, extBase, ...args)`** - Makes nice-form-react form metadata extensible via js-plugin. When a plugin calls this helper, it creates extension points under the provided `extBase` name for adding fields, preprocessing, and watching fields.
+
+  Extension points created by calling this helper:
+  - `${extBase}.preProcessMeta` - Called before processing fields
+  - `${extBase}.getFields` - Returns additional form fields to add
+  - `${extBase}.processMeta` - Called after adding fields
+  - `${extBase}.postProcessMeta` - Called after processing
+  - `${extBase}.getWatchingFields` - Returns fields to watch for changes
+
+- **`extendArray(arr, extName, extBase, ...args)`** - Makes any array extensible via js-plugin. When a plugin calls this helper, it creates extension points under the provided `extBase` name for adding and processing array items.
+
+  Extension points created by calling this helper (where `${capitalizedExtName}` is `extName` with first letter capitalized):
+  - `${extBase}.preProcess${capitalizedExtName}` - Called before adding items
+  - `${extBase}.get${capitalizedExtName}` - Returns additional items to add
+  - `${extBase}.process${capitalizedExtName}` - Called after adding items
+  - `${extBase}.postProcess${capitalizedExtName}` - Called after processing
+
+**Important**: These helpers do NOT expose extension points from muse-lib-antd. They are utilities that other plugins use to create extension points in their own namespace.
+
+**How to consume**:
+```javascript
 import { extendFormMeta, extendArray } from '@ebay/muse-lib-antd/src/utils';
 
-// Example: Make a form extensible
-const meta = {
-  fields: [
-    { key: 'name', label: 'Name', widget: 'input' }
-  ]
-};
-
-const { watchingFields, meta: extendedMeta } = extendFormMeta(
-  meta,
-  'myPlugin.myForm',
-  { context: 'additional data' }
-);
-
-// Example: Make a table columns array extensible
-const columns = [
-  { key: 'name', title: 'Name', dataIndex: 'name' }
-];
-
-extendArray(columns, 'columns', 'myPlugin.myTable', tableData);
-
-// Example: Using dark mode
-import { useSetIsDarkMode } from '@ebay/muse-lib-antd/src/features/common/redux/hooks';
-
-function MyComponent() {
-  const { isDarkMode, setIsDarkMode } = useSetIsDarkMode();
-
-  return (
-    <button onClick={() => setIsDarkMode(!isDarkMode)}>
-      Toggle Theme (current: {isDarkMode ? 'dark' : 'light'})
-    </button>
-  );
-}
-
-// Example: Using MetaMenu
-const menuMeta = {
-  items: [
-    { key: 'home', label: 'Home', link: '/', icon: 'home' },
-    { key: 'settings', label: 'Settings', link: '/settings', icon: 'setting' }
-  ],
-  autoActive: true,
-  mode: 'inline'
-};
-
-<MetaMenu
-  meta={menuMeta}
-  baseExtPoint="myPlugin.siderMenu"
-  autoSort={true}
-/>
-
-// Example: Using history for programmatic navigation
-import history from '@ebay/muse-lib-antd/src/common/history';
-
-// Navigate to a different route
-function handleCreateSuccess(newId) {
-  history.push(`/items/${newId}`);
-}
-
-// Or access via global
-window.MUSE_ANTD_HISTORY.push('/dashboard');
-```
-
-**Note**: As a lib plugin, the primary value is providing shared Ant Design modules. The custom components and utilities are secondary exports that build on top of the shared foundation.
-
----
-
-## 5. Integration Examples
-
-**CRITICAL**: Extension points are **nested object properties**, NOT string paths!
-
-### ✅ CORRECT Syntax
-```javascript
-plugin.register({
-  name: 'my-plugin',
-  pluginName: {
-    extensionPoint: (context) => {
-      // Your implementation
-    }
-  }
-});
-```
-
-### ❌ INCORRECT Syntax
-```javascript
-plugin.register({
-  name: 'my-plugin',
-  'pluginName.extensionPoint': (context) => {  // WRONG!
-    // This will NOT work!
-  }
-});
-```
-
----
-
-### Example 1: Using Shared Ant Design Components
-
-Since `@ebay/muse-lib-antd` is a lib plugin, consuming plugins automatically use its shared Ant Design instance:
-
-```javascript
-// In your plugin - automatically uses shared antd from muse-lib-antd
-import React from 'react';
-import { Button, Table, Form, Modal } from 'antd';
-import { UserOutlined, PlusOutlined } from '@ant-design/icons';
-
-export default function MyComponent() {
-  return (
-    <div>
-      <Button type="primary" icon={<PlusOutlined />}>
-        Create User
-      </Button>
-      <Table
-        dataSource={data}
-        columns={columns}
-      />
-    </div>
-  );
-}
-```
-
-### Example 2: Extending Forms with Custom Fields
-
-```javascript
-import plugin from 'js-plugin';
-
-// ✅ CORRECT - nested object properties
-plugin.register({
-  name: 'my-custom-plugin',
-
-  // Add fields to the create app form
-  am: {
-    createAppForm: {
-      getFields: (context) => {
-        return [
-          {
-            key: 'githubRepo',
-            label: 'GitHub Repository',
-            widget: 'input',
-            placeholder: 'org/repo',
-            order: 100,
-            required: true,
-          },
-          {
-            key: 'slackChannel',
-            label: 'Slack Channel',
-            widget: 'input',
-            placeholder: '#channel-name',
-            order: 101,
-          }
-        ];
-      },
-
-      // Modify form after all fields are added
-      processMeta: (context) => {
-        const { meta } = context;
-
-        // Make appName field required
-        const appNameField = meta.fields.find(f => f.key === 'appName');
-        if (appNameField) {
-          appNameField.required = true;
-          appNameField.rules = [
-            { required: true, message: 'App name is required' },
-            { pattern: /^[a-z][a-z0-9-]*$/, message: 'Must start with letter, use lowercase and hyphens only' }
-          ];
-        }
-      }
-    }
-  }
-});
-```
-
-### Example 3: Customizing Ant Design Theme
-
-```javascript
-import plugin from 'js-plugin';
-
-// ✅ CORRECT - nested object properties
-plugin.register({
-  name: 'my-theme-plugin',
-
-  museLibAntd: {
-    configProvider: {
-      processProps: (configProps) => {
-        // Customize theme tokens
-        configProps.theme.token = {
-          colorPrimary: '#1890ff',     // Primary color
-          colorSuccess: '#52c41a',     // Success color
-          colorWarning: '#faad14',     // Warning color
-          colorError: '#f5222d',       // Error color
-          borderRadius: 4,             // Border radius for components
-          fontSize: 14,                // Base font size
-          fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial',
-        };
-
-        // Add component-level configurations
-        configProps.button = {
-          defaultProps: {
-            size: 'middle'
-          }
-        };
-
-        // Add locale if needed
-        // configProps.locale = enUS;
-      }
-    }
-  }
-});
-```
-
-### Example 4: Creating Extensible UI with MetaMenu
-
-```javascript
-import React from 'react';
-import { MetaMenu } from '@ebay/muse-lib-antd/src/features/common';
-import plugin from 'js-plugin';
-
-// Define base menu
-function MySidebar() {
-  const menuMeta = {
-    items: [
-      {
-        key: 'dashboard',
-        label: 'Dashboard',
-        link: '/dashboard',
-        icon: 'dashboard',
-        order: 0
-      },
-      {
-        key: 'users',
-        label: 'Users',
-        link: '/users',
-        icon: 'user',
-        order: 10
-      },
-    ],
-    mode: 'inline',
-    autoActive: true,
-  };
-
-  return (
-    <MetaMenu
-      meta={menuMeta}
-      baseExtPoint="myApp.siderMenu"
-      autoSort={true}
-    />
-  );
-}
-
-// Other plugins can extend the menu
-// ✅ CORRECT - nested object properties
-plugin.register({
-  name: 'my-extension-plugin',
-
-  myApp: {
-    siderMenu: {
-      getItems: (meta) => {
-        return [
-          {
-            key: 'custom-feature',
-            label: 'Custom Feature',
-            link: '/custom',
-            icon: 'star',
-            order: 20,
-          }
-        ];
-      },
-
-      processItems: (meta, items, itemByKey) => {
-        // Hide users menu if user doesn't have permission
-        const usersItem = itemByKey['users'];
-        if (usersItem && !userHasPermission('view_users')) {
-          items.splice(items.indexOf(usersItem), 1);
-        }
-      }
-    }
-  }
-});
-```
-
-### Example 5: Using Extensibility Utilities
-
-```javascript
-import React from 'react';
-import { extendFormMeta, extendArray } from '@ebay/muse-lib-antd/src/utils';
-import NiceForm from '@ebay/nice-form-react';
-
-function MyForm({ record }) {
-  // Create extensible form
-  const baseMeta = {
+// Example: Create an extensible form in YOUR plugin
+function MyForm() {
+  const formMeta = {
     fields: [
-      { key: 'name', label: 'Name', widget: 'input', required: true },
-      { key: 'email', label: 'Email', widget: 'input', required: true },
+      { key: 'name', label: 'Name', widget: 'input' }
     ]
   };
 
+  // This creates extension points like "myPlugin.userForm.getFields"
+  // that OTHER plugins can contribute to
   const { meta, watchingFields } = extendFormMeta(
-    baseMeta,
-    'myPlugin.userForm',
-    { record, mode: 'create' }
+    formMeta,
+    'myPlugin.userForm'  // YOUR plugin's extension point namespace
   );
 
   return <NiceForm meta={meta} />;
 }
+```
 
-// Create extensible table columns
-function MyTable({ dataSource }) {
-  const columns = [
-    { key: 'name', title: 'Name', dataIndex: 'name', sorter: true },
-    { key: 'email', title: 'Email', dataIndex: 'email' },
-  ];
+**Table Configuration** (`src/features/common/tableConfig.js`):
+- `defaultProps` - Default Ant Design Table props (size, pagination config)
+- `defaultSorter(key)` - Generic sorter function for table columns
+- `defaultFilter(dataSource, key)` - Generic filter function for table columns
 
-  // Allow plugins to add columns
-  extendArray(columns, 'columns', 'myPlugin.userTable', { dataSource });
+**How to consume**:
+```javascript
+import tableConfig from '@ebay/muse-lib-antd/src/features/common/tableConfig';
 
-  return <Table dataSource={dataSource} columns={columns} />;
+<Table {...tableConfig.defaultProps} columns={columns} dataSource={data} />
+```
+
+### 4.4. Redux Hooks
+
+**Theme Management** (`src/features/common/redux/hooks.js`):
+
+- **`useSetIsDarkMode()`** - React hook for reading and setting dark mode
+  - Returns: `{ isDarkMode: boolean, setIsDarkMode: (isDarkMode: boolean) => void }`
+  - Persists to localStorage as `'muse.theme'`
+
+**How to consume**:
+```javascript
+import { useSetIsDarkMode } from '@ebay/muse-lib-antd/src/features/common/redux/hooks';
+
+function MyComponent() {
+  const { isDarkMode, setIsDarkMode } = useSetIsDarkMode();
+  return <Switch checked={isDarkMode} onChange={setIsDarkMode} />;
 }
+```
 
-// Other plugins can extend these
-// ✅ CORRECT - nested object properties
+### 4.5. Nice Modal Registration
+
+**Pre-registered modals** (via `nice-modal-react`):
+
+- `'muse-lib-antd.loading-modal'` - Global loading modal component
+
+**How to consume**:
+```javascript
+import { show } from '@ebay/nice-modal-react';
+
+// Show loading modal
+show('muse-lib-antd.loading-modal');
+```
+
+---
+
+## 5. Consumed Exports (Runtime Dependencies)
+
+This plugin **does not consume exports from other plugins**. All inter-plugin collaboration is done through extension points (contributing to `route`, `root.getProviders`, and `reducer` extension points from the boot plugin).
+
+The plugin has **zero tight coupling** — it does not use `plugin.getPlugin(...).exports` to access other plugins' functionality directly.
+
+---
+
+## 6. Integration Examples
+
+### 6.1. Extending This Plugin
+
+#### Customize Ant Design Theme
+
+```javascript
 plugin.register({
-  name: 'my-extension',
-
-  myPlugin: {
-    userForm: {
-      getFields: ({ record, mode }) => {
-        if (mode === 'create') {
-          return [
-            {
-              key: 'role',
-              label: 'Role',
-              widget: 'select',
-              options: ['admin', 'user'],
-              order: 50
-            }
-          ];
-        }
-        return [];
-      }
-    },
-
-    userTable: {
-      getColumns: ({ dataSource }) => {
-        return [
-          {
-            key: 'role',
-            title: 'Role',
-            dataIndex: 'role',
-            filters: [
-              { text: 'Admin', value: 'admin' },
-              { text: 'User', value: 'user' }
-            ],
-            onFilter: (value, record) => record.role === value,
-            order: 50
-          }
-        ];
+  name: 'my-theme-plugin',
+  museLibAntd: {
+    configProvider: {
+      processProps: (configProps) => {
+        configProps.theme.token = {
+          colorPrimary: '#1890ff',
+          borderRadius: 4,
+          fontSize: 14,
+        };
       }
     }
   }
 });
 ```
 
-### Example 6: Using Custom Components
+### 6.2. Using Exported Utilities
+
+#### Create Extensible Forms (using extendFormMeta helper)
 
 ```javascript
-import React from 'react';
-import {
-  ErrorBox,
-  CodeViewer,
-  DateView,
-  Highlighter,
-  StatusLabel,
-  DropdownMenu
-} from '@ebay/muse-lib-antd/src/features/common';
+import { extendFormMeta } from '@ebay/muse-lib-antd/src/utils';
 
-function MyComponent({ data, error, searchTerm }) {
-  if (error) {
-    return (
-      <ErrorBox
-        title="Failed to Load Data"
-        error={error}
-        onRetry={handleRetry}
-        showStack={true}
-      />
-    );
+// In YOUR plugin, create a form with extension points
+function UserForm() {
+  const meta = {
+    fields: [
+      { key: 'name', label: 'Name', widget: 'input' }
+    ]
+  };
+
+  // This creates extension points in YOUR plugin's namespace:
+  // - myPlugin.userForm.getFields
+  // - myPlugin.userForm.preProcessMeta
+  // - myPlugin.userForm.processMeta
+  // - myPlugin.userForm.postProcessMeta
+  // - myPlugin.userForm.getWatchingFields
+  const { meta: finalMeta, watchingFields } = extendFormMeta(
+    meta,
+    'myPlugin.userForm'  // YOUR extension point namespace
+  );
+
+  return <NiceForm meta={finalMeta} />;
+}
+
+// Now OTHER plugins can extend YOUR form:
+plugin.register({
+  name: 'extension-plugin',
+  myPlugin: {  // Extending myPlugin's extension points
+    userForm: {
+      getFields: () => [
+        { key: 'email', label: 'Email', widget: 'input' }
+      ]
+    }
   }
+});
+```
+
+#### Create Extensible Menus (using MetaMenu with baseExtPoint)
+
+```javascript
+import { MetaMenu } from '@ebay/muse-lib-antd/src/features/common';
+
+// In YOUR plugin
+function Sidebar() {
+  const menuMeta = {
+    items: [
+      { key: 'home', label: 'Home', link: '/' }
+    ]
+  };
+
+  // baseExtPoint creates extension points in YOUR namespace:
+  // - myPlugin.sidebar.menu.getItems
+  // - myPlugin.sidebar.menu.processItems
+  return <MetaMenu meta={menuMeta} baseExtPoint="myPlugin.sidebar.menu" />;
+}
+
+// Other plugins can add menu items to YOUR sidebar:
+plugin.register({
+  name: 'extension-plugin',
+  myPlugin: {  // Extending myPlugin's extension points
+    sidebar: {
+      menu: {
+        getItems: () => [
+          { key: 'settings', label: 'Settings', link: '/settings', order: 10 }
+        ]
+      }
+    }
+  }
+});
+```
+
+#### Create Extensible Arrays (using extendArray helper)
+
+```javascript
+import { extendArray } from '@ebay/muse-lib-antd/src/utils';
+
+// In YOUR plugin
+function ActionBar() {
+  const actions = [
+    { key: 'save', label: 'Save', onClick: handleSave }
+  ];
+
+  // This creates extension points in YOUR namespace:
+  // - myPlugin.actionBar.getActions
+  // - myPlugin.actionBar.preProcessActions
+  // - myPlugin.actionBar.processActions
+  // - myPlugin.actionBar.postProcessActions
+  extendArray(actions, 'actions', 'myPlugin.actionBar');
 
   return (
     <div>
-      {/* Display formatted code */}
-      <CodeViewer
-        code={JSON.stringify(data, null, 2)}
-        language="json"
-        theme="dark"
-        allowCopy={true}
-      />
+      {actions.map(action => (
+        <Button key={action.key} onClick={action.onClick}>
+          {action.label}
+        </Button>
+      ))}
+    </div>
+  );
+}
 
-      {/* Display dates */}
-      <DateView value={data.createdAt} dateOnly />
+// Other plugins can add actions to YOUR action bar:
+plugin.register({
+  name: 'extension-plugin',
+  myPlugin: {  // Extending myPlugin's extension points
+    actionBar: {
+      getActions: () => [
+        { key: 'export', label: 'Export', onClick: handleExport, order: 20 }
+      ]
+    }
+  }
+});
+```
 
-      {/* Highlight search terms */}
-      <Highlighter text={data.description} search={searchTerm} />
+### 6.3. Using Ant Design Components
 
-      {/* Display status */}
-      <StatusLabel label={data.status} type="SUCCESS" />
+```javascript
+import { Button, Table, Form, Modal, Drawer } from 'antd';
+import { UserOutlined, SettingOutlined } from '@ant-design/icons';
 
-      {/* Dropdown menu with actions */}
-      <DropdownMenu
-        items={[
-          { key: 'edit', label: 'Edit', icon: 'edit', onClick: handleEdit },
-          { key: 'delete', label: 'Delete', icon: 'delete', onClick: handleDelete }
-        ]}
-        size="small"
-      />
+function MyComponent() {
+  return (
+    <div>
+      <Button type="primary" icon={<UserOutlined />}>
+        Click Me
+      </Button>
     </div>
   );
 }
 ```
+
+### 6.4. Using UI Components
+
+```javascript
+import {
+  TableBar,
+  ErrorBox,
+  RequestStatus,
+  MetaMenu
+} from '@ebay/muse-lib-antd/src/features/common';
+
+function MyTable() {
+  const [search, setSearch] = useState('');
+
+  return (
+    <div>
+      <TableBar search={search} onSearch={setSearch} />
+      <RequestStatus
+        pending={loading}
+        error={error}
+        loadingMode="skeleton"
+      >
+        <Table dataSource={filteredData} />
+      </RequestStatus>
+    </div>
+  );
+}
+```
+
+### 6.5. Using Theme Hook
+
+```javascript
+import { useSetIsDarkMode } from '@ebay/muse-lib-antd/src/features/common/redux/hooks';
+import { Switch } from 'antd';
+
+function ThemeToggle() {
+  const { isDarkMode, setIsDarkMode } = useSetIsDarkMode();
+
+  return (
+    <Switch
+      checked={isDarkMode}
+      onChange={setIsDarkMode}
+      checkedChildren="Dark"
+      unCheckedChildren="Light"
+    />
+  );
+}
+```
+
+### 6.6. Using Table Configuration
+
+```javascript
+import tableConfig from '@ebay/muse-lib-antd/src/features/common/tableConfig';
+
+<Table
+  {...tableConfig.defaultProps}
+  columns={[
+    {
+      title: 'Name',
+      dataIndex: 'name',
+      sorter: tableConfig.defaultSorter('name'),
+      ...tableConfig.defaultFilter(dataSource, 'name')
+    }
+  ]}
+  dataSource={data}
+/>
+```
+
+---
+
+## 7. Architecture Notes
+
+### Plugin Type: lib
+
+As a lib plugin, `@ebay/muse-lib-antd`:
+- Loads **before normal plugins** in the boot sequence (boot → init → lib → normal)
+- **Shares all modules** in its dependency tree automatically (no manual `muse.exposes` config needed)
+- Prevents duplication of Ant Design components and utilities across plugins
+- Must be deployed before normal plugins that consume it
+
+### Theme Architecture
+
+The plugin implements a two-layer theme system:
+1. **Base theme switching** (dark/light) - Managed via Redux state and ConfigProvider's `theme.algorithm`
+2. **Theme customization** - Other plugins can contribute via `museLibAntd.configProvider.processProps` to customize tokens
+
+### Extension Point Pattern
+
+**Key concept**: This plugin provides **utility helpers** (`extendFormMeta`, `extendArray`) that other plugins use to create extension points in their OWN namespaces.
+
+- The `plugin.invoke()` calls inside these helpers are **not** extension points exposed by muse-lib-antd
+- They are extension points that will be created by the plugins that call these helpers
+- Example: When `pluginA` calls `extendFormMeta(meta, 'pluginA.myForm')`, it creates extension points like `pluginA.myForm.getFields` that `pluginB` can contribute to
+
+### Nice Form Integration
+
+The plugin pre-configures nice-form-react with:
+- Ant Design adapter for component rendering
+- Custom widgets: `tag`, `tag-view`, `date-view`, `time-view`, `datetime-view`
+
+This allows all plugins using nice-form-react to benefit from Ant Design components without additional setup.
+
+---
+
+## 8. TypeScript Support
+
+The plugin provides TypeScript definitions in `src/index.d.ts` for:
+- All exported components with full prop types
+- Utility function signatures
+- Form metadata interfaces
+
+Import types from:
+```typescript
+import type { MetaMenuProps, FormMeta } from '@ebay/muse-lib-antd/src/features/common';
+```
+
+---
+
+## 9. Dependencies
+
+**Key dependencies** (automatically shared):
+- `antd` (5.19.0) - Ant Design component library
+- `@ant-design/icons` (5.3.7) - Ant Design icon set
+- `@ebay/nice-form-react` (2.0.3) - Form metadata framework
+- `@ebay/muse-lib-react` (1.3.0) - React library plugin (provides React, Redux, React Router)
+- `js-plugin` (1.1.0) - Extension point engine
+- `lodash` (4.17.21) - Utility functions
+- `moment` (2.29.4) - Date manipulation
+- `react-highlight-words` (0.20.0) - Text highlighting
+- `react-syntax-highlighter` (15.5.0) - Code syntax highlighting
+
+All dependencies in the import tree are automatically shared with consuming plugins.
