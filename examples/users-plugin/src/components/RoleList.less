@@ -1,0 +1,46 @@
+.role-list {
+  .ant-table-cell {
+    color: rgb(63, 66, 84);
+  }
+
+  .role-name-cell {
+    padding: 10px 0;
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 12px;
+    align-items: center;
+
+    .role-icon {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      background-color: #f57c00;
+      display: grid;
+      place-items: center;
+      
+      .anticon {
+        font-size: 18px;
+        color: white;
+      }
+    }
+
+    .role-name-link {
+      font-size: 16px;
+      font-weight: 500;
+      color: rgb(63, 66, 84);
+      text-decoration: none;
+      
+      &:hover {
+        color: #f57c00;
+        text-decoration: underline;
+      }
+    }
+
+    .role-description {
+      margin: 2px 0 0 0;
+      color: rgb(126, 130, 153);
+      font-size: 14px;
+      line-height: 1.4;
+    }
+  }
+}

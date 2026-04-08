@@ -1,0 +1,156 @@
+MUSE PLUGIN EXTENSION POINTS ORGANIZATION CONVENTION
+=====================================================
+
+This document describes the standard convention for organizing extension points 
+in Muse plugins. This is a mandatory development pattern that all plugins should follow.
+
+## DIRECTORY STRUCTURE
+
+your-plugin/
+├── src/
+│   ├── ext/              # Extension points directory (REQUIRED)
+│   │   ├── index.js      # Unified export file (REQUIRED)
+│   │   ├── museLayout.jsx
+│   │   ├── museDashboard.jsx
+│   │   ├── home.js
+│   │   └── ...
+│   ├── index.js          # Main plugin entry (DO NOT MODIFY - see note below)
+│   ├── route.js
+│   ├── reducer.js
+│   └── ...
+
+## THE CONVENTION
+
+### 1. Extension Point Files in ext/
+
+All extension point implementations must be placed in the `src/ext/` directory.
+Each extension point should be in a separate file.
+
+Example:
+- src/ext/museLayout.jsx
+- src/ext/museDashboard.jsx
+- src/ext/home.js
+
+### 2. Unified Export in ext/index.js (REQUIRED)
+
+ALL extension point files MUST be exported in `ext/index.js` using this pattern:
+
+```javascript
+// ext/index.js
+export { default as museLayout } from './museLayout';
+export { default as home } from './home';
+export { default as museDashboard } from './museDashboard';
+```
+
+Rules:
+- Use `export { default as [name] } from './[filename]'` syntax
+- Export name MUST match the filename
+- Every file in ext/ folder MUST be exported here
+
+### 3. Integration with Main index.js
+
+⚠️ IMPORTANT: The main `src/index.js` is a DEFAULT file in all Muse projects.
+DO NOT MODIFY it unless absolutely necessary.
+
+The standard main index.js pattern (already in place):
+
+```javascript
+// src/index.js
+import plugin from 'js-plugin';
+import route from './route';
+import reducer from './reducer';
+import * as ext from './ext';  // Import all extension points
+
+plugin.register({
+  name: 'your-plugin',
+  route,
+  reducer,
+  ...ext,  // Spread all extension points for auto-registration
+});
+```
+
+This pattern:
+- Uses `import * as ext from './ext'` to import all extension points
+- Uses `...ext` to spread and register all extension points automatically
+- Ensures all exports from ext/index.js are properly registered
+
+## NAMING CONVENTION
+
+- File names: camelCase (e.g., museLayout.jsx, museDashboard.jsx)
+- Export names: Must match file names exactly
+- Extension: Use .js, .jsx, .ts, or .tsx based on content
+
+## COMMON EXTENSION POINT TYPES
+
+- museLayout - Custom application layout
+- museDashboard - Dashboard widgets
+- home - Homepage configuration
+- userList - User list extensions
+- userInfo - User info extensions
+- userBasicInfo - User basic info extensions
+- userDetailTab - User detail tab extensions
+
+## EXAMPLE: users-plugin
+
+```javascript
+// ext/index.js
+export { default as museLayout } from './museLayout';
+export { default as home } from './home';
+export { default as museDashboard } from './museDashboard';
+```
+
+```javascript
+// src/index.js (DEFAULT - DO NOT MODIFY)
+import plugin from 'js-plugin';
+import route from './route';
+import reducer from './reducer';
+import * as ext from './ext';
+
+plugin.register({
+  name: 'users-plugin',
+  route,
+  reducer,
+  ...ext,
+});
+```
+
+## BEST PRACTICES
+
+1. ✅ Keep each extension point in a separate file
+2. ✅ Always export in ext/index.js
+3. ✅ Match export names with file names
+4. ✅ Use consistent naming conventions
+5. ✅ DO NOT modify main index.js (it's the default pattern)
+6. ✅ Document your extension points with comments
+
+## CHECKLIST FOR NEW EXTENSION POINTS
+
+When adding a new extension point:
+- [ ] Create file in src/ext/
+- [ ] Use camelCase naming
+- [ ] Add export to ext/index.js
+- [ ] Ensure export name matches filename
+- [ ] Verify main index.js uses `import * as ext from './ext'` (default pattern)
+- [ ] Verify main index.js uses `...ext` in plugin.register() (default pattern)
+
+## WHY THIS CONVENTION?
+
+- Clear separation of concerns
+- Easy to locate and maintain extension points
+- Automatic registration through spreading
+- Consistent across all Muse plugins
+- Prevents naming conflicts
+- Simplifies plugin development
+
+## CRITICAL NOTES
+
+⚠️ The main src/index.js follows a DEFAULT pattern used by all Muse projects.
+   This file should NOT be modified unless there is a specific requirement.
+   The standard pattern with `import * as ext from './ext'` and `...ext` 
+   already handles all extension point registration automatically.
+
+⚠️ ALL files in the ext/ directory MUST be exported in ext/index.js.
+   Missing exports will cause extension points to not be registered.
+
+This is the STANDARD CONVENTION for Muse plugin development.
+All plugins should follow this pattern for consistency and maintainability.
