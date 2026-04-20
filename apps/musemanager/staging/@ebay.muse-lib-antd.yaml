@@ -1,4 +1,3 @@
 name: '@ebay/muse-lib-antd'
 version: 1.3.2
 type: lib
-esModule: false
