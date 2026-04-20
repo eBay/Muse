@@ -1,10 +1,11 @@
-import fs from 'fs';
+import fs from 'fs-extra';
 import path from 'path';
 import muse from '@ebay/muse-core';
 import setupMuseDevServer from '@ebay/muse-dev-utils/lib/setupMuseDevServer.js';
 import devUtils from '@ebay/muse-dev-utils/lib/utils.js';
 import museRolldownPlugin from './museRolldownPlugin.js';
 import { mergeObjects, setViteMode } from './utils.js';
+import startLibServer from './libServer.js';
 
 // We need to use originalUrl instead of url because the latter is modified by Vite 5+ (not modified in Vite 4)
 // which causes server.middlewares.use(path, middleware) to not work as expected
@@ -23,6 +24,8 @@ const buildDir = {
 };
 export default function museVitePlugin() {
   const entryFile = devUtils.getEntryFile(); //'/@muse-virtual-entry/' +
+  const pkgJson = devUtils.getPkgJson();
+  const isLibPlugin = pkgJson?.muse?.type === 'lib';
   let theViteServer;
   // Shared rolldown plugin instance used by both the dev server load hook and the build pipeline.
   // const devServerRolldownPlugin = museRolldownPlugin();
@@ -66,7 +69,6 @@ export default function museVitePlugin() {
       const port = process.env.PORT;
       const host = config.server?.host || process.env.MUSE_LOCAL_HOST_NAME || 'localhost';
       const pkgJson = devUtils.getPkgJson();
-      // const entryFile = devUtils.getEntryFile();
 
       setViteMode(mode || 'production');
 
@@ -102,9 +104,7 @@ export default function museVitePlugin() {
           origin: port ? `${isHTTPS ? 'https' : 'http'}://${host}:${port}` : undefined,
           port,
           cors: true,
-          // output: {
-          //   codeSplitting: false,
-          // },
+
           strictPort: !!port,
           https: process.env.HTTPS === 'true' &&
             fs.existsSync(sslCrtFile) &&
@@ -113,7 +113,7 @@ export default function museVitePlugin() {
               key: fs.readFileSync(sslKeyFile),
             },
         },
-        // plugins: [rolldownPluginInstance],
+
         optimizeDeps: {
           needsInterop: [],
           force: true,
@@ -146,9 +146,6 @@ export default function museVitePlugin() {
 
     configureServer(server) {
       theViteServer = server;
-      // getDepsInServeMode(server, devUtils.getEntryFile()).then((deps) => {
-      //   // musePluginVite.museMiddleware.app.devDeps = deps;
-      // });
       try {
         // when hot reload, vite will call configureServer again, so don't repeat muse plugin registration
         muse.plugin.register(musePluginVite);
@@ -166,29 +163,6 @@ export default function museVitePlugin() {
       };
     },
 
-    // generateBundle(options, bundle) {
-    //   console.log('generateBundle in vite plugin');
-    // },
-
-    // resolveId(id) {
-    //   return rolldownPluginInstance.resolveId(id);
-    // },
-
-    // load(id) {
-    //   if (
-    //     id.startsWith('/muse-assets/') ||
-    //     id.startsWith('/@') ||
-    //     id.includes('node_modules/vite/dist')
-    //   ) {
-    //     return;
-    //   }
-    //   console.log('load', id);
-
-    //   return rolldownPluginInstance.load(id, true);
-    // },
-    // load(id) {
-    //   if (id.includes('src/index')) console.log('vite load', id);
-    // },
     handleHotUpdate({ file, server }) {
       // for entry file, no HMR but full reload
       // This is IMPORTANT for Muse plugin
@@ -198,17 +172,27 @@ export default function museVitePlugin() {
       }
     },
 
-    // transform(code, id) {
-    //   if (id.includes('node_modules/.vite/deps/')) return;
-    //   if (
-    //     id.startsWith('/muse-assets/') ||
-    //     id.startsWith('/@') ||
-    //     id.includes('node_modules/vite/dist')
-    //   ) {
-    //     return;
-    //   }
-    //   return rolldownPluginInstance.transform(code, id);
-    // },
+    buildStart() {
+      // if under watch mode and it's lib plugin, start the lib server
+      if (isLibPlugin && this.meta.watchMode) {
+        startLibServer();
+      }
+    },
+
+    closeBundle() {
+      // when under watch mode and it's lib plugin, copy lib-manifest.json to the node_modules/.muse/dev folder for dev time usage
+      if (!isLibPlugin || !this.meta.watchMode) return;
+      const src = path.join(process.cwd(), 'build/dev/lib-manifest.json');
+      const dest = path.join(process.cwd(), 'node_modules/.muse/dev/lib-manifest.json');
+      if (fs.existsSync(src)) {
+        fs.outputFileSync(dest, fs.readFileSync(src));
+        console.log('Copied lib-manifest.json to node_modules/.muse/dev/');
+      } else {
+        console.log(
+          'Warning: lib-manifest.json not found in build/dev/, make sure the lib plugin is built successfully.',
+        );
+      }
+    },
   };
 
   return [vitePlugin, rolldownPluginInstance];
