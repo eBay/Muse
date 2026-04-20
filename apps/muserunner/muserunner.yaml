@@ -3,3 +3,8 @@ createdBy: pwang7
 createdAt: '2026-04-20T13:57:53.331Z'
 owners:
   - pwang7
+envs:
+  staging:
+    name: staging
+    createdBy: pwang7
+    createdAt: '2026-04-20T13:57:57.960Z'
