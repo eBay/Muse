@@ -129,9 +129,9 @@ export function getMuseModuleCode(museModule, esm) {
   }
   // We need to know if a module is a default export or not
   else if (museModule.exports?.includes('default') && museModule.exports?.length === 1) {
-    return `const m = MUSE_GLOBAL.__shared__.require("${museModule.id}");\nconsole.log(m);\nmodule.exports = m.default;`;
+    return `const m = MUSE_GLOBAL.__shared__.require("${museModule.id}");\nmodule.exports = m.default;`;
   } else {
-    return `const m = MUSE_GLOBAL.__shared__.require("${museModule.id}");\nconsole.log(m);\n\nmodule.exports = m;`;
+    return `const m = MUSE_GLOBAL.__shared__.require("${museModule.id}");\n\nmodule.exports = m.default || m;`;
   }
 }
 

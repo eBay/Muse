@@ -15,7 +15,7 @@ export function load(plugin, callback) {
       script.setAttribute('crossorigin', 'anonymous');
       // script.crossOrigin = 'anonymous';
       script.src = plugin.url;
-      if (plugin.esModule) script.type = 'module';
+      if (1 || plugin.esModule) script.type = 'module';
       head.appendChild(script);
       script.onload = () => {
         callback();
@@ -48,7 +48,7 @@ export async function loadInSerial(items, callback = noop) {
   let count = 0;
   for (const item of items) {
     await load(item);
-    await new Promise((resolve) => setTimeout(resolve, 1000)); // This is to ensure the UI gets a chance to update between plugin loads.
+    // await new Promise((resolve) => setTimeout(resolve, 1000)); // This is to ensure the UI gets a chance to update between plugin loads.
     callback(++count);
   }
 }

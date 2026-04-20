@@ -236,7 +236,7 @@ async function start() {
   const libPluginsToLoad = pluginsToLoad.filter((p) => p.type === 'lib');
   loading.showMessage(`Loading lib plugins 1/${libPluginsToLoad.length}...`);
   await loadInSerial(
-    libPluginsToLoad.filter((p) => 1 || !p.esModule),
+    libPluginsToLoad.filter((p) => 1 || !p.esModule).sort((a, b) => b.name.localeCompare(a.name)), // eslint-disable-line
     (loadedCount) =>
       loading.showMessage(
         `Loading lib plugins ${Math.min(loadedCount + 1, libPluginsToLoad.length)}/${

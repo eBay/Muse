@@ -57,8 +57,6 @@ function museRolldownPlugin() {
   const usedSharedModules = {};
   const sharedModules = {};
 
-  const MUSE_VIRTUAL_PREFIX = 'virtual:muse-shared?id=';
-
   let viteConfig;
 
   const getLibManifest = async (pluginContext) => {
@@ -84,18 +82,12 @@ function museRolldownPlugin() {
       let exports = [];
       try {
         exports = info?.exports || [];
-      } catch (e) {
-        console.log('error getting exports for module', id, info);
+      } catch (err) {
+        console.log('error getting exports for module', id, info, err?.message);
       }
       if (exports?.includes('*')) {
         // This means the module re-exports everything from another module, we need to resolve it to get the real export names.
         exports = await resolveExports(id, pluginContext);
-      }
-
-      if (id.includes('src/utils.js')) {
-        console.log(id);
-        console.log(info);
-        console.log('module info for utils', id, info, exports);
       }
 
       libManifestContent[mid] = { id: mid, exports: exports?.filter((name) => name !== '*') };
@@ -116,190 +108,30 @@ function museRolldownPlugin() {
         filePath || path.join(process.cwd(), 'node_modules/.muse/dev/lib-manifest.json'),
         JSON.stringify(libManifest, null, 2),
       );
-      console.log(`Generated lib-manifest.json for serve mode.`);
+      console.log(`Generated lib-manifest.json for serve mode2.`);
     }
   }, 30);
 
   return {
     name: 'rolldown-plugin-muse',
     enforce: 'post',
-    // codeSplitting: false,
-    // output: {
-    //   codeSplitting: false,
-    // },
     configResolved(resolvedConfig) {
       viteConfig = resolvedConfig;
     },
-    resolveId(id) {
-      if (id.startsWith('/@muse-virtual-entry/')) {
-        return '\0' + id;
-      }
-
-      if (id.startsWith('/@muse-shared-modules.mjs')) {
-        return '\0' + id;
-      }
-      // if (id.startsWith(MUSE_VIRTUAL_PREFIX)) {
-      //   // Tell Rolldown it's a virtual module so that it won't try to resolve it on the filesystem.
-      //   // Virtual module is always es module in which it may load assets like '.png'.
-      //   // So, always use .mjs extension to prevent it being transformed by other plugins like vite-css
-      //   return '\0' + id + '.mjs';
-      // }
-    },
+    resolveId(id) {},
     load(id) {
       if (process.env.VITEST) return;
-      // load the virtual module that serves as the registration point for a Muse shared module
 
-      if (id.startsWith('\0/@muse-virtual-entry/')) {
-        console.log(id);
-        const entryFile = id.replace('\0/@muse-virtual-entry/', '/');
-        return `
-        import ${JSON.stringify(entryFile)};
-        import '/@muse-shared-modules.mjs';
-        console.log('virtual entry loaded');
-        `;
-      }
-
-      if (id.startsWith('\0/@muse-shared-modules.mjs')) {
-        // return `
-        //     ${Object.entries(sharedModules)
-        //       .map(([mid, id], index) => {
-        //         const varName = `m_${index}`;
-        //         return `
-        //           console.log('importing shared module', ${JSON.stringify(id)});
-        //         `;
-        //       })
-        //       .join('\n')}
-
-        //     console.log('Registering Muse shared modules...');
-        // `;
-
-        return `
-            ${Object.entries(sharedModules)
-              .map(([mid, id], index) => {
-                if (id.endsWith('src/index.jsx')) {
-                  console.log('endsjsx');
-                  return '';
-                }
-                const arr = id.split('node_modules/');
-                console.log(arr.length);
-                const shortId = arr.length > 1 ? '/node_modules/' + arr[arr.length - 1] : id;
-                console.log(shortId);
-
-                const varName = `m_${index}`;
-                return `
-                            import * as ${varName} from ${JSON.stringify(shortId)};
-                            MUSE_GLOBAL.__shared__.register({${JSON.stringify(
-                              mid,
-                            )}: ${varName}}, () => ${varName});
-                          `;
-              })
-              .join('\n')}
-
-            console.log('Registering Muse shared modules...');
-        `;
-      }
-
-      // if (
-      //   !isLibPlugin ||
-      //   id.startsWith('\0') ||
-      //   id.startsWith('/muse-assets/') ||
-      //   id.startsWith('/@') ||
-      //   id.includes('node_modules/.vite/deps/') ||
-      //   id.includes('node_modules/vite/dist') ||
-      //   // if the module is already a shared module, no need to register it as a shared module again
-      //   isSharedMuseModule(id)
-      // ) {
-      //   return;
-      // }
-
-      // // if it is a lib plugin, every loaded module is a shared module
-      // const mid = getMuseIdByPath(id);
-      // sharedModules[mid] = id;
-
-      // const prefix = '\0' + MUSE_VIRTUAL_PREFIX;
-      // if (id.startsWith(prefix)) {
-      //   const moduleId = decodeURIComponent(id.slice(prefix.length).replace(/\.mjs$/, ''));
-      //   if (moduleId.includes('a.json')) {
-      //     console.log('loading a.json', moduleId);
-      //   }
-      //   const mid = getMuseIdByPath(moduleId);
-      //   if (!mid) {
-      //     console.log('no mid for ', id);
-      //     return;
-      //   }
-
-      //   // prevent duplicate registration for the same module
-      //   sharedModules[mid] = moduleId;
-      //   console.log('vite command', viteConfig.command);
-      //   if (viteConfig.command === 'serve') {
-      //     return `import(${JSON.stringify(
-      //       moduleId,
-      //     )}).then(m => {console.log(1);\nMUSE_GLOBAL.__shared__.register({${JSON.stringify(
-      //       mid,
-      //     )}:m}, () => m);})`;
-      //   } else {
-      //     return `import * as m from ${JSON.stringify(
-      //       moduleId,
-      //     )};\nsetTimeout(()=>MUSE_GLOBAL.__shared__.register({${JSON.stringify(
-      //       mid,
-      //     )}:m}, () => m), 2000);`;
-      //   }
-      // } else {
-      //   // check if it's a shared module and return the corresponding code to load it
-      //   // from Muse global shared module registry.
-      //   const museModule = getMuseModule(id);
-      //   if (!museModule) return;
-      //   usedSharedModules[museModule.id] = true; // this is to generate deps manifest
-      //   const museCode = getMuseModuleCode(museModule);
-      //   return museCode;
-      // }
-    },
-    moduleParsed(info) {
-      // console.log('moduleParsed', info);
+      // check if it's a shared module and return the corresponding code to load it
+      // from Muse global shared module registry.
+      const museModule = getMuseModule(id);
+      if (!museModule) return;
+      usedSharedModules[museModule.id] = true; // this is to generate deps manifest
+      const museCode = getMuseModuleCode(museModule);
+      return museCode;
     },
 
     transform(code, id) {
-      if (
-        !isLibPlugin ||
-        id.startsWith('\0') ||
-        id.startsWith('/muse-assets/') ||
-        id.startsWith('/@') ||
-        id.includes('node_modules/.vite/deps/') ||
-        id.includes('node_modules/vite/dist') ||
-        // if the module is already a shared module, no need to register it as a shared module again
-        isSharedMuseModule(id)
-      ) {
-        return;
-      }
-      // console.log('transform', id);
-      // if it is a lib plugin, every loaded module is a shared module
-      const mid = getMuseIdByPath(id);
-      sharedModules[mid] = id.replace(/\?v=.*/, ''); // remove vite's query string for cache busting, since it doesn't affect module content but would cause issues for shared module matching
-    },
-
-    transform2(code, id) {
-      // if (id.startsWith('\0/@muse-shared-modules.mjs')) {
-      //   return {
-      //     code: `
-      //       ${Object.entries(sharedModules)
-      //         .map(([mid, id], index) => {
-      //           const varName = `m_${index}`;
-      //           return `
-      //           import * as ${varName} from ${JSON.stringify(id)};
-      //           MUSE_GLOBAL.__shared__.register({${JSON.stringify(
-      //             mid,
-      //           )}: ${varName}}, () => ${varName});
-      //         `;
-      //         })
-      //         .join('\n')}
-
-      //       console.log('Registering Muse shared modules...');
-      //     `,
-      //     map: null,
-      //   };
-      // }
-
-      // return;
       if (
         !isLibPlugin ||
         id.startsWith('\0') ||
@@ -322,22 +154,6 @@ function museRolldownPlugin() {
       setTimeout(() => {
         checkAndGenerateDevTimeLibManifest(this);
       }, 0);
-      const virtualId = MUSE_VIRTUAL_PREFIX + encodeURIComponent(id);
-      // // Special support for json: manually normalizeResolvedIdToUrl
-      // // The special charaters '/@id/__x00__' is from <vite-repo>/packages/vite/src/shared/constants.ts used in wrapId function
-      // // This should only be called at dev time
-      // if (
-      //   viteConfig.command === 'serve' &&
-      //   (virtualId.endsWith('.json') || virtualId.endsWith('.json5'))
-      // ) {
-      //   console.log('in serve mode for json file', id);
-      //   virtualId = '/@id/__x00__' + virtualId + '.mjs';
-      // }
-
-      if (id.includes('react-redux/es/index.js')) {
-        console.log('transforming react-redux', id);
-        // console.log(code);
-      }
 
       const mid = getMuseIdByPath(id);
 
@@ -349,28 +165,11 @@ function museRolldownPlugin() {
           MUSE_GLOBAL.__shared__.register({${JSON.stringify(mid)}: m}, () => m);
         });
       `;
-      //   const codeForShare = `
-      //   const __muse_shared = await import(${JSON.stringify(id)});
-      //   MUSE_GLOBAL.__shared__.register({${JSON.stringify(mid)}: __muse_shared}, () => __muse_shared);
-      // `;
+
       return {
         code: code + codeForShare,
         map: null,
       };
-      // return {
-      //   code:
-      //     code +
-      //     `\nimport * as mmmm from ${JSON.stringify(id)};\n
-      //     MUSE_GLOBAL.__regSharingCallback(() => MUSE_GLOBAL.__shared__.register({${JSON.stringify(
-      //       mid,
-      //     )}: mmmm}, () => mmmm));
-      //     `,
-      //   map: null,
-      // };
-      // return {
-      //   code: code + `\nimport ${JSON.stringify(virtualId)};`,
-      //   map: null,
-      // };
     },
 
     async generateBundle(options, bundle) {
@@ -401,34 +200,34 @@ function museRolldownPlugin() {
       }
 
       // Always generate deps manifest
-      const depsManifestContent = {};
-      for (const id in usedSharedModules) {
-        const libName = getLibNameByModule(id);
-        if (!libName) {
-          throw new Error('cant find lib name for module', id);
-        }
-        if (!depsManifestContent[libName]) depsManifestContent[libName] = [];
-        depsManifestContent[libName].push(id);
-      }
-      this.emitFile({
-        type: 'asset',
-        fileName: 'deps-manifest.json',
-        source: JSON.stringify(
-          {
-            name: pkgJson.name,
-            type: pkgJson?.muse?.type || 'normal',
-            count: Object.keys(usedSharedModules).length,
-            content: depsManifestContent,
-          },
-          null,
-          2,
-        ),
-      });
-      console.log(
-        'Deps manifest generated, used ' +
-          Object.keys(usedSharedModules).length +
-          ' shared modules',
-      );
+      // const depsManifestContent = {};
+      // for (const id in usedSharedModules) {
+      //   const libName = getLibNameByModule(id);
+      //   if (!libName) {
+      //     throw new Error('cant find lib name for module', id);
+      //   }
+      //   if (!depsManifestContent[libName]) depsManifestContent[libName] = [];
+      //   depsManifestContent[libName].push(id);
+      // }
+      // this.emitFile({
+      //   type: 'asset',
+      //   fileName: 'deps-manifest.json',
+      //   source: JSON.stringify(
+      //     {
+      //       name: pkgJson.name,
+      //       type: pkgJson?.muse?.type || 'normal',
+      //       count: Object.keys(usedSharedModules).length,
+      //       content: depsManifestContent,
+      //     },
+      //     null,
+      //     2,
+      //   ),
+      // });
+      // console.log(
+      //   'Deps manifest generated, used ' +
+      //     Object.keys(usedSharedModules).length +
+      //     ' shared modules',
+      // );
 
       // For css assets, insert them to the header as links so that they can be loaded before Muse app startst and avoid FOUC.
       let cssInject = `\nconst cssInject = (fileName) => {
