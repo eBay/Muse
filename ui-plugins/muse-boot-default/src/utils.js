@@ -15,7 +15,7 @@ export function load(plugin, callback) {
       script.setAttribute('crossorigin', 'anonymous');
       // script.crossOrigin = 'anonymous';
       script.src = plugin.url;
-      if (1 || plugin.esModule) script.type = 'module';
+      if (1 || plugin.esModule) script.type = 'module'; // eslint-disable-line
       head.appendChild(script);
       script.onload = () => {
         callback();
@@ -45,6 +45,37 @@ export async function loadInParallel(items, callback = noop) {
 }
 
 export async function loadInSerial(items, callback = noop) {
+  // const head = document.querySelector('head');
+  // const script = document.createElement('script');
+  // script.type = 'module';
+  // script.textContent = `
+  // console.log('This is a dummy script to trigger the onload event for loadInSerial.');
+  // ${items
+  //   .map((p) => {
+  //     return 'import ' + JSON.stringify(p.url) + ';\n';
+  //   })
+  //   .join('\n')}
+  // `;
+  // head.appendChild(script);
+  // script.setAttribute('crossorigin', 'anonymous');
+  // script.crossOrigin = 'anonymous';
+  // script.src = plugin.url;
+  // if (1 || plugin.esModule) script.type = 'module';
+  // head.appendChild(script);
+  // script.onload = () => {
+  //   callback();
+  //   resolve();
+  // };
+  // from unit tests, we resolve this Promise immediately. This is needed, as jest will never run the script.onload() function,
+  // as it's not a real browser, making the Promise never resolve.
+  // if (process.env.NODE_ENV === 'test') {
+  //   resolve();
+  // }
+  // script.onerror = () => {
+  //   error.showMessage(`Failed to load resource: ${plugin.url} .`);
+  //   reject();
+  // };
+
   let count = 0;
   for (const item of items) {
     await load(item);

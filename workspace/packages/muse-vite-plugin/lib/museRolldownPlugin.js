@@ -200,34 +200,34 @@ function museRolldownPlugin() {
       }
 
       // Always generate deps manifest
-      // const depsManifestContent = {};
-      // for (const id in usedSharedModules) {
-      //   const libName = getLibNameByModule(id);
-      //   if (!libName) {
-      //     throw new Error('cant find lib name for module', id);
-      //   }
-      //   if (!depsManifestContent[libName]) depsManifestContent[libName] = [];
-      //   depsManifestContent[libName].push(id);
-      // }
-      // this.emitFile({
-      //   type: 'asset',
-      //   fileName: 'deps-manifest.json',
-      //   source: JSON.stringify(
-      //     {
-      //       name: pkgJson.name,
-      //       type: pkgJson?.muse?.type || 'normal',
-      //       count: Object.keys(usedSharedModules).length,
-      //       content: depsManifestContent,
-      //     },
-      //     null,
-      //     2,
-      //   ),
-      // });
-      // console.log(
-      //   'Deps manifest generated, used ' +
-      //     Object.keys(usedSharedModules).length +
-      //     ' shared modules',
-      // );
+      const depsManifestContent = {};
+      for (const id in usedSharedModules) {
+        const libName = getLibNameByModule(id);
+        if (!libName) {
+          throw new Error('cant find lib name for module', id);
+        }
+        if (!depsManifestContent[libName]) depsManifestContent[libName] = [];
+        depsManifestContent[libName].push(id);
+      }
+      this.emitFile({
+        type: 'asset',
+        fileName: 'deps-manifest.json',
+        source: JSON.stringify(
+          {
+            name: pkgJson.name,
+            type: pkgJson?.muse?.type || 'normal',
+            count: Object.keys(usedSharedModules).length,
+            content: depsManifestContent,
+          },
+          null,
+          2,
+        ),
+      });
+      console.log(
+        'Deps manifest generated, used ' +
+          Object.keys(usedSharedModules).length +
+          ' shared modules',
+      );
 
       // For css assets, insert them to the header as links so that they can be loaded before Muse app startst and avoid FOUC.
       let cssInject = `\nconst cssInject = (fileName) => {
