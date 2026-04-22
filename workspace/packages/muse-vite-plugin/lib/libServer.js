@@ -1,6 +1,6 @@
 // This is to serve lib plugins at dev time, it uses vite build result
 // The entryFile (museDevUtils.getEntryFile) is served by the content of build/dev/main.js
-// All other files under ./build/dev are served by express.static
+// All other files under ./build/dev are served by express.static under path /src/
 // It should support cors
 
 import https from 'https';
@@ -19,6 +19,38 @@ const sslKeyFile =
 let serverStarted = false;
 
 const host = process.env.MUSE_LOCAL_HOST_NAME || 'localhost';
+
+const BUILD_TIMEOUT_MS = 10000;
+
+let isBuilding = false;
+let buildResolvers = [];
+
+export function setBuildStarted() {
+  isBuilding = true;
+}
+
+export function setBuildFinished() {
+  isBuilding = false;
+  const resolvers = buildResolvers;
+  buildResolvers = [];
+  resolvers.forEach((resolve) => resolve());
+}
+
+function waitForBuild() {
+  if (!isBuilding) return Promise.resolve();
+  return new Promise((resolve, reject) => {
+    const timer = setTimeout(() => {
+      const idx = buildResolvers.indexOf(resolve);
+      if (idx !== -1) buildResolvers.splice(idx, 1);
+      reject(new Error('Timed out waiting for build to finish'));
+    }, BUILD_TIMEOUT_MS);
+
+    buildResolvers.push(() => {
+      clearTimeout(timer);
+      resolve();
+    });
+  });
+}
 
 export default function startLibServer() {
   if (serverStarted) return;
@@ -41,7 +73,11 @@ export default function startLibServer() {
       res.sendStatus(204);
       return;
     }
-    next();
+    waitForBuild()
+      .then(() => next())
+      .catch((err) => {
+        res.status(503).send(err.message);
+      });
   });
 
   const entryUrlPath = '/' + entryFile;

@@ -5,7 +5,7 @@ import setupMuseDevServer from '@ebay/muse-dev-utils/lib/setupMuseDevServer.js';
 import devUtils from '@ebay/muse-dev-utils/lib/utils.js';
 import museRolldownPlugin from './museRolldownPlugin.js';
 import { mergeObjects, setViteMode } from './utils.js';
-import startLibServer from './libServer.js';
+import startLibServer, { setBuildStarted, setBuildFinished } from './libServer.js';
 
 // We need to use originalUrl instead of url because the latter is modified by Vite 5+ (not modified in Vite 4)
 // which causes server.middlewares.use(path, middleware) to not work as expected
@@ -175,7 +175,16 @@ export default function museVitePlugin() {
     buildStart() {
       // if under watch mode and it's lib plugin, start the lib server
       if (isLibPlugin && this.meta.watchMode) {
+        // lib plugin: start the static server to serve build output
         startLibServer();
+        setBuildStarted();
+      }
+    },
+
+    buildEnd() {
+      // signal build finished (even on error) so lib server stops holding requests
+      if (isLibPlugin && this.meta.watchMode) {
+        setBuildFinished();
       }
     },
 
