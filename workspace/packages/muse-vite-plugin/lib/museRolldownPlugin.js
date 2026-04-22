@@ -160,6 +160,12 @@ function museRolldownPlugin() {
       sharedModules[mid] = id;
 
       // Use dynamic import to avoid circular dependency issue since it loads itself
+      // const codeForShare = `
+      //   import * as mmmmm from ${JSON.stringify(id)};
+      //   MUSE_GLOBAL.__shared__.register({${JSON.stringify(mid)}: mmmmm}, () => mmmmm);
+
+      // `;
+
       const codeForShare = `
         import(${JSON.stringify(id)}).then(m => {
           MUSE_GLOBAL.__shared__.register({${JSON.stringify(mid)}: m}, () => m);
