@@ -831,6 +831,13 @@ program
   });
 
 program
+  .command('check-updates')
+  .description('Update dependencies in package.json based on the MSP preset specified in muse.msp')
+  .action(async () => {
+    await require('@ebay/muse-dev-utils/scripts/checkUpdates')();
+  });
+
+program
   .command('get-msp')
   .description('Show all MSP (Muse SDK Presets) from msp.yaml')
   .action(async () => {
