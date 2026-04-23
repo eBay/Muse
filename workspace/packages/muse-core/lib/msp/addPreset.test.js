@@ -48,7 +48,7 @@ describe('addPreset tests.', () => {
     });
 
     const msp = await registry.getJsonByYaml('/msp.yaml');
-    expect(Object.keys(msp)).toEqual(['default', 'muse-react']);
+    expect(Object.keys(msp)).toEqual(['muse-react', 'default']);
     expect(msp['muse-react'].extends).toBe('default');
   });
 

@@ -37,7 +37,7 @@ module.exports = async (params = {}) => {
   };
 
   try {
-    msp[name] = ctx.preset;
+    msp = { [name]: ctx.preset, ...msp };
     await asyncInvoke('museCore.msp.addPreset', ctx, params);
     await registry.setYaml('/msp.yaml', msp, msg || `Add preset ${name} by ${author}`);
   } catch (err) {
