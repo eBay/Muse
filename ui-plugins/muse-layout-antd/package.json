@@ -10,7 +10,8 @@
     }
   },
   "files": [
-    "build"
+    "build",
+    "MUSE_README.md"
   ],
   "scripts": {
     "start": "vite",

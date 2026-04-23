@@ -17,7 +17,8 @@
   },
   "files": [
     "build",
-    "src"
+    "src",
+    "MUSE_README.md"
   ],
   "scripts": {
     "start": "muse-cra-patch && cross-env NODE_PATH=./node_modules craco start",

@@ -14,7 +14,8 @@
     }
   },
   "files": [
-    "build"
+    "build",
+    "MUSE_README.md"
   ],
   "devDependencies": {
     "@ebay/muse-client": "^1.0.27",

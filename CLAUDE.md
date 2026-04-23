@@ -265,14 +265,6 @@ When working with `muse-express-middleware`, these are the key endpoints:
 
 **File reference**: `workspace/packages/muse-express-middleware/lib/index.js`
 
-### Plugin Development
-
-When creating plugins, remember:
-
-1. Plugin type is declared in `package.json` under `muse.type`
-2. Entry point can be customized via `muse.entry` field
-3. Build outputs must go to `dist/` (production) and `dev/` (development)
-4. Shared modules in lib plugins must be declared in `muse.exposes`
 
 ### Muse Runner
 
@@ -308,7 +300,6 @@ The webpack plugin handles:
 ### Vite Plugin
 
 Similar functionality for Vite-based builds:
-- Module federation-like shared dependencies
 - Manifest generation
 - Dev server integration
 

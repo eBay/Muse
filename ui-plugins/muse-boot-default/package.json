@@ -14,7 +14,8 @@
     }
   },
   "files": [
-    "build"
+    "build",
+    "MUSE_README.md"
   ],
   "scripts": {
     "start": "muse-cra-patch && craco start",
