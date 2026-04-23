@@ -54,6 +54,7 @@ builder.register(require('./builders/muse.request'));
 builder.register(require('./builders/muse.plugin'));
 builder.register(require('./builders/muse.plugin-releases'));
 builder.register(require('./builders/muse.plugins.latest-releases'));
+builder.register(require('./builders/muse.msp'));
 
 _.flatten(plugin.invoke('museCore.data.getBuilders'))
   .filter(Boolean)
