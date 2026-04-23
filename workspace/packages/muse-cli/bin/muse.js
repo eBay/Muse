@@ -830,6 +830,82 @@ program
     console.log(result.success ? chalk.green('Success.') : chalk.red('Failed.'));
   });
 
+program
+  .command('get-msp')
+  .description('Show all MSP (Muse SDK Presets) from msp.yaml')
+  .action(async () => {
+    const msp = await muse.msp.getMsp();
+    if (!msp) {
+      console.log(chalk.yellow('No msp.yaml found.'));
+    } else {
+      console.log(chalk.cyan(JSON.stringify(msp, null, 2)));
+    }
+  });
+
+program
+  .command('add-preset')
+  .description('Add a new preset to msp.yaml')
+  .argument('<name>', 'The preset name.')
+  .option('--extends <preset>', 'The parent preset to extend.')
+  .option('--versions <versions...>', 'Package versions, e.g: @ebay/muse-core=1.0.45 @ebay/muse-cli=1.0.34 .')
+  .action(async (name, options) => {
+    const versions = options.versions
+      ? Object.fromEntries(options.versions.map((kv) => kv.split('=')))
+      : {};
+    const preset = { versions };
+    if (options.extends) preset.extends = options.extends;
+    await muse.msp.addPreset({ name, preset });
+    console.log(chalk.cyan(`Preset ${name} added.`));
+  });
+
+program
+  .command('delete-preset')
+  .description('Delete a preset from msp.yaml')
+  .argument('<name>', 'The preset name to delete.')
+  .action(async (name) => {
+    const rl = readline.createInterface({ input, output });
+    const answer = await new Promise((resolve) =>
+      rl.question(`Delete preset "${name}"? This cannot be undone. Confirm (yes/no) [Y] ? `, resolve),
+    );
+    rl.close();
+    if (confirmAnswer(answer)) {
+      await muse.msp.deletePreset({ name });
+      console.log(chalk.cyan(`Preset ${name} deleted.`));
+    }
+  });
+
+program
+  .command('update-preset-packages')
+  .description('Update package versions in msp.yaml across all presets (same major version only)')
+  .option('--versions <versions...>', 'Package versions, e.g: @ebay/muse-core=1.0.46 @ebay/muse-cli=1.0.35 .')
+  .action(async (options) => {
+    const pkgs = options.versions
+      ? Object.fromEntries(
+          options.versions.map((kv) => {
+            const [pkg, version] = kv.split('=');
+            return [pkg, { version }];
+          }),
+        )
+      : {};
+    await muse.msp.updatePackages({ pkgs });
+    console.log(chalk.cyan('Packages updated in msp.yaml.'));
+  });
+
+program
+  .command('sync-preset-latest')
+  .description('Sync all packages in msp.yaml to their latest versions from the npm registry')
+  .option(
+    '--registry [registry]',
+    'The npm registry to use. Defaults to https://registry.npmjs.org .',
+    'https://registry.npmjs.org',
+  )
+  .action(async (options) => {
+    console.log(chalk.cyan(`Syncing latest package versions from ${options.registry}...`));
+    const msp = await muse.msp.syncLatest({ registry: options.registry });
+    console.log(chalk.cyan('msp.yaml updated:'));
+    console.log(chalk.cyan(JSON.stringify(msp, null, 2)));
+  });
+
 // let other plugins add their own cli program commands
 muse.plugin.invoke('museCli.processProgram', program, { commander, chalk, timeAgo });
 
