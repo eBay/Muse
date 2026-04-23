@@ -10,4 +10,6 @@ module.exports = {
   deletePreset: require('./deletePreset'),
   /** @member {function} updatePackages */
   updatePackages: require('./updatePackages'),
+  /** @member {function} syncLatest */
+  syncLatest: require('./syncLatest'),
 };
