@@ -11,6 +11,10 @@ switch (args[0]) {
     require('../scripts/syncExtPointsTypes.js')();
     break;
 
+  case 'check-updates':
+    require('../scripts/checkUpdates.js')();
+    break;
+
   default:
     throw new Error(`Unknown argument: ${args[0]}`);
 }

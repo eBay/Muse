@@ -5,7 +5,7 @@ var originalRequire = Module.prototype.require;
 
 // Ensure @ebay/muse-core only has one instance
 const __museCoreSingleton = module.exports;
-Module.prototype.require = function() {
+Module.prototype.require = function () {
   if (arguments[0] === '@ebay/muse-core') return __museCoreSingleton;
   return originalRequire.apply(this, arguments);
 };
@@ -18,7 +18,7 @@ const plugin = require('js-plugin');
 const envFile1 = path.join(process.cwd(), '.muse.env');
 const envFile2 = path.join(os.homedir(), '.muse.env');
 
-[envFile1, envFile2].some(envFile => {
+[envFile1, envFile2].some((envFile) => {
   if (fs.existsSync(envFile)) {
     require('dotenv').config({ path: envFile });
     return true;
@@ -29,7 +29,7 @@ const config = require('./config');
 
 module.exports.config = config;
 module.exports.logger = require('./logger');
-module.exports.registerPlugin = p => {
+module.exports.registerPlugin = (p) => {
   if (config.__pluginLoaded) {
     throw new Error(
       `You can only register a plugin before initialization. Usually you should register a plugin in the global scope in your code.`,
@@ -47,6 +47,7 @@ module.exports.pm = require('./pm');
 module.exports.req = require('./req');
 module.exports.data = require('./data');
 module.exports.storage = require('./storage');
+module.exports.msp = require('./msp');
 module.exports.utils = require('./utils');
 module.exports.plugin = plugin;
 
