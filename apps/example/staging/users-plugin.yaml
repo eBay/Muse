@@ -1,0 +1,4 @@
+name: users-plugin
+version: 1.0.0
+type: normal
+esModule: true
