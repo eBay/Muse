@@ -13,6 +13,20 @@ function getEntryFileName(pkgJson) {
   return pkgJson?.muse?.type === 'boot' ? 'boot.js' : 'main.js';
 }
 
+const ENTRY_CANDIDATES = [
+  'src/index.ts',
+  'src/main.ts',
+  'src/index.js',
+  'src/main.js',
+];
+
+function getEntryFile() {
+  for (const candidate of ENTRY_CANDIDATES) {
+    if (fs.existsSync(path.join(process.cwd(), candidate))) return candidate;
+  }
+  return null;
+}
+
 function mergeObjects(obj1, obj2) {
   for (const key in obj2) {
     if (obj1[key] && Array.isArray(obj1[key]) && Array.isArray(obj2[key])) {
@@ -34,6 +48,7 @@ function mergeObjects(obj1, obj2) {
 export default function museVanillaVitePlugin() {
   const pkgJson = getPkgJson();
   const entryFileName = getEntryFileName(pkgJson);
+  const entryFile = getEntryFile();
 
   const sslCrtFile =
     process.env.SSL_CRT_FILE ||
@@ -46,6 +61,12 @@ export default function museVanillaVitePlugin() {
     name: 'muse-vanilla-vite-plugin',
 
     config(config) {
+      if (!entryFile) {
+        throw new Error(
+          'No entry file found. Add a src/[index|main].[js|ts|jsx|tsx] file or set muse.entry in package.json.',
+        );
+      }
+
       const isHTTPS = process.env.HTTPS === 'true';
       const port = process.env.PORT;
       const host = config.server?.host || process.env.MUSE_LOCAL_HOST_NAME || 'localhost';
@@ -67,11 +88,12 @@ export default function museVanillaVitePlugin() {
         build: {
           sourcemap: true,
           outDir: 'build/dist',
-          rollupOptions: {
-            input: 'src/main.js',
+          rolldownOptions: {
+            input: entryFile,
             output: {
               entryFileNames: entryFileName,
               format: 'iife',
+              codeSplitting: false,
             },
           },
         },

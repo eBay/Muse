@@ -12,6 +12,8 @@ import museVanillaVitePlugin from './museVanillaVitePlugin.js';
 
 const ENV_KEYS = ['PORT', 'HTTPS', 'MUSE_LOCAL_HOST_NAME', 'SSL_CRT_FILE', 'SSL_KEY_FILE'];
 
+const DEFAULT_ENTRY = 'src/main.js';
+
 function runConfigHook(plugin, userConfig = {}) {
   plugin.config(userConfig);
   return userConfig;
@@ -19,6 +21,11 @@ function runConfigHook(plugin, userConfig = {}) {
 
 function makePkgJson(museType = 'init') {
   return JSON.stringify({ name: 'my-plugin', muse: { type: museType } });
+}
+
+// Returns true only for the given entry path, false for SSL certs by default
+function makeExistsSync(entryPath) {
+  return (filePath) => filePath.endsWith(entryPath);
 }
 
 describe('museVanillaVitePlugin', () => {
@@ -35,7 +42,9 @@ describe('museVanillaVitePlugin', () => {
       }
       return 'cert-or-key-content';
     });
-    fs.existsSync.mockReturnValue(false);
+
+    // Default: src/main.js exists, no SSL certs
+    fs.existsSync.mockImplementation(makeExistsSync(DEFAULT_ENTRY));
 
     ENV_KEYS.forEach((key) => {
       savedEnv[key] = process.env[key];
@@ -60,6 +69,46 @@ describe('museVanillaVitePlugin', () => {
     expect(plugin.name).toBe('muse-vanilla-vite-plugin');
   });
 
+  describe('entry file detection', () => {
+    it('uses src/main.js when it exists', () => {
+      fs.existsSync.mockImplementation(makeExistsSync('src/main.js'));
+      const config = runConfigHook(museVanillaVitePlugin());
+      expect(config.build.rolldownOptions.input).toBe('src/main.js');
+    });
+
+    it('uses src/index.js when it exists', () => {
+      fs.existsSync.mockImplementation(makeExistsSync('src/index.js'));
+      const config = runConfigHook(museVanillaVitePlugin());
+      expect(config.build.rolldownOptions.input).toBe('src/index.js');
+    });
+
+    it('uses src/main.ts when it exists', () => {
+      fs.existsSync.mockImplementation(makeExistsSync('src/main.ts'));
+      const config = runConfigHook(museVanillaVitePlugin());
+      expect(config.build.rolldownOptions.input).toBe('src/main.ts');
+    });
+
+    it('uses src/index.ts when it exists', () => {
+      fs.existsSync.mockImplementation(makeExistsSync('src/index.ts'));
+      const config = runConfigHook(museVanillaVitePlugin());
+      expect(config.build.rolldownOptions.input).toBe('src/index.ts');
+    });
+
+    it('prefers TypeScript over JavaScript when both exist', () => {
+      fs.existsSync.mockImplementation((filePath) =>
+        filePath.endsWith('src/index.ts') || filePath.endsWith('src/main.js'),
+      );
+      const config = runConfigHook(museVanillaVitePlugin());
+      expect(config.build.rolldownOptions.input).toBe('src/index.ts');
+    });
+
+    it('throws when no entry file is found', () => {
+      fs.existsSync.mockReturnValue(false);
+      const plugin = museVanillaVitePlugin();
+      expect(() => plugin.config({})).toThrow('No entry file found');
+    });
+  });
+
   describe('build config', () => {
     it('sets outDir to build/dist', () => {
       const config = runConfigHook(museVanillaVitePlugin());
@@ -71,19 +120,19 @@ describe('museVanillaVitePlugin', () => {
       expect(config.build.sourcemap).toBe(true);
     });
 
-    it('sets rollupOptions input to src/main.js', () => {
-      const config = runConfigHook(museVanillaVitePlugin());
-      expect(config.build.rollupOptions.input).toBe('src/main.js');
-    });
-
     it('sets output format to iife', () => {
       const config = runConfigHook(museVanillaVitePlugin());
-      expect(config.build.rollupOptions.output.format).toBe('iife');
+      expect(config.build.rolldownOptions.output.format).toBe('iife');
+    });
+
+    it('disables code splitting', () => {
+      const config = runConfigHook(museVanillaVitePlugin());
+      expect(config.build.rolldownOptions.output.codeSplitting).toBe(false);
     });
 
     it('outputs main.js for init plugins', () => {
       const config = runConfigHook(museVanillaVitePlugin());
-      expect(config.build.rollupOptions.output.entryFileNames).toBe('main.js');
+      expect(config.build.rolldownOptions.output.entryFileNames).toBe('main.js');
     });
 
     it('outputs main.js for normal plugins', () => {
@@ -94,7 +143,7 @@ describe('museVanillaVitePlugin', () => {
         return 'cert-or-key-content';
       });
       const config = runConfigHook(museVanillaVitePlugin());
-      expect(config.build.rollupOptions.output.entryFileNames).toBe('main.js');
+      expect(config.build.rolldownOptions.output.entryFileNames).toBe('main.js');
     });
 
     it('outputs boot.js for boot plugins', () => {
@@ -105,7 +154,7 @@ describe('museVanillaVitePlugin', () => {
         return 'cert-or-key-content';
       });
       const config = runConfigHook(museVanillaVitePlugin());
-      expect(config.build.rollupOptions.output.entryFileNames).toBe('boot.js');
+      expect(config.build.rolldownOptions.output.entryFileNames).toBe('boot.js');
     });
   });
 
@@ -163,7 +212,7 @@ describe('museVanillaVitePlugin', () => {
 
     it('does not enable https when cert files do not exist', () => {
       process.env.HTTPS = 'true';
-      fs.existsSync.mockReturnValue(false);
+      fs.existsSync.mockImplementation(makeExistsSync(DEFAULT_ENTRY));
       const config = runConfigHook(museVanillaVitePlugin());
       expect(config.server.https).toBeFalsy();
     });
@@ -251,7 +300,7 @@ describe('museVanillaVitePlugin', () => {
         return 'cert-content';
       });
       const config = runConfigHook(museVanillaVitePlugin());
-      expect(config.build.rollupOptions.output.entryFileNames).toBe('main.js');
+      expect(config.build.rolldownOptions.output.entryFileNames).toBe('main.js');
     });
   });
 });

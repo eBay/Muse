@@ -19,6 +19,6 @@
     "vitest": "^2.0.0"
   },
   "peerDependencies": {
-    "vite": ">=5"
+    "vite": ">=8"
   }
 }
