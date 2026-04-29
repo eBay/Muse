@@ -1,4 +1,16 @@
 - pluginName: '@ebay/muse-manager'
+  version: 1.3.4
+  branch: ''
+  sha: ''
+  createdAt: '2026-04-29T08:13:18.679Z'
+  createdBy: pwang7
+  description: ''
+  esModule: true
+  bundles:
+    - dev
+    - dist
+    - test
+- pluginName: '@ebay/muse-manager'
   version: 1.3.3
   branch: ''
   sha: ''
