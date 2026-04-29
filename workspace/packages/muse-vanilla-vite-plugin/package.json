@@ -1,0 +1,24 @@
+{
+  "name": "@ebay/muse-vanilla-vite-plugin",
+  "version": "1.0.0",
+  "description": "Vite plugin for MUSE vanilla (init/boot) plugins with IIFE build output",
+  "main": "lib/museVanillaVitePlugin.js",
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "lint": "eslint lib/"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@eslint/js": "^9.1.1",
+    "@vitest/coverage-v8": "2.1.9",
+    "eslint": "^9.1.1",
+    "globals": "^15.0.0",
+    "vitest": "^2.0.0"
+  },
+  "peerDependencies": {
+    "vite": ">=5"
+  }
+}
