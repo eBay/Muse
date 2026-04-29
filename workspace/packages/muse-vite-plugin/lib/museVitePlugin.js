@@ -123,7 +123,7 @@ export default function museVitePlugin() {
           },
         },
         build: {
-          minify: false,
+          minify: true,
           sourcemap: true,
           outDir: buildDir[config.mode || 'production'],
           rolldownOptions: {

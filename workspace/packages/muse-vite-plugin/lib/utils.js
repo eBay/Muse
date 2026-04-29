@@ -101,9 +101,7 @@ export function getMuseModule(filePath) {
       filePath.endsWith('.ts') ||
       filePath.endsWith('.tsx');
   }
-  if (museModule?.id.includes('src/utils.js')) {
-    console.log('museModule', museModule);
-  }
+
   return museModule;
 }
 
