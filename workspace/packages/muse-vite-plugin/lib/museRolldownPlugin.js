@@ -63,6 +63,12 @@ function museRolldownPlugin({ entryFile } = {}) {
   const usedSharedModules = {};
   const sharedModules = {};
 
+  let makeSharedModulesReady;
+  const sharedModulesReady = new Promise((r) => {
+    makeSharedModulesReady = r;
+  });
+  // let debounceTimer;
+
   let viteConfig;
 
   const getLibManifest = async (pluginContext) => {
@@ -118,15 +124,18 @@ function museRolldownPlugin({ entryFile } = {}) {
     }
   }, 30);
 
+  const parsedModules = new Set();
+
   return {
     name: 'rolldown-plugin-muse',
     enforce: 'pre',
     configResolved(resolvedConfig) {
       viteConfig = resolvedConfig;
     },
-    resolveId(id) {
+    async resolveId(id) {
       if (id === MUSE_VIRTUAL_ENTRY || id === MUSE_SHARED_REGISTER) return id;
     },
+
     async load(id) {
       if (process.env.VITEST) return;
 
@@ -142,8 +151,7 @@ function museRolldownPlugin({ entryFile } = {}) {
       // The sentinel is replaced with the final register() call in renderChunk, after all
       // transform hooks have run and sharedModules is fully populated.
       if (id === MUSE_SHARED_REGISTER) {
-        // wait for 10 seconds
-        await new Promise((r) => setTimeout(r, 10000));
+        await sharedModulesReady;
         const entries = Object.entries(sharedModules);
         console.log();
         console.log('entries length: ', entries.length);
@@ -167,7 +175,6 @@ function museRolldownPlugin({ entryFile } = {}) {
     },
 
     transform(code, id) {
-      // console.log('pre transform', id);
       if (
         !isLibPlugin ||
         id.startsWith('\0') ||
@@ -191,12 +198,45 @@ function museRolldownPlugin({ entryFile } = {}) {
         checkAndGenerateDevTimeLibManifest(this);
       }, 0);
 
+      // clearTimeout(debounceTimer);
+      // debounceTimer = setTimeout(makeSharedModulesReady, 50);
+
       const mid = getMuseIdByPath(id);
       sharedModules[mid] = id;
 
       // Registration is handled centrally by \0muse-shared-register — no per-module
       // code injection needed here. This avoids the circular self-import pattern that
       // produced an empty namespace in bundled ESM output.
+    },
+
+    moduleParsed(info) {
+      parsedModules.add(info.id);
+
+      // Walk the graph from the actual entry
+      const queue = [path.resolve(process.cwd(), entryFile)];
+      const visited = new Set();
+      let complete = true;
+
+      while (queue.length) {
+        const id = queue.shift();
+        if (visited.has(id)) continue;
+        visited.add(id);
+
+        if (!parsedModules.has(id)) {
+          complete = false;
+          break;
+        }
+
+        const info = this.getModuleInfo(id);
+        if (!info) {
+          complete = false;
+          break;
+        }
+
+        for (const imp of info.importedIds) queue.push(imp);
+      }
+
+      if (complete && visited.size > 0) makeSharedModulesReady();
     },
 
     async generateBundle(options, bundle) {
@@ -274,9 +314,7 @@ function museRolldownPlugin({ entryFile } = {}) {
       });
       const entryBundle = Object.values(bundle).find((b) => b.isEntry);
       if (!entryBundle) throw new Error('cant find entry bundle');
-      // if (!entryBundle.code.includes(cssInject)) {
       entryBundle.code += `\n${cssInject}\n`;
-      // }
     },
   };
 }

@@ -173,7 +173,8 @@ export default function museVitePlugin() {
       }
     },
 
-    buildStart() {
+    async buildStart() {
+      console.log('vite build start');
       // if under watch mode and it's lib plugin, start the lib server
       if (isLibPlugin && this.meta.watchMode) {
         // lib plugin: start the static server to serve build output
