@@ -11,6 +11,12 @@ import {
 } from './utils.js';
 import devUtils from '@ebay/muse-dev-utils/lib/utils.js';
 
+// Virtual module IDs used to wire up shared module registration without circular self-imports.
+// \0muse-virtual-entry  — wraps the real entry: imports actual entry then imports register module
+// \0muse-shared-register — imports every collected lib module and calls MUSE_GLOBAL.__shared__.register()
+export const MUSE_VIRTUAL_ENTRY = '\0muse-virtual-entry';
+const MUSE_SHARED_REGISTER = '\0muse-shared-register';
+
 // This helper is only used if a module has ExportAllDeclaration.
 // Otherwise it gets exports meta directly from module info.
 async function resolveExports(id, pluginContext) {
@@ -51,7 +57,7 @@ async function resolveExports(id, pluginContext) {
   return [...names];
 }
 
-function museRolldownPlugin() {
+function museRolldownPlugin({ entryFile } = {}) {
   const pkgJson = devUtils.getPkgJson();
   const isLibPlugin = pkgJson?.muse?.type === 'lib';
   const usedSharedModules = {};
@@ -114,16 +120,45 @@ function museRolldownPlugin() {
 
   return {
     name: 'rolldown-plugin-muse',
-    enforce: 'post',
+    enforce: 'pre',
     configResolved(resolvedConfig) {
       viteConfig = resolvedConfig;
     },
-    resolveId(id) {},
-    load(id) {
+    resolveId(id) {
+      if (id === MUSE_VIRTUAL_ENTRY || id === MUSE_SHARED_REGISTER) return id;
+    },
+    async load(id) {
       if (process.env.VITEST) return;
 
-      // check if it's a shared module and return the corresponding code to load it
-      // from Muse global shared module registry.
+      // Virtual entry: imports the actual entry then the shared-register side-effect module.
+      if (id === MUSE_VIRTUAL_ENTRY) {
+        const actualEntryPath = path.resolve(process.cwd(), entryFile);
+        return [
+          `import ${JSON.stringify(actualEntryPath)};`,
+          `import ${JSON.stringify(MUSE_SHARED_REGISTER)};`,
+        ].join('\n');
+      }
+      // Shared-register module: emit import stubs for pre-scanned modules plus a sentinel.
+      // The sentinel is replaced with the final register() call in renderChunk, after all
+      // transform hooks have run and sharedModules is fully populated.
+      if (id === MUSE_SHARED_REGISTER) {
+        // wait for 10 seconds
+        await new Promise((r) => setTimeout(r, 10000));
+        const entries = Object.entries(sharedModules);
+        console.log();
+        console.log('entries length: ', entries.length);
+        const lines = ['const _all = {};'];
+        entries.forEach(([, filePath], i) => {
+          lines.push(`import * as m${i} from ${JSON.stringify(filePath)};`);
+          lines.push(`_all['${getMuseIdByPath(filePath)}'] = m${i};`);
+        });
+        // Sentinel replaced by renderChunk once sharedModules is complete.
+        lines.push(`MUSE_GLOBAL.__shared__.register(_all, (id) => _all[id]);\n`);
+        return lines.join('\n');
+      }
+
+      // Consumer side: intercept imports of shared modules in normal plugins and return
+      // a MUSE_GLOBAL.__shared__.require() wrapper instead of the real file.
       const museModule = getMuseModule(id);
       if (!museModule) return;
       usedSharedModules[museModule.id] = true; // this is to generate deps manifest
@@ -132,6 +167,7 @@ function museRolldownPlugin() {
     },
 
     transform(code, id) {
+      // console.log('pre transform', id);
       if (
         !isLibPlugin ||
         id.startsWith('\0') ||
@@ -156,26 +192,11 @@ function museRolldownPlugin() {
       }, 0);
 
       const mid = getMuseIdByPath(id);
-
       sharedModules[mid] = id;
 
-      // Use dynamic import to avoid circular dependency issue since it loads itself
-      // const codeForShare = `
-      //   import * as mmmmm from ${JSON.stringify(id)};
-      //   MUSE_GLOBAL.__shared__.register({${JSON.stringify(mid)}: mmmmm}, () => mmmmm);
-
-      // `;
-
-      const codeForShare = `
-        import(${JSON.stringify(id)}).then(m => {
-          MUSE_GLOBAL.__shared__.register({${JSON.stringify(mid)}: m}, () => m);
-        });
-      `;
-
-      return {
-        code: code + codeForShare,
-        map: null,
-      };
+      // Registration is handled centrally by \0muse-shared-register — no per-module
+      // code injection needed here. This avoids the circular self-import pattern that
+      // produced an empty namespace in bundled ESM output.
     },
 
     async generateBundle(options, bundle) {
@@ -253,7 +274,9 @@ function museRolldownPlugin() {
       });
       const entryBundle = Object.values(bundle).find((b) => b.isEntry);
       if (!entryBundle) throw new Error('cant find entry bundle');
+      // if (!entryBundle.code.includes(cssInject)) {
       entryBundle.code += `\n${cssInject}\n`;
+      // }
     },
   };
 }

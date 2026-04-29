@@ -233,19 +233,46 @@ async function start() {
     .filter(Boolean);
 
   // Load plugin bundles
-  const libPluginsToLoad = pluginsToLoad.filter((p) => p.type === 'lib');
+  const libPluginsToLoad = pluginsToLoad
+    .filter((p) => p.type === 'lib')
+    .sort((a, b) => b.name.localeCompare(a.name));
   loading.showMessage(`Loading lib plugins 1/${libPluginsToLoad.length}...`);
-  await loadInSerial(
-    libPluginsToLoad.filter((p) => 1 || !p.esModule).sort((a, b) => b.name.localeCompare(a.name)), // eslint-disable-line
-    (loadedCount) =>
-      loading.showMessage(
-        `Loading lib plugins ${Math.min(loadedCount + 1, libPluginsToLoad.length)}/${
-          libPluginsToLoad.length
-        }...`,
-      ),
-  );
+  // await loadInSerial(
+  //   libPluginsToLoad.filter((p) => 1 || !p.esModule), // eslint-disable-line
+  //   (loadedCount) =>
+  //     loading.showMessage(
+  //       `Loading lib plugins ${Math.min(loadedCount + 1, libPluginsToLoad.length)}/${
+  //         libPluginsToLoad.length
+  //       }...`,
+  //     ),
+  // );
 
+  await new Promise((resolve, reject) => {
+    const head = document.querySelector('head');
+    const script = document.createElement('script');
+    script.setAttribute('crossorigin', 'anonymous');
+    // script.crossOrigin = 'anonymous';
+
+    script.type = 'module'; // eslint-disable-line
+    window.__onLibEntriesResolve = resolve;
+    const textContent =
+      libPluginsToLoad.map((p) => `import ${JSON.stringify(p.url)};\n`).join('') +
+      'window.__onLibEntriesResolve();\n';
+
+    script.textContent = textContent;
+
+    head.appendChild(script);
+
+    // // from unit tests, we resolve this Promise immediately. This is needed, as jest will never run the script.onload() function,
+    // // as it's not a real browser, making the Promise never resolve.
+    // if (process.env.NODE_ENV === 'test') {
+    //   resolve();
+    // }
+  });
+
+  // await new Promise((resolve) => setTimeout(resolve, 5000));
   const normalPluginsToLoad = pluginsToLoad.filter((p) => p.type === 'normal' || !p.type);
+  console.log('loading normal plugins', normalPluginsToLoad);
   loading.showMessage(`Loading normal plugins 1/${normalPluginsToLoad.length}...`);
   await loadInParallel(
     normalPluginsToLoad.filter((p) => !p.esModule),
@@ -258,7 +285,7 @@ async function start() {
   );
 
   // TODO: why we need to load esModule plugins separately?
-  const esPluginsToLoad = pluginsToLoad.filter((p) => p.esModule);
+  const esPluginsToLoad = pluginsToLoad.filter((p) => p.type !== 'lib' && p.esModule);
   await loadInParallel(
     esPluginsToLoad.filter((p) => p.esModule),
     (loadedCount) =>

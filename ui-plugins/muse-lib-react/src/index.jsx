@@ -11,7 +11,7 @@ import './styles/index.less';
 import * as reactRouterDom from 'react-router-dom';
 import * as reactQuery from '@tanstack/react-query';
 import a from './a.json';
-console.log('test load json', a);
+console.log('test load json2', a);
 
 plugin.register({
   name: '@ebay/muse-lib-react', // reserve the plugin name

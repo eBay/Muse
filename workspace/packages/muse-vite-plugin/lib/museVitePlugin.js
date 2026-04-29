@@ -3,7 +3,7 @@ import path from 'path';
 import muse from '@ebay/muse-core';
 import setupMuseDevServer from '@ebay/muse-dev-utils/lib/setupMuseDevServer.js';
 import devUtils from '@ebay/muse-dev-utils/lib/utils.js';
-import museRolldownPlugin from './museRolldownPlugin.js';
+import museRolldownPlugin, { MUSE_VIRTUAL_ENTRY } from './museRolldownPlugin.js';
 import { mergeObjects, setViteMode } from './utils.js';
 import startLibServer, { setBuildStarted, setBuildFinished } from './libServer.js';
 
@@ -61,7 +61,7 @@ export default function museVitePlugin() {
     process.env.SSL_KEY_FILE ||
     path.join(process.cwd(), './node_modules/.muse/certs/muse-dev-cert.key');
 
-  const rolldownPluginInstance = museRolldownPlugin({});
+  const rolldownPluginInstance = museRolldownPlugin({ entryFile });
   const vitePlugin = {
     name: 'muse-vite-plugin',
     config(config, { command, mode }) {
@@ -127,14 +127,15 @@ export default function museVitePlugin() {
           sourcemap: true,
           outDir: buildDir[config.mode || 'production'],
           rolldownOptions: {
-            input: entryFile,
+            // Lib plugins use a virtual entry that wraps the real entry and appends
+            // the shared-register side-effect module, avoiding circular self-imports.
+            input: isLibPlugin ? MUSE_VIRTUAL_ENTRY : entryFile,
             treeshake: false,
             output: {
               entryFileNames: pkgJson.muse.type === 'boot' ? 'boot.js' : 'main.js',
               format: 'es',
               codeSplitting: false,
             },
-            // plugins: [rolldownPluginInstance],
           },
         },
       };
