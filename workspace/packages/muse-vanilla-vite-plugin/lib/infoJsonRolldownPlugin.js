@@ -27,7 +27,7 @@ function getGitSha() {
   }
 }
 
-function extractLineCoverage(xmlPath) {
+function extractLineCoverageFromCobertura(xmlPath) {
   try {
     const xml = fs.readFileSync(xmlPath, 'utf8');
     const match = xml.match(/<coverage[^>]+line-rate="([^"]+)"/);
@@ -38,6 +38,36 @@ function extractLineCoverage(xmlPath) {
     // file not found or unreadable
   }
   return null;
+}
+
+function extractLineCoverageFromClover(xmlPath) {
+  try {
+    const xml = fs.readFileSync(xmlPath, 'utf8');
+    // Try lines/coveredlines first, fall back to statements/coveredstatements
+    const byLines = xml.match(/<metrics[^>]+lines="(\d+)"[^>]*coveredlines="(\d+)"/);
+    if (byLines) {
+      const total = parseInt(byLines[1], 10);
+      const covered = parseInt(byLines[2], 10);
+      return total > 0 ? covered / total : 0;
+    }
+    const byStatements = xml.match(/<metrics[^>]+statements="(\d+)"[^>]*coveredstatements="(\d+)"/);
+    if (byStatements) {
+      const total = parseInt(byStatements[1], 10);
+      const covered = parseInt(byStatements[2], 10);
+      return total > 0 ? covered / total : 0;
+    }
+  } catch {
+    // file not found or unreadable
+  }
+  return null;
+}
+
+function extractLineCoverage() {
+  const cobertura = extractLineCoverageFromCobertura(
+    path.join(process.cwd(), 'coverage/cobertura-coverage.xml'),
+  );
+  if (cobertura !== null) return cobertura;
+  return extractLineCoverageFromClover(path.join(process.cwd(), 'coverage/clover.xml'));
 }
 
 function infoJsonRolldownPlugin() {
@@ -98,8 +128,7 @@ function infoJsonRolldownPlugin() {
         esModule,
       };
 
-      const coverageXmlPath = path.join(process.cwd(), 'coverage/cobertura-coverage.xml');
-      const lineCoverage = extractLineCoverage(coverageXmlPath);
+      const lineCoverage = extractLineCoverage();
       if (lineCoverage !== null) {
         info.ut = { lineCoverage: Math.round(lineCoverage * 10000) / 100 };
       }

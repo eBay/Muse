@@ -19,12 +19,17 @@
   "scripts": {
     "start": "vite",
     "build": "vite build",
-    "postbuild": "cp MUSE_README.md ./build"
+    "postbuild": "cp MUSE_README.md ./build",
+    "test": "vitest run"
   },
   "devDependencies": {
+    "@ebay/muse-modules": "^1.0.29",
     "@ebay/muse-vanilla-vite-plugin": "link:../../workspace/packages/muse-vanilla-vite-plugin",
+    "@vitest/coverage-v8": "2.1.9",
     "cross-env": "^7.0.3",
     "eslint": "^8.20.0",
-    "vite": "^8.0.0"
+    "jsdom": "^25.0.0",
+    "vite": "^8.0.0",
+    "vitest": "^2.0.0"
   }
 }

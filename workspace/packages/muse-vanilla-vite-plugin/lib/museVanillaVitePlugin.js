@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js';
 import infoJsonRolldownPlugin from './infoJsonRolldownPlugin.js';
 
 function getPkgJson() {
@@ -95,7 +96,7 @@ export default function museVanillaVitePlugin() {
             input: entryFile,
             output: {
               entryFileNames: entryFileName,
-              format: 'iife',
+              format: 'es',
               codeSplitting: false,
             },
           },
@@ -117,5 +118,5 @@ export default function museVanillaVitePlugin() {
     },
   };
 
-  return [vanillaPlugin, infoJsonPlugin];
+  return [vanillaPlugin, cssInjectedByJsPlugin(), infoJsonPlugin];
 }

@@ -241,8 +241,6 @@ async function start() {
     new PerformanceObserver((list) => {
       const urls = Object.keys(pluginsLoaded);
       for (const entry of list.getEntries()) {
-        if (entry.name.includes('muse-manager')) console.log(entry);
-
         if (urls.some((u) => entry.name.endsWith(u))) {
           pluginsLoaded[entry.name] = true;
           loading.showMessage(
