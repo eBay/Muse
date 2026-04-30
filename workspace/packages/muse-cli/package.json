@@ -1,5 +1,10 @@
 {
   "name": "@ebay/muse-cli",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ebay/Muse",
+    "directory": "workspace/packages/muse-cli"
+  },
   "version": "1.0.34",
   "main": "index.js",
   "bin": {

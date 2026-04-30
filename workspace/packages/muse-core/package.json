@@ -1,5 +1,10 @@
 {
   "name": "@ebay/muse-core",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ebay/Muse",
+    "directory": "workspace/packages/muse-core"
+  },
   "version": "1.0.45",
   "main": "lib/index.js",
   "description": "Core APIs of Muse management.",

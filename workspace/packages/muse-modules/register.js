@@ -13,7 +13,7 @@ function register(modules, __require__) {
     const m = modules[mid];
     theGlobal.MUSE_GLOBAL.__shared__.modules[mid] = {
       id: mid,
-      __require__,
+      __require__: __require__ || ((id) => modules[id]),
     };
   }
 }

@@ -1,5 +1,10 @@
 {
   "name": "@ebay/muse-webpack-plugin",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ebay/Muse",
+    "directory": "workspace/packages/muse-webpack-plugin"
+  },
   "version": "1.0.37",
   "description": "Muse webpack plugin.",
   "main": "lib/index.js",

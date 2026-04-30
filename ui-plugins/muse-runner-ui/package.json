@@ -1,5 +1,10 @@
 {
   "name": "muse-runner-ui",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ebay/Muse",
+    "directory": "ui-plugins/muse-runner-ui"
+  },
   "version": "1.0.0",
   "type": "module",
   "muse": {
