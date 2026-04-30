@@ -15,12 +15,7 @@ function getEntryFileName(pkgJson) {
   return pkgJson?.muse?.type === 'boot' ? 'boot.js' : 'main.js';
 }
 
-const ENTRY_CANDIDATES = [
-  'src/index.ts',
-  'src/main.ts',
-  'src/index.js',
-  'src/main.js',
-];
+const ENTRY_CANDIDATES = ['src/index.ts', 'src/main.ts', 'src/index.js', 'src/main.js'];
 
 function getEntryFile() {
   for (const candidate of ENTRY_CANDIDATES) {
@@ -66,9 +61,7 @@ export default function museVanillaVitePlugin() {
 
     config(config) {
       if (!entryFile) {
-        throw new Error(
-          'No entry file found. Add a src/[index|main].[js|ts|jsx|tsx] file or set muse.entry in package.json.',
-        );
+        throw new Error('No entry file found. Add a src/[index|main].[js|ts|jsx|tsx] file.');
       }
 
       const isHTTPS = process.env.HTTPS === 'true';
@@ -81,8 +74,7 @@ export default function museVanillaVitePlugin() {
           port,
           host,
           strictPort: !!port,
-          https:
-            isHTTPS &&
+          https: isHTTPS &&
             fs.existsSync(sslCrtFile) &&
             fs.existsSync(sslKeyFile) && {
               cert: fs.readFileSync(sslCrtFile),
