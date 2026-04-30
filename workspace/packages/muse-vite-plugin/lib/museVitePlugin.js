@@ -4,6 +4,7 @@ import muse from '@ebay/muse-core';
 import setupMuseDevServer from '@ebay/muse-dev-utils/lib/setupMuseDevServer.js';
 import devUtils from '@ebay/muse-dev-utils/lib/utils.js';
 import museRolldownPlugin, { MUSE_VIRTUAL_ENTRY } from './museRolldownPlugin.js';
+import infoJsonRolldownPlugin from './infoJsonRolldownPlugin.js';
 import { mergeObjects, setViteMode } from './utils.js';
 import startLibServer, { setBuildStarted, setBuildFinished } from './libServer.js';
 
@@ -62,6 +63,7 @@ export default function museVitePlugin() {
     path.join(process.cwd(), './node_modules/.muse/certs/muse-dev-cert.key');
 
   const rolldownPluginInstance = museRolldownPlugin({ entryFile });
+  const infoJsonPluginInstance = infoJsonRolldownPlugin();
   const vitePlugin = {
     name: 'muse-vite-plugin',
     config(config, { command, mode }) {
@@ -206,5 +208,5 @@ export default function museVitePlugin() {
     },
   };
 
-  return [vitePlugin, rolldownPluginInstance];
+  return [vitePlugin, rolldownPluginInstance, infoJsonPluginInstance];
 }

@@ -1,5 +1,10 @@
 {
   "name": "muse-site",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ebay/Muse",
+    "directory": "muse-site"
+  },
   "version": "0.0.0",
   "private": true,
   "scripts": {

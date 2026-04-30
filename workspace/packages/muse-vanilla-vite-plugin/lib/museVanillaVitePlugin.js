@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import infoJsonRolldownPlugin from './infoJsonRolldownPlugin.js';
 
 function getPkgJson() {
   try {
@@ -49,6 +50,8 @@ export default function museVanillaVitePlugin() {
   const pkgJson = getPkgJson();
   const entryFileName = getEntryFileName(pkgJson);
   const entryFile = getEntryFile();
+  const pluginType = pkgJson?.muse?.type;
+  const infoJsonPlugin = infoJsonRolldownPlugin();
 
   const sslCrtFile =
     process.env.SSL_CRT_FILE ||
@@ -57,7 +60,7 @@ export default function museVanillaVitePlugin() {
     process.env.SSL_KEY_FILE ||
     path.join(process.cwd(), './node_modules/.muse/certs/muse-dev-cert.key');
 
-  return {
+  const vanillaPlugin = {
     name: 'muse-vanilla-vite-plugin',
 
     config(config) {
@@ -71,7 +74,7 @@ export default function museVanillaVitePlugin() {
       const port = process.env.PORT;
       const host = config.server?.host || process.env.MUSE_LOCAL_HOST_NAME || 'localhost';
 
-      const configToBeMerged = {
+      const defaults = {
         server: {
           origin: port ? `${isHTTPS ? 'https' : 'http'}://${host}:${port}` : undefined,
           port,
@@ -99,7 +102,20 @@ export default function museVanillaVitePlugin() {
         },
       };
 
-      mergeObjects(config, configToBeMerged);
+      // Also mutate config for backwards-compat with tests that inspect the object directly
+      mergeObjects(config, defaults);
+      // Return defaults so Vite deep-merges them with user config (user config wins)
+      return defaults;
+    },
+
+    handleHotUpdate({ server }) {
+      // boot and init plugins don't support HMR — any change triggers a full page reload
+      if (pluginType === 'boot' || pluginType === 'init') {
+        server.ws.send({ type: 'full-reload' });
+        return [];
+      }
     },
   };
+
+  return [vanillaPlugin, infoJsonPlugin];
 }

@@ -1,5 +1,10 @@
 {
   "name": "@ebay/muse-vanilla-vite-plugin",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ebay/Muse",
+    "directory": "workspace/packages/muse-vanilla-vite-plugin"
+  },
   "version": "1.0.0",
   "description": "Vite plugin for MUSE vanilla (init/boot) plugins with IIFE build output",
   "main": "lib/museVanillaVitePlugin.js",
@@ -7,6 +12,9 @@
   "scripts": {
     "test": "vitest run",
     "lint": "eslint lib/"
+  },
+  "dependencies": {
+    "gzip-size": "^7.0.0"
   },
   "keywords": [],
   "author": "",
