@@ -1,5 +1,10 @@
 {
   "name": "@ebay/muse-dev-utils",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ebay/Muse",
+    "directory": "workspace/packages/muse-dev-utils"
+  },
   "version": "1.0.73",
   "main": "lib/index.js",
   "bin": {

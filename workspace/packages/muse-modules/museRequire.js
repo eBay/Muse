@@ -5,7 +5,6 @@ module.exports = (museId) => {
   // Check if module is in cache
   var cachedModule = __muse_module_cache__[museId];
   if (!cachedModule) {
-    museModule = cachedModule;
     __muse_module_cache__[museId] = findMuseModule(museId);
   }
 

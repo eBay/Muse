@@ -1,5 +1,10 @@
 {
   "name": "@ebay/muse-simple-server",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ebay/Muse",
+    "directory": "workspace/packages/muse-simple-server"
+  },
   "version": "1.0.36",
   "main": "index.js",
   "license": "MIT",

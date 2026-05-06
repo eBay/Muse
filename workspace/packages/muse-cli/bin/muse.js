@@ -783,7 +783,7 @@ program
     console.log('Removed packages:');
     if (_.isEmpty(diff.removedPkgs)) console.log(chalk.gray('None.'));
     Object.entries(diff.removedPkgs).forEach(([name, version]) => {
-      console.log(chalk.green('  + ' + name + '@' + version));
+      console.log(chalk.red('  - ' + name + '@' + version));
     });
     console.log();
 

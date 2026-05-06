@@ -3,7 +3,7 @@ import { Dropdown, Button, Tooltip, Popconfirm } from 'antd';
 import _ from 'lodash';
 import plugin from 'js-plugin';
 import history from '../../common/history';
-import getIconNode from './getIconNode.js';
+import getIconNode from './getIconNode';
 
 const renderOuterItem = ({ icon, label, disabled, confirm, disabledText, ...rest }, size) => {
   delete rest.highlight;

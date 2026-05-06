@@ -1,12 +1,12 @@
-import fs from 'fs';
-import { transformWithEsbuild } from 'vite';
+import fs from 'fs-extra';
 import path from 'path';
 import muse from '@ebay/muse-core';
 import setupMuseDevServer from '@ebay/muse-dev-utils/lib/setupMuseDevServer.js';
 import devUtils from '@ebay/muse-dev-utils/lib/utils.js';
-import museEsbuildPlugin from './museEsbuildPlugin.js';
-import museRollupPlugin from './museRollupPlugin.js';
-import { getMuseModuleCode, mergeObjects, getMuseModule, setViteMode } from './utils.js';
+import museRolldownPlugin, { MUSE_VIRTUAL_ENTRY } from './museRolldownPlugin.js';
+import infoJsonRolldownPlugin from './infoJsonRolldownPlugin.js';
+import { mergeObjects, setViteMode } from './utils.js';
+import startLibServer, { setBuildStarted, setBuildFinished } from './libServer.js';
 
 // We need to use originalUrl instead of url because the latter is modified by Vite 5+ (not modified in Vite 4)
 // which causes server.middlewares.use(path, middleware) to not work as expected
@@ -24,8 +24,12 @@ const buildDir = {
   'e2e-test': 'build/test',
 };
 export default function museVitePlugin() {
+  const entryFile = devUtils.getEntryFile(); //'/@muse-virtual-entry/' +
+  const pkgJson = devUtils.getPkgJson();
+  const isLibPlugin = pkgJson?.muse?.type === 'lib';
   let theViteServer;
-  let config;
+  // Shared rolldown plugin instance used by both the dev server load hook and the build pipeline.
+  // const devServerRolldownPlugin = museRolldownPlugin();
   const musePluginVite = {
     name: 'muse-plugin-vite',
     museMiddleware: {
@@ -33,13 +37,15 @@ export default function museVitePlugin() {
         processMuseGlobal: (museGlobal) => {
           const pluginForDev = museGlobal.plugins.find((p) => p.dev);
           if (!pluginForDev) throw new Error(`Can't find dev plugin.`);
-          const entry = devUtils.getEntryFile();
-          if (!entry)
+          if (!entryFile)
             throw new Error(
               'No entry found. There should be src/[index|main].[js|ts|jsx|tsx] file as entry.',
             );
 
-          Object.assign(pluginForDev, { esModule: true, url: '/' + entry });
+          Object.assign(pluginForDev, {
+            esModule: true,
+            url: entryFile,
+          });
         },
         processIndexHtml: async (ctx) => {
           // This is to get the vite server to transform the index.html
@@ -56,6 +62,8 @@ export default function museVitePlugin() {
     process.env.SSL_KEY_FILE ||
     path.join(process.cwd(), './node_modules/.muse/certs/muse-dev-cert.key');
 
+  const rolldownPluginInstance = museRolldownPlugin({ entryFile });
+  const infoJsonPluginInstance = infoJsonRolldownPlugin();
   const vitePlugin = {
     name: 'muse-vite-plugin',
     config(config, { command, mode }) {
@@ -63,7 +71,6 @@ export default function museVitePlugin() {
       const port = process.env.PORT;
       const host = config.server?.host || process.env.MUSE_LOCAL_HOST_NAME || 'localhost';
       const pkgJson = devUtils.getPkgJson();
-      const entryFile = devUtils.getEntryFile();
 
       setViteMode(mode || 'production');
 
@@ -99,6 +106,7 @@ export default function museVitePlugin() {
           origin: port ? `${isHTTPS ? 'https' : 'http'}://${host}:${port}` : undefined,
           port,
           cors: true,
+
           strictPort: !!port,
           https: process.env.HTTPS === 'true' &&
             fs.existsSync(sslCrtFile) &&
@@ -107,28 +115,29 @@ export default function museVitePlugin() {
               key: fs.readFileSync(sslKeyFile),
             },
         },
+
         optimizeDeps: {
           needsInterop: [],
-          esbuildOptions: {
-            plugins: !config.optimizeDeps?.esbuildOptions?.plugins?.find(
-              (p) => p.name === 'muse-esbuild',
-            )
-              ? [museEsbuildPlugin()]
-              : [],
+          force: true,
+          rolldownOptions: {
+            input: entryFile,
+            plugins: [rolldownPluginInstance],
           },
         },
         build: {
+          minify: true,
           sourcemap: true,
           outDir: buildDir[config.mode || 'production'],
-          rollupOptions: {
-            input: entryFile,
+          rolldownOptions: {
+            // Lib plugins use a virtual entry that wraps the real entry and appends
+            // the shared-register side-effect module, avoiding circular self-imports.
+            input: isLibPlugin ? MUSE_VIRTUAL_ENTRY : entryFile,
+            treeshake: false,
             output: {
               entryFileNames: pkgJson.muse.type === 'boot' ? 'boot.js' : 'main.js',
               format: 'es',
+              codeSplitting: false,
             },
-            plugins: !config.build?.rollupOptions?.plugins?.find((p) => p.name === 'muse-rollup')
-              ? [museRollupPlugin()]
-              : [],
           },
         },
       };
@@ -138,10 +147,6 @@ export default function museVitePlugin() {
       mergeObjects(config, configToBeMerged);
     },
 
-    configResolved(resolvedConfig) {
-      // store the resolved config
-      config = resolvedConfig;
-    },
     configureServer(server) {
       theViteServer = server;
       try {
@@ -160,41 +165,48 @@ export default function museVitePlugin() {
         });
       };
     },
-    load(id) {
-      // Load hook is only used for dev server
-      // For build, it uses rollup plugin to load Muse shared modules.
-      if (config.command !== 'serve' || process.env.VITEST) return;
-      // If pre-bundling is disabled, or if the module is from a dev time lib plugin
-      // then we need this hook to find possible Muse shared module
-      const museModule = getMuseModule(id);
 
-      if (!museModule) return;
-      const museCode = getMuseModuleCode(museModule, 'esm');
-
-      if (museCode) {
-        return museCode;
+    handleHotUpdate({ file, server }) {
+      // for entry file, no HMR but full reload
+      // This is IMPORTANT for Muse plugin
+      if (file === path.join(process.cwd(), entryFile)) {
+        server.ws.send({ type: 'full-reload' });
+        return [];
       }
-      return null;
+    },
+
+    async buildStart() {
+      console.log('vite build start');
+      // if under watch mode and it's lib plugin, start the lib server
+      if (isLibPlugin && this.meta.watchMode) {
+        // lib plugin: start the static server to serve build output
+        startLibServer();
+        setBuildStarted();
+      }
+    },
+
+    buildEnd() {
+      // signal build finished (even on error) so lib server stops holding requests
+      if (isLibPlugin && this.meta.watchMode) {
+        setBuildFinished();
+      }
+    },
+
+    closeBundle() {
+      // when under watch mode and it's lib plugin, copy lib-manifest.json to the node_modules/.muse/dev folder for dev time usage
+      if (!isLibPlugin || !this.meta.watchMode) return;
+      const src = path.join(process.cwd(), 'build/dev/lib-manifest.json');
+      const dest = path.join(process.cwd(), 'node_modules/.muse/dev/lib-manifest.json');
+      if (fs.existsSync(src)) {
+        fs.outputFileSync(dest, fs.readFileSync(src));
+        console.log('Copied lib-manifest.json to node_modules/.muse/dev/');
+      } else {
+        console.log(
+          'Warning: lib-manifest.json not found in build/dev/, make sure the lib plugin is built successfully.',
+        );
+      }
     },
   };
 
-  // Special support for Vitest:
-  // It needs to transform JSX to JS from Muse library plugins.
-  // To be backward compatible, all React compoennts file extension is `.js` rather than `.jsx`
-  // So we need to treat all js files as jsx files
-  if (process.env.VITEST) {
-    const libPlugins = devUtils.getMuseLibs();
-    vitePlugin.transform = async (code, id) => {
-      if (
-        libPlugins.some((p) => id.startsWith(`${p.path}/src/`)) &&
-        (id.endsWith('.js') || id.endsWith('.jsx') || id.endsWith('.ts') || id.endsWith('.tsx'))
-      ) {
-        return transformWithEsbuild(code, id, {
-          loader: 'jsx',
-          jsx: 'automatic',
-        });
-      }
-    };
-  }
-  return vitePlugin;
+  return [vitePlugin, rolldownPluginInstance, infoJsonPluginInstance];
 }

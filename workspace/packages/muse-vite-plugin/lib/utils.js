@@ -95,12 +95,18 @@ export function getMuseModule(filePath) {
   const museModule = findMuseModule(museModuleId, { modules: allMuseModules });
   if (museModule) {
     museModule.__isESM =
+      !!rootPkg.module ||
       rootPkg.type === 'module' ||
       filePath.endsWith('.mjs') ||
       filePath.endsWith('.ts') ||
       filePath.endsWith('.tsx');
   }
+
   return museModule;
+}
+
+export function isSharedMuseModule(filePath) {
+  return !!getMuseModule(filePath);
 }
 
 export function getMuseModuleCode(museModule, esm) {
@@ -123,11 +129,97 @@ export function getMuseModuleCode(museModule, esm) {
   else if (museModule.exports?.includes('default') && museModule.exports?.length === 1) {
     return `const m = MUSE_GLOBAL.__shared__.require("${museModule.id}");\nmodule.exports = m.default;`;
   } else {
-    return `const m = MUSE_GLOBAL.__shared__.require("${museModule.id}");\nmodule.exports = m;`;
+    return `const m = MUSE_GLOBAL.__shared__.require("${museModule.id}");\n\nmodule.exports = m.default || m;`;
   }
 }
 
 // Get the lib plugin where the shared module is from
 export function getLibNameByModule(museId) {
   return allMuseModules[museId]?.__libName;
+}
+
+// Cache for package.json files to avoid re-reading
+const packageJsonCache = {};
+export function getMuseIdByPath(p) {
+  // path is abs path of a module, e.g.
+  //  - /Users/pwang7/muse/muse-next/ui-plugins/muse-lib-react/src/index.jsx
+  //  - /Users/pwang7/muse/muse-next/ui-plugins/muse-lib-react/node_modules/.pnpm/history@5.3.0/node_modules/history/index.js
+  //  - /Users/pwang7/muse/muse-next/ui-plugins/muse-lib-react/node_modules/.pnpm/@tanstack+react-query@4.33.0_react-dom@18.2.0_react@18.2.0/node_modules/@tanstack/react-query/build/lib/useIsMutating.mjs
+  // Key logic: find the root of the package and then generate museId based on the package name, version and the relative path to the package root
+
+  // Normalize path separators to forward slashes
+  const normalizedPath = p.replace(/\\/g, '/');
+
+  // Find the last occurrence of node_modules in the path
+  const nodeModulesIndex = normalizedPath.lastIndexOf('node_modules');
+
+  if (nodeModulesIndex === -1) {
+    // File is not in node_modules - it's source code of a package
+    // Walk up to find package.json
+    const segments = normalizedPath.split('/');
+    for (let i = segments.length - 1; i > 0; i--) {
+      const candidatePath = segments.slice(0, i).join('/');
+      const pkgPath = candidatePath + '/package.json';
+
+      // Check cache first
+      if (packageJsonCache[pkgPath] !== undefined) {
+        const pkg = packageJsonCache[pkgPath];
+        if (pkg && pkg.name && pkg.version) {
+          const relativePath = normalizedPath.substring(candidatePath.length);
+          return `${pkg.name}@${pkg.version}${relativePath}`;
+        }
+        continue;
+      }
+
+      // Read and cache
+      if (fs.existsSync(pkgPath)) {
+        const pkg = fs.readJsonSync(pkgPath);
+        packageJsonCache[pkgPath] = pkg;
+        if (pkg.name && pkg.version) {
+          const relativePath = normalizedPath.substring(candidatePath.length);
+          return `${pkg.name}@${pkg.version}${relativePath}`;
+        }
+      } else {
+        packageJsonCache[pkgPath] = null;
+      }
+    }
+    return null;
+  }
+
+  // File is in node_modules - parse package name after last node_modules
+  const afterNodeModules = normalizedPath.substring(nodeModulesIndex + 'node_modules/'.length);
+
+  let packageName, packageRoot, relativePath;
+
+  if (afterNodeModules.startsWith('@')) {
+    // Scoped package: @scope/name/...
+    const parts = afterNodeModules.split('/');
+    packageName = `${parts[0]}/${parts[1]}`;
+    packageRoot = normalizedPath.substring(0, nodeModulesIndex) + 'node_modules/' + packageName;
+    relativePath = '/' + parts.slice(2).join('/');
+  } else {
+    // Regular package: name/...
+    const firstSlash = afterNodeModules.indexOf('/');
+    packageName = firstSlash === -1 ? afterNodeModules : afterNodeModules.substring(0, firstSlash);
+    packageRoot = normalizedPath.substring(0, nodeModulesIndex) + 'node_modules/' + packageName;
+    relativePath = firstSlash === -1 ? '' : afterNodeModules.substring(firstSlash);
+  }
+
+  // Read package.json to get version (with caching)
+  const pkgPath = packageRoot + '/package.json';
+  try {
+    if (packageJsonCache[pkgPath] !== undefined) {
+      const pkg = packageJsonCache[pkgPath];
+      if (!pkg || !pkg.name || !pkg.version) return null;
+      return `${pkg.name}@${pkg.version}${relativePath}`;
+    }
+
+    const pkg = fs.readJsonSync(pkgPath);
+    packageJsonCache[pkgPath] = pkg;
+    if (!pkg.name || !pkg.version) return null;
+    return `${pkg.name}@${pkg.version}${relativePath}`;
+  } catch (error) {
+    packageJsonCache[pkgPath] = null;
+    return null;
+  }
 }

@@ -12,6 +12,7 @@ import './modals';
 import './styles/index.less';
 import('antd/dist/reset.css');
 
+console.log('muse-lib-antd loaded');
 plugin.register({
   ...ext,
   route,

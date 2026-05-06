@@ -244,7 +244,7 @@ function injectIntoGlobalHook(globalObject) {
     return;
   }
   const oldInject = hook.inject;
-  hook.inject = function(injected) {
+  hook.inject = function (injected) {
     const id = oldInject.apply(this, arguments);
     if (
       typeof injected.scheduleRefresh === 'function' &&
@@ -264,7 +264,7 @@ function injectIntoGlobalHook(globalObject) {
   });
   const oldOnCommitFiberRoot = hook.onCommitFiberRoot;
   const oldOnScheduleFiberRoot = hook.onScheduleFiberRoot || (() => {});
-  hook.onScheduleFiberRoot = function(id, root, children) {
+  hook.onScheduleFiberRoot = function (id, root, children) {
     if (!isPerformingRefresh) {
       failedRoots.delete(root);
       if (rootElements !== null) {
@@ -273,7 +273,7 @@ function injectIntoGlobalHook(globalObject) {
     }
     return oldOnScheduleFiberRoot.apply(this, arguments);
   };
-  hook.onCommitFiberRoot = function(id, root, maybePriorityLevel, didError) {
+  hook.onCommitFiberRoot = function (id, root, maybePriorityLevel, didError) {
     const helpers = helpersByRendererID.get(id);
     if (helpers !== void 0) {
       helpersByRoot.set(root, helpers);
@@ -312,7 +312,7 @@ function createSignatureFunctionForTransform() {
   let savedType;
   let hasCustomHooks;
   let didCollectHooks = false;
-  return function(type, key, forceReset, getCustomHooks) {
+  return function (type, key, forceReset, getCustomHooks) {
     if (typeof key === 'string') {
       if (!savedType) {
         savedType = type;
@@ -443,6 +443,7 @@ const __hmr_import = (module) =>
 var refresh_runtime_default = { injectIntoGlobalHook };
 export {
   __hmr_import,
+  register,
   createSignatureFunctionForTransform,
   refresh_runtime_default as default,
   getRefreshReg,

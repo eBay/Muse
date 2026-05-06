@@ -1,5 +1,10 @@
 {
   "name": "users-plugin",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ebay/Muse",
+    "directory": "examples/users-plugin"
+  },
   "version": "1.0.0",
   "private": true,
   "type": "module",

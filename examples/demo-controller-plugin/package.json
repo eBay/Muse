@@ -1,5 +1,10 @@
 {
   "name": "demo-controller-plugin",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ebay/Muse",
+    "directory": "examples/demo-controller-plugin"
+  },
   "version": "1.0.0",
   "private": true,
   "type": "module",
