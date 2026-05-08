@@ -1,5 +1,5 @@
 import { createStore, applyMiddleware, compose } from 'redux';
-import thunk from 'redux-thunk';
+import { thunk } from 'redux-thunk';
 import rootReducer from './rootReducer';
 
 // NOTE: Do not change middleares delaration pattern since rekit plugins may register middlewares to it.

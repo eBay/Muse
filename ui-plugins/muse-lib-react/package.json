@@ -5,7 +5,7 @@
     "url": "https://github.com/ebay/Muse",
     "directory": "ui-plugins/muse-lib-react"
   },
-  "version": "1.3.2",
+  "version": "1.3.5",
   "type": "module",
   "muse": {
     "isAppEntry": true,
