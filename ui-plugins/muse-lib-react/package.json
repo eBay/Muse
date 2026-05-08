@@ -29,6 +29,7 @@
   "scripts": {
     "start": "cross-env NODE_PATH=./node_modules NODE_ENV=development vite build --mode development --watch",
     "build": "cross-env NODE_PATH=./node_modules vite build",
+    "build:test": "cross-env NODE_PATH=./node_modules vite build",
     "build:dev": "cross-env NODE_ENV=development vite build --mode development",
     "gen-muse-doc": "typedoc",
     "postbuild": "cp MUSE_README.md ./build"
