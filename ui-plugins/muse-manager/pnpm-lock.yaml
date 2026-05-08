@@ -28,7 +28,7 @@ devDependencies:
     version: 1.0.19
   '@ebay/muse-vite-plugin':
     specifier: ^1.0.56
-    version: link:../../workspace/packages/muse-vite-plugin
+    version: 1.0.56(@ebay/muse-modules-analyzer@1.0.18)(express@4.22.1)(vite@8.0.5)
   '@tanstack/react-query':
     specifier: ^4.28.0
     version: 4.42.0(react-dom@18.3.1)(react@18.3.1)
@@ -858,6 +858,21 @@ packages:
       ts-morph: 22.0.0
       typedoc: 0.25.13(typescript@4.9.3)
       typescript: 4.9.3
+    dev: true
+
+  /@ebay/muse-vite-plugin@1.0.56(@ebay/muse-modules-analyzer@1.0.18)(express@4.22.1)(vite@8.0.5):
+    resolution: {integrity: sha512-LTvqHQSBWJzxnHsbVAjlNRSAxpC3/pmYtKZ4hsXV/U0T15VO8JGimfeEh0WVz88lZsRr+cLIMjKECq8TkvBz5Q==}
+    peerDependencies:
+      vite: ^5.2.11
+    dependencies:
+      '@ebay/muse-core': 1.0.45
+      '@ebay/muse-dev-utils': 1.0.73(@ebay/muse-core@1.0.45)(@ebay/muse-modules-analyzer@1.0.18)(express@4.22.1)
+      '@ebay/muse-modules': 1.0.29
+      fs-extra: 10.1.0
+      vite: 8.0.5(@emnapi/core@1.9.2)(@emnapi/runtime@1.9.2)(less@4.4.2)
+    transitivePeerDependencies:
+      - '@ebay/muse-modules-analyzer'
+      - express
     dev: true
 
   /@ebay/nice-form-react@2.0.3:
@@ -2055,6 +2070,7 @@ packages:
 
   /@ungap/structured-clone@1.3.0:
     resolution: {integrity: sha512-WmoN8qaIAo7WTYWbAZuG8PYEhn5fkz7dZrqTBZ7dtt//lL2Gwms1IcnQ5yHqjDfX8Ft5j4YzDM23f87zBfDe9g==}
+    deprecated: Potential CWE-502 - Update to 1.3.1 or higher
     dev: true
 
   /@vitejs/plugin-react@6.0.1(vite@8.0.5):
