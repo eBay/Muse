@@ -1,6 +1,11 @@
 {
   "name": "@ebay/muse-dev-utils",
-  "version": "1.0.73",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ebay/Muse",
+    "directory": "workspace/packages/muse-dev-utils"
+  },
+  "version": "2.0.0",
   "main": "lib/index.js",
   "bin": {
     "muse-dev-utils": "./bin/muse-dev-utils.js"
@@ -16,6 +21,8 @@
     "chalk": "4.1.2",
     "dotenv": "^16.0.1",
     "lodash": "^4.17.21",
+    "cross-spawn": "^7.0.3",
+    "import-cwd": "^3.0.0",
     "resolve-cwd": "^3.0.0",
     "resolve-from": "^5.0.0",
     "semver": "^7.3.7"

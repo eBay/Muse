@@ -1,5 +1,14 @@
 # @ebay/muse-runner
 
+## 1.0.24
+
+### Patch Changes
+
+- Updated dependencies
+  - @ebay/muse-core@2.0.0
+  - @ebay/muse-dev-utils@2.0.0
+  - @ebay/muse-express-middleware@2.0.0
+
 ## 1.0.22
 
 ### Patch Changes

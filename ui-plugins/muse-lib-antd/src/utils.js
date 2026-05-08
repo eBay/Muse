@@ -43,5 +43,5 @@ export const extendArray = (arr, extName, extBase, ...args) => {
   jsPlugin.sort(arr);
   return arr;
 };
-
+export const a = 1;
 export default { extendArray, extendFormMeta };

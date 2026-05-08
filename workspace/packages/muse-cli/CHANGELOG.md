@@ -1,5 +1,19 @@
 # @ebay/muse-cli
 
+## 2.0.0
+
+### Major Changes
+
+- vite 8 upgrade
+
+### Patch Changes
+
+- Updated dependencies
+  - @ebay/muse-core@2.0.0
+  - @ebay/muse-dev-utils@2.0.0
+  - @ebay/muse-modules-analyzer@1.0.19
+  - @ebay/muse-simple-server@1.0.37
+
 ## 1.0.34
 
 ### Patch Changes

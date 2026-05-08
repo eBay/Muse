@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "MSP (Muse SDK Presets)",
+  "type": "object",
+  "additionalProperties": {
+    "type": "object",
+    "properties": {
+      "description": { "type": "string" },
+      "creation": { "type": "string" },
+      "author": { "type": "string" },
+      "extends": { "type": "string" },
+      "versions": {
+        "type": "object",
+        "additionalProperties": { "type": "string" }
+      }
+    },
+    "additionalProperties": true
+  }
+}

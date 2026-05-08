@@ -1,5 +1,10 @@
 {
   "name": "@ebay/muse-dashboard",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ebay/Muse",
+    "directory": "ui-plugins/muse-dashboard"
+  },
   "version": "1.1.2",
   "type": "module",
   "muse": {
@@ -10,7 +15,8 @@
     "type": "normal"
   },
   "files": [
-    "build"
+    "build",
+    "MUSE_README.md"
   ],
   "dependencies": {
     "@ebay/muse-lib-antd": "^1.2.13",

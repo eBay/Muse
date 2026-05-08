@@ -1,5 +1,10 @@
 {
   "name": "demo-init-plugin",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ebay/Muse",
+    "directory": "examples/demo-init-plugin"
+  },
   "version": "1.0.0",
   "description": "",
   "type": "module",

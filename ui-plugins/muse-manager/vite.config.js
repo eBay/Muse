@@ -1,5 +1,5 @@
 import { defineConfig, loadEnv } from 'vite';
-import react from '@vitejs/plugin-react-swc';
+import react from '@vitejs/plugin-react';
 import museVitePlugin from '@ebay/muse-vite-plugin';
 
 export default defineConfig(({ mode }) => {
@@ -9,8 +9,9 @@ export default defineConfig(({ mode }) => {
       'process.env.REACT_APP_MUSE_API_ENDPOINT': JSON.stringify(env.REACT_APP_MUSE_API_ENDPOINT),
     },
     server: {
-      host: 'local.cloud.ebay.com',
+      cors: true,
     },
+
     plugins: [react(), museVitePlugin()],
   };
 });

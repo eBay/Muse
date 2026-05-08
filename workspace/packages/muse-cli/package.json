@@ -1,6 +1,11 @@
 {
   "name": "@ebay/muse-cli",
-  "version": "1.0.34",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ebay/Muse",
+    "directory": "workspace/packages/muse-cli"
+  },
+  "version": "2.0.0",
   "main": "index.js",
   "bin": {
     "muse": "./bin/muse.js"
@@ -12,6 +17,7 @@
   ],
   "dependencies": {
     "@ebay/muse-core": "workspace:^",
+    "@ebay/muse-dev-utils": "workspace:^",
     "@ebay/muse-modules-analyzer": "workspace:^",
     "@ebay/muse-simple-server": "workspace:^",
     "chalk": "4.1.2",

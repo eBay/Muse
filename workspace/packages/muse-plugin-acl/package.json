@@ -1,6 +1,11 @@
 {
   "name": "@ebay/muse-plugin-acl",
-  "version": "1.0.19",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ebay/Muse",
+    "directory": "workspace/packages/muse-plugin-acl"
+  },
+  "version": "1.0.20",
   "description": "",
   "main": "./lib/index.js",
   "scripts": {

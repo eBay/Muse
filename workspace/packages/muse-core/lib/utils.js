@@ -221,6 +221,9 @@ const parseRegistryKey = (key) => {
       type: 'request',
       id: arr[1].replace('.yaml', ''),
     };
+  } else if (key === '/msp.yaml' || key === 'msp.yaml') {
+    // validate msp.yaml with keypath pattern: /msp.yaml
+    return { type: 'msp' };
   }
   return null;
 };

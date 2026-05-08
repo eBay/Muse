@@ -1,5 +1,10 @@
 {
   "name": "muse-runner-ui",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ebay/Muse",
+    "directory": "ui-plugins/muse-runner-ui"
+  },
   "version": "1.0.0",
   "type": "module",
   "muse": {
@@ -31,7 +36,7 @@
     "@ebay/muse-lib-react": "^1.3.2",
     "@ebay/muse-vite-plugin": "^1.0.55",
     "@vitejs/plugin-react": "^4.2.1",
-    "axios": "^1.5.1",
+    "axios": "^1.15.2",
     "js-yaml": "^4.1.0",
     "less": "^4.2.0",
     "rspv2": "^2.0.4",
