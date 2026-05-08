@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import flat from 'flat';
+import { flatten as flat } from 'flat';
 import _ from 'lodash';
 import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
 import { Modal, message, Form, Alert } from 'antd';
