@@ -5,7 +5,7 @@
     "url": "https://github.com/ebay/Muse",
     "directory": "workspace/packages/muse-simple-server"
   },
-  "version": "1.0.36",
+  "version": "1.0.37",
   "main": "index.js",
   "license": "MIT",
   "files": [

@@ -1,5 +1,18 @@
 # @ebay/muse-dev-utils
 
+## 2.0.0
+
+### Major Changes
+
+- vite 8 upgrade
+
+### Patch Changes
+
+- Updated dependencies
+  - @ebay/muse-core@2.0.0
+  - @ebay/muse-modules@2.0.0
+  - @ebay/muse-express-middleware@2.0.0
+
 ## 1.0.73
 
 ### Patch Changes
