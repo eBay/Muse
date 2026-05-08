@@ -5,7 +5,7 @@
     "url": "https://github.com/ebay/Muse",
     "directory": "workspace/packages/muse-modules-analyzer"
   },
-  "version": "1.0.18",
+  "version": "1.0.19",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
