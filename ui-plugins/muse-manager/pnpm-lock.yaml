@@ -714,6 +714,21 @@ packages:
       - supports-color
     dev: true
 
+  /@ebay/muse-vite-plugin@1.0.56(@ebay/muse-modules-analyzer@1.0.18)(express@4.22.1)(vite@8.0.5):
+    resolution: {integrity: sha512-LTvqHQSBWJzxnHsbVAjlNRSAxpC3/pmYtKZ4hsXV/U0T15VO8JGimfeEh0WVz88lZsRr+cLIMjKECq8TkvBz5Q==}
+    peerDependencies:
+      vite: ^5.2.11
+    dependencies:
+      '@ebay/muse-core': 1.0.45
+      '@ebay/muse-dev-utils': 1.0.73(@ebay/muse-core@1.0.45)(@ebay/muse-modules-analyzer@1.0.18)(express@4.22.1)
+      '@ebay/muse-modules': 1.0.29
+      fs-extra: 10.1.0
+      vite: 8.0.5(@emnapi/core@1.9.2)(@emnapi/runtime@1.9.2)(less@4.4.2)
+    transitivePeerDependencies:
+      - '@ebay/muse-modules-analyzer'
+      - express
+    dev: true
+
   /@ebay/nice-form-react@2.0.3:
     resolution: {integrity: sha512-XeRRL3bwR5GYwc6hwuiNjzFRDxG7wYeyR4kO7uRBVhzlR2iyW/JXDwgerbSWB5RtwiVULT28n3GQpJpEiBNeJg==}
     dev: true
