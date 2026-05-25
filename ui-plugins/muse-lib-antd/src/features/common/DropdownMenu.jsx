@@ -35,7 +35,7 @@ export default function DropdownMenu({
   size,
 }) {
   if (extPoint) {
-    plugin.invoke(extPoint, items, ...extPointParams);
+    plugin.invoke(extPoint, items, ...(extPointParams || []));
     plugin.sort(items);
   }
 

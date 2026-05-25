@@ -1,621 +1,370 @@
 # Plugin Integration Guide: @ebay/muse-lib-react
 
-**Generated**: 2026-03-28
+**Generated**: 2026-05-21
 **Plugin Type**: lib
 
 ---
 
 ## 1. Plugin Purpose & Overview
 
-`@ebay/muse-lib-react` is the **foundational React library plugin** for MUSE applications. As a lib-type plugin with app entry capabilities, it serves three critical roles:
+### What This Plugin Does
 
-1. **React Application Bootstrap** - Creates the React root element, initializes the application, and renders the main component tree with all providers (Redux, React Router, React Query, Nice Modal)
-
-2. **Shared Module Provider** - Exports commonly-used React libraries as shared modules to prevent duplicate dependencies across plugins:
-   - `react-loadable` - Code splitting and lazy loading
-   - `lodash` - Utility functions
-   - `react-use` - Collection of React hooks
-   - `react-router-dom` v6 - Client-side routing
-   - `@tanstack/react-query` v4 - Server state management
-
-3. **Extension Point Foundation** - Defines comprehensive extension points enabling other plugins to:
-   - Customize routing and homepage
-   - Extend Redux store with plugin-specific reducers
-   - Modify the provider stack
-   - Define main layout and root-level components
-   - Hook into application lifecycle events
+`@ebay/muse-lib-react` is the foundational React lib plugin for the MUSE micro-frontends framework. It bootstraps the React application (creates the React DOM root and renders the app), assembles the provider stack (Redux, React Query, React Router, NiceModal, SubApp context), builds the route tree from contributions across all plugins, and combines Redux reducers from all loaded plugins into a single store.
 
 ### Key Features
 
-- **Provider Stack Management**: Ordered provider chain (React Query → Redux → SubApp Context → Nice Modal → React Router) with extension points at every stage
-- **Flexible Routing**: Supports Browser, Hash, and Memory routers with React Router v6, backwards-compatible with v3-style route configuration
-- **Redux Integration**: Pre-configured Redux store with Thunk middleware, Redux Logger (dev), and DevTools support
-- **Sub-App Support**: Built-in iframe-based sub-application system for embedding external MUSE apps
-- **Lifecycle Hooks**: Extension points for initialization (`beforeRender`, `afterRender`, `onReady`)
+- **App bootstrapping** — Creates and renders the React root into `#muse-react-root` on demand, invokes lifecycle hooks before and after render.
+- **Provider stack** — Builds the ordered React provider chain (React Query → Redux → SubApp Context → NiceModal → Router) and makes it extensible via extension points.
+- **Route assembly** — Collects route definitions from all loaded plugins, normalizes absolute/parent routes, resolves the homepage component, and renders with React Router v7.
+- **Redux store** — Combines built-in reducers with plugin-contributed reducers (both plugin-scoped and root-level).
+- **Shared module exports** — Bundles React ecosystem libraries (React Router, React Query, lodash, react-use, react-loadable) so all normal plugins can use them without duplicating them in their own bundles.
+- **Utility primitives** — Exports `extendArray`, `useExtPoint`, and `Nodes` to help other plugins build their own extensible arrays and UI node lists.
+
+### Plugin Type: lib
+
+As a `lib` plugin with `muse.isAppEntry: true`, this plugin loads before all normal plugins and serves two roles: it **provides shared runtime modules** (React, Redux, React Router, etc.) to every normal plugin via the MUSE build system's module federation, and it **acts as the application entry point** that renders the React tree. Normal plugins must never bundle these libraries themselves; they receive them from this plugin at runtime.
 
 ---
 
 ## 2. Extension Points Exposed
 
-This plugin exposes extension points that allow other plugins to customize and extend the React application. Extension points are organized into four categories:
+This plugin exposes the following extension points that other plugins can implement to extend its functionality.
 
-### 2.1 Application Lifecycle
+### Summary
 
-Extension points for hooking into application initialization:
+- **Total Extension Points**: 15
+- **Categories**: Root Lifecycle, Provider Stack, Routing, Redux, App Shell, Utility
+
+### Extension Point List
 
 #### `root.beforeRender`
-- **Type**: `Function`
-- **Purpose**: Execute logic before the React root element is created and rendered
-- **Use Case**: Early initialization tasks like setting up global state, registering event listeners, or configuring third-party libraries
-- **Invocation**: Called in `src/index.js:26` before `createRoot()`
-- **Context**: Runs after all plugins are loaded but before any React rendering
+
+- **Purpose**: Execute initialization logic before the React root is created and rendered. Use this for side effects that must complete before any React component mounts.
+- **When Invoked**: Synchronously before `createRoot().render()` is called.
+- **Context Parameters**: none
+- **Expected Return**: ignored
+- **Use Case Example**: Injecting global CSS variables, initializing an analytics library, or pre-fetching critical configuration.
+- **File Reference**: `src/index.jsx:26`
 
 #### `root.afterRender`
-- **Type**: `Function`
-- **Purpose**: Execute logic immediately after the React root element is rendered
-- **Use Case**: Post-render initialization like focusing elements, starting analytics, or triggering initial data fetches
-- **Invocation**: Called in `src/index.js:31` after `root.render(<Root />)`
-- **Context**: Runs before `onReady`, React tree is mounted but may not be fully painted
+
+- **Purpose**: Execute logic immediately after `root.render()` is called (before React has painted).
+- **When Invoked**: Synchronously after `root.render(<Root />)`.
+- **Context Parameters**: none
+- **Expected Return**: ignored
+- **Use Case Example**: Starting a performance measurement timer or notifying a loading screen manager.
+- **File Reference**: `src/index.jsx:31`
 
 #### `onReady`
-- **Type**: `Function`
-- **Purpose**: Execute logic after the application is fully mounted to the DOM
-- **Use Case**: Final initialization tasks that require the full component tree to be ready
-- **Invocation**: Called in `src/index.js:33` as the last step of `renderApp()`
-- **Context**: Complete application ready, all components mounted
 
-### 2.2 Routing & Navigation
-
-Extension points for customizing application routes and routing behavior:
-
-#### `route`
-- **Type**: `MuseRoute | MuseRoute[]`
-- **Purpose**: Register route definitions for plugin-specific pages
-- **Use Case**: Add new pages/routes to the application
-- **Collection**: Routes collected in `src/common/routeConfig.js:87` via `plugin.invoke('!route')`
-- **Route Structure**:
-  - `path`: URL path (string or array of strings)
-  - `component`: React component to render
-  - `childRoutes`: Nested routes
-  - `parent`: ID of parent route (moves route to parent's `childRoutes`)
-  - `isIndex`: Mark as index route (duplicated to path='')
-  - `id`: Unique identifier for route (enables `parent` references)
-- **Special Behavior**:
-  - Routes with `path` starting with `/` are moved to top level
-  - Routes with `parent` property are relocated to parent's `childRoutes`
-  - Array paths are expanded to multiple route objects
-- **File Reference**: `src/common/routeConfig.js:32-132`
-
-#### `routerProps`
-- **Type**: `Record<string, any>`
-- **Purpose**: Merge additional props into the React Router `RouterProvider` component
-- **Use Case**: Customize router behavior (e.g., future flags, error handlers)
-- **Collection**: First contribution used via `plugin.invoke('!routerProps')[0]` in `src/Root.js:140`
-- **Note**: Props are merged with defaults (`basename`, `router`, `navigator`)
-- **File Reference**: `src/Root.js:140-177`
-
-### 2.3 Provider Stack Customization
-
-Extension points for modifying the provider chain that wraps the application. Providers execute in order from outer to inner (lower order = outer wrapper).
-
-#### `root.preProcessProviders`
-- **Type**: `(context: { providers: ProviderType[] }) => void`
-- **Purpose**: Modify or remove built-in providers before custom providers are collected
-- **Use Case**: Disable default providers (e.g., remove Redux if using alternative state management)
-- **Invocation Order**: 1st - called by `extendArray()` in `src/Root.js:181`
-- **Context**: `{ providers }` array of default providers (React Query, Redux, SubApp Context, Nice Modal, React Router)
-- **File Reference**: `src/utils.js:17`, `src/Root.js:144-181`
-
-#### `root.getProviders`
-- **Type**: `(context: { providers: ProviderType[] }) => ProviderType | ProviderType[] | void`
-- **Purpose**: Contribute additional providers to wrap the application
-- **Use Case**: Add custom providers (e.g., theme provider, i18n provider, custom context)
-- **Invocation Order**: 2nd - called by `extendArray()` in `src/Root.js:181`
-- **Return**: Single provider, array of providers, or nothing
-- **Provider Structure**:
-  - `order`: Rendering order (lower = outer, default sort)
-  - `key`: Unique identifier
-  - `provider`: React component (must accept `children` prop)
-  - `props`: Props object for provider
-  - `renderProvider`: Custom render function `(children) => ReactNode` (alternative to `provider`)
-- **File Reference**: `src/utils.js:18`, `src/Root.js:144-192`
-
-#### `root.processProviders`
-- **Type**: `(context: { providers: ProviderType[] }) => void`
-- **Purpose**: Modify the collected providers array after all contributions
-- **Use Case**: Reorder providers, modify provider props, or conditionally add/remove providers
-- **Invocation Order**: 3rd - called by `extendArray()` in `src/Root.js:181`
-- **Context**: `{ providers }` includes both built-in and contributed providers
-- **File Reference**: `src/utils.js:20`, `src/Root.js:181`
-
-#### `root.postProcessProviders`
-- **Type**: `(context: { providers: ProviderType[] }) => void`
-- **Purpose**: Final opportunity to modify providers before rendering
-- **Use Case**: Last-minute adjustments or validations
-- **Invocation Order**: 4th (final) - called by `extendArray()` in `src/Root.js:181`
-- **Note**: After this, providers are sorted by `order` and rendered
-- **File Reference**: `src/utils.js:21`, `src/Root.js:181`
+- **Purpose**: Execute logic after the application is fully mounted to the DOM.
+- **When Invoked**: After `root.afterRender`, still synchronous on the same tick.
+- **Context Parameters**: none
+- **Expected Return**: ignored
+- **Use Case Example**: Hiding a static HTML splash screen, signalling to an E2E test harness that the app is ready.
+- **File Reference**: `src/index.jsx:33`
 
 #### `root.renderChildren`
-- **Type**: `(children: ReactNode) => ReactNode`
-- **Purpose**: Wrap the root element with custom components
-- **Use Case**: Alternative to `getProviders` for wrapping the app (less recommended)
-- **Collection**: All contributions applied sequentially in `src/Root.js:105-110`
-- **Note**: Prefer `getProviders` for adding providers; this is for non-provider wrappers
-- **File Reference**: `src/Root.js:104-111`
 
-### 2.4 Layout & UI
+- **Purpose**: Wrap the rendered route tree in additional React components. Each implementer receives the current children and must return the (potentially wrapped) children.
+- **When Invoked**: During `Root` render, before the provider chain is built.
+- **Context Parameters**: `children` — `React.ReactNode` — the current route element tree
+- **Expected Return**: `React.ReactNode` — the (wrapped or unchanged) children
+- **Use Case Example**: Wrapping the entire app in an error boundary, a theme context, or a drag-and-drop context.
+- **File Reference**: `src/Root.jsx:104`
 
-Extension points for customizing the application's visual structure:
+#### `routerProps`
+
+- **Purpose**: Merge additional props directly into the `RouterProvider` component.
+- **When Invoked**: During `Root` render, when the Router is configured.
+- **Context Parameters**: none
+- **Expected Return**: `Record<string, any>` — props merged into `RouterProvider`. Only the first contribution is used.
+- **Use Case Example**: Providing a custom `future` flag object for React Router v7 feature flags.
+- **File Reference**: `src/Root.jsx:140`
+
+#### `root.preProcessProviders`
+
+- **Purpose**: Inspect or mutate the initial providers array before additional providers from `root.getProviders` are added. Use this to remove or reorder built-in providers.
+- **When Invoked**: During `Root` render, via `extendArray` before provider collection.
+- **Context Parameters**: `{ providers: ProviderType[] }` — the current mutable array of built-in providers
+- **Expected Return**: `string | boolean` — return value is used by `jsPlugin.sort` ordering
+- **Use Case Example**: Removing the built-in Redux `Provider` to replace it with a custom store setup.
+- **File Reference**: `src/Root.jsx:181`, `src/utils.js:17`
+
+#### `root.getProviders`
+
+- **Purpose**: Contribute one or more additional React context providers to be inserted into the provider stack at a specific order position.
+- **When Invoked**: During `Root` render, via `extendArray` during provider collection.
+- **Context Parameters**: `{ providers: ProviderType[] }` — the current providers array (after pre-processing)
+- **Expected Return**: `ProviderType | ProviderType[] | void` — provider descriptor(s) to add
+- **Use Case Example**: Adding an Apollo Client provider at `order: 25` (between Redux and SubApp context).
+- **File Reference**: `src/Root.jsx:181`, `src/utils.js:18`
+
+#### `root.processProviders`
+
+- **Purpose**: Post-process the combined providers array after all `getProviders` contributions have been collected.
+- **When Invoked**: During `Root` render, via `extendArray` after collection.
+- **Context Parameters**: `{ providers: ProviderType[] }` — the full combined providers array
+- **Expected Return**: `string | void` — used for sort ordering
+- **Use Case Example**: Validating that required providers are present and throwing a descriptive error if not.
+- **File Reference**: `src/Root.jsx:181`, `src/utils.js:20`
+
+#### `root.postProcessProviders`
+
+- **Purpose**: Final hook to inspect or modify the providers array after all processing is complete.
+- **When Invoked**: During `Root` render, via `extendArray` as the last step.
+- **Context Parameters**: `{ providers: ProviderType[] }` — the finalized providers array
+- **Expected Return**: `void`
+- **Use Case Example**: Logging the final provider stack in development for debugging.
+- **File Reference**: `src/Root.jsx:181`, `src/utils.js:21`
+
+#### `route`
+
+- **Purpose**: Register one or more route definitions into the application's route tree.
+- **When Invoked**: On every render of the `Root` component, when `routeConfig()` rebuilds the route tree.
+- **Context Parameters**: none
+- **Expected Return**: `MuseRoute | MuseRoute[]` — one or more route objects. See `MuseRoute` in `src/muse.d.ts:89`.
+- **Use Case Example**: Adding `/settings`, `/reports`, or any feature page routes.
+- **File Reference**: `src/common/routeConfig.jsx:87`
 
 #### `home.homepage`
-- **Type**: `ComponentType<Object>`
-- **Purpose**: Provide a custom homepage component for the root route `/`
-- **Use Case**: Replace default "Welcome to Muse" page with application-specific homepage
-- **Resolution**: Single contribution used; if multiple, checks `window.MUSE_GLOBAL.homepage` for preference
-- **Collection**: Via `plugin.getPlugins('home.homepage')` in `src/common/routeConfig.js:96-111`
-- **Default**: If not provided, uses built-in `Homepage` component (`src/features/home/Homepage.js`)
-- **File Reference**: `src/common/routeConfig.js:94-116`
+
+- **Purpose**: Replace the default homepage component rendered at the root path `/`.
+- **When Invoked**: During route assembly in `routeConfig()`.
+- **Context Parameters**: none
+- **Expected Return**: `ComponentType` — the React component to render at `/`. Only one plugin should contribute this.
+- **Use Case Example**: A dashboard plugin providing a `DashboardHomepage` component.
+- **File Reference**: `src/common/routeConfig.jsx:96`
 
 #### `home.mainLayout`
-- **Type**: `ComponentType<{ children: ReactNode }>`
-- **Purpose**: Provide a main layout component that wraps all routes
-- **Use Case**: Define application shell (header, sidebar, footer) that persists across pages
-- **Collection**: Via `plugin.invoke('!home.mainLayout')` in `src/features/home/App.js:10`
-- **Constraint**: Only one layout allowed; multiple contributions will show error message
-- **Note**: When using custom layout, undeploy `@ebay/muse-layout-antd` if present
-- **File Reference**: `src/features/home/App.js:9-22`
+
+- **Purpose**: Provide the main layout shell component that wraps all page content. Only one plugin should contribute this — multiple contributions render an error message.
+- **When Invoked**: On every render of the `App` shell component.
+- **Context Parameters**: none
+- **Expected Return**: `ComponentType` — a layout component that accepts `children`. Only the first contribution is used.
+- **Use Case Example**: `muse-layout-antd` provides a sidebar/header layout via this extension point.
+- **File Reference**: `src/features/home/App.jsx:10`
 
 #### `rootComponent`
-- **Type**: `ComponentType<Object>`
-- **Purpose**: Render initialization components at app root (should return `null`, no UI)
-- **Use Case**: Global initialization logic that needs component lifecycle (e.g., modal managers, global listeners)
-- **Collection**: All contributions rendered in `src/features/home/App.js:26-29`
-- **Important**: Components should not render visible UI, only invisible initialization/context
-- **File Reference**: `src/features/home/App.js:6-30`
 
-### 2.5 State Management
-
-Extension points for extending the Redux store:
+- **Purpose**: Mount an invisible initialization React component into the app root. The component should return `null` — it exists only for side effects (subscriptions, global listeners, etc.).
+- **When Invoked**: On every render of the `App` shell component.
+- **Context Parameters**: none
+- **Expected Return**: `ComponentType` — a component that renders `null`. All contributing plugins' components are rendered simultaneously.
+- **Use Case Example**: A plugin that listens for global WebSocket messages and dispatches Redux actions.
+- **File Reference**: `src/features/home/App.jsx:7`
 
 #### `reducer`
-- **Type**: `Reducer<any, AnyAction>`
-- **Purpose**: Contribute a plugin-level reducer to the Redux store
-- **Use Case**: Add plugin-specific state management to Redux
-- **Storage Key**: Auto-generated as `camelCase('plugin-' + pluginName)`
-- **Example**: Plugin `@ebay/my-plugin` → state key `pluginEbayMyPlugin`
-- **Collection**: Via `plugin.getPlugins('reducer')` in `src/common/rootReducer.js:24-31`
-- **File Reference**: `src/common/rootReducer.js:23-31`
+
+- **Purpose**: Contribute a plugin-scoped Redux reducer. The reducer is automatically mounted under the key `plugin-<pluginName>` (camelCased) in the store.
+- **When Invoked**: When the Redux store is created (once at startup).
+- **Context Parameters**: none
+- **Expected Return**: `Reducer<any, AnyAction>` — a Redux reducer function
+- **Use Case Example**: A plugin contributing its own Redux slice under `pluginMyPlugin` in the store.
+- **File Reference**: `src/common/rootReducer.js:24`
 
 #### `reducers`
-- **Type**: `Record<string, Reducer<any, AnyAction>>`
-- **Purpose**: Contribute root-level reducers with custom state keys
-- **Use Case**: Add multiple reducers or control exact state key names
-- **Example**: `{ myData: myDataReducer, config: configReducer }` → `state.myData`, `state.config`
-- **Collection**: Via `plugin.getPlugins('reducers')` in `src/common/rootReducer.js:33-37`
-- **Note**: Provides more control than `reducer` extension point
-- **File Reference**: `src/common/rootReducer.js:33-39`
+
+- **Purpose**: Contribute one or more root-level Redux reducers with custom store branch keys (unlike `reducer` which auto-generates the key).
+- **When Invoked**: When the Redux store is created (once at startup).
+- **Context Parameters**: none
+- **Expected Return**: `Record<string, Reducer<any, AnyAction>>` — a map of store key → reducer
+- **Use Case Example**: A plugin that needs its state at `store.auth` or `store.featureFlags` instead of an auto-generated key.
+- **File Reference**: `src/common/rootReducer.js:33`
+
+### Usage Example
+
+```javascript
+// Extension points use nested object properties — NOT string paths
+plugin.register({
+  name: 'my-plugin',
+
+  // Lifecycle hooks
+  onReady: () => {
+    console.log('App is ready');
+  },
+
+  // Route contribution
+  route: [
+    { path: 'settings', component: SettingsPage },
+    { path: 'reports', component: ReportsPage },
+  ],
+
+  // Redux reducer
+  reducer: myPluginReducer,
+
+  // Provider injection
+  root: {
+    getProviders: ({ providers }) => ({
+      order: 25,
+      key: 'my-context',
+      provider: MyContextProvider,
+      props: { value: myContextValue },
+    }),
+    beforeRender: () => {
+      initAnalytics();
+    },
+  },
+
+  // Layout/homepage
+  home: {
+    homepage: MyHomepageComponent,
+    mainLayout: MyLayoutComponent, // WARNING: only one plugin should provide this
+  },
+
+  // Invisible init component
+  rootComponent: MyGlobalListenerComponent,
+});
+```
 
 ---
 
 ## 3. Extension Points Contributed
 
-This plugin does not contribute to extension points from other plugins. As a foundational lib plugin, it defines the extension point architecture but does not extend external plugins.
+This plugin does not extend other plugins via extension points. It is the foundational bootstrap plugin — it only **exposes** extension points for others to implement.
 
 ---
 
 ## 4. Exported Functionality
 
-As a lib-type plugin, `@ebay/muse-lib-react` exports shared modules and utilities for use by other plugins.
+This plugin exports the following functionality for use by other plugins.
 
-### 4.1 Shared Modules (Module Federation)
+**Access via**: Shared modules are available automatically in normal plugins via the MUSE build system. Direct exports are accessible via `plugin.getPlugin('@ebay/muse-lib-react').exports` or direct source imports.
 
-These modules are exported via the default export in `src/index.js:41` and made available to other plugins through MUSE's module sharing system (webpack/vite plugin externalization):
+### Shared Modules (Module Federation)
 
-#### `Loadable`
-- **Source**: `react-loadable` package
-- **Purpose**: Code splitting and lazy loading of React components
-- **Use Case**: Improve bundle size and load time by dynamically importing components
-- **File Reference**: `src/index.js:7,41`
+As a `lib` plugin, `@ebay/muse-lib-react` makes the following libraries available as shared singletons to all normal plugins at runtime. Normal plugins must **not** bundle these themselves — they receive them from this plugin via the MUSE vite/webpack build plugin.
 
-#### `_` (lodash)
-- **Source**: `lodash` package
-- **Purpose**: Utility functions for arrays, objects, strings, etc.
-- **Use Case**: Common data manipulation without importing lodash separately
-- **File Reference**: `src/index.js:8,41`
+The shared module set is determined by the transitive imports of `src/index.jsx`. The following are explicitly re-exported:
 
-#### `reactUse`
-- **Source**: `react-use` package
-- **Purpose**: Collection of essential React hooks
-- **Use Case**: Access common hooks (useMount, useToggle, etc.) without separate package
-- **File Reference**: `src/index.js:9,41`
+| Shared Module | Package | Version | Export Key |
+|---|---|---|---|
+| `Loadable` | `react-loadable` | 5.5.0 | `Loadable` |
+| `_` (lodash) | `lodash` | 4.18.1 | `_` |
+| `reactUse` | `react-use` | 17.6.0 | `reactUse` |
+| `reactRouterDom` | `react-router-dom` | 7.15.0 | `reactRouterDom` |
+| `reactQuery` | `@tanstack/react-query` | 5.100.9 | `reactQuery` |
 
-#### `reactRouterDom`
-- **Source**: `react-router-dom` v6
-- **Purpose**: React Router v6 routing library
-- **Use Case**: Navigation components (`Link`, `Navigate`) and hooks (`useNavigate`, `useParams`)
-- **File Reference**: `src/index.js:11,41`
+Additionally, all transitive dependencies (including `react`, `react-dom`, `redux`, `react-redux`, `@ebay/nice-modal-react`, `history`) are shared automatically by the MUSE build system.
 
-#### `reactQuery`
-- **Source**: `@tanstack/react-query` v4
-- **Purpose**: Server state management (data fetching, caching, synchronization)
-- **Use Case**: Manage API calls and server state with hooks (`useQuery`, `useMutation`)
-- **File Reference**: `src/index.js:12,41`
+**File Reference**: `src/index.jsx:41`
 
-### 4.2 Utility Components
+### Utilities
 
-These components can be imported from the plugin's `build/` directory by other plugins:
+#### `extendArray(arr, extName, extBase, ...args)`
+
+Makes any array extensible by js-plugin extension points. Invokes four lifecycle hooks in order — `preProcess<Name>`, `get<Name>`, `process<Name>`, `postProcess<Name>` — then sorts the array by `order`.
+
+- **Parameters**: `arr` (mutable array), `extName` (string, capitalized to form hook names), `extBase` (string prefix for hook names), `...args` (passed through to each hook invocation)
+- **Returns**: the mutated `arr`
+- **File Reference**: `src/utils.js:15`
+
+### React Hooks
+
+#### `useExtPoint(extPointName, extArgs)`
+
+A React hook that invokes any extension point and renders all contributed components into a JSX fragment. Returns `{ extNode, values }` where `extNode` is the rendered fragment of all contributions and `values` is state updated when a contribution calls its `callback` prop.
+
+- **Parameters**: `extPointName` (string), `extArgs` (object passed as props to each contributed component)
+- **Returns**: `{ extNode: ReactNode, values: any[] }`
+- **File Reference**: `src/features/common/useExtPoint.jsx:7`
+
+### React Components
 
 #### `Nodes`
-- **Source**: `src/features/common/Nodes.js`
-- **Type**: `ComponentType<{ items: any[], extName: string, extBase: string, extArgs: any }>`
-- **Purpose**: Render a list of components with extension point integration
-- **Use Case**: Create extendable UI component lists (e.g., toolbar buttons, menu items)
-- **Behavior**: Uses `extendArray()` to allow plugins to contribute additional nodes
-- **Exported**: `src/features/common/index.js:3`
-- **File Reference**: `src/features/common/Nodes.js:1-21`
 
-#### `useExtPoint`
-- **Source**: `src/features/common/useExtPoint.js`
-- **Type**: `(extPointName: string, extArgs?: any) => { extNode: ReactNode, values: any[] }`
-- **Purpose**: React hook for consuming extension points within components
-- **Use Case**: Render extension point contributions as React elements and collect callback values
-- **Returns**:
-  - `extNode`: React fragment containing all extension point components
-  - `values`: Array of values passed to callbacks
-- **Exported**: `src/features/common/index.js:4`
-- **File Reference**: `src/features/common/useExtPoint.js:1-29`
+Renders an extensible list of nodes where each node can be a render function, raw content, or component. Internally uses `extendArray` to allow other plugins to inject items.
 
-#### `ErrorBoundary`
-- **Source**: `src/features/common/ErrorBoundary.js`
-- **Type**: `ComponentType<{ children: ReactNode }>`
-- **Purpose**: React error boundary component
-- **Use Case**: Catch and handle React errors gracefully
-- **Exported**: `src/features/common/index.js:2`
+- **Props**: `items` (array), `extName` (string), `extBase` (string), `extArgs` (object)
+- **File Reference**: `src/features/common/Nodes.jsx:8`
 
-#### `PageNotFound`
-- **Source**: `src/features/common/PageNotFound.js`
-- **Type**: `ComponentType<Object>`
-- **Purpose**: Default 404 page component
-- **Use Case**: Fallback for unmatched routes
-- **Exported**: `src/features/common/index.js:1`
+### Using Shared Modules
 
-### 4.3 Sub-App Utilities
+In normal plugins built with `@ebay/muse-vite-plugin` or `@ebay/muse-webpack-plugin`, these modules are automatically externalized and resolved from `@ebay/muse-lib-react` at runtime:
 
-Components and utilities for the sub-application feature:
+```javascript
+// In a normal plugin — these are resolved from muse-lib-react at runtime,
+// NOT bundled into the plugin's own bundle.
+import { useNavigate, Link } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import _ from 'lodash';
+```
 
-#### `SubAppContainer`
-- **Source**: `src/features/sub-app/SubAppContainer.js`
-- **Type**: `ComponentType<{ subApp: SubAppConfig, subApps: SubAppConfig[] }>`
-- **Purpose**: Renders an external MUSE app in an iframe
-- **Use Case**: Embed other MUSE applications within the main app
-- **Exported**: `src/features/sub-app/index.js:1`
-
-#### `FixedSubAppContainer`
-- **Source**: `src/features/sub-app/FixedSubAppContainer.js`
-- **Type**: `ComponentType<Object>`
-- **Purpose**: Fixed-position sub-app container
-- **Use Case**: Persistent sub-app that doesn't follow routing
-- **Exported**: `src/features/sub-app/index.js:2`
-
-#### `SubAppContext`
-- **Source**: `src/features/sub-app/SubAppContext.js`
-- **Type**: `React.Context<any>`
-- **Purpose**: React context for parent-child sub-app communication
-- **Use Case**: Share data between parent app and embedded sub-apps
-- **Exported**: `src/features/sub-app/index.js:4`
-
-#### `LoadingSkeleton`
-- **Source**: `src/features/sub-app/LoadingSkeleton.js`
-- **Type**: `ComponentType<Object>`
-- **Purpose**: Loading placeholder for sub-apps
-- **Use Case**: Display loading state while sub-app loads
-- **Exported**: `src/features/sub-app/index.js:3`
-
-#### `C2SProxyFailed`
-- **Source**: `src/features/sub-app/C2SProxyFailed.js`
-- **Type**: `ComponentType<Object>`
-- **Purpose**: Error component for sub-app proxy failures
-- **Use Case**: Display when C2S proxy configuration fails
-- **Exported**: `src/features/sub-app/index.js:5`
-
-#### `useSetSubAppState`
-- **Source**: `src/features/sub-app/redux/setSubAppState.js`
-- **Type**: `() => (state: any) => void`
-- **Purpose**: Hook for setting sub-app state from Redux
-- **Use Case**: Update sub-app context from parent app
-- **Exported**: `src/features/sub-app/redux/hooks.js:1`
-
-### 4.4 Common Utilities
-
-#### `extendArray`
-- **Source**: `src/utils.js:15-24`
-- **Type**: `(arr: any[], extName: string, extBase: string, ...args: any[]) => any[]`
-- **Purpose**: Makes an array extensible via js-plugin extension points
-- **Use Case**: Internal utility for provider/route extension, can be used by other plugins for custom extension points
-- **Behavior**: Invokes `preProcess`, `get`, `process`, `postProcess` extension points, flattens contributions, sorts by order
-- **Example**:
-  ```javascript
-  const items = [];
-  extendArray(items, 'items', 'myPlugin.customExt', { context: 'data' });
-  // Invokes: myPlugin.customExt.preProcessItems
-  //          myPlugin.customExt.getItems
-  //          myPlugin.customExt.processItems
-  //          myPlugin.customExt.postProcessItems
-  ```
-- **Exported**: `src/utils.js:26`
-- **File Reference**: `src/utils.js:15-24`
-
-### 4.5 Redux Store Access
-
-#### `store`
-- **Source**: `src/common/store.js`
-- **Type**: Redux Store wrapper
-- **Purpose**: Access to the global Redux store
-- **Use Case**: Dispatch actions or access state outside React components
-- **Methods**:
-  - `getStore()`: Returns the Redux store instance
-  - `getState()`: Returns current state
-  - `dispatch(action)`: Dispatches an action
-  - `subscribe(listener)`: Subscribes to store changes
-  - `replaceReducer(reducer)`: Hot-swaps reducers
-- **File Reference**: `src/common/store.js:1-21`
-
-#### `history`
-- **Source**: `src/common/history.js`
-- **Type**: History object (from `history` package)
-- **Purpose**: Programmatic navigation outside React components
-- **Use Case**: Navigate to routes from Redux actions or non-React code
-- **File Reference**: `src/common/history.js`
+**Note**: Exports create tight coupling. Prefer extension points for loose coupling when possible.
 
 ---
 
-## 5. Integration Examples
+## 5. Consumed Exports (Runtime Dependencies)
 
-**CRITICAL**: Extension points are **nested object properties**, NOT string paths!
+This plugin does not consume exports from other plugins. All inter-plugin collaboration is done through extension points (loose coupling).
 
-### Example 1: Adding a Custom Route
+---
 
-```javascript
-// ✅ CORRECT - nested object properties
-plugin.register({
-  name: 'my-plugin',
-  route: {
-    path: '/my-page',
-    component: MyPageComponent,
-    childRoutes: [
-      {
-        path: 'details/:id',
-        component: DetailsComponent
-      }
-    ]
-  }
-});
+## 6. Integration Examples
 
-// ❌ INCORRECT - DO NOT use string paths
-plugin.register({
-  name: 'my-plugin',
-  'route': { ... }  // Works, but 'route' doesn't need quotes
-});
-```
-
-### Example 2: Contributing Multiple Routes
+### Extending This Plugin
 
 ```javascript
+// Extension points use nested object properties — NOT string paths
 plugin.register({
   name: 'my-plugin',
+
+  // Add application routes
   route: [
-    { path: '/page1', component: Page1 },
-    { path: '/page2', component: Page2 },
-    { path: '/page3', component: Page3, parent: 'some-route-id' }
-  ]
-});
-```
+    { path: 'my-feature', component: MyFeaturePage },
+  ],
 
-### Example 3: Customizing Homepage
+  // Redux integration
+  reducer: myFeatureReducer,
 
-```javascript
-import MyHomepage from './MyHomepage';
-
-plugin.register({
-  name: 'my-plugin',
-  home: {
-    homepage: MyHomepage
-  }
-});
-```
-
-### Example 4: Adding Custom Layout
-
-```javascript
-import MyLayout from './MyLayout';
-
-plugin.register({
-  name: 'my-plugin',
-  home: {
-    mainLayout: MyLayout  // Should accept children prop
-  }
-});
-```
-
-### Example 5: Adding Redux Reducer (Plugin-Level)
-
-```javascript
-import myReducer from './redux/reducer';
-
-plugin.register({
-  name: '@ebay/my-plugin',
-  reducer: myReducer
-});
-
-// Redux state will be accessible at:
-// state.pluginEbayMyPlugin
-```
-
-### Example 6: Adding Redux Reducers (Root-Level)
-
-```javascript
-import userReducer from './redux/userReducer';
-import configReducer from './redux/configReducer';
-
-plugin.register({
-  name: 'my-plugin',
-  reducers: {
-    user: userReducer,
-    appConfig: <USER_NAME>
-  }
-});
-
-// Redux state accessible at:
-// state.user
-// state.appConfig
-```
-
-### Example 7: Adding a Custom Provider
-
-```javascript
-import { ThemeProvider } from 'my-theme-library';
-
-plugin.register({
-  name: 'my-plugin',
-  root: {
-    getProviders: () => ({
-      order: 15,  // Between React Query (10) and Redux (20)
-      key: 'theme-provider',
-      provider: ThemeProvider,
-      props: { theme: myTheme }
-    })
-  }
-});
-```
-
-### Example 8: Modifying Existing Providers
-
-```javascript
-plugin.register({
-  name: 'my-plugin',
-  root: {
-    preProcessProviders: ({ providers }) => {
-      // Remove Redux provider
-      const reduxIndex = providers.findIndex(p => p.key === 'redux-provider');
-      if (reduxIndex >= 0) {
-        providers.splice(reduxIndex, 1);
-      }
-    }
-  }
-});
-```
-
-### Example 9: Lifecycle Hooks
-
-```javascript
-plugin.register({
-  name: 'my-plugin',
-  root: {
-    beforeRender: () => {
-      console.log('App is about to render');
-      // Initialize analytics, set up listeners, etc.
-    },
-    afterRender: () => {
-      console.log('App has rendered');
-      // Post-render tasks
-    }
-  },
+  // Root lifecycle
   onReady: () => {
-    console.log('App is fully ready');
-    // Final initialization
-  }
+    console.log('App mounted');
+  },
+
+  // Provider injection
+  root: {
+    getProviders: ({ providers }) => ({
+      order: 25,
+      key: 'my-context',
+      provider: MyContextProvider,
+      props: { store: myStore },
+    }),
+  },
+
+  // Layout/homepage
+  home: {
+    homepage: MyHomepageComponent,
+    mainLayout: MyLayoutComponent, // WARNING: only one plugin should provide this
+  },
+
+  // Invisible init component
+  rootComponent: MyGlobalListenerComponent,
 });
 ```
 
-### Example 10: Using Shared Modules
+### Building Your Own Extensible Array
 
 ```javascript
-// In your plugin code
-const { exports } = plugin.getPlugin('@ebay/muse-lib-react');
-const { _, reactRouterDom, reactQuery } = exports;
+import { extendArray } from '@ebay/muse-lib-react/src/utils';
 
-// Use lodash
-const uniqueItems = _.uniq(items);
-
-// Use React Router
-const { useNavigate, Link } = reactRouterDom;
-
-// Use React Query
-const { useQuery, useMutation } = reactQuery;
+// In your component:
+const menuItems = [...defaultItems];
+extendArray(menuItems, 'menuItems', 'myPlugin', { context: someContext });
+// Now other plugins can implement:
+//   myPlugin.preProcessMenuItems
+//   myPlugin.getMenuItems  (return additional items)
+//   myPlugin.processMenuItems
+//   myPlugin.postProcessMenuItems
 ```
 
-### Example 11: Using Utility Components
+### Using the useExtPoint Hook
 
 ```javascript
-import { Nodes, useExtPoint } from '@ebay/muse-lib-react/build/features/common';
+import useExtPoint from '@ebay/muse-lib-react/src/features/common/useExtPoint';
 
-// Using Nodes component
 function MyToolbar() {
-  const items = [
-    { key: 'btn1', component: Button1, props: { label: 'Click' } }
-  ];
-
-  return (
-    <Nodes
-      items={items}
-      extName="buttons"
-      extBase="myPlugin.toolbar"
-    />
-  );
-}
-
-// Using useExtPoint hook
-function MyComponent() {
-  const { extNode, values } = useExtPoint('myPlugin.customPoint', { data: 123 });
-
-  return <div>{extNode}</div>;
+  const { extNode } = useExtPoint('myPlugin.toolbarItems', { context: 'main' });
+  return <div className="toolbar">{extNode}</div>;
 }
 ```
-
-### Example 12: Root Component for Initialization
-
-```javascript
-function MyInitComponent() {
-  useEffect(() => {
-    // Initialize something globally
-    window.myGlobalState = { ... };
-  }, []);
-
-  return null;  // IMPORTANT: No UI rendering
-}
-
-plugin.register({
-  name: 'my-plugin',
-  rootComponent: MyInitComponent
-});
-```
-
-### Example 13: Custom Router Props
-
-```javascript
-plugin.register({
-  name: 'my-plugin',
-  routerProps: {
-    future: {
-      v7_startTransition: true
-    }
-  }
-});
-```
-
----
-
-## Integration Checklist
-
-When integrating with `@ebay/muse-lib-react`:
-
-- [ ] Ensure plugin type is compatible (normal or lib plugins can extend this)
-- [ ] Use nested object properties for extension points, not string paths
-- [ ] Only one plugin should provide `home.homepage` and `home.mainLayout`
-- [ ] Provider `order` values: lower = outer wrapper (10, 20, 30...)
-- [ ] Redux reducer keys via `reducer` are auto-generated; use `reducers` for custom keys
-- [ ] `rootComponent` must return `null` (no UI)
-- [ ] Routes with absolute paths (`/`) are moved to top level
-- [ ] Shared modules accessed via `plugin.getPlugin('@ebay/muse-lib-react').exports`
-- [ ] Sub-app configuration goes in `window.MUSE_GLOBAL.plugins` under this plugin's `subApps` array

@@ -89,6 +89,7 @@
     ]
   },
   "dependencies": {
-    "@tailwindcss/postcss": "^4.2.4"
+    "@tailwindcss/postcss": "^4.2.4",
+    "@tailwindcss/vite": "^4.3.0"
   }
 }
