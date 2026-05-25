@@ -35,21 +35,11 @@ export default NiceModal.create(function AddEnvModal({ app }) {
       });
       addAppEnv(payload)
         .then((res) => {
-          let content = '';
-          if (values.type === 'production') {
-            content = (
-              <span>
-                The <strong>{values.envName}</strong> environment was successfully created. Please
-                ask for approval in Muse slack channel: #muse.
-              </span>
-            );
-          } else {
-            content = (
-              <span>
-                The <strong>{values.envName}</strong> environment was successfully created.
-              </span>
-            );
-          }
+          const content = (
+            <span>
+              The <strong>{values.envName}</strong> environment was successfully created.
+            </span>
+          );
           syncStatus(app.name);
           Modal.success({
             title: 'Success',
@@ -140,14 +130,6 @@ export default NiceModal.create(function AddEnvModal({ app }) {
         errorMode={'inline'}
         errorProps={{ title: 'Failed to add env.' }}
       />
-      {form.getFieldValue('type') === 'production' ? (
-        <Alert
-          message="NOTE: after creating the production environment here. Please request the approval in Muse slack channel #muse."
-          type="warning"
-          showIcon
-          style={{ marginBottom: '20px' }}
-        />
-      ) : null}
       <Form
         form={form}
         style={{ marginLeft: '-20px', width: '100%' }}
