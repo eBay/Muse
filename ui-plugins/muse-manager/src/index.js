@@ -9,7 +9,7 @@ import JavascriptTimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
 
 import './modals';
-import './style.less';
+import './style.css';
 import { useAbility } from './hooks';
 import ability from './ability';
 import museClient from './museClient';

@@ -1,6 +1,7 @@
 import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import museVitePlugin from '@ebay/muse-vite-plugin';
+import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
@@ -12,6 +13,6 @@ export default defineConfig(({ mode }) => {
       cors: true,
     },
 
-    plugins: [react(), museVitePlugin()],
+    plugins: [react(), museVitePlugin(), tailwindcss()],
   };
 });

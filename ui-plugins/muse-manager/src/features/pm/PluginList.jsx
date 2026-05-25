@@ -182,7 +182,7 @@ export default function PluginList({ app }) {
                   isLatest: true,
                 });
               }}
-              className='text-left px-0 text-wrap h-auto'
+              className="text-left px-0! text-wrap h-auto"
             >
               v{latest.version}
             </Button>
@@ -205,7 +205,7 @@ export default function PluginList({ app }) {
                   release: latest,
                 });
               }}
-              className='text-left px-0 text-wrap h-auto'
+              className="text-left px-0! text-wrap h-auto"
             >
               v{latest.version}
             </Button>

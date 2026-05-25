@@ -131,6 +131,6 @@ function PluginActions({ plugin, app }) {
     appByName,
   });
   actions = actions.filter(Boolean);
-  return <DropdownMenu items={actions} />;
+  return <DropdownMenu items={actions} size="small" />;
 }
 export default PluginActions;
