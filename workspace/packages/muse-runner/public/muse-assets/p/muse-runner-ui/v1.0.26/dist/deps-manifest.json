@@ -1,0 +1,43 @@
+{
+  "content": {
+    "@ebay/muse-lib-react@1.2.20": [
+      "js-plugin@1.1.0/plugin.js",
+      "react@18.2.0/index.js",
+      "lodash@4.17.21/lodash.js",
+      "react-use@17.4.0/esm/index.js",
+      "@ebay/muse-lib-react@1.2.20/src/common/store.js",
+      "style-loader@3.3.1/dist/runtime/injectStylesIntoStyleTag.js",
+      "style-loader@3.3.1/dist/runtime/styleDomAPI.js",
+      "style-loader@3.3.1/dist/runtime/insertBySelector.js",
+      "style-loader@3.3.1/dist/runtime/setAttributesWithoutAttributes.js",
+      "style-loader@3.3.1/dist/runtime/styleTagTransform.js",
+      "style-loader@3.3.1/dist/runtime/insertStyleElement.js",
+      "css-loader@6.7.3/dist/runtime/sourceMaps.js",
+      "css-loader@6.7.3/dist/runtime/api.js",
+      "@tanstack/react-query@4.33.0/build/lib/index.mjs",
+      "react-router-dom@6.15.0/dist/index.js",
+      "@ebay/nice-modal-react@1.2.10/lib/esm/index.js",
+      "react-redux@8.1.2/es/index.js",
+      "prop-types@15.8.1/index.js"
+    ],
+    "@ebay/muse-lib-antd@1.2.22": [
+      "antd@5.10.1/es/index.js",
+      "@ebay/muse-lib-antd@1.2.22/src/features/common/index.js",
+      "@ant-design/icons@5.2.6/es/index.js",
+      "@ebay/nice-form-react@1.0.10/lib/esm/index.js",
+      "@babel/runtime@7.20.13/helpers/regeneratorRuntime.js",
+      "@babel/runtime@7.21.0/helpers/getPrototypeOf.js",
+      "@babel/runtime@7.21.0/helpers/slicedToArray.js",
+      "@babel/runtime@7.21.0/helpers/toConsumableArray.js",
+      "@babel/runtime@7.21.0/helpers/possibleConstructorReturn.js",
+      "@babel/runtime@7.21.0/helpers/classCallCheck.js",
+      "@babel/runtime@7.21.0/helpers/createForOfIteratorHelper.js",
+      "@babel/runtime@7.21.0/helpers/createClass.js",
+      "@babel/runtime@7.21.0/helpers/createSuper.js",
+      "@babel/runtime@7.21.0/helpers/inherits.js",
+      "@babel/runtime@7.21.0/helpers/assertThisInitialized.js",
+      "@babel/runtime@7.21.0/helpers/setPrototypeOf.js",
+      "@babel/runtime@7.21.0/helpers/isNativeReflectConstruct.js"
+    ]
+  }
+}

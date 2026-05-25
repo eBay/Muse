@@ -1,0 +1,10 @@
+{
+  "files": {
+    "main.js": "/main.js",
+    "static/media/vscode.svg": "/static/media/vscode.e44746dcd601802dfb4fe3374cfab5b0.svg",
+    "main.js.map": "/main.js.map"
+  },
+  "entrypoints": [
+    "main.js"
+  ]
+}

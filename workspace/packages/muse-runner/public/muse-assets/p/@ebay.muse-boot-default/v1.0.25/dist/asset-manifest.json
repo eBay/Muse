@@ -1,0 +1,10 @@
+{
+  "files": {
+    "main.js": "/boot.js",
+    "static/media/logo.png": "/static/media/logo.0629cb217459ef0a31a2.png",
+    "boot.js.map": "/boot.js.map"
+  },
+  "entrypoints": [
+    "boot.js"
+  ]
+}
