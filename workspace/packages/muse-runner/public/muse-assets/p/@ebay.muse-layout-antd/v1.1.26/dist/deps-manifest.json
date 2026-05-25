@@ -1,0 +1,19 @@
+{
+  "content": {
+    "@ebay/muse-lib-react@1.2.18": [
+      "js-plugin@1.1.0/plugin.js",
+      "redux@4.2.1/es/redux.js",
+      "@ebay/muse-lib-react@1.2.18/src/common/store.js",
+      "react@18.2.0/index.js",
+      "react-redux@8.1.2/es/index.js",
+      "lodash@4.17.21/lodash.js",
+      "react-router-dom@6.15.0/dist/index.js"
+    ],
+    "@ebay/muse-lib-antd@1.2.22": [
+      "react@18.2.0/jsx-runtime.js",
+      "@ant-design/icons@5.2.6/es/index.js",
+      "antd@5.10.1/es/index.js",
+      "@ebay/muse-lib-antd@1.2.22/src/features/common/index.js"
+    ]
+  }
+}

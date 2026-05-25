@@ -1,0 +1,12 @@
+{
+  "files": {
+    "main.js": "/main.js",
+    "static/js/205.bfaa7a71.chunk.js": "/static/js/205.bfaa7a71.chunk.js",
+    "static/media/lightOn.svg": "/static/media/lightOn.f95be1d2e4156b9a7459.svg",
+    "main.js.map": "/main.js.map",
+    "205.bfaa7a71.chunk.js.map": "/static/js/205.bfaa7a71.chunk.js.map"
+  },
+  "entrypoints": [
+    "main.js"
+  ]
+}

@@ -5,7 +5,7 @@
     "url": "https://github.com/ebay/Muse",
     "directory": "workspace/packages/muse-runner"
   },
-  "version": "1.0.24",
+  "version": "1.0.25",
   "description": "",
   "main": "index.js",
   "type": "module",
