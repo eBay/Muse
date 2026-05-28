@@ -64,10 +64,12 @@ function museRolldownPlugin({ entryFile } = {}) {
   const sharedModules = {};
 
   let makeSharedModulesReady;
-  const sharedModulesReady = new Promise((r) => {
-    makeSharedModulesReady = r;
+  let failSharedModulesReady;
+  const sharedModulesReady = new Promise((resolve, reject) => {
+    makeSharedModulesReady = resolve;
+    failSharedModulesReady = reject;
   });
-  // let debounceTimer;
+  let moduleParsedIdleTimer;
 
   let viteConfig;
 
@@ -151,7 +153,14 @@ function museRolldownPlugin({ entryFile } = {}) {
       // The sentinel is replaced with the final register() call in renderChunk, after all
       // transform hooks have run and sharedModules is fully populated.
       if (id === MUSE_SHARED_REGISTER) {
-        await sharedModulesReady;
+        try {
+          await sharedModulesReady;
+        } catch (err) {
+          // Emit as a warning so Rolldown can continue to its linking phase and surface
+          // the real underlying error (e.g. "Missing Exports") through buildEnd as usual.
+          this.warn(err instanceof Error ? err.message : String(err));
+          return `MUSE_GLOBAL.__shared__.register({}, () => undefined);\n`;
+        }
         const entries = Object.entries(sharedModules);
         console.log();
         console.log('entries length: ', entries.length);
@@ -198,12 +207,8 @@ function museRolldownPlugin({ entryFile } = {}) {
         checkAndGenerateDevTimeLibManifest(this);
       }, 0);
 
-      // clearTimeout(debounceTimer);
-      // debounceTimer = setTimeout(makeSharedModulesReady, 50);
-
       const mid = getMuseIdByPath(id);
       sharedModules[mid] = id;
-
       // Registration is handled centrally by \0muse-shared-register — no per-module
       // code injection needed here. This avoids the circular self-import pattern that
       // produced an empty namespace in bundled ESM output.
@@ -236,7 +241,26 @@ function museRolldownPlugin({ entryFile } = {}) {
         for (const imp of info.importedIds) queue.push(imp);
       }
 
-      if (complete && visited.size > 0) makeSharedModulesReady();
+      if (complete && visited.size > 0) {
+        clearTimeout(moduleParsedIdleTimer);
+        makeSharedModulesReady();
+      } else {
+        // BFS is still incomplete. Start a short idle timer: if no further moduleParsed calls
+        // arrive within 500 ms it means Rolldown has stopped processing the graph (e.g., due to
+        // a build error) and the \0muse-shared-register load hook must be unblocked so the build
+        // can exit cleanly. In the happy path the BFS resolves first and the timer is cancelled.
+        clearTimeout(moduleParsedIdleTimer);
+        moduleParsedIdleTimer = setTimeout(() => {
+          failSharedModulesReady(
+            new Error(
+              '[muse-vite-plugin] Shared module graph collection timed out: ' +
+                'no moduleParsed event received for 500 ms while the graph was still incomplete. ' +
+                'This is most likely caused by a build error (e.g. "Missing Exports") that ' +
+                'prevented one or more modules from being parsed.',
+            ),
+          );
+        }, 500);
+      }
     },
 
     async generateBundle(options, bundle) {

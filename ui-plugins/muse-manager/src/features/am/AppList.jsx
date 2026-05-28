@@ -73,7 +73,7 @@ export default function AppList() {
             columns={columns}
             dataSource={appList}
             loading={!apps}
-            size="small"
+            size="medium"
             pagination={{
               hideOnSinglePage: false,
               size: 'small',

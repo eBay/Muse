@@ -52,6 +52,6 @@ function AppActions({ app }) {
       },
     ].filter(Boolean);
   }, [canDeleteApp, app.name, deleteApp, syncStatus]);
-  return <DropdownMenu extPoint="museManager.app.processActions" items={items} />;
+  return <DropdownMenu extPoint="museManager.app.processActions" items={items} size="small" />;
 }
 export default AppActions;
