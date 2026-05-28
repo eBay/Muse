@@ -90,8 +90,23 @@ function infoJsonRolldownPlugin() {
       const name = pkgJson.name;
 
       // deps: muse lib plugins this plugin depends on
+      const buildDirMap = { production: 'dist', development: 'dev', 'e2e-test': 'test' };
       const museLibs = devUtils.getMuseLibs();
-      const deps = museLibs.map((lib) => ({ name: lib.name, version: lib.version }));
+      const deps = museLibs.map((lib) => {
+        const dep = { name: lib.name, version: lib.version };
+        const infoJsonPath = path.join(
+          lib.path,
+          lib.isLinked
+            ? `build/dev/info.json`
+            : `build/${buildDirMap[viteConfig.mode] || 'dist'}/info.json`,
+        );
+        try {
+          dep.meta = fs.readJsonSync(infoJsonPath);
+        } catch {
+          // info.json not available for this lib, skip meta
+        }
+        return dep;
+      });
 
       // git info
       const branch = getGitBranch();
