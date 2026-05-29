@@ -57,6 +57,11 @@ const exposedApis = [
   'req.getRequests',
   'req.updateRequest',
   'req.updateStatus',
+  'msp.getMsp',
+  'msp.addPreset',
+  'msp.deletePreset',
+  'msp.updatePackages',
+  'msp.syncLatest',
 ];
 
 // TODO: should we put analyzer in muse-core? or a seperate package?
@@ -90,7 +95,7 @@ module.exports = ({ basePath = '/api/v2' } = {}) => {
       return next();
     }
 
-    // e.g: /api/v2/create-app
+    // e.g: /api/v2/am/createApp
     const apiPath = req.path.replace(basePath, '');
 
     // api key: am.createApp

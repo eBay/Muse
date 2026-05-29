@@ -261,8 +261,23 @@ async function start() {
 
     script.type = 'module'; // eslint-disable-line
     mg.__onMusePluginsLoaded = resolve;
+    // Sort libPluginsToLoad based on the "deps" property using topological sort
+    const sortedLibPlugins = [];
+    const visited = new Set();
+    const pluginByName = Object.fromEntries(libPluginsToLoad.map((p) => [p.name, p]));
+    function visit(plugin) {
+      if (visited.has(plugin.name)) return;
+      visited.add(plugin.name);
+      for (const dep of plugin.deps || []) {
+        if (pluginByName[dep]) visit(pluginByName[dep]);
+      }
+      sortedLibPlugins.push(plugin);
+    }
+    for (const plugin of libPluginsToLoad) {
+      visit(plugin);
+    }
     const textContent =
-      [...libPluginsToLoad, ...normalPluginsToLoad]
+      [...sortedLibPlugins, ...normalPluginsToLoad]
         .map((p) => `import ${JSON.stringify(p.url)}; // ${p.name}\n`)
         .join('') + 'window.MUSE_GLOBAL.__onMusePluginsLoaded();\n';
 
