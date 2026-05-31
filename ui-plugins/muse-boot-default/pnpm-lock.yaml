@@ -6,8 +6,8 @@ settings:
 
 devDependencies:
   '@ebay/muse-modules':
-    specifier: ^1.0.29
-    version: 1.0.29
+    specifier: ^2.0.0
+    version: 2.0.0
   '@ebay/muse-vanilla-vite-plugin':
     specifier: link:../../workspace/packages/muse-vanilla-vite-plugin
     version: link:../../workspace/packages/muse-vanilla-vite-plugin
@@ -123,8 +123,8 @@ packages:
     engines: {node: '>=18'}
     dev: true
 
-  /@ebay/muse-modules@1.0.29:
-    resolution: {integrity: sha512-iji5tvNwD9neTCo1ueJF3yApZmtv9dQZkLXhGgauHTrL/dtshrfMbsJ5VIGDczACd3KumDr4PS2ix1793JWQ6w==}
+  /@ebay/muse-modules@2.0.0:
+    resolution: {integrity: sha512-VcZ0v9mKH/eS8V1rcVsNQR2gzXM0rgNfbuL6ELu/pEVRc51NR+pi9v9Ym1kD2Augozvqvf5VInE+ABskzGlhZQ==}
     dev: true
 
   /@emnapi/core@1.10.0:
