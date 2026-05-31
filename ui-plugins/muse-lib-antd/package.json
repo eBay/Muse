@@ -5,7 +5,7 @@
     "url": "https://github.com/ebay/Muse",
     "directory": "ui-plugins/muse-lib-antd"
   },
-  "version": "2.0.1",
+  "version": "2.0.2",
   "type": "module",
   "muse": {
     "type": "lib",
@@ -51,7 +51,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "6.2.2",
-    "@ebay/muse-lib-react": "2.0.0",
+    "@ebay/muse-lib-react": "2.0.1",
     "@ebay/nice-form-react": "2.0.3",
     "antd": "6.3.7",
     "history": "5.3.0",
