@@ -9,6 +9,7 @@
   "private": false,
   "type": "module",
   "muse": {
+    "msp": "msp2606",
     "devConfig": {
       "app": "musemanager",
       "env": "staging",
@@ -29,11 +30,11 @@
     "@ebay/muse-client": "^1.0.27",
     "@ebay/muse-core": "^2.0.0",
     "@ebay/muse-dev-utils": "^2.0.0",
-    "@ebay/muse-express-middleware": "^2.0.0",
-    "@ebay/muse-lib-antd": "^2.0.0",
-    "@ebay/muse-lib-react": "^2.0.0",
+    "@ebay/muse-express-middleware": "^2.0.1",
+    "@ebay/muse-lib-antd": "^2.0.2",
+    "@ebay/muse-lib-react": "^2.0.1",
     "@ebay/muse-plugin-acl": "^1.0.20",
-    "@ebay/muse-vite-plugin": "^2.0.0",
+    "@ebay/muse-vite-plugin": "^2.0.1",
     "@tanstack/react-query": "^5.100.9",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
@@ -63,6 +64,7 @@
     "build": "vite build",
     "build:dev": "cross-env NODE_ENV=development vite build --mode development",
     "build:test": "cross-env MUSE_TEST_BUILD=true NODE_ENV=production vite build --mode e2e-test",
+    "prestart": "muse-dev-utils check-updates",
     "deploy": "pnpm build && pnpm build:dev && muse release && muse deploy musemanager staging",
     "test": "react-scripts test",
     "postbuild": "cp MUSE_README.md ./build"

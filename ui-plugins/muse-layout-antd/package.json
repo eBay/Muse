@@ -8,6 +8,7 @@
   "version": "2.0.0",
   "type": "module",
   "muse": {
+    "msp": "msp2606",
     "devConfig": {
       "app": "musemanager",
       "env": "staging"

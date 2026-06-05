@@ -36,6 +36,7 @@ module.exports = async (params) => {
     sha = '',
     version = 'patch',
     author,
+    msp,
     options,
   } = params;
   await asyncInvoke('museCore.pm.beforeReleasePlugin', ctx, params);
@@ -59,6 +60,7 @@ module.exports = async (params) => {
     pluginName,
     version: newVersion,
     branch,
+    msp,
     sha,
     createdAt: new Date().toJSON(),
     createdBy: author,
@@ -83,6 +85,12 @@ module.exports = async (params) => {
     ctx.release.bundles = fs
       .readdirSync(path.join(projectRoot, 'build'))
       .filter((name) => fs.statSync(path.join(projectRoot, 'build', name)).isDirectory());
+  }
+
+  // Read msp from package.json if not provided in params and projectRoot is provided
+  if (projectRoot && !msp) {
+    const pkgJson = await fs.readJson(path.join(projectRoot, 'package.json'), { throws: true });
+    ctx.release.msp = pkgJson.muse?.msp || '';
   }
 
   // Save releases to registry
