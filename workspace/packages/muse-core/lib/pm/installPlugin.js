@@ -72,6 +72,7 @@ const installPlugin = async (params) => {
       await releasePlugin({
         pluginName,
         version: pkgJson.version,
+        msp: pkgJson.muse?.msp || '',
         options: { source: 'npm', esModule: pkgJson.type === 'module' },
         projectRoot: path.join(tmpDir, 'package'),
         author,
