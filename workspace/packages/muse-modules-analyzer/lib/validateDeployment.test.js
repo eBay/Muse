@@ -247,4 +247,117 @@ describe('basic tests', () => {
     ]);
     expect(result.success).toBe(true);
   });
+
+  it('mspMismatches is empty when no msp constraint on app/env', async () => {
+    const result = await validateDeployment(appName, 'staging', [
+      { pluginName: normalPluginName, version: '1.0.0' },
+    ]);
+    expect(result.mspMismatches).toBeUndefined();
+  });
+
+  it('msp match: passes when plugin release msp matches env msp', async () => {
+    await muse.am.updateEnv({
+      appName,
+      envName: 'staging',
+      changes: { set: { path: 'msp', value: 'msp2606' } },
+    });
+    await muse.pm.releasePlugin({ pluginName: normalPluginName, version: '2.0.0', msp: 'msp2606' });
+
+    const result = await validateDeployment(appName, 'staging', [
+      { pluginName: normalPluginName, version: '2.0.0' },
+    ]);
+    expect(result.mspMismatches).toBeUndefined();
+    expect(result.success).toBe(true);
+  });
+
+  it('msp wildcard: passes when plugin release msp is "*"', async () => {
+    await muse.am.updateEnv({
+      appName,
+      envName: 'staging',
+      changes: { set: { path: 'msp', value: 'msp2606' } },
+    });
+    await muse.pm.releasePlugin({ pluginName: normalPluginName, version: '2.0.0', msp: '*' });
+
+    const result = await validateDeployment(appName, 'staging', [
+      { pluginName: normalPluginName, version: '2.0.0' },
+    ]);
+    expect(result.mspMismatches).toBeUndefined();
+    expect(result.success).toBe(true);
+  });
+
+  it('msp mismatch: fails when plugin release msp does not match env msp', async () => {
+    await muse.am.updateEnv({
+      appName,
+      envName: 'staging',
+      changes: { set: { path: 'msp', value: 'msp2606' } },
+    });
+    await muse.pm.releasePlugin({ pluginName: normalPluginName, version: '2.0.0', msp: 'msp2023' });
+
+    const result = await validateDeployment(appName, 'staging', [
+      { pluginName: normalPluginName, version: '2.0.0' },
+    ]);
+    expect(result.success).toBe(false);
+    expect(result.mspMismatches).toEqual([
+      {
+        pluginName: normalPluginName,
+        version: '2.0.0',
+        releaseMsp: 'msp2023',
+        requiredMsp: 'msp2606',
+      },
+    ]);
+  });
+
+  it('env-level msp takes precedence over app-level msp', async () => {
+    await muse.am.updateApp({
+      appName,
+      changes: { set: { path: 'msp', value: 'msp2023' } },
+    });
+    await muse.am.updateEnv({
+      appName,
+      envName: 'staging',
+      changes: { set: { path: 'msp', value: 'msp2606' } },
+    });
+    await muse.pm.releasePlugin({ pluginName: normalPluginName, version: '2.0.0', msp: 'msp2606' });
+
+    const result = await validateDeployment(appName, 'staging', [
+      { pluginName: normalPluginName, version: '2.0.0' },
+    ]);
+    // env msp (msp2606) is used, not app msp (msp2023)
+    expect(result.mspMismatches).toBeUndefined();
+    expect(result.success).toBe(true);
+  });
+
+  it('app-level msp is used when env has no msp', async () => {
+    await muse.am.updateApp({
+      appName,
+      changes: { set: { path: 'msp', value: 'msp2606' } },
+    });
+    await muse.pm.releasePlugin({ pluginName: normalPluginName, version: '2.0.0', msp: 'msp2023' });
+
+    const result = await validateDeployment(appName, 'staging', [
+      { pluginName: normalPluginName, version: '2.0.0' },
+    ]);
+    expect(result.success).toBe(false);
+    expect(result.mspMismatches).toEqual([
+      {
+        pluginName: normalPluginName,
+        version: '2.0.0',
+        releaseMsp: 'msp2023',
+        requiredMsp: 'msp2606',
+      },
+    ]);
+  });
+
+  it('remove-type deployments are not checked for msp compatibility', async () => {
+    await muse.am.updateEnv({
+      appName,
+      envName: 'staging',
+      changes: { set: { path: 'msp', value: 'msp2606' } },
+    });
+    // normalPluginName v1.0.0 has no msp but type is 'remove', should not be flagged
+    const result = await validateDeployment(appName, 'staging', [
+      { pluginName: normalPluginName, version: '1.0.0', type: 'remove' },
+    ]);
+    expect(result.mspMismatches).toBeUndefined();
+  });
 });
