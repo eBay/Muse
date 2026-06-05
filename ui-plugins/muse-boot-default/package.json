@@ -10,6 +10,7 @@
   "license": "MIT",
   "type": "module",
   "muse": {
+    "msp": "msp2606",
     "type": "boot"
   },
   "files": [
