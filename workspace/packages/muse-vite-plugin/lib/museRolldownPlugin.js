@@ -215,6 +215,7 @@ function museRolldownPlugin({ entryFile } = {}) {
     },
 
     moduleParsed(info) {
+      if (!isLibPlugin) return;
       parsedModules.add(info.id);
 
       // Walk the graph from the actual entry
