@@ -69,6 +69,7 @@ export default function museVanillaVitePlugin() {
       const host = config.server?.host || process.env.MUSE_LOCAL_HOST_NAME || 'localhost';
 
       const defaults = {
+        base: './',
         server: {
           origin: port ? `${isHTTPS ? 'https' : 'http'}://${host}:${port}` : undefined,
           port,
