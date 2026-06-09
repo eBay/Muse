@@ -25,7 +25,7 @@
   },
   "devDependencies": {
     "@ebay/muse-modules": "^2.0.0",
-    "@ebay/muse-vanilla-vite-plugin": "link:../../workspace/packages/muse-vanilla-vite-plugin",
+    "@ebay/muse-vanilla-vite-plugin": "^2.0.1",
     "@vitest/coverage-v8": "2.1.9",
     "cross-env": "^7.0.3",
     "eslint": "^8.20.0",
