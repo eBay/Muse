@@ -12,3 +12,4 @@ title: Muse Manager
 pluginVariables:
   '@ebay/muse-lib-antd':
     authFullRedirect: 'true'
+iconId: 1
