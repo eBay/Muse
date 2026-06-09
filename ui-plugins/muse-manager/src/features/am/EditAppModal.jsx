@@ -6,6 +6,7 @@ import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import { useSyncStatus, useMuseMutation } from '../../hooks';
 import utils from '@ebay/muse-lib-antd/src/utils';
 import jsPlugin from 'js-plugin';
+import MspSelect from './MspSelect';
 
 const EditAppModal = NiceModal.create(({ app }) => {
   const modal = useModal();
@@ -21,7 +22,7 @@ const EditAppModal = NiceModal.create(({ app }) => {
   } = useMuseMutation('am.updateApp');
 
   const meta = {
-    initialValues: app,
+    initialValues: { ...app, options: { msp: app.msp } },
     columns: 2,
     fields: [
       {
@@ -37,7 +38,14 @@ const EditAppModal = NiceModal.create(({ app }) => {
         tooltip: "The entry function of the app. Usually you don't need to set it.",
         initialValue: '',
       },
-
+      {
+        key: 'options.msp',
+        order: 30,
+        label: 'MSP (SDK Preset)',
+        widget: MspSelect,
+        tooltip: 'Muse SDK Preset constraint. All deployed plugins must match this preset.',
+        required: false,
+      },
       {
         key: 'description',
         order: 1000,

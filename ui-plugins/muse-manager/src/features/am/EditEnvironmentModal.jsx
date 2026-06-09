@@ -2,6 +2,7 @@ import { useCallback } from 'react';
 import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
 import { Form, Modal, message } from 'antd';
 import utils from '@ebay/muse-lib-antd/src/utils';
+import MspSelect from './MspSelect';
 import NiceForm from '@ebay/nice-form-react';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import jsPlugin from 'js-plugin';
@@ -43,8 +44,17 @@ const EditEnvironmentModal = NiceModal.create(({ env, app }) => {
 
   const meta = {
     columns: 1,
-    initialValues: { ...env, envName: env.name },
-    fields: [],
+    initialValues: { ...env, envName: env.name, options: { msp: env.msp } },
+    fields: [
+      {
+        key: 'options.msp',
+        order: 10,
+        label: 'MSP (SDK Preset)',
+        widget: MspSelect,
+        tooltip: 'Muse SDK Preset constraint. Overrides app-level MSP for this environment.',
+        required: false,
+      },
+    ],
   };
 
   const { watchingFields } = utils.extendFormMeta(meta, 'museManager.editEnvForm', {

@@ -5,6 +5,7 @@ import NiceForm from '@ebay/nice-form-react';
 import utils from '@ebay/muse-lib-antd/src/utils';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import { useSyncStatus, useMuseMutation } from '../../hooks';
+import MspSelect from './MspSelect';
 
 const CreateAppModal = NiceModal.create(() => {
   const modal = useModal();
@@ -27,6 +28,14 @@ const CreateAppModal = NiceModal.create(() => {
         required: true,
       },
 
+      {
+        key: 'options.msp',
+        order: 20,
+        label: 'MSP (SDK Preset)',
+        widget: MspSelect,
+        tooltip: 'Muse SDK Preset constraint for this app. Can be overridden per environment.',
+        required: false,
+      },
       {
         key: 'description',
         order: 100,

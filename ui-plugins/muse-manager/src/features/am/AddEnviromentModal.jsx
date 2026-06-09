@@ -6,6 +6,7 @@ import { useMuseMutation, useSyncStatus } from '../../hooks';
 import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
 import utils from '@ebay/muse-lib-antd/src/utils';
 import jsPlugin from 'js-plugin';
+import MspSelect from './MspSelect';
 
 export default NiceModal.create(function AddEnvModal({ app }) {
   const modal = useModal();
@@ -114,6 +115,14 @@ export default NiceModal.create(function AddEnvModal({ app }) {
         options: Object.keys(app.envs || {}).concat(['default']),
         required: true,
         order: 15,
+      },
+      {
+        key: 'options.msp',
+        order: 20,
+        label: 'MSP (SDK Preset)',
+        widget: MspSelect,
+        tooltip: 'Muse SDK Preset constraint for this environment. Overrides app-level MSP.',
+        required: false,
       },
     ].filter(Boolean),
   };
