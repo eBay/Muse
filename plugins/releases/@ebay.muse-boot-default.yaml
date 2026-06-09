@@ -1,4 +1,16 @@
 - pluginName: '@ebay/muse-boot-default'
+  version: 2.0.2
+  branch: ''
+  msp: msp2606
+  sha: ''
+  createdAt: '2026-06-09T01:51:04.408Z'
+  createdBy: pwang7
+  description: ''
+  source: npm
+  esModule: true
+  bundles:
+    - dist
+- pluginName: '@ebay/muse-boot-default'
   version: 2.0.1
   branch: ''
   msp: ''
