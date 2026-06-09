@@ -5,7 +5,7 @@
     "url": "https://github.com/ebay/Muse",
     "directory": "ui-plugins/muse-lib-antd"
   },
-  "version": "2.0.2",
+  "version": "2.0.3",
   "type": "module",
   "muse": {
     "msp": "msp2606",
