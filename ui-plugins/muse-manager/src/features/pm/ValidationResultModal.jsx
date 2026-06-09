@@ -102,9 +102,32 @@ const ValidationResult = ({ result = {} }) => {
   );
 };
 
+const MspMismatchesView = ({ mspMismatches }) => {
+  if (_.isEmpty(mspMismatches)) {
+    return null;
+  }
+  return (
+    <dl>
+      <dt className="font-bold">
+        <h3 className="text-red-500">MSP Mismatches:</h3>
+      </dt>
+      {mspMismatches.map((m) => (
+        <div key={`${m.pluginName}@${m.version}`}>
+          <dd className="font-normal">
+            - {m.pluginName}@{m.version}
+            's MSP <strong>{m.releaseMsp || 'origin'}</strong> doesn't match the env MSP{' '}
+            <strong>{m.requiredMsp}</strong>
+          </dd>
+        </div>
+      ))}
+    </dl>
+  );
+};
+
 const ValidationResultModal = NiceModal.create(({ result = {} }) => {
   const modal = useModal();
   const envs = Object.keys(result).filter((env) => result[env].success === false);
+  console.log(result);
   return (
     <Modal
       {...antdModalV5(modal)}
@@ -139,7 +162,11 @@ const ValidationResultModal = NiceModal.create(({ result = {} }) => {
         items={envs.map((envName) => ({
           key: envName,
           label: envName,
-          children: <ValidationResult key={envName} result={result[envName]} />,
+          children: result[envName]?.mspMismatches ? (
+            <MspMismatchesView key={envName} mspMismatches={result[envName].mspMismatches} />
+          ) : (
+            <ValidationResult key={envName} result={result[envName]} />
+          ),
         }))}
       ></Tabs>
     </Modal>
