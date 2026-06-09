@@ -1,4 +1,18 @@
 - pluginName: '@ebay/muse-layout-antd'
+  version: 2.0.2
+  branch: ''
+  msp: msp2606
+  sha: ''
+  createdAt: '2026-06-09T02:40:41.147Z'
+  createdBy: pwang7
+  description: ''
+  source: npm
+  esModule: true
+  bundles:
+    - dev
+    - dist
+    - test
+- pluginName: '@ebay/muse-layout-antd'
   version: 2.0.0
   branch: ''
   msp: ''
