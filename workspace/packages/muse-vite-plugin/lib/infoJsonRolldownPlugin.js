@@ -68,6 +68,8 @@ function infoJsonRolldownPlugin() {
   const pkgJson = devUtils.getPkgJson();
   let viteConfig;
   let buildStartTime;
+  let cachedBranch;
+  let cachedSha;
 
   return {
     name: 'rolldown-plugin-muse-info-json',
@@ -93,9 +95,11 @@ function infoJsonRolldownPlugin() {
       const museLibs = devUtils.getMuseLibs();
       const deps = museLibs.map((lib) => ({ name: lib.name, version: lib.version }));
 
-      // git info
-      const branch = getGitBranch();
-      const sha = getGitSha();
+      // git info — cached after the first build since they don't change between watch rebuilds
+      if (cachedBranch === undefined) cachedBranch = getGitBranch();
+      if (cachedSha === undefined) cachedSha = getGitSha();
+      const branch = cachedBranch;
+      const sha = cachedSha;
 
       // repo: repository url from package.json
       const repo =
