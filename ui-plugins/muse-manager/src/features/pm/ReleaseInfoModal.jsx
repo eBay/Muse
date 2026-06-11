@@ -32,7 +32,12 @@ const ReleaseInfoModal = NiceModal.create(({ release, app, plugin, version }) =>
       {
         key: 'version',
         label: 'Version',
-        colSpan: 2,
+        colSpan: 1,
+      },
+      {
+        key: 'msp',
+        label: 'MSP',
+        renderView: (msp) => msp || 'origin',
       },
       {
         key: 'createdAt',
@@ -70,7 +75,7 @@ const ReleaseInfoModal = NiceModal.create(({ release, app, plugin, version }) =>
       key: 'build-summary',
       order: 30,
       node: <Tabs key="build-summary" items={tabs} />,
-    }
+    },
   ];
 
   extendFormMeta(meta, 'museManager.pm.releaseInfoModal.form', {
@@ -81,7 +86,12 @@ const ReleaseInfoModal = NiceModal.create(({ release, app, plugin, version }) =>
     plugin,
   });
 
-  extendArray(tabs, 'tabs', 'museManager.pm.releaseInfoModal.buildSummary', { tabs, release, plugin, app  });
+  extendArray(tabs, 'tabs', 'museManager.pm.releaseInfoModal.buildSummary', {
+    tabs,
+    release,
+    plugin,
+    app,
+  });
 
   return (
     <Modal
@@ -94,7 +104,7 @@ const ReleaseInfoModal = NiceModal.create(({ release, app, plugin, version }) =>
       styles={{
         body: {
           minHeight: '500px',
-        }
+        },
       }}
     >
       {!release && isFetching ? (
