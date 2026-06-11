@@ -69,11 +69,19 @@ const installPlugin = async (params) => {
       );
     } else {
       logger.info(`Creating the release in Muse...`);
+      let deps;
+      const depsManifestPath = path.join(tmpDir, 'package/build/dist/deps-manifest.json');
+      if (fs.existsSync(depsManifestPath)) {
+        const depsManifest = fs.readJsonSync(depsManifestPath);
+        deps = Object.keys(depsManifest.content || {}).map((libStr) => {
+          return libStr.replace(/@\d.+$/, '');
+        });
+      }
       await releasePlugin({
         pluginName,
         version: pkgJson.version,
         msp: pkgJson.muse?.msp || '',
-        options: { source: 'npm', esModule: pkgJson.type === 'module' },
+        options: { source: 'npm', esModule: pkgJson.type === 'module', deps },
         projectRoot: path.join(tmpDir, 'package'),
         author,
         cwd: path.join(tmpDir, 'package'),

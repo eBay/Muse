@@ -128,6 +128,7 @@ module.exports = async (params) => {
       });
       d.deployment.esModule = r.esModule && r.esModule !== 'false';
       d.deployment.version = r.version;
+      d.deployment.deps = r.deps || [];
     }),
   );
 
@@ -137,7 +138,7 @@ module.exports = async (params) => {
       flattenedDeployments.map(async (fd) => {
         const {
           envName,
-          deployment: { pluginName, version, type, esModule },
+          deployment: { pluginName, version, type, esModule, deps },
         } = fd;
 
         // Check if plugin name exist
@@ -183,6 +184,7 @@ module.exports = async (params) => {
                 version,
                 type: p.type || 'normal',
                 esModule,
+                deps,
                 ...fd.deployment?.options,
               });
         const obj = {

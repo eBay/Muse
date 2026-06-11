@@ -37,7 +37,6 @@ const EditAppModal = NiceModal.create(({ app }) => {
         tooltip: "The entry function of the app. Usually you don't need to set it.",
         initialValue: '',
       },
-
       {
         key: 'description',
         order: 1000,
