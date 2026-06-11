@@ -1,4 +1,21 @@
 - pluginName: '@ebay/muse-manager'
+  version: 2.0.4
+  branch: ''
+  msp: msp2606
+  sha: ''
+  createdAt: '2026-06-11T07:08:14.699Z'
+  createdBy: pwang7
+  description: ''
+  source: npm
+  esModule: true
+  deps:
+    - '@ebay/muse-lib-react'
+    - '@ebay/muse-lib-antd'
+  bundles:
+    - dev
+    - dist
+    - test
+- pluginName: '@ebay/muse-manager'
   version: 2.0.3
   branch: ''
   msp: msp2606
