@@ -1,4 +1,21 @@
 - pluginName: '@ebay/muse-lib-antd'
+  version: 2.0.3
+  branch: ''
+  msp: msp2606
+  sha: ''
+  createdAt: '2026-06-11T01:34:30.308Z'
+  createdBy: pwang7
+  description: ''
+  source: npm
+  esModule: true
+  deps:
+    - name: '@ebay/muse-lib-react'
+      version: 2.0.1
+  bundles:
+    - dev
+    - dist
+    - test
+- pluginName: '@ebay/muse-lib-antd'
   version: 2.0.2
   branch: ''
   msp: ''
