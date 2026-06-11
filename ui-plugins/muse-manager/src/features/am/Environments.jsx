@@ -20,6 +20,15 @@ export default function Environments({ app }) {
       },
     },
     {
+      dataIndex: 'msp',
+      title: 'MSP',
+      width: '100px',
+      order: 35,
+      render: (msp) => {
+        return <>{msp || 'origin'}</>;
+      },
+    },
+    {
       dataIndex: 'actions',
       title: 'Actions',
       width: '160px',

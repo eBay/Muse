@@ -29,12 +29,13 @@ async function checkUpdates() {
 
   const mspData = await museCore.data.get('muse.msp');
   if (!mspData) {
-    throw new Error('msp.yaml does not exist in the registry.');
+    logger.info(chalk.yellow('No MSP data found. Skipping update check.'));
+    return;
   }
 
   const preset = mspData[mspName];
   if (!preset) {
-    throw new Error(`MSP preset "${mspName}" not found in msp.yaml.`);
+    throw new Error(`MSP preset "${mspName}" not found.`);
   }
 
   const { versions } = preset;
