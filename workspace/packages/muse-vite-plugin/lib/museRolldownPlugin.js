@@ -65,7 +65,7 @@ function museRolldownPlugin({ entryFile } = {}) {
 
   let makeSharedModulesReady;
   let failSharedModulesReady;
-  const sharedModulesReady = new Promise((resolve, reject) => {
+  let sharedModulesReady = new Promise((resolve, reject) => {
     makeSharedModulesReady = resolve;
     failSharedModulesReady = reject;
   });
@@ -133,6 +133,18 @@ function museRolldownPlugin({ entryFile } = {}) {
     enforce: 'pre',
     configResolved(resolvedConfig) {
       viteConfig = resolvedConfig;
+    },
+
+    buildStart() {
+      // Reset per-build state so watch-mode rebuilds start fresh.
+      parsedModules.clear();
+      for (const key of Object.keys(sharedModules)) delete sharedModules[key];
+      for (const key of Object.keys(usedSharedModules)) delete usedSharedModules[key];
+      sharedModulesReady = new Promise((resolve, reject) => {
+        makeSharedModulesReady = resolve;
+        failSharedModulesReady = reject;
+      });
+      clearTimeout(moduleParsedIdleTimer);
     },
     async resolveId(id) {
       if (id === MUSE_VIRTUAL_ENTRY || id === MUSE_SHARED_REGISTER) return id;

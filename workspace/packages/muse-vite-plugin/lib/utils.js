@@ -79,11 +79,15 @@ export function ensureAllMuseModules() {
   loadAllMuseModules();
 }
 
+let cwdPkgJsonCache;
 export function getMuseModule(filePath) {
   const rootPkgPath = findRoot(filePath);
   if (!rootPkgPath) return null;
 
-  const pkg = fs.readJsonSync(path.join(process.cwd(), 'package.json'));
+  if (!cwdPkgJsonCache) {
+    cwdPkgJsonCache = fs.readJsonSync(path.join(process.cwd(), 'package.json'));
+  }
+  const pkg = cwdPkgJsonCache;
   const rootPkg = fs.readJsonSync(rootPkgPath + '/package.json');
   if (!rootPkg.name || !rootPkg.version) return;
   if (pkg?.muse.customLibs?.includes(rootPkg.name)) {
