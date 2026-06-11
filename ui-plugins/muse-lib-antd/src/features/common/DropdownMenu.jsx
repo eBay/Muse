@@ -25,14 +25,16 @@ const renderOuterItem = ({ icon, label, disabled, confirm, disabledText, ...rest
 };
 
 export default function DropdownMenu({
-  items,
+  labelNode = '',
+  size = 'small',
+  items = [],
+  extPoint = null,
+  menuProps = {},
+  nodeProps = {},
+  render = null,
+  extPointParams = [],
   triggerNode,
-  extPoint,
-  extPointParams,
-  nodeProps,
-  menuProps,
   type,
-  size,
 }) {
   if (extPoint) {
     plugin.invoke(extPoint, items, ...(extPointParams || []));
@@ -79,14 +81,3 @@ export default function DropdownMenu({
     </span>
   );
 }
-
-DropdownMenu.defaultProps = {
-  labelNode: '',
-  size: 'small',
-  items: [],
-  extPoint: null,
-  menuProps: {},
-  nodeProps: {},
-  render: null,
-  extPointParams: [],
-};

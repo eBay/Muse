@@ -17,9 +17,3 @@ export default function StatusLabel(props) {
     </div>
   );
 }
-
-StatusLabel.propTypes = {
-  label: PropTypes.string.isRequired,
-  type: PropTypes.oneOf(['SUCCESS', 'FAILURE', 'PROCESSING', 'Retired', 'INFO', 'DORMANT']),
-};
-StatusLabel.defaultProps = {};
