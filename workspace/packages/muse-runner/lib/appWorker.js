@@ -118,7 +118,7 @@ ${JSON.stringify(importMap, null, 2)}
         // For local installed lib plugins, need to load them from local dev server of the parent
         // plugin because they may have not been deployed.
         // Here use localLibs to store the local lib plugins' urls
-        const localLibPluings = {};
+        const localLibPlugins = {};
 
         // Determine how to load the plugins
         appConfig?.plugins?.forEach((p) => {
@@ -153,6 +153,9 @@ ${JSON.stringify(importMap, null, 2)}
             case 'local': {
               if (p.running) {
                 const pluginProtocol = p.protocol || 'https';
+                const museLibs = museDevUtils.getMuseLibsByFolder(p.dir);
+                deployedPlugin.deps = museLibs.map((lib) => lib.name);
+
                 if (p.esModule) {
                   const entryFile = museDevUtils.getEntryFile(p.dir);
                   deployedPlugin.url = `${pluginProtocol}://${host}:${p.port}/${entryFile}`;
@@ -171,8 +174,7 @@ ${JSON.stringify(importMap, null, 2)}
                 //   })),
                 // );
 
-                // Get all installed libs, and add them to localLibPluings
-                const museLibs = museDevUtils.getMuseLibsByFolder(p.dir);
+                // Get all installed libs, and add them to localLibPlugins
                 // p.linkedPlugins?.forEach((lp) => {
                 //   museDevUtils.getMuseLibsByFolder(lp.dir).forEach((lib) => {
                 //     museLibs.push(lib);
@@ -185,9 +187,9 @@ ${JSON.stringify(importMap, null, 2)}
                 // There should be auto update logic to ensure all plugins have the same version of a lib plugin
                 // We don't serve lib plugins from remote because maybe a lib plugin has not been deployed yet.
                 _.uniqBy(museLibs, 'name').forEach((lib) => {
-                  if (localLibPluings[lib.name]) return;
+                  if (localLibPlugins[lib.name]) return;
                   const pid = muse.utils.getPluginId(lib.name);
-                  localLibPluings[lib.name] = {
+                  localLibPlugins[lib.name] = {
                     url: `${pluginProtocol}://${host}:${p.port}/muse-assets/local/p/${pid}/dev/main.js`,
                     version: lib.version,
                   };
@@ -239,28 +241,28 @@ ${JSON.stringify(importMap, null, 2)}
           // dev server unless the mode is 'version' or 'deployed' or 'url'
 
           // If it's local and running, the url is already set
-          if (p.url || p.type !== 'lib' || !localLibPluings[p.name]) {
+          if (p.url || p.type !== 'lib' || !localLibPlugins[p.name]) {
             return;
           }
 
           const mode = pluginMode[p.name];
           if (!mode || mode === 'local') {
-            p.url = localLibPluings[p.name].url;
+            p.url = localLibPlugins[p.name].url;
             p.deployedVersion = p.version;
-            p.version = localLibPluings[p.name].version;
+            p.version = localLibPlugins[p.name].version;
             p.isLocalLib = true;
           }
         });
 
         // For new local installed lib plugins
-        _.keys(localLibPluings).forEach((name) => {
+        _.keys(localLibPlugins).forEach((name) => {
           // If lib plugin not deployed and not excluded, add it
           if (_.find(env.plugins, { name }) || pluginMode[name] === 'excluded') return;
           env.plugins.push({
             name: name,
             type: 'lib',
-            url: localLibPluings[name].url,
-            version: localLibPluings[name].version,
+            url: localLibPlugins[name].url,
+            version: localLibPlugins[name].version,
             isLocalLib: true,
             notDeployed: true,
           });
