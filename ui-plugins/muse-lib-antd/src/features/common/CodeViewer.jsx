@@ -60,7 +60,3 @@ export default function CodeViewer({ theme, title, language, allowCopy, code, ..
     </div>
   );
 }
-
-CodeViewer.propTypes = {};
-CodeViewer.defaultProps = {};
-

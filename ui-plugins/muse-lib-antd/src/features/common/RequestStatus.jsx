@@ -3,10 +3,18 @@ import PropTypes from 'prop-types';
 import { Skeleton } from 'antd';
 import { GlobalErrorBox, ErrorBox, GlobalLoading, LoadingMask } from '.';
 
-export default function RequestStatus(props) {
-  const { errorMode, loadingMode, dismissError, error, skeletonProps = {} } = props;
-  const errorArgs = props.errorProps || props.errorArgs || {};
-  const pending = props.pending || props.loading;
+export default function RequestStatus({
+  pending = false,
+  loading = false,
+  error = null,
+  errorMode = 'inline',
+  dismissError = null,
+  loadingMode = 'container',
+  skeletonProps = {},
+  errorProps = {},
+}) {
+  const errorArgs = errorProps || {};
+  const isPending = pending || loading;
   const [defaultErrorBoxVisible, setDefaultErrorBoxVisible] = useState(true);
   const handleClickBox = () => {
     setDefaultErrorBoxVisible(false);
@@ -31,29 +39,10 @@ export default function RequestStatus(props) {
         {errorMode === 'inline' && error && (
           <ErrorBox error={error} dismissError={dismissError} {...errorArgs} />
         )}
-        {loadingMode === 'global' && pending && <GlobalLoading full />}
-        {loadingMode === 'container' && pending && <LoadingMask />}
-        {loadingMode === 'skeleton' && pending && <Skeleton active {...skeletonProps} />}
+        {loadingMode === 'global' && isPending && <GlobalLoading full />}
+        {loadingMode === 'container' && isPending && <LoadingMask />}
+        {loadingMode === 'skeleton' && isPending && <Skeleton active {...skeletonProps} />}
       </React.Fragment>
     );
   }
 }
-
-RequestStatus.propTypes = {
-  pending: PropTypes.bool,
-  loading: PropTypes.bool,
-  error: PropTypes.any,
-  errorMode: PropTypes.oneOf(['inline', 'modal']),
-  loadingMode: PropTypes.oneOf(['container', 'global', 'skeleton']),
-  dismissError: PropTypes.func,
-  skeletonProps: PropTypes.object,
-  errorProps: PropTypes.object,
-};
-RequestStatus.defaultProps = {
-  pending: false,
-  loading: false,
-  error: null,
-  errorMode: 'inline',
-  dismissError: null,
-  loadingMode: 'container',
-};

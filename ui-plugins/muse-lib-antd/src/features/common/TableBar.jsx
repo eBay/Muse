@@ -5,7 +5,13 @@ import { Input } from 'antd';
 
 const { Search } = Input;
 
-export default function TableBar({ children, className, onSearch, search, placeholder }) {
+export default function TableBar({
+  children,
+  className,
+  onSearch,
+  search = () => {},
+  placeholder,
+}) {
   // eslint-disable-next-line
   const doSearch = useCallback(
     _.debounce(v => {
@@ -38,11 +44,3 @@ export default function TableBar({ children, className, onSearch, search, placeh
     </div>
   );
 }
-
-TableBar.propTypes = {
-  onSearch: PropTypes.func,
-  children: PropTypes.any,
-};
-TableBar.defaultProps = {
-  onSearch() {},
-};

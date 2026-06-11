@@ -6,13 +6,13 @@ export default function ColorPicker({ value, onChange }) {
   const colorpicker = (
     <CompactPicker
       color={value}
-      onChange={v => {
+      onChange={(v) => {
         onChange(v.hex);
       }}
     />
   );
 
-  const onColorChange = c => {
+  const onColorChange = (c) => {
     onChange(c.target.value);
   };
 
@@ -26,6 +26,3 @@ export default function ColorPicker({ value, onChange }) {
     </Dropdown>
   );
 }
-
-ColorPicker.propTypes = {};
-ColorPicker.defaultProps = {};
