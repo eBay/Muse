@@ -1,5 +1,14 @@
 # @ebay/muse-vite-plugin
 
+## 2.0.4
+
+### Patch Changes
+
+- Updated dependencies
+  - @ebay/muse-core@2.0.3
+  - @ebay/muse-dev-utils@2.0.2
+  - @ebay/muse-modules@2.0.1
+
 ## 2.0.0
 
 ### Major Changes

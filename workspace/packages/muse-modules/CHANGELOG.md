@@ -1,5 +1,11 @@
 # @ebay/muse-modules
 
+## 2.0.1
+
+### Patch Changes
+
+- up
+
 ## 2.0.0
 
 ### Major Changes
