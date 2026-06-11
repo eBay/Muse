@@ -21,7 +21,7 @@ async function validateDeployment(appName, envName, deployment, mode) {
   const modes = mode ? [mode] : ['dist', 'dev', 'test'];
   const app = await muse.data.get(`muse.app.${appName}`);
   const pluginByName = _.keyBy(app.envs[envName].plugins, 'name');
-  const envMsp = app.envs[envName]?.msp || app.msp || '';
+  const envMsp = app.envs[envName]?.msp || '';
 
   // Whether to validate all plugins on the app:
   //  1. Deployment is empty
