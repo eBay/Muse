@@ -1,5 +1,6 @@
 name: '@ebay/muse-lib-antd'
-version: 2.0.3
+version: 2.0.4
 type: lib
 esModule: true
-
+deps:
+  - '@ebay/muse-lib-react'
