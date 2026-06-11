@@ -10,6 +10,3 @@ const LightOnIconSvg = () => (
 export default function LightOnIcon(props) {
   return <Icon component={LightOnIconSvg} aria-label="lighton-icon" {...props} />;
 }
-
-LightOnIcon.propTypes = {};
-LightOnIcon.defaultProps = {};

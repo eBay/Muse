@@ -127,7 +127,6 @@ const MspMismatchesView = ({ mspMismatches }) => {
 const ValidationResultModal = NiceModal.create(({ result = {} }) => {
   const modal = useModal();
   const envs = Object.keys(result).filter((env) => result[env].success === false);
-  console.log(result);
   return (
     <Modal
       {...antdModalV5(modal)}
