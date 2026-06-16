@@ -66,6 +66,12 @@ const museLayout = {
           link: '/plugins',
           label: 'Plugins',
         },
+        {
+          key: 'msp',
+          icon: 'DeploymentUnitOutlined',
+          link: '/msp',
+          label: 'MSP',
+        },
       ];
     },
   },
