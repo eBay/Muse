@@ -16,6 +16,8 @@ import PreviewModal from './features/pm/PreviewModal';
 import GroupDeployModal from './features/pm/GroupDeployModal';
 import ValidationResultModal from './features/pm/ValidationResultModal';
 import ReleaseInfoModal from './features/pm/ReleaseInfoModal';
+import CreateMspModal from './features/msp/CreateMspModal';
+import EditMspModal from './features/msp/EditMspModal';
 
 register('muse-manager.create-app-modal', CreateAppModal);
 register('muse-manager.edit-app-modal', EditAppModal);
@@ -34,6 +36,8 @@ register('muse-manager.edit-plugin-variables-modal', EditPluginVariablesModal);
 register('muse-manager.group-deploy-modal', GroupDeployModal);
 register('muse-manager.validation-result-modal', ValidationResultModal);
 register('muse-manager.release-info-modal', ReleaseInfoModal);
+register('muse-manager.create-msp-modal', CreateMspModal);
+register('muse-manager.edit-msp-modal', EditMspModal);
 
 // TRICKY! This is a dummy comp to ensure HMR of the modals can work!
 export default function DummyComp() {

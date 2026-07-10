@@ -13,6 +13,7 @@ export default defineConfig(() => {
 
   return {
     server: {
+      cors: true,
       origin: port ? `${isHTTPS ? 'https' : 'http'}://${host}:${port}` : undefined,
       port,
       host,
@@ -26,7 +27,7 @@ export default defineConfig(() => {
       sourcemap: true,
       outDir: 'build/dist',
       rollupOptions: {
-        input: 'src/main.js',
+        input: 'src/index.js',
         output: {
           entryFileNames: 'main.js',
           format: 'iife',
