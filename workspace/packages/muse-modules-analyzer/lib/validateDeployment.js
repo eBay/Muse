@@ -21,7 +21,7 @@ async function validateDeployment(appName, envName, deployment, mode) {
   const modes = mode ? [mode] : ['dist', 'dev', 'test'];
   const app = await muse.data.get(`muse.app.${appName}`);
   const pluginByName = _.keyBy(app.envs[envName].plugins, 'name');
-  const envMsp = app.envs[envName]?.msp || '';
+  const envMsp = app.envs[envName]?.msp || app.msp || '';
 
   // Whether to validate all plugins on the app:
   //  1. Deployment is empty
@@ -69,23 +69,21 @@ async function validateDeployment(appName, envName, deployment, mode) {
   // New plugins after deployment on the env
   const newPlugins = Object.values(pluginByName);
 
-  // MSP compatibility check: if the app/env has an msp constraint, all deployed
-  // plugin releases must have the same msp value or '*' (wildcard).
+  // MSP compatibility check: plugin releases must match the env msp.
+  // Also report mismatch if the env has no msp but a plugin release has one.
   const mspMismatches = [];
-  if (envMsp) {
-    deployment
-      .filter((d) => d.type !== 'remove')
-      .forEach((d) => {
-        if (d.releaseMsp !== '*' && d.releaseMsp !== envMsp) {
-          mspMismatches.push({
-            pluginName: d.pluginName,
-            version: d.version,
-            releaseMsp: d.releaseMsp,
-            requiredMsp: envMsp,
-          });
-        }
-      });
-  }
+  deployment
+    .filter((d) => d.type !== 'remove')
+    .forEach((d) => {
+      if (d.releaseMsp && d.releaseMsp !== '*' && d.releaseMsp !== envMsp) {
+        mspMismatches.push({
+          pluginName: d.pluginName,
+          version: d.version,
+          releaseMsp: d.releaseMsp,
+          requiredMsp: envMsp,
+        });
+      }
+    });
 
   if (mspMismatches.length > 0) {
     return { mspMismatches, success: false };

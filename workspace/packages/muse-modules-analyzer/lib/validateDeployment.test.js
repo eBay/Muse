@@ -255,6 +255,23 @@ describe('basic tests', () => {
     expect(result.mspMismatches).toBeUndefined();
   });
 
+  it('msp mismatch: fails when env has no msp but plugin release has one', async () => {
+    await muse.pm.releasePlugin({ pluginName: normalPluginName, version: '2.0.0', msp: 'msp2606' });
+
+    const result = await validateDeployment(appName, 'staging', [
+      { pluginName: normalPluginName, version: '2.0.0' },
+    ]);
+    expect(result.success).toBe(false);
+    expect(result.mspMismatches).toEqual([
+      {
+        pluginName: normalPluginName,
+        version: '2.0.0',
+        releaseMsp: 'msp2606',
+        requiredMsp: '',
+      },
+    ]);
+  });
+
   it('msp match: passes when plugin release msp matches env msp', async () => {
     await muse.am.updateEnv({
       appName,
