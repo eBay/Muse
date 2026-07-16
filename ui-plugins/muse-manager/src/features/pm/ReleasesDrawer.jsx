@@ -83,6 +83,12 @@ const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
         return nodes;
       },
     },
+    {
+      dataIndex: 'msp',
+      order: 46,
+      title: 'MSP',
+      render: (msp) => msp || 'origin',
+    },
 
     {
       dataIndex: 'createdBy',
@@ -173,7 +179,7 @@ const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
         order: 10,
         node: (
           <div className="markdown-wrapper" key="markdown-desc">
-            <EditableReleaseNotes release={item} plugin={plugin}/>
+            <EditableReleaseNotes release={item} plugin={plugin} />
           </div>
         ),
       },
