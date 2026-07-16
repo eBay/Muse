@@ -57,7 +57,7 @@ class S3Storage {
   async set(key, value) {
     logger.verbose(`Setting data: ${key}...`);
     const readStream = bufferToStream(value);
-    await this.s3Client.putObject(this.bucketName, this.basePath + key, readStream);
+    await this.s3Client.putObject(this.bucketName, this.basePath + key, readStream, value.length);
   }
 
   async batchSet(items, msg) {
