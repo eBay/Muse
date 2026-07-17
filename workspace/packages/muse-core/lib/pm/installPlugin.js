@@ -1,4 +1,5 @@
 const download = require('download');
+const packageJson = require('package-json');
 const os = require('os');
 const path = require('path');
 const fs = require('fs-extra');
@@ -36,9 +37,11 @@ const installPlugin = async (params) => {
   logger.info(`Installing plugin ${pluginName} from registry ${registry}...`);
   await asyncInvoke('museCore.pm.beforeInstallPlugin', ctx, params);
   try {
-    const meta = JSON.parse(
-      String(await download(_.trimEnd(registry, '/') + `/${pluginName}/${version}`)),
-    );
+    const meta = await packageJson(pluginName, {
+      version,
+      registryUrl: _.trimEnd(registry, '/') + '/',
+      fullMetadata: true,
+    });
 
     tmpDir = path.join(os.homedir(), 'muse-storage/.tmp/', getPluginId(pluginName), meta.version);
     fs.ensureDirSync(tmpDir);

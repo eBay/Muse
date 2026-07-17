@@ -3,7 +3,7 @@ import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
 import { Modal, message, Form, Input, Button, Select, Space } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
-import { useSyncStatus, useMuseMutation, useMuseData } from '../../hooks';
+import { useSyncStatus, useMuseMutation, useMuseQuery } from '../../hooks';
 
 const CreateMspModal = NiceModal.create(() => {
   const modal = useModal();
@@ -13,7 +13,7 @@ const CreateMspModal = NiceModal.create(() => {
   const [error, setError] = useState(null);
 
   const { mutateAsync: addPreset } = useMuseMutation('msp.addPreset');
-  const { data: mspData } = useMuseData('muse.msp');
+  const { data: mspData } = useMuseQuery('msp.getMsp');
 
   const existingPresets = mspData ? Object.keys(mspData) : [];
 

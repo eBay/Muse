@@ -1,6 +1,6 @@
 import NiceModal, { antdModalV5 } from '@ebay/nice-modal-react';
 import NiceForm from '@ebay/nice-form-react';
-import { Modal, Form, Tabs } from 'antd';
+import { Modal, Form, Tabs, Tag } from 'antd';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import { extendFormMeta, extendArray } from '@ebay/muse-lib-antd/src/utils';
 import TimeAgo from 'react-time-ago';
@@ -37,7 +37,7 @@ const ReleaseInfoModal = NiceModal.create(({ release, app, plugin, version }) =>
       {
         key: 'msp',
         label: 'MSP',
-        renderView: (msp) => msp || 'origin',
+        renderView: (msp) => <Tag color="cyan">{msp || 'origin'}</Tag>,
       },
       {
         key: 'createdAt',

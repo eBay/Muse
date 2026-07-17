@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Button, Tooltip } from 'antd';
+import { Table, Button, Tooltip, Tag } from 'antd';
 import EnvActions from '../am/EnvActions';
 import { useAbility } from '../../hooks';
 import NiceModal from '@ebay/nice-modal-react';
@@ -25,7 +25,7 @@ export default function Environments({ app }) {
       width: '100px',
       order: 35,
       render: (msp) => {
-        return <>{msp || 'origin'}</>;
+        return <Tag color="cyan">{msp || 'origin'}</Tag>;
       },
     },
     {
