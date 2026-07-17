@@ -1,4 +1,4 @@
-const download = require('download');
+const packageJson = require('package-json');
 const _ = require('lodash');
 const { asyncInvoke, osUsername, validate } = require('../utils');
 const getMsp = require('./getMsp');
@@ -44,7 +44,7 @@ module.exports = async (params = {}) => {
     const pkgEntries = await Promise.all(
       pkgNames.map(async (pkg) => {
         try {
-          const meta = JSON.parse(String(await download(`${registryBase}/${pkg}/latest`)));
+          const meta = await packageJson(pkg, { version: 'latest', registryUrl: registryBase + '/' });
           return [pkg, { version: meta.version, allowPreRelease: false }];
         } catch (err) {
           logger.warn(`Failed to fetch latest version for ${pkg}: ${err.message}`);
