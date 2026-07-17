@@ -1,12 +1,14 @@
 import React from 'react';
-import { Table, Button, Dropdown, Modal, message, Tag, Tooltip } from 'antd';
+import { Table, Button, Dropdown, Modal, message, Tag } from 'antd';
+import { useNavigate } from 'react-router-dom';
 import NiceModal from '@ebay/nice-modal-react';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import tableConfig from '@ebay/muse-lib-antd/src/features/common/tableConfig';
-import { usePollingMuseData, useMuseMutation, useSyncStatus } from '../../hooks';
+import { usePollingMuseQuery, useMuseMutation, useSyncStatus } from '../../hooks';
 
 export default function MspList() {
-  const { data: mspData, error } = usePollingMuseData('muse.msp');
+  const navigate = useNavigate();
+  const { data: mspData, error } = usePollingMuseQuery('msp.getMsp');
   const syncStatus = useSyncStatus('muse.msp');
 
   const { mutateAsync: deletePreset } = useMuseMutation('msp.deletePreset');
@@ -40,7 +42,11 @@ export default function MspList() {
       width: '180px',
       order: 10,
       sorter: tableConfig.defaultSorter('name'),
-      render: (name) => <strong>{name}</strong>,
+      render: (name) => (
+        <Button type="link" style={{ padding: 0, fontWeight: 600 }} onClick={() => navigate(`/msp/${name}`)}>
+          {name}
+        </Button>
+      ),
     },
     {
       dataIndex: 'description',
@@ -62,11 +68,7 @@ export default function MspList() {
       order: 40,
       render: (versions) => {
         const count = versions ? Object.keys(versions).length : 0;
-        return (
-          <Tooltip title={versions ? Object.entries(versions).map(([k, v]) => `${k}: ${v}`).join('\n') : ''}>
-            <span>{count} pkg{count !== 1 ? 's' : ''}</span>
-          </Tooltip>
-        );
+        return <span>{count} pkg{count !== 1 ? 's' : ''}</span>;
       },
     },
     {
@@ -83,12 +85,6 @@ export default function MspList() {
       order: 200,
       render: (_, record) => {
         const items = [
-          {
-            key: 'edit',
-            label: 'Edit',
-            onClick: () =>
-              NiceModal.show('muse-manager.edit-msp-modal', { preset: record }),
-          },
           {
             key: 'delete',
             label: <span style={{ color: '#ff4d4f' }}>Delete</span>,
