@@ -10,11 +10,14 @@ const logger = require('../logger').createLogger('muse.msp.updatePackages');
  */
 
 /**
- * @description Update package versions across all presets in /msp.yaml.
- * For each preset, only updates a package when the new version shares the same major version.
+ * @description Update package versions in /msp.yaml.
+ * For each targeted preset, only updates a package when the new version shares the same major version,
+ * unless the package does not yet exist and allowNew is true for that package entry.
  * Skips pre-release versions unless allowPreRelease is true for that package.
+ * Setting remove: true for a package entry removes it from the preset's versions.
  * @param {object} params
- * @param {object} params.pkgs Map of package name to { version, allowPreRelease }.
+ * @param {object} params.pkgs Map of package name to { version, allowPreRelease, allowNew, remove }.
+ * @param {string} [params.name] If provided, only update the named preset. Otherwise updates all presets.
  * @param {string} [params.author=osUsername]
  * @param {string} [params.msg] Commit message.
  * @returns {object} The updated msp object.
@@ -23,18 +26,28 @@ module.exports = async (params = {}) => {
   validate(schema, params);
   const ctx = {};
   if (!params.author) params.author = osUsername;
-  const { pkgs, author, msg } = params;
+  const { pkgs, name, author, msg } = params;
   logger.info('Updating packages in msp...');
   await asyncInvoke('museCore.msp.beforeUpdatePackages', ctx, params);
 
   const msp = await getMsp();
   if (!msp) throw new Error('msp.yaml does not exist.');
 
-  for (const preset of Object.values(msp)) {
-    if (!preset.versions) continue;
-    for (const [pkg, { version: newVersion, allowPreRelease = false }] of Object.entries(pkgs)) {
+  if (name && !msp[name]) throw new Error(`Preset ${name} does not exist.`);
+  const presets = name ? { [name]: msp[name] } : msp;
+
+  for (const preset of Object.values(presets)) {
+    if (!preset.versions) preset.versions = {};
+    for (const [pkg, { version: newVersion, allowPreRelease = false, allowNew = false, remove = false }] of Object.entries(pkgs)) {
+      if (remove) {
+        delete preset.versions[pkg];
+        continue;
+      }
       const current = preset.versions[pkg];
-      if (!current) continue;
+      if (!current) {
+        if (allowNew) preset.versions[pkg] = newVersion;
+        continue;
+      }
       if (!allowPreRelease && semver.prerelease(newVersion)) continue;
       if (semver.major(newVersion) !== semver.major(current)) continue;
       preset.versions[pkg] = newVersion;

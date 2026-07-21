@@ -71,8 +71,7 @@ export default function MspDetail() {
 
   const { data: mspData, error } = usePollingMuseQuery('msp.getMsp');
   const syncStatus = useSyncStatus('muse.msp');
-  const { mutateAsync: deletePreset } = useMuseMutation('msp.deletePreset');
-  const { mutateAsync: addPreset } = useMuseMutation('msp.addPreset');
+  const { mutateAsync: updatePackages } = useMuseMutation('msp.updatePackages');
   const { mutateAsync: syncLatest } = useMuseMutation('msp.syncLatest');
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -103,24 +102,6 @@ export default function MspDetail() {
   const packageList = Object.entries(ownVersions).map(([pkg, version]) => ({ pkg, version }));
   const allMspNames = mspData ? Object.keys(mspData).sort() : [];
 
-  const persistPreset = useCallback(
-    async (updatedVersions) => {
-      if (!preset) return;
-      const updatedPreset = {
-        creation: preset.creation,
-        author: preset.author,
-      };
-      if (preset.extends) updatedPreset.extends = preset.extends;
-      if (preset.description) updatedPreset.description = preset.description;
-      if (Object.keys(updatedVersions).length > 0) updatedPreset.versions = updatedVersions;
-
-      await deletePreset({ name });
-      await addPreset({ name, preset: updatedPreset });
-      await syncStatus();
-    },
-    [preset, name, deletePreset, addPreset, syncStatus],
-  );
-
   const handleAddPackage = () => {
     setEditingRecord(null);
     setModalVisible(true);
@@ -132,12 +113,16 @@ export default function MspDetail() {
   };
 
   const handleDeletePackage = async (pkg) => {
-    const updatedVersions = { ...ownVersions };
-    delete updatedVersions[pkg];
     setSavePending(true);
     try {
-      await persistPreset(updatedVersions);
+      await updatePackages({
+        name,
+        pkgs: { [pkg]: { remove: true } },
+        msg: `Remove package "${pkg}" from preset ${name}`,
+      });
       message.success(`Package "${pkg}" removed.`);
+      await refetchMspData();
+      await syncStatus();
     } catch (err) {
       message.error(err.message || 'Failed to remove package.');
     } finally {
@@ -146,13 +131,20 @@ export default function MspDetail() {
   };
 
   const handleSavePackage = async ({ pkg, version }) => {
-    const updatedVersions = { ...ownVersions, [pkg]: version };
     setSavePending(true);
     try {
-      await persistPreset(updatedVersions);
+      await updatePackages({
+        name,
+        pkgs: { [pkg]: { version, allowNew: true } },
+        msg: editingRecord
+          ? `Update package "${pkg}" in preset ${name}`
+          : `Add package "${pkg}" to preset ${name}`,
+      });
       message.success(editingRecord ? `Package "${pkg}" updated.` : `Package "${pkg}" added.`);
       setModalVisible(false);
       setEditingRecord(null);
+      await refetchMspData();
+      await syncStatus();
     } catch (err) {
       message.error(err.message || 'Failed to save package.');
     } finally {
@@ -266,6 +258,7 @@ export default function MspDetail() {
             dataSource={packageList}
             size="middle"
             loading={savePending}
+            style={{ width: 600 }}
             pagination={{ hideOnSinglePage: true, size: 'small', pageSize: 50 }}
           />
 

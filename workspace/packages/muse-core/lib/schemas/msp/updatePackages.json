@@ -6,6 +6,9 @@
     "pkgs": {
       "type": "object"
     },
+    "name": {
+      "type": "string"
+    },
     "author": {
       "type": "string"
     },
