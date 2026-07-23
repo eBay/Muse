@@ -45,7 +45,8 @@ export default function ModalFooter({
         props: {
           children: okText || 'Ok',
           onClick: onOk,
-          type: 'primary',
+          color: 'primary',
+          variant: 'solid',
           ...okButtonProps,
         },
       },

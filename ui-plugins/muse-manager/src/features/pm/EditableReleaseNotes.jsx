@@ -98,13 +98,14 @@ const EditableReleaseNotes = ({ release, plugin }) => {
           <div className="mt-2">
             <Button
               onClick={handleSave}
-              type="primary"
+              color="primary"
+              variant="solid"
               className="mr-2"
               disabled={releaseNotes?.trim() === editedDescription?.trim() || !editedDescription || errors.length > 0}
             >
               Save
             </Button>
-            <Button onClick={handleCancel} type="default">
+            <Button onClick={handleCancel}>
               Cancel
             </Button>
           </div>

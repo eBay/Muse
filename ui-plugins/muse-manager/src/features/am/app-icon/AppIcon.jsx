@@ -68,7 +68,7 @@ export default function AppIcon({ app, form }) {
         <div className="col-span-5 row-span-2 aspect-square p-2">
           {uploading ? (
             <div className="grid h-full w-full content-center bg-slate-100">
-              <Spin tip="Uploading..." />
+              <Spin description="Uploading..." />
             </div>
           ) : (
             <div className="grid h-full w-full place-items-center">

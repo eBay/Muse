@@ -132,8 +132,8 @@ const RequestDetailModalInner = ({ request, retry = true }) => {
         : 'You do not have permission to cancel this request.',
       props: {
         disabled: pending || !canCancelRequest,
-        type: 'primary',
-        danger: true,
+        color: 'danger',
+        variant: 'solid',
         children: 'Cancel Request',
         onClick: () => {
           Modal.confirm({
@@ -159,7 +159,8 @@ const RequestDetailModalInner = ({ request, retry = true }) => {
         tooltip: canRetryRequest ? '' : 'You do not have permission to retry this request.',
         props: {
           disabled: pending || !canRetryRequest,
-          type: 'primary',
+          color: 'primary',
+          variant: 'solid',
           children: 'Retry',
           onClick: (values) => {
             Modal.confirm({
@@ -208,7 +209,7 @@ const RequestDetailModalInner = ({ request, retry = true }) => {
   const modalProps = {
     title: _.startCase(request.type),
     width: '800px',
-    maskClosable: false,
+    closable: { mask: false },
     footer: false,
   };
 

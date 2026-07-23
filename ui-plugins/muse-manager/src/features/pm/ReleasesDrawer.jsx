@@ -214,7 +214,7 @@ const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
     },
   ];
   return (
-    <Drawer {...antdDrawerV5(modal)} title={`Releases of ${plugin.name}`} width="1200px">
+    <Drawer {...antdDrawerV5(modal)} title={`Releases of ${plugin.name}`} size="large">
       <RequestStatus loading={isLoading} error={error} loadingMode="skeleton" />
       {!isLoading && (
         <Nodes

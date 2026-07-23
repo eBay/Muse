@@ -99,7 +99,7 @@ const ReleaseInfoModal = NiceModal.create(({ release, app, plugin, version }) =>
       title={`Release Details of ${plugin.name}`}
       width={680}
       okText="Close"
-      maskClosable={false}
+      closable={{ mask: false }}
       cancelButtonProps={{ style: { display: 'none' } }}
       styles={{
         body: {

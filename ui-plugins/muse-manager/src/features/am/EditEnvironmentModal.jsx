@@ -70,7 +70,7 @@ const EditEnvironmentModal = NiceModal.create(({ env, app }) => {
       title={`Edit Environment`}
       width="600px"
       okText="Update"
-      maskClosable={false}
+      closable={{ mask: false }}
       onOk={() => {
         form.validateFields().then(() => form.submit());
       }}

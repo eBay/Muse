@@ -124,7 +124,7 @@ const CreatePluginModal = NiceModal.create(({ app }) => {
       title={`Create Plugin`}
       width="600px"
       okText="Create"
-      maskClosable={false}
+      closable={{ mask: false }}
       className="muse-manager_pm-create-plugin-modal"
       onOk={() => {
         form.validateFields().then(() => form.submit());

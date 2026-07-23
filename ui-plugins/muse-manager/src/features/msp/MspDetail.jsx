@@ -35,7 +35,7 @@ function PackageEditModal({ visible, record, onSave, onCancel, pending }) {
       onOk={handleOk}
       onCancel={onCancel}
       confirmLoading={pending}
-      maskClosable={false}
+      closable={{ mask: false }}
     >
       <Form
         form={form}
@@ -184,7 +184,7 @@ export default function MspDetail() {
             okType="danger"
             onConfirm={() => handleDeletePackage(record.pkg)}
           >
-            <Button size="small" danger>
+            <Button size="small" color="danger" variant="solid">
               Delete
             </Button>
           </Popconfirm>
@@ -246,7 +246,7 @@ export default function MspDetail() {
               <Button icon={<SyncOutlined />} loading={syncPending} onClick={handleSyncLatest}>
                 Sync Latest
               </Button>
-              <Button type="primary" icon={<PlusOutlined />} onClick={handleAddPackage}>
+              <Button color="primary" variant="solid" icon={<PlusOutlined />} onClick={handleAddPackage}>
                 Add Package
               </Button>
             </Space>
