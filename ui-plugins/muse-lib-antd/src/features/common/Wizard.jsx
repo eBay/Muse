@@ -1,9 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import _ from 'lodash';
 import { Form, Button, Steps } from 'antd';
-import FormBuilder from 'antd-form-builder';
-
-const { Step } = Steps;
+import NiceForm from '@ebay/nice-form-react';
 
 export default function Wizard({
   // form,
@@ -21,7 +19,6 @@ export default function Wizard({
 }) {
   const [currentStep, setCurrentStep] = useState(0);
   const [form] = Form.useForm();
-  const forceUpdate = FormBuilder.useForceUpdate();
   const handleNext = () => {
     // Only validate fields in the current step
     let handleStepChange;
@@ -80,7 +77,15 @@ export default function Wizard({
               {s.title && <h3>{s.title}</h3>}
               {s.renderReview
                 ? s.renderReview(form)
-                : reviewMeta && <FormBuilder meta={reviewMeta} form={form} viewMode preserve />}
+                : reviewMeta && (
+                    <NiceForm
+                      meta={{
+                        ...reviewMeta,
+                        viewMode: true,
+                        initialValues: form.getFieldsValue(true),
+                      }}
+                    />
+                  )}
             </section>
           );
         });
@@ -103,7 +108,7 @@ export default function Wizard({
     [form, onSubmit],
   );
   const isLastStep = currentStep === stepsLength - 1;
-  const isReview = currentStep === stepsLength - 1;
+  const isReview = !noReview && currentStep === stepsLength - 1;
   const stepMeta = filterredSteps[currentStep];
 
   return (
@@ -111,22 +116,21 @@ export default function Wizard({
       layout="horizontal"
       form={form}
       className={`common-wizard common-wizard-steps-${direction || 'horizontal'}`}
-      onValuesChange={forceUpdate}
     >
       <Steps
         current={currentStep}
-        direction={direction}
-        size={direction === 'vertical' ? 'small' : 'default'}
-      >
-        {filterredSteps.map(s => (
-          <Step key={s.key || s.title} data-key={s.key} title={s.title} />
-        ))}
-      </Steps>
+        orientation={direction}
+        size={direction === 'vertical' ? 'small' : 'medium'}
+        items={filterredSteps.map(s => ({
+          key: s.key || s.title,
+          title: s.title,
+        }))}
+      />
       <div className="common-wizard-content">
         {stepMeta.render ? (
           stepMeta.render(form)
         ) : (
-          <FormBuilder preserve viewMode={isReview} form={form} meta={stepMeta.formMeta} />
+          <NiceForm meta={{ ...stepMeta.formMeta, viewMode: isReview }} />
         )}
       </div>
       <Form.Item className="common-wizard-footer form-footer" style={{ textAlign: 'right' }}>
