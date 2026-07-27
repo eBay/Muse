@@ -197,7 +197,7 @@ export default function PluginVariables({ app }) {
                 okText="Yes"
                 onConfirm={() => handleSave(record)}
               >
-                <Button type="primary" className="mt-1" size="small">
+                <Button color="primary" variant="solid" className="mt-1" size="small">
                   Save
                 </Button>
               </Popconfirm>

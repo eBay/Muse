@@ -168,7 +168,8 @@ const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
       key: 'deploy-btn',
       order: 20,
       props: {
-        type: 'primary',
+        color: 'primary',
+        variant: 'solid',
         disabled: pending,
         children: 'Deploy',
         onClick: () => {
@@ -187,7 +188,7 @@ const DeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
     <Modal
       {...antdModalV5(modal)}
       title={`Deploy Plugin`}
-      maskClosable={false}
+      closable={{ mask: false }}
       width="700px"
       closable={!pending}
       footer={false}

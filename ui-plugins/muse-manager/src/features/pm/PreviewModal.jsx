@@ -110,14 +110,14 @@ const PreviewModal = NiceModal.create(({ app }) => {
       {...antdModalV5(modal)}
       className="plugin-manager-ebay_preview-modal"
       title={`Preview Link Generator`}
-      maskClosable={false}
+      closable={{ mask: false }}
       width="880px"
       okText="Close"
       cancelButtonProps={{ style: { display: 'none' } }}
     >
       <div style={{ display: 'flex', rowGap: '30px', flexFlow: 'column wrap' }}>
         <Alert
-          message="If you want to verify a release (usually for new release) manually, or send other for
+          title="If you want to verify a release (usually for new release) manually, or send other for
           review, you can use the generated link to load plugins with specific versions."
           type="info"
         />

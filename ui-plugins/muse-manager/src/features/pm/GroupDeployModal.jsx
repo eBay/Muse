@@ -217,7 +217,8 @@ const GroupDeployModal = NiceModal.create(({ app }) => {
       key: 'deploy-btn',
       tooltip: canRequestDeploy ? '' : 'No permission to deploy/undeploy some plugins.',
       props: {
-        type: 'primary',
+        color: 'primary',
+        variant: 'solid',
         disabled: pending || !canRequestDeploy,
         children: 'Deploy',
         onClick: async () => {
@@ -237,14 +238,14 @@ const GroupDeployModal = NiceModal.create(({ app }) => {
     <Modal
       {...antdModalV5(modal)}
       title={`Group deployment for application : ${app?.name}`}
-      maskClosable={false}
+      closable={{ mask: false }}
       width="800px"
       closable={!pending}
       footer={false}
     >
       <RequestStatus loading={pending} error={error} />
       <Alert
-        message="With group deployment, you can deploy/undeploy multiple plugins in one release process.
+        title="With group deployment, you can deploy/undeploy multiple plugins in one release process.
         Note only app owners can undeploy plugins."
         type="info"
         className="mb-5"

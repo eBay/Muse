@@ -51,7 +51,7 @@ const CreateMspModal = NiceModal.create(() => {
       title={pending ? 'Creating...' : 'Create MSP Preset'}
       width="640px"
       okText="Create"
-      maskClosable={false}
+      closable={{ mask: false }}
       onOk={() => form.validateFields().then(() => form.submit())}
     >
       <RequestStatus loading={pending} error={error} />

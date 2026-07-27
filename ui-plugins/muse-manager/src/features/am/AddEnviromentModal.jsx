@@ -61,7 +61,7 @@ export default NiceModal.create(function AddEnvModal({ app }) {
     <>
       {!addAppEnvPending && <Button onClick={hideModal}>Cancel</Button>}
       {!addAppEnvPending && (
-        <Button type="primary" onClick={handleAddAppEnv}>
+        <Button color="primary" variant="solid" onClick={handleAddAppEnv}>
           Submit
         </Button>
       )}

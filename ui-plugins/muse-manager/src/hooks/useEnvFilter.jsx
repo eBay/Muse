@@ -42,8 +42,10 @@ export default function useEnvFilter(props = {}) {
         filterIcon: (
           <FilterOutlined style={{ color: envFilterMap[envName] ? '#1890ff' : '#aaa' }} />
         ),
-        filterDropdownOpen: envFilterDropdownOpenMap[envName],
-        onFilterDropdownOpenChange: (visible) => onFilterOpenChange(envName, visible),
+        filterDropdownProps: {
+          open: envFilterDropdownOpenMap[envName],
+          onOpenChange: (visible) => onFilterOpenChange(envName, visible),
+        },
       };
     },
     [envFilterDropdownOpenMap, envFilterMap, onEnvFilterChange, onFilterOpenChange],

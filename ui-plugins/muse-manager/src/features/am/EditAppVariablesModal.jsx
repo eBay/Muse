@@ -125,7 +125,7 @@ const EditAppVariablesModal = NiceModal.create(({ app, env }) => {
       width="800px"
       centered
       okText={updateAppPending ? 'Updating...' : 'Update'}
-      maskClosable={false}
+      closable={{ mask: false }}
       onOk={() => {
         form.validateFields().then(() => form.submit());
       }}

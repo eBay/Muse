@@ -125,8 +125,8 @@ export default NiceModal.create(({ app }) => {
       {...antdModalV5(modal)}
       title="Create App Icon"
       width="800px"
-      destroyOnClose
-      maskClosable={false}
+      destroyOnHidden
+      closable={{ mask: false }}
       okText={setAppIconPending ? 'Updating' : 'Update'}
       onOk={handleSaveGeneratedLogo}
     >

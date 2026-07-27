@@ -163,7 +163,7 @@ const PluginInfoModal = NiceModal.create(({ plugin, app }) => {
       order: 20,
       tooltip: cannotEdit ? 'Only plugin owners can edit plugin.' : '',
       props: {
-        type: viewMode ? 'default' : 'primary',
+        ...(viewMode ? {} : { color: 'primary', variant: 'solid' }),
         disabled: cannotEdit,
         children: viewMode ? 'Edit' : 'Save',
         onClick: () => {
@@ -186,7 +186,7 @@ const PluginInfoModal = NiceModal.create(({ plugin, app }) => {
       {...antdModalV5(modal)}
       title={(viewMode ? 'Plugin Detail: ' : `Edit Plugin: `) + plugin.name}
       width="600px"
-      maskClosable={viewMode}
+      closable={{ mask: viewMode }}
       className="muse-manager_pm-plugin-info-modal"
       footer={false}
     >

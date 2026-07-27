@@ -75,7 +75,7 @@ const EditMspModal = NiceModal.create(({ preset }) => {
       title={pending ? 'Saving...' : `Edit MSP Preset: ${preset.name}`}
       width="640px"
       okText="Save"
-      maskClosable={false}
+      closable={{ mask: false }}
       onOk={() => form.validateFields().then(() => form.submit())}
     >
       <RequestStatus loading={pending} error={error} />

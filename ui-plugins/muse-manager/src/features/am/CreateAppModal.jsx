@@ -62,7 +62,7 @@ const CreateAppModal = NiceModal.create(() => {
       title={createAppPending ? 'Creating...' : `Create App`}
       width="600px"
       okText="Create"
-      maskClosable={false}
+      closable={{ mask: false }}
       onOk={() => {
         form.validateFields().then(() => form.submit());
       }}

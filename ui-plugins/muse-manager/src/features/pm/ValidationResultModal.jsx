@@ -21,7 +21,7 @@ const MissingModulesView = ({ missingModules, type }) => {
       {type === 'dist' && (
         <Alert
           className="mb-3"
-          message="Plugins which miss modules will fail to load."
+          title="Plugins which miss modules will fail to load."
           type="error"
           showIcon
         />
@@ -29,7 +29,7 @@ const MissingModulesView = ({ missingModules, type }) => {
       {type === 'dev' && (
         <Alert
           className="mb-3"
-          message="While there're missing modules @dev, it causes issues for local development."
+          title="While there're missing modules @dev, it causes issues for local development."
           type="warning"
           showIcon
         />
@@ -37,7 +37,7 @@ const MissingModulesView = ({ missingModules, type }) => {
       {type === 'test' && (
         <Alert
           className="mb-3"
-          message="While there're missing modules @test, it causes issues for e2e testing."
+          title="While there're missing modules @test, it causes issues for e2e testing."
           type="warning"
           showIcon
         />
@@ -144,15 +144,15 @@ const ValidationResultModal = NiceModal.create(({ result = {} }) => {
         });
       }}
       okButtonProps={{
-        type: 'primary',
-        danger: true,
+        color: 'danger',
+        variant: 'solid',
         style: { float: 'left', marginLeft: 0 },
       }}
       onCancel={() => {
         modal.resolve(false);
         modal.hide();
       }}
-      maskClosable={false}
+      closable={{ mask: false }}
       className="muse-manager_pm-validate-result-modal "
     >
       <Tabs

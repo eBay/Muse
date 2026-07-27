@@ -169,7 +169,7 @@ export default function PluginList({ app }) {
                 <TimeAgo date={new Date(latest.createdAt || 0)} timeStyle="mini" /> ago
               </>
             }
-            overlayInnerStyle={{ padding: '2px 4px', minHeight: 'fit-content', fontSize: 13 }}
+            styles={{ container: { padding: '2px 4px', minHeight: 'fit-content', fontSize: 13 } }}
             zIndex={9} // lower than header layout and modals
             getPopupContainer={(trigger) => trigger.parentElement}
           >
