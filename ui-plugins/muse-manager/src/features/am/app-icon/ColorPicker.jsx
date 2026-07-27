@@ -19,7 +19,7 @@ export default function ColorPicker({ value, onChange }) {
   return (
     <Dropdown
       className="muse-app-manager_home-color-picker"
-      overlay={colorpicker}
+      popupRender={() => colorpicker}
       trigger={['click']}
     >
       <Input value={value} onChange={onColorChange} />

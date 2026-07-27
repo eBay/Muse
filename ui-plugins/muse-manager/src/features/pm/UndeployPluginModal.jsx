@@ -163,7 +163,8 @@ const UndeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
       key: 'undeploy-btn',
       order: 20,
       props: {
-        type: 'primary',
+        color: 'primary',
+        variant: 'solid',
         disabled: pending,
         children: 'Undeploy',
         onClick: () => {
@@ -181,7 +182,7 @@ const UndeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
     <Modal
       {...antdModalV5(modal)}
       title={`Undeploy Plugin`}
-      maskClosable={false}
+      closable={{ mask: false }}
       width="600px"
       closable={!pending}
       footer={false}

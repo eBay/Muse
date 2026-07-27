@@ -99,7 +99,7 @@ export default function AppPage() {
   extendArray(nodes, 'nodes', 'museManager.am.appPage', { app, nodes });
 
   return !tabs.map((t) => t.key).includes(tabKey) && app ? (
-    <Alert type="error" message={`Unknown tab: ${tabKey}`} showIcon />
+    <Alert type="error" title={`Unknown tab: ${tabKey}`} showIcon />
   ) : (
     <div>{nodes.map((n) => n.node || null)}</div>
   );

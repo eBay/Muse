@@ -101,7 +101,7 @@ export default function Sider() {
         onClose={closeDrawer}
         style={{ marginTop: '50px' }}
         placement="left"
-        width={siderConfig.width || 250}
+        styles={{ body: { width: siderConfig.width || 250, padding: 0 } }}
         rootClassName="muse-layout-antd_side-drawer"
       >
         {ele}

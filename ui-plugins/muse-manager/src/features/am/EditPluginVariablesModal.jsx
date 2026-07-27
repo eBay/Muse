@@ -148,7 +148,7 @@ const EditPluginVariablesModal = NiceModal.create(({ app, env }) => {
       width="1024px"
       centered
       okText={updateAppPending ? 'Updating...' : 'Update'}
-      maskClosable={false}
+      closable={{ mask: false }}
       onOk={() => {
         form.validateFields().then(() => form.submit());
       }}
@@ -164,7 +164,7 @@ const EditPluginVariablesModal = NiceModal.create(({ app, env }) => {
         {!isAppOwner && (
           <Alert
             showIcon
-            message="Only plugins you are owner of can be selected for editing variables"
+            title="Only plugins you are owner of can be selected for editing variables"
             type="info"
             style={{ marginBottom: '20px' }}
           />
@@ -197,14 +197,14 @@ const EditPluginVariablesModal = NiceModal.create(({ app, env }) => {
                       >
                         <Select
                           options={pluginList}
-                          showSearch
-                          optionFilterProp="children"
-                          filterOption={(input, option) => (option?.label ?? '').includes(input)}
-                          filterSort={(optionA, optionB) =>
-                            (optionA?.label ?? '')
-                              .toLowerCase()
-                              .localeCompare((optionB?.label ?? '').toLowerCase())
-                          }
+                          showSearch={{
+                            optionFilterProp: 'label',
+                            filterOption: (input, option) => (option?.label ?? '').includes(input),
+                            filterSort: (optionA, optionB) =>
+                              (optionA?.label ?? '')
+                                .toLowerCase()
+                                .localeCompare((optionB?.label ?? '').toLowerCase()),
+                          }}
                           placeholder="Plugin Name"
                           style={{ width: '250px' }}
                         />
@@ -249,7 +249,8 @@ const EditPluginVariablesModal = NiceModal.create(({ app, env }) => {
                 <Form.Item>
                   <Button
                     style={{ width: '180px', float: 'right', marginRight: '30px' }}
-                    type="primary"
+                    color="primary"
+                    variant="solid"
                     onClick={() => add()}
                     block
                     icon={<PlusOutlined />}

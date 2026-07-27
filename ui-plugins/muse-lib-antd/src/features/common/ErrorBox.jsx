@@ -79,10 +79,9 @@ export default class ErrorBox extends Component {
         <Alert
           showIcon
           type="error"
-          message={this.props.title}
+          title={this.props.title}
           description={this.renderDescription()}
-          closable={!!dismissError}
-          onClose={dismissError}
+          closable={dismissError ? { onClose: dismissError } : false}
         />
       </div>
     );

@@ -105,7 +105,8 @@ export default function MspList() {
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
         <h1 style={{ margin: 0 }}>MSP (SDK Presets)</h1>
         <Button
-          type="primary"
+          color="primary"
+          variant="solid"
           onClick={() => NiceModal.show('muse-manager.create-msp-modal')}
         >
           + Create Preset

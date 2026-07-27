@@ -75,7 +75,7 @@ const PluginConfigModal = NiceModal.create(({ plugin, app }) => {
       {...antdModalV5(modal)}
       title={`Plugin Config: ${plugin.name}`}
       width="700px"
-      maskClosable={false}
+      closable={{ mask: false }}
       okText="Save"
       onOk={() => {
         form
@@ -91,7 +91,7 @@ const PluginConfigModal = NiceModal.create(({ plugin, app }) => {
       <Alert
         style={{ padding: '1.25rem', marginBottom: '1em' }}
         icon={<LightOnIcon style={{ fill: 'currentColor' }} />}
-        message={
+        title={
           <>
             Plugin config on the app <b>{app.name}</b>. Note that you can config plugins before
             deploying.
