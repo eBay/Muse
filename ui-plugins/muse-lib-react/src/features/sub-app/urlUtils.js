@@ -1,10 +1,10 @@
-import { pathToRegexp, match } from 'path-to-regexp';
+import { match } from 'path-to-regexp';
 import _ from 'lodash';
 
 export default {
   // Map a parent path to the sub app's url based on sub app declaration
   getChildUrlPath(subApp) {
-    const parentPath = document.location.href.replace(document.location.origin, '');
+    const parentPath = document.location.pathname;
 
     // The subApp.path means under which path pattern it loads the sub app.
     // It needs to extract params from subApp.path and used to construct the final sub app url.
@@ -24,7 +24,8 @@ export default {
 
       // const urlInstance = new URL(childBaseUrl);
 
-      let u = parentPath.replace(pathToRegexp(subApp.path, [], { end: false }), '');
+      const u =
+        parentPath.slice(res.path.length) + document.location.search + document.location.hash;
       // if (!u.startsWith('/')) u = '/' + u;
       const arr = childBaseUrl.split('/');
       arr.splice(0, 3);
@@ -46,7 +47,7 @@ export default {
       parentPath: /app/musemanager/ecdx/sub-tab?query=1
   */
   getParentPath(childFullPath, subApp) {
-    const parentPath = document.location.href.replace(document.location.origin, '');
+    const parentPath = document.location.pathname;
     const res = match(subApp.path, { decode: decodeURIComponent, end: false })(parentPath);
 
     // The parent path must match subApp.path
@@ -74,13 +75,9 @@ export default {
       (childFullPath.startsWith(mountedSubPath) &&
         ['', '?', '/', '#'].includes(childFullPath.charAt(mountedSubPath.length)));
     if (!isPathValid) return;
-    const re = pathToRegexp(subApp.path, [], { end: false });
-    const pathname = document.location.pathname;
-    if (!re.test(pathname)) return;
-    const m = pathname.match(re);
-    console.log('parent register path: ', m[0]);
+    console.log('parent register path: ', res.path);
     const newParentFullPath = (
-      m[0] +
+      res.path +
       // '/' +
       // childFullPath = '/', mountedSubPath='/' => ''
       // childFullPath = '/abc', mountedSubPath='/' => 'abc'
