@@ -87,7 +87,7 @@ module.exports = ({ basePath = '/api/v2' } = {}) => {
     fileFields[obj.apiKey] = obj.fields;
   });
   exposedApis.push(...apis);
-  muse.plugin.invoke('museMiddleware.api.processApis', apis);
+  muse.plugin.invoke('museMiddleware.api.processApis', exposedApis);
   muse.plugin.invoke('museMiddleware.api.processFileFields', fileFields);
 
   return async (req, res, next) => {
