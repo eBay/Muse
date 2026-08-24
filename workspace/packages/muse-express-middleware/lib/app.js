@@ -10,7 +10,7 @@ const defaultTemplate = `
 <!doctype html>
 <html lang="en">
 <head>
-  <title><%= title %></title>
+  <title><%- title %></title>
   <link rel="shortcut icon" href="<%= favicon %>" />
   <script>
     window.MUSE_GLOBAL = <%= museGlobal %>;
