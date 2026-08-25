@@ -7,6 +7,14 @@ import { DeleteOutlined, PlusOutlined, QuestionCircleOutlined } from '@ant-desig
 import jsPlugin from 'js-plugin';
 import NiceForm from '@ebay/nice-form-react';
 import utils from '@ebay/muse-lib-antd/src/utils';
+import {
+  confirmSensitivePublicVariables,
+} from './SensitivePublicVariablesConfirm';
+import {
+  findSensitivePublicVariables,
+  PUBLIC_VARIABLES_ALERT_DESCRIPTION,
+  PUBLIC_VARIABLES_ALERT_TITLE,
+} from './publicVariableSecurity';
 const { TextArea } = Input;
 
 const EditPluginVariablesModal = NiceModal.create(({ app, env }) => {
@@ -53,7 +61,7 @@ const EditPluginVariablesModal = NiceModal.create(({ app, env }) => {
     env ? app.envs[env].pluginVariables : app.pluginVariables,
   );
 
-  const handleFinish = useCallback(() => {
+  const handleFinish = useCallback(async () => {
     const propertiesToJSON = (str) => {
       const sanitizedLines = str
         // Concat lines that end with '\'.
@@ -86,6 +94,10 @@ const EditPluginVariablesModal = NiceModal.create(({ app, env }) => {
 
     let values = form.getFieldsValue();
     const variablesForEnv = values.pluginVariables;
+    const findings = (variablesForEnv || []).flatMap((item) =>
+      findSensitivePublicVariables(item?.variables),
+    );
+    if (!(await confirmSensitivePublicVariables(findings))) return;
 
     if (env) {
       const restOfEnvValues = (({ pluginVariables, ...others }) => others)(app.envs[env]);
@@ -161,6 +173,13 @@ const EditPluginVariablesModal = NiceModal.create(({ app, env }) => {
         }}
       >
         <RequestStatus loading={updateAppPending} error={updateAppError} />
+        <Alert
+          showIcon
+          type="warning"
+          title={PUBLIC_VARIABLES_ALERT_TITLE}
+          description={PUBLIC_VARIABLES_ALERT_DESCRIPTION}
+          style={{ marginBottom: '20px' }}
+        />
         {!isAppOwner && (
           <Alert
             showIcon

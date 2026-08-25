@@ -1,11 +1,19 @@
 import { useCallback } from 'react';
 import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
-import { Modal, message, Form } from 'antd';
+import { Alert, Modal, message, Form } from 'antd';
 import { RequestStatus } from '@ebay/muse-lib-antd/src/features/common';
 import utils from '@ebay/muse-lib-antd/src/utils';
 import NiceForm from '@ebay/nice-form-react';
 import jsPlugin from 'js-plugin';
 import { useSyncStatus, useMuseMutation } from '../../hooks';
+import {
+  confirmSensitivePublicVariables,
+} from './SensitivePublicVariablesConfirm';
+import {
+  findSensitivePublicVariables,
+  PUBLIC_VARIABLES_ALERT_DESCRIPTION,
+  PUBLIC_VARIABLES_ALERT_TITLE,
+} from './publicVariableSecurity';
 
 const EditAppVariablesModal = NiceModal.create(({ app, env }) => {
   const modal = useModal();
@@ -67,9 +75,11 @@ const EditAppVariablesModal = NiceModal.create(({ app, env }) => {
     ].filter(Boolean),
   };
 
-  const handleFinish = useCallback(() => {
+  const handleFinish = useCallback(async () => {
     let values = form.getFieldsValue();
     const variablesForEnv = values.variables;
+    const findings = findSensitivePublicVariables(variablesForEnv);
+    if (!(await confirmSensitivePublicVariables(findings))) return;
 
     if (env) {
       const restOfEnvValues = (({ variables, ...others }) => others)(app.envs[env]);
@@ -139,6 +149,13 @@ const EditAppVariablesModal = NiceModal.create(({ app, env }) => {
         }}
       >
         <RequestStatus loading={updateAppPending} error={updateAppError} />
+        <Alert
+          showIcon
+          type="warning"
+          title={PUBLIC_VARIABLES_ALERT_TITLE}
+          description={PUBLIC_VARIABLES_ALERT_DESCRIPTION}
+          style={{ marginBottom: '20px' }}
+        />
         <Form
           layout="horizontal"
           form={form}

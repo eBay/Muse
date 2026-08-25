@@ -8,6 +8,12 @@ import { useAbility, useSyncStatus, useMuseMutation, useMuseData } from '../../h
 import VarEditableCell from './VarEditableCell';
 import { FooterItem } from '../common/ModalFooter';
 import jsPlugin from 'js-plugin';
+import {
+  confirmSensitivePublicVariables,
+} from './SensitivePublicVariablesConfirm';
+import {
+  findSensitivePublicVariablePairs,
+} from './publicVariableSecurity';
 
 export default function PluginVariables({ app }) {
   const envs = app.envs ? Object.keys(app.envs) : [];
@@ -89,6 +95,15 @@ export default function PluginVariables({ app }) {
           updateUnset.push(['envs', envName, ...varPath]);
         }
       });
+
+      const findings = findSensitivePublicVariablePairs([
+        { key: values.variableName, value: values.defaultVariableValue },
+        ...envs.map((envName) => ({
+          key: values.variableName,
+          value: values.envs?.[envName],
+        })),
+      ]);
+      if (!(await confirmSensitivePublicVariables(findings))) return;
 
       await updateVars({
         set: updateSet,
@@ -360,7 +375,7 @@ export default function PluginVariables({ app }) {
         />
       </Form>
       <Select
-        className="mt-3 w-52 text-blue-600"
+        className="mt-3! w-52 text-blue-600"
         showSearch
         value={null}
         popupMatchSelectWidth={false}

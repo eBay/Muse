@@ -3,6 +3,10 @@ import { Radio, Alert } from 'antd';
 import { useParams, useNavigate } from 'react-router-dom';
 import AppVariables from './AppVariables';
 import PluginVariables from './PluginVariables';
+import {
+  PUBLIC_VARIABLES_ALERT_DESCRIPTION,
+  PUBLIC_VARIABLES_ALERT_TITLE,
+} from './publicVariableSecurity';
 
 export default function EnvironmentVariables({ app }) {
   const { scope = 'app' } = useParams();
@@ -25,6 +29,13 @@ export default function EnvironmentVariables({ app }) {
 
   return (
     <>
+      <Alert
+        showIcon
+        type="warning"
+        title={PUBLIC_VARIABLES_ALERT_TITLE}
+        description={PUBLIC_VARIABLES_ALERT_DESCRIPTION}
+        style={{ marginBottom: '16px' }}
+      />
       <Radio.Group
         options={plainOptions}
         onChange={onChangeRadio}

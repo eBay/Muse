@@ -8,6 +8,12 @@ import { extendArray } from '@ebay/muse-lib-antd/src/utils';
 import VarEditableCell from './VarEditableCell';
 import { FooterItem } from '../common/ModalFooter';
 import jsPlugin from 'js-plugin';
+import {
+  confirmSensitivePublicVariables,
+} from './SensitivePublicVariablesConfirm';
+import {
+  findSensitivePublicVariablePairs,
+} from './publicVariableSecurity';
 
 export default function AppVariables({ app }) {
   const envs = app.envs ? Object.keys(app.envs) : [];
@@ -86,6 +92,15 @@ export default function AppVariables({ app }) {
           updateUnset.push(['envs', envName, 'variables', varName]);
         }
       });
+
+      const findings = findSensitivePublicVariablePairs([
+        { key: values.variableName, value: values.defaultVariableValue },
+        ...envs.map((envName) => ({
+          key: values.variableName,
+          value: values.envs?.[envName],
+        })),
+      ]);
+      if (!(await confirmSensitivePublicVariables(findings))) return;
 
       await updateVars({
         set: updateSet,
@@ -303,7 +318,7 @@ export default function AppVariables({ app }) {
       </Form>
       <Button
         type="link"
-        className="mt-3"
+        className="mt-3!"
         onClick={() => handleNewVar()}
         title={!canUpdateApp ? 'No Permission.' : undefined}
         disabled={!canUpdateApp}
