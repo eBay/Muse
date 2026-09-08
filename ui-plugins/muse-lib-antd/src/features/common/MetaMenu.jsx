@@ -6,6 +6,17 @@ import { Link, useLocation } from 'react-router-dom';
 import plugin from 'js-plugin';
 import getIconNode from './getIconNode';
 
+const getAntdMenuItems = items =>
+  items.map(item => {
+    const antdItem = _.omit(item, 'activeMatch');
+
+    if (item.children) {
+      antdItem.children = getAntdMenuItems(item.children);
+    }
+
+    return antdItem;
+  });
+
 /*
   Meta driven menu based on Antd's Menu component.
   Supported features:
@@ -136,7 +147,7 @@ export default function MetaMenu({ meta = {}, onClick, baseExtPoint, autoSort = 
     ...meta.menuProps,
     className: menuClassnames.join(' '),
     theme: meta.theme || 'light',
-    items: newItems,
+    items: getAntdMenuItems(newItems),
   };
 
   if (menuMode === 'inline' && !meta.hasOwnProperty('collapsed'))

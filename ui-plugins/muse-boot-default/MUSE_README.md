@@ -376,10 +376,10 @@ const MyComponent = () => {
 
 ### Example 5: Force Loading Specific Plugin Versions
 
-For debugging or testing, use the `forcePlugins` query parameter:
+For debugging, local development, or Muse e2e, use the `forcePlugins` query parameter. It is applied when `isDev`, `isLocal`, or `isE2eTest` is true. Plugin names, types (`boot` / `init` / `lib` / `normal`), and versions must be valid; other values are ignored.
 
 ```
-https://myapp.com?forcePlugins=@ebay/my-plugin@1.2.3;other-plugin@2.0.0
+https://myapp.com?forcePlugins=@ebay/my-plugin@1.2.3;other-plugin!normal@2.0.0
 ```
 
 This overrides the deployed plugin versions with specific versions.
@@ -394,7 +394,7 @@ This overrides the deployed plugin versions with specific versions.
 - Handles plugin loading order: boot → init → lib → normal
 - Init plugins can use `initEntries` or `waitFor` to perform async initialization
 - Lib plugins with `isAppEntry: true` register app entry functions
-- The `forcePlugins` query parameter is useful for debugging specific plugin versions
+- The `forcePlugins` query parameter is useful for debugging specific plugin versions in local/dev or Muse e2e
 - Service worker registration is automatic but can be customized
 - All plugin loading happens in parallel for performance (within each type group)
 - The loading UI provides user feedback during the bootstrap process

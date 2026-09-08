@@ -44,7 +44,7 @@ const loading = {
   },
 
   showMessage(msg) {
-    if (this.labelNode) this.labelNode.innerHTML = msg || '';
+    if (this.labelNode) this.labelNode.textContent = msg || '';
   },
 };
 

@@ -46,6 +46,7 @@ vi.mock('./style.css', () => ({}));
 import loading from './loading.js';
 import error from './error.js';
 import msgEngine from './msgEngine.js';
+import { loadInParallel } from './utils.js';
 import { bootstrap } from './boot.js';
 
 function makeMuseGlobal(overrides = {}) {
@@ -260,6 +261,87 @@ describe('bootstrap', () => {
     await new Promise((resolve) => setTimeout(resolve, 0));
 
     expect(loader).toHaveBeenCalledTimes(1);
+  });
+
+  it('ignores forcePlugins in deployed environments', async () => {
+    const prevLocation = window.location;
+    Object.defineProperty(window, 'location', {
+      configurable: true,
+      value: { search: '?forcePlugins=poc!init@1.0.0' },
+    });
+    window.MUSE_GLOBAL.appEntries = [{ name: 'main', func: vi.fn().mockResolvedValue(undefined) }];
+    vi.spyOn(console, 'warn').mockImplementation(() => {});
+    vi.spyOn(document.head, 'appendChild').mockImplementation((el) => {
+      if (el.tagName === 'SCRIPT' && el.textContent?.includes('__onMusePluginsLoaded')) {
+        window.MUSE_GLOBAL.__onMusePluginsLoaded?.();
+      }
+    });
+
+    try {
+      await runBootstrap();
+      const initPlugins = loadInParallel.mock.calls[0]?.[0] || [];
+      expect(initPlugins.some((p) => p.name === 'poc')).toBe(false);
+    } finally {
+      Object.defineProperty(window, 'location', { configurable: true, value: prevLocation });
+    }
+  });
+
+  it('applies valid forcePlugins in dev', async () => {
+    const prevLocation = window.location;
+    Object.defineProperty(window, 'location', {
+      configurable: true,
+      value: { search: '?forcePlugins=extra!init@1.0.1' },
+    });
+    window.MUSE_GLOBAL = makeMuseGlobal({
+      isDev: true,
+      appEntries: [{ name: 'main', func: vi.fn().mockResolvedValue(undefined) }],
+    });
+    vi.spyOn(document.head, 'appendChild').mockImplementation((el) => {
+      if (el.tagName === 'SCRIPT' && el.textContent?.includes('__onMusePluginsLoaded')) {
+        window.MUSE_GLOBAL.__onMusePluginsLoaded?.();
+      }
+    });
+
+    try {
+      await runBootstrap();
+      const initPlugins = loadInParallel.mock.calls[0][0];
+      expect(initPlugins).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({ name: 'extra', type: 'init', version: '1.0.1' }),
+        ]),
+      );
+    } finally {
+      Object.defineProperty(window, 'location', { configurable: true, value: prevLocation });
+    }
+  });
+
+  it('applies valid forcePlugins when isE2eTest is true', async () => {
+    const prevLocation = window.location;
+    Object.defineProperty(window, 'location', {
+      configurable: true,
+      value: { search: '?forcePlugins=extra!init@1.0.1' },
+    });
+    window.MUSE_GLOBAL = makeMuseGlobal({
+      isE2eTest: true,
+      appEntries: [{ name: 'main', func: vi.fn().mockResolvedValue(undefined) }],
+    });
+    vi.spyOn(document.head, 'appendChild').mockImplementation((el) => {
+      if (el.tagName === 'SCRIPT' && el.textContent?.includes('__onMusePluginsLoaded')) {
+        window.MUSE_GLOBAL.__onMusePluginsLoaded?.();
+      }
+    });
+
+    try {
+      await runBootstrap();
+      const initPlugins = loadInParallel.mock.calls[0][0];
+      expect(initPlugins).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({ name: 'extra', type: 'init', version: '1.0.1' }),
+        ]),
+      );
+    } finally {
+      Object.defineProperty(window, 'location', { configurable: true, value: prevLocation });
+    }
   });
 });
 

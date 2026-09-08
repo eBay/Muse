@@ -78,5 +78,19 @@ describe('error', () => {
       error.update();
       expect(error.mountNode.innerHTML).toContain('href="#"');
     });
+
+    it('renders untrusted error text without executing HTML', () => {
+      error.showMessage('<img src=x onerror="alert(1)">');
+      expect(error.mountNode.querySelector('img')).toBeNull();
+      expect(error.mountNode.textContent).toContain('<img src=x onerror="alert(1)">');
+    });
+
+    it('rejects javascript: support links', () => {
+      setupMuseGlobal({ appConfig: { supportLink: 'javascript:alert(1)' } });
+      error.errors = ['oops'];
+      error.init();
+      error.update();
+      expect(error.mountNode.querySelector('a').getAttribute('href')).toBe('#');
+    });
   });
 });

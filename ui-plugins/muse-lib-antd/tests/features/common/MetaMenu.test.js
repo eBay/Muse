@@ -9,6 +9,40 @@ import history from '../../../src/common/history';
 import { MenuUnfoldOutlined } from '@ant-design/icons';
 
 describe('common/MetaMenu', () => {
+  it('does not forward activeMatch to Ant Design menu item DOM elements', () => {
+    const consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
+    const meta = {
+      autoActive: true,
+      mode: 'inline',
+      items: [
+        {
+          key: 'seller',
+          label: 'Seller',
+          activeMatch: () => true,
+          children: [
+            {
+              key: 'event',
+              label: 'Event',
+              activeMatch: () => true,
+            },
+          ],
+        },
+      ],
+    };
+
+    try {
+      render(
+        <Router location={history.location} navigator={history}>
+          <MetaMenu meta={meta} />
+        </Router>,
+      );
+
+      expect(consoleError.mock.calls.flat().join(' ')).not.toContain('activeMatch');
+    } finally {
+      consoleError.mockRestore();
+    }
+  });
+
   it('renders Sider MetaMenu with <Link/>', async () => {
 
     const closeDrawer = jest.fn();
