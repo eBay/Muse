@@ -1,5 +1,13 @@
 # @ebay/muse-express-middleware
 
+## 2.0.6
+
+### Patch Changes
+
+- Encode MUSE_GLOBAL JSON when embedding it in HTML script tags.
+- Updated dependencies
+  - @ebay/muse-core@2.0.6
+
 ## 2.0.2
 
 ### Patch Changes
