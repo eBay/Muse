@@ -172,6 +172,15 @@ const getMuseGlobal = (app, envName) => {
   };
 };
 
+/**
+ * Encode JSON for embedding inside an HTML <script> element.
+ * JSON.stringify does not neutralize the HTML parser's </script> terminator;
+ * encoding '<' as \u003c keeps the payload as data.
+ */
+const serializeJsonForHtmlScript = (value, space) => {
+  return JSON.stringify(value, null, space).replace(/</g, '\\u003c');
+};
+
 const doZip = (sourceDir, zipFile) => {
   return new Promise((resolve, reject) => {
     const output = fs.createWriteStream(zipFile);
@@ -257,6 +266,7 @@ module.exports = {
   genNewVersion,
   updateJson,
   getMuseGlobal,
+  serializeJsonForHtmlScript,
   doZip,
   parseRegistryKey,
   validate,

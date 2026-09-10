@@ -229,7 +229,7 @@ module.exports = ({
           `${cdn}/p/${museCore.utils.getPluginId(bootPlugin.name)}/v${
             bootPlugin.version
           }/dist/boot.js`,
-        museGlobal: JSON.stringify(museGlobal, null, 2).replace(/</g, '\\u003c'),
+        museGlobal: museCore.utils.serializeJsonForHtmlScript(museGlobal, 2),
       }),
     };
     await museCore.utils.asyncInvoke('museMiddleware.app.processIndexHtml', ctx);

@@ -208,6 +208,7 @@ export const utils: {
         plugins: any;
         bootPlugin: any;
     };
+    serializeJsonForHtmlScript: (value: any, space?: string | number) => string;
     doZip: (sourceDir: any, zipFile: any) => Promise<any>;
     parseRegistryKey: (key: any) => {
         type: string;
