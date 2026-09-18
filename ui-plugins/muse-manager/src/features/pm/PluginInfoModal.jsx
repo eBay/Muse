@@ -16,7 +16,7 @@ const PluginInfoModal = NiceModal.create(({ plugin, app }) => {
   const {
     mutateAsync: updatePlugin,
     error: updatePluginError,
-    isLoading: updatePluginPending,
+    isPending: updatePluginPending,
   } = useMuseMutation('pm.updatePlugin');
 
   const meta = {

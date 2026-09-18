@@ -14,7 +14,7 @@ const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
   const modal = useModal();
   const {
     data: releases,
-    isLoading,
+    isPending,
     error,
   } = usePollingMuseData(`muse.plugin-releases.${plugin.name}`);
   const deployedVersion = app
@@ -26,7 +26,7 @@ const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
     : {};
   const syncStatus = useSyncStatus(`muse.plugin-releases.${plugin.name}`);
   const ability = useAbility();
-  const { mutateAsync: deleteRelease, isLoading: deleteReleasePending } =
+  const { mutateAsync: deleteRelease, isPending: deleteReleasePending } =
     useMuseMutation('pm.deleteRelease');
   const handleDelete = useCallback(
     async (version) => {
@@ -215,8 +215,8 @@ const ReleasesDrawer = NiceModal.create(({ plugin, app }) => {
   ];
   return (
     <Drawer {...antdDrawerV5(modal)} title={`Releases of ${plugin.name}`} size={1200}>
-      <RequestStatus loading={isLoading} error={error} loadingMode="skeleton" />
-      {!isLoading && (
+      <RequestStatus loading={isPending} error={error} loadingMode="skeleton" />
+      {!isPending && (
         <Nodes
           items={nodes}
           extName="nodes"

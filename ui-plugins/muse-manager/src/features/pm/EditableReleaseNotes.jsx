@@ -19,7 +19,7 @@ const EditableReleaseNotes = ({ release, plugin }) => {
   const {
     mutateAsync: updateRelease,
     error: updateReleaseError,
-    isLoading: updateReleasePending,
+    isPending: updateReleasePending,
     reset,
   } = useMuseMutation('pm.updateRelease');
 

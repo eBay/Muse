@@ -16,7 +16,7 @@ const EditEnvironmentModal = NiceModal.create(({ env, app }) => {
   const {
     mutateAsync: updateEnv,
     error: updateEnvError,
-    isLoading: updateEnvPending,
+    isPending: updateEnvPending,
   } = useMuseMutation('am.updateEnv');
 
   const handleFinish = useCallback(() => {

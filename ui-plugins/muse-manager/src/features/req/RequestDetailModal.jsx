@@ -42,13 +42,13 @@ const RequestDetailModalInner = ({ request, retry = true }) => {
   const {
     mutateAsync: deleteRequest,
     error: deleteRequestError,
-    isLoading: deleteRequestPending,
+    isPending: deleteRequestPending,
   } = useMuseMutation('req.deleteRequest');
 
   const {
     mutateAsync: createRequest,
     error: createRequestError,
-    isLoading: createRequestPending,
+    isPending: createRequestPending,
   } = useMuseMutation('req.createRequest');
 
   const { setPending, setError, pending, error } = usePendingError(

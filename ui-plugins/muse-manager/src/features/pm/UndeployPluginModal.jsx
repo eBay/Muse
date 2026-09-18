@@ -21,7 +21,7 @@ const UndeployPluginModal = NiceModal.create(({ plugin, app, version }) => {
   const {
     mutateAsync: undeployPlugin,
     error: undeployPluginError,
-    isLoading: undeployPluginPending,
+    isPending: undeployPluginPending,
   } = useMuseMutation('pm.undeployPlugin');
 
   const { validateDeployment, validateDeploymentError, validateDeploymentPending } =
