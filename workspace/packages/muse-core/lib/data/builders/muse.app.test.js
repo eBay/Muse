@@ -33,4 +33,32 @@ describe('Muse app builder tests.', () => {
       version: '1.0.0',
     });
   });
+
+  it('copies plugin.yaml variables onto every deployed instance', async () => {
+    const xss = "</script><script>document.title='XSS_SCRIPT_BREAKOUT'</script>";
+    await muse.am.createApp({ appName: 'app1' });
+    await muse.pm.createPlugin({
+      pluginName: 'p1',
+      options: { variables: { xss_marker: xss } },
+    });
+    await muse.pm.createPlugin({ pluginName: 'p2', type: 'boot' });
+    await muse.pm.releasePlugin({ pluginName: 'p1', version: '1.0.0' });
+    await muse.pm.releasePlugin({ pluginName: 'p2' });
+    await muse.pm.deployPlugin({
+      appName: 'app1',
+      envName: 'staging',
+      pluginName: 'p1',
+      version: '1.0.0',
+    });
+    await muse.pm.deployPlugin({
+      appName: 'app1',
+      envName: 'staging',
+      pluginName: 'p2',
+      version: '1.0.0',
+    });
+
+    const fullApp = await muse.data.get('muse.app.app1');
+    const deployed = fullApp.envs.staging.plugins.find((p) => p.name === 'p1');
+    expect(deployed.variables).toEqual({ xss_marker: xss });
+  });
 });

@@ -23,7 +23,7 @@ const GroupDeployModal = NiceModal.create(({ app }) => {
   const {
     mutateAsync: deployPlugin,
     error: deployPluginError,
-    isLoading: deployPluginPending,
+    isPending: deployPluginPending,
   } = useMuseMutation('pm.deployPlugin');
 
   const { validateDeployment, validateDeploymentError, validateDeploymentPending } =

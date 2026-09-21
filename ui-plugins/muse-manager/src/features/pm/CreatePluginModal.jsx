@@ -16,7 +16,7 @@ const CreatePluginModal = NiceModal.create(({ app }) => {
   const {
     mutateAsync: createPlugin,
     error: createPluginError,
-    isLoading: createPluginPending,
+    isPending: createPluginPending,
   } = useMuseMutation('pm.createPlugin');
 
   const meta = {

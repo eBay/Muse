@@ -63,6 +63,55 @@ describe('Export basic tests.', () => {
     expect(testJsPlugin.museCore.am.afterExport).toBeCalledTimes(1);
   });
 
+  it('encodes plugin metadata when embedding MUSE_GLOBAL in index.html', async () => {
+    const fse = require('fs-extra');
+    const xss = "</script><script>document.title='XSS_SCRIPT_BREAKOUT'</script>";
+    const appName = 'xssapp';
+    const envName = 'staging';
+    const pluginName = 'xss-plugin';
+
+    await muse.am.createApp({
+      appName,
+      author: 'nate',
+      options: {
+        title: xss,
+        description: xss,
+        pluginVariables: {
+          [pluginName]: { xss_marker: xss },
+        },
+      },
+    });
+    await muse.pm.createPlugin({
+      pluginName,
+      type: 'boot',
+      options: { variables: { common_marker: xss } },
+    });
+    await muse.pm.releasePlugin({
+      pluginName,
+      version: 'minor',
+      author: 'nate',
+    });
+    await muse.pm.deployPlugin({
+      appName,
+      envName,
+      pluginName,
+      version: '1.0.0',
+    });
+
+    unzipper.Open.buffer.mockResolvedValue({
+      extract: () => {},
+      files: [],
+    });
+    muse.storage.assets.get = jest.fn(() => 'test');
+
+    await muse.am.export({ appName, museGlobalProps: {}, envName, output: 'export-xss' });
+
+    const indexHtml = fse.readFileSync(path.join(process.cwd(), 'export-xss/index.html'), 'utf8');
+    expect(indexHtml).not.toMatch(/<\/script>\s*<script>/i);
+    expect(indexHtml).toContain('\\u003c/script>');
+    expect(indexHtml).toContain(`<title>${require('lodash').escape(xss)}</title>`);
+  });
+
   it('It throws exception if app not exists.', async () => {
     const appName = 'testapp';
     const envName = 'feature';

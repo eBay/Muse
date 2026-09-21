@@ -674,11 +674,11 @@ This plugin exports the following functionality for use by other plugins.
 
 - **`useExtPoint`**: Hook to consume extension points in React components. Takes extension point name and args, returns array of contributed components. Use when building extensible UI components.
 
-- **`useMuseData`**: (from museHooks) React Query hook for fetching MUSE data. Takes data key (e.g., 'muse.apps'), returns `{ data, isLoading, error }`. Auto-polling support.
+- **`useMuseData`**: (from museHooks) React Query hook for fetching MUSE data. Takes data key (e.g., 'muse.apps'), returns `{ data, isPending, error }`. Auto-polling support.
 
 - **`usePollingMuseData`**: (from museHooks) Similar to useMuseData but with auto-polling enabled. Use for data that needs real-time updates like deployment status.
 
-- **`useMuseMutation`**: (from museHooks) React Query mutation hook for MUSE API operations. Takes mutation key (e.g., 'am.createApp'), returns `{ mutateAsync, error, isLoading }`. Use for write operations.
+- **`useMuseMutation`**: (from museHooks) React Query mutation hook for MUSE API operations. Takes mutation key (e.g., 'am.createApp'), returns `{ mutateAsync, error, isPending }`. Use for write operations.
 
 ### Components (from common features)
 

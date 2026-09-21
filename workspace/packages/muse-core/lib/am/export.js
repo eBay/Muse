@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const schema = require('../schemas/am/export.json');
-const { asyncInvoke, validate } = require('../utils');
+const { asyncInvoke, validate, serializeJsonForHtmlScript } = require('../utils');
 const logger = require('../logger').createLogger('muse.am.export');
 const path = require('path');
 const muse = require('../../');
@@ -84,10 +84,10 @@ module.exports = async (params = {}) => {
 <!doctype html>
 <html lang="en">
 <head>
-  <title>${app.title || 'Muse App'}</title>
+  <title>${_.escape(app.title || 'Muse App')}</title>
   <link rel="shortcut icon" href="${cdn}${iconPath}" />
   <script>
-    window.MUSE_GLOBAL = ${JSON.stringify(museGlobal)};
+    window.MUSE_GLOBAL = ${serializeJsonForHtmlScript(museGlobal)};
   </script> 
 </head>
 <body></body>

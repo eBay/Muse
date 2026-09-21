@@ -15,7 +15,7 @@ export default NiceModal.create(function AddEnvModal({ app }) {
   const {
     mutateAsync: addAppEnv,
     error: addAppEnvError,
-    isLoading: addAppEnvPending,
+    isPending: addAppEnvPending,
   } = useMuseMutation('am.createEnv');
 
   const hideModal = useCallback(() => {

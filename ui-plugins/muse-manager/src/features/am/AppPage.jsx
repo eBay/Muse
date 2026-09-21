@@ -14,7 +14,7 @@ export default function AppPage() {
   const navigate = useNavigate();
   const [appNameActions, setAppNameActions] = useState([]);
   const { appName, tabKey = 'overview' } = useParams();
-  const { data: app, isLoading, error } = usePollingMuseData(`muse.app.${appName}`);
+  const { data: app, isPending, error } = usePollingMuseData(`muse.app.${appName}`);
   const tabs = [
     {
       key: 'overview',
@@ -80,7 +80,7 @@ export default function AppPage() {
     {
       order: 15,
       node: (
-        <RequestStatus loading={isLoading} error={error} loadingMode="skeleton" key="loading" />
+        <RequestStatus loading={isPending} error={error} loadingMode="skeleton" key="loading" />
       ),
     },
     {

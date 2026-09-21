@@ -8,7 +8,7 @@ export default function PluginReleaseSelect({ value, onChange, plugin, app, filt
   let {
     data: releases,
     error,
-    isLoading,
+    isPending,
   } = usePollingMuseData(`muse.plugin-releases.${plugin?.name}`);
 
   if (plugin) {
@@ -20,7 +20,7 @@ export default function PluginReleaseSelect({ value, onChange, plugin, app, filt
       filter,
       releases,
       error,
-      loading: isLoading,
+      loading: isPending,
       ...rest,
     });
   } else {

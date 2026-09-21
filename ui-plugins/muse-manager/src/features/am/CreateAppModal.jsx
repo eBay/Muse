@@ -14,7 +14,7 @@ const CreateAppModal = NiceModal.create(() => {
   const {
     mutateAsync: createApp,
     error: createAppError,
-    isLoading: createAppPending,
+    isPending: createAppPending,
   } = useMuseMutation('am.createApp');
 
   const meta = {

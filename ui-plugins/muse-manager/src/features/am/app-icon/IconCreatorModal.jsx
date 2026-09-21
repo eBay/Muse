@@ -19,7 +19,7 @@ export default NiceModal.create(({ app }) => {
   const {
     mutateAsync: setAppIcon,
     error: setAppIconError,
-    isLoading: setAppIconPending,
+    isPending: setAppIconPending,
   } = useMuseMutation('am.setAppIcon');
   const syncStatus = useSyncStatus(`muse.app.${app.name}`);
 

@@ -124,6 +124,32 @@ describe('utils basic tests.', () => {
     expect(valid).toBeTruthy();
   });
 
+  it('serializeJsonForHtmlScript encodes HTML script separators', () => {
+    const xss = "</script><script>document.title='XSS_SCRIPT_BREAKOUT'</script>";
+    const payload = {
+      title: xss,
+      description: xss,
+      pluginVariables: {
+        'test-plugin': { xss_marker: xss },
+      },
+      plugins: [
+        {
+          name: 'test-plugin',
+          variables: { xss_marker: xss },
+        },
+      ],
+    };
+
+    const encoded = utils.serializeJsonForHtmlScript(payload, 2);
+
+    expect(encoded).not.toMatch(/<\/script>/i);
+    expect(encoded).toContain('\\u003c/script>');
+    expect(JSON.parse(encoded).pluginVariables['test-plugin'].xss_marker).toBe(xss);
+    expect(JSON.parse(encoded).plugins[0].variables.xss_marker).toBe(xss);
+    expect(JSON.parse(encoded).title).toBe(xss);
+    expect(JSON.parse(encoded).description).toBe(xss);
+  });
+
   it('Validate should skip the ajv.compile in the second', () => {
     const schema = {
       properties: {

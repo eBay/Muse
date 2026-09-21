@@ -20,7 +20,7 @@ import OwnerList from '../common/OwnerList';
 import NA from '../common/NA';
 
 export default function PluginList({ app }) {
-  const { data, isLoading, error } = usePollingMuseData('muse.plugins');
+  const { data, isPending, error } = usePollingMuseData('muse.plugins');
   const { data: latestReleases } = usePollingMuseData('muse.plugins.latest-releases');
   const searchValue = useSearchParam('search')?.toLowerCase() || '';
   const scope =
@@ -290,7 +290,7 @@ export default function PluginList({ app }) {
   return (
     <div>
       {!app && <h1>Plugins</h1>}
-      <RequestStatus loading={isLoading} error={error} loadingMode="skeleton" />
+      <RequestStatus loading={isPending} error={error} loadingMode="skeleton" />
       {data && (
         <div>
           <PluginListBar app={app} />
@@ -299,7 +299,7 @@ export default function PluginList({ app }) {
             size="medium"
             columns={columns}
             dataSource={pluginList}
-            loading={isLoading}
+            loading={isPending}
             scroll={{ x: 1300 }}
             pagination={{
               hideOnSinglePage: false,

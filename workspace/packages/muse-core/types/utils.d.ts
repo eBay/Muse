@@ -23,6 +23,7 @@ export function getMuseGlobal(app: any, envName: any): {
     plugins: any;
     bootPlugin: any;
 };
+export function serializeJsonForHtmlScript(value: any, space?: string | number): string;
 export function doZip(sourceDir: any, zipFile: any): Promise<any>;
 export function parseRegistryKey(key: any): {
     type: string;

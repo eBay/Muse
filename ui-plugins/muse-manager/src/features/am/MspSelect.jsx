@@ -4,15 +4,15 @@ import { useMuseData } from '../../hooks';
 const { Option } = Select;
 
 export default function MspSelect({ onChange, value }) {
-  const { data: mspData, isLoading } = useMuseData('muse.msp');
+  const { data: mspData, isPending } = useMuseData('muse.msp');
 
   return (
     <Select
       allowClear
       placeholder="No MSP constraint"
-      loading={isLoading}
-      disabled={isLoading}
-      value={isLoading ? null : value || undefined}
+      loading={isPending}
+      disabled={isPending}
+      value={isPending ? null : value || undefined}
       onChange={onChange}
       style={{ width: '100%' }}
     >

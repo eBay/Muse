@@ -19,7 +19,7 @@ const PluginConfigModal = NiceModal.create(({ plugin, app }) => {
   const {
     mutateAsync: updateApp,
     error: updateAppError,
-    isLoading: updateAppPending,
+    isPending: updateAppPending,
   } = useMuseMutation('am.updateApp');
 
   const initialValues = _.cloneDeep(app);
