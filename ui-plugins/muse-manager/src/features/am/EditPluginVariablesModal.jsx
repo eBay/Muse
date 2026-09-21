@@ -34,7 +34,7 @@ const EditPluginVariablesModal = NiceModal.create(({ app, env }) => {
   const {
     mutateAsync: updateApp,
     error: updateAppError,
-    isLoading: updateAppPending,
+    isPending: updateAppPending,
   } = useMuseMutation('am.updateApp');
 
   const populateEnvVariablesInputField = (environmentVars) => {
