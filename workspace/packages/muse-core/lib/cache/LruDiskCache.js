@@ -35,8 +35,12 @@ class LruDiskCache {
       }
     }
 
-    this.cleanDeadFiles();
-    this.freeupSpace();
+    // Startup cleanup (cleanDeadFiles + freeupSpace) has been intentionally removed
+    // from the constructor to prevent blocking the event loop on large shared PVCs
+    // (e.g. 3 pods x 3 processes = 9 concurrent processes all scanning millions of
+    // NFS files at once, causing 12+ hour startup hangs).
+    // Use the explicit cleanDeadFiles() / freeupSpace() APIs instead, called from
+    // a dedicated admin endpoint or offline maintenance job.
 
     // Dump timestamps every intervally
     setInterval(() => {
@@ -90,12 +94,7 @@ class LruDiskCache {
 
   set(key, content) {
     // content should be buffer
-    try {
-      // only onSet, it tries to delete expired items
-      this.freeupSpace();
-    } catch (err) {
-      console.log(err);
-    }
+    // Note: freeupSpace() has been removed from set() — use the explicit API instead.
     if (typeof content === 'string') {
       content = Buffer.from(content);
     }
@@ -119,6 +118,7 @@ class LruDiskCache {
     this.timestamps = _.mergeWith(tss, this.timestamps, (a, b) => Math.max(a || 0, b || 0));
     fs.outputJsonSync(this.timestampFile, this.timestamps, { spaces: 2 });
   }
+
   // Don't calculate size, if too many files, just reduce ttl
   freeupSpace() {
     // always use the disk file timestamp
@@ -138,7 +138,23 @@ class LruDiskCache {
 
   // Clean empty folders
   cleanEmptyFoldersRecursively(folder) {
-    const isDir = fs.statSync(folder).isDirectory();
+    let isDir;
+    try {
+      isDir = fs.statSync(folder).isDirectory();
+    } catch (e) {
+      if (e.code === 'ENOENT') {
+        // Another pod/process deleted this path concurrently during cleanup on a
+        // shared PVC. The path is already gone -- that is the desired end state --
+        // so return early instead of throwing.
+        console.warn(
+          '[LruDiskCache] Caught ENOENT in cleanEmptyFoldersRecursively ' +
+            '(concurrent deletion race on shared PVC). path=' +
+            folder,
+        );
+        return;
+      }
+      throw e;
+    }
     if (!isDir) {
       return;
     }
