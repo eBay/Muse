@@ -1,5 +1,11 @@
 # @ebay/muse-core
 
+## 2.0.6
+
+### Patch Changes
+
+- fix: remove blocking cleanDeadFiles/freeupSpace from LruDiskCache constructor to prevent 12+ hour startup hangs on shared NFS PVCs; add ENOENT guard in cleanEmptyFoldersRecursively for concurrent pod deletion races
+
 ## 2.0.3
 
 ### Patch Changes
