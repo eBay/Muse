@@ -1,5 +1,11 @@
 # @ebay/muse-express-middleware
 
+## 2.0.6
+
+### Patch Changes
+
+- fix: strip query string from asset URL path to prevent lookup failures when requests include query parameters
+
 ## 2.0.2
 
 ### Patch Changes
