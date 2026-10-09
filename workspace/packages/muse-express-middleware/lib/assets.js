@@ -6,7 +6,8 @@ module.exports = (options) => async (req, res, next) => {
   const { basePath = '/muse-assets' } = options;
   if (!req?.originalUrl?.startsWith(basePath)) return next();
 
-  const assetKeyPath = req.originalUrl.replace(basePath, '');
+  const origin = `${req.protocol}://${req.get('host')}`;
+  const assetKeyPath = new URL(req.originalUrl, origin).pathname.replace(basePath, '');
 
   try {
     const result = await muse.storage.assets.get(decodeURIComponent(assetKeyPath));
