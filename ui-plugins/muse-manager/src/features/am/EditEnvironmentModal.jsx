@@ -44,10 +44,10 @@ const EditEnvironmentModal = NiceModal.create(({ env, app }) => {
 
   const meta = {
     columns: 1,
-    initialValues: { ...env, envName: env.name, options: { msp: env.msp } },
+    initialValues: { ...env, envName: env.name },
     fields: [
       {
-        key: 'options.msp',
+        key: 'msp',
         order: 10,
         label: 'MSP (SDK Preset)',
         widget: MspSelect,
